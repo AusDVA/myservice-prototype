@@ -1,2 +1,2 @@
 # myservice-prototype
-Repository for UX designers to create HTML SASS prototypes to be translated to React code
+Derived from the Digital Transformation Agency's UI-Kit 2.0, myservice-prototype is a repository for enabling the transformation of UI into React components.
