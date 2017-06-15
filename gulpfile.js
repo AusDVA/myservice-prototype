@@ -8,7 +8,7 @@ var livereload = require('gulp-livereload');
 gulp.task('sass', function () {
   return gulp.src('src/sass/main.scss')
     .pipe(sass({includePaths: ['src/sass']}))
-    .pipe(sass({outputStyle: 'compressed'})
+    .pipe(sass({outputStyle: 'compressed'}))
     .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest('docs/css'))
     .pipe(livereload());
