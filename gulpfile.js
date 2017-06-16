@@ -1,6 +1,7 @@
 var gulp = require('gulp');
 var nodemon = require('gulp-nodemon');
 var sass = require('gulp-sass');
+var uglifycss = require('gulp-uglifycss');
 var autoprefixer = require('gulp-autoprefixer');
 var jshint = require('gulp-jshint');
 var livereload = require('gulp-livereload');
@@ -8,8 +9,10 @@ var livereload = require('gulp-livereload');
 gulp.task('sass', function () {
   return gulp.src('src/sass/main.scss')
     .pipe(sass({includePaths: ['src/sass']}))
-    .pipe(sass({outputStyle: 'compressed'}))
     .pipe(sass().on('error', sass.logError))
+    .pipe(uglifycss({
+      "maxLineLen": 80
+    }))
     .pipe(gulp.dest('docs/css'))
     .pipe(livereload());
 });
