@@ -13,8 +13,8 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/registration', function(request, response) {
-  response.render('pages/registration');
+app.get('/register', function(request, response) {
+  response.render('pages/register');
 });
 
 
