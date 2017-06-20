@@ -13,8 +13,14 @@ app.get('/', function(request, response) {
   response.render('pages/index');
 });
 
-app.get('/register', function(request, response) {
-  response.render('pages/register');
+app.get('/register-step1', function(request, response) {
+  response.render('pages/register-step1');
+});
+app.get('/register-step2', function(request, response) {
+  response.render('pages/register-step2');
+});
+app.get('/register-step3', function(request, response) {
+  response.render('pages/register-step3');
 });
 
 
