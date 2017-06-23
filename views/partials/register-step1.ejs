@@ -11,11 +11,39 @@
           <fieldset>
             <legend>Personal details</legend>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="highest-rank">Your highest rank</label>
-              <input class="uikit-text-input input-half" name="highest-rank" id="highest-rank" type="text" value="" required aria-required="true">
+              <label class="uikit-text-input__label" for="mobile">Are you an existing DVA client?</label>
+              <div class="radio-toggle">
+                <label class="on label-left" for="dva-yes"><input id="dva-yes" type="radio" name="dva-exising"><span>Yes</span></label>
+                <label class="off label-right" for="dva-no"><input id="dva-no" type="radio" name="dva-exising"><span>No</span></label>
+              </div>
+            </div>
+
+            <!-- start hidden by default -->
+            <div class="form-group enter-dva-number" style="display: none">
+              <label class="uikit-text-input__label" for="dva-number">DVA number</label>
+              <input class="uikit-text-input input-half" name="dva-number" id="dva-number" type="text" value="" required aria-required="true">
+            </div>
+            <!-- end hidden by default -->
+
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="mobile">PMKeys number</span></label>
+              <input class="uikit-text-input input-half" name="pmkeys" id="pmkeys" type="text" value="">
             </div>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="title">Title <span class="hint">(optional)</span></label>
+              <label class="uikit-text-input__label" for="mobile">Are you still serving? <span class="hint">(includes reservists)</span></label>
+              <div class="radio-toggle">
+                <label class="on label-left" for="serving-yes"><input id="serving-yes" type="radio" name="serving"><span>Yes</span></label>
+                <label class="off label-right" for="serving-no"><input id="serving-no" type="radio" name="serving"><span>No</span></label>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="highest-rank">Highest rank achieved</label>
+              <input class="uikit-text-input input-half" name="highest-rank" id="highest-rank" type="text" value="" required aria-required="true">
+            </div>
+            
+            <!-- start hidden by default -->
+            <div class="form-group title" style="display: none">
+              <label class="uikit-text-input__label" for="title">Title</label>
               <select class="uikit-text-input input-half" name="title" id="title" type="text" value="">
                 <option selected>-- Select title --</option>
                 <option>Commissioner</option>
@@ -33,19 +61,8 @@
                 <option>Right Reverend Monsignor</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="uikit-text-input__label uikit-control-input__radio" for="correspondence">Refer to me by</label>
-              <label class="uikit-control-input uikit-control-input--full">
-                <input class="uikit-control-input__input" type="radio" name="correspondence">
-                <span class="uikit-control-input__text">Rank</span>
-              </label>
-              <br />
+            <!-- end hidden by default -->
 
-              <label class="uikit-control-input uikit-control-input--full uikit-control-input__radio">
-                <input class="uikit-control-input__input" type="radio" name="correspondence" disabled>
-                <span class="uikit-control-input__text">Title</span>
-              </label>
-            </div>
             <div class="form-group has-error">
               <label class="uikit-text-input__label" for="first-name">Given name (first name)<span id="first-name-error" class="input-error-message" aria-live="polite"> Enter a valid given name</span></label>
               <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required aria-required="true">              
@@ -81,3 +98,19 @@
           </div>
         </div>
       </div>
+
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <script>
+        $( "#dva-no" ).click(function() {
+          $( ".enter-dva-number" ).hide("fast");
+        });
+        $( "#dva-yes" ).click(function() {
+          $( ".enter-dva-number" ).show("fast");
+        });
+        $( "#serving-yes" ).click(function() {
+          $( ".title" ).hide("fast");
+        });
+        $( "#serving-no" ).click(function() {
+          $( ".title" ).show("fast");
+        });
+      </script>
