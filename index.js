@@ -23,6 +23,18 @@ app.get('/register-step2', function(request, response) {
 app.get('/register-step3', function(request, response) {
   response.render('pages/register-step3');
 });
+app.get('/forgot-password-step1', function(request, response) {
+  response.render('pages/forgot-password-step1');
+});
+app.get('/forgot-password-step2', function(request, response) {
+  response.render('pages/forgot-password-step2');
+});
+app.get('/forgot-password-step3', function(request, response) {
+  response.render('pages/forgot-password-step3');
+});
+app.get('/forgot-password-step4', function(request, response) {
+  response.render('pages/forgot-password-step4');
+});
 
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
