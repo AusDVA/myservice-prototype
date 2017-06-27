@@ -13,6 +13,9 @@ app.set('view engine', 'ejs');
 app.get('/', function(request, response) {
   response.render('pages/index');
 });
+app.get('/index-login-errors', function(request, response) {
+  response.render('pages/index-login-errors');
+});
 
 app.get('/register-step1', function(request, response) {
   response.render('pages/register-step1');
