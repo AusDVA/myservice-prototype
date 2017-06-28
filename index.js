@@ -29,6 +29,9 @@ app.get('/register-step3', function(request, response) {
 app.get('/forgot-password-step1', function(request, response) {
   response.render('pages/forgot-password-step1');
 });
+app.get('/forgot-password-step1-and-2', function(request, response) {
+  response.render('pages/forgot-password-step1-and-2');
+});
 app.get('/forgot-password-step2', function(request, response) {
   response.render('pages/forgot-password-step2');
 });
