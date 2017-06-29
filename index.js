@@ -49,7 +49,7 @@ app.get('/forgot-password-step4', function(request, response) {
   Authenticated space
 */
 app.get('/auth', function(request, response) {
-  response.render('auth/pages/index');
+  response.render('auth/index');
 });
 
 app.use('/docs', serveIndex('docs', {}))
