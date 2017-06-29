@@ -41,7 +41,9 @@ app.get('/forgot-password-step3', function(request, response) {
 app.get('/forgot-password-step4', function(request, response) {
   response.render('pages/forgot-password-step4');
 });
-
+app.get('/cover-step1', function(request, response) {
+  response.render('pages/cover-step1');
+});
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
