@@ -44,6 +44,10 @@ app.get('/forgot-password-step3', function(request, response) {
 app.get('/forgot-password-step4', function(request, response) {
   response.render('pages/forgot-password-step4');
 });
+app.get('/autocomplete-test', function(request, response) {
+  response.render('pages/autocomplete-test');
+});
+
 
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
