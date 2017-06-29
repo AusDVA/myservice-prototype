@@ -10,45 +10,66 @@ app.use(express.static(__dirname));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+/**
+Unauthenticated space
+*/
 app.get('/', function(request, response) {
-  response.render('pages/index');
+  response.render('unauth/index');
 });
 app.get('/index-login-errors', function(request, response) {
-  response.render('pages/index-login-errors');
+  response.render('unauth/index-login-errors');
 });
 
 app.get('/register-step1', function(request, response) {
-  response.render('pages/register-step1');
+  response.render('unauth/registration/pages/register-step1');
 });
 app.get('/contactusscreen', function(request, response) {
   response.render('pages/contactusscreen');
 });
 app.get('/register-step2', function(request, response) {
-  response.render('pages/register-step2');
+  response.render('unauth/registration/pages/register-step2');
 });
 app.get('/register-step3', function(request, response) {
-  response.render('pages/register-step3');
+  response.render('unauth/registration/pages/register-step3');
 });
 app.get('/forgot-password-step1', function(request, response) {
-  response.render('pages/forgot-password-step1');
+  response.render('unauth/user/pages/forgot-password-step1');
 });
 app.get('/forgot-password-step1-and-2', function(request, response) {
-  response.render('pages/forgot-password-step1-and-2');
+  response.render('unauth/user/pages/forgot-password-step1-and-2');
 });
 app.get('/forgot-password-step2', function(request, response) {
-  response.render('pages/forgot-password-step2');
+  response.render('unauth/user/pages/forgot-password-step2');
 });
 app.get('/forgot-password-step3', function(request, response) {
-  response.render('pages/forgot-password-step3');
+  response.render('unauth/user/pages/forgot-password-step3');
 });
 app.get('/forgot-password-step4', function(request, response) {
-  response.render('pages/forgot-password-step4');
+  response.render('unauth/user/pages/forgot-password-step4');
+});
+app.get('/system-error', function(request, response) {
+  response.render('unauth/system-error');
 });
 app.get('/autocomplete-test', function(request, response) {
   response.render('pages/autocomplete-test');
 });
 
 
+/**
+  Authenticated space
+*/
+app.get('/auth', function(request, response) {
+  response.render('auth/index');
+});
+app.get('/viewCoverSummary', function(request, response) {
+  response.render('auth/cover/pages/viewCoverSummary');
+});
+app.get('/viewCoverDetail', function(request, response) {
+  response.render('auth/cover/pages/viewCoverDetail');
+});
+app.get('/cover-step1', function(request, response) {
+  response.render('auth/cover/pages/cover-step1');
+});
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
