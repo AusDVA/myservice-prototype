@@ -20,6 +20,9 @@ app.get('/index-login-errors', function(request, response) {
 app.get('/register-step1', function(request, response) {
   response.render('pages/register-step1');
 });
+app.get('/contactusscreen', function(request, response) {
+  response.render('pages/contactusscreen');
+});
 app.get('/register-step2', function(request, response) {
   response.render('pages/register-step2');
 });
