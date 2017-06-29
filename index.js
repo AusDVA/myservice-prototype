@@ -47,12 +47,21 @@ app.get('/forgot-password-step3', function(request, response) {
 app.get('/forgot-password-step4', function(request, response) {
   response.render('unauth/user/pages/forgot-password-step4');
 });
+app.get('/system-error', function(request, response) {
+  response.render('unauth/system-error');
+});
 
 /**
   Authenticated space
 */
 app.get('/auth', function(request, response) {
   response.render('auth/index');
+});
+app.get('/viewCoverSummary', function(request, response) {
+  response.render('auth/cover/pages/viewCoverSummary');
+});
+app.get('/viewCoverDetail', function(request, response) {
+  response.render('auth/cover/pages/viewCoverDetail');
 });
 app.get('/cover-step1', function(request, response) {
   response.render('auth/cover/pages/cover-step1');
