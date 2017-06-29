@@ -14,10 +14,10 @@ app.set('view engine', 'ejs');
 Unauthenticated space
 */
 app.get('/', function(request, response) {
-  response.render('unauth/user/pages/index');
+  response.render('unauth/index');
 });
 app.get('/index-login-errors', function(request, response) {
-  response.render('unauth/user/pages/index-login-errors');
+  response.render('unauth/index-login-errors');
 });
 
 app.get('/register-step1', function(request, response) {
