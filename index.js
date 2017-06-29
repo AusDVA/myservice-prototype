@@ -55,7 +55,7 @@ app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
 app.get('/cover-step1', function(request, response) {
-  response.render('pages/cover-step1');
+  response.render('auth/cover/pages/cover-step1');
 });
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
