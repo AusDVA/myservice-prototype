@@ -69,6 +69,9 @@ app.get('/cover-step1', function(request, response) {
 app.get('/cover-step2', function(request, response) {
   response.render('auth/cover/pages/cover-step2');
 });
+app.get('/cover-nlhc-step2', function(request, response) {
+  response.render('auth/cover/pages/cover-nlhc-step2');
+});
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
