@@ -50,6 +50,10 @@ app.get('/forgot-password-step4', function(request, response) {
 app.get('/system-error', function(request, response) {
   response.render('unauth/system-error');
 });
+app.get('/autocomplete-test', function(request, response) {
+  response.render('global/pages/autocomplete-test');
+});
+
 
 /**
   Authenticated space
