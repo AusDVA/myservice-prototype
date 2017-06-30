@@ -1,10 +1,29 @@
 
-  <!-- don't worry about this JS stuff - this is already implemented in React codebase -->
+  <!-- don't worry about this JS stuff - the behaviour is already implemented in React codebase -->
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script language="javascript">
     var stInput = stList = stItem = stItemSelected = null;
 
     $(document).ready(() => {
+      let updateSelection = (input) => {
+        stItemSelected.removeClass('s-typeahead-list-item--selected');
+        stItemSelected.attr('aria-hidden', true);
+        stItemSelected.removeAttr('aria-selected');
+
+        stItemSelected = $(input);
+        stItemSelected.addClass('s-typeahead-list-item--selected');
+        stItemSelected.attr('aria-hidden', false);
+        stItemSelected.attr('aria-selected', true);
+        stInput.attr('value', stItemSelected.children('span').text());
+        stInput.val(stItemSelected.children('span').text());
+      };
+
+      let updateScroll = () => {
+        let container = stList.get(0);
+        let domItem = stItemSelected.get(0);
+        container.scrollTop = domItem.offsetTop - (container.clientHeight / 2.5);
+      };
+
       stInput = $(".s-typeahead-input");
       stList = $('.s-typeahead-list');
       stItem = $('.s-typeahead-list-item');
@@ -30,32 +49,43 @@
 
         switch (e.key) {
           case 'ArrowUp':
+            --selectedIdx;
+            if (selectedIdx < 0) {
+              selectedIdx = selectedSize - 1;
+            }
+            updateSelection(stItem.get(selectedIdx));
+            updateScroll();
             break;
+
           case 'ArrowDown':
+            ++selectedIdx;
+            if (selectedIdx >= selectedSize) {
+              selectedIdx = 0;
+            }
+            updateSelection(stItem.get(selectedIdx));
+            updateScroll();
+            break;
+          case 'Enter':
+            stList.hide();
             break;
           case 'Escape':
             stList.hide();
             stInput.blur();
             break;
+          default:
+            stList.show();
+            break;
         }
       });
 
       stItem.on('mouseup', (e) => {
-        stItemSelected.removeClass('s-typeahead-list-item--selected');
-        stItemSelected.attr('aria-hidden', true);
-        stItemSelected.removeAttr('aria-selected');
-
-        stItemSelected = $(e.currentTarget);
-        stItemSelected.addClass('s-typeahead-list-item--selected');
-        stItemSelected.attr('aria-hidden', false);
-        stItemSelected.attr('aria-selected', true);
+        updateSelection(e.currentTarget);
       });
-
       stInput.focus();
       stInput.select();
 
       $(document).on('mouseup', (e) => {
-        if ($('.s-typeahead-input:hover, .s-typeahead-list:hover').length == 0) {
+        if ($('.s-typeahead-input:hover').length == 0) {
           stList.hide();
           stInput.blur();
         }
@@ -64,7 +94,7 @@
   </script>
 
   <div class="form-group">
-    <h3 class="ui header">
+    <h3 class="">
       What have you been medically diagnosed with? (Required)
     </h3>
     <p>
@@ -83,10 +113,9 @@
       <input type="text" class="uikit-text-input s-typeahead-input" id="medicalCondition" name="medicalCondition" placeholder="" autocomplete="off" role="presentation" value="accommodation disorder" />
       <div class="s-typeahead-list--wrapper">
         <div class="s-typeahead-list" role="menu" aria-expanded="false">
-
           <!-- Note that all child elements here are programatically populated using JavaScript.-->
           <!-- Special note for active selected classes: this changes based on Javascript-driven changes -->
-          <div class="s-typeahead-list-item  s-typeahead-list-item--selected" aria-hidden="false" aria-live="rude"><span role="menuitem">accommodation disorder</span></div>
+          <div class="s-typeahead-list-item s-typeahead-list-item--selected" aria-hidden="false" aria-live="rude"><span role="menuitem">accommodation disorder</span></div>
           <div class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles bursitis involving the deep bursa</span></div>
           <div class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles tendinopathy and bursitis</span></div>
           <div class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles tendinosis</span></div>
