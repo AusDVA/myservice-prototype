@@ -11,14 +11,15 @@
   <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
   <% include ../../../global/partials/header-version.ejs %>
   <% include ../../header-authenticated.ejs %>
-  <% include ../partials/progress-bar.ejs %>
+  <% include ../partials/help-button.ejs %>
   <main>
 
     <div class="container" id="main-content">
-		<h1>Diagnosis <span>(Step 2 of 4)</span></h1>
+    	<% include ../partials/progress-bar.ejs %>
+		<h1>Add Cover - Diagnosis</h1>
 		
-		<h3>What have you been medically diagnosed with?</h3>
-		
+		<fieldset>
+  		<legend>What have you been medically diagnosed with?</legend>
 		<p>Enter the term provided by your GP or Specialist used to describe the condition. <br />
 		<em>Example: 'Acute meniscal tear of the knee'</em>.</p>
 		
@@ -38,7 +39,6 @@
 		
 		<div class="row">
 		<div class="col-sm-12">
-
 		<div class="info-box uploads">
 			<h4>Upload your GP or Specialist's medical report</h4>
 			<p>Providing supporting documents is optional but may help us assess your request for cover. Supporting documents may include:</p>
@@ -61,27 +61,46 @@
 					<td class="centred"><button class="uikit-btn uikit-btn--tertiary small btnDelete">Delete</button></td>
 				</tr>
 			</table>
+		
 		</div>
-
 		</div></div>
+		</fieldset>
 		
 		<div class="pagination">
-			<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-step1'">Previous</button>
-			<button class="uikit-btn uikit-btn--tertiary btnExit">Save and exit</button>
-			<button class="uikit-btn floated btnNext">Save and next</button>
-		</div>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-		<script>
-			$( ".btnUpload" ).click(function() {
-				$( ".document-uploads" ).toggle("fast");
-				$( ".no-path" ).hide();
-			});
-		</script>
+        	<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-step1'">Previous</button>&nbsp; <a href="#open-modal">Cancel</a>
+        	<button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step3'">Next</button>
+      	</div>
+      
+        <% include ../partials/cancel-modal.ejs %>
    
     </div>
   </main>
   <% include ../../../global/partials/footer.ejs %>
+  <% include ../partials/panel-help.ejs %>
+			
+  <script src="/docs/js/jquery-effects.js"></script>
+  <script src="/docs/js/main.js"></script>
+  <script>
+    moveProgressBar();
+    // on browser resize...
+    $(window).resize(function() {
+        moveProgressBar();
+    });
+
+    // SIGNATURE PROGRESS
+    function moveProgressBar() {
+      console.log("moveProgressBar");
+        var getPercent = ($('.progress-wrap').data('progress-percent') / 100);
+        var getProgressWrapWidth = $('.progress-wrap').width();
+        var progressTotal = getPercent * getProgressWrapWidth;
+        var animationLength = 2500;
+        
+        // on page load, animate percentage bar to data percentage length
+        // .stop() used to prevent animation queueing
+        $('.progress-bar').stop().animate({
+            left: progressTotal
+        }, animationLength);
+    }
+  </script>
 </body>
 </html>

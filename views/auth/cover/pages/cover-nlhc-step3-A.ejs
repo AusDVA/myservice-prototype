@@ -15,9 +15,8 @@
   <main>
 
     <div class="container" id="main-content">
-		<h1 class="ico-addcover">Add Cover</h1>
-   		<% include ../partials/progress-bar.ejs %>
-   		<h2>Review and submit</h2>
+    	<% include ../partials/progress-bar.ejs %>
+		<h1>Add Cover - Review and submit</h1>
     	<p>You are applying to receive treatment and/or rehabilitation at no cost to you for:</p>
 		<ul>
 		  <li>Depressive disorder</li>
@@ -26,22 +25,43 @@
 		</ul>
 		<p>By clicking on Submit I acknowledge that the information I have provided is truthful and accurate.</p>
 
-		<div class="pagination">
-			<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-nlhc-step2'">Previous</button>
-			<button class="uikit-btn uikit-btn--primary" onclick="window.location.href = '/cover-nlhc-step4-A'">Submit</button>
-			<button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>
-		</div>
-
-		<% include ../partials/cancel-modal.ejs %>
-
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      	<div class="pagination">
+        	<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-nlhc-step2'">Previous</button>&nbsp; <a href="#open-modal">Cancel</a>
+        	<button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-nlhc-step4-A'">Submit</button>
+      	</div>
+      
+      <% include ../partials/cancel-modal.ejs %>
 
     </div>
   </main>
+
   <% include ../../../global/partials/footer.ejs %>
   <% include ../partials/panel-help.ejs %>
 
   <script src="/docs/js/jquery-effects.js"></script>
   <script src="/docs/js/main.js"></script>
+  <script>
+    moveProgressBar();
+    // on browser resize...
+    $(window).resize(function() {
+        moveProgressBar();
+    });
+
+    // SIGNATURE PROGRESS
+    function moveProgressBar() {
+      console.log("moveProgressBar");
+        var getPercent = ($('.progress-wrap').data('progress-percent') / 100);
+        var getProgressWrapWidth = $('.progress-wrap').width();
+        var progressTotal = getPercent * getProgressWrapWidth;
+        var animationLength = 2500;
+        
+        // on page load, animate percentage bar to data percentage length
+        // .stop() used to prevent animation queueing
+        $('.progress-bar').stop().animate({
+            left: progressTotal
+        }, animationLength);
+    }
+  </script>
+  
 </body>
 </html>
