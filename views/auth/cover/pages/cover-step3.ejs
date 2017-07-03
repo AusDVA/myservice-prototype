@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Step 3: Statement and supporting documents | MyService</title>
+  <link href="docs/css/main.css" rel="stylesheet">
+</head>
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
+  <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
+  <% include ../../../global/partials/header-version.ejs %>
+  <% include ../../header-authenticated.ejs %>
+  <% include ../partials/help-button.ejs %>
+  <main>
+
+    <div class="container" id="main-content">
+    	<% include ../partials/progress-bar.ejs %>
+		<h1>Add Cover - Statement and supporting documents</h1>
+		<p>All fields are required unless marked (optional).</p>
+
+		<fieldset>
+  		<legend>Which statement(s) below best describes how your injury or disease happened?</legend>
+
+        <div class="form-group">
+
+          <label class="uikit-text-input__label">Based on your condition and responses to the previous questions we have listed the most common causes of your injury or disease.<br><span class="hint">Select all that apply.</span></label>
+          <p>
+            <label class="uikit-control-input uikit-control-input--full">
+              <input class="uikit-control-input__input" type="checkbox" name="sopFactor" value="having inflammatory joint disease in the lumbar spine before the clinical onset of lumbar spondylosis">
+              <span class="uikit-control-input__text">having inflammatory joint disease in the lumbar spine before the clinical onset of lumbar spondylosis</span>
+            </label>
+          </p>
+          <p>
+            <label class="uikit-control-input uikit-control-input--full">
+              <input class="uikit-control-input__input" type="checkbox" name="sopFactor" value="having an infection of the affected joint as specified at least one year before the clinical onset of lumbar spondylosis">
+              <span class="uikit-control-input__text">having an infection of the affected joint as specified at least one year before the clinical onset of lumbar spondylosis</span>
+            </label>
+          </p>
+          <p>
+            <label class="uikit-control-input uikit-control-input--full">
+              <input class="uikit-control-input__input" type="checkbox" name="sopFactor" value="having an intra-articular fracture of the lumbar spine at least one year before the clinical onset of lumbar spondylosis">
+              <span class="uikit-control-input__text">having an intra-articular fracture of the lumbar spine at least one year before the clinical onset of lumbar spondylosis</span>
+            </label>
+          </p>
+
+        </div>
+
+		<br><hr /><br>
+
+		<legend>Based on the above statement, how did your service cause, contribute to or aggravate your injury or disease? (Optional)</legend>
+    <div class="form-group">
+	    <label class="uikit-text-input__label" for="textArea"><span class="hint">If your disease or injury happened during a classified operation, enter classified (do not provide details about the operation here).</span></label>
+      <textarea id="textArea" name="statementText" rows="5"></textarea>
+		</div>
+
+		<br><hr /><br>
+
+		<div class="info-box uploads">
+			<legend>Upload any other documents you may have that further supports the link between your service and your injury or disease. (Optional)</legend>
+			<p>Providing supporting documents is optional but may help us assess your request for cover. Supporting documents may include:</p>
+				<ul>
+					<li>Incident report (Sentinel report)</li>
+					<li>Authority to Participate in Civilian Sport</li>
+					<li>Hazardous Material Exposure Report</li>
+					<li>Training programs/itineraries</li>
+				</ul>
+        <p>Files that can be uploaded include .pdf, .jpg, .png and must be smaller than 10MB in size.</p>
+
+			<p><button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button></p>
+
+			<table class="document-uploads">
+				<tr>
+					<th>Document title</th>
+					<th class="centred">Actions</th>
+				</tr>
+				<tr>
+					<td>GP-Report-20170601.doc</td>
+					<td class="centred"><a href="#open-removefile-modal" class="uikit-btn uikit-btn--tertiary small btnDelete" title="Remove this document from your request for cover">Remove</a></td>
+				</tr>
+			</table>
+		</div>
+
+		</fieldset>
+
+		  <div class="pagination">
+        	<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-step2'" title="Go to the previous Add Cover page">Previous</button>&nbsp; <a href="#open-modal" class="btnLink">Cancel</a>
+        	<button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step3'" title="Go to the next Add Cover page">Next</button>
+      	</div>
+
+        <% include ../partials/removefile-modal.ejs %>
+        <% include ../partials/cancel-modal.ejs %>
+
+    </div>
+  </main>
+  <% include ../../../global/partials/footer.ejs %>
+  <% include ../partials/panel-help.ejs %>
+
+  <script src="/docs/js/jquery-effects.js"></script>
+  <script src="/docs/js/main.js"></script>
+  <script>
+    moveProgressBar();
+    // on browser resize...
+    $(window).resize(function() {
+        moveProgressBar();
+    });
+
+    // SIGNATURE PROGRESS
+    function moveProgressBar() {
+      console.log("moveProgressBar");
+        var getPercent = ($('.progress-wrap').data('progress-percent') / 100);
+        var getProgressWrapWidth = $('.progress-wrap').width();
+        var progressTotal = getPercent * getProgressWrapWidth;
+        var animationLength = 2500;
+
+        // on page load, animate percentage bar to data percentage length
+        // .stop() used to prevent animation queueing
+        $('.progress-bar').stop().animate({
+            left: progressTotal
+        }, animationLength);
+    }
+  </script>
+</body>
+</html>
