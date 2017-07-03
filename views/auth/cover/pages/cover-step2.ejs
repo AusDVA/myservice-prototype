@@ -17,53 +17,52 @@
     <div class="container" id="main-content">
     	<% include ../partials/progress-bar.ejs %>
 		<h1>Add Cover - Diagnosis</h1>
+		<p>All fields are required unless marked (optional).</p>
 		
 		<fieldset>
   		<legend>What have you been medically diagnosed with?</legend>
-		<p>Enter the term provided by your GP or Specialist used to describe the condition. <br />
-		<em>Example: 'Acute meniscal tear of the knee'</em>.</p>
-		
-        <p>
-        	<label for="tags" class="vaOffscreen">Type diagnosis</label>
-        	<input type="text" id="tags">
-        </p>
-		
-		<hr />
-		
-		<h3>Approximately when did it happen, or when did it start happening?</h3>
-		
-		<input class="ui inputs" type="text" id="onset-month" placeholder="MM" maxlength="2" style="width: 5em; display: inline"> /
-		<input class="ui inputs" type="text" id="onset-year" placeholder="YYYY" maxlength="4" style="width: 8em; display: inline">  
 
-		<br><br><hr />
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="type-diagnosis">Enter the term provided by your GP or Specialist used to describe the condition. <br />
+			  <span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
+          <input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
+        </div>
 		
-		<div class="row">
-		<div class="col-sm-12">
-		<div class="info-box uploads">
-			<h4>Upload your GP or Specialist's medical report</h4>
+		<br><hr /><br>
+		
+		<legend>Approximately when did it happen, or when did it start happening?</legend>
+		<div class="form-group">
+		<label class="uikit-text-input__label" for="mm"><span class="hint">(MM / YYYY)</span></label>
+		<input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+        <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">  
+		</div>
+			
+		<br><hr /><br>	
+		
+		<div class="info-box uploads">	
+			<legend>Upload your GP or Specialist's medical report (optional)</legend>
 			<p>Providing supporting documents is optional but may help us assess your request for cover. Supporting documents may include:</p>
-			<ul>
-				<li>Images such as x-rays and MRIs</li>
-				<li>Imaging reports</li>
-				<li>Test results</li>
-				<li>Other medical reports</li>
-				<li>Files that can be uploaded include .pdf, .jpg, .png and must be smaller than 10MB in size.</li>
-			</ul>
+				<ul>
+					<li>Images such as x-rays and MRIs</li>
+					<li>Imaging reports</li>
+					<li>Test results</li>
+					<li>Other medical reports</li>
+					<li>Files that can be uploaded include .pdf, .jpg, .png and must be smaller than 10MB in size.</li>
+				</ul>
 			<p><button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button></p>
-		
-			<table class="document-uploads" style="display: none;">
+
+			<table class="document-uploads">
 				<tr>
 					<th>Document title</th>
 					<th class="centred">Actions</th>
 				</tr>
 				<tr>
 					<td>GP-Report-20170601.doc</td>
-					<td class="centred"><button class="uikit-btn uikit-btn--tertiary small btnDelete">Delete</button></td>
+					<td class="centred"><a href="#open-removefile-modal" class="uikit-btn uikit-btn--tertiary small btnDelete">Remove</a></td>
 				</tr>
-			</table>
-		
+			</table>		
 		</div>
-		</div></div>
+		
 		</fieldset>
 		
 		<div class="pagination">
@@ -71,6 +70,7 @@
         	<button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step3'">Next</button>
       	</div>
       
+        <% include ../partials/removefile-modal.ejs %>
         <% include ../partials/cancel-modal.ejs %>
    
     </div>
