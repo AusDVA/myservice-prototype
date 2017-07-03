@@ -5,7 +5,7 @@
     var stInput = stList = stItem = stItemSelected = null;
 
     $(document).ready(() => {
-      let updateSelection = (input) => {
+      var updateSelection = (input) => {
         stItemSelected.removeClass('s-typeahead-list-item--selected');
         stItemSelected.attr('aria-hidden', true);
         stItemSelected.removeAttr('aria-selected');
@@ -18,9 +18,9 @@
         stInput.val(stItemSelected.children('span').text());
       };
 
-      let updateScroll = () => {
-        let container = stList.get(0);
-        let domItem = stItemSelected.get(0);
+      var updateScroll = () => {
+        var container = stList.get(0);
+        var domItem = stItemSelected.get(0);
         container.scrollTop = domItem.offsetTop - (container.clientHeight / 2.5);
       };
 
@@ -29,8 +29,8 @@
       stItem = $('.s-typeahead-list-item');
       stItemSelected = stItem.filter('.s-typeahead-list-item--selected');
 
-      let selectedIdx = 0;
-      let selectedSize = stItem.length;
+      var selectedIdx = 0;
+      var selectedSize = stItem.length;
 
       // Trigger to make list appear
       stInput.on('focus', (e) => {
@@ -102,7 +102,7 @@
     </p>
 
     <!-- SimpleTypeahead component starts here -->
-    <div class="s-typeahead-wrapper" role="search" aria-label="medical condition dropdown" aria-haspopup="true" aria-autocomplete="listbox" style="z-index: 10;">
+    <div class="s-typeahead-wrapper" role="search" aria-label="medical condition dropdown" aria-haspopup="true" aria-autocomplete="listbox">
 
       <!-- Could be removed, although could it act as a faded background text before a user types something in? -->
       <!--
@@ -129,5 +129,12 @@
 
     <div>
       This text should appear behind the dropdown menu options but directly below the input field.
+    </div>
+
+    <div class="form-group">
+      <!-- Testing if subsequent fields appear correctly and not on top of each other -->
+      <div class="s-typeahead-wrapper" role="search" aria-label="medical condition dropdown" aria-haspopup="true" aria-autocomplete="listbox">
+        <input type="text" class="uikit-text-input s-typeahead-input" id="medicalCondition" name="medicalCondition" placeholder="" autocomplete="off" role="presentation" value="this should not appear in front of the above dropdown's list" />
+      </div>
     </div>
   </div>
