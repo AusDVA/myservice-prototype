@@ -61,6 +61,9 @@ app.get('/autocomplete-test', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
+app.get('/terms-and-conditions', function(request, response) {
+  response.render('global/pages/terms-and-conditions');
+});
 app.get('/viewCoverSummary', function(request, response) {
   response.render('auth/cover/pages/viewCoverSummary');
 });
