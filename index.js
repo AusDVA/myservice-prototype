@@ -65,7 +65,7 @@ app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
 app.get('/password-updated', function(request, response) {
-  response.render('auth/profile');
+  response.render('auth/index-password-updated');
 });
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
