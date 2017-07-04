@@ -4,8 +4,8 @@
   <script language="javascript">
     var stInput = stList = stItem = stItemSelected = null;
 
-    $(document).ready(() => {
-      var updateSelection = (input) => {
+    $(document).ready(function() {
+      var updateSelection = function(input) {
         stItemSelected.removeClass('s-typeahead-list-item--selected');
         stItemSelected.attr('aria-hidden', true);
         stItemSelected.removeAttr('aria-selected');
@@ -18,13 +18,13 @@
         stInput.val(stItemSelected.children('span').text());
       };
 
-      var updateScroll = () => {
+      var updateScroll = function() {
         var container = stList.get(0);
         var domItem = stItemSelected.get(0);
         container.scrollTop = domItem.offsetTop - (container.clientHeight / 2.5);
       };
 
-      stInput = $(".s-typeahead-input");
+      stInput = $(".s-typeahead-input").first();
       stList = $('.s-typeahead-list');
       stItem = $('.s-typeahead-list-item');
       stItemSelected = stItem.filter('.s-typeahead-list-item--selected');
@@ -33,18 +33,18 @@
       var selectedSize = stItem.length;
 
       // Trigger to make list appear
-      stInput.on('focus', (e) => {
+      stInput.on('focus', function(e) {
         stList.show();
       });
 
-      stInput.on('blur', (e) => {
+      stInput.on('blur', function(e) {
         if ($('.s-typeahead-list:hover').length == 0) {
           stList.hide();
         }
       });
 
       // selection behaviours
-      stInput.on('keydown', (e) => {
+      stInput.on('keydown', function(e) {
         console.log('test ' + e.key);
 
         switch (e.key) {
@@ -78,13 +78,13 @@
         }
       });
 
-      stItem.on('mouseup', (e) => {
+      stItem.on('mouseup', function(e) {
         updateSelection(e.currentTarget);
       });
       stInput.focus();
       stInput.select();
 
-      $(document).on('mouseup', (e) => {
+      $(document).on('mouseup', function(e) {
         if ($('.s-typeahead-input:hover').length == 0) {
           stList.hide();
           stInput.blur();

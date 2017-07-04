@@ -85,6 +85,9 @@ app.get('/cover-step2', function(request, response) {
 app.get('/cover-step3', function(request, response) {
   response.render('auth/cover/pages/cover-step3');
 });
+app.get('/cover-step4', function(request, response) {
+  response.render('auth/cover/pages/cover-step4');
+});
 app.get('/cover-nlhc-step2', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step2');
 });
