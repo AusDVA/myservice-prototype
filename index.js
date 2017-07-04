@@ -61,8 +61,11 @@ app.get('/autocomplete-test', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
+app.get('/profile', function(request, response) {
+  response.render('auth/profile');
+});
 app.get('/password-updated', function(request, response) {
-  response.render('auth/index-password-updated');
+  response.render('auth/profile');
 });
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
