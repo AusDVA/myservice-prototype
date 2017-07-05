@@ -57,6 +57,9 @@ app.get('/system-error', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
+app.get('/profile', function(request, response) {
+  response.render('auth/profile');
+});
 app.get('/password-updated', function(request, response) {
   response.render('auth/index-password-updated');
 });
