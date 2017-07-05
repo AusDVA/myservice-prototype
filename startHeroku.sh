@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-npm build
+npm run build
 npm start
