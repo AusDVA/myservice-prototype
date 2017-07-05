@@ -1,1 +1,1 @@
-web: bash ./startHeroku.sh
+web: npm start

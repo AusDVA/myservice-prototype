@@ -61,9 +61,6 @@ app.get('/autocomplete-test', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
-app.get('/profile', function(request, response) {
-  response.render('auth/profile');
-});
 app.get('/password-updated', function(request, response) {
   response.render('auth/index-password-updated');
 });
@@ -84,9 +81,6 @@ app.get('/cover-step2', function(request, response) {
 });
 app.get('/cover-step3', function(request, response) {
   response.render('auth/cover/pages/cover-step3');
-});
-app.get('/cover-step4', function(request, response) {
-  response.render('auth/cover/pages/cover-step4');
 });
 app.get('/cover-nlhc-step2', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step2');
