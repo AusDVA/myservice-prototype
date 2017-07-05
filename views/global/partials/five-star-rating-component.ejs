@@ -13,8 +13,10 @@
           // at this point, if it hasn't been displayed already,
           // then display the comments box.
           currentValue = value;
-          $(".star-rating-feedback").addClass("star-rating-feedback--visible");
-          $('.star-rating-feedback textarea').focus();
+          $(".star-rating-feedback").addClass("visible");
+          setTimeout(function() {
+            $('.star-rating-feedback textarea').focus();
+          }, 10);
         };
 
         var getFieldValue = function(e) {
@@ -60,14 +62,17 @@
         });
 
         $('.star-rating label').on('mouseout', function(e) {
-
           updateStarRatingVisuals(currentValue);
         });
-        debugger;
+
         // selection behaviours
 
         starRadio.on('focus', function(e) {
           updateStarRatingVisuals(parseInt(e.target.value));
+        });
+
+        starRadio.on('blur', function(e) {
+          updateStarRatingVisuals(currentValue);
         });
 
         starRadio.keydown(function(e) {
@@ -78,7 +83,6 @@
             e.target.value  // input type
           );
 
-          debugger;
           switch (e.key) {
             case ' ':
             case 'Enter':
@@ -135,7 +139,21 @@
           }
         });
 
+        $('#submitComment').on('click', function(e) {
+
+          $('.star-rating-feedback--endstate').addClass('visible');
+          $('.star-rating-feedback').removeClass('visible');
+          $('.star-rating').removeClass('visible');
+        });
+
+        setTimeout(function() {
+          $(".star-rating--wrapper").addClass('visible');
+          $(".star-rating").addClass("visible");
+        }, 250);
+
       });
+
+
     </script>
 
     <div class="star-rating--wrapper">
@@ -158,6 +176,10 @@
         <form id="userComment">
           <textarea class="uikit-text-input"></textarea>
         </form>
-        <button class="uikit-btn">Submit</button>
+        <button id="submitComment" class="uikit-btn">Submit</button>
+      </div>
+
+      <div class="star-rating-feedback--endstate">
+        <p>We appreciate your feedback!</p>
       </div>
     </div>
