@@ -50,10 +50,6 @@ app.get('/forgot-password-step4', function(request, response) {
 app.get('/system-error', function(request, response) {
   response.render('unauth/system-error');
 });
-app.get('/autocomplete-test', function(request, response) {
-  response.render('global/pages/autocomplete-test');
-});
-
 
 /**
   Authenticated space
@@ -85,9 +81,6 @@ app.get('/cover-step2', function(request, response) {
 app.get('/cover-step3', function(request, response) {
   response.render('auth/cover/pages/cover-step3');
 });
-app.get('/cover-step4', function(request, response) {
-  response.render('auth/cover/pages/cover-step4');
-});
 app.get('/cover-nlhc-step2', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step2');
 });
@@ -100,6 +93,17 @@ app.get('/cover-nlhc-step3-B', function(request, response) {
 app.get('/cover-nlhc-step4-A', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step4-A');
 });
+
+/**
+  Component testing
+*/
+app.get('/autocomplete-test', function(request, response) {
+  response.render('global/pages/autocomplete-test');
+});
+app.get('/five-star-rating-test', function(request, response) {
+  response.render('global/pages/five-star-rating-test');
+});
+
 app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
