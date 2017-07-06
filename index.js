@@ -60,6 +60,9 @@ app.get('/auth', function(request, response) {
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
+app.get('/profile-updated', function(request, response) {
+  response.render('auth/profile-updated');
+});
 app.get('/password-updated', function(request, response) {
   response.render('auth/index-password-updated');
 });
