@@ -12,4 +12,16 @@ jQuery(document).ready(function($){
 			event.preventDefault();
 		}
 	});
+	// open help panel on unauth screen
+	$('.panel-help').on('click', function(event){
+		event.preventDefault();
+		$('.panel-home-help').addClass('is-visible');
+	});
+	// close the help panel
+	$('.panel-home-help').on('click', function(event){
+		if( $(event.target).is('.panel-home-help') || $(event.target).is('.panel-close') ) { 
+			$('.panel-home-help').removeClass('is-visible');
+			event.preventDefault();
+		}
+	});
 });
