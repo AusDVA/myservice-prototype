@@ -106,6 +106,7 @@ app.get('/cover-nlhc-step4-A', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step4-A');
 });
 
+
 /**
   Component testing
 */
