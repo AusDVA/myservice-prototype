@@ -16,6 +16,9 @@ Unauthenticated space
 app.get('/', function(request, response) {
   response.render('unauth/index');
 });
+app.get('/index2', function(request, response) {
+  response.render('unauth/index2');
+});
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
