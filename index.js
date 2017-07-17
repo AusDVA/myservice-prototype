@@ -19,6 +19,9 @@ app.get('/', function(request, response) {
 app.get('/index2', function(request, response) {
   response.render('unauth/index2');
 });
+app.get('/medical-services', function(request, response) {
+  response.render('unauth/medical-services');
+});
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
@@ -59,6 +62,9 @@ app.get('/system-error', function(request, response) {
 */
 app.get('/auth', function(request, response) {
   response.render('auth/index');
+});
+app.get('/index-treatment', function(request, response) {
+  response.render('auth/index-treatment');
 });
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
