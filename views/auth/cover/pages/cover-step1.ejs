@@ -19,18 +19,49 @@
       <h1>Add cover - start</h1>
       <p>All fields are required unless marked (optional).</p>
       <fieldset>
-  		<legend>Do you have a medical diagnosis for your injury or disease you want covered?</legend>
-  		<p>A medical diagnosis of the injury or disease must be provided by a GP or Specialist. For some mental health conditions you can provide a medical diagnosis up to six months after requesting cover.</p>
+  		<legend>Is your injury or condition related to mental health?</legend>
+  		<p>Eg: Post Traumatic Stress Disorder (PTSD), Anxiety and Depressive disorder, Alcohol Abuse, Substance Abuse.  </p>
 
   		<div class="radio-toggle">
-  			<label class="on label-left" for="diagnosis-yes"><input id="diagnosis-yes" type="radio" name="dva-diagnosis"><span>Yes</span></label>
-  			<label class="off label-right" for="diagnosis-no"><input id="diagnosis-no" type="radio" name="dva-diagnosis"><span>No</span></label>
+  			<label class="on label-left" for="relatedmentalhealth-yes"><input id="relatedmentalhealth-yes" type="radio" name="dva-relatedmentalhealth"><span>Yes</span></label>
+  			<label class="off label-right" for="relatedmentalhealth-no"><input id="relatedmentalhealth-no" type="radio" name="dva-relatedmentalhealth"><span>No</span></label>
   		</div>
       </fieldset>
+      
+   <div id="mental-health-needs" style="display:none;">
+     
+      <br><hr><br>
+      
+      <legend>What do you need?</legend>
+      
+      <div class="card card-md">	
+      	<h3>Treatment</h3>
+      	<img src="../../../docs/images/ico-treatment-black.png" class="card-md--icon">
+      	<div>
+      	<p>Apply to receive treatment and/or rehabilitation for a mental health condition.</p>
+      	<p>A medical diagnosis is <strong>not required</strong> to receive treatment for a mental health condition.</p>
+      	</div>
+      	<div class="radio-toggle">
+  			<label class="on label" for="treatment-only"><input id="treatment-only" type="radio" name="dva-treatment"><span>Select</span></label>
+		</div>
+      </div>
+      
+      <div class="card card-md">
+      	<h3>Treatment and compensation</h3>
+      	<img src="../../../docs/images/ico-treatment-black.png" class="card-md--icon"><span class="plus-symbol">+</span><img src="../../../docs/images/ico-financial-black.png" class="card-md--icon">
+      	<div>
+      	<p>Apply to receive treatment and financial compensation for a mental health condition.</p>
+      	<p>If you wish to receive financial compensation, you will need a <strong>medical diagnosis</strong>.</p>
+      	</div>
+      	<div class="radio-toggle">
+  			<label class="on label" for="treatment-compensation"><input id="treatment-compensation" type="radio" name="dva-treatment"><span>Select</span></label>
+		</div>
+      </div>
+      
+  </div>
 
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Save and exit</button>&nbsp;
         <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
 
         <button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step2'">Next</button>
@@ -43,7 +74,29 @@
 
   <script src="/docs/js/jquery-effects.js"></script>
   <script src="/docs/js/main.js"></script>
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
+	// Show and hide additional mental health question
+	$( "#relatedmentalhealth-yes" ).click(function() {
+		  $( "#mental-health-needs" ).show("fast");
+		});
+		$( "#relatedmentalhealth-no" ).click(function() {
+			$( "#mental-health-needs" ).hide("fast");
+		});
+	  
+	// Button logic
+	$(document).ready(function(e) {
+    $('.btnNext').click(function() {
+		if ($('#relatedmentalhealth-no').is(':checked')) {
+            window.location = '/cover-step2';
+        } else if ($('#treatment-compensation').is(':checked')) {
+            window.location = '/cover-step2';
+        } else {
+            window.location = '/cover-nlhc-step2';
+        }
+    });
+	});
+
     moveProgressBar();
     // on browser resize...
     $(window).resize(function() {
@@ -65,5 +118,6 @@
         }, animationLength);
     }
   </script>
+
 </body>
 </html>
