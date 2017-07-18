@@ -114,7 +114,9 @@ app.get('/cover-nlhc-step2', function(request, response) {
 app.get('/cover-nlhc-step3', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step3');
 });
-
+app.get('/cover-nlhc-step3-b', function(request, response) {
+  response.render('auth/cover/pages/cover-nlhc-step3-b');
+});
 /**
   Component testing
 */
