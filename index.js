@@ -22,6 +22,9 @@ app.get('/index2', function(request, response) {
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
+app.get('/every-day-care', function(request, response) {
+  response.render('unauth/every-day-care');
+});
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
