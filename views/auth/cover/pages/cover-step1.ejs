@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Step 1: Add cover | MyService</title>
+  <title>Add claim: Start | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -16,7 +16,7 @@
 
     <div class="container" id="main-content">
       <% include ../partials/progress-bar.ejs %>
-      <h1>Add cover - start</h1>
+      <h1>Start</h1>
       <p>All fields are required unless marked (optional).</p>
       <fieldset>
   		<legend>Is your injury or condition related to mental health?</legend>
@@ -28,44 +28,68 @@
   		</div>
       </fieldset>
       
-   <div id="mental-health-needs" style="display:none;">
-     
-      <br><hr><br>
-      
-      <legend>What do you need?</legend>
-      
-      <div class="card-mentalhealth">	
-      	<h3>Treatment</h3>
-      	<img src="../../../docs/images/ico-treatment-black.png" class="card-mentalhealth--icon">
-      	<div>
-      	<p>Apply to receive treatment and/or rehabilitation for a mental health condition.</p>
-      	<p>A medical diagnosis is <strong>not required</strong> to receive treatment for a mental health condition.</p>
-      	</div>
-      	<div class="radio-toggle">
-  			<label class="on label" for="treatment-only"><input id="treatment-only" type="radio" name="dva-treatment"><span>Select</span></label>
-		</div>
-      </div>
-      
-      <div class="card-mentalhealth">
-      	<h3>Treatment and compensation</h3>
-      	<img src="../../../docs/images/ico-treatment-black.png" class="card-mentalhealth--icon"><span class="plus-symbol">+</span><img src="../../../docs/images/ico-financial-black.png" class="card-mentalhealth--icon">
-      	<div>
-      	<p>Apply to receive treatment and financial compensation for a mental health condition.</p>
-      	<p>If you wish to receive financial compensation, you will need a <strong>medical diagnosis</strong>.</p>
-      	</div>
-      	<div class="radio-toggle">
-  			<label class="on label" for="treatment-compensation"><input id="treatment-compensation" type="radio" name="dva-treatment"><span>Select</span></label>
-		</div>
-      </div>
+       <div class="mental-health-needs" style="display:none;">     
+        <div class="row">
+          <div class="breakout">
+            <h2>You can access free treatment for mental health conditions</h2>
+            <p>Mental health conditions <strong>do not</strong> need to be related to your service and a medical diagnosis <strong>is not</strong> required to receive treatment.</p>
+          </div>
+          <div class="grids col-md-6 divider">
+            <h3>What treatment is covered?</h3>
+            <p>A range of treatment and rehabilitation programs may be available to you. These could include treatment from:</p>        
+            <ul>
+              <li>general practitioners</li>
+              <li>medical specialists</li>
+              <li>psychologists</li>
+              <li>social workers</li>
+              <li>occupational therapists</li>
+              <li>psychiatrists</li>
+              <li>hospital services</li>
+              <li>specialist PTSD programs</li>
+              <li>pharmaceuticals</li>
+              <li>oncologist services as required to treat the condition</li>
+            </ul>
+          </div>
+          <div class="grids col-md-5">
+            <h3>How do I get treatment?</h3>
+            <p>To access these services, select ‘submit’. We will assess your request and contact you.</p>
+          </div>
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
+            <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
+            <button class="uikit-btn floated btnNext" onclick="window.location.href = 'cover-nlhc-step3'">Request treatment</button>
+          </div>
+        </div>
+      </div><!-- mental-health-needs -->
 
-  </div>
+      <div class="diagnosis-cover" style="display: none">
+        <fieldset>
+          <legend>What have you been medically diagnosed with?</legend>
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="type-diagnosis">Enter the term provided by your GP or Specialist used to describe the condition. <br />
+            <span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
+            <input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
+          </div>
+        </fieldset>
 
-      <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
-        <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
+        <fieldset>
+          <legend>Approximately when did it happen, or when did it start happening?</legend>
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="dd"><span class="hint">Approximate MM / YYYY</span></label>
+            <input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+            <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
+          </div>
+        </fieldset>
+          
+        <div class="pagination">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
+          <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
+          <button class="uikit-btn floated btnNext" onclick="window.location.href = 'cover-step2'">Next</button>
+        </div>
 
-        <button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step2'">Next</button>
-      </div>  		
+      </div><!-- diagnosis-cover -->
+    
+
   		<% include ../partials/cancel-modal.ejs %>	
     </div>
   </main>
@@ -76,47 +100,15 @@
   <script src="/docs/js/main.js"></script>
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
-	// Show and hide additional mental health question
-	$( "#relatedmentalhealth-yes" ).click(function() {
-		  $( "#mental-health-needs" ).show("fast");
-		});
-		$( "#relatedmentalhealth-no" ).click(function() {
-			$( "#mental-health-needs" ).hide("fast");
-		});
-	  
-	// Button logic
-	$(document).ready(function(e) {
-    $('.btnNext').click(function() {
-		if ($('#relatedmentalhealth-no').is(':checked')) {
-            window.location = '/cover-step2';
-        } else if ($('#treatment-compensation').is(':checked')) {
-            window.location = '/cover-step2';
-        } else {
-            window.location = '/cover-nlhc-step2';
-        }
-    });
-	});
-
-    moveProgressBar();
-    // on browser resize...
-    $(window).resize(function() {
-        moveProgressBar();
-    });
-
-    // SIGNATURE PROGRESS
-    function moveProgressBar() {
-      console.log("moveProgressBar");
-        var getPercent = ($('.progress-wrap').data('progress-percent') / 100);
-        var getProgressWrapWidth = $('.progress-wrap').width();
-        var progressTotal = getPercent * getProgressWrapWidth;
-        var animationLength = 2500;
-        
-        // on page load, animate percentage bar to data percentage length
-        // .stop() used to prevent animation queueing
-        $('.progress-bar').stop().animate({
-            left: progressTotal
-        }, animationLength);
-    }
+  	// Show and hide additional mental health question
+  	$( "#relatedmentalhealth-yes" ).click(function() {
+        $( ".mental-health-needs" ).show("fast");
+  		  $( ".diagnosis-cover" ).hide("fast");
+  	});
+  	$( "#relatedmentalhealth-no" ).click(function() {
+      $( ".mental-health-needs" ).hide("fast");
+      $( ".diagnosis-cover" ).show("fast");
+  	});	  
   </script>
 
 </body>
