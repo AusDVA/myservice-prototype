@@ -22,6 +22,9 @@ app.get('/index2', function(request, response) {
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
+app.get('/every-day-care', function(request, response) {
+  response.render('unauth/every-day-care');
+});
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
@@ -102,20 +105,18 @@ app.get('/cover-step5', function(request, response) {
 app.get('/cover-step6', function(request, response) {
   response.render('auth/cover/pages/cover-step6');
 });
+app.get('/cover-step6-b', function(request, response) {
+  response.render('auth/cover/pages/cover-step6-b');
+});
 app.get('/cover-nlhc-step2', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step2');
 });
-app.get('/cover-nlhc-step3-A', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-step3-A');
+app.get('/cover-nlhc-step3', function(request, response) {
+  response.render('auth/cover/pages/cover-nlhc-step3');
 });
-app.get('/cover-nlhc-step3-B', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-step3-B');
+app.get('/cover-nlhc-step3-b', function(request, response) {
+  response.render('auth/cover/pages/cover-nlhc-step3-b');
 });
-app.get('/cover-nlhc-step4-A', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-step4-A');
-});
-
-
 /**
   Component testing
 */
