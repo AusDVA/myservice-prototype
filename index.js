@@ -81,9 +81,6 @@ app.get('/password-updated', function(request, response) {
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
 });
-app.get('/viewCoverSummary', function(request, response) {
-  response.render('auth/cover/pages/viewCoverSummary');
-});
 app.get('/viewCoverDetail', function(request, response) {
   response.render('auth/cover/pages/viewCoverDetail');
 });
