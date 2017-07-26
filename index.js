@@ -84,6 +84,9 @@ app.get('/terms-and-conditions', function(request, response) {
 app.get('/viewCoverDetail', function(request, response) {
   response.render('auth/cover/pages/viewCoverDetail');
 });
+app.get('/viewNLHCCoverDetail', function(request, response) {
+  response.render('auth/cover/pages/viewNLHCCoverDetail');
+});
 app.get('/cover-step1', function(request, response) {
   response.render('auth/cover/pages/cover-step1');
 });
