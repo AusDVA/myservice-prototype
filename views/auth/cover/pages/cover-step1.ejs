@@ -12,68 +12,25 @@
   <% include ../../../global/partials/header-version.ejs %>
   <% include ../../header-authenticated.ejs %>
   <% include ../partials/help-button.ejs %>
-  <main>
-
     <div class="container" id="main-content">
       <% include ../partials/progress-bar.ejs %>
       <h1>Start</h1>
       <p>All fields are required unless marked (optional).</p>
       <fieldset>
-  		<legend>Is your injury or condition related to mental health?</legend>
-  		<p>Eg: Post Traumatic Stress Disorder (PTSD), Anxiety and Depressive disorder, Alcohol Abuse, Substance Abuse.  </p>
+      <legend>Do you have a medical diagnosis for your injury or disease you want covered?</legend>
+      <p>A medical diagnosis of the injury or disease must be provided by a GP or Specialist. For some mental health conditions you can provide a medical diagnosis up to six months after requesting cover.</p>
 
-  		<div class="radio-toggle">
-  			<label class="on label-left" for="relatedmentalhealth-yes"><input id="relatedmentalhealth-yes" type="radio" name="dva-relatedmentalhealth"><span>Yes</span></label>
-  			<label class="off label-right" for="relatedmentalhealth-no"><input id="relatedmentalhealth-no" type="radio" name="dva-relatedmentalhealth"><span>No</span></label>
-  		</div>
+      <div class="radio-toggle">
+        <label class="on label-left" for="diagnosis-yes"><input id="diagnosis-yes" type="radio" name="dva-diagnosis"><span>Yes</span></label>
+        <label class="off label-right" for="diagnosis-no"><input id="diagnosis-no" type="radio" name="dva-diagnosis"><span>No</span></label>
+      </div>
       </fieldset>
-      
-       <div class="mental-health-needs" style="display:none;">     
-        <div class="row">
-          <div class="breakout">
-            <h2>You can access free treatment for mental health conditions</h2>
-            <p>Mental health conditions <strong>do not</strong> need to be related to your service and a medical diagnosis <strong>is not</strong> required to receive treatment.</p>
-          </div>
-          <div class="grids col-md-6 divider">
-            <h3>What treatment is covered?</h3>
-            <p>A range of treatment and rehabilitation programs may be available to you. These could include treatment from:</p>        
-            <ul>
-              <li>general practitioners</li>
-              <li>medical specialists</li>
-              <li>psychologists</li>
-              <li>social workers</li>
-              <li>occupational therapists</li>
-              <li>psychiatrists</li>
-              <li>hospital services</li>
-              <li>specialist PTSD programs</li>
-              <li>pharmaceuticals</li>
-              <li>oncologist services as required to treat the condition</li>
-            </ul>
-          </div>
-          <div class="grids col-md-5">
-            <h3>How do I get treatment?</h3>
-            <p>To access these services, select ‘submit’. We will assess your request and contact you.</p>
-          </div>
-          <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
-            <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
-            <button class="uikit-btn floated btnNext" onclick="window.location.href = 'cover-nlhc-step3'">Request treatment</button>
-          </div>
-        </div>
-      </div><!-- mental-health-needs -->
 
-      <div class="diagnosis-cover" style="display: none">
-        <p>You will need to provide your medical diagnosis. Click next to continue.</p>          
-        <div class="pagination">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp;
-          <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>&nbsp;
-          <button class="uikit-btn floated btnNext" onclick="window.location.href = 'cover-step2'">Next</button>
-        </div>
-
-      </div><!-- diagnosis-cover -->
-    
-
-  		<% include ../partials/cancel-modal.ejs %>	
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>&nbsp; <a href="#open-modal" class="btnLink">Cancel</a>
+        <button class="uikit-btn floated btnNext">Next</button>
+      </div>
+      <% include ../partials/cancel-modal.ejs %>
     </div>
   </main>
   <% include ../../../global/partials/footer.ejs %>
@@ -83,16 +40,18 @@
   <script src="/docs/js/main.js"></script>
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
-  	// Show and hide additional mental health question
-  	$( "#relatedmentalhealth-yes" ).click(function() {
-        $( ".mental-health-needs" ).show("fast");
-  		  $( ".diagnosis-cover" ).hide("fast");
-  	});
-  	$( "#relatedmentalhealth-no" ).click(function() {
-      $( ".mental-health-needs" ).hide("fast");
-      $( ".diagnosis-cover" ).show("fast");
-  	});	  
-  </script>
+    // Button logic
+    $(document).ready(function(e) {
+    $('.btnNext').click(function() {
+        if ($('#diagnosis-no').is(':checked')) {
+            window.location = '/cover-nlhc-step2';
+        } else if ($('#diagnosis-yes').is(':checked')) {
+            window.location = '/cover-step2';
+        } else {
+            window.location = '/cover-nlhc-step2';
+        }
+    });    });
+    </script>
 
 </body>
 </html>
