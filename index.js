@@ -69,6 +69,9 @@ app.get('/auth', function(request, response) {
 app.get('/index-treatment', function(request, response) {
   response.render('auth/index-treatment');
 });
+app.get('/index-preloader', function(request, response) {
+  response.render('auth/index-preloader');
+});
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
