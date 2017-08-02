@@ -22,8 +22,17 @@ app.get('/index2', function(request, response) {
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
-app.get('/every-day-care', function(request, response) {
-  response.render('unauth/every-day-care');
+app.get('/everyday-care', function(request, response) {
+  response.render('unauth/everyday-care');
+});
+app.get('/career-guidance', function(request, response) {
+  response.render('unauth/career-guidance');
+});
+app.get('/financial-support', function(request, response) {
+  response.render('unauth/financial-support');
+});
+app.get('/family-and-counselling', function(request, response) {
+  response.render('unauth/family-and-counselling');
 });
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
