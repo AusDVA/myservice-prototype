@@ -19,6 +19,9 @@ app.get('/', function(request, response) {
 app.get('/index2', function(request, response) {
   response.render('unauth/index2');
 });
+app.get('/index3', function(request, response) {
+  response.render('unauth/index3');
+});
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
