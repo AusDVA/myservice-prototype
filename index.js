@@ -16,12 +16,6 @@ Unauthenticated space
 app.get('/', function(request, response) {
   response.render('unauth/index');
 });
-app.get('/index2', function(request, response) {
-  response.render('unauth/index2');
-});
-app.get('/index3', function(request, response) {
-  response.render('unauth/index3');
-});
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
