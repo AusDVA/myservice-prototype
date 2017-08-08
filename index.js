@@ -35,6 +35,9 @@ app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
 
+app.get('/register', function(request, response) {
+  response.render('unauth/registration/pages/register');
+});
 app.get('/register-step1', function(request, response) {
   response.render('unauth/registration/pages/register-step1');
 });
