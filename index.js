@@ -10,9 +10,11 @@ app.use(express.static(__dirname));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-/**
+
+/*
 Unauthenticated space
 */
+
 app.get('/', function(request, response) {
   response.render('unauth/index');
 });
@@ -35,9 +37,28 @@ app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
 
+
+/*
+New registration flow for broadening
+*/
+
 app.get('/register', function(request, response) {
   response.render('unauth/registration/pages/register');
 });
+app.get('/register-dva-and-pmkeys1', function(request, response) {
+  response.render('unauth/registration/pages/register-dva-and-pmkeys1');
+});
+app.get('/register-dva-and-pmkeys2', function(request, response) {
+  response.render('unauth/registration/pages/register-dva-and-pmkeys2');
+});
+app.get('/register-dva-and-pmkeys3', function(request, response) {
+  response.render('unauth/registration/pages/register-dva-and-pmkeys3');
+});
+app.get('/register-complete', function(request, response) {
+  response.render('unauth/registration/pages/register-complete');
+});
+
+
 app.get('/register-step1', function(request, response) {
   response.render('unauth/registration/pages/register-step1');
 });
