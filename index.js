@@ -16,12 +16,6 @@ Unauthenticated space
 app.get('/', function(request, response) {
   response.render('unauth/index');
 });
-app.get('/index2', function(request, response) {
-  response.render('unauth/index2');
-});
-app.get('/index3', function(request, response) {
-  response.render('unauth/index3');
-});
 app.get('/medical-services', function(request, response) {
   response.render('unauth/medical-services');
 });
@@ -41,6 +35,9 @@ app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
 
+app.get('/register', function(request, response) {
+  response.render('unauth/registration/pages/register');
+});
 app.get('/register-step1', function(request, response) {
   response.render('unauth/registration/pages/register-step1');
 });
@@ -80,6 +77,9 @@ app.get('/auth', function(request, response) {
 });
 app.get('/index-treatment', function(request, response) {
   response.render('auth/index-treatment');
+});
+app.get('/index-flexbox', function(request, response) {
+  response.render('auth/index-flexbox');
 });
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
