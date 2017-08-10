@@ -111,6 +111,9 @@ app.get('/cover-step2', function(request, response) {
 app.get('/cover-step3', function(request, response) {
   response.render('auth/cover/pages/cover-step3');
 });
+app.get('/cover-step3-sop', function(request, response) {
+  response.render('auth/cover/pages/cover-step3-sop');
+});
 app.get('/cover-step4', function(request, response) {
   response.render('auth/cover/pages/cover-step4');
 });
