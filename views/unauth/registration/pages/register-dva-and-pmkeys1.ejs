@@ -16,21 +16,35 @@
       <div id="progressbar">
         <div id="percentage"></div>
       </div>
-      <h1>Register <span>(Step 2: Personal information)</span></h1>
+      <h1>Register <span>(Step 2)</span></h1>
 
       <div class="row">
         <div class="col-sm-8">
           <fieldset>
-            <legend></legend>
+            <legend>Personal details</legend>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="dva-num">foo</label>
-              <input class="uikit-text-input input-half" name="dva-num" id="dva-num" type="text" value="">
+              <label class="uikit-text-input__label" for="first-name">Given name  <span class="hint">(first name)</span></label>
+              <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required aria-required="true">              
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="middle-name">Middle name <span class="hint">(required if you have one)</span></label>
+              <input class="uikit-text-input" name="middle-name" id="middle-name" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="last-name">Last name  <span class="hint">(surname)</span></label>
+              <input class="uikit-text-input" name="last-name" id="last-name" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="dd">Date of birth <span class="hint">(DD / MM / YYYY)</span></label>
+              <input class="uikit-text-input dd" type="text" name="dd" id="dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+              <input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+              <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
           </fieldset>
 
           <div class="pagination">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp; 
-            <button class="uikit-btn floated btnNext" onclick="window.location.href = '/register-dva-and-pmkeys2'">Next</button>
+            <button class="uikit-btn floated btnNext">Next</button>
           </div>
 
         </div>
@@ -47,9 +61,23 @@
   <script src="/docs/js/main.js"></script>
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
+    // Progress percentage
     document.getElementById("percentage").style.width = "30%";
+
+    // Show service number
     $( "#nonum" ).click(function() {
       $( "#servicenum" ).toggle("fast");
+    });
+    
+    // Next button
+    $('.btnNext').click(function() {
+      localStorage.firstName = $('#first-name').val();
+      localStorage.middleName = $('#middle-name').val();
+      localStorage.lastName = $('#last-name').val();
+      localStorage.myDd = $('#dd').val();
+      localStorage.myMm = $('#mm').val();
+      localStorage.myYyyy = $('#yyyy').val();
+      location.href = '/register-dva-and-pmkeys2';
     });
   </script>
 
