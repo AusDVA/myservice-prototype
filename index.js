@@ -93,6 +93,12 @@ app.get('/profile-updated', function(request, response) {
 app.get('/password-updated', function(request, response) {
   response.render('auth/index-password-updated');
 });
+app.get('/change-password', function(request, response) {
+  response.render('auth/change-password');
+});
+app.get('/profile-password-updated', function(request, response) {
+  response.render('auth/profile-password-updated');
+});
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
 });
