@@ -40,7 +40,9 @@ app.get('/family-and-counselling', function(request, response) {
 app.get('/index-login-errors', function(request, response) {
   response.render('unauth/index-login-errors');
 });
-
+app.get('/register-test', function(request, response) {
+  response.render('unauth/registration/pages/register-test');
+});
 app.get('/register-step1', function(request, response) {
   response.render('unauth/registration/pages/register-step1');
 });
