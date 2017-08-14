@@ -17,18 +17,28 @@
         <div id="percentage"></div>
       </div>
       <h1>Register <span>(Step 1)</span></h1>
+      <div class="has-error" id="error-empty-fields" style="display: none">
+        <h2>Sorry, there was a problem</h2>
+        <p>To register you need <strong>at least one</strong> of the following:</p>
+        <ul>
+          <li>DVA client number</li>
+          <li>DVA UIN</li>
+          <li>PMKeyS number</li>
+          <li>Service number</li>
+        </ul>
+      </div>
 
       <div class="row">
         <div class="col-sm-8">
           <fieldset>
             <legend>Getting started</legend>
-            <p>If you already have a DVA or PMKeys number it can help us locate your service details.</p>
+            <p>If you already have a DVA or PMKeyS number it can help us locate your service details.</p>
             <div class="form-group">
               <label class="uikit-text-input__label" for="dva-num">Enter your DVA client number or UIN <span class="hint">(if you have one)</span><!--<span class="hint">(your number can be found on your Gold, Orange or White Card)</span>--></label>
               <input class="uikit-text-input input-half" name="dva-num" id="dva-num" type="text" value="">
             </div>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="pmkeys">Enter your PMKeys number <span class="hint">(if you have one)</span> <!--<span class="hint">(this will help us retrieve your service details)</span>--></label>
+              <label class="uikit-text-input__label" for="pmkeys">Enter your PMKeyS number <span class="hint">(if you have one)</span> <!--<span class="hint">(this will help us retrieve your service details)</span>--></label>
               <input class="uikit-text-input input-half" name="pmkeys" id="pmkeys" type="text" value="">
             </div>
           </fieldset>
@@ -44,8 +54,8 @@
           <fieldset id="servicenum" style="display: none">
             <legend>Service number</legend>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="servicenum">Enter your service number<br /> <span class="hint">You will be required to provide your full service history during registration. If you don't know your service number, you'll need to <a href="http://www.defence.gov.au/Records/ExService.asp">access service records</a> first.</span></label>
-              <input class="uikit-text-input input-half" name="servicenum" id="servicenum" type="text" value="">
+              <label class="uikit-text-input__label" for="servicenumber">Enter your service number<br /> <span class="hint">You will be required to provide your full service history during registration. If you don't know your service number, you'll need to <a href="http://www.defence.gov.au/Records/ExService.asp">access service records</a> first.</span></label>
+              <input class="uikit-text-input input-half" name="servicenumber" id="servicenumber" type="text" value="">
             </div>
           </fieldset>
 
@@ -86,16 +96,26 @@
     $('.btnNext').click(function() {
 
       // Have pmkeys and dva
-      if ($('#pmkeys').val() != '' && ($('#dva-num').val() != '')) {
+      if ($('#pmkeys').val() != '' && ($('#dva-num').val() != '') && ($('#servicenumber').val() == '')) {
         location.href = '/register-dva-and-pmkeys1';
       }
       // Have only dva
-      if ($('#pmkeys').val() == '' && ($('#dva-num').val() != '')) {
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() != '') && ($('#servicenumber').val() == '')) {
         location.href = '/register-dva-only1';
       }
       // Have only pmkeys
-      if ($('#pmkeys').val() != '' && ($('#dva-num').val() == '')) {
+      if ($('#pmkeys').val() != '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() == '')) {
         location.href = '/register-pmkeys-only1';
+      }
+      // Have only service number
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() != '')) {
+        location.href = '/register-service-number1';
+      }
+
+      // Nothing selected
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() == '')) {
+        $( "#error-empty-fields" ).toggle("fast");
+        $('html, body').animate({scrollTop:$('#error-empty-fields').position().top}, 'fast');
       }
 
     });

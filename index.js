@@ -63,6 +63,9 @@ app.get('/register-dva-only1', function(request, response) {
 app.get('/register-pmkeys-only1', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only1');
 });
+app.get('/register-service-number1', function(request, response) {
+  response.render('unauth/registration/pages/register-service-number1.ejs');
+});
 
 
 app.get('/register-step1', function(request, response) {
