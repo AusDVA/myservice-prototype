@@ -11,6 +11,28 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 /**
+Emails 
+*/
+app.get('/email-rego-success', function(request, response) {
+  response.render('email/pages/email-rego-success');
+});
+app.get('/email-rego-fail-1', function(request, response) {
+  response.render('email/pages/email-rego-fail-1');
+});
+app.get('/email-rego-fail-2', function(request, response) {
+  response.render('email/pages/email-rego-fail-2');
+});
+app.get('/email-rego-fail-3', function(request, response) {
+  response.render('email/pages/email-rego-fail-3');
+});
+app.get('/email-claim-submitted', function(request, response) {
+  response.render('email/pages/email-claim-submitted');
+});
+app.get('/email-verification-code', function(request, response) {
+  response.render('email/pages/email-verification-code');
+});
+
+/**
 Unauthenticated space
 */
 app.get('/', function(request, response) {
