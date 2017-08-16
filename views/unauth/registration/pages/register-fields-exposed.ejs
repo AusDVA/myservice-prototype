@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Register | MyService</title>
+  <link href="docs/css/main.css" rel="stylesheet">
+</head>
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
+  <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
+  <% include ../partials/header-register.ejs %>
+  <main>
+
+    <div class="container" id="main-content">
+      <div id="progressbar">
+        <div id="percentage"></div>
+      </div>
+      <h1>Register <span>(Step 1)</span></h1>
+      <div class="has-error" id="error-empty-fields" style="display: none">
+        <h2>Sorry, there was a problem</h2>
+        <p>To register you need <strong>at least one</strong> of the following:</p>
+        <ul>
+          <li>DVA client number</li>
+          <li>DVA UIN</li>
+          <li>PMKeyS number</li>
+          <li>Service number</li>
+        </ul>
+      </div>
+
+      <div class="row">
+        <div class="col-sm-8">
+          <fieldset>
+            <legend>Getting started</legend>
+            <p>If you already have a DVA or PMKeyS number it can help us locate your service details.</p>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="dva-num">Enter your DVA client number or UIN <span class="hint">(if you have one)</span><!--<span class="hint">(your number can be found on your Gold, Orange or White Card)</span>--></label>
+              <input class="uikit-text-input input-half" name="dva-num" id="dva-num" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="pmkeys">Enter your PMKeyS number <span class="hint">(if you have one)</span> <!--<span class="hint">(this will help us retrieve your service details)</span>--></label>
+              <input class="uikit-text-input input-half" name="pmkeys" id="pmkeys" type="text" value="">
+            </div>
+          </fieldset>
+
+
+          <p>
+            <label class="uikit-control-input uikit-control-input--full">
+              <input class="uikit-control-input__input" type="checkbox" id="nonum" name="nonum">
+              <span class="uikit-control-input__text"> I do not have <strong>either</strong> of these numbers</span>
+            </label>
+          </p>
+
+          <fieldset id="servicenum" style="display: none">
+            <legend>Service number</legend>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="servicenumber">Enter your service number<br /> <span class="hint">You will be required to provide your full service history during registration. If you don't know your service number, you'll need to <a href="http://www.defence.gov.au/Records/ExService.asp">access service records</a> first.</span></label>
+              <input class="uikit-text-input input-half" name="servicenumber" id="servicenumber" type="text" value="">
+            </div>
+          </fieldset>
+
+
+        </div>
+
+        <div class="col-sm-4">
+          <div class="tip--wrapper">
+           <img src="../../../docs/images/ico-tip-blue.svg" class="heading-icon" alt="Tip icon">
+           <h3>Things you'll need:</h3>        
+            <ul>
+              <li>Access to proof of identity documentation</li>  
+              <li>Your DVA client number, PMKeys or service number</li>  
+              <li>You may need to confirm your service history</li>  
+            </ul>
+          </div>          
+        </div><!-- col-sm-4 -->
+
+      </div>
+      
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/'">Back to home</button>&nbsp; 
+        <button class="uikit-btn floated btnNext">Next</button>
+      </div>
+
+    </div>
+  </main>
+  <% include ../../../global/partials/footer.ejs %>
+  <script src="/docs/js/jquery-effects.js"></script>
+  <script src="/docs/js/main.js"></script>
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
+  <script>
+    document.getElementById("percentage").style.width = "10%";
+    $( "#nonum" ).click(function() {
+      $( "#servicenum" ).toggle("fast");
+    });
+
+    // Determine which path
+    $('.btnNext').click(function() {
+
+      // Have pmkeys and dva
+      if ($('#pmkeys').val() != '' && ($('#dva-num').val() != '') && ($('#servicenumber').val() == '')) {
+        location.href = '/register-dva-and-pmkeys1';
+      }
+      // Have only dva
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() != '') && ($('#servicenumber').val() == '')) {
+        location.href = '/register-dva-only1';
+      }
+      // Have only pmkeys
+      if ($('#pmkeys').val() != '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() == '')) {
+        location.href = '/register-pmkeys-only1';
+      }
+      // Have only service number
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() != '')) {
+        location.href = '/register-service-number1';
+      }
+
+      // Nothing selected
+      if ($('#pmkeys').val() == '' && ($('#dva-num').val() == '') && ($('#servicenumber').val() == '')) {
+        $( "#error-empty-fields" ).toggle("fast");
+        $('html, body').animate({scrollTop:$('#error-empty-fields').position().top}, 'fast');
+      }
+
+    });
+  </script>
+
+
+</body>
+</html>
