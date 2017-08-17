@@ -66,9 +66,14 @@ app.get('/register-dva-only2', function(request, response) {
 app.get('/register-dva-only3', function(request, response) {
   response.render('unauth/registration/pages/register-dva-only3');
 });
-app.get('/email-registration-success', function(request, response) {
-  response.render('auth/emails/email-registration-success');
+app.get('/change-password', function(request, response) {
+  response.render('auth/change-password');
 });
+app.get('/verify-details1', function(request, response) {
+  response.render('auth/verify-details1');
+});
+
+
 
 app.get('/register-pmkeys-only1', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only1');
