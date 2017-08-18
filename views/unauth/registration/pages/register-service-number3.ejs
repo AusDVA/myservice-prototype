@@ -3,54 +3,219 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Register: Contact details | MyService</title>
+  <title>Register: Proof of identity | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
-  <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a><% include ../partials/path-service-number.ejs %>
+  <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+    <% include ../partials/path-service-number.ejs %>
   </nav>
   <% include ../partials/header-register.ejs %>
   <main>
+
     <div class="container" id="main-content">
       <div id="progressbar">
         <div id="percentage"></div>
       </div>
-      <h1><img src="../../../docs/images/ico-email-waiting.svg" alt="Email waiting icon"> Please check your email</h1>
-      <p>We've emailed a temporary password to <strong><span class="prefillEmail"></span></strong>.</p>
-      <fieldset>
-        <legend>Log in using your temporary password</legend>
-        <div class="form-group">
-          <label class="uikit-text-input__label" for="password">Password</label>
-          <input class="uikit-text-input" name="password" id="password" type="password" value="">
-          <button class="uikit-btn uikit-btn--tertiary show-password">Show</button>
+      <h1>Register <span>(Step 3 - Proof of identity 2 of 2)</span></h1>
+
+      <div class="row">
+        <div class="col-sm-12">
+
+          <fieldset>
+            <legend>Proof of identity 2</legend>
+            <label class="uikit-text-input__label" for="idtype">Register using</label>
+            <select class="uikit-text-input" name="idtype" id="idtype" type="text" value="">
+              <option selected>-- Select a form of identification --</option>
+              <option value="id01">Australian driver licence</option>
+              <option value="id02">Medicare card</option>
+              <option value="id03">Australian passport</option>
+              <option value="id04">Certificate of registration by descent</option>
+              <option value="id05">Certificate of citizenship</option>
+              <option value="id06">Birth certificate</option>
+              <option value="id07">Marriage certificate</option>
+            </select>
+          </fieldset>
+
+          <!-- Driver Licence -->
+          <fieldset class="id-types id-licence" style="display: none">
+            <legend>Australian Driver Licence</legend>
+              <!--<img src="docs/images/driver-licence-act.png" alt="Sample driver's licence" />-->
+              <div class="uikit-page-alerts" role="alert">
+                <p>Ensure the following details match your driver licence.</p>
+              </div>
+              <% include ../partials/personal-detail-block.ejs %>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="state">State or Territory drivers licence issued</label>
+                <select class="uikit-text-input input-half" name="state" id="state" type="text" value="">
+                  <option selected>-- Select state or territory --</option>
+                  <option>New South Wales</option>
+                  <option>...</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="licence-number">Driver licence number</span></label>
+                <input class="uikit-text-input input-half" name="licence-number" id="licence-number" type="text" value="">
+              </div>
+          </fieldset>
+
+          <!-- Medicare -->
+          <fieldset class="id-types id-medicare" style="display: none">
+            <legend>Medicare</legend>
+            <img src="docs/images/medicare-card.jpg" alt="Sample medicare card" />
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your Medicare card.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="medicare-number">Medicare card number</span></label>
+              <input class="uikit-text-input input-half" name="medicare-number" id="medicare-number" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="irn">Individual Reference Number (IRN)</span></label>
+              <input class="uikit-text-input input-half" name="irn" id="irn" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="expiry-dd">Expiry date <span class="hint">(MM / YYYY)</span></label>
+              <input class="uikit-text-input mm" type="text" name="medicare-expiry-mm" id="medicare-expiry-mm" maxlength="2"> /
+              <input class="uikit-text-input yyyy" type="text" name="medicare-expiry-yyyy" id="medicare-expiry-yyyy" maxlength="4">
+            </div>
+          </fieldset>
+
+          <!-- Australian passport -->
+          <fieldset class="id-types id-passport" style="display: none">
+            <legend>Australian passport</legend>
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your australian passport.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="">Custom fields (not done yet)</label>
+              <input class="uikit-text-input input-half" name="" id="" type="text" value="">
+            </div>
+          </fieldset>
+
+          <!-- Certificate of registration by descent -->
+          <fieldset class="id-types id-descent" style="display: none">
+            <legend>Certificate of registration by descent</legend>
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your registration by descent certificate.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="">Custom fields (not done yet)</label>
+              <input class="uikit-text-input input-half" name="" id="" type="text" value="">
+            </div>
+          </fieldset>
+
+          <!-- Certificate of citizenship -->
+          <fieldset class="id-types id-citizenship" style="display: none">
+            <legend>Certificate of citizenship</legend>
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your certificate of citizenship.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="">Custom fields (not done yet)</label>
+              <input class="uikit-text-input input-half" name="" id="" type="text" value="">
+            </div>
+          </fieldset>
+
+          <!-- Birth certificate -->
+          <fieldset class="id-types id-birth" style="display: none">
+            <legend>Birth certificate</legend>
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your birth certificate.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="">Custom fields (not done yet)</label>
+              <input class="uikit-text-input input-half" name="" id="" type="text" value="">
+            </div>
+          </fieldset>
+
+          <!-- Marriage certificate -->
+          <fieldset class="id-types id-marriage" style="display: none">
+            <legend>Marriage certificate</legend>
+            <div class="uikit-page-alerts" role="alert">
+              <p>Ensure the following details match your marriage certificate.</p>
+            </div>
+            <% include ../partials/personal-detail-block.ejs %>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="">Custom fields (not done yet)</label>
+              <input class="uikit-text-input input-half" name="" id="" type="text" value="">
+            </div>
+          </fieldset>
+
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register-service-number2'">Previous</button>&nbsp; 
+            <button class="uikit-btn floated btnNext" onclick="window.location.href = '/register-service-number4'">Next</button>
+          </div>
+
         </div>
-      </fieldset>
-      <div class="pagination">
-        <button class="uikit-btn" onclick="window.location.href = 'change-password'">Log in</button> &nbsp; <a href="#" class="panel-close">Cancel</a>
+
       </div>
+
     </div>
   </main>
   <% include ../../../global/partials/footer.ejs %>
+  <script src="/docs/js/jquery-effects.js"></script>
+  <script src="/docs/js/main.js"></script>
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
     // Progress percentage
-    document.getElementById("percentage").style.width = "70%";
-    
-    // Add more service
-    $( ".btnAddService" ).click(function() {
-      $( "#addService" ).toggle("fast");
-      $( ".btnAddService" ).toggle("fast");
-    });
-    $( ".btnSave" ).click(function() {
-      $( "#addService" ).toggle("fast");
-      $( "#extraTr" ).toggle("fast");
-      $( ".btnAddService" ).toggle("fast");
+    document.getElementById("percentage").style.width = "55%";
+
+    // Choose POI fieldset
+    var IdType = jQuery('#idtype');
+    var select = this.value;
+    IdType.change(function () {
+        // Test if a POI is open already, to display warning modal
+        // if ( $('.id-types').css('display') != 'none' ) {
+        //   alert('div already open');
+        // }
+        if ($(this).val() == 'id01') {
+            $('.id-types').hide();
+            $('.id-licence').show();
+        }
+        if ($(this).val() == 'id02') {
+            $('.id-types').hide();
+            $('.id-medicare').show();
+        }
+        if ($(this).val() == 'id03') {
+            $('.id-types').hide();
+            $('.id-passport').show();
+        }
+        if ($(this).val() == 'id04') {
+            $('.id-types').hide();
+            $('.id-descent').show();
+        }
+        if ($(this).val() == 'id05') {
+            $('.id-types').hide();
+            $('.id-citizenship').show();
+        }
+        if ($(this).val() == 'id06') {
+            $('.id-types').hide();
+            $('.id-birth').show();
+        }
+        if ($(this).val() == 'id07') {
+            $('.id-types').hide();
+            $('.id-marriage').show();
+        }
     });
 
-    // Prefil
-    $(".prefillEmail").html(localStorage.myEmail);
+    // Prefill
+    $(".first-name").val(localStorage.firstName);
+    $(".middle-name").val(localStorage.middleName);
+    $(".last-name").val(localStorage.lastName);
+    $(".dob-dd").val(localStorage.myDd);
+    $(".dob-mm").val(localStorage.myMm);
+    $(".dob-yyyy").val(localStorage.myYyyy);
 
   </script>
+
+
 </body>
 </html>
