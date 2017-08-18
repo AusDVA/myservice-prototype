@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Register | MyService</title>
+  <title>Register: Personal details | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -16,10 +16,9 @@
       <div id="progressbar">
         <div id="percentage"></div>
       </div>
-      <h1>Register <span>(Step 2)</span></h1>
-      <h2 style="color: red">Service number only path</h2>
+      <h1>Register <span>(Step 2 - Personal details)</span></h1>
       <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
           <fieldset>
             <legend>Personal details</legend>
             <div class="form-group">
@@ -41,6 +40,21 @@
               <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
           </fieldset>
+          <fieldset>
+            <legend>Contact</legend>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="email">Email address</label>
+              <input class="uikit-text-input" name="email" id="email" type="email" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="confirm-email">Confirm email address</label>
+              <input class="uikit-text-input" name="confirm-email" id="confirm-email" type="email" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="mobile">Phone number <span class="hint">(optional)</span></label>
+              <input class="uikit-text-input" name="mobile" id="mobile" type="phone" value="">
+            </div>
+          </fieldset>
 
           <div class="pagination">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp; 
@@ -49,17 +63,29 @@
 
         </div>
 
-        <div class="col-sm-4">
-        </div><!-- col-sm-4 -->
-
       </div>
 
     </div>
   </main>
   <% include ../../../global/partials/footer.ejs %>
+  <script src="/docs/js/jquery-effects.js"></script>
+  <script src="/docs/js/main.js"></script>
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
     // Progress percentage
-    document.getElementById("percentage").style.width = "20%";
+    document.getElementById("percentage").style.width = "30%";
+   
+    // Next button
+    $('.btnNext').click(function() {
+      localStorage.firstName = $('#first-name').val();
+      localStorage.middleName = $('#middle-name').val();
+      localStorage.lastName = $('#last-name').val();
+      localStorage.myDd = $('#dd').val();
+      localStorage.myMm = $('#mm').val();
+      localStorage.myYyyy = $('#yyyy').val();
+      localStorage.myEmail = $('#email').val();
+      location.href = '/register-service-number2';
+    });
   </script>
 </body>
 </html>

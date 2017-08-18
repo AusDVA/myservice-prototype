@@ -45,6 +45,8 @@ New registration flow for broadening
 app.get('/register', function(request, response) {
   response.render('unauth/registration/pages/register');
 });
+
+/* DVA and PMKeys */
 app.get('/register-dva-and-pmkeys1', function(request, response) {
   response.render('unauth/registration/pages/register-dva-and-pmkeys1');
 });
@@ -54,9 +56,8 @@ app.get('/register-dva-and-pmkeys2', function(request, response) {
 app.get('/register-dva-and-pmkeys3', function(request, response) {
   response.render('unauth/registration/pages/register-dva-and-pmkeys3');
 });
-app.get('/register-complete', function(request, response) {
-  response.render('unauth/registration/pages/register-complete');
-});
+
+/* DVA only */
 app.get('/register-dva-only1', function(request, response) {
   response.render('unauth/registration/pages/register-dva-only1');
 });
@@ -69,12 +70,13 @@ app.get('/register-dva-only3', function(request, response) {
 app.get('/change-password', function(request, response) {
   response.render('auth/change-password');
 });
+
+/* Verify displays service history if DVA only */
 app.get('/verify-details1', function(request, response) {
   response.render('auth/verify-details1');
 });
 
-
-
+/* PMKeys only */
 app.get('/register-pmkeys-only1', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only1');
 });
@@ -84,22 +86,21 @@ app.get('/register-pmkeys-only2', function(request, response) {
 app.get('/register-pmkeys-only3', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only3');
 });
+
+/* Service number only */
 app.get('/register-service-number1', function(request, response) {
   response.render('unauth/registration/pages/register-service-number1.ejs');
 });
-
-
-app.get('/register-step1', function(request, response) {
-  response.render('unauth/registration/pages/register-step1');
+app.get('/register-service-number2', function(request, response) {
+  response.render('unauth/registration/pages/register-service-number2.ejs');
 });
+app.get('/register-service-number3', function(request, response) {
+  response.render('unauth/registration/pages/register-service-number3.ejs');
+});
+
+
 app.get('/contactusscreen', function(request, response) {
   response.render('pages/contactusscreen');
-});
-app.get('/register-step2', function(request, response) {
-  response.render('unauth/registration/pages/register-step2');
-});
-app.get('/register-step3', function(request, response) {
-  response.render('unauth/registration/pages/register-step3');
 });
 app.get('/forgot-password-step1', function(request, response) {
   response.render('unauth/user/pages/forgot-password-step1');
