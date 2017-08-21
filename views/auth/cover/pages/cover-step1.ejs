@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Add cover: Start | MyService</title>
+  <title>Add claim: Start | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -15,43 +15,69 @@
     <div class="container" id="main-content">
       <% include ../partials/progress-bar.ejs %>
       <h1>Start</h1>
-      <p>All fields are required unless marked (optional).</p>
-      <fieldset>
-      <legend>Do you have a medical diagnosis for your injury or disease you want covered?</legend>
-      <p>For mental health conditions, you can access free treatment without a medical diagnosis.</p>
 
-      <div class="radio-toggle">
-        <label class="on label-left" for="diagnosis-yes"><input id="diagnosis-yes" type="radio" name="dva-diagnosis"><span>Yes</span></label>
-        <label class="off label-right" for="diagnosis-no"><input id="diagnosis-no" type="radio" name="dva-diagnosis"><span>No</span></label>
-      </div>
-      </fieldset>
+      
+		<fieldset>
+		<legend>What is your condition?</legend>
+		<div class="form-group">
+			<label class="uikit-text-input__label" for="type-diagnosis"><span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
+			<input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
+		</div>
+		</fieldset>
+		
+		<div id="date-of-onset" style="display:none;">
+		<hr>
+		<fieldset>
+		  <legend>Approximately when did it happen, or when did it start happening?</legend>
+		  <div class="form-group">
+			<label class="uikit-text-input__label" for="dd"><span class="hint">If you do not know the exact date, enter the approximate month and year – MM / YYYY</span></label>
+			<input class="uikit-text-input dd" type="text" name="dd" id="dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+			<input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+			<input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
+		  </div>
+		</fieldset>
+     	</div>
+     
+      
 
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>
         <button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</a>
+        
         <button class="uikit-btn floated btnNext">Next</button>
+        <button class="uikit-btn uikit-btn--borderless floated btnNextNLHC">Next NLHC</button>
       </div>
       <% include ../partials/cancel-modal.ejs %>
     </div>
   </main>
+  
+  <script src="/docs/js/main.js"></script>
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
+  
   <% include ../../../global/partials/footer.ejs %>
   <% include ../partials/panel-help.ejs %>
 
-  <script src="/docs/js/jquery-effects.js"></script>
-  <script src="/docs/js/main.js"></script>
-  <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
-    // Button logic
+	// Date of onset show/hide  
     $(document).ready(function(e) {
-    $('.btnNext').click(function() {
-        if ($('#diagnosis-no').is(':checked')) {
-            window.location = '/cover-nlhc-step2';
-        } else if ($('#diagnosis-yes').is(':checked')) {
-            window.location = '/cover-step2';
-        } else {
-            window.location = '/cover-nlhc-step2';
-        }
-    });    });
+		$('input[name=type-diagnosis]').keyup(function(){
+		if($(this).val().length)
+		$('#date-of-onset').show();
+			else
+			$('#date-of-onset').hide();
+		});
+	});
+	  
+    // Page navigation button logic
+    $(document).ready(function(e) {
+		$('.btnNextNLHC').click(function() {
+				window.location = '/cover-nlhc-approved-b';
+			});
+		$('.btnNext').click(function() {
+			window.location = '/cover-step2';
+		});
+    });
+
     </script>
 
 </body>

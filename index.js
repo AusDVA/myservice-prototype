@@ -181,11 +181,11 @@ app.get('/cover-step6-b', function(request, response) {
 app.get('/cover-nlhc-step2', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step2');
 });
-app.get('/cover-nlhc-submitted', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-submitted');
-});
 app.get('/cover-nlhc-approved', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-approved');
+});
+app.get('/cover-nlhc-approved-b', function(request, response) {
+  response.render('auth/cover/pages/cover-nlhc-approved-b');
 });
 app.get('/cover-nlhc-step4', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step4');
