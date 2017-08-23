@@ -56,6 +56,46 @@
             </div>
           </fieldset>
 
+          <div class="typeAheadAddress">
+            <fieldset>
+              <legend>Postal address</legend>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="addressLookup">Starting typing your address</label> <input class="uikit-text-input" id="addressLookup" name="addressLookup" type="text" value="">
+              </div>
+              <button class="uikit-btn uikit-btn--tertiary small btnShowFullAddress">Can't find address?</button>
+            </fieldset>
+          </div>
+          <div class="fullAddress" style="display: none">
+            <fieldset>
+              <legend>Postal address</legend>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="street">Unit / street</label> 
+                <input class="uikit-text-input" id="street" name="street" type="text" value="">
+              </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="suburb">Suburb</label> <input class="uikit-text-input" id="suburb" name="suburb" type="text" value="">
+              </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="postcode">Postcode</label> <input class="uikit-text-input input-small" id="postcode" maxlength="4" name="postcode" type="text" value="">
+              </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="state">State / territory</label> <select class="uikit-text-input input-half" id="state" name="state">
+                  <option selected>-- Select state or territory --</option>
+                  <option>New South Wales</option>
+                  <option>...</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="country">Country</label> <input class="uikit-text-input input-half" id="country" name="country" type="text" value="Australia">
+              </div>
+              <button class="uikit-btn uikit-btn--tertiary small uikit-btn--borderless btnShowTypeAheadAddress">Cancel</button>
+            </fieldset>
+          </div>
+          <fieldset>
+            <legend>Residential address</legend>
+            <p><label class="uikit-control-input uikit-control-input--full"><input checked class="uikit-control-input__input" name="sameAddress" type="checkbox"> <span class="uikit-control-input__text">Same as postal address</span></label></p>
+          </fieldset>
+
           <div class="pagination">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp; 
             <button class="uikit-btn floated btnNext">Next</button>
@@ -75,6 +115,17 @@
     // Progress percentage
     document.getElementById("percentage").style.width = "25%";
    
+     $(".btnShowFullAddress").click(function() {
+       $(".fullAddress").show("fast");
+       $(".typeAheadAddress").hide("fast");
+       $(".btnShowFullAddress").hide("fast");
+     });
+     $(".btnShowTypeAheadAddress").click(function() {
+       $(".fullAddress").hide("fast");
+       $(".typeAheadAddress").show("fast");
+       $(".btnShowFullAddress").show("fast");
+     });
+
     // Next button
     $('.btnNext').click(function() {
       localStorage.firstName = $('#first-name').val();
