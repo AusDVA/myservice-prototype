@@ -190,6 +190,35 @@ app.get('/cover-nlhc-approved-b', function(request, response) {
 app.get('/cover-nlhc-step4', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step4');
 });
+
+app.get('/claim-step1', function(request, response) {
+  response.render('auth/claim/pages/claim-step1');
+});
+app.get('/claim-step2', function(request, response) {
+  response.render('auth/claim/pages/claim-step2');
+});
+app.get('/claim-step3', function(request, response) {
+  response.render('auth/claim/pages/claim-step3');
+});
+app.get('/claim-step4', function(request, response) {
+  response.render('auth/claim/pages/claim-step4');
+});
+app.get('/claim-step5', function(request, response) {
+  response.render('auth/claim/pages/claim-step5');
+});
+app.get('/claim-step6', function(request, response) {
+  response.render('auth/claim/pages/claim-step6');
+});
+app.get('/claim-nlhc-submitted', function(request, response) {
+  response.render('auth/claim/pages/claim-nlhc-submitted');
+});
+app.get('/viewClaimDetail', function(request, response) {
+  response.render('auth/claim/pages/viewClaimDetail');
+});
+app.get('/viewNLHCClaimDetail', function(request, response) {
+  response.render('auth/claim/pages/viewNLHCClaimDetail');
+});
+
 /**
   Component testing
 */
