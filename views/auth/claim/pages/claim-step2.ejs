@@ -22,17 +22,6 @@
   <main> 
     <div class="container" id="main-content">
 	  <div class="add-claim--wrapper">
- <!-- Condition name 
- 		<div id="condition"> 
-		<fieldset>
-		<legend>What is your injury or condition?</legend>
-		<div class="form-group">
-			<label class="uikit-text-input__label" for="type-diagnosis"><span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
-			<input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
-		</div>
-		</fieldset>
-		</div>
--->
 
 <!-- Date of onset --> 		
 		<div id="date-of-onset">
@@ -47,20 +36,9 @@
 		</fieldset>
      	</div>
      	
-<!-- Diagnosis question -->
-    	<div id="diagnosis">
-     	<fieldset>
-			<label class="uikit-text-input__label" for="diagnosis-yes">Do you have a medical diagnosis?</label>
-			<div class="radio-toggle">
-			<label class="on label-left" for="diagnosis-yes"><input id="diagnosis-yes" type="radio" name="dva-diagnosis"><span>Yes</span></label>
-			<label class="off label-right" for="diagnosis-no"><input id="diagnosis-no" type="radio" name="dva-diagnosis"><span>No</span></label>
-			</div>
-		</fieldset>
-		</div>
-
 <!-- Document upload --> 
-		<div id="uploads" style="display:none;">
-		<div class="breakout-light">
+		<div id="diagnosis-docs" style="display:none;">
+
 		<fieldset>
 			<h3>Upload your medical diagnosis, receipts and supporting documents. (optional)</h3>
 				<ul>
@@ -96,10 +74,10 @@
 				</table>
 				</div>
 		</fieldset>
-			</div>
+
 		</div>
 <!-- No document uploads --> 
-		<div id="no-uploads" style="display:none;">
+		<div id="nodiagnosis" style="display:none;">
 		<div class="uikit-page-alerts" role="alert">
         	<p><strong>A diagnosis must be provided within 6 months of submitting this claim.</strong>
         	<br>We will cover the cost of seeing your Medical Practioner (GP) or specialist if required.
@@ -133,22 +111,24 @@
 		// Progress percentage
 		document.getElementById("percentage").style.width = "40%";
 		
-		// Document upload button show/hide AND sop opacity change
+		if("nodiagnosis" in sessionStorage){
+			$( "#nodiagnosis" ).show();
+			$( "#diagnosis-docs" ).hide();
+		}
 
-		$( "#diagnosis-yes" ).click(function() {
-		  $("#uploads").slideDown("fast");
-		  $("#no-uploads").hide();
-		});
-		$( "#diagnosis-no" ).click(function() {
-		  $("#uploads").hide();
-		  $("#no-uploads").slideDown("fast");
-		});	
+		if("yesdiagnosis" in sessionStorage){
+			$( "#nodiagnosis" ).hide();
+			$( "#diagnosis-docs" ).show();
+		}
 		
 		// Document list show/hide
 		$(".btnUpload").click(function() {
 		  $(".upload-list").toggle("fast");
 		});
 		
+		$('.btnNext').click(function() {
+     	  sessionStorage.clear();
+    	});
 
 	</script>
 

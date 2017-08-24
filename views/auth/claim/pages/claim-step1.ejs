@@ -32,12 +32,33 @@
 		</div>
 		</fieldset>
    		</div>
-    
- <!-- Condition name -->
+  
+ <!-- Seen a doctor question -->
+    	<div id="doctor" style="display:none;">
+     	<fieldset>
+			<label class="uikit-text-input__label" for="diagnosis-yes">Have you seen a GP or Specialist about your condition?</label>
+			<div class="radio-toggle">
+			<label class="on label-left" for="doctor-yes"><input id="doctor-yes" type="radio" name="dva-doctor"><span>Yes</span></label>
+			<label class="off label-right" for="doctor-no"><input id="doctor-no" type="radio" name="dva-doctor"><span>No</span></label>
+			</div>
+		</fieldset>
+		</div>
+		
+ <!-- Diagnoisis -->
+ 		<div id="diagnosis" style="display:none;">
+		<fieldset>
+		<div class="form-group">
+			<label class="uikit-text-input__label" for="type-diagnosis">What is your diagnosis?<br><span class="hint">Enter the term your GP or Specialist used to describe your condition. Example: 'Acute meniscal tear of the knee'.</span></label>
+			<input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
+		</div>
+		</fieldset>
+		</div>
+		
+ <!-- Condition name (no diagnosis) -->
  		<div id="condition" style="display:none;">
 		<fieldset>
 		<div class="form-group">
-			<label class="uikit-text-input__label" for="type-diagnosis">What is your injury or condition?<br><span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
+			<label class="uikit-text-input__label" for="type-diagnosis">What is your condition?</label>
 			<input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
 		</div>
 		</fieldset>
@@ -46,8 +67,8 @@
  <!-- Mental Health claim -->
  		<div id="mentalhealth-claim" style="display:none;">
 			<div class="breakout-light">
-				<h3>You can access free treatment for this condition.</h3>
-				<p>When you submit this claim, we will send you a DVA health card (White Card). If you already have a card, you can use it immediately. If you access free treatment, you can still make a claim for compensation later.</p>
+				<h3>You can access free treatment for mental health conditions.</h3>
+				<p>When you submit this claim, we will send you a DVA health card (White Card). If you already have a card, you will be able to use it immediately. If you access free treatment, you can still make a claim for compensation later.</p>
 			</div>
 		</div>
          
@@ -76,12 +97,14 @@
 	// If you've come to this page straight from claim-step6, show the mental health question
 	if("anotherclaim" in sessionStorage){
         $( "#mentalhealth" ).show();
+		$( "#doctor" ).hide();
 		$( "#condition" ).hide();
+		$( "#diagnosis" ).hide();
     }
 	// Show and hide condition name field
   	$( "#mentalhealth-no" ).click(function() {
 		$( "#progressbar" ).slideDown("fast");
-    	$( "#condition" ).show("fast");
+    	$( "#doctor" ).show("fast");
 		$( "#mentalhealth-claim" ).hide();
 		$( ".btnNext" ).show();
 		$( ".btnSubmit" ).hide();
@@ -90,26 +113,37 @@
 	// Show and hide condition name field
   	$( "#mentalhealth-yes" ).click(function() {
 		$( "#progressbar" ).slideUp("fast");
-    	$( "#condition" ).hide();
+    	$( "#doctor" ).hide();
+		$( "#condition" ).hide();
+		$( "#diagnosis" ).hide();
 		$( "#mentalhealth-claim" ).show("fast");
 		$( ".btnNext" ).hide();
 		$( ".btnSubmit" ).show();
   	});
 	
+	$( "#doctor-no" ).click(function() {
+		sessionStorage.setItem('nodiagnosis',true);
+    	$( "#condition" ).show("fast");
+		$( "#diagnosis" ).hide();
+  	});
+	$( "#doctor-yes" ).click(function() {
+		sessionStorage.setItem('yesdiagnosis',true);
+		$( "#diagnosis" ).show("fast");
+    	$( "#condition" ).hide();
+  	});
+		
+		
     // If you've come to this page straight from claim-nlhc-approved, hide the mental health question
     if("nlhc" in sessionStorage){
 		$( "#progressbar" ).show();
-		$( "#condition" ).show();
-        $( "#mentalhealth" ).hide();		
+		$( "#mentalhealth" ).hide();
+		$( "#doctor" ).show();  
+		$( "#condition" ).hide();
+		$( "#diagnosis" ).hide();
     } else {
 		$( "#mentalhealth" ).show();
     };
 	
-	$('.btnNext').click(function() {
-      sessionStorage.clear();
-    });
-
-		
 	</script>
 
 </body>
