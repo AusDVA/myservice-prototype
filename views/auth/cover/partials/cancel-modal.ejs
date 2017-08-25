@@ -1,11 +1,63 @@
-<div id="open-modal" class="modal-window">
-	<div>
-		<a href="#modal-close" title="Close" class="modal-close">Close</a>
-		<h1>Cancel application</h1>
-		<p>Are you sure you want to cancel? Cancelling will remove this application to add cover.</p>
+<div role="dialog" aria-hidden="true" aria-labelledby="cancelModalTitle" aria-describedby="cancelModalDesc" id="open-modal" class="modal-window">
+	<div role="document">
+		<a href="#modal-close" title="Close" class="modal-close" id="cancelModalCloseBtn">Close</a>
+		<h1 id="cancelModalTitle">Cancel application</h1>
+		<p id="cancelModalDesc">Are you sure you want to cancel? Cancelling will remove this application to add cover.</p>
 		<div class="modal-buttons">
-			<button class="uikit-btn floated uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">No</button>
-			<button class="uikit-btn floated " onclick="window.location.href = '/auth'">Yes</button>
+			<button id="cancelModalNoBtn" class="uikit-btn floated uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">No</button>
+			<button id="cancelModalYesBtn" class="uikit-btn floated " onclick="window.location.href = '/auth'">Yes</button>
 		</div>
 	</div>
 </div>
+
+<!-- Needed for accessibility handling -->
+<script>
+	$(document).ready(function() {
+
+		// Page init handlers
+		$('#coverCancelBtn').click(function() {
+			debugger;
+			$("#cancelModalNoBtn").focus();
+		});
+
+		$('#coverCancelBtn').keydown(function(evt) {
+			if (evt.key == 'Enter')
+				$('#coverCancelBtn').click();
+		});
+
+		var focusItems = ['cancelModalCloseBtn', 'cancelModalNoBtn', 'cancelModalYesBtn'];
+
+		function handleEscape(evt) {
+			$("#cancelModalNoBtn").click();
+			$("#coverCancelBtn").focus();
+		}
+
+		function loopTabWhenOpen(evt) {
+			var curFocusedItem = $(":focus");
+			var focusItemIndex = focusItems.indexOf(curFocusedItem.attr('id'));
+
+			if (evt.shiftKey) {
+				// Back tab
+				if (focusItemIndex == 0 || focusItemIndex == -1) {
+					$("#" + focusItems[(focusItems.length - 1)]).focus();
+					evt.preventDefault();
+				}
+			} else {
+				// Forward tab
+				if (focusItemIndex == (focusItems.length - 1) || focusItemIndex == -1) {
+					$("#" + focusItems[0]).focus();
+					evt.preventDefault();
+				}
+			}
+		}
+
+		$("#open-modal").keydown(function(evt) {
+			switch (evt.key) {
+				case "Escape": handleEscape(evt);
+					break;
+				case "Tab": loopTabWhenOpen(evt);
+					break;
+			}
+		})
+	});
+</script>
