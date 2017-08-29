@@ -22,10 +22,12 @@
 			$("#"+modalElementPrefix+"CloseBtn").click();
 			previousClickableElement.focus();
 			$(document).unbind('keydown', handleGlobalKbd);
+			$("body").removeAttr('style');
 			evt.stopPropagation();
 		}
 
 		function enableModal(evt, previousButton) {
+
 			previousClickableElement = (previousButton == null)
 				? $("#"+triggerName)
 				: previousButton;
@@ -35,10 +37,7 @@
 			modalIsOpen = true;
 
 			$(document).keydown(handleGlobalKbd);
-
-			if (evt != null) {
-				evt.preventDefault();
-			}
+			$("body").attr('style', 'overflow:hidden;');
 		}
 
 		// Will return -1 if the currently focused item ID isn't on the focusItems list.
@@ -66,6 +65,7 @@
 		}
 
 		// Javascript/jQuery stuff happens below from here.
+
 
 		$('#'+triggerName).click(enableModal);
 
