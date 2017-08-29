@@ -1,11 +1,129 @@
-<div id="open-removefile-modal" class="modal-window">
-	<div>
-		<a href="#modal-close" title="Close" class="modal-close">Close</a>
-		<h3>Do you want to remove the file?</h3>
-		<div>Medical documents help us to assess your claim.</div>
+<div role="dialog" aria-hidden="true" aria-labelledby="removeFileModalTitle" aria-describedby="removeFileModalDesc" id="open-removefile-modal" class="modal-window">
+	<div role="document">
+		<a href="#" title="Close" class="modal-close" id="removeFileModalCloseBtn">Close</a>
+		<h3 id="removeFileModalTitle">Do you want to remove the file?</h3>
+		<div id="removeFileModalDesc">Medical documents help us to assess your claim.</div>
 		<div class="modal-buttons">
-			<button class="uikit-btn floated uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">No</button>
-			<button class="uikit-btn floated" onclick="window.location.href = '#modal-close'">Yes</button>
+			<button id="removeFileModalNoBtn" class="uikit-btn floated uikit-btn--tertiary" onclick="window.location.href = '#'">No</button>
+			<button id="removeFileModalYesBtn" class="uikit-btn floated" onclick="window.location.href = '#'">Yes</button>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		// Page init handlers (used by modal-common.ejs)
+		// All strings refer to ID attribute names assigned to elements.
+		// For the purposes of prototyping, try not to re-use IDs on a single page.
+		var modalName = "open-removefile-modal";
+		var triggerName = "open-removefile-modal";
+		var modalElementPrefix = "removeFileModal";
+
+		var focusItems = [modalElementPrefix+'CloseBtn', modalElementPrefix+'NoBtn', modalElementPrefix+'YesBtn'];
+		var modalIsOpen = (window.location.href.indexOf(modalName) > 0); // UIKIT apparently handles modal-window based on fragment name on URL
+		var previousClickableElement = null;
+
+		// Reusable functions for the modal
+
+		function enableModal(evt, previousButton) {
+			previousClickableElement = (previousButton == null)
+				? $("#"+triggerName)
+				: previousButton;
+
+			$("#"+modalName).attr('aria-hidden', false);
+			$("#"+modalElementPrefix+"CloseBtn").focus();
+			modalIsOpen = true;
+
+			if (evt != null) {
+				evt.preventDefault();
+			}
+		}
+
+		function handleEscape(evt) {
+			$("#"+modalElementPrefix+"CloseBtn").click();
+			previousCLickableElement.focus();
+			evt.stopPropagation();
+		}
+
+		// Will return -1 if the currently focused item ID isn't on the focusItems list.
+		function getFocusedItemIndex() {
+			var curFocusedItem = $(":focus");
+			return focusItems.indexOf(curFocusedItem.attr('id'));
+		}
+
+		function loopTabWhenOpen(evt) {
+			var focusItemIndex = getFocusedItemIndex();
+
+			if (evt.shiftKey) {
+				// Back tab
+				if (focusItemIndex == 0 || focusItemIndex == -1) {
+					$("#" + focusItems[(focusItems.length - 1)]).focus();
+					evt.preventDefault();
+				}
+			} else {
+				// Forward tab
+				if (focusItemIndex == (focusItems.length - 1) || focusItemIndex == -1) {
+					$("#" + focusItems[0]).focus();
+					evt.preventDefault();
+				}
+			}
+		}
+
+		// Javascript/jQuery stuff happens below from here.
+
+		$('#'+triggerName).click(enableModal);
+
+		$("#"+modalElementPrefix+"CloseBtn, #"+modalElementPrefix+"NoBtn").click(function(evt) {
+			window.location.href = '#';
+			previousClickableElement.focus();
+			$("#"+modalName).attr('aria-hidden', true);
+			modalIsOpen = false;
+			evt.preventDefault();
+		});
+
+		$("#"+modalName).click(function(evt) {
+			$("#"+modalElementPrefix+"CloseBtn").click();
+			evt.stopPropagation();
+		}).children().click(function(evt) {
+			return false;
+		});
+
+		$("#"+modalName).keydown(function(evt) {
+			switch (evt.key) {
+				case "Escape": handleEscape(evt);
+					break;
+				case "Tab": loopTabWhenOpen(evt);
+					break;
+				case "Enter":
+					$(":focus").click();
+					break;
+				case "ArrowUp":
+				case "ArrowDown":
+				case "ArrowLeft":
+				case "ArrowRight":
+					var focusedItemIndex = getFocusedItemIndex();
+					if (focusedItemIndex == -1) {
+						$("#"+modalElementPrefix+"CloseBtn").focus();
+						evt.stopPropagation();
+					}
+					break;
+			}
+		});
+
+		var handleGlobalKbd = function(evt) {
+			if (modalIsOpen == true) {
+				if (evt.key == 'Escape') {
+					handleEscape(evt);
+					$(document).unbind('keydown', handleGlobalKbd);
+						return;
+				}
+			}
+		};
+
+		$(document).keydown(handleGlobalKbd);
+
+		if (modalIsOpen) {
+			enableModal(null, $("#"+triggerName));
+		}
+	});
+	</script>
