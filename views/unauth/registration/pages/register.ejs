@@ -30,17 +30,8 @@
       <div class="row">
         <div class="col-sm-6">
           <fieldset>
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dva-question">Do you have a DVA client number?</label>
-              <div class="radio-toggle">
-                <label class="on label-left" for="dva-yes"><input id="dva-yes" name="dva-exising" type="radio"><span>Yes</span></label> <label class="off label-right" for="dva-no"><input id="dva-no" name="dva-exising" type="radio"><span>No</span></label>
-              </div>
-            </div><!-- start hidden by default -->
-            <div class="form-group enter-dva-number" style="display: none">
-              <label class="uikit-text-input__label" for="dva-number">Your DVA number:</label> <input aria-required="true" class="uikit-text-input input-half" id="dva-number" name="dva-number" required="" type="text" value="">
-            </div><!-- end hidden by default -->
             <!-- start hidden by default -->
-            <div class="form-group pmkeys-question" style="display: none">
+            <div class="form-group pmkeys-question">
               <label class="uikit-text-input__label" for="pmkeys-question">Do you have a PMKeyS number?</label>
               <div class="radio-toggle">
                 <label class="on label-left" for="pmkeys-yes"><input id="pmkeys-yes" name="pmkeys" type="radio"><span>Yes</span></label> <label class="off label-right" for="pmkeys-no"><input id="pmkeys-no" name="pmkeys" type="radio"><span>No</span></label>
@@ -51,9 +42,20 @@
               <label class="uikit-text-input__label" for="pmkeys">Your PMKeys number:</label> <input class="uikit-text-input input-half" id="pmkeys" name="pmkeys" type="text" value="">
             </div><!-- end hidden by default -->
             <!-- start hidden by default -->
+            <div class="form-group dva-question" style="display: none">
+              <label class="uikit-text-input__label" for="dva-question">Do you have a DVA client number?</label>
+              <div class="radio-toggle">
+                <label class="on label-left" for="dva-yes"><input id="dva-yes" name="dva-exising" type="radio"><span>Yes</span></label> <label class="off label-right" for="dva-no"><input id="dva-no" name="dva-exising" type="radio"><span>No</span></label>
+              </div>
+            </div><!-- start hidden by default -->
+            <div class="form-group enter-dva-number" style="display: none">
+              <label class="uikit-text-input__label" for="dva-number">Your DVA number:</label> <input aria-required="true" class="uikit-text-input input-half" id="dva-number" name="dva-number" required="" type="text" value="">
+            </div><!-- end hidden by default -->
             <div class="form-group service-number" style="display: none">
               <label class="uikit-text-input__label" for="servicenumber">Service number <br />
-              <span class="hint">Using your service number will take longer as you'll need to provide your full service history after verifying your account. <a href="http://www.defence.gov.au/Records/ExService.asp">Accessing service records</a></span></label> <input class="uikit-text-input input-half" id="servicenumber" name="servicenumber" type="text" value="">
+              <span class="hint">Using your service number will take longer as you'll need to provide your full service history after verifying your account.</span></label> 
+              <p><a target="_blank" href="http://www.defence.gov.au/Records/ExService.asp">Need to find your service number?</a></p>
+              <input class="uikit-text-input input-half" id="servicenumber" name="servicenumber" type="text" value="">
             </div><!-- end hidden by default -->
           </fieldset>
           <p class="clickNext" style="display: none">Click Next to continue.</p>
@@ -63,8 +65,18 @@
             <img alt="Tip icon" class="heading-icon" src="../../../docs/images/ico-tip-blue.svg">
             <h3>Things you'll need:</h3>
             <ul>
-              <li>Access to proof of identity documentation</li>
-              <li>Your DVA client number, PMKeyS or service number</li>
+              <li>Your PMKeyS, DVA or service number</li>
+              <li>For PMKeyS and DVA clients you'll need <strong>one</strong> proof of identity document. If you're registering with your service number you'll need <strong>two</strong>. Choices include:
+                <ul>
+                  <li>Australian driver licence</li>
+                  <li>Medicare card</li>
+                  <li>Australian passport</li>
+                  <li>Certificate of registration by descent</li>
+                  <li>Certificate of Australian citizenship</li>
+                  <li>Australian birth certificate</li>
+                  <li>Australian marriage certificate</li>
+                </ul>
+              </li>
             </ul>
           </div>
         </div><!-- col-sm-6 -->
@@ -82,6 +94,18 @@
      document.getElementById("percentage").style.width = "10%";
 
      // Toggle button logic
+     $("#pmkeys-yes").click(function() {
+       $(".enter-pmkeys-number").show("fast");
+       $(".service-number").hide("fast");
+       $("#pmkeys").focus();
+     });
+     $("#pmkeys-no").click(function() {
+       $(".enter-pmkeys-number").hide("fast");
+       $(".dva-question").show("fast");
+       if ($('#dva-yes').is(':checked')) {
+         $(".clickNext").show("fast"); 
+       }
+     });
      $("#dva-no").click(function() {
        $(".pmkeys-question").show("fast");
        $(".enter-dva-number").hide("fast");
@@ -91,17 +115,6 @@
        $(".pmkeys-question").show("fast");
        $("#dva-number").focus();
        $(".service-number").hide("fast");
-     });
-     $("#pmkeys-yes").click(function() {
-       $(".enter-pmkeys-number").show("fast");
-       $(".service-number").hide("fast");
-       $("#pmkeys").focus();
-     });
-     $("#pmkeys-no").click(function() {
-       $(".enter-pmkeys-number").hide("fast");
-       if ($('#dva-yes').is(':checked')) {
-         $(".clickNext").show("fast"); 
-       }
      });
      $(document).ready(function(e) {
        $('#pmkeys-no').click(function() {
