@@ -72,8 +72,8 @@ app.get('/change-password', function(request, response) {
 });
 
 /* Verify displays service history if DVA only */
-app.get('/verify-details1', function(request, response) {
-  response.render('auth/verify-details1');
+app.get('/verify-details', function(request, response) {
+  response.render('auth/verify-details');
 });
 
 /* PMKeys only */
