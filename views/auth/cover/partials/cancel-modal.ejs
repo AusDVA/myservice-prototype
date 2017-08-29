@@ -1,6 +1,6 @@
 <div role="dialog" aria-hidden="true" aria-labelledby="cancelModalTitle" aria-describedby="cancelModalDesc" id="open-modal" class="modal-window">
 	<div role="document">
-		<a href="#modal-close" title="Close" class="modal-close">Close</a>
+		<a href="#modal-close" title="Close" class="modal-close" id="cancelModalCloseBtn">Close</a>
 		<h1 id="cancelModalTitle">Do you want to cancel?</h1>
 		<p id="cancelModalDesc">This will delete your claim and you will need to start over.</p>
 		<div class="modal-buttons">
@@ -15,26 +15,35 @@
 	$(document).ready(function() {
 
 		// Page init handlers
-		$('#coverCancelBtn').click(function() {
-			debugger;
-			$("#cancelModalNoBtn").focus();
+		$('#coverCancelBtn').click(function(evt) {
+			$("#open-modal").attr('aria-hidden', false);
+			$("#cancelModalCloseBtn").focus();
+			evt.preventDefault();
 		});
 
-		$('#coverCancelBtn').keydown(function(evt) {
-			if (evt.key == 'Enter')
-				$('#coverCancelBtn').click();
+		$('#cancelModalCloseBtn, #cancelModalNoBtn').click(function(evt) {
+			window.location.href = '#modal-close';
+			$("#coverCancelBtn").focus();
+			$("#open-modal").attr('aria-hidden', false);
+			evt.preventDefault();
 		});
 
 		var focusItems = ['cancelModalCloseBtn', 'cancelModalNoBtn', 'cancelModalYesBtn'];
+		var modalIsOpen = true;
 
 		function handleEscape(evt) {
-			$("#cancelModalNoBtn").click();
+			$('#cancelModalCloseBtn').click();
 			$("#coverCancelBtn").focus();
+			evt.stopPropagation();
+		}
+
+		function getFocusedItemIndex() {
+			var curFocusedItem = $(":focus");
+			return focusItems.indexOf(curFocusedItem.attr('id'));
 		}
 
 		function loopTabWhenOpen(evt) {
-			var curFocusedItem = $(":focus");
-			var focusItemIndex = focusItems.indexOf(curFocusedItem.attr('id'));
+			var focusItemIndex = getFocusedItemIndex();
 
 			if (evt.shiftKey) {
 				// Back tab
@@ -51,13 +60,46 @@
 			}
 		}
 
+		$("#open-modal").click(function(evt) {
+			$("#cancelModalCloseBtn").click();
+			evt.stopPropagation();
+		}).children().click(function(evt) {
+			return false;
+		});
+
 		$("#open-modal").keydown(function(evt) {
 			switch (evt.key) {
 				case "Escape": handleEscape(evt);
 					break;
 				case "Tab": loopTabWhenOpen(evt);
 					break;
+				case "Enter":
+					$(":focus").click();
+					break;
+				case "ArrowUp":
+				case "ArrowDown":
+				case "ArrowLeft":
+				case "ArrowRight":
+					var focusedItemIndex = getFocusedItemIndex();
+					if (focusedItemIndex == -1) {
+						$("#cancelModalCloseBtn").focus();
+						evt.stopPropagation();
+					}
+					break;
 			}
-		})
+		});
+
+		// usability
+		var handleGlobalKbd = function(evt) {
+			if (modalIsOpen == true) {
+				if (evt.key == 'Escape') {
+					handleEscape(evt);
+					$(document).unbind('keydown', handleGlobalKbd);
+						return;
+				}
+			}
+		};
+
+		$(document).keydown(handleGlobalKbd);
 	});
 </script>
