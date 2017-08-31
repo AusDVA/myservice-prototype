@@ -22,28 +22,32 @@
 		// defining this variable unset until modal is opened (so that callback functions can see it)
 		var previousClickableElement = null;
 
-		// Reusable functions for the modal
+		// Reusable functions for the modal (using runtime-defined functions to avoid definition order issues)
 
 		// Will return -1 if the currently focused item ID isn't on the focusItems list.
 		// This will ensure elements stay on the loop.
-		function getFocusedItemIndex() {
-			var curFocusedItem = $(":focus");
+		var getFocusedItemIndex = function(currItem) {
+			var curFocusedItem = (currItem == null) ? $(document.activeElement) : currItem;
 			return focusItems.indexOf(curFocusedItem.attr('id'));
+		};
+
+		var handleBlurOnOpenModal = function() {
+			if (getFocusedItemIndex() == -1) {
+				doDefaultFocusItem();
+			}
 		}
 
 		// Workaround handler where default focus is NOT on the modal for whatever reason
-		function handleGlobalKbd(evt) {
+		var handleGlobalKbd = function(evt) {
 			if (modalIsOpen == true) {
 				if (evt.key == 'Escape') {
 					handleEscape(evt);
 				} else if (evt.key == 'Tab') {
 					// after processing everything, check that current focused item is
 					// not within modal.
-					setTimeout(function() {
-						if (getFocusedItemIndex() == -1) {
-							doDefaultFocusItem();
-						}
-					}, 25);
+					if (getFocusedItemIndex($(document.activeElement)) == -1) {
+						doDefaultFocusItem();
+					}
 				}
 			} else {
 				// remove this binding where it isn't open (shouldn't happen but just in case.)
@@ -51,8 +55,20 @@
 			}
 		};
 
+		var handleBrowserFocusIn = function(evt) {
+			if (modalIsOpen) {
+				if (getFocusedItemIndex($(evt.target)) == -1) {
+					console.log('boom');
+					doDefaultFocusItem();
+					evt.stopPropagation();
+				}
+			} else {
+				$(window).unbind('focus', handleBrowserFocusIn);
+			}
+		}
+
 		// Default focus action
-		function doDefaultFocusItem() {
+		var doDefaultFocusItem = function() {
 			// ideally we want to focus on title but tabindex is apparently bad practice. see:
 			// https://stackoverflow.com/questions/40128504/nvda-screen-reader-reads-clickable-word-on-text
 			//var defaultItem = $("#"+modalElementPrefix+"Title");
@@ -60,18 +76,18 @@
 
 			var defaultItem = $("#"+modalElementPrefix+"CloseBtn");
 			setTimeout(function() { defaultItem.focus(); }, 25);
-		}
+		};
 
 		// Action to trigger when escape key is used.
-		function handleEscape(evt) {
+		var handleEscape = function(evt) {
 			setTimeout(function() {
 				$("#"+modalElementPrefix+"CloseBtn").click();
 			});
 			evt.stopPropagation();
-		}
+		};
 
 		// Handler that executes whenever the modal appears.
-		function enableModal(evt, previousButton) {
+		var enableModal = function(evt, previousButton) {
 			// Will default to a given input trigger's ID name before
 			// showing the modal.
 			previousClickableElement = (previousButton == null)
@@ -81,24 +97,31 @@
 			// Unhide the modal context according to ARIA.
 			$("#"+modalName).attr('aria-hidden', false);
 
+			// Needed to handle ESC key in edge cases where the modal is not focused.
 			modalIsOpen = true;
+			$(document).keydown(handleGlobalKbd);
 
-			// jQuery sometimes didn't trigger focus immediately, so this was done.
-			//setTimeout(function() {$("#"+modalElementPrefix+"CloseBtn").focus();});
-			setTimeout(doDefaultFocusItem);
+			// Needed in case tab selection from browser window to document
+			// starts going through the DOM with the modal open.
+			$(window).focus(handleBrowserFocusIn);
+
+			doDefaultFocusItem();
 
 			// disable body scroll bar.
 			$("body").css('overflow', 'hidden');
-		}
+		};
 
-		function closeModal(evt) {
-			// jQuery seems to be unreliable with manual event invocations.
+		var closeModal = function(evt) {
+			window.location.href = '#close-modal';
+
+			// restore focus on last selected element before showing modal.
 			setTimeout(function() {
-				// force UIKIT to hide the modal by omitting its fragment.
-				window.location.href = '#';
+				// test if browser successfully goes back to the trigger by default
+				// else focus manually.
 
-				// restore focus on last selected element before showing modal.
-				setTimeout(function() { previousClickableElement.focus(); });
+				if (previousClickableElement[0] != document.activeElement) {
+					previousClickableElement.focus();
+				}
 			});
 
 			// Remove workaround binding for background close modal.
@@ -111,31 +134,36 @@
 			// re-enables body scroll bar
 			$("body").css('overflow', 'auto');
 			evt.preventDefault();
-		}
+		};
+
+		var focusOnFirstModalItem = function() {
+			$("#"+focusItems[0]).focus();
+		};
+
+		var focusOnLastModalItem = function() {
+			$("#"+focusItems[focusItems.length - 1]).focus();
+		};
 
 		// Logic for enforcing modal loop to prevent background tabbing.
-		function loopTabWhenOpen(evt) {
+		var loopTabWhenOpen = function(evt) {
 			var focusItemIndex = getFocusedItemIndex();
 
 			if (evt.shiftKey) {
 				// Back tab nav
-				if (focusItemIndex < 0) {
+				if (focusItemIndex == 0 || focusItemIndex == -1) {
 					$("#" + focusItems[(focusItems.length - 1)]).focus();
 					evt.preventDefault();
 				}
 			} else {
 				// Forward tab nav
-				if (focusItemIndex == (focusItems.length) || focusItemIndex == -1) {
+				if (focusItemIndex == (focusItems.length - 1) || focusItemIndex == -1) {
 					$("#" + focusItems[0]).focus();
 					evt.preventDefault();
 				}
 			}
-		}
+		};
 
 		// Javascript/jQuery stuff happens below from here.
-
-		// Needed to handle ESC key in edge cases where the modal is not focused.
-		$(document).keydown(handleGlobalKbd);
 
 		// While UIKIT has its own behaviour for the modal style based on URL fragment,
 		// this is so that the JS accessibility/usability logic on this script is used.
@@ -158,27 +186,39 @@
 
 		// Keyboard hooks for supporting
 		$("#"+modalName).keydown(function(evt) {
-			switch (evt.key) {
-				case "Escape": handleEscape(evt);
+			switch (evt.key.toLowerCase()) {
+				case "esc": // IE uses this key name
+				case "escape": handleEscape(evt);
 					break;
 
-				// guarantee that the focus behaviour is triggered before handling.
-				case "Tab": setTimeout(function() { loopTabWhenOpen(evt); });
+				// tab focus handling
+				case "tab": loopTabWhenOpen(evt);
 					break;
 				// force click event for current focused element
-				case "Enter":
+				case "enter":
 					setTimeout(function() { $(evt.target).click();});
 					break;
-				case "ArrowUp":
-				case "ArrowDown":
-				case "ArrowLeft":
-				case "ArrowRight":
-					// in case NVDA or another screen reader goes beyond the loop
-					// when hooking arrow input behaviour to choose next input element.
+
+				// in case NVDA or another screen reader goes beyond the loop
+				// when hooking arrow input behaviour to choose next input element.
+				case "arrowup":
+				case "arrowleft":
 					var focusedItemIndex = getFocusedItemIndex();
 					if (focusedItemIndex == -1) {
 						// in those cases, just force it to the close button.
-						$("#"+modalElementPrefix+"CloseBtn").focus();
+						focusOnFirstModalItem();
+						evt.stopPropagation();
+					}
+
+					// else use default browser behaviour in this instance.
+					break;
+
+				case "arrowdown":
+				case "arrowright":
+					var focusedItemIndex = getFocusedItemIndex();
+					if (focusedItemIndex == -1) {
+						// in those cases, just force it to the close button.
+						focusOnLastModalItem();
 						evt.stopPropagation();
 					}
 
@@ -186,6 +226,8 @@
 					break;
 			}
 		});
+
+		$("#"+modalName).blur(handleBlurOnOpenModal);
 
 		// For prototype purposes - where modal is opened by URL fragment,
 		// ensure script is ready to handle this too.
