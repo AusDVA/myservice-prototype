@@ -114,9 +114,14 @@ app.get('/index-preloader', function(request, response) {
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
-app.get('/profile-password', function(request, response) {
-  response.render('auth/profile-password');
+
+/**
+  Secondary nav
+*/
+app.get('/profile-change-password', function(request, response) {
+  response.render('auth/profile-change-password');
 });
+
 app.get('/profile-updated', function(request, response) {
   response.render('auth/profile-updated');
 });
