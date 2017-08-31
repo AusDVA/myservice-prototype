@@ -19,6 +19,26 @@
       <h1>Register <span>(Step 2 - Personal details)</span></h1>
       <div class="row">
         <div class="col-sm-12">
+          <div class="form-group title">
+            <label class="uikit-text-input__label" for="title">Title<br />
+            <span class="hint"> Used for correspondence (optional)</span></label> 
+            <select class="uikit-text-input input-half" id="title" name="title">
+              <option selected>-- Select title --</option>
+              <option>Commissioner</option>
+              <option>Dame</option>
+              <option>Emeritus Professor</option>
+              <option>Honourable Mr Justice</option>
+              <option>Matron</option>
+              <option>Miss</option>
+              <option>Monsignor</option>
+              <option>Mr</option>
+              <option>Mr Justice</option>
+              <option>Mrs</option>
+              <option>Ms</option>
+              <option>Reverend Mr</option>
+              <option>Right Reverend Monsignor</option>
+            </select>
+          </div>
           <div class="form-group">
             <label class="uikit-text-input__label" for="dd-enlistment">Enlistment date <span class="hint">(DD / MM / YYYY)</span></label>
             <input class="uikit-text-input dd" type="text" name="dd-enlistment" id="dd-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
@@ -36,7 +56,7 @@
               <input class="uikit-text-input" name="middle-name" id="middle-name" type="text" value="">
             </div>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="last-name">Last name  <span class="hint">(surname)</span></label>
+              <label class="uikit-text-input__label" for="last-name">Surname  <span class="hint">(last name)</span></label>
               <input class="uikit-text-input" name="last-name" id="last-name" type="text" value="" required aria-required="true">
             </div>
             <div class="form-group">
@@ -53,7 +73,7 @@
               <input class="uikit-text-input" name="email" id="email" type="email" value="">
             </div>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="confirm-email">Confirm email address</label>
+              <label class="uikit-text-input__label" for="confirm-email">Re-enter email address</label>
               <input class="uikit-text-input" name="confirm-email" id="confirm-email" type="email" value="">
             </div>
             <div class="form-group">
@@ -66,7 +86,7 @@
             <fieldset>
               <legend>Postal address</legend>
               <div class="form-group">
-                <label class="uikit-text-input__label" for="addressLookup">Starting typing your address</label> <input class="uikit-text-input" id="addressLookup" name="addressLookup" type="text" value="">
+                <label class="uikit-text-input__label" for="addressLookup">Starting typing your postal address</label> <input class="uikit-text-input" id="addressLookup" name="addressLookup" type="text" value="">
               </div>
               <button class="uikit-btn uikit-btn--tertiary small btnShowFullAddress">Can't find address?</button>
             </fieldset>
@@ -87,8 +107,14 @@
               <div class="form-group">
                 <label class="uikit-text-input__label" for="state">State / territory</label> <select class="uikit-text-input input-half" id="state" name="state">
                   <option selected>-- Select state or territory --</option>
-                  <option>New South Wales</option>
-                  <option>...</option>
+                  <option name="act">Australian Capital Territory</option>
+                  <option name="nsw">New South Wales</option>
+                  <option name="nt">Northern Territory</option>
+                  <option name="qld">Queensland</option>
+                  <option name="sa">South Australia</option>
+                  <option name="tas">Tasmania</option>
+                  <option name="vic">Victoria</option>
+                  <option name="wa">Western Australia</option>
                 </select>
               </div>
               <div class="form-group">
@@ -97,11 +123,22 @@
               <button class="uikit-btn uikit-btn--tertiary small uikit-btn--borderless btnShowTypeAheadAddress">Cancel</button>
             </fieldset>
           </div>
-          <fieldset>
-            <legend>Residential address</legend>
-            <p><label class="uikit-control-input uikit-control-input--full"><input checked class="uikit-control-input__input" name="sameAddress" type="checkbox"> <span class="uikit-control-input__text">Same as postal address</span></label></p>
-          </fieldset>
-
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="pmkeys-question">Is your residential address the same?</label>
+            <div class="radio-toggle">
+              <label class="on label-left" for="residential-yes"><input id="residential-yes" name="residential-address" type="radio"><span>Yes</span></label> <label class="off label-right" for="residential-no"><input id="residential-no" name="residential-address" type="radio"><span>No</span></label>
+            </div>
+          </div>
+          <p class="clickNext" style="display: none; clear: both">Click Next to continue.</p>
+          <div class="typeAheadAddress-residential" style="display: none">
+            <fieldset>
+              <legend>Residential address</legend>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="residential-addressLookup">Starting typing your residential address</label> <input class="uikit-text-input" id="residential-addressLookup" name="residential-addressLookup" type="text" value="">
+              </div>
+              <button class="uikit-btn uikit-btn--tertiary small btnShowFullAddress-residential">Can't find address?</button>
+            </fieldset>
+          </div>
           <div class="pagination">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp; 
             <button class="uikit-btn floated btnNext">Next</button>
@@ -130,6 +167,17 @@
        $(".fullAddress").hide("fast");
        $(".typeAheadAddress").show("fast");
        $(".btnShowFullAddress").show("fast");
+     });
+
+     // Toggle button logic
+     $("#residential-no").click(function() {
+       $(".typeAheadAddress-residential").show("fast");
+       $("#residential-addressLookup").focus();
+       $(".clickNext").hide();
+     });
+     $("#residential-yes").click(function() {
+       $(".typeAheadAddress-residential").hide();
+       $(".clickNext").show("fast");
      });
 
     // Next button
