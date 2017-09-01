@@ -111,6 +111,15 @@ app.get('/index-treatment', function(request, response) {
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
 });
+
+
+/* Separate profile screens */
+app.get('/profile-change-password', function(request, response) {
+  response.render('auth/profile-change-password');
+});
+
+
+/* Old single screen profile */
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
