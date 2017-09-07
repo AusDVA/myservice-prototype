@@ -1,0 +1,257 @@
+/**********************************
+	Sliding panel top appears at the top of the page. It utilises UIKit Accordion and is using the jquery code supplied by UIKit to function and animate.
+
+**********************************/
+// Content:
+// - top panel full-width styling
+// - top panel accordion body styling
+// - top panel accordion button styling
+// - support box styling
+// - trial message styling
+// - responsive styling for top panel accordian and support box
+
+
+// Temporarily wrap everything in body class - to be removed later
+.uikit-refactor {
+
+// Styling for full-width section of top panel
+.accordion-toppanel--wrapper {
+	background-color: #eeeeee;
+	.container {
+		padding-left:0px;
+		padding-right:0px;
+	}
+
+	.uikit-accordion {
+	margin-bottom:0;
+	padding-bottom:0;
+	border:0px;
+	.support-box {
+		padding:0.6em;
+		text-align:left!important;
+	}
+	}
+
+	.uikit-accordion__body-wrapper {
+		border-top:0px;
+		margin:0.5em 0 0 0;
+		padding:0em;
+	}
+
+	.uikit-accordion__title {
+		width:100%;
+		line-height: 0em!important;
+		background:#d2d2d2;
+		float:right;
+		color:#000;
+		font-size:0.8em;
+		&:hover,
+		&:focus {
+			background-color: $uikit-colour-Link !important;
+			color: $uikit-colour-Text !important;
+			text-decoration: none;
+		}
+	}
+
+	.uikit-accordion.accordion-open {
+		.uikit-accordion__body {
+			transition: max-height 0.2s;
+			max-height: 400px;
+		}
+
+		.uikit-accordion__title {
+			transition: width 0.2s;
+			width: 100%;
+		}
+	}
+
+	.uikit-accordion.accordion-closed {
+		.uikit-accordion__body {
+			transition: max-height 0.2s;
+			max-height: 0;
+		}
+
+		.uikit-accordion__title {
+			transition: width 0.2s;
+			width: 100%;
+		}
+
+		.uikit-accordion__title:after {
+			transform: rotateZ(180deg);
+		}
+	}
+
+	.trial-message {
+		font-size:0.8em;
+		padding:0.5em 0 0 0.5em;
+		display:inline-block;
+	}
+
+}
+
+// Counselling and support content styling - Styling needs to stay independant of accordion so it can be used within body of other pages.
+
+.support-box {
+	img {
+		display:none;
+		max-width: 40%;
+		height: auto;
+		padding:1em 0 0 0;
+	}
+	div {
+		min-height:0;
+	}
+	div[class^="col"] {
+		padding-right:0;
+		margin-bottom:1em;
+	}
+}
+
+
+
+/**********************************
+
+	RESPONSIVE STYLING FOR ACCORDIAN AND SUPPORT BOX
+
+**********************************/
+
+@media only screen and (min-width: $small-handheld) {
+	.accordion-toppanel--wrapper{
+		.uikit-accordion.accordion-open {
+			.uikit-accordion__body {
+				max-height:300px;
+			}
+			.uikit-accordion__title {
+				width: 100%;
+			}
+		}
+		.uikit-accordion.accordion-closed {
+			.uikit-accordion__title {
+				width: 100%;
+			}
+		}
+	}
+
+	.uikit-accordion {
+		.uikit-accordion__body-wrapper {
+			margin:0.5em 0 0 0;
+		}
+		.uikit-accordion__title {
+			width:100%;
+			text-align:right;
+		}
+		.support-box {
+			padding:0.6em;
+		}
+	}
+}
+
+@media only screen and (min-width: $medium-handheld) {
+	.accordion-toppanel--wrapper{
+		.uikit-accordion.accordion-open {
+			.uikit-accordion__body {
+				max-height:640px;
+			}
+			.uikit-accordion__title {
+				width: 105px;
+			}
+		}
+		.uikit-accordion.accordion-closed {
+			.uikit-accordion__title {
+				width: 330px;
+			}
+		}
+	}
+	
+	.uikit-accordion {
+		.uikit-accordion__body-wrapper {
+		margin:1em 2em 0 2em;
+		}
+		.uikit-accordion__title {
+			width:100%;
+		}
+		.support-box {
+			padding:0em;
+		}
+	}
+	.support-box {
+		img {
+			display:block;
+			max-width: 30%;
+			height: auto;
+			padding:0 0 0 0;
+		}
+		div {
+			min-height:4em;
+		}
+		div[class^="col"] {
+			padding-right:0;
+			margin-bottom:2em;
+		}
+	}
+}
+
+@media only screen and (min-width: $large-handheld) {
+	
+	.accordion-toppanel--wrapper{
+		.uikit-accordion.accordion-open {
+			.uikit-accordion__body {
+				max-height:500px;
+			}
+		}
+	}
+	
+	.uikit-accordion {
+		.uikit-accordion__title {
+			width:auto;
+		}
+	}
+	.support-box {
+		img {
+			max-width: 60%;
+		}
+		div {
+			min-height:10em;
+		}
+		div[class^="col"] {
+			padding-right:3em;
+		}
+	}
+}
+
+@media only screen and (min-width: $medium-tablet) {
+	.accordion-toppanel--wrapper{
+		.uikit-accordion.accordion-open {
+			.uikit-accordion__body {
+				max-height:275px;
+			}
+		}
+	}
+	
+	.uikit-accordion {
+		.uikit-accordion__body-wrapper {
+			margin:2em 0 0 0;
+		}
+	}
+	.support-box {
+		div[class^="col"] {
+			padding-right:1em;
+		}
+		div {
+			min-height:10em;
+		}
+	}
+}
+
+@media only screen and (min-width: 960px) and (max-width:991px) {
+	.accordion-toppanel--wrapper{
+		.uikit-accordion.accordion-open {
+			.uikit-accordion__body {
+				height:470px!important;
+				max-height:470px!important;
+			}
+		}
+	}
+}
+	
+}

@@ -1,0 +1,248 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		// EJS-side imported ID strings (use the named EJS variables on the relevant file).
+		var modalName = "<%= modalName %>";
+		var triggerName = "<%= triggerName %>";
+		var modalElementPrefix = "<%= modalElementPrefix %>";
+
+		// This list constitutes all focusable items used in all modals that follow this pattern.
+		// Note that order will matter here particularly when looping around. Ensure your modal
+		// matches this order to avoid issues.
+		var focusItems = [
+			modalElementPrefix+'CloseBtn',
+			modalElementPrefix+'Title',
+			modalElementPrefix+'Desc',
+			modalElementPrefix+'YesBtn',
+			modalElementPrefix+'NoBtn',
+			modalElementPrefix+'OkBtn'
+		].filter(function(v) {
+			// Removes any elements that don't exist on the current page.
+			return ($("#"+v).length > 0);
+		});
+
+		// UIKIT apparently handles modal-window based on fragment name on URL
+		var modalIsOpen = (window.location.href.indexOf(modalName) > 0);
+
+		// defining this variable unset until modal is opened (so that callback functions can see it)
+		var previousClickableElement = null;
+
+		// Reusable functions for the modal (using runtime-defined functions to avoid definition order issues)
+
+		// Will return -1 if the currently focused item ID isn't on the focusItems list.
+		// This will ensure elements stay on the loop.
+		var getFocusedItemIndex = function(currItem) {
+			var curFocusedItem = (currItem == null) ? $(document.activeElement) : currItem;
+			return focusItems.indexOf(curFocusedItem.attr('id'));
+		};
+
+		var handleBlurOnOpenModal = function() {
+			if (getFocusedItemIndex() == -1) {
+				doDefaultFocusItem();
+			}
+		}
+
+		// Workaround handler where default focus is NOT on the modal for whatever reason
+		var handleGlobalKbd = function(evt) {
+			if (modalIsOpen == true) {
+				if (evt.key == 'Escape') {
+					handleEscape(evt);
+				} else if (evt.key == 'Tab') {
+					// after processing everything, check that current focused item is
+					// not within modal.
+					if (getFocusedItemIndex($(document.activeElement)) == -1) {
+						doDefaultFocusItem();
+					}
+				}
+			} else {
+				// remove this binding where it isn't open (shouldn't happen but just in case.)
+				$(document).unbind('keydown', handleGlobalKbd);
+			}
+		};
+
+		var handleBrowserFocusIn = function(evt) {
+			if (modalIsOpen) {
+				if (getFocusedItemIndex($(evt.target)) == -1) {
+					console.log('boom');
+					doDefaultFocusItem();
+					evt.stopPropagation();
+				}
+			} else {
+				$(window).unbind('focus', handleBrowserFocusIn);
+			}
+		}
+
+		// Default focus action
+		var doDefaultFocusItem = function() {
+			// ideally we want to focus on title but tabindex is apparently bad practice. see:
+			// https://stackoverflow.com/questions/40128504/nvda-screen-reader-reads-clickable-word-on-text
+			//var defaultItem = $("#"+modalElementPrefix+"Title");
+			// so instead we'll use one of the buttons for now. this can change if you wish.
+			var defaultItem = $("#"+modalElementPrefix+"CloseBtn");
+
+			setTimeout(function() {
+				defaultItem.focus();
+			}, 25);
+		};
+
+		// Action to trigger when escape key is used.
+		var handleEscape = function(evt) {
+			setTimeout(function() {
+				$("#"+modalElementPrefix+"CloseBtn").click();
+			});
+			evt.stopPropagation();
+		};
+
+		// Handler that executes whenever the modal appears.
+		var enableModal = function(evt, previousButton) {
+			// Will default to a given input trigger's ID name before
+			// showing the modal.
+			previousClickableElement = (previousButton == null)
+				? $("#"+triggerName)
+				: previousButton;
+
+			// Unhide the modal context according to ARIA.
+			$("#"+modalName).attr('aria-hidden', false);
+
+			// Needed to handle ESC key in edge cases where the modal is not focused.
+			modalIsOpen = true;
+			$(document).keydown(handleGlobalKbd);
+
+			// Needed in case tab selection from browser window to document
+			// starts going through the DOM with the modal open.
+			$(window).focus(handleBrowserFocusIn);
+
+			doDefaultFocusItem();
+
+			// disable body scroll bar.
+			$("body").css('overflow', 'hidden');
+		};
+
+		var closeModal = function(evt) {
+			window.location.href = '#close-modal';
+
+			// restore focus on last selected element before showing modal.
+			setTimeout(function() {
+				// test if browser successfully goes back to the trigger by default
+				// else focus manually.
+
+				if (previousClickableElement[0] != document.activeElement) {
+					previousClickableElement.focus();
+					//previousClickableElement.blur();
+				}
+			});
+
+			// Remove workaround binding for background close modal.
+			modalIsOpen = false;
+			$(document).unbind('keydown', handleGlobalKbd);
+
+			// hides the current modal on the DOM according to ARIA
+			$("#"+modalName).attr('aria-hidden', true);
+
+			// re-enables body scroll bar
+			$("body").css('overflow', 'auto');
+			evt.preventDefault();
+		};
+
+		var focusOnFirstModalItem = function() {
+			$("#"+focusItems[0]).focus();
+		};
+
+		var focusOnLastModalItem = function() {
+			$("#"+focusItems[focusItems.length - 1]).focus();
+		};
+
+		// Logic for enforcing modal loop to prevent background tabbing.
+		var loopTabWhenOpen = function(evt) {
+			var focusItemIndex = getFocusedItemIndex();
+
+			if (evt.shiftKey) {
+				// Back tab nav
+				if (focusItemIndex == 0 || focusItemIndex == -1) {
+					$("#" + focusItems[(focusItems.length - 1)]).focus();
+					evt.preventDefault();
+				}
+			} else {
+				// Forward tab nav
+				if (focusItemIndex == (focusItems.length - 1) || focusItemIndex == -1) {
+					$("#" + focusItems[0]).focus();
+					evt.preventDefault();
+				}
+			}
+		};
+
+		// Javascript/jQuery stuff happens below from here.
+
+		// While UIKIT has its own behaviour for the modal style based on URL fragment,
+		// this is so that the JS accessibility/usability logic on this script is used.
+		$('#'+triggerName).click(enableModal);
+
+		// Close modal handler for Yes, No and Close buttons.
+		$("#"+modalElementPrefix+"CloseBtn").click(closeModal);
+		$("#"+modalElementPrefix+"YesBtn").click(closeModal);
+		$("#"+modalElementPrefix+"NoBtn").click(closeModal);
+		$("#"+modalElementPrefix+"OkBtn").click(closeModal);
+
+		// Where the BACKGROUND overlay OUTSIDE the modal is clicked, replicate the
+		// close function as if the user clicked the close button.
+		$("#"+modalName).click(function(evt) {
+			$("#"+modalElementPrefix+"CloseBtn").click();
+			evt.stopPropagation();
+
+		// below is needed to prevent unwanted close triggers INSIDE the modal.
+		}).children().click(function(evt) {
+			return false;
+		});
+
+		// Keyboard hooks for supporting
+		$("#"+modalName).keydown(function(evt) {
+			switch (evt.key.toLowerCase()) {
+				case "esc": // IE uses this key name
+				case "escape": handleEscape(evt);
+					break;
+
+				// tab focus handling
+				case "tab": loopTabWhenOpen(evt);
+					break;
+				// force click event for current focused element
+				case "enter":
+					setTimeout(function() { $(evt.target).click();});
+					break;
+
+				// in case NVDA or another screen reader goes beyond the loop
+				// when hooking arrow input behaviour to choose next input element.
+				case "arrowup":
+				case "arrowleft":
+					var focusedItemIndex = getFocusedItemIndex();
+					if (focusedItemIndex == -1) {
+						// in those cases, just force it to the close button.
+						focusOnFirstModalItem();
+						evt.stopPropagation();
+					}
+
+					// else use default browser behaviour in this instance.
+					break;
+
+				case "arrowdown":
+				case "arrowright":
+					var focusedItemIndex = getFocusedItemIndex();
+					if (focusedItemIndex == -1) {
+						// in those cases, just force it to the close button.
+						focusOnLastModalItem();
+						evt.stopPropagation();
+					}
+
+					// else use default browser behaviour in this instance.
+					break;
+			}
+		});
+
+		$("#"+modalName).blur(handleBlurOnOpenModal);
+
+		// For prototype purposes - where modal is opened by URL fragment,
+		// ensure script is ready to handle this too.
+		if (modalIsOpen) {
+			enableModal(null, $("#"+triggerName));
+		}
+	});
+
+</script>

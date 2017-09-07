@@ -10,8 +10,30 @@ app.use(express.static(__dirname));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
-
 /*
+/**
+Emails 
+*/
+app.get('/email-rego-success', function(request, response) {
+  response.render('email/pages/email-rego-success');
+});
+app.get('/email-rego-fail-1', function(request, response) {
+  response.render('email/pages/email-rego-fail-1');
+});
+app.get('/email-rego-fail-2', function(request, response) {
+  response.render('email/pages/email-rego-fail-2');
+});
+app.get('/email-rego-fail-3', function(request, response) {
+  response.render('email/pages/email-rego-fail-3');
+});
+app.get('/email-claim-submitted', function(request, response) {
+  response.render('email/pages/email-claim-submitted');
+});
+app.get('/email-verification-code', function(request, response) {
+  response.render('email/pages/email-verification-code');
+});
+
+/**
 Unauthenticated space
 */
 
@@ -123,6 +145,9 @@ app.get('/forgot-password-step4', function(request, response) {
 app.get('/system-error', function(request, response) {
   response.render('unauth/system-error');
 });
+app.get('/timeout', function(request, response) {
+  response.render('unauth/timeout');
+});
 
 /**
   Authenticated space
@@ -139,14 +164,32 @@ app.get('/index-flexbox', function(request, response) {
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
 });
+
+
+/* Separate profile screens */
+app.get('/profile-change-password', function(request, response) {
+  response.render('auth/profile-change-password');
+});
+
+
+/* Old single screen profile */
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
+});
+app.get('/profile-password', function(request, response) {
+  response.render('auth/profile-password');
 });
 app.get('/profile-updated', function(request, response) {
   response.render('auth/profile-updated');
 });
 app.get('/password-updated', function(request, response) {
   response.render('auth/index-password-updated');
+});
+app.get('/change-password', function(request, response) {
+  response.render('auth/change-password');
+});
+app.get('/profile-password-updated', function(request, response) {
+  response.render('auth/profile-password-updated');
 });
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
@@ -165,6 +208,9 @@ app.get('/cover-step2', function(request, response) {
 });
 app.get('/cover-step3', function(request, response) {
   response.render('auth/cover/pages/cover-step3');
+});
+app.get('/cover-step3-sop', function(request, response) {
+  response.render('auth/cover/pages/cover-step3-sop');
 });
 app.get('/cover-step4', function(request, response) {
   response.render('auth/cover/pages/cover-step4');

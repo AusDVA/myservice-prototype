@@ -3,8 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Add cover: Supporting documents | MyService</title>
+  <title>Supporting documents | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
+  <script src="/docs/js/main.js"></script>
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
@@ -16,97 +18,56 @@
 
     <div class="container" id="main-content">
     <% include ../partials/progress-bar.ejs %>
- 
-	<h1>Multiple conditions</h1>
-    
+		<h1>Supporting documents</h1>
     <fieldset>
-      <legend>Did you want to tell us about another condition?</legend>
-      
-      <div class="radio-toggle">
-        <label class="on label-left" for="multiple-condition-yes"><input id="multiple-condition-yes" type="radio" name="dva-multiple-condition"><span>Yes</span></label>
-        <label class="off label-right" for="multiple-condition-no"><input id="multiple-condition-no" type="radio" name="dva-multiple-condition"><span>No</span></label>
+      <legend>Provide a brief description of what led to your condition. (optional)</legend>
+      <div class="form-group">
+        <label class="uikit-text-input__label" for="textArea"><span class="hint">Telling us what led to your condition is optional, but it may help us assess your claim.</span></label>
+        <textarea id="textArea" name="statementText" rows="5"></textarea>
       </div>
-      </fieldset>
-      
-      <div id="yes-helptext" style="display:none;">
-      <fieldset>
-		<legend>What is your condition?</legend>
-		<div class="form-group">
-			<label class="uikit-text-input__label" for="type-diagnosis"><span class="hint">Example: 'Acute meniscal tear of the knee'.</span></label>
-			<input class="uikit-text-input" name="type-diagnosis" id="type-diagnosis" type="text" value="">
-		</div>
-		</fieldset>
-		
-		<div id="date-of-onset" style="display:none;">
-		<hr>
-		<fieldset>
-		  <legend>Approximately when did it happen, or when did it start happening?</legend>
-		  <div class="form-group">
-			<label class="uikit-text-input__label" for="dd"><span class="hint">If you do not know the exact date, enter the approximate month and year – MM / YYYY</span></label>
-			<input class="uikit-text-input dd" type="text" name="dd" id="dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-			<input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-			<input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
-		  </div>
-		</fieldset>
-     	</div>
-      </div>
-      
-      <div id="no-helptext" style="display:none;">
-      <p>You can come back at any time to make additional claims.</p>
-      </div>
+    </fieldset>
 
-	<div class="pagination">
+    <fieldset>
+      <legend>Upload other documents that support the link between your service and your condition. (optional)</legend>
+      <p>Providing supporting documents is optional but may help us assess your claim.</p>
+      <p>Supporting documents may include:</p>
+        <ul>
+          <li>incident report (Sentinel report)</li>
+          <li>Authority to Participate in Civilian Sport</li>
+          <li>Hazardous Material Exposure Report</li>
+          <li>training programs/itineraries</li>
+        </ul>
+        <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+      <p><button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button></p>
+        <table class="document-uploads">
+          <tr>
+            <th>Document title</th>
+            <th class="centred">Actions</th>
+          </tr>
+          <tr>
+            <td>GP-Report-20170601.doc</td>
+            <td class="centred"><a href="#open-removeSupportingFile-modal" class="uikit-btn uikit-btn--tertiary small btnDelete" title="Remove this document from your request for cover" id="coverRemoveFileBtn">Remove</a></td>
+          </tr>
+        </table>
+      </fieldset>
+
+		  <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/cover-step2'" title="Go to the previous Add Cover page">Previous</button>&nbsp;
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Save and exit</button>&nbsp;
-		<button class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-modal'" title="Cancel the request for cover">Cancel</button>&nbsp;
-        <button class="uikit-btn floated btnNext" title="Save and go to the next Add Cover page">Save and next</button>
- 	</div>
+			  <button id="coverCancelBtn" class="uikit-btn uikit-btn--borderless" onclick="window.location.href = '#open-cancel-modal'" title="Cancel the request for cover">Cancel</button>&nbsp;
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = '/cover-step4'" title="Save and go to the next Add Cover page">Save and next</button>
+      </div>
 
-      <% include ../partials/removefile-modal.ejs %>
+      <% include ../partials/removeSupportingFile-modal.ejs %>
       <% include ../partials/cancel-modal.ejs %>
 
     </div>
   </main>
-  
-  <script src="/docs/js/jquery-3.2.1.min.js"></script>
-  <script src="/docs/js/main.js"></script>
-  
   <% include ../../../global/partials/footer.ejs %>
   <% include ../partials/panel-help.ejs %>
 
-
   <script>
     document.getElementById("percentage").style.width = "50%";
-	
-	// Condition name show/hide  
-	$( "#multiple-condition-yes" ).click(function() {
-	  $( "#yes-helptext" ).show("fast");
-	  $( "#no-helptext" ).hide("fast");
-	});
-	$( "#multiple-condition-no" ).click(function() {
-	  $( "#no-helptext" ).show("fast");
-	  $( "#yes-helptext" ).hide("fast");
-	});	
-	  
-	// Date of onset show/hide  
-    $(document).ready(function(e) {
-		$('input[name=type-diagnosis]').keyup(function(){
-		if($(this).val().length)
-		$('#date-of-onset').show();
-			else
-			$('#date-of-onset').hide();
-		});
-	});
-	  
-	// Navigation button logic
-    $('.btnNext').click(function() {
-        if ($('#multiple-condition-yes').is(':checked')) {
-            window.location = '/cover-step2';
-        } else {
-            window.location = '/cover-step4';
-        }
-    });
-	  
   </script>
 </body>
 </html>
