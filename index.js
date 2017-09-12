@@ -237,6 +237,25 @@ app.get('/cover-nlhc-step4', function(request, response) {
   response.render('auth/cover/pages/cover-nlhc-step4');
 });
 
+/* Broadened claim flow */
+app.get('/claim1', function(request, response) {
+  response.render('auth/claim/pages/claim1');
+});
+app.get('/claim2', function(request, response) {
+  response.render('auth/claim/pages/claim2');
+});
+app.get('/claim3', function(request, response) {
+  response.render('auth/claim/pages/claim3');
+});
+app.get('/claim4', function(request, response) {
+  response.render('auth/claim/pages/claim4');
+});
+app.get('/claim5', function(request, response) {
+  response.render('auth/claim/pages/claim5');
+});
+
+
+/* Older claim flow */
 app.get('/claim-step1', function(request, response) {
   response.render('auth/claim/pages/claim-step1');
 });
