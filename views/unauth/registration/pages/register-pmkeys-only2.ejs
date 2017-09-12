@@ -24,20 +24,22 @@
         <div class="col-sm-12">
 
           <fieldset>
-            <legend>Proof of identity</legend>
             <div class="form-group">
-              <label class="uikit-text-input__label">Have you registered a change of name?</label>
+              <label class="uikit-text-input__label">Have you legally changed your name since discharging from the ADF?<!--<span class="hint display-block">For example, did you take your spouses' name after you got married?</span>--></label>
               <div class="radio-toggle">
                 <label class="on label-left" for="namechange-yes"><input id="namechange-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
                 <label class="off label-right" for="namechange-no"><input id="namechange-no" name="namechange-yes" type="radio"><span>No</span></label>
               </div>
             </div>
+            </fieldset>
 
-
+<!-- No name change flow -->
+           			
             <div class="poiOptions clearboth" style="display: none; clear: both">
+             <legend>Proof of identity</legend>
               <label class="uikit-text-input__label" for="idtype">Register using</label>
               <select class="uikit-text-input" name="idtype" id="idtype" type="text" value="">
-                <option selected>-- Select a form of identification --</option>
+                <option value=0 selected>-- Select a form of identification --</option>
                 <option value="id01">Australian driver licence</option>
                 <option value="id03">Australian passport</option>
                 <option value="id06">Australian birth certificate</option>
@@ -45,7 +47,7 @@
                 <option value="id07">Australian marriage certificate</option>
                 <option value="id05">Certificate of Australian citizenship</option>
               </select>
-            </fieldset>
+            
 
             <!-- Driver Licence -->
             <fieldset class="id-types id-licence" style="display: none">
@@ -127,34 +129,6 @@
               </div>
             </fieldset>
 
-            <!-- Marriage certificate -->
-            <fieldset class="id-types id-marriage" style="display: none">
-              <legend>Australian marriage certificate</legend>
-              <div class="uikit-page-alerts" role="alert">
-                <p><strong>At least two of the following fields are required.</strong></p>
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="marriage-registration">Registration number</label>
-                <input class="uikit-text-input input-half" name="marriage-registration" id="marriage-registration" type="text" value="">
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="marriage-registration-dd">Registration issue date <span class="hint">(DD / MM / YYYY)</span></label>
-                <input class="uikit-text-input dd marriage-registration-dd" type="text" name="marriage-registration-dd" id="marriage-registration-dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm marriage-registration-mm" type="text" name="marriage-registration-mm" id="marriage-registration-mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy marriage-registration-yyyy" type="text" name="marriage-registration-yyyy" id="marriage-registration-yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="marriage-certificate">Certificate number</label>
-                <input class="uikit-text-input input-half" name="marriage-certificate" id="marriage-certificate" type="text" value="">
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="marriage-certificate-dd">Certificate issue date <span class="hint">(DD / MM / YYYY)</span></label>
-                <input class="uikit-text-input dd marriage-certificate-dd" type="text" name="marriage-certificate-dd" id="marriage-certificate-dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm marriage-certificate-mm" type="text" name="marriage-certificate-mm" id="marriage-certificate-mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy marriage-certificate-yyyy" type="text" name="marriage-certificate-yyyy" id="marriage-certificate-yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </div>
-            </fieldset>
-
             <!-- Certificate of citizenship -->
             <fieldset class="id-types id-citizenship" style="display: none">
               <legend>Certificate of Australian citizenship</legend>
@@ -171,54 +145,73 @@
             </fieldset>
           </div>
 
-          <div class="nameChangeFields" style="display: none">
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="nameChangeState">In which state or territory did you register your change of name?</label> 
-              <select class="uikit-text-input input-half" id="nameChangeState" name="nameChangeState" required aria-required="true">
-                <option selected>-- Select state or territory --</option>
-                <option value="act">Australian Capital Territory</option>
-                <option value="nsw">New South Wales</option>
-                <option value="nt">Northern Territory</option>
-                <option value="qld">Queensland</option>
-                <option value="sa">South Australia</option>
-                <option value="tas">Tasmania</option>
-                <option value="vic">Victoria</option>
-                <option value="wa">Western Australia</option>
-              </select>
-            </div>
+<!-- Yes name change flow -->
+		
+			<!-- POI Options -->
+			<div class="namechange-poiOptions clearboth" style="display: none; clear: both">
+				 <legend>Proof of identity</legend>
+				  <label class="uikit-text-input__label" for="name-idtype">Register using</label>
+				  <select class="uikit-text-input" name="name-idtype" id="name-idtype" type="text" value="">
+					<option value=0 selected>-- Select a form of identification --</option>
+					<option value="id08">Australian marriage certificate</option>
+					<option value="id09">Change of name certificate</option>
+				  </select>
+			</div>
+			
+			<!-- Marriage Certificate-->
+			<% include ../partials/poi-marriage-certificate.ejs %>
 
-            <div class="form-group nameChangeCoverage" style="display: none;">
-              <label class="uikit-text-input__label">Did you change your name after <span id="nameChangeDate"></span>?</label>
-              <div class="radio-toggle">
-                <label class="on label-left" for="nameChangeCoverage-yes"><input id="nameChangeCoverage-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
-                <label class="off label-right" for="nameChangeCoverage-no"><input id="nameChangeCoverage-no" name="namechange-yes" type="radio"><span>No</span></label>
-              </div>
-            </div>
-          </div>
+			<!-- Change of Name Certificate -->
+          	<div class="nameChangeFields" style="display: none">
+				<div class="form-group">
+					<label class="uikit-text-input__label" for="nameChangeState">In which state or territory did you register your change of name?</label> 
+					<select class="uikit-text-input input-half" id="nameChangeState" name="nameChangeState" required aria-required="true">
+						<option selected>-- Select state or territory --</option>
+						<option value="act">Australian Capital Territory</option>
+						<option value="nsw">New South Wales</option>
+						<option value="nt">Northern Territory</option>
+						<option value="qld">Queensland</option>
+						<option value="sa">South Australia</option>
+						<option value="tas">Tasmania</option>
+						<option value="vic">Victoria</option>
+						<option value="wa">Western Australia</option>
+					</select>
+				</div>
+				<div class="form-group nameChangeCoverage" style="display: none;">
+					<label class="uikit-text-input__label">Did you change your name after <span id="nameChangeDate"></span>?<span class="hint display-block">If you changed your name before this date, you need to upload a copy of your certificate.</span></label>
+					<div class="radio-toggle">
+						<label class="on label-left" for="nameChangeCoverage-yes"><input id="nameChangeCoverage-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
+						<label class="off label-right" for="nameChangeCoverage-no"><input id="nameChangeCoverage-no" name="namechange-yes" type="radio"><span>No</span></label>
+					</div>
+				</div>
+				<div class="form-group customNameChangeFields" style="display: none;">
+					<p>Relevant form fields for S&T</p>
+				</div>
+				<div class="form-group nameChangeFail" style="display: none;">
+					<p>Upload document</p>
+				</div>
+			</div>
+					
+<!-- END FORM -->
 
-          <div class="form-group customNameChangeFields" style="display: none;">
-            <p>Relevant form fields for S&T</p>
-          </div>
+		</div>
+	</div>
 
-          <div class="form-group nameChangeFail" style="display: none;">
-            <p>Alternate flow (either enter phone for call back or expose support details).</p>
-          </div>
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="pagination">
+				<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register-pmkeys-only1'">Previous</button>&nbsp; 
+				<button class="uikit-btn floated btnNext" onclick="window.location.href = '/register-pmkeys-only3'">Next</button>
+			</div>
+		</div>
+	</div>
 
-
-          </div>
-
-          <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register-pmkeys-only1'">Previous</button>&nbsp; 
-            <button class="uikit-btn floated btnNext" onclick="window.location.href = '/register-pmkeys-only3'">Next</button>
-          </div>
-
-        </div>
-
-      </div>
-
-    </div>
+  </div>
   </main>
+  
+  <% include ../../../auth/cover/partials/removefile-modal.ejs %>
   <% include ../../../global/partials/footer.ejs %>
+  
   <script src="/docs/js/jquery-effects.js"></script>
   <script src="/docs/js/main.js"></script>
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
@@ -226,7 +219,20 @@
     // Progress percentage
     document.getElementById("percentage").style.width = "50%";
 
-    // Choose POI fieldset
+	// Name change question logic
+    $("#namechange-yes").click(function() {
+    	$(".namechange-poiOptions").show("fast");
+    	$(".poiOptions").hide("fast");
+		$('#name-idtype').val(0);
+    });
+    $("#namechange-no").click(function() {
+    	$(".namechange-poiOptions").hide("fast");
+    	$(".poiOptions").show("fast");
+		$(".id-marriage").hide("fast");
+		$('#idtype').val(0);
+    });
+	  
+    // Choose POI fieldset for those who haven't changed their name
     var IdType = jQuery('#idtype');
     var select = this.value;
     IdType.change(function () {
@@ -264,16 +270,29 @@
         }
     });
 
-     // If name change within coverage
-     $("#nameChangeCoverage-yes").click(function() {
-       $(".customNameChangeFields").show("fast");
-       $(".nameChangeFail").hide("fast");
-     });
-     $("#nameChangeCoverage-no").click(function() {
-       $(".customNameChangeFields").hide("fast");
-       $(".nameChangeFail").show("fast");
-     });
+	// Choose POI fieldset for those who HAVE changed their name
+    var NameIdType = jQuery('#name-idtype');
+    var select = this.value;
+    NameIdType.change(function () {
 
+		if ($(this).val() == 'id08') {
+            $('.name-id-types').hide();
+            $('.id-marriage').show();
+			$('.nameChangeFields').hide();
+			$('#marriednameState').val(0);
+        }
+		if ($(this).val() == 'id09') {
+            $('.name-id-types').hide();
+			$('.id-marriage').hide();
+            $('.nameChangeFields').show();
+        }
+    });
+	  
+	  
+
+	
+		
+		
     // Select state for name change
     var NameChangeState = jQuery('#nameChangeState');
     var selectNameChangeState = this.value;
@@ -312,17 +331,18 @@
         }
     });
 
+	// If name change within coverage
+	$("#nameChangeCoverage-yes").click(function() {
+		$(".customNameChangeFields").show("fast");
+		$(".nameChangeFail").hide("fast");
+	});
+	$("#nameChangeCoverage-no").click(function() {
+		$(".customNameChangeFields").hide("fast");
+		$(".nameChangeFail").show("fast");
+	});
+	  
 
-    // Toggle button logic
-    $("#namechange-yes").click(function() {
-      $(".nameChangeFields").show("fast");
-      $(".poiOptions").hide("fast");
-    });
-    $("#namechange-no").click(function() {
-      $(".nameChangeFields").hide("fast");
-      $(".poiOptions").show("fast");
-    });
-
+	  
     // Prefill
     $(".first-name").val(localStorage.firstName);
     $(".middle-name").val(localStorage.middleName);
