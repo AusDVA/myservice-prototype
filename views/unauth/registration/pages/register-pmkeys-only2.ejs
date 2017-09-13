@@ -162,35 +162,7 @@
 			<% include ../partials/poi-marriage-certificate.ejs %>
 
 			<!-- Change of Name Certificate -->
-          	<div class="nameChangeFields" style="display: none">
-				<div class="form-group">
-					<label class="uikit-text-input__label" for="nameChangeState">Which state or territory did you register your change of name?</label> 
-					<select class="uikit-text-input input-half" id="nameChangeState" name="nameChangeState" required aria-required="true">
-						<option selected>-- Select state or territory --</option>
-						<option value="act">Australian Capital Territory</option>
-						<option value="nsw">New South Wales</option>
-						<option value="nt">Northern Territory</option>
-						<option value="qld">Queensland</option>
-						<option value="sa">South Australia</option>
-						<option value="tas">Tasmania</option>
-						<option value="vic">Victoria</option>
-						<option value="wa">Western Australia</option>
-					</select>
-				</div>
-				<div class="form-group nameChangeCoverage" style="display: none;">
-					<label class="uikit-text-input__label">Did you change your name after <span id="nameChangeDate"></span>?<span class="hint display-block">If you changed your name before this date, you need to upload a copy of your certificate.</span></label>
-					<div class="radio-toggle">
-						<label class="on label-left" for="nameChangeCoverage-yes"><input id="nameChangeCoverage-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
-						<label class="off label-right" for="nameChangeCoverage-no"><input id="nameChangeCoverage-no" name="namechange-yes" type="radio"><span>No</span></label>
-					</div>
-				</div>
-				<div class="form-group customNameChangeFields" style="display: none;">
-					<p>Relevant form fields for S&T</p>
-				</div>
-				<div class="form-group nameChangeFail" style="display: none;">
-					<p>Upload document</p>
-				</div>
-			</div>
+          	<% include ../partials/poi-change-of-name.ejs %>
 					
 <!-- END FORM -->
 
@@ -277,69 +249,19 @@
 
 		if ($(this).val() == 'id08') {
             $('.name-id-types').hide();
+			$('.id-changename').hide();
             $('.id-marriage').show();
-			$('.nameChangeFields').hide();
+			$('.changenameFields').hide();
 			$('#marriednameState').val(0);
         }
 		if ($(this).val() == 'id09') {
             $('.name-id-types').hide();
 			$('.id-marriage').hide();
-            $('.nameChangeFields').show();
+			$('.id-changename').show();
+			$('.marriageFields').hide();
+			$('#changenameState').val(0);
         }
     });
-	  
-	  
-
-	
-		
-		
-    // Select state for name change
-    var NameChangeState = jQuery('#nameChangeState');
-    var selectNameChangeState = this.value;
-    NameChangeState.change(function () {
-        if ($(this).val() == 'act') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("1930");
-        }
-        if ($(this).val() == 'nsw') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("April 1996");
-        }
-        if ($(this).val() == 'vic') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("1986");
-        }
-        if ($(this).val() == 'qld') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("2 February 2004");
-        }
-        if ($(this).val() == 'wa') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("26 November 2001");
-        }
-        if ($(this).val() == 'sa') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("1990");
-        }
-        if ($(this).val() == 'tas') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("November 2000");
-        }
-        if ($(this).val() == 'nt') {
-            $('.nameChangeCoverage').show();
-            $("#nameChangeDate").text("1987");
-        }
-    });
-
-	// If name change within coverage
-	$("#nameChangeCoverage-yes").click(function() {
-		$(".customNameChangeFields").show("fast");
-		$(".nameChangeFail").hide("fast");
-	});
-	$("#nameChangeCoverage-no").click(function() {
-		$(".customNameChangeFields").hide("fast");
-		$(".nameChangeFail").show("fast");
-	});
 	  
 
 	  
