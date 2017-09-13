@@ -257,6 +257,14 @@ app.get('/claim6', function(request, response) {
   response.render('auth/claim/pages/claim6');
 });
 
+/* Mental health treatment path */
+app.get('/health-card1', function(request, response) {
+  response.render('auth/claim/pages/health-card1');
+});
+app.get('/health-card2', function(request, response) {
+  response.render('auth/claim/pages/health-card2');
+});
+
 
 /* Older claim flow */
 app.get('/claim-step1', function(request, response) {
