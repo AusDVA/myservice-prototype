@@ -170,6 +170,9 @@ app.get('/index-preloader', function(request, response) {
 app.get('/profile-change-password', function(request, response) {
   response.render('auth/profile-change-password');
 });
+app.get('/profile-change-email', function(request, response) {
+  response.render('auth/profile-change-email');
+});
 
 
 /* Old single screen profile */
