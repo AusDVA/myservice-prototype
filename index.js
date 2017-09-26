@@ -241,6 +241,9 @@ app.get('/cover-nlhc-step4', function(request, response) {
 });
 
 /* Broadened claim flow */
+app.get('/claim0', function(request, response) {
+  response.render('auth/claim/pages/claim0');
+});
 app.get('/claim1', function(request, response) {
   response.render('auth/claim/pages/claim1');
 });

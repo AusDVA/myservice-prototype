@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Add claim: Diagnosis | MyService</title>
+  <link href="docs/css/main.css" rel="stylesheet">
+</head>
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
+  <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
+  <% include ../../../global/partials/header-version.ejs %>
+  <% include ../../header-authenticated.ejs %>
+  <% include ../partials/help-button.ejs %>
+  <main> 
+    <div class="container" id="main-content">
+      <div id="progressbar">
+        <div id="percentage"></div>
+      </div>
+      <h1>Getting started</span></h1>
+      <p>All fields are required unless marked (optional).</p>
+ 	
+      <fieldset>
+        <legend class="legend-label">Would you prefer us to contact another person about your claim?</legend>
+        <p>For example, this could be a family member or an advocate looking after your claim. If you choose yes, we will call you to make arrangements.</p>
+        <div class="radio-toggle">
+          <label class="on label-left" for="nominee-yes"><input id="nominee-yes" type="radio" name="nominee"><span>Yes</span></label>
+          <label class="off label-right" for="nominee-no"><input id="nominee-no" type="radio" name="nominee"><span>No</span></label>
+        </div>
+      </fieldset>
+
+      <div class="nominee-details" style="display:none;">
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="nominee-name">Contact's name <span class="hint display-block">Given name and surname</span></label>
+          <input class="uikit-text-input" name="nominee-name" id="nominee-name" type="text" value="">
+        </div>
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="nominee-number">Contact's phone number <span class="hint display-block">Home phone or mobile</span></label>
+          <input class="uikit-text-input input-half" name="nominee-number" id="nominee-number" type="text" value="">
+        </div>
+      </div>
+
+      <div class="click-next" style="display:none;">
+        <p>Click <strong>Save and next</strong> to continue.</p>
+      </div>
+
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'" disabled>Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>
+        <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim1'">Save</button>&nbsp;
+            <button class="uikit-btn btnNext" onclick="window.location.href = '/claim1'">Save and next</button>
+        </div>
+      </div>
+      <% include ../partials/cancel-modal.ejs %>
+    </div>
+  </main>
+  
+  <script src="/docs/js/main.js"></script>
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
+  
+  <% include ../../../global/partials/footer.ejs %>
+  <% include ../partials/panel-help.ejs %>
+
+	<script>
+	
+	// Progress percentage
+    document.getElementById("percentage").style.width = "10%";
+		
+	$("#nominee-yes").click(function() {
+    $( ".nominee-details" ).show("fast");
+    $( ".click-next" ).hide();
+  });
+  $("#nominee-no").click(function() {
+    $( ".nominee-details" ).hide();
+    $( ".click-next" ).show("fast");
+  });
+
+	$( "#doctor-no" ).click(function() {
+		sessionStorage.setItem('nodiagnosis',true);
+    	$( "#condition" ).show("fast");
+		$( "#diagnosis" ).hide();
+  	});
+	$( "#doctor-yes" ).click(function() {
+		sessionStorage.setItem('yesdiagnosis',true);
+		$( "#diagnosis" ).show("fast");
+    	$( "#condition" ).hide();
+  	});
+		
+	</script>
+
+</body>
+</html>
