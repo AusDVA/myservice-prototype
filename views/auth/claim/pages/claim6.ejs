@@ -20,14 +20,37 @@
     <h1><img src="../../../docs/images/ico-tick-green.svg" alt="Success tick icon"> Submitted</h1>
     <div class="timebox--wrapper">
         <img src="../../../docs/images/ico-phone-blue.svg" alt="Phone icon">
-        <p>We will contact you within 7 days to discuss how we can help you.</p>
+        <p><strong>We will contact you within 7 days to discuss how we can help you.</strong></p>
+        <p class="nominee-intro">Optionally, you can <a href="#" id="nominee-yes">nominate another person</a> to access your claim (for example, a family member or advocate).</p>
+        <div class="nominee-details-container" style="display:none;">
+            <div class="nominee-details">
+                <div class="form-group">
+                  <label class="uikit-text-input__label" for="nominee-name">Nominee's full name</label>
+                  <input class="uikit-text-input input-half" name="nominee-name" id="nominee-name" type="text" value="">
+                </div>
+                <div class="form-group">
+                  <label class="uikit-text-input__label" for="nominee-number">Nominee's phone number</label>
+                  <input class="uikit-text-input input-half" name="nominee-number" id="nominee-number" type="text" value="">
+                </div>
+                <button class="uikit-btn small nominee-save">Save nominee</button>
+            </div>
+            <div class="uikit-page-alerts--success toast-saved" style="display:none;">
+                <div class="container">
+                  <div class="uikit-page-alerts uikit-page-alerts--success" role="alert">
+                    <a href="#" class="message-close">Dismiss</a>
+                    <p><strong>Nominee saved</strong></p>
+                    <p>Claim details are available on your <a href="index-claims">home page</a>.</p>
+                  </div>
+                </div>
+            </div>
+        </div>
     </div>
     <% include ../../../global/partials/five-star-rating-component.ejs %>        
 
     <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim1'" title="Go to the Add Cover page">Add more cover</button>&nbsp;
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/profile'" title="Go to the My Profile page">Update profile</button>&nbsp;
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'" title="Go to the MyService home page">Back to home</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'" title="Go to the MyService home page">Back to home</button>
     </div>
     </div>
 
@@ -44,6 +67,17 @@
 	// Progress percentage
     document.getElementById("percentage").style.width = "100%";
 	
+    $("#nominee-yes").click(function() {
+      $( ".nominee-details-container" ).show("fast");
+    });
+    $(".nominee-save").click(function() {
+      $( ".nominee-details" ).hide();
+      $( ".toast-saved" ).show("fast");
+      $(".nominee-intro").hide("fast");
+    });
+    $( ".message-close" ).click(function() {
+      $(".nominee-details-container").hide("fast");
+    });
 	</script>
 
 </body>
