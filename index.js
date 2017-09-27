@@ -173,8 +173,19 @@ app.get('/index-preloader', function(request, response) {
 app.get('/profile-change-password', function(request, response) {
   response.render('auth/profile-change-password');
 });
-app.get('/profile-change-email', function(request, response) {
-  response.render('auth/profile-change-email');
+
+/* Change email flow */
+app.get('/change-email-poi', function(request, response) {
+  response.render('auth/change-email-poi');
+});
+app.get('/change-email', function(request, response) {
+  response.render('auth/change-email');
+});
+app.get('/change-email-enter-code', function(request, response) {
+  response.render('auth/change-email-enter-code');
+});
+app.get('/profile-email-changed', function(request, response) {
+  response.render('auth/profile-email-changed');
 });
 
 
