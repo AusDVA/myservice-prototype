@@ -18,29 +18,6 @@
         <div id="percentage"></div>
     </div>
     <h1>Review and submit</h1>
-        
-    <!--
-    <table class="cover-detail">
-      <caption>Getting started <button class="uikit-btn uikit-btn--tertiary floated small" onclick="window.location.href = '/claim1'">Change</button></caption>
-
-      <thead>
-        <tr>
-          <th>Contact another person about your claim?</th>
-          <td>Yes</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>Contact's full name</th>
-          <td>Ben Tate</td>
-        </tr>
-        <tr>
-          <th>Contact's phone number</th>
-          <td>0402 123 456</td>
-        </tr>
-      </tbody>
-    </table>
--->
     <table class="cover-detail">
       <caption>Diagnosis <button class="uikit-btn uikit-btn--tertiary floated small" onclick="window.location.href = '/claim1'">Change</button></caption>
 
@@ -128,19 +105,26 @@
       </tbody>
     </table>
 
-<!--
-    <fieldset>
-      <label class="uikit-text-input__label" for="nominee-yes">Would you like to nominate a different person to receive claim updates?</label>
-      <div class="radio-toggle">
-      <label class="on label-left" for="nominee-yes"><input id="nominee-yes" type="radio" name="nominate-contact"><span>Yes</span></label>
-      <label class="off label-right" for="nominee-no"><input id="nominee-no" type="radio" name="nominate-contact"><span>No</span></label>
+    <h2>Nominee (optional)</h2>
+    <p class="nominee-intro">You can nominate another person (for example, a family member or advocate) to receive claim updates and make enquiries on your behalf.</p>
+    <div class="nominee-details-container" style="display:none;">
+      <div class="nominee-details">
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="nominee-name">Nominee's full name</label>
+            <input class="uikit-text-input input-half" name="nominee-name" id="nominee-name" type="text" value="">
+          </div>
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="nominee-number">Nominee's phone number</label>
+            <input class="uikit-text-input input-half" name="nominee-number" id="nominee-number" type="text" value="">
+          </div>
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="nominee-email">Nominee's email</label>
+            <input class="uikit-text-input input-half" name="nominee-email" id="nominee-email" type="text" value="">
+          </div>
       </div>
-    </fieldset>
-
-    <p class="nominee-yes-selected" style="display: none;">We will be in touch so you can nominate an alternate contact for your claim.</p>
-    <p class="nominee-no-selected" style="display: none;">Ok, we will leave you as the contact.</p>
-
--->
+    </div>
+    <button id="btnAddNominee" class="uikit-btn small uikit-btn--tertiary">Add a nominee</button>
+    <button id="btnCancelNominee" class="uikit-btn small uikit-btn--borderless" style="display: none">Cancel</button>
 
     <div class="pagination">
     <p>By clicking <strong>submit claim</strong> you confirm this information is truthful and accurate.</p>
@@ -167,13 +151,24 @@
 	// Progress percentage
     document.getElementById("percentage").style.width = "95%";
     
-    $("#nominee-yes").click(function() {
-      $( ".nominee-yes-selected" ).show("fast");
-      $( ".nominee-no-selected" ).hide();
+    $("#btnAddNominee").click(function() {
+      $( ".nominee-details-container" ).show("fast");
+      $( "#btnAddNominee" ).hide();
+      $( "#btnCancelNominee" ).show("fast");
+      $( "#nominee-name" ).focus();
     });
-    $("#nominee-no").click(function() {
-      $( ".nominee-no-selected" ).show("fast");
-      $( ".nominee-yes-selected" ).hide();
+    $("#btnCancelNominee").click(function() {
+      $( ".nominee-details-container" ).hide("fast");
+      $( "#btnCancelNominee" ).hide();
+      $( "#btnAddNominee" ).show();
+    });
+    $(".nominee-save").click(function() {
+      $( ".nominee-details" ).hide();
+      $( ".toast-saved" ).show("fast");
+      $(".nominee-intro").hide("fast");
+    });
+    $( ".message-close" ).click(function() {
+      $(".nominee-details-container").hide("fast");
     });
 	
 	</script>
