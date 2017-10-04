@@ -44,7 +44,7 @@
 			</div>
 			
 			<div class="form-group">
-				<label class="uikit-text-input__label" for="spouse-firstname">Spouse given name <span class="hint">(first name)</span></label>
+				<label class="uikit-text-input__label" for="spouse-firstname">Spouse given names <span class="hint">(first and middle names)</span></label>
 				<input class="uikit-text-input input-half" name="spouse-firstname" id="spouse-firstname" type="text" value="">
 			</div>
 
@@ -55,7 +55,8 @@
 		</div>
 
 		<div class="form-group marriedFields" id="marriageDate" style="display: none;">
-			<label class="uikit-text-input__label" for="marriage-date-dd">Date of marriage <span class="hint">(DD / MM / YYYY)</span></label>
+			<label class="uikit-text-input__label" for="marriage-date-dd">Date of marriage <span class="hint">(DD / MM / YYYY)</span><span id="marriageDate-error-TAS" class="input-error-message" aria-live="polite" style="display: none;"> If your marriage was registered <strong>before 1970</strong>, MyService cannot verify your marriage certificate. Please select another form of identification.</span><span id="marriageDate-error-VIC" class="input-error-message" aria-live="polite" style="display: none;"> If your marriage was registered <strong>before 1990</strong>, MyService cannot verify your marriage certificate. Please select another form of identification.</span>
+			</label>
 			<input class="uikit-text-input dd marriage-date-dd" type="text" name="marriage-date-dd" id="marriage-date-dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
 			<input class="uikit-text-input mm marriage-date-mm" type="text" name="marriage-date-mm" id="marriage-date-mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
 			<input class="uikit-text-input yyyy marriage-date-yyyy" type="text" name="marriage-date-yyyy" id="marriage-date-yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
@@ -84,7 +85,7 @@
 		</div>
 
 		<div class="form-group marriedFields" id="marriageCertDate" style="display: none;">
-			<label class="uikit-text-input__label" for="marriage-certificate-dd">Certificate issue date <span class="hint">(DD / MM / YYYY)</span></label>
+			<label class="uikit-text-input__label" for="marriage-certificate-dd">Certificate issue date <span class="hint">(DD / MM / YYYY)</span><span id="marriageCertDate-error-ACT" class="input-error-message" aria-live="polite" style="display: none;"> If your marriage certificate was issued <strong>before 1 May 2002</strong>, MyService cannot verify it. Please select another form of identification.</span></label>
 			<input class="uikit-text-input dd marriage-certificate-dd" type="text" name="marriage-certificate-dd" id="marriage-certificate-dd" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
 			<input class="uikit-text-input mm marriage-certificate-mm" type="text" name="marriage-certificate-mm" id="marriage-certificate-mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
 			<input class="uikit-text-input yyyy marriage-certificate-yyyy" type="text" name="marriage-certificate-yyyy" id="marriage-certificate-yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
@@ -110,6 +111,11 @@
 			if ($('#namechange-no')[0].checked) {
 				$('#married-coverage-ACT').show();
 			}
+			//Validation
+			$("#marriageCertDate").focusout(function() {
+				$("#marriageCertDate").addClass("has-error");
+				$('#marriageCertDate-error-ACT').show();
+			});
         }
         if ($(this).val() == 'nsw') {
 			$('.marriedFields').hide();
@@ -128,6 +134,12 @@
 			if ($('#namechange-no')[0].checked) {
 				$('#married-coverage-VIC').show();
 			}
+			//Validation
+			$("#marriageDate").focusout(function() {
+				$("#marriageDate").addClass("has-error");
+				$('#marriageDate-error-VIC').show();
+			});
+			
         }
         if ($(this).val() == 'qld') {
 			$(".marriednameFail").hide();
@@ -169,6 +181,12 @@
 			if ($('#namechange-no')[0].checked) {
 				$('#married-coverage-TAS').show();
 			}
+			
+			//Validation
+			$("#marriageDate").focusout(function() {
+				$("#marriageDate").addClass("has-error");
+				$('#marriageDate-error-TAS').show();
+			});
         }
         if ($(this).val() == 'nt') {
 			$(".marriednameFail").hide();
@@ -184,4 +202,32 @@
         }
     });
 
+</script>
+
+
+<script>
+	$(document).ready(function() {
+	  // Client side field validation
+	  // Client validation masquerading as server side
+	  $(".btnNext").click(function() {
+	   if ($('#marriage-date-yyyy').val()) {
+		   
+		 $("#error-empty-fields").toggle("fast");
+		 $('html, body').animate({
+		   scrollTop: $('#error-empty-fields').position().top
+		 }, 'fast');
+		 $(".heading-error").focus();
+	   }
+		if ($('#marriageCertDate-yyyy').val()) {
+		   
+		 $("#error-empty-fields").toggle("fast");
+		 $('html, body').animate({
+		   scrollTop: $('#error-empty-fields').position().top
+		 }, 'fast');
+		 $(".heading-error").focus();
+	   }
+	  });
+	  
+	  
+	});
 </script>
