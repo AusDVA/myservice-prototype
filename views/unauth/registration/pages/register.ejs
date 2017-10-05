@@ -54,7 +54,7 @@
         </div><!-- col-sm-6 -->
       </div>
       <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/'">Back to home</button>&nbsp; <button class="uikit-btn floated btnNext">Next</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/'">Back to home</button>&nbsp; <button class="uikit-btn floated btnNext" onclick="window.location.href = 'register-pmkeys-only1'">Next</button>
       </div>
     </div>
   </main><%include ../../../global/partials/footer.ejs %>
@@ -64,80 +64,6 @@
   <script>
      // Progress bar
      document.getElementById("percentage").style.width = "10%";
-
-     // Toggle button logic
-     $("#pmkeys-yes").click(function() {
-       $(".enter-pmkeys-number").show("fast");
-       $(".service-number").hide("fast");
-       $(".dva-question").show("fast");
-       $("#pmkeys").focus();
-     });
-     $("#pmkeys-no").click(function() {
-       $(".enter-pmkeys-number").hide("fast");
-       $(".dva-question").show("fast");
-     });
-     $("#dva-no").click(function() {
-       $(".pmkeys-question").show("fast");
-       $(".enter-dva-number").hide("fast");
-       if ($('#pmkeys-yes').is(':checked')) {
-         $(".clickNext").show("fast"); 
-       }
-     });
-     $("#dva-yes").click(function() {
-       $(".enter-dva-number").show("fast");
-       $(".pmkeys-question").show("fast");
-       $("#dva-number").focus();
-       $(".service-number").hide("fast");
-     });
-     $(document).ready(function(e) {
-       $('#pmkeys-no').click(function() {
-         if ($('#dva-no').is(':checked')) {
-           $(".service-number").show("fast");
-         } else {
-           $(".service-number").hide("fast");
-         }
-       });
-     });
-     $(document).ready(function(e) {
-       $('#dva-no').click(function() {
-         if ($('#pmkeys-no').is(':checked')) {
-           $(".service-number").show("fast");
-         } else {
-           $(".service-number").hide("fast");
-         }
-       });
-     });
-
-     // Determine which path
-     $('.btnNext').click(function() {
-       // Have pmkeys and dva
-       if ($('#pmkeys').val() != '' && ($('#dva-number').val() != '') && ($('#servicenumber').val() == '')) {
-         location.href = '/register-dva-and-pmkeys1';
-         localStorage.setItem('pathType', 'dva-and-pmkeys');
-       }
-       // Have only dva
-       if ($('#pmkeys').val() == '' && ($('#dva-number').val() != '') && ($('#servicenumber').val() == '')) {
-         location.href = '/register-dva-only1';
-         localStorage.setItem('pathType', 'dva-only');
-       }
-       // Have only pmkeys
-       if ($('#pmkeys').val() != '' && ($('#dva-number').val() == '') && ($('#servicenumber').val() == '')) {
-         location.href = '/register-pmkeys-only1';
-         localStorage.setItem('pathType', 'pmkeys-only');
-       }
-       // Have only service number
-       if ($('#pmkeys').val() == '' && ($('#dva-number').val() == '') && ($('#servicenumber').val() != '')) {
-         location.href = '/register-service-number1';
-         localStorage.setItem('pathType', 'service-number');
-       }
-       // Nothing selected
-       if ($('#pmkeys').val() == '' && ($('#dva-number').val() == '') && ($('#servicenumber').val() == '')) {
-         $("#error-empty-fields").toggle("fast");
-         $('html, body').animate({
-           scrollTop: $('#error-empty-fields').position().top
-         }, 'fast');
-       }
-     });
   </script>
 </body>
 </html>
