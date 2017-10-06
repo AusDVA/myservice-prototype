@@ -97,6 +97,12 @@ app.get('/change-password', function(request, response) {
 app.get('/verify-details', function(request, response) {
   response.render('auth/verify-details');
 });
+app.get('/verify-details-long', function(request, response) {
+  response.render('auth/verify-details-long');
+});
+app.get('/address', function(request, response) {
+  response.render('auth/address');
+});
 
 /* PMKeys only */
 app.get('/register-pmkeys-only1', function(request, response) {
