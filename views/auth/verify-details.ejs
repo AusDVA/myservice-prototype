@@ -71,7 +71,7 @@
 									<legend>Residential address</legend>
 									<p>
 									<label class="uikit-control-input">
-												<input class="uikit-control-input__input" type="checkbox" name="InternationalChangeResidential" value="">
+												<input class="uikit-control-input__input sameAsPostal" type="checkbox" name="sameAsPostal" value="">
 												<span class="uikit-control-input__text">Same as postal address</span>
 									</label>
 									</p>
@@ -131,35 +131,13 @@
 			$( ".btnCancelAddress" ).click(function() {
 				window.location.href = '/verify-details';
 			});
-
-
-		// Change fields between Australian or International for POSTAL
-		var setPostalCountry = jQuery('#countryType');
-		var select = this.value;
-		setPostalCountry.change(function () {
-				if ($(this).val() == 'AUS') {
-						$('.editAustralianAddressPostal').show();
-						$('.editInternationalAddressPostal').hide();
+			$( ".sameAsPostal" ).click(function() {
+				if ($('.sameAsPostal').prop('checked')) { 
+					$('.editAustralianAddressResidential').find('input, textarea, button, select').attr('disabled', true);
 				}
-				if ($(this).val() != 'AUS') {
-						$('.editAustralianAddressPostal').hide();
-						$('.editInternationalAddressPostal').show();
-				}
-		});
-
-		// Change fields between Australian or International for RESIDENTIAL
-		var setResidentialCountry = jQuery('#residential-countryType');
-		var select = this.value;
-		setResidentialCountry.change(function () {
-				if ($(this).val() == 'AUS') {
-						$('.editAustralianAddressResidential').show();
-						$('.editInternationalAddressResidential').hide();
-				}
-				if ($(this).val() != 'AUS') {
-						$('.editAustralianAddressResidential').hide();
-						$('.editInternationalAddressResidential').show();
-				}
-		});
+				else
+					$('.editAustralianAddressResidential').find('input, textarea, button, select').attr('disabled', false);
+			});
 
 	</script>
 </body>
