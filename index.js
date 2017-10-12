@@ -335,3 +335,52 @@ app.use('/docs', serveIndex('docs', {}))
 app.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
 });
+
+/**
+  Style guide
+*/
+app.get('/styleguide', function(request, response) {
+  response.render('styleguide/pages/home');
+});
+app.get('/styleguide-uikit', function(request, response) {
+  response.render('styleguide/pages/uikit');
+});
+app.get('/styleguide-prototyping', function(request, response) {
+  response.render('styleguide/pages/prototyping');
+});
+app.get('/styleguide-structure', function(request, response) {
+  response.render('styleguide/pages/structure');
+});
+app.get('/styleguide-typography', function(request, response) {
+  response.render('styleguide/pages/typography');
+});
+app.get('/styleguide-layout', function(request, response) {
+  response.render('styleguide/pages/layout');
+});
+app.get('/styleguide-colours', function(request, response) {
+  response.render('styleguide/pages/colours');
+});
+app.get('/styleguide-navigation', function(request, response) {
+  response.render('styleguide/pages/navigation');
+});
+app.get('/styleguide-buttons', function(request, response) {
+  response.render('styleguide/pages/buttons');
+});
+app.get('/styleguide-forms', function(request, response) {
+  response.render('styleguide/pages/forms');
+});
+app.get('/styleguide-tables', function(request, response) {
+  response.render('styleguide/pages/tables');
+});
+app.get('/styleguide-images', function(request, response) {
+  response.render('styleguide/pages/images');
+});
+app.get('/styleguide-callouts', function(request, response) {
+  response.render('styleguide/pages/callouts');
+});
+app.get('/styleguide-helpers', function(request, response) {
+  response.render('styleguide/pages/helpers');
+});
+app.get('/styleguide-cards', function(request, response) {
+  response.render('styleguide/pages/cards');
+});
