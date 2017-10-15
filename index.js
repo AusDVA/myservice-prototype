@@ -372,8 +372,8 @@ app.get('/styleguide-forms', function(request, response) {
 app.get('/styleguide-tables', function(request, response) {
   response.render('styleguide/pages/tables');
 });
-app.get('/styleguide-images', function(request, response) {
-  response.render('styleguide/pages/images');
+app.get('/styleguide-icons', function(request, response) {
+  response.render('styleguide/pages/icons');
 });
 app.get('/styleguide-callouts', function(request, response) {
   response.render('styleguide/pages/callouts');
