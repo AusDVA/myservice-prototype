@@ -1,5 +1,6 @@
 /**********************************
-	Sliding panel top appears at the top of the page. It utilises UIKit Accordion and is using the jquery code supplied by UIKit to function and animate.
+	Sliding panel top appears at the top of the page. 
+	It utilises UIKit Accordion and is using the jquery code supplied by UIKit to function and animate.
 
 **********************************/
 // Content:
@@ -11,40 +12,70 @@
 // - responsive styling for top panel accordian and support box
 
 
-// Temporarily wrap everything in body class - to be removed later
-.uikit-refactor {
-
 // Styling for full-width section of top panel
 .accordion-toppanel--wrapper {
-	background-color: #eeeeee;
+	background-color: $top-panel-bg;
+	font-size: 0.9rem;
+	a,
+  a:link,
+	a:visited {
+		color: white !important;
+	}
+	li {
+		display: inline-block;
+		text-align: left;
+		list-style-type: none;
+		.accordion {
+			margin: 0 !important;
+			padding: 0 !important;
+		}
+	}
+
 	.container {
 		padding-left:0px;
 		padding-right:0px;
+		position: relative;
+	}
+
+	.logout {
+		position: absolute;
+		right: 1em;
+		top: 0.35em;
+		border-bottom: none !important;
 	}
 
 	.uikit-accordion {
-	margin-bottom:0;
-	padding-bottom:0;
-	border:0px;
-	.support-box {
-		padding:0.6em;
-		text-align:left!important;
-	}
+		color: #ffffff;
+		margin-bottom:0;
+		padding-bottom:0;
+		border:0px;
+		.support-box {
+			padding:0.6em;
+			text-align:left!important;
+		}
+		.uikit-accordion__title {
+			width: 100%;
+		  padding: 1.2em 2.25em 1.2em 0.5em;
+			&:after {
+		    right: 0.25em;
+		    background-image: url(../images/arrow-white.svg);
+		   }
+		}
 	}
 
 	.uikit-accordion__body-wrapper {
-		border-top:0px;
-		margin:0.5em 0 0 0;
-		padding:0em;
+		border-top: 0;
+		margin: 0;
+		padding: 0;
 	}
 
 	.uikit-accordion__title {
-		width:100%;
+		width: auto !important;
 		line-height: 0em!important;
-		background:#d2d2d2;
-		float:right;
-		color:#000;
-		font-size:0.8em;
+		background: $top-panel-bg;
+		float: left;
+		font-size: 0.8rem;
+		margin-right: 80px;
 		&:hover,
 		&:focus {
 			background-color: $uikit-colour-Link !important;
@@ -82,12 +113,10 @@
 	}
 
 	.trial-message {
-		font-size:0.8em;
-		padding:0.5em 0 0 0.5em;
-		display:inline-block;
+		display: none;
 	}
-
 }
+
 
 // Counselling and support content styling - Styling needs to stay independant of accordion so it can be used within body of other pages.
 
@@ -147,7 +176,14 @@
 }
 
 @media only screen and (min-width: $medium-handheld) {
+	.uikit-accordion__title {
+		float: right !important;
+	}
 	.accordion-toppanel--wrapper{
+		.trial-message {
+			padding: 0.5em 0 0 0.5em;
+			display: inline-block;
+		}
 		.uikit-accordion.accordion-open {
 			.uikit-accordion__body {
 				max-height:640px;
@@ -166,9 +202,6 @@
 	.uikit-accordion {
 		.uikit-accordion__body-wrapper {
 		margin:1em 2em 0 2em;
-		}
-		.uikit-accordion__title {
-			width:100%;
 		}
 		.support-box {
 			padding:0em;
@@ -252,6 +285,4 @@
 			}
 		}
 	}
-}
-	
 }
