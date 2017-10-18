@@ -93,6 +93,7 @@ app.get('/change-password', function(request, response) {
   response.render('auth/change-password');
 });
 
+
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function(request, response) {
   response.render('auth/verify-details');
