@@ -385,3 +385,6 @@ app.get('/styleguide-helpers', function(request, response) {
 app.get('/styleguide-cards', function(request, response) {
   response.render('styleguide/pages/cards');
 });
+app.get('/styleguide-modals', function(request, response) {
+  response.render('styleguide/pages/modals');
+});
