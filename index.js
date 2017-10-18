@@ -68,6 +68,24 @@ app.get('/register', function(request, response) {
   response.render('unauth/registration/pages/register');
 });
 
+/* Static content pages */
+app.get('/everyday-care', function(request, response) {
+  response.render('unauth/everyday-care');
+});
+app.get('/career-guidance', function(request, response) {
+  response.render('unauth/career-guidance');
+});
+app.get('/family-and-counselling', function(request, response) {
+  response.render('unauth/family-and-counselling');
+});
+app.get('/financial-support', function(request, response) {
+  response.render('unauth/financial-support');
+});
+app.get('/medical-services', function(request, response) {
+  response.render('unauth/medical-services');
+});
+
+
 /* DVA and PMKeys */
 app.get('/register-dva-and-pmkeys1', function(request, response) {
   response.render('unauth/registration/pages/register-dva-and-pmkeys1');
