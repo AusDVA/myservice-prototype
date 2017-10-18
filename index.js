@@ -60,8 +60,6 @@ app.get('/index-login-errors', function(request, response) {
 });
 
 
-
-
 app.get('/change-password', function(request, response) {
   response.render('auth/change-password');
 });
