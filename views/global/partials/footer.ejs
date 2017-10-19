@@ -1,5 +1,6 @@
-<footer class="uikit-footer uikit-footer--gradient" role="contentinfo">			
+<footer class="uikit-footer uikit-footer--gradient" role="contentinfo">
 	<div class="container">
+		<% include go-to-top.ejs %>
 		<div class="row">
 			<section class="uikit-footer__end">
 				<div class="row">
@@ -46,23 +47,38 @@
 	var menu = document.querySelector('.menu');
 	var menuItems = document.querySelectorAll('.menu li a');
 
-	toggle.addEventListener('click', function(){
-	  if (menu.classList.contains('is-active')) {
-	  	toggle.classList.remove('menu-closed'); 
-	    this.setAttribute('aria-expanded', 'false');
-	    menu.classList.remove('is-active');
-	  } else {
-		  toggle.classList.add('menu-closed'); 
-	    menu.classList.add('is-active'); 
-	    this.setAttribute('aria-expanded', 'true');
-	    //menuItems[0].focus();
-	  }
-	});
-
+	if (toggle != null) {
+		toggle.addEventListener('click', function(){
+		  if (menu.classList.contains('is-active')) {
+		  	toggle.classList.remove('menu-closed');
+		    this.setAttribute('aria-expanded', 'false');
+		    menu.classList.remove('is-active');
+		  } else {
+			  toggle.classList.add('menu-closed');
+		    menu.classList.add('is-active');
+		    this.setAttribute('aria-expanded', 'true');
+		    //menuItems[0].focus();
+		  }
+		});
+	}
 
 	// Close any toast messages
   $( ".message-close" ).click(function() {
     $(".container-toast").hide("fast");
   });
+
+	// Needed for the "Back to Top" functionality
+	$(window).scroll(function() {
+		if ($(this).scrollTop() >= 50) {        // If page is scrolled more than 50px
+			$('#return-to-top').addClass('visible');    // Fade in the arrow
+		} else {
+			$('#return-to-top').removeClass('visible');   // Else fade out the arrow
+		}
+	});
+	$('#return-to-top').click(function() {      // When arrow is clicked
+			$('body,html').animate({
+				scrollTop : 0                       // Scroll to top of body
+			}, 500);
+	});
 
 </script>
