@@ -186,9 +186,6 @@ app.get('/claim3', function(request, response) {
 app.get('/claim4', function(request, response) {
   response.render('auth/claim/pages/claim4');
 });
-app.get('/claim4-2', function(request, response) {
-  response.render('auth/claim/pages/claim4-2');
-});
 app.get('/claim5', function(request, response) {
   response.render('auth/claim/pages/claim5');
 });
