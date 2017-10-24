@@ -24,4 +24,21 @@ jQuery(document).ready(function($){
 			event.preventDefault();
 		}
 	});
+
+
+    // Help slide gesture
+      let panel = document.getElementById('help-panel');
+      if (panel) {
+        let touchRegion = new ZingTouch.Region(panel);
+        touchRegion.bind(panel, 'swipe', (event) => {
+          let direction = event.detail.data[0].currentDirection;
+          if (direction < 45 || direction > 315) {
+            $(panel).removeClass('is-visible');
+          }
+        });
+      }
+      else {
+        console.log('no help panel');
+      }
+
 });
