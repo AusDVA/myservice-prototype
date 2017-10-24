@@ -156,6 +156,9 @@ app.get('/profile-email-changed', function(request, response) {
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
+app.get('/profile-new', function(request, response) {
+  response.render('auth/profile-new');
+});
 app.get('/profile-password', function(request, response) {
   response.render('auth/profile-password');
 });
@@ -191,6 +194,9 @@ app.get('/claim5', function(request, response) {
 });
 app.get('/claim6', function(request, response) {
   response.render('auth/claim/pages/claim6');
+});
+app.get('/claim7', function(request, response) {
+  response.render('auth/claim/pages/claim7');
 });
 
 /* Mental health treatment path */
