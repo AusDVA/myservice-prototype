@@ -29,9 +29,8 @@ jQuery(document).ready(function($){
     // Help slide gesture
       let panel = document.getElementById('help-panel');
       if (panel) {
-        let touchRegion = new ZingTouch.Region(panel);
-        let panelContent = document.getElementById('help-panel-content');
-        touchRegion.bind(panelContent, 'swipe', (event) => {
+        let touchRegion = new ZingTouch.Region(panel, false, false);
+        touchRegion.bind(panel, 'swipe', (event) => {
           let direction = event.detail.data[0].currentDirection;
           if (direction < 45 || direction > 315) {
             $(panel).removeClass('is-visible');
