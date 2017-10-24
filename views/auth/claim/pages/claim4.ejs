@@ -14,25 +14,45 @@
     <% include ../partials/help-button.ejs %>
     <main> 
     <div class="container" id="main-content">
-    <div id="progressbar">
-        <div id="percentage"></div>
-    </div>
+    <div id="progressbar"><div id="percentage"></div></div>
     <h1>How have you been affected?</h1>
-    <p>All fields are required unless marked (optional).</p>
+    <div id="optional-fields-message">All fields are required unless marked (optional).</div>
+    
+
     <fieldset>
-      <legend>Are you likely to leave the ADF in the next 6 months? (optional)</legend>
+	
+      <legend class="legend-label">Are you likely to leave the ADF in the next 6 months?</legend>
       <div class="radio-toggle">
         <label class="on label-left" for="leaving-yes"><input id="leaving-yes" type="radio" name="leaving-adf"><span>Yes</span></label>
         <label class="off label-right" for="leaving-no"><input id="leaving-no" type="radio" name="leaving-adf"><span>No</span></label>
       </div>
+      
+      <div class="form-group leaving-date-known" style="display:none;">
+		  <legend class="legend-label">Do you know the date you are leaving?</legend>
+		  <div class="radio-toggle" >
+			<label class="on label-left" for="leaving-date-known-yes"><input id="leaving-date-known-yes" type="radio" name="leaving-date-known-adf"><span>Yes</span></label>
+			<label class="off label-right" for="leaving-date-known-no"><input id="leaving-date-known-no" type="radio" name="leaving-date-known-adf"><span>No</span></label>
+		  </div>
+      </div>
+
+      <div class="form-group leaving-date" style="display:none;">
+        <fieldset>        
+          <div class="form-group">
+              <label class="uikit-text-input__label" for="dd-single">When are you leaving? <span class="hint display-block">(DD / MM / YYYY)</span></label>
+              <input class="uikit-text-input dd" type="text" name="dd-single" id="dd-single" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+              <input class="uikit-text-input mm" type="text" name="mm-single" id="mm-single" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+              <input class="uikit-text-input yyyy" type="text" name="yyyy-single" id="yyyy-single" maxlength="4" required aria-required="true" aria-label="4 digit year">
+          </div>
+        </fieldset>
+      </div>
+      
     </fieldset>
         
-    <div class="needs-list" style="display:none;">
-        <div class="breakout">
-            <h2>Tick the boxes that are relevant to you. (optional)</h2>
-            <p>Telling us how you have been affected by your condition will help us understand which services are right for you.</p>
-        </div>
+    <div class="form-group needs-list" style="display:none;">
+	
+	<h4>Tick the boxes that are relevant to you. (optional) <span class="hint display-block">Telling us how you have been affected by your condition will help us understand which services are right for you.</span></h4>
 
+       <div class="breakout-compact">
         <fieldset>
             <legend class="legend-label">As a result of my condition, I require...</legend>
             <div class="form-group">
@@ -84,9 +104,9 @@
                 </div>
             </div>
         </fieldset>
+        </div>
 
-        <hr />    
-
+		<div class="breakout-compact">
         <fieldset>
             <legend class="legend-label">My condition meant I was impacted financially by...</legend>
             <div class="form-group">
@@ -140,9 +160,9 @@
                 </p>
             </div>
         </fieldset>
+		</div>
 
-        <hr />    
-
+		<div class="breakout-compact">
         <fieldset>
             <legend class="legend-label">I am interested in...</legend>
             <div class="form-group">
@@ -178,9 +198,9 @@
                 </p>
             </div>
         </fieldset>
+		</div>
 
-        <hr />
-
+		<div class="breakout-compact line-break-after">
         <fieldset>
             <legend class="legend-label">My condition has impacted my...</legend>
             <div class="form-group">
@@ -211,11 +231,20 @@
                 </p>
             </div>
         </fieldset>
+		</div>
     </div>
+    
+    
+    
+    
+    
+    
+    
+    
 
     <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim3'">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary uikit-btn--borderless" onclick="window.location.href = '#open-modal'">Cancel</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
         <div class="floated">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim4'">Save and exit</button>&nbsp;
             <button class="uikit-btn btnNext" onclick="window.location.href = '/claim5'">Save and next</button>
@@ -236,11 +265,24 @@
     
     // Show and hide needs list
     $( "#leaving-yes" ).click(function() {
-      $( ".needs-list" ).show("fast");
+      $( ".needs-list" ).hide();
+	  $( ".leaving-date-known" ).show("fast");
     });
     $( "#leaving-no" ).click(function() {
+	  $( ".leaving-date-known" ).hide();
+	  $( ".leaving-date" ).hide();
       $( ".needs-list" ).show("fast");
     });
+	$( "#leaving-date-known-yes" ).click(function() {
+      $( ".leaving-date" ).show("fast");
+	  $( ".needs-list" ).show("fast");
+    });
+    $( "#leaving-date-known-no" ).click(function() {
+	  $( ".leaving-date" ).hide();
+      $( ".needs-list" ).show("fast");
+    });
+
+		
     $( "#not-listed" ).click(function() {
       $( ".not-listed-above" ).toggle("fast");
       $( "#new-item" ).focus();

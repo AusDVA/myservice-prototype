@@ -60,6 +60,20 @@ app.get('/index-login-errors', function(request, response) {
 });
 
 
+app.get('/change-password', function(request, response) {
+  response.render('auth/change-password');
+});
+
+
+/* Verify displays service history if DVA only */
+app.get('/verify-details', function(request, response) {
+  response.render('auth/verify-details');
+});
+app.get('/address', function(request, response) {
+  response.render('auth/address');
+});
+
+
 /*
 New registration flow for broadening
 */
@@ -67,43 +81,6 @@ New registration flow for broadening
 app.get('/register', function(request, response) {
   response.render('unauth/registration/pages/register');
 });
-
-/* DVA and PMKeys */
-app.get('/register-dva-and-pmkeys1', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-and-pmkeys1');
-});
-app.get('/register-dva-and-pmkeys2', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-and-pmkeys2');
-});
-app.get('/register-dva-and-pmkeys3', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-and-pmkeys3');
-});
-
-/* DVA only */
-app.get('/register-dva-only1', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-only1');
-});
-app.get('/register-dva-only2', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-only2');
-});
-app.get('/register-dva-only3', function(request, response) {
-  response.render('unauth/registration/pages/register-dva-only3');
-});
-app.get('/change-password', function(request, response) {
-  response.render('auth/change-password');
-});
-
-/* Verify displays service history if DVA only */
-app.get('/verify-details', function(request, response) {
-  response.render('auth/verify-details');
-});
-app.get('/verify-details-long', function(request, response) {
-  response.render('auth/verify-details-long');
-});
-app.get('/address', function(request, response) {
-  response.render('auth/address');
-});
-
 /* PMKeys only */
 app.get('/register-pmkeys-only1', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only1');
@@ -113,20 +90,6 @@ app.get('/register-pmkeys-only2', function(request, response) {
 });
 app.get('/register-pmkeys-only3', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only3');
-});
-
-/* Service number only */
-app.get('/register-service-number1', function(request, response) {
-  response.render('unauth/registration/pages/register-service-number1.ejs');
-});
-app.get('/register-service-number2', function(request, response) {
-  response.render('unauth/registration/pages/register-service-number2.ejs');
-});
-app.get('/register-service-number3', function(request, response) {
-  response.render('unauth/registration/pages/register-service-number3.ejs');
-});
-app.get('/register-service-number4', function(request, response) {
-  response.render('unauth/registration/pages/register-service-number4.ejs');
 });
 
 
@@ -161,14 +124,8 @@ app.get('/timeout', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
-app.get('/index-treatment', function(request, response) {
-  response.render('auth/index-treatment');
-});
 app.get('/index-claims', function(request, response) {
   response.render('auth/index-claims');
-});
-app.get('/index-flexbox', function(request, response) {
-  response.render('auth/index-flexbox');
 });
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
@@ -199,14 +156,14 @@ app.get('/profile-email-changed', function(request, response) {
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
+app.get('/profile-new', function(request, response) {
+  response.render('auth/profile-new');
+});
 app.get('/profile-password', function(request, response) {
   response.render('auth/profile-password');
 });
 app.get('/profile-updated', function(request, response) {
   response.render('auth/profile-updated');
-});
-app.get('/password-updated', function(request, response) {
-  response.render('auth/index-password-updated');
 });
 app.get('/change-password', function(request, response) {
   response.render('auth/change-password');
@@ -217,53 +174,9 @@ app.get('/profile-password-updated', function(request, response) {
 app.get('/terms-and-conditions', function(request, response) {
   response.render('global/pages/terms-and-conditions');
 });
-app.get('/viewCoverDetail', function(request, response) {
-  response.render('auth/cover/pages/viewCoverDetail');
-});
-app.get('/viewNLHCCoverDetail', function(request, response) {
-  response.render('auth/cover/pages/viewNLHCCoverDetail');
-});
-app.get('/cover-step1', function(request, response) {
-  response.render('auth/cover/pages/cover-step1');
-});
-app.get('/cover-step2', function(request, response) {
-  response.render('auth/cover/pages/cover-step2');
-});
-app.get('/cover-step3', function(request, response) {
-  response.render('auth/cover/pages/cover-step3');
-});
-app.get('/cover-step3-sop', function(request, response) {
-  response.render('auth/cover/pages/cover-step3-sop');
-});
-app.get('/cover-step4', function(request, response) {
-  response.render('auth/cover/pages/cover-step4');
-});
-app.get('/cover-step5', function(request, response) {
-  response.render('auth/cover/pages/cover-step5');
-});
-app.get('/cover-step6', function(request, response) {
-  response.render('auth/cover/pages/cover-step6');
-});
-app.get('/cover-step6-b', function(request, response) {
-  response.render('auth/cover/pages/cover-step6-b');
-});
-app.get('/cover-nlhc-step2', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-step2');
-});
-app.get('/cover-nlhc-approved', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-approved');
-});
-app.get('/cover-nlhc-approved-b', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-approved-b');
-});
-app.get('/cover-nlhc-step4', function(request, response) {
-  response.render('auth/cover/pages/cover-nlhc-step4');
-});
+
 
 /* Broadened claim flow */
-app.get('/claim0', function(request, response) {
-  response.render('auth/claim/pages/claim0');
-});
 app.get('/claim1', function(request, response) {
   response.render('auth/claim/pages/claim1');
 });
@@ -282,6 +195,9 @@ app.get('/claim5', function(request, response) {
 app.get('/claim6', function(request, response) {
   response.render('auth/claim/pages/claim6');
 });
+app.get('/claim7', function(request, response) {
+  response.render('auth/claim/pages/claim7');
+});
 
 /* Mental health treatment path */
 app.get('/health-card1', function(request, response) {
@@ -292,28 +208,6 @@ app.get('/health-card2', function(request, response) {
 });
 
 
-/* Older claim flow */
-app.get('/claim-step1', function(request, response) {
-  response.render('auth/claim/pages/claim-step1');
-});
-app.get('/claim-step2', function(request, response) {
-  response.render('auth/claim/pages/claim-step2');
-});
-app.get('/claim-step3', function(request, response) {
-  response.render('auth/claim/pages/claim-step3');
-});
-app.get('/claim-step4', function(request, response) {
-  response.render('auth/claim/pages/claim-step4');
-});
-app.get('/claim-step5', function(request, response) {
-  response.render('auth/claim/pages/claim-step5');
-});
-app.get('/claim-step6', function(request, response) {
-  response.render('auth/claim/pages/claim-step6');
-});
-app.get('/claim-nlhc-submitted', function(request, response) {
-  response.render('auth/claim/pages/claim-nlhc-submitted');
-});
 app.get('/viewClaimDetail', function(request, response) {
   response.render('auth/claim/pages/viewClaimDetail');
 });
@@ -383,4 +277,7 @@ app.get('/styleguide-helpers', function(request, response) {
 });
 app.get('/styleguide-cards', function(request, response) {
   response.render('styleguide/pages/cards');
+});
+app.get('/styleguide-modals', function(request, response) {
+  response.render('styleguide/pages/modals');
 });
