@@ -156,6 +156,9 @@ app.get('/profile-email-changed', function(request, response) {
 app.get('/profile', function(request, response) {
   response.render('auth/profile');
 });
+app.get('/profile-new', function(request, response) {
+  response.render('auth/profile-new');
+});
 app.get('/profile-password', function(request, response) {
   response.render('auth/profile-password');
 });
