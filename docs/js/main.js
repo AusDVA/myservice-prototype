@@ -41,17 +41,20 @@ jQuery(document).ready(function($){
         let panelContainer = document.getElementById('help-panel-container');
         let panelHeader = document.getElementById('help-panel-header');
 	let originX = 0;
+        let lastX = 0;
 	let dragging = false;
         let uiBunch = $([panelContainer, panelHeader]);
         uiBunch.on('mousedown touchstart', (event) => {
           if (!dragging) {
             dragging = true;
-            originX = event.screenX;
+            originX = event.screenX || event.targetTouches[0].screenX;
+            lastX = originX;
           }
 	});
         uiBunch.on('mousemove touchmove', (event) => {
           if (dragging) {
-            let newX = event.screenX - originX;
+            lastX = (event.screenX || event.targetTouches[0].screenX);
+            let newX = lastX - originX;
             if (newX >= 0)
               uiBunch.css({right: -newX + 'px'});
           }
@@ -59,7 +62,7 @@ jQuery(document).ready(function($){
         uiBunch.on('mouseup touchend', (event) => {
           if (dragging) {
             dragging = false;
-            let newX = event.screenX - originX;
+            let newX = (event.screenX || lastX) - originX;
             if (newX > (panelContainer.offsetWidth * 0.75)) {
               $(panel).removeClass('is-visible');
               window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
