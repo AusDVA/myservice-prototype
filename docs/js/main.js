@@ -43,21 +43,20 @@ jQuery(document).ready(function($){
 	let originX = 0;
 	let dragging = false;
         let uiBunch = $([panelContainer, panelHeader]);
-        uiBunch.bind('mousedown', (event) => {
+        uiBunch.on('mousedown touchdown', (event) => {
           if (!dragging) {
             dragging = true;
             originX = event.screenX;
           }
 	});
-        uiBunch.bind('mousemove', (event) => {
+        uiBunch.on('mousemove touchmove', (event) => {
           if (dragging) {
-            event.preventDefault();
             let newX = event.screenX - originX;
             if (newX >= 0)
               uiBunch.css({right: -newX + 'px'});
           }
 	});
-        uiBunch.bind('mouseup', (event) => {
+        uiBunch.on('mouseup touchup', (event) => {
           if (dragging) {
             dragging = false;
             let newX = event.screenX - originX;
