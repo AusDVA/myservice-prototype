@@ -29,13 +29,48 @@ jQuery(document).ready(function($){
     // Help slide gesture
       let panel = document.getElementById('help-panel');
       if (panel) {
-        let touchRegion = new ZingTouch.Region(panel, false, false);
-        touchRegion.bind(panel, 'swipe', (event) => {
-          let direction = event.detail.data[0].currentDirection;
-          if (direction < 45 || direction > 315) {
-            $(panel).removeClass('is-visible');
+//        let touchRegion = new ZingTouch.Region(panel, false, false);
+//        touchRegion.bind(panel, 'swipe', (event) => {
+//          let direction = event.detail.data[0].currentDirection;
+//          if (direction < 45 || direction > 315) {
+//            $(panel).removeClass('is-visible');
+//            window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
+//          }
+//        });
+
+        let panelContainer = document.getElementById('help-panel-container');
+        let panelHeader = document.getElementById('help-panel-header');
+	let originX = 0;
+	let dragging = false;
+        let uiBunch = $([panelContainer, panelHeader]);
+        uiBunch.bind('mousedown', (event) => {
+          if (!dragging) {
+            dragging = true;
+            originX = event.screenX;
           }
-        });
+	});
+        uiBunch.bind('mousemove', (event) => {
+          if (dragging) {
+            event.preventDefault();
+            let newX = event.screenX - originX;
+            if (newX >= 0)
+              uiBunch.css({right: -newX + 'px'});
+          }
+	});
+        uiBunch.bind('mouseup', (event) => {
+          if (dragging) {
+            dragging = false;
+            let newX = event.screenX - originX;
+            if (newX > (panelContainer.offsetWidth * 0.75)) {
+              $(panel).removeClass('is-visible');
+              window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
+            }
+            else {
+              uiBunch.css({right: '0px', transition: 'right 0.5s'});
+              window.setTimeout(() => {uiBunch.css({transition: ''});}, 500);
+            }
+          }
+	});
       }
       else {
         console.log('no help panel');
