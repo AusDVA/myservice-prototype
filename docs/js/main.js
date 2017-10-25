@@ -45,7 +45,7 @@ jQuery(document).ready(function($){
 	let dragging = false;
         let uiBunch = $([panelContainer, panelHeader]);
         uiBunch.on('mousedown touchstart', (event) => {
-          if (!dragging) {
+          if (!dragging && !$(event.target).is('.panel-close')) {
             dragging = true;
             originX = event.screenX || event.targetTouches[0].screenX;
             lastX = originX;
@@ -60,7 +60,7 @@ jQuery(document).ready(function($){
           }
 	});
         uiBunch.on('mouseup touchend', (event) => {
-          if (dragging) {
+          if (dragging && !$(event.target).is('.panel-close')) {
             dragging = false;
             let newX = (event.screenX || lastX) - originX;
             if (newX > (panelContainer.offsetWidth * 0.75)) {
