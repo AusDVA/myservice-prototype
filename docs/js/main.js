@@ -63,7 +63,7 @@ jQuery(document).ready(function($){
           if (dragging && !$(event.target).is('.panel-close')) {
             dragging = false;
             let newX = (event.screenX || lastX) - originX;
-            if (newX > (panelContainer.offsetWidth * 0.75)) {
+            if (newX > (panelContainer.offsetWidth * 0.25)) {
               $(panel).removeClass('is-visible');
               window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
             }
