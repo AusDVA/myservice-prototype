@@ -43,7 +43,7 @@ jQuery(document).ready(function($){
 	let originX = 0;
 	let dragging = false;
         let uiBunch = $([panelContainer, panelHeader]);
-        uiBunch.on('mousedown touchdown', (event) => {
+        uiBunch.on('mousedown touchstart', (event) => {
           if (!dragging) {
             dragging = true;
             originX = event.screenX;
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
               uiBunch.css({right: -newX + 'px'});
           }
 	});
-        uiBunch.on('mouseup touchup', (event) => {
+        uiBunch.on('mouseup touchend', (event) => {
           if (dragging) {
             dragging = false;
             let newX = event.screenX - originX;
