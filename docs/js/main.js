@@ -63,13 +63,20 @@ jQuery(document).ready(function($){
           if (dragging && !$(event.target).is('.panel-close')) {
             dragging = false;
             let newX = (event.screenX || lastX) - originX;
-            if (newX > (panelContainer.offsetWidth * 0.75)) {
-              $(panel).removeClass('is-visible');
-              window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
+            if (newX > (panelContainer.offsetWidth * 0.25)) {
+              uiBunch.css({right: -panelContainer.offsetWidth + 'px', transition: 'right 0.3s'});
+              $(panel).css({transition: 'unset'});
+              window.setTimeout(() => {
+                $(panel).removeClass('is-visible');
+                window.setTimeout(() => {
+                  uiBunch.css({right: '', transition: ''});
+                  $(panel).css({transition: ''});
+                },600);
+              }, 300);
             }
             else {
-              uiBunch.css({right: '0px', transition: 'right 0.5s'});
-              window.setTimeout(() => {uiBunch.css({transition: ''});}, 500);
+              uiBunch.css({right: '0px', transition: 'right 0.3s'});
+              window.setTimeout(() => {uiBunch.css({transition: ''});}, 300);
             }
           }
 	});
