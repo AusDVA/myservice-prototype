@@ -24,4 +24,58 @@ jQuery(document).ready(function($){
 			event.preventDefault();
 		}
 	});
+
+
+    // Help slide gesture
+      let panel = document.getElementById('help-panel');
+      if (panel) {
+//        let touchRegion = new ZingTouch.Region(panel, false, false);
+//        touchRegion.bind(panel, 'swipe', (event) => {
+//          let direction = event.detail.data[0].currentDirection;
+//          if (direction < 45 || direction > 315) {
+//            $(panel).removeClass('is-visible');
+//            window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
+//          }
+//        });
+
+        let panelContainer = document.getElementById('help-panel-container');
+        let panelHeader = document.getElementById('help-panel-header');
+	let originX = 0;
+        let lastX = 0;
+	let dragging = false;
+        let uiBunch = $([panelContainer, panelHeader]);
+        uiBunch.on('mousedown touchstart', (event) => {
+          if (!dragging && !$(event.target).is('.panel-close')) {
+            dragging = true;
+            originX = event.screenX || event.targetTouches[0].screenX;
+            lastX = originX;
+          }
+	});
+        uiBunch.on('mousemove touchmove', (event) => {
+          if (dragging) {
+            lastX = (event.screenX || event.targetTouches[0].screenX);
+            let newX = lastX - originX;
+            if (newX >= 0)
+              uiBunch.css({right: -newX + 'px'});
+          }
+	});
+        uiBunch.on('mouseup touchend', (event) => {
+          if (dragging && !$(event.target).is('.panel-close')) {
+            dragging = false;
+            let newX = (event.screenX || lastX) - originX;
+            if (newX > (panelContainer.offsetWidth * 0.75)) {
+              $(panel).removeClass('is-visible');
+              window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
+            }
+            else {
+              uiBunch.css({right: '0px', transition: 'right 0.5s'});
+              window.setTimeout(() => {uiBunch.css({transition: ''});}, 500);
+            }
+          }
+	});
+      }
+      else {
+        console.log('no help panel');
+      }
+
 });
