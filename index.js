@@ -12,7 +12,7 @@ app.set('view engine', 'ejs');
 
 /*
 /**
-Emails 
+Emails
 */
 app.get('/email-rego-success', function(request, response) {
   response.render('email/pages/email-rego-success');
@@ -129,6 +129,9 @@ app.get('/index-claims', function(request, response) {
 });
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
+});
+app.get('/index-password-updated', function(request, response) {
+  response.render('auth/index-password-updated');
 });
 
 
