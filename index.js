@@ -130,6 +130,9 @@ app.get('/index-claims', function(request, response) {
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
 });
+app.get('/index-timeout', function(request, response) {
+  response.render('auth/index-timeout');
+});
 
 
 /* Separate profile screens */
@@ -272,8 +275,8 @@ app.get('/styleguide-icons', function(request, response) {
 app.get('/styleguide-callouts', function(request, response) {
   response.render('styleguide/pages/callouts');
 });
-app.get('/styleguide-helpers', function(request, response) {
-  response.render('styleguide/pages/helpers');
+app.get('/styleguide-alerts', function(request, response) {
+  response.render('styleguide/pages/alerts');
 });
 app.get('/styleguide-cards', function(request, response) {
   response.render('styleguide/pages/cards');
