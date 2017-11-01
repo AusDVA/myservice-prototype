@@ -27,23 +27,14 @@ jQuery(document).ready(function($){
 
 
     // Help slide gesture
-      let panel = document.getElementById('help-panel');
-      if (panel) {
-//        let touchRegion = new ZingTouch.Region(panel, false, false);
-//        touchRegion.bind(panel, 'swipe', (event) => {
-//          let direction = event.detail.data[0].currentDirection;
-//          if (direction < 45 || direction > 315) {
-//            $(panel).removeClass('is-visible');
-//            window.setTimeout(() => {uiBunch.css({right: ''});}, 600);
-//          }
-//        });
-
-        let panelContainer = document.getElementById('help-panel-container');
-        let panelHeader = document.getElementById('help-panel-header');
+      let panels = $('.panel');
+      panels.map((index, panel) => {
+        let panelContainer = $(panel).find('.panel-container');
+        let panelHeader = $(panel).find('.panel-header');
 	let originX = 0;
         let lastX = 0;
 	let dragging = false;
-        let uiBunch = $([panelContainer, panelHeader]);
+        let uiBunch = panelContainer.add(panelHeader);
         uiBunch.on('mousedown touchstart', (event) => {
           if (!dragging && !$(event.target).is('.panel-close')) {
             dragging = true;
@@ -63,16 +54,12 @@ jQuery(document).ready(function($){
           if (dragging && !$(event.target).is('.panel-close')) {
             dragging = false;
             let newX = (event.screenX || lastX) - originX;
-            if (newX > (panelContainer.offsetWidth * 0.25)) {
-              uiBunch.css({right: -panelContainer.offsetWidth + 'px', transition: 'right 0.3s'});
-              $(panel).css({transition: 'unset'});
-              window.setTimeout(() => {
-                $(panel).removeClass('is-visible');
+            if (newX > (panelContainer[0].offsetWidth * 0.25)) {
+                $(panel).removeClass('is-visible').addClass('swipe-closing');
                 window.setTimeout(() => {
-                  uiBunch.css({right: '', transition: ''});
-                  $(panel).css({transition: ''});
-                },600);
-              }, 300);
+                  $(panel).removeClass('swipe-closing');
+                  uiBunch.css({right: ''});
+                }, 400);
             }
             else {
               uiBunch.css({right: '0px', transition: 'right 0.3s'});
@@ -80,9 +67,5 @@ jQuery(document).ready(function($){
             }
           }
 	});
-      }
-      else {
-        console.log('no help panel');
-      }
-
+      });
 });
