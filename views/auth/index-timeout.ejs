@@ -51,12 +51,22 @@
  
   <% include ../global/partials/footer.ejs %>
   
-  <script>
-	 $(document).ready(function() {
-		setTimeout(function() {
-			window.location.href = '#open-modal';
-		}, 2000);
-	});
+<script>
+     $(document).ready(function() {
+        var timeoutTriggerForModal = null;
+        var timeoutRedirectFunc = function() {
+           window.location.href = '/timeout';
+        };
+        var disarmTimeout = function() {
+           clearTimeout(timeoutRedirectFunc);
+        };
+
+       setTimeout(function() {
+            window.location.href = '#open-modal';
+            timeoutTriggerForModal = setTimeout(timeoutRedirectFunc, 8000); // 3 seconds to boom
+            window.addEventListener('hashchange', disarmTimeout, false);
+        }, 1000);
+    });
 </script>
   
 	
