@@ -153,8 +153,8 @@ app.get('/change-email', function(request, response) {
 app.get('/change-email-enter-code', function(request, response) {
   response.render('auth/change-email-enter-code');
 });
-app.get('/profile-email-changed', function(request, response) {
-  response.render('auth/profile-email-changed');
+app.get('/change-email-login', function(request, response) {
+  response.render('auth/change-email-login');
 });
 
 
