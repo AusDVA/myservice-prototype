@@ -156,17 +156,39 @@
             </table>
           </fieldset>        
           <div class="pagination">
-            <button class="uikit-btn" onclick="window.location.href = '/profile-updated'">Save profile</button>&nbsp; <a href="/">Cancel</a>
+            <button class="uikit-btn btn-save-profile">Save profile</button>&nbsp; <a href="/">Cancel</a>
           </div>
 
       </div>
     </section>
+  <a id="toast-message" href="#" style="display: none">
+    <div class="toast">
+      <p role="alert">Profile updated</p>
+    </div>
+  </a>
   </main>
 
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script src="/docs/js/main.js"></script>
 
   <% include ../global/partials/footer.ejs %>
+  <script>
+    $('.btn-save-profile').click(function() {
+      $('body,html').animate({
+        scrollTop : 0
+      }, 100);
+      // hack to reset focus to top of page
+      document.body.setAttribute('tabindex','0');
+      document.body.focus();
+      document.body.removeAttribute('tabindex');
+      $("#toast-message").show("slow");
+    });
+
+    $( "#toast-message" ).click(function() {
+      $("#toast-message").hide("slow");
+    });
+
+  </script>
 
 </body>
 </html>
