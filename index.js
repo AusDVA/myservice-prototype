@@ -20,7 +20,7 @@ app.get('/email-rego-success', function(request, response) {
 app.get('/email-rego-fail-1', function(request, response) {
   response.render('email/pages/email-rego-fail-1');
 });
-app.get('/email-rego-fail-2', function(request, response) {
+app.get('/email-rego-fail-2', function(request, response) {--
   response.render('email/pages/email-rego-fail-2');
 });
 app.get('/email-rego-fail-3', function(request, response) {
@@ -136,7 +136,18 @@ app.get('/index-preloader', function(request, response) {
 app.get('/index-timeout', function(request, response) {
   response.render('auth/index-timeout');
 });
-
+app.get('/needs1', function(request, response) {
+  response.render('auth/needs1');
+});
+app.get('/needs2', function(request, response) {
+  response.render('auth/needs2');
+});
+app.get('/needs3', function(request, response) {
+  response.render('auth/needs3');
+});
+app.get('/needs-success', function(request, response) {
+  response.render('auth/needs-success');
+});
 
 /* Separate profile screens */
 app.get('/profile-account', function(request, response) {
