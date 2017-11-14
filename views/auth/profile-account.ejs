@@ -9,28 +9,29 @@
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
   <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
-  <% include ../global/partials/header-version.ejs %>
-  <% include header-authenticated.ejs %>
+  <% include ../global/partials/header-topbar.ejs %>
+  <% include ../global/partials/header-authenticated.ejs %>
   
   <main>
     <section>
       <div class="container" id="main-content">
-        <% include ../global/partials/breadcrumb-profile-password.ejs %>
-        <h1>Change password</h1>
-        <hr />       
+        <% include ../global/partials/breadcrumb-profile-account.ejs %>
+        <h1>Account details</h1>
         <div class="row">
           <div class="col-sm-3 secondary-navigation">
             <p class="sr">Navigation</p>
             <ul>
-              <li><a href="personal-details">Personal details</a></li>
-              <li class="active"><a href="change-password">Change password</a></li>
-              <li><a href="contact-details">Contact details</a></li>
-              <li><a href="service-history">Service history</a></li>
+              <li><a href="profile">Personal details</a></li>
+              <li class="active"><a href="profile-account">Account details</a></li>
+              <li><a href="profile-contact">Contact details</a></li>
+              <li><a href="profile-history">Service history</a></li>
             </ul>
           </div>
           <div class="col-sm-9">
+
+            <!-- validation -->
             <div class="has-error has-error-server breakout" id="error-empty-fields" style="display: none">
-              <h2><img src="../../../docs/images/ico-error.svg" alt="Error icon"><a name="heading-error" class="heading-error">The following fields need fixing:</a></h2>
+              <h2><a name="heading-error" class="heading-error">The following fields need fixing:</a></h2>
               <ul>
                 <li><a href="#password">Password</a></li>
                 <li><a href="#password-reenter">Re-enter password</a></li>
@@ -42,24 +43,41 @@
                 <li>Contain at least 1 special character (!@#$%^&*.?)</li>
               </ul>
             </div>
-            <div id="form-group-password" class="form-group">
-              <label class="uikit-text-input__label" for="password">Password<span id="password-error" class="input-error-message" aria-live="polite"> You must enter a valid password</span></label>
-              <input class="uikit-text-input password" name="password" id="password" type="password" value="" required>
-              <button class="uikit-btn uikit-btn--tertiary show-password" value="Show">Show</button>
-            </div>
-            <div id="form-group-password-reenter" class="form-group">
-              <label class="uikit-text-input__label" for="password-reenter">Re-enter password<span id="password-reenter-error" class="input-error-message" aria-live="polite"> You must enter a valid password</span></label>
-              <input class="uikit-text-input password" name="password-reenter" id="password-reenter" type="password" value="" required>
-              <button class="uikit-btn uikit-btn--tertiary show-password">Show</button>
-            </div>
+
+            <fieldset>
+              <legend>Account details</legend>
+              <div class="form-group">
+                <label for="email" class="uikit-text-input__label">Email address</label>
+                <p>rjohnson@email.com</p>
+                <label for="pmkeys" class="uikit-text-input__label">PMKeyS number</label>
+                <p>20122550</p>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>Change password</legend>
+              <div id="form-group-password" class="form-group">
+                <label class="uikit-text-input__label" for="password">Password<span id="password-error" class="input-error-message" aria-live="polite"> You must enter a valid password</span></label>
+                <input class="uikit-text-input password" name="password" id="password" type="password" value="" required>
+                <button class="uikit-btn uikit-btn--tertiary show-password" value="Show">Show</button>
+              </div>
+              <div id="form-group-password-reenter" class="form-group">
+                <label class="uikit-text-input__label" for="password-reenter">Re-enter password<span id="password-reenter-error" class="input-error-message" aria-live="polite"> You must enter a valid password</span></label>
+                <input class="uikit-text-input password" name="password-reenter" id="password-reenter" type="password" value="" required>
+                <button class="uikit-btn uikit-btn--tertiary show-password">Show</button>
+              </div>
+            </fieldset>
             <div class="pagination">
-              <button class="uikit-btn btnSavePassword">Save</button>&nbsp; <a href="/">Cancel</a>            
+              <button class="uikit-btn btnSaveProfile">Save</button>            
             </div>
           </div>
         </section>
+        <a id="toast-message" href="#" style="display: none">
+          <div class="toast">
+            <p role="alert">Profile updated</p>
+          </div>
+        </a>
       </main>
-    </div>
-  </div>
   
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script src="/docs/js/main.js"></script>
@@ -103,6 +121,22 @@
 
 
     });
+
+    $('.btnSaveProfile').click(function() {
+      $('body,html').animate({
+        scrollTop : 0
+      }, 100);
+      // hack to reset focus to top of page
+      document.body.setAttribute('tabindex','0');
+      document.body.focus();
+      document.body.removeAttribute('tabindex');
+      $("#toast-message").show("slow");
+    });
+
+    $( "#toast-message" ).click(function() {
+      $("#toast-message").hide("slow");
+    });
+
   </script>
 </body>
 </html>

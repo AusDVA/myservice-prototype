@@ -150,9 +150,16 @@ app.get('/needs-success', function(request, response) {
 });
 
 /* Separate profile screens */
-app.get('/profile-change-password', function(request, response) {
-  response.render('auth/profile-change-password');
+app.get('/profile-account', function(request, response) {
+  response.render('auth/profile-account');
 });
+app.get('/profile-contact', function(request, response) {
+  response.render('auth/profile-contact');
+});
+app.get('/profile-history', function(request, response) {
+  response.render('auth/profile-history');
+});
+
 
 /* Change email flow */
 app.get('/change-email-poi', function(request, response) {
