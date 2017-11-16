@@ -124,6 +124,9 @@ app.get('/timeout', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
+app.get('/dashboard', function(request, response) {
+  response.render('auth/index-dashboard');
+});
 app.get('/index-cfts', function(request, response) {
   response.render('auth/index-cfts');
 });
