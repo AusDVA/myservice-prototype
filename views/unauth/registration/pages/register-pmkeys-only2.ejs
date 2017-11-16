@@ -22,23 +22,24 @@
       <div class="row">
         <div class="col-sm-12">
           
-          <div class="has-error has-error-server breakout" id="error-empty-fields" style="display: none">
+			<div class="has-error has-error-server breakout" id="error-empty-fields" style="display: none">
 				<h2><a name="heading-error" class="heading-error">The following fields need fixing:</a></h2>
 				<ul>
 					<li><a href="#marriageDate">Date of marriage</a></li>
 				</ul>
-          </div>
-
-          <fieldset>
-            <div class="form-group">
-              <label class="uikit-text-input__label">Have you legally changed your name since leaving the ADF?<!--<span class="hint display-block">For example, did you take your spouses' name after you got married?</span>--></label>
-              <div class="radio-toggle">
-                <label class="on label-left" for="namechange-yes"><input id="namechange-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
-                <label class="off label-right" for="namechange-no"><input id="namechange-no" name="namechange-no" type="radio"><span>No</span></label>
-              </div>
-            </div>
-            </fieldset>
-
+			</div>
+			
+			<div class="change-name-question">
+				<fieldset>
+				<div class="form-group">
+				  <label class="uikit-text-input__label">Have you legally changed your name since leaving the ADF?<!--<span class="hint display-block">For example, did you take your spouses' name after you got married?</span>--></label>
+				  <div class="radio-toggle">
+					<label class="on label-left" for="namechange-yes"><input id="namechange-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
+					<label class="off label-right" for="namechange-no"><input id="namechange-no" name="namechange-no" type="radio"><span>No</span></label>
+				  </div>
+				</div>
+				</fieldset>
+			</div>
 <!-- No name change flow -->
            			
             <div class="poiOptions clearboth" style="display: none; clear: both">
@@ -272,9 +273,7 @@
 			$('#changenameState').val(0);
         }
     });
-	  
 
-	  
     // Prefill
     $(".first-name").val(localStorage.firstName);
     $(".middle-name").val(localStorage.middleName);
@@ -282,6 +281,14 @@
     $(".dob-dd").val(localStorage.myDd);
     $(".dob-mm").val(localStorage.myMm);
     $(".dob-yyyy").val(localStorage.myYyyy);
+	  
+    // Hide change of name question if user is still serving
+    if("stillserving" in sessionStorage){
+		$('.change-name-question').hide()
+		$(".poiOptions").show();
+    } else {
+		$('.change-name-question').show()
+    };
 
   </script>
 
