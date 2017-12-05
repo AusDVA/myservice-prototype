@@ -303,8 +303,8 @@ app.get('/styleguide-toast', function(request, response) {
   response.render('styleguide/pages/toast');
 });
 
-app.get('/styleguide-globalmessages', function(request, response) {
-  response.render('styleguide/pages/globalmessages');
+app.get('/styleguide-notifications', function(request, response) {
+  response.render('styleguide/pages/notifications');
 });
 app.get('/styleguide-modals', function(request, response) {
   response.render('styleguide/pages/modals');
