@@ -20,7 +20,7 @@ app.get('/email-rego-success', function(request, response) {
 app.get('/email-rego-fail-1', function(request, response) {
   response.render('email/pages/email-rego-fail-1');
 });
-app.get('/email-rego-fail-2', function(request, response) {--
+app.get('/email-rego-fail-2', function(request, response) {
   response.render('email/pages/email-rego-fail-2');
 });
 app.get('/email-rego-fail-3', function(request, response) {
@@ -301,6 +301,7 @@ app.get('/styleguide-callouts', function(request, response) {
 });
 app.get('/styleguide-toast', function(request, response) {
   response.render('styleguide/pages/toast');
+});
 app.get('/styleguide-alerts', function(request, response) {
   response.render('styleguide/pages/alerts');
 });
