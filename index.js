@@ -299,11 +299,16 @@ app.get('/styleguide-icons', function(request, response) {
 app.get('/styleguide-callouts', function(request, response) {
   response.render('styleguide/pages/callouts');
 });
+<<<<<<< HEAD
+app.get('/styleguide-toast', function(request, response) {
+  response.render('styleguide/pages/toast');
+=======
 app.get('/styleguide-alerts', function(request, response) {
   response.render('styleguide/pages/alerts');
+>>>>>>> ac1a8e1f1fb2efc0aa47b2e7aa6d668f8f4f8295
 });
-app.get('/styleguide-cards', function(request, response) {
-  response.render('styleguide/pages/cards');
+app.get('/styleguide-globalmessages', function(request, response) {
+  response.render('styleguide/pages/globalmessages');
 });
 app.get('/styleguide-modals', function(request, response) {
   response.render('styleguide/pages/modals');
