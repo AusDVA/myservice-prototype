@@ -302,9 +302,7 @@ app.get('/styleguide-callouts', function(request, response) {
 app.get('/styleguide-toast', function(request, response) {
   response.render('styleguide/pages/toast');
 });
-app.get('/styleguide-alerts', function(request, response) {
-  response.render('styleguide/pages/alerts');
-});
+
 app.get('/styleguide-globalmessages', function(request, response) {
   response.render('styleguide/pages/globalmessages');
 });
