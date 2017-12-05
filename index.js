@@ -20,7 +20,7 @@ app.get('/email-rego-success', function(request, response) {
 app.get('/email-rego-fail-1', function(request, response) {
   response.render('email/pages/email-rego-fail-1');
 });
-app.get('/email-rego-fail-2', function(request, response) {
+app.get('/email-rego-fail-2', function(request, response) {--
   response.render('email/pages/email-rego-fail-2');
 });
 app.get('/email-rego-fail-3', function(request, response) {
@@ -124,18 +124,45 @@ app.get('/timeout', function(request, response) {
 app.get('/auth', function(request, response) {
   response.render('auth/index');
 });
+app.get('/dashboard', function(request, response) {
+  response.render('auth/index-dashboard');
+});
+app.get('/index-cfts', function(request, response) {
+  response.render('auth/index-cfts');
+});
 app.get('/index-claims', function(request, response) {
   response.render('auth/index-claims');
 });
 app.get('/index-preloader', function(request, response) {
   response.render('auth/index-preloader');
 });
-
+app.get('/index-timeout', function(request, response) {
+  response.render('auth/index-timeout');
+});
+app.get('/needs1', function(request, response) {
+  response.render('auth/needs1');
+});
+app.get('/needs2', function(request, response) {
+  response.render('auth/needs2');
+});
+app.get('/needs3', function(request, response) {
+  response.render('auth/needs3');
+});
+app.get('/needs-success', function(request, response) {
+  response.render('auth/needs-success');
+});
 
 /* Separate profile screens */
-app.get('/profile-change-password', function(request, response) {
-  response.render('auth/profile-change-password');
+app.get('/profile-account', function(request, response) {
+  response.render('auth/profile-account');
 });
+app.get('/profile-contact', function(request, response) {
+  response.render('auth/profile-contact');
+});
+app.get('/profile-history', function(request, response) {
+  response.render('auth/profile-history');
+});
+
 
 /* Change email flow */
 app.get('/change-email-poi', function(request, response) {
@@ -147,8 +174,8 @@ app.get('/change-email', function(request, response) {
 app.get('/change-email-enter-code', function(request, response) {
   response.render('auth/change-email-enter-code');
 });
-app.get('/profile-email-changed', function(request, response) {
-  response.render('auth/profile-email-changed');
+app.get('/change-email-login', function(request, response) {
+  response.render('auth/change-email-login');
 });
 
 
@@ -272,8 +299,13 @@ app.get('/styleguide-icons', function(request, response) {
 app.get('/styleguide-callouts', function(request, response) {
   response.render('styleguide/pages/callouts');
 });
+<<<<<<< HEAD
 app.get('/styleguide-toast', function(request, response) {
   response.render('styleguide/pages/toast');
+=======
+app.get('/styleguide-alerts', function(request, response) {
+  response.render('styleguide/pages/alerts');
+>>>>>>> ac1a8e1f1fb2efc0aa47b2e7aa6d668f8f4f8295
 });
 app.get('/styleguide-globalmessages', function(request, response) {
   response.render('styleguide/pages/globalmessages');

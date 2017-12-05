@@ -104,6 +104,13 @@
 		}
 	}
 }
+
+.panel-container {
+	.uikit-text-input__label {
+		margin-top:20px;
+	}
+}
+
 .from-right .panel-header, .from-left .panel-header {
   top: -70px;
 }
@@ -128,7 +135,7 @@
   .panel-header {
     width: 70%;
   }
- 
+
 }
 @media only screen and (min-width: $medium-tablet) {
   .panel-header {
@@ -195,3 +202,29 @@
 	/* smooth scrolling on touch devices */
 	-webkit-overflow-scrolling: touch;
 }
+
+/* Custom additions for gestures
+ * The state it goes thorugh are: closed -> about to open -> opening -> (closing --OR-- swipe-closing) -> closed
+ * there are no rules for closed because we only need it when using React - and it can handle the situation by removing from the dom entirely
+ * There are no rules for 'about to open' and 'closing' because they are identical to the default rules
+ * There are no rules for 'opening' because they are identical to the existing 'is-visible'
+ */
+ .swipe-closing {
+    -webkit-transition: visibility 0s 0.3s;
+    -moz-transition: visibility 0s 0.3s;
+    transition: visibility 0s 0.3s;
+
+   .panel-header {
+     top: 0;
+     transform: translateX(100%);
+     -webkit-transition: transform 0.3s 0s;
+     -moz-transition: transform 0.3s 0s;
+     transition: transform 0.3s 0s;
+   }
+
+   .panel-container {
+     -webkit-transition-delay: 0s;
+   	-moz-transition-delay: 0s;
+   	transition-delay: 0s;
+   }
+ }
