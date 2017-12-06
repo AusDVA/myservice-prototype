@@ -24,6 +24,32 @@ jQuery(document).ready(function($){
 			event.preventDefault();
 		}
 	});
+	
+	// open vvcs panel
+	$('.vvcs-panel-btn').on('click', function(event){
+		event.preventDefault();
+		$('.panel-vvcs').addClass('is-visible');
+	});
+	// close the vvcs panel
+	$('.panel-vvcs').on('click', function(event){
+		if( $(event.target).is('.panel-vvcs') || $(event.target).is('.panel-close') ) { 
+			$('.panel-vvcs').removeClass('is-visible');
+			event.preventDefault();
+		}
+	});
+	
+	// open feedback panel
+	$('.feedback-panel-btn').on('click', function(event){
+		event.preventDefault();
+		$('.panel-feedback').addClass('is-visible');
+	});
+	// close the feedback panel
+	$('.panel-feedback').on('click', function(event){
+		if( $(event.target).is('.panel-feedback') || $(event.target).is('.panel-close') ) { 
+			$('.panel-feedback').removeClass('is-visible');
+			event.preventDefault();
+		}
+	});
 
 
     // Help slide gesture
