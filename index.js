@@ -178,6 +178,12 @@ app.get('/change-email-login', function(request, response) {
   response.render('auth/change-email-login');
 });
 
+/*
+  Staff space
+*/
+app.get('/staff', function(request, response) {
+  response.render('staff/index');
+});
 
 /* Old single screen profile */
 app.get('/profile', function(request, response) {
