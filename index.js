@@ -162,6 +162,9 @@ app.get('/profile-contact', function(request, response) {
 app.get('/profile-history', function(request, response) {
   response.render('auth/profile-history');
 });
+app.get('/profile-assets', function(request, response) {
+  response.render('auth/profile-assets');
+});
 
 
 /* Change email flow */
