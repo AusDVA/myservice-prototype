@@ -165,6 +165,15 @@ app.get('/profile-history', function(request, response) {
 app.get('/profile-assets', function(request, response) {
   response.render('auth/profile-assets');
 });
+app.get('/profile-farm', function(request, response) {
+  response.render('auth/profile-farm');
+});
+app.get('/profile-financial-other', function(request, response) {
+  response.render('auth/profile-financial-other');
+});
+app.get('/profile-assets-added', function(request, response) {
+  response.render('auth/profile-assets-added');
+});
 
 
 /* Change email flow */
