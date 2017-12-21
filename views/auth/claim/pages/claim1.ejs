@@ -5,26 +5,6 @@
   <meta content="width=device-width" name="viewport">
   <title>Add claim: Diagnosis | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">    
-  <style>
-  .custom-combobox {
-    position: relative;
-    display: inline-block;
-    margin-right: 1.5em;
-  }
-  .custom-combobox-toggle {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    margin-left: -1px;
-    padding: 0;
-  }
-  .custom-combobox-input {
-    margin: 0;
-    padding: 5px 10px;
-  }
-  </style>
 </head>
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
@@ -89,7 +69,7 @@
 
 
         <div class="form-group select-diagnosis">
-          <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?<span class="hint display-block"> <span class="display-block">Do not type <em>left</em> or <em>right</em>.</span></span></label>
+          <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?</label>
           <select name="combobox" id="combobox">
             <option value="">Select one...</option>
             <option value="001">Accommodation disorder</option>
@@ -344,50 +324,13 @@
       </div>
 		</div>
 
-    <h2>Upload your GP or Specialist's medical report (recommended)</h2>
-        
-    <fieldset>
-        <div class="tip--wrapper">
-            <img alt="Tip icon" class="heading-icon" src="../../../docs/images/ico-tip-blue.svg">
-            <h3>What we need:</h3>
-            <ul>
-                <li>Your <strong>medical diagnosis</strong> will help us assess your claim.</li>
-                <li>Providing <strong>receipts</strong> will help us reimburse your diagnosis costs.</li>
-                <li>Providing supporting documents will help us assess your claim. Supporting documents may include:
-                    <ul>
-                        <li>medical imaging and/or reports (X-Rays and MRIs)</li>
-                        <li>test results</li>
-                        <li>other medical reports</li>
-                    </ul>
-                </li>
-            </ul>
-            <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-        </div>
-
-        <!-- Document list--> 
-
-        <div class="upload-list">
-        <h3>Uploads</h3>
-        <table class="document-uploads">
-            <tr>
-                <th>Document title</th>
-                <th class="centred">Actions</th>
-            </tr>
-            <tr>
-                <td><a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a></td>
-                <td class="centred"><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button></td>
-            </tr>
-        </table>
-        <button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button>
-        </div>
-    </fieldset>
 
     <div class="pagination">
       <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Previous</button>
       <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
       <div class="floated">
           <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim1'">Save and exit</button>&nbsp;
-          <button class="uikit-btn btnNext" onclick="window.location.href = '/claim3'">Save and next</button>
+          <button class="uikit-btn btnNext" onclick="window.location.href = '/claim2'">Save and next</button>
       </div>
     </div>
     <% include ../partials/cancel-modal.ejs %>
@@ -403,6 +346,7 @@
   <% include ../partials/panel-help.ejs %>
 
 
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	<script>
 	
 	// Progress percentage
@@ -437,16 +381,11 @@
   $(".diagnosis-list").click(function() {
     $( ".free-text-diagnosis" ).hide();
     $( ".select-diagnosis" ).show("fast");
-    $("#tags").focus();
+    $("#combobox").focus();
   });
 
-	</script>
 
-
-
-
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
+  // Type ahead with text filter
   $( function() {
     $.widget( "custom.combobox", {
       _create: function() {
@@ -468,7 +407,7 @@
           .val( value )
           .attr( "title", "" )
           //.addClass( "custom-combobox-input ui-widget ui-widget-content ui-state-default ui-corner-left" )
-          .addClass ("uikit-text-input")
+          .addClass ("typeahead")
           .autocomplete({
             delay: 0,
             minLength: 0,
@@ -492,7 +431,7 @@
         });
       },
 
-      _createShowAllButton: function() {
+/*      _createShowAllButton: function() {
         var input = this.input,
           wasOpen = false;
 
@@ -524,7 +463,7 @@
             input.autocomplete( "search", "" );
           });
       },
-
+*/
       _source: function( request, response ) {
         var matcher = new RegExp( $.ui.autocomplete.escapeRegex(request.term), "i" );
         response( this.element.children( "option" ).map(function() {
@@ -564,7 +503,7 @@
         // Remove invalid value
         this.input
           .val( "" )
-          .attr( "title", value + " didn't match any item" )
+          .attr( "title", value + " did not match" )
           .tooltip( "open" );
         this.element.val( "" );
         this._delay(function() {
@@ -583,7 +522,7 @@
     $( "#toggle" ).on( "click", function() {
       $( "#combobox" ).toggle();
     });
-  } );
+  });
   </script>
 
 </body>
