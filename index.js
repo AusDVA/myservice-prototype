@@ -162,6 +162,18 @@ app.get('/profile-contact', function(request, response) {
 app.get('/profile-history', function(request, response) {
   response.render('auth/profile-history');
 });
+app.get('/profile-assets', function(request, response) {
+  response.render('auth/profile-assets');
+});
+app.get('/profile-farm', function(request, response) {
+  response.render('auth/profile-farm');
+});
+app.get('/profile-financial-other', function(request, response) {
+  response.render('auth/profile-financial-other');
+});
+app.get('/profile-assets-added', function(request, response) {
+  response.render('auth/profile-assets-added');
+});
 
 
 /* Change email flow */
@@ -178,6 +190,12 @@ app.get('/change-email-login', function(request, response) {
   response.render('auth/change-email-login');
 });
 
+/*
+  Staff space
+*/
+app.get('/staff', function(request, response) {
+  response.render('staff/index');
+});
 
 /* Old single screen profile */
 app.get('/profile', function(request, response) {
@@ -204,6 +222,10 @@ app.get('/terms-and-conditions', function(request, response) {
 
 
 /* Broadened claim flow */
+app.get('/claims', function(request, response) {
+  response.render('auth/claim/pages/claims');
+});
+
 app.get('/claim1', function(request, response) {
   response.render('auth/claim/pages/claim1');
 });

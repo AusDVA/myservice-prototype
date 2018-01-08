@@ -1,5 +1,7 @@
 /**********************************
-	Grouping navigation elements to form navigation controls
+
+	Pagination is the grouping of navigation buttons at the bottom of page flows
+
 **********************************/
 
 .pagination {
@@ -31,35 +33,389 @@
 	}
 }
 
-.secondary-navigation {
-	display: block;
-	ul {
-		background-color: $feature-background;
-		margin-left: 0;
-		padding-left: 0;
-		border-right: 1px solid $gray-light;
+
+/**********************************
+
+	Responsive navigation - hidden for mobile, exposed on wider displays
+
+**********************************/
+
+.column-nav {
+	padding-left: 1em;
+	h1 {
+		font-size: 1.2rem !important;
+		display: none;
 	}
-	li {
-		margin-left: 0;
-		padding-left: 0;
-		list-style-type: none;
-		a {
-			padding: 0.35em 0 0.35em 0.5em;
-			display: block;
-			border: none;
-			color: $blue;
+}
+.column-content {
+	padding-left: 1em;
+}
+
+					// check this purpose of this class
+					.uikit-accordion__title {
+					    float: none !important;
+					}
+
+
+
+// NARROW WIDTH -----------------------------------------------------------
+// Menu button that appears at narrow widths
+// Starting with mobile view - navigation hidden until triggered
+
+.toggle {
+  float: right;
+  padding: 0.7em 0.7em 0.7em 2.8em;
+  border: none;
+  margin-top: 0.4em;
+  border-radius: 3px;
+  font-size: 1em;
+  background: transparent;
+  color: #fff;
+  display: none;
+  background: transparent url(../images/ico-menu-open.svg) no-repeat 1em 0.7em;
+	background-size: 20px 20px;
+  &:focus,
+  &:hover {
+  background: black url(../images/ico-menu-open.svg) no-repeat 1em 0.7em;
+		background-size: 20px 20px;
+		cursor: pointer;
+  }
+}
+ul.menu {
+  display: none;
+}
+.toggle {
+  display: block;
+}
+ul.menu.is-active {
+  display: block;
+}
+.menu-closed {
+  background: transparent url(../images/ico-menu-close.svg) no-repeat 1em 50%;
+	background-size: 16px 16px;
+  &:focus,
+  &:hover {
+  	background: black url(../images/ico-menu-close.svg) no-repeat 1em 50%;
+		background-size: 16px 16px;
+		outline: 0;
+  }
+}
+
+
+
+// Navigation triggered by menu button on narrow screens
+// Menu appearance after being triggered
+
+ul.menu {
+	margin: 0 0 0 -28px;
+	padding: 0;
+	z-index: 101;
+	width: 100%;
+	background-color: $blue-dark;
+	-webkit-box-shadow: 0 8px 8px 0 rgba(0,0,0,0.3);
+	box-shadow: 0 8px 8px 0 rgba(0,0,0,0.3);
+}
+ul.menu li {
+	display: block;
+	list-style-image: none;
+	a {
+		display: block;
+		color: white !important;
+		line-height: 1.4;
+		text-align: left;
+		margin: 0;
+		padding: 0.75em 0.75em 0.75em 2em;
+		text-decoration: none;
+		overflow: hidden;
+		&:focus,
+		&:hover {
+			background-color: rgba(0,0,0,0.2) !important;
+			outline: 0;
 		}
-		&.active {
-			border-right: 7px solid $blue;
-			a {
-				background-color: $gray-light;
-				color: black;
-				border-bottom: 1px solid $feature-border;
-				border-top: 1px solid $feature-border;
-			}
+		&.header-home {
+			background: transparent url(../images/ico-home.svg) no-repeat 1em 50%;
+			background-size: 16px 16px;
+		}
+		&.header-profile {
+			background: transparent url(../images/ico-profile.svg) no-repeat 1em 50%;
+			background-size: 16px 16px;
 		}
 	}
 }
+
+
+
+
+
+
+
+// MEDIUM WIDTH -------------------------------------------------------------
+// Visible navigation on medium width screens
+// This shows square shaped buttons down the left with icons above
+
+@media only screen and (min-width: $medium-handheld) {
+	.column-content {
+		float: left;
+		padding-left: 25px;
+		width: calc(100% - 175px);
+	}
+	.column-nav {
+		float: left;
+		padding-left: 0;
+		display: block;
+		width: 120px;
+		h1 {
+			font-size: 1rem;
+			padding: 0.3em 0 0.35em 0;
+			text-transform: uppercase;
+			color: $gray;
+			display: block;
+			text-align: center;
+		}
+	}
+	ul.menu {
+		border-top: 1px solid $gray-light;
+		border-left: 1px solid $gray-light;
+		border-right: 1px solid $gray-light;
+		margin: 0;
+		display: block;
+		background-color: transparent;
+	  position: relative;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	ul.menu li {
+		display: block;
+		a {
+			border: none;
+			color: $blue !important;
+			border-bottom: 1px solid #e0e0e0;
+			padding: 2em 0 1.25em 0;
+			font-size: 0.9rem;
+			text-align: center;
+			-webkit-transition: all .2s;
+  		transition: all .2s;
+  		line-height: 1.2;
+			&:focus,
+			&:hover {
+				background-color: $gray-light !important;
+				color: black !important;
+			}
+			&.nav-home {
+				background: transparent url(../images/ico-home-blue.svg) no-repeat 50% 0.7em;
+				background-size: 18px 18px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-home-black.svg) no-repeat 50% 0.7em;
+					background-size: 18px 18px;
+				}
+			}
+			&.nav-health-card {
+				background: transparent url(../images/ico-health-card-blue.svg) no-repeat 50% 0.7em;
+				background-size: 18px 18px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-health-card-black.svg) no-repeat 50% 0.7em;
+					background-size: 18px 18px;
+				}
+			}
+			&.nav-claims {
+				background: transparent url(../images/ico-claims-blue.svg) no-repeat 50% 0.7em;
+				background-size: 18px 18px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-claims-black.svg) no-repeat 50% 0.7em;
+					background-size: 18px 18px;
+				}
+			}
+			&.nav-contact {
+				background: transparent url(../images/ico-contact-blue.svg) no-repeat 50% 0.7em;
+				background-size: 18px 18px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-contact-black.svg) no-repeat 50% 0.7em;
+					background-size: 18px 18px;
+				}
+			}
+			&.nav-profile {
+				background: transparent url(../images/ico-profile-blue.svg) no-repeat 50% 0.7em;
+				background-size: 18px 18px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-profile-black.svg) no-repeat 50% 0.7em;
+					background-size: 18px 18px;
+				}
+			}
+			&.nav-active {
+				color: $gray-mid !important;
+			}
+		}
+	}
+	ul.menu li ul li {
+		margin: 0;
+		a {
+			padding: 0.3em 0 0.3em 0.4em;
+		}
+	}
+  .toggle {
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+// WIDE WIDTH ---------------------------------------------------------------
+// Visible navigation on desktop screens
+// This shows nav bar down the left with icons to the left of link text
+
+@media only screen and (min-width: $medium-tablet) {
+	.column-content {
+		border-left: 1px solid $gray-light;
+		float: left;
+		padding-left: 50px;
+		width: calc(100% - 275px);
+	}
+	.column-nav {
+		float: left;
+		display: block;
+		width: 200px;
+		h1 {
+			font-size: 1.1rem;
+			padding: 0.3em 0 0.35em 0;
+			text-transform: uppercase;
+			color: $gray;
+			display: block;
+			text-align: left;
+		}
+	}
+	ul.menu {
+		border: none;
+		margin: 0;
+		display: block;
+		background-color: transparent;
+	  position: relative;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+	}
+	ul.menu li {
+		display: block;
+		a {
+			border: none;
+			color: $blue !important;
+			padding: 0.6em 0.75em 0.6em 2em;
+			-webkit-transition: all .2s;
+			text-align: left;
+			font-size: 1rem;
+  		transition: all .2s;
+			&:focus,
+			&:hover {
+				background-color: white !important;
+				padding: 0.6em 0.75em 0.6em 2.2em;
+				color: black !important;
+			}
+			&.nav-home {
+				background: transparent url(../images/ico-home-blue.svg) no-repeat 0 50%;
+				background-size: 20px 20px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-home-black.svg) no-repeat 0.2em 50%;
+					background-size: 20px 20px;
+				}
+			}
+			&.nav-health-card {
+				background: transparent url(../images/ico-health-card-blue.svg) no-repeat 0 50%;
+				background-size: 20px 20px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-health-card-black.svg) no-repeat 0.2em 50%;
+					background-size: 20px 20px;
+				}
+			}
+			&.nav-claims {
+				background: transparent url(../images/ico-claims-blue.svg) no-repeat 0 50%;
+				background-size: 20px 20px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-claims-black.svg) no-repeat 0.2em 50%;
+					background-size: 20px 20px;
+				}
+			}
+			&.nav-contact {
+				background: transparent url(../images/ico-contact-blue.svg) no-repeat 0 50%;
+				background-size: 20px 20px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-contact-black.svg) no-repeat 0.2em 50%;
+					background-size: 20px 20px;
+				}
+			}
+			&.nav-profile {
+				background: transparent url(../images/ico-profile-blue.svg) no-repeat 0 50%;
+				background-size: 20px 20px;
+				&:focus,
+				&:hover {
+					background: white url(../images/ico-profile-black.svg) no-repeat 0.2em 50%;
+					background-size: 20px 20px;
+				}
+			}
+			&.nav-active {
+				color: $gray-mid !important;
+			}
+		}
+	}
+	ul.menu li ul li {
+		margin: 0;
+		a {
+			padding: 0.3em 0 0.3em 0.4em;
+		}
+	}
+  .toggle {
+    display: none;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Old Left navigation
+
+
 
 @media only print, screen and (min-width: $large-handheld) {
 	.secondary-navigation {
@@ -76,7 +432,9 @@
 	}
 }
 
+
 // Return to top of page button
+
 #return-to-top {
 	position: fixed;
 	bottom: 0.5em;
@@ -142,9 +500,9 @@
 			top: 14px;
 		}
 	}
-	.uikit-link-list li{
-		display: block!important;
-		text-align:left;
+	.uikit-link-list li {
+		display: inline-block!important;
+		text-align: left;
 	}
 }
 
