@@ -222,10 +222,6 @@ app.get('/terms-and-conditions', function(request, response) {
 
 
 /* Broadened claim flow */
-app.get('/claims', function(request, response) {
-  response.render('auth/claim/pages/claims');
-});
-
 app.get('/claim1', function(request, response) {
   response.render('auth/claim/pages/claim1');
 });
