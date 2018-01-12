@@ -127,9 +127,6 @@ app.get('/auth', function(request, response) {
 app.get('/dashboard', function(request, response) {
   response.render('auth/index-dashboard');
 });
-app.get('/index-cfts', function(request, response) {
-  response.render('auth/index-cfts');
-});
 app.get('/index-claims', function(request, response) {
   response.render('auth/index-claims');
 });
