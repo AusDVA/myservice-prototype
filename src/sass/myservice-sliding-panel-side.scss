@@ -1,0 +1,286 @@
+/**********************************
+	The sliding panel side animates from the right side of the screen when triggered by a button. Examples: Log in panel and feedback panel.	
+
+  Animated slide out panel
+	Author: http://codyhouse.co/gem/css-slide-in-panel/
+	Modified for use
+	Dependency: jquery-effects - custom jquery with only effects module
+
+**********************************/
+
+.panel-content .panel-btn {
+  position: relative;
+  display: inline-block;
+  padding: 1em 2em;
+  background-color: #89ba2c;
+  color: #ffffff;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  border-radius: 50em;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 5px rgba(0, 0, 0, 0.1);
+  -webkit-transition: all 0.2s;
+  -moz-transition: all 0.2s;
+  transition: all 0.2s;
+}
+.no-touch .panel-content .panel-btn:hover {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 0, 0, 0.3);
+}
+
+.pagination .panel-close {
+	margin-left:0;
+	margin-top:0.5em;
+}
+.panel, .panel-home-help {
+	background: rgba(0,0,0,0.5);
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	visibility: hidden;
+	-webkit-transition: visibility 0s 0.6s;
+	-moz-transition: visibility 0s 0.6s;
+	transition: visibility 0s 0.6s;
+  	z-index:9999;
+}
+.panel::after,
+.panel-home-help::after {
+  /* overlay layer */
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  cursor: pointer;
+  -webkit-transition: background 0.3s 0.3s;
+  -moz-transition: background 0.3s 0.3s;
+  transition: background 0.3s 0.3s;
+}
+.panel.is-visible,
+.panel-home-help.is-visible {
+  visibility: visible;
+  -webkit-transition: visibility 0s 0s;
+  -moz-transition: visibility 0s 0s;
+  transition: visibility 0s 0s;
+}
+.panel.is-visible::after,
+.panel-home-help.is-visible::after {
+  background: rgba(0, 0, 0, 0.6);
+  -webkit-transition: background 0.3s 0s;
+  -moz-transition: background 0.3s 0s;
+  transition: background 0.3s 0s;
+}
+.panel-header {
+	position: fixed;
+	width: 90%;
+	height: 65px;
+	line-height: 50px;
+	background: $blue;
+	z-index: 2;
+	box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
+	-webkit-transition: top 0.3s 0s;
+	-moz-transition: top 0.3s 0s;
+	transition: top 0.3s 0s;
+	h2 {
+		color: white;
+		padding-left: 5%;
+		float: left;
+		font-size: 1.5rem !important;
+		margin: 0.1em 0 0 0;
+	}
+	a.panel-close {
+		float: right;
+		background: transparent url(../images/ico-close-white.svg) no-repeat 0 12px;
+		background-size: 38px 38px;
+		border-bottom: none;
+		color: white;
+		padding: 6px 0 0 46px;
+		margin-right: 5%;
+		text-decoration: none;
+	    &:focus,
+	    &:hover {
+			background: transparent url(../images/ico-close-black.svg) no-repeat 0 12px;
+			background-size: 38px 38px;
+		}
+	}
+}
+
+.panel-container {
+	.uikit-text-input__label {
+		margin-top:20px;
+	}
+}
+
+.from-right .panel-header, .from-left .panel-header {
+  top: -70px;
+}
+.from-right .panel-header {
+  right: 0;
+}
+.is-visible .panel-header {
+  top: 0;
+  -webkit-transition: top 0.3s 0.3s;
+  -moz-transition: top 0.3s 0.3s;
+  transition: top 0.3s 0.3s;
+}
+
+@media only screen and (min-width: $small-handheld) {
+	.pagination .panel-close {
+		margin-left:0.8em;
+		margin-top:0;
+	}
+	.panel-close--first {
+		margin-left:0px!important;
+	}
+}
+
+@media only screen and (min-width: $large-handheld) {
+  .panel-header {
+    width: 70%;
+  }
+
+}
+@media only screen and (min-width: $medium-tablet) {
+  .panel-header {
+    width: 50%;
+  }
+}
+
+
+.panel-container {
+	-webkit-box-shadow: -10px 0px 15px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: -10px 0px 15px 0px rgba(0,0,0,0.25);
+	box-shadow: -10px 0px 15px 0px rgba(0,0,0,0.25);
+	position: fixed;
+	width: 90%;
+	height: 100%;
+	top: 0;
+	background: white;
+	z-index: 1;
+	-webkit-transition-property: -webkit-transform;
+	-moz-transition-property: -moz-transform;
+	transition-property: transform;
+	-webkit-transition-duration: 0.3s;
+	-moz-transition-duration: 0.3s;
+	transition-duration: 0.3s;
+	-webkit-transition-delay: 0.3s;
+	-moz-transition-delay: 0.3s;
+	transition-delay: 0.3s;
+	right: 0;
+	-webkit-transform: translate3d(100%, 0, 0);
+	-moz-transform: translate3d(100%, 0, 0);
+	-ms-transform: translate3d(100%, 0, 0);
+	-o-transform: translate3d(100%, 0, 0);
+	transform: translate3d(100%, 0, 0);
+}
+.is-visible .panel-container {
+	-webkit-transform: translate3d(0, 0, 0);
+	-moz-transform: translate3d(0, 0, 0);
+	-ms-transform: translate3d(0, 0, 0);
+	-o-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+	-webkit-transition-delay: 0s;
+	-moz-transition-delay: 0s;
+	transition-delay: 0s;
+}
+@media only screen and (min-width: $large-handheld) {
+  .panel-container {
+    width: 70%;
+  }
+}
+@media only screen and (min-width: $medium-tablet) {
+  .panel-container {
+    width: 50%;
+  }
+}
+
+.panel-content {
+	position: absolute;
+	top: 65px;
+	left: 0;
+	width: 90%;
+	height: 80%;
+	padding: 1em 5% 0 5%;
+	overflow: auto;
+	/* smooth scrolling on touch devices */
+	-webkit-overflow-scrolling: touch;
+}
+
+/* Custom additions for gestures
+ * The state it goes thorugh are: closed -> about to open -> opening -> (closing --OR-- swipe-closing) -> closed
+ * there are no rules for closed because we only need it when using React - and it can handle the situation by removing from the dom entirely
+ * There are no rules for 'about to open' and 'closing' because they are identical to the default rules
+ * There are no rules for 'opening' because they are identical to the existing 'is-visible'
+ */
+ .swipe-closing {
+    -webkit-transition: visibility 0s 0.3s;
+    -moz-transition: visibility 0s 0.3s;
+    transition: visibility 0s 0.3s;
+
+   .panel-header {
+     top: 0;
+     transform: translateX(100%);
+     -webkit-transition: transform 0.3s 0s;
+     -moz-transition: transform 0.3s 0s;
+     transition: transform 0.3s 0s;
+   }
+
+   .panel-container {
+     -webkit-transition-delay: 0s;
+   	-moz-transition-delay: 0s;
+   	transition-delay: 0s;
+   }
+ }
+
+
+ @media only screen and (min-width: $large-handheld) {
+	.btn-panel-help {
+	    right: 0;
+	    bottom: auto;
+    	top: 16vh;
+    	width: auto;
+	    padding: 0;
+		.uikit-btn--help {
+		    background-color: #eeeeee;
+		    color: #444444;
+		    display: inline-block;
+		    -webkit-border-radius: 5px 0 0 5px !important;
+			border-radius: 5px 0 0 5px !important;
+		    border: 1px solid #444444;
+		    border-right: none;
+			margin-right:-1px;
+	   		padding: 35px 1em 0.5em 1em;
+			background: #eeeeee url(../images/ico-help-gray.svg) no-repeat center 15px;
+			background-size: 20px 20px;
+			box-shadow: -2px 2px 10px 0px rgba(0, 0, 0, 0.2);
+		    &:focus,
+		    &:hover {
+			    color: white;
+				background: #043c75 url(../images/ico-help-white.svg) no-repeat center 15px;
+				background-size: 20px 20px;
+		    }
+		}
+	}
+}
+
+.ico-email {
+	background: url(../images/ico-email-blue.svg) no-repeat 0px 0px;
+	background-size: 20px 20px;
+	display:inline-block;
+	width:20px;
+	height:20px;
+	margin-bottom:-4px;
+	margin-right:10px;
+}
+
+.ico-phone {
+	background: url(../images/ico-phone-blue.svg) no-repeat 0px 0px;
+	background-size: 20px 20px;
+	display:inline-block;
+	width:20px;
+	height:20px;
+	margin-bottom:-4px;
+	margin-right:10px;
+}
