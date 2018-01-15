@@ -114,6 +114,9 @@ app.get('/forgot-password-step4', function(request, response) {
 app.get('/system-error', function(request, response) {
   response.render('unauth/system-error');
 });
+app.get('/not-found', function(request, response) {
+  response.render('unauth/not-found');
+});
 app.get('/timeout', function(request, response) {
   response.render('unauth/timeout');
 });
