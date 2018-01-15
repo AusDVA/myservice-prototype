@@ -153,6 +153,9 @@ app.get('/needs-success', function(request, response) {
 app.get('/profile-account', function(request, response) {
   response.render('auth/profile-account');
 });
+app.get('/profile-bank', function(request, response) {
+  response.render('auth/profile-bank');
+});
 app.get('/profile-contact', function(request, response) {
   response.render('auth/profile-contact');
 });
