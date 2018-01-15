@@ -254,6 +254,12 @@ app.get('/health-card1', function(request, response) {
 app.get('/health-card2', function(request, response) {
   response.render('auth/claim/pages/health-card2');
 });
+app.get('/health-card3', function(request, response) {
+  response.render('auth/claim/pages/health-card3');
+});
+app.get('/health-card4', function(request, response) {
+  response.render('auth/claim/pages/health-card4');
+});
 
 
 app.get('/viewClaimDetail', function(request, response) {
