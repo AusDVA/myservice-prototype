@@ -91,6 +91,9 @@ app.get('/register-pmkeys-only2', function(request, response) {
 app.get('/register-pmkeys-only3', function(request, response) {
   response.render('unauth/registration/pages/register-pmkeys-only3');
 });
+app.get('/register-service-number4', function(request, response) {
+  response.render('unauth/registration/pages/register-service-number4');
+});
 
 
 app.get('/contactusscreen', function(request, response) {
