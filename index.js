@@ -243,14 +243,14 @@ app.get('/claim4', function(request, response) {
 app.get('/claim5', function(request, response) {
   response.render('auth/claim/pages/claim5');
 });
-app.get('/claim5-5', function(request, response) {
-  response.render('auth/claim/pages/claim5-5');
-});
 app.get('/claim6', function(request, response) {
   response.render('auth/claim/pages/claim6');
 });
 app.get('/claim7', function(request, response) {
   response.render('auth/claim/pages/claim7');
+});
+app.get('/claim8', function(request, response) {
+  response.render('auth/claim/pages/claim8');
 });
 
 /* Mental health treatment path */
