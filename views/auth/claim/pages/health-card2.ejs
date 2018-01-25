@@ -23,17 +23,33 @@
 				<p class="text-fullwidth no-space-after">White Card holders may also be entitled to a <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement" rel="external" target="_blank">veterans supplement</a>. If eligible we will deposit this fortnightly payment into your nominated bank account. This could take up to 2 weeks. You will receive a letter from us to confirm your first payment.</p>
 			</div>
 			
-			<h3>Bank details:</h3>
-
-			<% include ../../../global/partials/bank-account-details.ejs %>
-
+			
+			<fieldset>
+			  <legend class="legend-label">Does DVA have your bank account details?</legend>
+			  <div class="radio-toggle">
+				<label class="on label-left" for="bankdetails-yes"><input id="bankdetails-yes" type="radio" name="bankdetails"><span>Yes</span></label>
+				<label class="off label-right" for="bankdetails-no"><input id="bankdetails-no" type="radio" name="bankdetails"><span>No</span></label>
+			  </div>
+			</fieldset>
+			
+			<div class="bankdetails-yes" style="display:none;">
+				<div class="form-group pmkeys-question">
+				  <label class="uikit-text-input__label" for="dva-number">Your DVA client number <span class="hint">(optional)<span class="display-block">If you have one, we recommend you provide it here.</span></label>
+				  <input class="uikit-text-input input-half" id="dva-number" name="dva-number" type="text" value="">
+				</div>
+			</div>
+			
+			<div class="bankdetails-no" style="display:none;">
+				<h3>Bank details:</h3>
+				<% include ../../../global/partials/bank-account-details.ejs %>
+			</div>
+				
 			<div class="pagination">
 				<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/health-card1'">Previous</button>
 				<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel request</button>
-				<div class="floated">
-					<button class="uikit-btn" onclick="window.location.href = '/health-card3'">Next</button>
-				</div>
+				<div class="floated"><button class="uikit-btn" onclick="window.location.href = '/health-card3'">Next</button></div>
 			</div>
+	
 			<% include ../partials/cancel-modal.ejs %>
 		</div>
 	</main>
@@ -51,6 +67,16 @@
         if (this.value.length == this.maxLength) {
           $(this).next('#bsb').focus();
         }
+    });
+	
+	// Show and hide bank details
+    $( "#bankdetails-yes" ).click(function() {
+	  $( ".bankdetails-yes" ).show("fast");
+	  $( ".bankdetails-no" ).hide();
+    });
+    $( "#bankdetails-no" ).click(function() {
+	  $( ".bankdetails-yes" ).hide();
+      $( ".bankdetails-no" ).show("fast");
     });
 
     // PI messages
