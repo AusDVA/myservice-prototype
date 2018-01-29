@@ -253,6 +253,68 @@ app.get('/claim8', function(request, response) {
   response.render('auth/claim/pages/claim8');
 });
 
+/* Student assistance flow */
+app.get('/student-assistance-landing', function(request, response) {
+  response.render('auth/claim/pages/student-assistance-landing');
+});
+app.get('/studentclaim1', function(request, response) {
+  response.render('auth/claim/pages/studentclaim1');
+});
+app.get('/studentclaim2', function(request, response) {
+  response.render('auth/claim/pages/studentclaim2');
+});
+app.get('/studentclaim3', function(request, response) {
+  response.render('auth/claim/pages/studentclaim3');
+});
+app.get('/studentclaim4', function(request, response) {
+  response.render('auth/claim/pages/studentclaim4');
+});
+app.get('/studentclaim5', function(request, response) {
+  response.render('auth/claim/pages/studentclaim5');
+});
+app.get('/studentclaim6', function(request, response) {
+  response.render('auth/claim/pages/studentclaim6');
+});
+app.get('/viewClaimDetailStudent', function(request, response) {
+  response.render('auth/claim/pages/viewClaimDetailStudent');
+});
+app.get('/index-claimsstudent', function(request, response) {
+  response.render('auth/index-claimsstudent');
+});
+
+
+
+/* Student assistance flow */
+app.get('/student-assistance-landing', function(request, response) {
+  response.render('auth/claim/pages/student-assistance-landing');
+});
+app.get('/studentclaim1', function(request, response) {
+  response.render('auth/claim/pages/studentclaim1');
+});
+app.get('/studentclaim2', function(request, response) {
+  response.render('auth/claim/pages/studentclaim2');
+});
+app.get('/studentclaim3', function(request, response) {
+  response.render('auth/claim/pages/studentclaim3');
+});
+app.get('/studentclaim4', function(request, response) {
+  response.render('auth/claim/pages/studentclaim4');
+});
+app.get('/studentclaim5', function(request, response) {
+  response.render('auth/claim/pages/studentclaim5');
+});
+app.get('/studentclaim6', function(request, response) {
+  response.render('auth/claim/pages/studentclaim6');
+});
+app.get('/viewClaimDetailStudent', function(request, response) {
+  response.render('auth/claim/pages/viewClaimDetailStudent');
+});
+app.get('/index-claimsstudent', function(request, response) {
+  response.render('auth/index-claimsstudent');
+});
+
+
+
 /* Mental health treatment path */
 app.get('/health-card1', function(request, response) {
   response.render('auth/claim/pages/health-card1');
