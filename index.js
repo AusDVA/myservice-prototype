@@ -350,6 +350,9 @@ app.get('/pi-claim3', function(request, response) {
 app.get('/pi-claim4', function(request, response) {
     response.render('auth/claim/pages/pi-claim4');
 });
+app.get('/pi-claim5', function(request, response) {
+    response.render('auth/claim/pages/pi-claim5');
+});
 app.get('/pi-review', function(request, response) {
     response.render('auth/claim/pages/pi-review');
 });
