@@ -356,6 +356,9 @@ app.get('/pi-claim5', function(request, response) {
 app.get('/pi-review', function(request, response) {
     response.render('auth/claim/pages/pi-review');
 });
+app.get('/pi-submitted', function(request, response) {
+    response.render('auth/claim/pages/pi-submitted');
+});
 
 /**
   Component testing
