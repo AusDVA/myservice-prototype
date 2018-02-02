@@ -128,19 +128,20 @@ jQuery(document).ready(function ($) {
 			id9: "",
 			id9a: "",
 			id9b: "Please provide any supporting documents",
-			id10: "",
-			id11: "",
-			id12: "",
-			id13: "",
-			id14: "",
+			id10: "Level of study",
+			id10a: "[TEXT TBD] You are no longer eligible",
+			id11: "Grade This Year",
+			id12: "Name of School",
+			id13: "Address of School",
+			id14: "Telephone Number of School",
 			id15: "What type of education will you undertake this year?",
 			id16: "Where is are you currently studying/planning to study?",
 			id17: "What course are you undertaking?",
 			id18: "Course Code",
-			id19: "Date you started or plan to start studying",
-			id20: "Date you plan to complete your studies",
+			id19: "Date you started or plan to start studying <span class='hint'>(DD / MM / YYYY)</span>",
+			id20: "Date you plan to complete your studies <span class='hint'>(MM / YYYY)</span>",
 			id21: "What is your study load?",
-			id21b: "When do you intend on returning to full-time study? (optional)",
+			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(MM / YYYY)</span>",
 			id22: "Is this your current address?",
 			id23: "Will you be living away from home whilst undertaking study?",
 			id23a: "Please select a statement that best describes the situation",
@@ -189,6 +190,7 @@ jQuery(document).ready(function ($) {
 			id9a: "Please provide a brief statement explaining how the student came into their care. If relevant, please provide a copy of any standing orders from the Family Court etc.",
 			id9b: "Please provide any supporting documents",
 			id10: "Student's level of study",
+			id10a: "[TEXT TBD] You are no longer eligible",
 			id11: "Grade This Year",
 			id12: "Name of School",
 			id13: "Address of School",
@@ -197,10 +199,10 @@ jQuery(document).ready(function ($) {
 			id16: "Where is the student currently studying/planning to study?",
 			id17: "What course is the student undertaking?",
 			id18: "Course Code",
-			id19: "Date the student started or plans to start studying",
-			id20: "Date the student plans to complete their studies",
+			id19: "Date the student started or plans to start studying <span class='hint'>(DD / MM / YYYY)</span>",
+			id20: "Date the student plans to complete their studies <span class='hint'>(  MM / YYYY)</span>",
 			id21: "What is the student's study load?",
-			id21b: "When do you intend on returning to full-time study? (optional)",
+			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(  MM / YYYY)</span>",
 			id22: "Is this the student’s address? ",
 			id23: "Will the student be living away from home whilst undertaking study?",
 			id23a: "Please select a statement that best describes the situation",
@@ -234,7 +236,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	for (var key in question) {
-		$("#question_" + key).text(question[key]);
+		$("#question_" + key).html(question[key]);
 	}
 
 	// Calculate student age
@@ -285,12 +287,11 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Page 1
 	$(".pt-studentAge--mature").hide();
 	$(".pt-noLongerEligible").hide();
 
-
 	$('input[name=studentLivingWithPartner]').change(function () {
-		console.log('got there');
 		if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
 			$(".pt-noLongerEligible").show("fast");
 			$(".pagination *").hide("slow");
@@ -299,7 +300,6 @@ jQuery(document).ready(function ($) {
 			$(".pagination *").show("fast");
 		}
 	});
-
 
 	$("#relationshipToStudent").change(function () {
 		var selected_option = $('#relationshipToStudent').val();
@@ -316,6 +316,52 @@ jQuery(document).ready(function ($) {
 			$('#veteranRelationshipToStudentOther').show("fast");
 		} else {
 			$('#veteranRelationshipToStudentOther').hide("slow");
+		}
+	});
+
+	// page 2
+
+	$(".pt-showIfPrimary").hide();
+	$(".pt-showIfSecondary").hide();
+	$(".pt-showIfTertiary").hide();
+	$(".pt-showIfPartTime").hide();
+
+	$('input[name=studentLevelOfStudy]').change(function () {
+		if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
+
+			$(".pt-noLongerEligible").hide();
+			$(".pt-showIfSecondary").hide();
+			$(".pt-showIfTertiary").hide();
+			$(".pt-showIfPrimary").show();
+
+
+		}
+		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
+			$(".pt-noLongerEligible").hide();
+			$(".pt-showIfTertiary").hide();
+			$(".pt-showIfPrimary").hide();
+			$(".pt-showIfSecondary").show();
+		}
+		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
+			$(".pt-noLongerEligible").hide();
+			$(".pt-showIfPrimary").hide();
+			$(".pt-showIfSecondary").hide();
+			$(".pt-showIfTertiary").show();
+		}
+		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
+
+			$(".pt-showIfPrimary").hide();
+			$(".pt-showIfSecondary").hide();
+			$(".pt-showIfTertiary").hide();
+			$(".pt-noLongerEligible").show();
+		}
+	});
+
+	$('input[name=studyLoad]').change(function () {
+		if ($('input[name=studyLoad]:checked').val() === 'part-time') {
+			$(".pt-showIfPartTime").show();
+		} else {
+			$(".pt-showIfPartTime").hide();
 		}
 	});
 
