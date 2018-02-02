@@ -140,17 +140,17 @@
               <!-- 9 -->
               <div class="form-group pt-flow--claimant">
                 <label class="uikit-text-input__label" for="veteranRelationshipToStudent" id="question_id9">
-                  <br />
-                  <select class="uikit-text-input input-half" id="veteranRelationshipToStudent" name="veteranRelationshipToStudent">
-                    <option>-- Select relationship --</option>
+                </label>
+                <select class="uikit-text-input input-half" id="veteranRelationshipToStudent" name="veteranRelationshipToStudent">
+                  <option>-- Select relationship --</option>
 
-                    <option>Parent </option>
-                    <option>Step-parent</option>
-                    <option>Foster Parent</option>
-                    <option>Adopted Parent</option>
-                    <option>Grandparent Guardian</option>
-                    <option value="other">Other</option>
-                  </select>
+                  <option>Parent </option>
+                  <option>Step-parent</option>
+                  <option>Foster Parent</option>
+                  <option>Adopted Parent</option>
+                  <option>Grandparent Guardian</option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <!-- 9 a -->
@@ -187,141 +187,7 @@
               // Progress percentage
               document.getElementById("percentage").style.width = "20%";
 
-              // Flows 
-              if ("veteranFlow" in sessionStorage) {
-                $(".pt-flow--veteran").show("fast");
-              }
 
-              if ("studentFlow" in sessionStorage) {
-                $(".pt-flow--student").show("fast");
-              }
-
-              if ("claimantFlow" in sessionStorage) {
-                $(".pt-flow--claimant").show("fast");
-              }
-
-              // Student questions 
-              if ("studentFlow" in sessionStorage) {
-                var question = {
-                  id1: "Title",
-                  id2: "First Name",
-                  id3: "Last Name",
-                  id4: "Date of Birth",
-                  id5: "",
-                  id5a: "",
-                  id6: "",
-                  id7: "Are you in a partnered relationship?",
-                  id8: "Will you be living at the same address with your partner whilst studying?",
-                  id8a: "You are no longer eligible",
-                  id9: "",
-                  id9a: "",
-
-                };
-              }
-
-              if (("veteranFlow" in sessionStorage) || ("claimantFlow" in sessionStorage)) {
-                var question = {
-                  id1: "Student's Title",
-                  id2: "Student's First Name",
-                  id3: "Student's Last Name",
-                  id4: "Student's Date of Birth",
-                  id5: "Your relationship to the student",
-                  id5a: "Please provide a brief statement explaining how the student came into your care. If relevant, please provide a copy of any standing orders from the Family Court etc.",
-                  id6: "Will the student be engaged in full time employment whilst studying?",
-                  id7: "",
-                  id8: "",
-                  id8a: "",
-                  id9: "What is the Veteran/Member's relationship to the student?",
-                  id9a: "Please provide a brief statement explaining how the student came into their care. If relevant, please provide a copy of any standing orders from the Family Court etc.",
-
-                };
-              }
-
-              for (var key in question) {
-                $("#question_" + key).text(question[key]);
-              }
-
-              // Calculate student age
-              $(".pt-student-dob > :input").focusout(function () {
-                var dobDay = $("#dd-date").val();
-                var dobMonth = $("#mm-date").val();
-                var dobYear = $("#yyyy-date").val();
-
-                if (dobDay && dobMonth && dobYear) {
-                  var dob = dobYear + '-' + dobMonth + '-' + dobDay;
-                  dob = new Date(dob);
-                  var today = new Date();
-                  var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-                  console.log(age + ' years old');
-                  sessionStorage.removeItem('studentAge');
-                  sessionStorage.setItem('studentAge', age);
-
-                  // TODO: handle state better and make this a separate function 
-                  if (sessionStorage.getItem('studentAge') > 15) {
-
-                    if ("veteranFlow" in sessionStorage) {
-                      $(".pt-studentAge--mature").each(function () {
-                        if ($(this).is(".pt-flow--veteran")) {
-                          $(this).show("fast");
-                        }
-                      });
-                    }
-
-                    if ("studentFlow" in sessionStorage) {
-                      $(".pt-studentAge--mature").each(function () {
-                        if ($(this).is(".pt-flow--student")) {
-                          $(this).show("fast");
-                        }
-                      });
-                    }
-
-                    if ("claimantFlow" in sessionStorage) {
-                      $(".pt-studentAge--mature").each(function () {
-                        if ($(this).is(".pt-flow--claimant")) {
-                          $(this).show("fast");
-                        }
-                      });
-                    }
-
-                  } else {
-                    $(".pt-studentAge--mature").hide("slow");
-                  }
-                }
-              });
-
-              $(".pt-studentAge--mature").hide();
-              $(".pt-noLongerEligible").hide();
-
-
-              $('input[name=studentLivingWithPartner]').change(function () {
-                console.log('got there');
-                if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
-                  $(".pt-noLongerEligible").show("fast");
-                  $(".pagination *").hide("slow");
-                } else {
-                  $(".pt-noLongerEligible").hide("slow");
-                  $(".pagination *").show("fast");
-                }
-              });
-
-
-              $("#relationshipToStudent").change(function () {
-                var selected_option = $('#relationshipToStudent').val();
-                if (selected_option === 'other') {
-                  $('#relationshipToStudentOther').show("fast");
-                } else {
-                  $('#relationshipToStudentOther').hide("slow");
-                }
-              });
-
-              $("#veteranRelationshipToStudent").change(function () {
-                var selected_option = $('#veteranRelationshipToStudent').val();
-                if (selected_option === 'other') {
-                  $('#veteranRelationshipToStudentOther').show("fast");
-                } else {
-                  $('#veteranRelationshipToStudentOther').hide("slow");
-                }
-              });
 
 
 
