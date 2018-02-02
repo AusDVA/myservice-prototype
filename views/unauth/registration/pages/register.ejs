@@ -39,7 +39,7 @@
 					<label class="radio-tile" for="gs-serving"><input id="gs-serving" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-serving.svg">I am still serving</span></label>
 					
 					<label class="radio-tile" for="gs-served"><input id="gs-served" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-formerserving.svg">I am no longer serving</span></label>
-					<label class="radio-tile" for="gs-reservist"><input id="gs-reservist" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-reservist.svg">I am a Reservist</span></label>
+
 					<label class="radio-tile" for="gs-neverserved"><input id="gs-neverserved" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-nonserving.svg">I have never served</span></label>
 				</div>
 		  </fieldset>
@@ -76,7 +76,7 @@
             
             <!-- PMKeys No -->
             <div class="form-group service-number" style="display: none">
-              <label class="uikit-text-input__label" for="servicenumber">Service number <span class="hint">(optional)</span><br />
+              <label class="uikit-text-input__label" for="servicenumber">Service number <span class="hint">(if known)</span><br />
               <span class="hint">If unsure, you can <a href="http://www.defence.gov.au/Records/ExService.asp" rel="external" target="_blank">access your service records here</a>.</span></label> <input class="uikit-text-input input-half" id="servicenumber" name="servicenumber" type="text" value="">
             </div>
           </fieldset>
@@ -87,11 +87,11 @@
               <input class="uikit-text-input input-half" id="pmkeys" name="pmkeys" type="text" value="">
             </div>
             <div id="service-group" class="form-group" style="display:none;">
-              <label class="uikit-text-input__label" for="service-number">Service number <span class="hint">(optional)</span></label>
+              <label class="uikit-text-input__label" for="service-number">Service number <span class="hint">(if known)</span></label>
               <input class="uikit-text-input input-half" id="service-number" name="service-number" type="text" value="">
             </div>
             <div id="dva-group" class="form-group" style="display:none;">
-              <label class="uikit-text-input__label" for="dva-number">DVA client number <span class="hint">(optional)<span class="display-block">If you have one, we recommend you provide it here.</span></span></label>
+              <label class="uikit-text-input__label" for="dva-number">DVA client number <span class="hint">(if known)<span class="display-block">If you have one, we recommend you provide it here.</span></span></label>
               <input class="uikit-text-input input-half" id="dva-number" name="dva-number" type="text" value="">
             </div>
           </fieldset>
@@ -142,23 +142,11 @@
 		sessionStorage.clear();
 		sessionStorage.setItem('formerserving',true);
     });
-	$( "#gs-reservist" ).click(function() {
-		$( "#info-box" ).show();
-		$( ".info-box--defence" ).show();
-		$( ".info-box--serving" ).hide();
-		$( ".info-box--notserving" ).show();
-		$( ".info-box--neverserved" ).hide();
-		$( "#pmkeys-group" ).hide();
-		$( "#service-group" ).hide();
-		$( ".pmkeys-questionv2" ).show();
-		$( "#dva-group" ).hide();
-		sessionStorage.clear();
-		sessionStorage.setItem('formerserving',true);
-    });
 	$( "#pmkeys-yes" ).click(function() {
 		$( ".enter-pmkeys-number" ).show();
 		$( ".service-number" ).hide();
 		$( "#dva-group" ).show();
+		sessionStorage.setItem('pmkeysyes',true);
 	});
 	$( "#pmkeys-no" ).click(function() {
 		$( ".enter-pmkeys-number" ).hide();
