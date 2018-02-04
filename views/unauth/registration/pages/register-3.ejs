@@ -29,10 +29,10 @@
 				</ul>
 			</div>
 			
-			<div class="change-name-question">
+			<div class="change-name-question clearboth" style="display:none;clear: both;">
 				<fieldset>
 				<div class="form-group">
-				  <label class="uikit-text-input__label">Have you legally changed your name since leaving the ADF?<!--<span class="hint display-block">For example, did you take your spouses' name after you got married?</span>--></label>
+				  <label class="uikit-text-input__label">Have you legally changed your name since leaving the ADF?</label>
 				  <div class="radio-toggle">
 					<label class="on label-left" for="namechange-yes"><input id="namechange-yes" name="namechange-yes" type="radio"><span>Yes</span></label> 
 					<label class="off label-right" for="namechange-no"><input id="namechange-no" name="namechange-no" type="radio"><span>No</span></label>
@@ -42,8 +42,8 @@
 			</div>
 <!-- No name change flow -->
            			
-            <div class="poiOptions clearboth" style="display: none; clear: both">
-             <legend>Proof of identity</legend>
+            <div class="poiOptions clearboth" style="display: none; clear: both;">
+             <legend>Proof of identity <span class="poi-1-2" style="display:none;">1 of 2</span></legend>
               <label class="uikit-text-input__label" for="idtype">Register using</label>
               <select class="uikit-text-input" name="idtype" id="idtype" type="text" value="">
                 <option value=0 selected>-- Select a form of identification --</option>
@@ -54,10 +54,10 @@
                 <option value="id07">Australian marriage certificate</option>
                 <option value="id05">Certificate of Australian citizenship</option>
               </select>
-            
+            	<br><br>
 
             <!-- Driver Licence -->
-            <fieldset class="id-types id-licence" style="display: none">
+            <fieldset class="id-types id-licence" style="display: none;">
               <legend>Australian driver licence</legend>
                 <!--<img src="docs/images/driver-licence-act.png" alt="Sample driver's licence" />-->
                 <div class="form-group">
@@ -156,7 +156,7 @@
 		
 			<!-- POI Options -->
 			<div class="namechange-poiOptions clearboth" style="display: none; clear: both">
-				 <legend>Proof of identity</legend>
+				 <legend>Proof of identity <span class="poi-1-2" style="display:none;">1 of 2</span></legend>
 				  <label class="uikit-text-input__label" for="name-idtype">Register using</label>
 				  <select class="uikit-text-input" name="name-idtype" id="name-idtype" type="text" value="">
 					<option value=0 selected>-- Select a form of identification --</option>
@@ -179,8 +179,8 @@
 	<div class="row">
 		<div class="col-xs-12">
 			<div class="pagination">
-				<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register-pmkeys-only1'">Previous</button>&nbsp; 
-				<button class="uikit-btn floated btnNext" onclick="window.location.href = 'register-pmkeys-only3'">Next</button>
+				<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register-2'">Previous</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel registration</button>
+				<button class="uikit-btn floated btnNext">Next</button>
 			</div>
 		</div>
 	</div>
@@ -189,6 +189,7 @@
   </main>
   
   <% include ../../../auth/cover/partials/removefile-modal.ejs %>
+  <% include ../partials/cancelrego-modal.ejs %>
   <% include ../../../global/partials/footer.ejs %>
   
   <script src="/docs/js/jquery-effects.js"></script>
@@ -196,8 +197,35 @@
   <script src="/docs/js/jquery-3.2.1.min.js"></script>
   <script>
     // Progress percentage
-    document.getElementById("percentage").style.width = "50%";
+    document.getElementById("percentage").style.width = "60%";
 
+	if("stillserving" in sessionStorage){
+		$( ".change-name-question" ).hide();
+		$( ".poiOptions" ).show();
+		$( ".poi-1-2" ).hide();
+		document.getElementById("percentage").style.width = "80%";
+	};
+
+	if("formerserving" in sessionStorage){
+		$( ".change-name-question" ).show();
+		$( ".poi-1-2" ).hide();
+	};
+	
+	if("neverserved" in sessionStorage){
+		$( ".change-name-question" ).hide();
+		$( ".poiOptions" ).show();
+		$( ".poi-1-2" ).show();
+	};
+	if("2poi" in sessionStorage){
+		$( ".poi-1-2" ).show();
+	};
+	
+	if("pmkeysyes" in sessionStorage){
+		$( "#enlistment-date" ).show();
+		document.getElementById("percentage").style.width = "80%";
+	};
+	
+	  
 	// Name change question logic
     $("#namechange-yes").click(function() {
     	$(".namechange-poiOptions").show("fast");
@@ -282,13 +310,19 @@
     $(".dob-mm").val(localStorage.myMm);
     $(".dob-yyyy").val(localStorage.myYyyy);
 	  
-    // Hide change of name question if user is still serving
-    if("stillserving" in sessionStorage){
-		$('.change-name-question').hide()
-		$(".poiOptions").show();
-    } else {
-		$('.change-name-question').show()
-    };
+	// Determine which path
+     $('.btnNext').click(function() {
+
+		 if ("neverserved" in sessionStorage){
+			location.href = '/register-5';
+		 } else if ("2poi" in sessionStorage){
+			location.href = '/register-5';
+		 }
+		 else {
+			location.href = '/register-4';
+			$( ".poi-1-2" ).hide();
+		 };
+     });
 
   </script>
 
