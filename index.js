@@ -345,6 +345,13 @@ app.get('/viewNLHCClaimDetail', function(request, response) {
   response.render('auth/claim/pages/viewNLHCClaimDetail');
 });
 
+
+/* Health card */
+app.get('/healthcard', function(request, response) {
+  response.render('auth/healthcard/healthcard');
+});
+
+
 /**
   Component testing
 */
