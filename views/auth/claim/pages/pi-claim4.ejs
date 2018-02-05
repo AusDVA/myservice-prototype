@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <title>Add claim: Permanent Impairment | MyService</title>
+    <link href="docs/css/main.css" rel="stylesheet">
+</head>
+<body class="uikit-body uikit-grid uikit-refactor">
+<noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
+<nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
+<% include ../../../global/partials/header-topbar.ejs %>
+<% include ../../../global/partials/header-claims.ejs %>
+<% include ../partials/help-button.ejs %>
+<main>
+    <div class="container" id="main-content">
+        <div id="progressbar"><div id="percentage"></div></div>
+        <h1>Domestic activities</h1>
+        <div id="optional-fields-message">How you complete jobs around the house, such as cleaning, cooking, gardening or house repairs.</div>
+
+        <fieldset>
+            <legend class="legend-label">Does your condition or injury affect how you perform jobs around the house?</legend>
+            <div class="radio-toggle">
+                <label class="on label-left" for="house-jobs-yes"><input id="house-jobs-yes" type="radio" name="house-jobs"><span>Yes</span></label>
+                <label class="off label-right" for="house-jobs-no"><input id="house-jobs-no" type="radio" name="house-jobs"><span>No</span></label>
+            </div>
+        </fieldset>
+
+        <div class="form-group" style="display:none;" id="dropContainer1">
+            <div class="form-group" style="display:none;" id="drop1">
+                <fieldset>
+                    <legend class="legend-label">Are there any jobs or activities around the house that you've stopped because of this?</legend>
+                    <div class="radio-toggle">
+                        <label class="on label-left" for="jobs-stopped-yes"><input id="jobs-stopped-yes" type="radio" name="jobs-stopped"><span>Yes</span></label>
+                        <label class="off label-right" for="jobs-stopped-no"><input id="jobs-stopped-no" type="radio" name="jobs-stopped"><span>No</span></label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-group" style="display:none;" id="drop2">
+                <fieldset>
+                    <legend class="legend-label">Are there any jobs or activities around the house that you find difficult to do or take longer than they used to?</legend>
+                    <div class="radio-toggle">
+                        <label class="on label-left" for="difficult-jobs-yes"><input id="difficult-jobs-yes" type="radio" name="difficult-jobs"><span>Yes</span></label>
+                        <label class="off label-right" for="difficult-jobs-no"><input id="difficult-jobs-no" type="radio" name="difficult-jobs"><span>No</span></label>
+                    </div>
+                </fieldset>
+            </div>
+
+            <div class="form-group" style="display:none;" id="drop3">
+                <fieldset>
+                    <legend class="legend-label">Because of your condition or injury, do you need help with usual jobs around the house, such as cleaning, cooking or gardening?</legend>
+                    <div class="radio-toggle">
+                        <label class="on label-left" for="jobs-help-yes"><input id="jobs-help-yes" type="radio" name="jobs-help"><span>Yes</span></label>
+                        <label class="off label-right" for="jobs-help-no"><input id="jobs-help-no" type="radio" name="jobs-help"><span>No</span></label>
+                    </div>
+                </fieldset>
+            </div>
+        </div>
+
+        <fieldset>
+            <div class="form-group">
+                <label class="uikit-text-input__label" for="textArea">Overall, how has your injury or condition affected how you manage jobs around your home?</label>
+                <textarea id="textArea" name="statementText" rows="8"></textarea>
+            </div>
+        </fieldset>
+
+        <div id="optional-fields-message">Rate the impact on your lifestyle using the scale below, from 1 (unaffected) to 7 (extremely affected).</div>
+        <p class="sub-fields-message">For example, Sonia suffers from depression and can only speak to her partner. She believes her depression
+            severely impacts the way she can relate to anyone else outside of her immediate family. Her rating is 5.</p>
+
+        <fieldset>
+            <div class="radio-toggle">
+                <label class="label-left" for="domestic-rating-1"><input id="domestic-rating-1" type="radio" name="domestic-rating"><span>One</span></label>
+                <label class="label-middle" for="domestic-rating-2"><input id="domestic-rating-2" type="radio" name="domestic-rating"><span>Two</span></label>
+                <label class="label-middle" for="domestic-rating-3"><input id="domestic-rating-3" type="radio" name="domestic-rating"><span>Three</span></label>
+                <label class="label-middle" for="domestic-rating-4"><input id="domestic-rating-4" type="radio" name="domestic-rating"><span>Four</span></label>
+                <label class="label-middle" for="domestic-rating-5"><input id="domestic-rating-5" type="radio" name="domestic-rating"><span>Five</span></label>
+                <label class="label-middle" for="domestic-rating-6"><input id="domestic-rating-6" type="radio" name="domestic-rating"><span>Six</span></label>
+                <label class="label-right" for="domestic-rating-7"><input id="domestic-rating-7" type="radio" name="domestic-rating"><span>Seven</span></label>
+            </div>
+        </fieldset>
+
+
+        <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/pi-claim3'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+            <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/pi-claim1'">Save and exit</button>&nbsp;
+                <button class="uikit-btn btnNext" onclick="window.location.href = '/pi-claim5'">Save and next</button>
+            </div>
+        </div>
+        <% include ../partials/cancel-modal.ejs %>
+    </div>
+
+</main>
+
+<% include ../../../global/partials/footer.ejs %>
+<% include ../partials/panel-help.ejs %>
+
+<script>
+
+    // Progress percentage
+
+    document.getElementById("percentage").style.width = "60%";
+
+    // Show and hide options
+    $( "#house-jobs-yes" ).click(function() {
+        $( "#dropContainer1" ).show("fast");
+        $( "#drop1" ).show("fast");
+    });
+    $( "#house-jobs-no" ).click(function() {
+        $( "#dropContainer1" ).hide();
+    });
+
+    $( "#jobs-stopped-yes, #jobs-stopped-no" ).click(function() {
+        $( "#drop2" ).show("fast");
+    });
+
+    $( "#difficult-jobs-yes, #difficult-jobs-no" ).click(function() {
+        $( "#drop3" ).show("fast");
+    });
+
+</script>
+
+</body>
+</html>

@@ -337,6 +337,29 @@ app.get('/viewNLHCClaimDetail', function(request, response) {
   response.render('auth/claim/pages/viewNLHCClaimDetail');
 });
 
+/* PI claims */
+app.get('/pi-claim1', function(request, response) {
+  response.render('auth/claim/pages/pi-claim1');
+});
+app.get('/pi-claim2', function(request, response) {
+    response.render('auth/claim/pages/pi-claim2');
+});
+app.get('/pi-claim3', function(request, response) {
+    response.render('auth/claim/pages/pi-claim3');
+});
+app.get('/pi-claim4', function(request, response) {
+    response.render('auth/claim/pages/pi-claim4');
+});
+app.get('/pi-claim5', function(request, response) {
+    response.render('auth/claim/pages/pi-claim5');
+});
+app.get('/pi-review', function(request, response) {
+    response.render('auth/claim/pages/pi-review');
+});
+app.get('/pi-submitted', function(request, response) {
+    response.render('auth/claim/pages/pi-submitted');
+});
+
 /**
   Component testing
 */
