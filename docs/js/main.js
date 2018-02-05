@@ -151,6 +151,7 @@ jQuery(document).ready(function ($) {
 			id24a1: "Date you began/will be living at a new rental address",
 			id24a2: "Date your rental agreement ends",
 			id24a3: "What type of accommodation payment do you make?",
+			id24a3a: "Please provide details...",
 			id24a4: "Name of person or agency you pay rent to",
 			id24a5: "What is their email address?",
 			id24a6: "What is their contact  Number?",
@@ -301,6 +302,18 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	$('input[name=studentPartneredRelationship]').change(function () {
+		if ($('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
+			sessionStorage.removeItem('studentPartneredRelationship');
+			sessionStorage.setItem('studentPartneredRelationship', 'yes');
+		} else {
+			sessionStorage.removeItem('studentPartneredRelationship');
+			sessionStorage.setItem('studentPartneredRelationship', 'no');
+		}
+	});
+
+
+
 	$("#relationshipToStudent").change(function () {
 		var selected_option = $('#relationshipToStudent').val();
 		if (selected_option === 'other') {
@@ -319,6 +332,10 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+
+
+
+
 	// page 2
 
 	$(".pt-showIfPrimary").hide();
@@ -326,40 +343,54 @@ jQuery(document).ready(function ($) {
 	$(".pt-showIfTertiary").hide();
 	$(".pt-showIfPartTime").hide();
 
+
+
+
 	$('input[name=studentLevelOfStudy]').change(function () {
 		if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
 
 			$(".pt-noLongerEligible").hide();
 			$(".pt-showIfSecondary").hide();
 			$(".pt-showIfTertiary").hide();
-			$(".pt-showIfPrimary").show();
+			$(".pt-showIfPrimary").show('fast');
 
+			sessionStorage.removeItem('studentLevelOfStudy');
+			sessionStorage.setItem('studentLevelOfStudy', 'primary');
 
 		}
 		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
 			$(".pt-noLongerEligible").hide();
 			$(".pt-showIfTertiary").hide();
 			$(".pt-showIfPrimary").hide();
-			$(".pt-showIfSecondary").show();
+			$(".pt-showIfSecondary").show('fast');
+
+			sessionStorage.removeItem('studentLevelOfStudy');
+			sessionStorage.setItem('studentLevelOfStudy', 'secondary');
 		}
 		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
 			$(".pt-noLongerEligible").hide();
 			$(".pt-showIfPrimary").hide();
 			$(".pt-showIfSecondary").hide();
-			$(".pt-showIfTertiary").show();
+			$(".pt-showIfTertiary").show('fast');
+
+			sessionStorage.removeItem('studentLevelOfStudy');
+			sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
 		}
 		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
 
 			$(".pt-showIfPrimary").hide();
 			$(".pt-showIfSecondary").hide();
 			$(".pt-showIfTertiary").hide();
-			$(".pt-noLongerEligible").show();
+			$(".pt-noLongerEligible").show('fast');
+
+			sessionStorage.removeItem('studentLevelOfStudy');
+			sessionStorage.setItem('studentLevelOfStudy', 'none');
 		}
 	});
 
 	$('input[name=studyLoad]').change(function () {
 		if ($('input[name=studyLoad]:checked').val() === 'part-time') {
-			$(".pt-showIfPartTime").show();
+			$(".pt-showIfPartTime").show('fast');
 		} else {
 			$(".pt-showIfPartTime").hide();
 		}
@@ -368,6 +399,67 @@ jQuery(document).ready(function ($) {
 
 
 
+	// Page 3
+	$(".pt-showIfNotPrimaryStudent").hide();
+	$(".pt-showIfHomeless").hide();
+	$(".pt-showIfRequireRentAssistance").hide();
+	$(".pt-showIfRentAssistanceKnown").hide();
+	$(".pt-typeOfAccommodationPaymentOther").hide();
+
+
+	if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
+		$(".pt-showIfNotPrimaryStudent").show('fast');
+	}
+
+	$(".pt-showIfLivingAway").hide();
+
+	$('input[name=studyAwayFromHomeRadio]').change(function () {
+
+		if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
+			$(".pt-showIfLivingAway").show('fast');
+			$(".pt-showIfNoPartner").hide();
+
+			if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
+				$(".pt-showIfNoPartner").show('fast');
+			}
+		} else {
+			$(".pt-showIfLivingAway").hide();
+			$(".pt-showIfNoPartner").hide();
+		}
+	});
+
+	$("#studyAwayFromHomeExplination").change(function () {
+		var selected_option = $('#studyAwayFromHomeExplination').val();
+		if (selected_option === 'homeless') {
+			$(".pt-showIfHomeless").show('fast');
+		} else {
+			$(".pt-showIfHomeless").hide();
+		}
+	});
+
+	$('input[name=requireRentAssistanceRadio]').change(function () {
+		if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
+			$(".pt-showIfRequireRentAssistance").show('fast');
+		} else {
+			$(".pt-showIfRequireRentAssistance").hide();
+		}
+	});
+
+	$('input[name=knowRentalDetails]').change(function () {
+		if ($('input[name=knowRentalDetails]:checked').val() === 'yes') {
+			$(".pt-showIfRentAssistanceKnown").show('fast');
+		} else {
+			$(".pt-showIfRentAssistanceKnown").hide();
+		}
+	});
+
+	$('input[name=typeOfAccommodationPayment]').change(function () {
+		if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
+			$(".pt-typeOfAccommodationPaymentOther").show('fast');
+		} else {
+			$(".pt-typeOfAccommodationPaymentOther").hide();
+		}
+	});
 
 
 
