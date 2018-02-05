@@ -31,15 +31,13 @@
         </ul>
       </div>
       <div class="row">
-        <div class="col-sm-12">
- 
+        <div class="col-sm-8">
+
      	  <fieldset>
 				<legend class="legend-label">Select an option to get started</legend>
 				<div class="radio-tile--group">
 					<label class="radio-tile" for="gs-serving"><input id="gs-serving" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-serving.svg">I am still serving</span></label>
-					
 					<label class="radio-tile" for="gs-served"><input id="gs-served" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-formerserving.svg">I am no longer serving</span></label>
-
 					<label class="radio-tile" for="gs-neverserved"><input id="gs-neverserved" type="radio" name="getting-started"><span><img src="../../../../docs/images/ico-user-nonserving.svg">I have never served</span></label>
 				</div>
 		  </fieldset>
@@ -51,7 +49,6 @@
             <p class="info-box--notserving" style="display:none;">You will also need two proof of identity documents. Choices include:</p>
             <p class="info-box--neverserved" style="display:none;">You will need two proof of identity documents. Choices include:</p>
               <ul>
-				<li class="info-box--notserving" style="display:none;">Your PMKeyS number</li>
                 <li>Australian driver licence</li>
                 <li>Medicare card</li>
                 <li>Australian marriage certificate</li>
@@ -60,55 +57,29 @@
              </p>	
       	  </div>
       	  
-      	  <fieldset> 
-            <!-- PMKeys -->
-            <div class="form-group pmkeys-questionv2" style="display: none">
-              <label class="uikit-text-input__label" for="pmkeys-question">Do you have a PMKeyS number?</label>
-              <div class="radio-toggle">
-                <label class="on label-left" for="pmkeys-yes"><input id="pmkeys-yes" name="pmkeys" type="radio"><span>Yes</span></label> <label class="off label-right" for="pmkeys-no"><input id="pmkeys-no" name="pmkeys" type="radio"><span>No</span></label>
-              </div>
-            </div>
-            
-            <!-- PMKeys Yes -->
-            <div class="form-group enter-pmkeys-number" style="display: none">
-              <label class="uikit-text-input__label" for="pmkeys">Your PMKeys number:</label> <input class="uikit-text-input input-half" id="pmkeys" name="pmkeys" type="text" value="">
-            </div>
-            
-            <!-- PMKeys No -->
-            <div class="form-group service-number" style="display: none">
-              <label class="uikit-text-input__label" for="servicenumber">Service number <span class="hint">(if known)</span><br />
-              <span class="hint">If unsure, you can <a href="http://www.defence.gov.au/Records/ExService.asp" rel="external" target="_blank">access your service records here</a>.</span></label> <input class="uikit-text-input input-half" id="servicenumber" name="servicenumber" type="text" value="">
-            </div>
-          </fieldset>
-          
           <fieldset>
-            <div id="pmkeys-group" class="form-group" style="display:none;">
+            <div id="pmkeys-group" class="form-group pmkeys-question" style="display:none;">
               <label class="uikit-text-input__label" for="pmkeys">PMKeyS number <span id="pmkeys-optional" class="hint" style="display:none;">(optional)</span></label>
               <input class="uikit-text-input input-half" id="pmkeys" name="pmkeys" type="text" value="">
             </div>
-            <div id="service-group" class="form-group" style="display:none;">
-              <label class="uikit-text-input__label" for="service-number">Service number <span class="hint">(if known)</span></label>
+            <div id="service-group" class="form-group service-question" style="display:none;">
+              <label class="uikit-text-input__label" for="service-number">Service number <span class="hint">(optional)</span></label>
               <input class="uikit-text-input input-half" id="service-number" name="service-number" type="text" value="">
             </div>
-            <div id="dva-group" class="form-group" style="display:none;">
-              <label class="uikit-text-input__label" for="dva-number">DVA client number <span class="hint">(if known)<span class="display-block">If you have one, we recommend you provide it here.</span></span></label>
+            <div id="dva-group" class="form-group dva-question" style="display:none;">
+              <label class="uikit-text-input__label" for="dva-number">DVA client number <span class="hint">(optional)<span class="display-block">If you have one, we recommend you provide it here.</span></span></label>
               <input class="uikit-text-input input-half" id="dva-number" name="dva-number" type="text" value="">
             </div>
           </fieldset>
-          
-          
 
         </div>
         
       </div>
       <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel registration</button>&nbsp; <button class="uikit-btn floated" onclick="window.location.href = 'register-2'">Next</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/'">Back to home</button>&nbsp; <button class="uikit-btn floated" onclick="window.location.href = 'register-pmkeys-only1'">Next</button>
       </div>
     </div>
-  </main>
-  
-  <% include ../partials/cancelrego-modal.ejs %>
-  <%include ../../../global/partials/footer.ejs %>
+  </main><%include ../../../global/partials/footer.ejs %>
   <script>
      // Progress bar
      document.getElementById("percentage").style.width = "10%";
@@ -124,7 +95,6 @@
 		$( "#service-group" ).hide();
 		$( "#pmkeys-group" ).show();
 		$( "#pmkeys-optional" ).hide();
-		$( ".pmkeys-questionv2" ).hide();
 		$( "#dva-group" ).show();
 		sessionStorage.clear();
 		sessionStorage.setItem('stillserving',true);
@@ -135,26 +105,13 @@
 		$( ".info-box--serving" ).hide();
 		$( ".info-box--notserving" ).show();
 		$( ".info-box--neverserved" ).hide();
-		$( "#pmkeys-group" ).hide();
-		$( "#service-group" ).hide();
-		$( ".pmkeys-questionv2" ).show();
-		$( "#dva-group" ).hide();
+		$( "#pmkeys-group" ).show();
+		$( "#pmkeys-optional" ).show();
+		$( "#service-group" ).show();
+		$( "#dva-group" ).show();
 		sessionStorage.clear();
 		sessionStorage.setItem('formerserving',true);
     });
-	$( "#pmkeys-yes" ).click(function() {
-		$( ".enter-pmkeys-number" ).show();
-		$( ".service-number" ).hide();
-		$( "#dva-group" ).show();
-		sessionStorage.setItem('pmkeysyes',true);
-	});
-	$( "#pmkeys-no" ).click(function() {
-		$( ".enter-pmkeys-number" ).hide();
-		$( ".service-number" ).show();
-		$( "#dva-group" ).show();
-		sessionStorage.setItem('2poi',true);
-	});
-	  
 	$( "#gs-neverserved" ).click(function() {
 		$( "#info-box" ).show();
 		$( ".info-box--defence" ).hide();
@@ -162,7 +119,6 @@
 		$( ".info-box--notserving" ).hide();
 		$( ".info-box--neverserved" ).show();
 		$( "#pmkeys-group" ).hide();
-		$( ".pmkeys-questionv2" ).hide();
 		$( "#service-group" ).hide();
 		$( "#dva-group" ).show();
 		sessionStorage.clear();

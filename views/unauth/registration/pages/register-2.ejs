@@ -20,11 +20,43 @@
       <h1>Register <span>(Step 2 - Your details)</span></h1>
       <div class="row">
         <div class="col-sm-12">
+          <div id="rank-group" style="display:none;">
+         	  
+         	  <fieldset>
+          	  <legend>Service details</legend>
+				  <div class="form-group" id="enlistment-date" style="display:none;">
+					<label class="uikit-text-input__label" for="dd-enlistment">Enlistment date <span class="hint">(DD / MM / YYYY)</span><br><span class="hint">If unsure of the exact date, call the Defence Service Centre on <a href="tel:1800 333 362">1800 333 362</a></span></label>
+					<input class="uikit-text-input dd" type="text" name="dd-enlistment" id="dd-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+					<input class="uikit-text-input mm" type="text" name="mm-enlistment" id="mm-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+					<input class="uikit-text-input yyyy" type="text" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
+				  </div>
+				  <div class="form-group">
+					  <label class="uikit-text-input__label" for="highest-rank" id="rank">Highest rank achieved</label> <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
+						<option>
+						  -- Select rank --
+						</option>
+						<option selected>
+						  Wing Commander
+						</option>
+						<option>
+						  ...
+						</option>
+						<option>
+						  ...
+						</option>
+					  </select>
+				  </div>
+        	  </fieldset>
+         	<br><br>
+          </div>
+            
+
           <fieldset>
-            <legend>Title and rank</legend>
-            <div class="form-group">
+            <legend>Personal details</legend>
+            
+            <div id="title-group" class="form-group">
               <label class="uikit-text-input__label" for="title">Title<br />
-              <span class="hint"> Used for correspondence (optional)</span></label>
+              <span id="title-group--optional" class="hint" style="display:none;"> Used for correspondence (optional)</span></label>
               <select class="uikit-text-input input-half" id="title" name="title">
                 <option>-- Select title --</option>
                 <option>Commissioner</option>
@@ -42,26 +74,7 @@
                 <option>Right Reverend Monsignor</option>
               </select>
             </div>
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="highest-rank">Highest rank achieved</label> <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
-                <option>
-                  -- Select rank --
-                </option>
-                <option selected>
-                  Wing Commander
-                </option>
-                <option>
-                  ...
-                </option>
-                <option>
-                  ...
-                </option>
-              </select>
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Personal details</legend>
+            
             <div class="form-group">
               <label class="uikit-text-input__label" for="first-name">Given name  <span class="hint">(first name)</span></label>
               <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required aria-required="true">              
@@ -81,8 +94,11 @@
               <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
           </fieldset>
+          
+		  <br><br>
+         
           <fieldset>
-            <legend>Contact</legend>
+            <legend>Contact details</legend>
             <div class="form-group">
               <label class="uikit-text-input__label" for="email">Email address</label>
               <input class="uikit-text-input" name="email" id="email" type="email" value="">
@@ -92,13 +108,17 @@
               <input class="uikit-text-input" name="confirm-email" id="confirm-email" type="email" value="">
             </div>
             <div class="form-group">
-              <label class="uikit-text-input__label" for="mobile">Phone number <span class="hint">(optional)</span></label>
+              <label class="uikit-text-input__label" for="mobile">Home phone number <span class="hint">(optional)</span><span class="hint display-block">Please include your area code (for example, "03" for Victoria)</span></label>
+              <input class="uikit-text-input" name="mobile" id="mobile" type="phone" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="mobile">Mobile phone number <span class="hint">(optional)</span></label>
               <input class="uikit-text-input" name="mobile" id="mobile" type="phone" value="">
             </div>
           </fieldset>
 
           <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp; 
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel registration</button>&nbsp;
             <button class="uikit-btn floated btnNext">Next</button>
           </div>
 
@@ -108,6 +128,7 @@
 
     </div>
   </main>
+  <% include ../partials/cancelrego-modal.ejs %>
   <% include ../../../global/partials/footer.ejs %>
   <script src="/docs/js/jquery-effects.js"></script>
   <script src="/docs/js/main.js"></script>
@@ -115,7 +136,40 @@
   <script>
     // Progress percentage
     document.getElementById("percentage").style.width = "30%";
-   
+    
+	// Rank wording change if user is still serving
+    if("stillserving" in sessionStorage){
+		document.getElementById('rank').innerHTML = 'Rank';
+    } else {
+		document.getElementById('rank').innerHTML = 'Highest rank acheived';
+    };
+	
+	if("stillserving" in sessionStorage){
+		$( "#enlistment-date" ).show();
+		$( "#rank-group" ).show();
+		$( "#title-group" ).hide();
+		document.getElementById("percentage").style.width = "40%";
+	};
+	  
+	if("formerserving" in sessionStorage){
+		$( "#enlistment-date" ).hide();
+		$( "#rank-group" ).show();
+		$( "#title-group" ).show();
+		$( "#title-group--optional" ).show();
+	};
+	
+	if("pmkeysyes" in sessionStorage){
+		$( "#enlistment-date" ).show();
+		document.getElementById("percentage").style.width = "40%";
+	};
+	  
+	if("neverserved" in sessionStorage){
+		$( "#rank-group" ).hide();
+		$( "#title-group" ).show();
+		$( "#title-group--optional" ).hide();
+	};
+	  
+	  
     // Next button
     $('.btnNext').click(function() {
       localStorage.firstName = $('#first-name').val();
@@ -125,7 +179,7 @@
       localStorage.myMm = $('#mm').val();
       localStorage.myYyyy = $('#yyyy').val();
       localStorage.myEmail = $('#email').val();
-      location.href = '/register-dva-only2';
+	  location.href = '/register-3';
     });
   </script>
 </body>
