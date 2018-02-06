@@ -290,15 +290,20 @@ jQuery(document).ready(function ($) {
 
 	// Page 1
 	$(".pt-studentAge--mature").hide();
+	$(".pt-studentLivingSameAddress").hide();
+
 	$(".pt-noLongerEligible").hide();
 
 	$('input[name=studentLivingWithPartner]').change(function () {
+		console.log('input studentLivingWithPartner changed to ' + $('input[name=studentLivingWithPartner]:checked').val());
 		if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
-			$(".pt-noLongerEligible").show("fast");
-			$(".pagination *").hide("slow");
+			console.log('noLongerEligible show');
+			$(".pt-noLongerEligible").show();
+			$(".pagination *").hide();
 		} else {
-			$(".pt-noLongerEligible").hide("slow");
-			$(".pagination *").show("fast");
+			console.log('noLongerEligible hide');
+			$(".pt-noLongerEligible").hide();
+			$(".pagination *").show('fast');
 		}
 	});
 
@@ -306,9 +311,11 @@ jQuery(document).ready(function ($) {
 		if ($('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
 			sessionStorage.removeItem('studentPartneredRelationship');
 			sessionStorage.setItem('studentPartneredRelationship', 'yes');
+			$(".pt-studentLivingSameAddress").show();
 		} else {
 			sessionStorage.removeItem('studentPartneredRelationship');
 			sessionStorage.setItem('studentPartneredRelationship', 'no');
+			$(".pt-studentLivingSameAddress").hide();
 		}
 	});
 
@@ -347,6 +354,7 @@ jQuery(document).ready(function ($) {
 
 
 	$('input[name=studentLevelOfStudy]').change(function () {
+		console.log('input studentLevelOfStudy changed to ' + $('input[name=studentLevelOfStudy]:checked').val());
 		if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
 
 			$(".pt-noLongerEligible").hide();
