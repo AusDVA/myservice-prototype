@@ -163,12 +163,14 @@ jQuery(document).ready(function ($) {
 			id26: "Who currently receives the Family Tax Benefit for the student?",
 			id26a: "What is your Customer Reference Number (optional)",
 			id26b: "What percentage do you care for your child?",
+			id26b1: "[Text TBD] You may not be eligible",
+			id26b2: "[Text TBD] The other care giver may not be eligible",
 			id26c: "What is the name of the other care giver? (optional)",
 			id26d: "What are the best contact details for the other care-giver ? (optional)",
 			id27: "Your Tax File Number",
 			id28: "Would you like your education allowance taxed? ",
 			id28a: "How much do you pay per fortnight? ",
-			id28ai: "Payments will be made directly to these bank account details.	If you applying for a student 18 years and over, please enter their Bank details.",
+			id28ai: "Payments will be made directly to these bank account details.",
 			id29: "Account Name",
 			id30: "BSB",
 			id31: "Account Number",
@@ -224,12 +226,14 @@ jQuery(document).ready(function ($) {
 			id26: "Who currently receives the Family Tax Benefit for the student?",
 			id26a: "What is your Customer Reference Number (optional)",
 			id26b: "What is the percentage care of a parent?",
+			id26b1: "[Text TBD] You may not be eligible",
+			id26b2: "[Text TBD] The other care giver may not be eligible",
 			id26c: "What is the name of the other care giver? (optional)",
 			id26d: "What are the best contact details for the other care-giver ? (optional)",
 			id27: "Student's Tax File Number",
 			id28: "Would you like your education allowance taxed? ",
 			id28a: "How much do you pay per fortnight? ",
-			id28ai: "Payments will be made directly to these bank account details.	If you applying for a student 18 years and over, please enter their Bank details.",
+			id28ai: "Payments will be made directly to these bank account details.	<br>If you applying for a student 18 years and over, please enter their Bank details.",
 			id29: "Account Name",
 			id30: "BSB",
 			id31: "Account Number",
@@ -239,6 +243,7 @@ jQuery(document).ready(function ($) {
 	for (var key in question) {
 		$("#question_" + key).html(question[key]);
 	}
+
 
 	// Calculate student age
 	$(".pt-student-dob > :input").focusout(function () {
@@ -288,191 +293,241 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-	// Page 1
-	$(".pt-studentAge--mature").hide();
-	$(".pt-studentLivingSameAddress").hide();
 
-	$(".pt-noLongerEligible").hide();
+	if (window.location.pathname === "/studentclaim1") {
+		// Page 1
+		$(".pt-studentAge--mature").hide();
+		$(".pt-studentLivingSameAddress").hide();
 
-	$('input[name=studentLivingWithPartner]').change(function () {
-		console.log('input studentLivingWithPartner changed to ' + $('input[name=studentLivingWithPartner]:checked').val());
-		if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
-			console.log('noLongerEligible show');
-			$(".pt-noLongerEligible").show();
-			$(".pagination *").hide();
-		} else {
-			console.log('noLongerEligible hide');
-			$(".pt-noLongerEligible").hide();
-			$(".pagination *").show('fast');
-		}
-	});
+		$(".pt-noLongerEligible").hide();
 
-	$('input[name=studentPartneredRelationship]').change(function () {
-		if ($('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
-			sessionStorage.removeItem('studentPartneredRelationship');
-			sessionStorage.setItem('studentPartneredRelationship', 'yes');
-			$(".pt-studentLivingSameAddress").show();
-		} else {
-			sessionStorage.removeItem('studentPartneredRelationship');
-			sessionStorage.setItem('studentPartneredRelationship', 'no');
-			$(".pt-studentLivingSameAddress").hide();
-		}
-	});
+		$('input[name=studentLivingWithPartner]').change(function () {
+			if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
+				$(".pt-noLongerEligible").show();
+				$(".pagination *").hide();
+			} else {
+				$(".pt-noLongerEligible").hide();
+				$(".pagination *").show('fast');
+			}
+		});
 
+		$('input[name=studentPartneredRelationship]').change(function () {
+			if ($('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
+				sessionStorage.removeItem('studentPartneredRelationship');
+				sessionStorage.setItem('studentPartneredRelationship', 'yes');
+				$(".pt-studentLivingSameAddress").show();
+			} else {
+				sessionStorage.removeItem('studentPartneredRelationship');
+				sessionStorage.setItem('studentPartneredRelationship', 'no');
+				$(".pt-studentLivingSameAddress").hide();
+			}
+		});
 
+		$("#relationshipToStudent").change(function () {
+			var selected_option = $('#relationshipToStudent').val();
+			if (selected_option === 'other') {
+				$('#relationshipToStudentOther').show("fast");
+			} else {
+				$('#relationshipToStudentOther').hide("slow");
+			}
+		});
 
-	$("#relationshipToStudent").change(function () {
-		var selected_option = $('#relationshipToStudent').val();
-		if (selected_option === 'other') {
-			$('#relationshipToStudentOther').show("fast");
-		} else {
-			$('#relationshipToStudentOther').hide("slow");
-		}
-	});
-
-	$("#veteranRelationshipToStudent").change(function () {
-		var selected_option = $('#veteranRelationshipToStudent').val();
-		if (selected_option === 'other') {
-			$('#veteranRelationshipToStudentOther').show("fast");
-		} else {
-			$('#veteranRelationshipToStudentOther').hide("slow");
-		}
-	});
-
-
-
-
-
-	// page 2
-
-	$(".pt-showIfPrimary").hide();
-	$(".pt-showIfSecondary").hide();
-	$(".pt-showIfTertiary").hide();
-	$(".pt-showIfPartTime").hide();
-
-
-
-
-	$('input[name=studentLevelOfStudy]').change(function () {
-		console.log('input studentLevelOfStudy changed to ' + $('input[name=studentLevelOfStudy]:checked').val());
-		if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
-
-			$(".pt-noLongerEligible").hide();
-			$(".pt-showIfSecondary").hide();
-			$(".pt-showIfTertiary").hide();
-			$(".pt-showIfPrimary").show('fast');
-
-			sessionStorage.removeItem('studentLevelOfStudy');
-			sessionStorage.setItem('studentLevelOfStudy', 'primary');
-
-		}
-		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
-			$(".pt-noLongerEligible").hide();
-			$(".pt-showIfTertiary").hide();
-			$(".pt-showIfPrimary").hide();
-			$(".pt-showIfSecondary").show('fast');
-
-			sessionStorage.removeItem('studentLevelOfStudy');
-			sessionStorage.setItem('studentLevelOfStudy', 'secondary');
-		}
-		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
-			$(".pt-noLongerEligible").hide();
-			$(".pt-showIfPrimary").hide();
-			$(".pt-showIfSecondary").hide();
-			$(".pt-showIfTertiary").show('fast');
-
-			sessionStorage.removeItem('studentLevelOfStudy');
-			sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
-		}
-		else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
-
-			$(".pt-showIfPrimary").hide();
-			$(".pt-showIfSecondary").hide();
-			$(".pt-showIfTertiary").hide();
-			$(".pt-noLongerEligible").show('fast');
-
-			sessionStorage.removeItem('studentLevelOfStudy');
-			sessionStorage.setItem('studentLevelOfStudy', 'none');
-		}
-	});
-
-	$('input[name=studyLoad]').change(function () {
-		if ($('input[name=studyLoad]:checked').val() === 'part-time') {
-			$(".pt-showIfPartTime").show('fast');
-		} else {
-			$(".pt-showIfPartTime").hide();
-		}
-	});
-
-
-
-
-	// Page 3
-	$(".pt-showIfNotPrimaryStudent").hide();
-	$(".pt-showIfHomeless").hide();
-	$(".pt-showIfRequireRentAssistance").hide();
-	$(".pt-showIfRentAssistanceKnown").hide();
-	$(".pt-typeOfAccommodationPaymentOther").hide();
-
-
-	if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
-		$(".pt-showIfNotPrimaryStudent").show('fast');
+		$("#veteranRelationshipToStudent").change(function () {
+			var selected_option = $('#veteranRelationshipToStudent').val();
+			if (selected_option === 'other') {
+				$('#veteranRelationshipToStudentOther').show("fast");
+			} else {
+				$('#veteranRelationshipToStudentOther').hide("slow");
+			}
+		});
 	}
 
-	$(".pt-showIfLivingAway").hide();
 
-	$('input[name=studyAwayFromHomeRadio]').change(function () {
 
-		if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
-			$(".pt-showIfLivingAway").show('fast');
-			$(".pt-showIfNoPartner").hide();
 
-			if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
-				$(".pt-showIfNoPartner").show('fast');
+
+
+	if (window.location.pathname === "/studentclaim2") {
+		// page 2
+		$(".pt-showIfPrimary").hide();
+		$(".pt-showIfSecondary").hide();
+		$(".pt-showIfTertiary").hide();
+		$(".pt-showIfPartTime").hide();
+
+		$('input[name=studentLevelOfStudy]').change(function () {
+			console.log('input studentLevelOfStudy changed to ' + $('input[name=studentLevelOfStudy]:checked').val());
+			if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
+
+				$(".pt-noLongerEligible").hide();
+				$(".pt-showIfSecondary").hide();
+				$(".pt-showIfTertiary").hide();
+				$(".pt-showIfPrimary").show('fast');
+
+				sessionStorage.removeItem('studentLevelOfStudy');
+				sessionStorage.setItem('studentLevelOfStudy', 'primary');
+
 			}
-		} else {
-			$(".pt-showIfLivingAway").hide();
-			$(".pt-showIfNoPartner").hide();
+			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
+				$(".pt-noLongerEligible").hide();
+				$(".pt-showIfTertiary").hide();
+				$(".pt-showIfPrimary").hide();
+				$(".pt-showIfSecondary").show('fast');
+
+				sessionStorage.removeItem('studentLevelOfStudy');
+				sessionStorage.setItem('studentLevelOfStudy', 'secondary');
+			}
+			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
+				$(".pt-noLongerEligible").hide();
+				$(".pt-showIfPrimary").hide();
+				$(".pt-showIfSecondary").hide();
+				$(".pt-showIfTertiary").show('fast');
+
+				sessionStorage.removeItem('studentLevelOfStudy');
+				sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
+			}
+			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
+
+				$(".pt-showIfPrimary").hide();
+				$(".pt-showIfSecondary").hide();
+				$(".pt-showIfTertiary").hide();
+				$(".pt-noLongerEligible").show('fast');
+
+				sessionStorage.removeItem('studentLevelOfStudy');
+				sessionStorage.setItem('studentLevelOfStudy', 'none');
+			}
+		});
+
+		$('input[name=studyLoad]').change(function () {
+			if ($('input[name=studyLoad]:checked').val() === 'part-time') {
+				$(".pt-showIfPartTime").show('fast');
+			} else {
+				$(".pt-showIfPartTime").hide();
+			}
+		});
+	}
+
+
+
+	if (window.location.pathname === "/studentclaim3") {
+		// Page 3
+		$(".pt-showIfNotPrimaryStudent").hide();
+		$(".pt-showIfHomeless").hide();
+		$(".pt-showIfRequireRentAssistance").hide();
+		$(".pt-showIfRentAssistanceKnown").hide();
+		$(".pt-typeOfAccommodationPaymentOther").hide();
+
+
+		if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
+			$(".pt-showIfNotPrimaryStudent").show('fast');
 		}
-	});
 
-	$("#studyAwayFromHomeExplination").change(function () {
-		var selected_option = $('#studyAwayFromHomeExplination').val();
-		if (selected_option === 'homeless') {
-			$(".pt-showIfHomeless").show('fast');
-		} else {
-			$(".pt-showIfHomeless").hide();
+		$(".pt-showIfLivingAway").hide();
+
+		$('input[name=studyAwayFromHomeRadio]').change(function () {
+
+			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
+				$(".pt-showIfLivingAway").show('fast');
+				$(".pt-showIfNoPartner").hide();
+
+				if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
+					$(".pt-showIfNoPartner").show('fast');
+				}
+			} else {
+				$(".pt-showIfLivingAway").hide();
+				$(".pt-showIfNoPartner").hide();
+			}
+		});
+
+		$("#studyAwayFromHomeExplination").change(function () {
+			var selected_option = $('#studyAwayFromHomeExplination').val();
+			if (selected_option === 'homeless') {
+				$(".pt-showIfHomeless").show('fast');
+			} else {
+				$(".pt-showIfHomeless").hide();
+			}
+		});
+
+		$('input[name=requireRentAssistanceRadio]').change(function () {
+			if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
+				$(".pt-showIfRequireRentAssistance").show('fast');
+			} else {
+				$(".pt-showIfRequireRentAssistance").hide();
+			}
+		});
+
+		$('input[name=knowRentalDetails]').change(function () {
+			if ($('input[name=knowRentalDetails]:checked').val() === 'yes') {
+				$(".pt-showIfRentAssistanceKnown").show('fast');
+			} else {
+				$(".pt-showIfRentAssistanceKnown").hide();
+			}
+		});
+
+		$('input[name=typeOfAccommodationPayment]').change(function () {
+			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
+				$(".pt-typeOfAccommodationPaymentOther").show('fast');
+			} else {
+				$(".pt-typeOfAccommodationPaymentOther").hide();
+			}
+		});
+
+	}
+
+
+
+	if (window.location.pathname === "/studentclaim4") {
+		// Page 4
+		$(".pt-showIfCentrelinkCustomer").hide();
+		$('.pt-studentAge--mature').hide();
+		$('.pt-showIfEducationAllowanceTaxed').hide();
+		$('.pt-showIfCarePercentageLow').hide();
+		$('.pt-showIfCarePercentageHigh').hide();
+
+		if (sessionStorage.getItem('studentAge') > 15) {
+			console.log('mature student');
+			$('.pt-studentAge--mature').show();
 		}
-	});
 
-	$('input[name=requireRentAssistanceRadio]').change(function () {
-		if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
-			$(".pt-showIfRequireRentAssistance").show('fast');
-		} else {
-			$(".pt-showIfRequireRentAssistance").hide();
-		}
-	});
+		$('input[name=whoReceivesFTB]').change(function () {
+			if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one') {
+				$(".pt-showIfCentrelinkCustomer").hide();
+			} else {
+				$(".pt-showIfCentrelinkCustomer").show('fast');
+			}
+		});
 
-	$('input[name=knowRentalDetails]').change(function () {
-		if ($('input[name=knowRentalDetails]:checked').val() === 'yes') {
-			$(".pt-showIfRentAssistanceKnown").show('fast');
-		} else {
-			$(".pt-showIfRentAssistanceKnown").hide();
-		}
-	});
+		$("#percentageCare").focusout(function () {
+			if (this.value < 0 || this.value > 100) {
+				$(this).closest('.form-group').addClass('has-error');
+				$(this).prev('label').append('<label class="input-error-message">Please enter a percentage between 0 and 100</label>');
+				return;
+			} else {
+				$(this).closest('.form-group').removeClass('has-error');
+				$(this).prev('label').empty();
+				$(this).prev('label').html(question.id26b);
+			}
 
-	$('input[name=typeOfAccommodationPayment]').change(function () {
-		if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
-			$(".pt-typeOfAccommodationPaymentOther").show('fast');
-		} else {
-			$(".pt-typeOfAccommodationPaymentOther").hide();
-		}
-	});
+			if (this.value < 35) {
+				$('.pt-showIfCarePercentageLow').show();
+				$('.pt-showIfCarePercentageHigh').hide();
+			}
+			else if (this.value > 65) {
+				$('.pt-showIfCarePercentageHigh').show();
+				$('.pt-showIfCarePercentageLow').hide();
+			} else {
+				$('.pt-showIfCarePercentageHigh').hide();
+				$('.pt-showIfCarePercentageLow').hide();
+			}
 
+		});
 
-
-
-
-
+		$('input[name=educationAllowanceTaxed]').change(function () {
+			if ($('input[name=educationAllowanceTaxed]:checked').val() === 'yes') {
+				$(".pt-showIfEducationAllowanceTaxed").show('fast');
+			} else {
+				$(".pt-showIfEducationAllowanceTaxed").hide();
+			}
+		});
+	}
 
 });
