@@ -98,7 +98,7 @@ jQuery(document).ready(function ($) {
 
 
 
-	// Studient claim pages
+	// Student claim pages
 	// Flows 
 	if ("veteranFlow" in sessionStorage) {
 		$(".pt-flow--veteran").show("fast");
@@ -304,10 +304,10 @@ jQuery(document).ready(function ($) {
 		$('input[name=studentLivingWithPartner]').change(function () {
 			if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
 				$(".pt-noLongerEligible").show();
-				$(".pagination *").hide();
+				$(".pagination").find('button').prop('disabled', true);
 			} else {
 				$(".pt-noLongerEligible").hide();
-				$(".pagination *").show('fast');
+				$(".pagination").find('button').prop('disabled', false);
 			}
 		});
 
@@ -353,6 +353,8 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfSecondary").hide();
 		$(".pt-showIfTertiary").hide();
 		$(".pt-showIfPartTime").hide();
+		$(".pt-noLongerEligible").hide();
+
 
 		$('input[name=studentLevelOfStudy]').change(function () {
 			console.log('input studentLevelOfStudy changed to ' + $('input[name=studentLevelOfStudy]:checked').val());
@@ -365,6 +367,7 @@ jQuery(document).ready(function ($) {
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'primary');
+				$(".pagination").find('button').prop('disabled', false);
 
 			}
 			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
@@ -375,6 +378,7 @@ jQuery(document).ready(function ($) {
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'secondary');
+				$(".pagination").find('button').prop('disabled', false);
 			}
 			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
 				$(".pt-noLongerEligible").hide();
@@ -384,6 +388,7 @@ jQuery(document).ready(function ($) {
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
+				$(".pagination").find('button').prop('disabled', false);
 			}
 			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
 
@@ -394,6 +399,7 @@ jQuery(document).ready(function ($) {
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'none');
+				$(".pagination").find('button').prop('disabled', true);
 			}
 		});
 
@@ -438,8 +444,8 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		$("#studyAwayFromHomeExplination").change(function () {
-			var selected_option = $('#studyAwayFromHomeExplination').val();
+		$("#studyAwayFromHomeExplanation").change(function () {
+			var selected_option = $('#studyAwayFromHomeExplanation').val();
 			if (selected_option === 'homeless') {
 				$(".pt-showIfHomeless").show('fast');
 			} else {
