@@ -181,6 +181,10 @@ app.get('/profile-assets-added', function(request, response) {
   response.render('auth/profile-assets-added');
 });
 
+/* Separate healthcard screens */
+app.get('/healthcard-home', function(request, response) {
+  response.render('auth/healthcard/healthcard-home');
+});
 
 /* Change email flow */
 app.get('/change-email-poi', function(request, response) {
