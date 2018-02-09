@@ -197,16 +197,47 @@
 
     document.getElementById("percentage").style.width = "20%";
 
+    var firstOptionNames = [
+        $("input[name=exercises]"),
+        $("input[name=require-aids]"),
+        $("input[name=house-fittings]"),
+        $("input[name=move-assistance]"),
+        $("input[name=house-assistance]"),
+        $("input[name=car-challenge]"),
+        $("input[name=pub-transport]"),
+        $("input[name=restricted]"),
+        $("input[name=restrictions-fam]")
+    ];
+
+    var secondOptionNames = [
+        $("input[name=psych-house]"),
+        $("input[name=psych-family]")
+    ];
+
+    function changeProp(obj, prop, propVal) {
+        $.each(obj, function(index, value) {
+            value.prop(prop, propVal);
+        });
+    };
+
     // Show and hide options
     $( "#physical-mob-yes" ).click(function() {
-        $( "#dropContainer1" ).show("fast");
-        $( "#drop1" ).show("fast");
+        $( "#dropContainer1, #drop1" ).show("fast");
         $("#btnNext").prop('disabled', false);
+        changeProp(firstOptionNames, 'disabled', false);
+        $("#moreinfo").hide();
     });
     $( "#physical-mob-no" ).click(function() {
-        $( "#dropContainer1" ).hide();
-        $( "#moreinfo" ).hide();
         $("#btnNext").prop('disabled', false);
+
+        changeProp(firstOptionNames, 'disabled', true);
+        changeProp(firstOptionNames, 'checked', false);
+
+        $("#drop1, #drop2, #drop3, #drop4, #drop5, #drop6, #drop7, #drop8, #drop9, #dropContainer1").hide();
+
+        if($("#psych-mob-no").is(':checked')) {
+            $("#moreinfo").hide();
+        }
     });
 
     $( "#exercises-yes, #exercises-no" ).click(function() {
@@ -241,12 +272,27 @@
         $( "#drop9" ).show("fast");
     });
 
+    $( "#restrictions-fam-yes, #restrictions-fam-no" ).click(function() {
+        if ($("#psych-mob-no").is(':checked')) {
+            $("#moreinfo").show("fast");
+        }
+    });
+
     $( "#psych-mob-yes" ).click(function() {
-        $( "#dropContainer2" ).show("fast");
-        $( "#dropA" ).show("fast");
+        $( "#dropContainer2, #dropA" ).show("fast");
+        changeProp(secondOptionNames, 'disabled', false);
+        $("#moreinfo").hide();
+
     });
     $( "#psych-mob-no" ).click(function() {
         $( "#dropContainer2" ).hide();
+        changeProp(secondOptionNames, 'disabled', true);
+        changeProp(secondOptionNames, 'checked', false);
+        $("#dropA, #dropB, #dropContainer2").hide();
+
+        if($("#physical-mob-no").is(':checked')) {
+            $("#moreinfo").hide();
+        }
     });
 
     $( "#psych-house-yes, #psych-house-no" ).click(function() {
@@ -254,7 +300,9 @@
     });
 
     $( "#psych-fam-yes, #psych-fam-no" ).click(function() {
-        $( "#moreinfo" ).show("fast");
+        if ($("#physical-mob-no, #restrictions-fam-yes, #restrictions-fam-no").is(':checked')) {
+            $("#moreinfo").show("fast");
+        }
     });
 
 </script>

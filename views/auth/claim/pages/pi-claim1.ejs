@@ -107,7 +107,7 @@
                 <p class="sub-fields-message">For example, Susan has depression and finds most relationships unsatisfying, including previous relationships with friends and family. She is spending a lot less time socialising than she did before she had depression. She has given herself a lifestyle rating of 4 for personal relationships.</p>
                 <fieldset>
                     <div class="radio-toggle">
-                        <label class="label-left" for="personal-rel-rating-1"><input id="personal-rating-1" type="radio" name="personal-rating"><span>One</span></label>
+                        <label class="label-left" for="personal-rating-1"><input id="personal-rating-1" type="radio" name="personal-rating"><span>One</span></label>
                         <label class="label-middle" for="personal-rating-2"><input id="personal-rating-2" type="radio" name="personal-rating"><span>Two</span></label>
                         <label class="label-middle" for="personal-rating-3"><input id="personal-rating-3" type="radio" name="personal-rating"><span>Three</span></label>
                         <label class="label-middle" for="personal-rating-4"><input id="personal-rating-4" type="radio" name="personal-rating"><span>Four</span></label>
@@ -148,17 +148,33 @@
 
     document.getElementById("percentage").style.width = "0%";
 
+    var allOptionNames = [
+        $("input[name=fam-life-affected]"),
+        $("input[name=partner-spouse-rel]"),
+        $("input[name=sexual-feelings-abilities]"),
+        $("input[name=social-interactions]"),
+        $("input[name=med-impact]"),
+        $("input[name=talk-problems]"),
+        $("input[name=mood]")];
+
+    function changeProp(obj, prop, propVal) {
+        $.each(obj, function(index, value) {
+            value.prop(prop, propVal);
+        });
+    };
+
     // Show and hide options
     $( "#personal-rel-yes" ).click(function() {
-        $( "#drop1" ).show("fast");
+        $( "#drop1, #dropContainer1" ).show("fast");
         $("#btnNext").prop('disabled', false);
-        $( "#dropContainer1" ).show("fast");
+        changeProp(allOptionNames, 'disabled', false);
     });
     $( "#personal-rel-no" ).click(function() {
-        $( "#drop1" ).hide();
-        $( "#moreinfo" ).hide();
         $("#btnNext").prop('disabled', false);
-        $( "#dropContainer1" ).hide();
+        changeProp(allOptionNames, 'disabled', true);
+        changeProp(allOptionNames, 'checked', false);
+
+        $("#drop1, #drop2, #drop3, #drop4, #drop5, #drop6, #drop7, #moreinfo, #dropContainer1").hide();
     });
 
     $( "#fam-life-yes, #fam-life-no" ).click(function() {
@@ -171,6 +187,7 @@
     });
     $( "#partner-spouse-no" ).click(function() {
         $( "#drop3" ).hide();
+        $( "#drop4" ).show("fast");
     });
 
     $( "#sexual-feelings-yes, #sexual-feelings-no, #partner-spouse-no" ).click(function() {
