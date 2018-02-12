@@ -99,11 +99,7 @@ jQuery(document).ready(function ($) {
 
 
 	// Student claim pages
-	// Flows 
 
-	$(".pt-flow--veteran").hide();
-	$(".pt-flow--student").hide();
-	$(".pt-flow--claimant").hide();
 	if ("veteranFlow" in sessionStorage) {
 		$(".pt-flow--veteran").show("fast");
 	}
