@@ -100,6 +100,10 @@ jQuery(document).ready(function ($) {
 
 	// Student claim pages
 	// Flows 
+
+	$(".pt-flow--veteran").hide();
+	$(".pt-flow--student").hide();
+	$(".pt-flow--claimant").hide();
 	if ("veteranFlow" in sessionStorage) {
 		$(".pt-flow--veteran").show("fast");
 	}
@@ -116,15 +120,15 @@ jQuery(document).ready(function ($) {
 	if ("studentFlow" in sessionStorage) {
 		var question = {
 			id1: "Title",
-			id2: "First Name",
-			id3: "Last Name",
-			id4: "Date of Birth",
+			id2: "First name",
+			id3: "Last name",
+			id4: "Date of birth",
 			id5: "",
 			id5a: "",
 			id6: "",
 			id7: "Are you in a partnered relationship?",
 			id8: "Will you be living at the same address with your partner whilst studying?",
-			id8a: "[TEXT TBD] You are no longer eligible",
+			id8a: "[TEXT TBD] You will be eligible for a lesser payment",
 			id9: "",
 			id9a: "",
 			id9b: "Please provide any supporting documents",
@@ -142,14 +146,17 @@ jQuery(document).ready(function ($) {
 			id20: "Date you plan to complete your studies <span class='hint'>(MM / YYYY)</span>",
 			id21: "What is your study load?",
 			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(MM / YYYY)</span>",
+			id21c: "Have you enrolled in this course?",
+			id21ci: "[TEXT TBD] You are no longer eligible",
+			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Is this your current address?",
 			id23: "Will you be living away from home whilst undertaking study?",
 			id23a: "Please select a statement that best describes the situation",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Do you require rent assistance? (optional)",
 			id24a: "Do you have your rental details?",
-			id24a1: "Date you began/will be living at a new rental address",
-			id24a2: "Date your rental agreement ends",
+			id24a1: "Date you began/will be living at a new rental address<span class='hint'>(DD / MM / YYYY)</span>",
+			id24a2: "Date your rental agreement ends<span class='hint'>(DD / MM / YYYY)</span>",
 			id24a3: "What type of accommodation payment do you make?",
 			id24a3a: "Please provide details...",
 			id24a4: "Name of person or agency you pay rent to",
@@ -180,9 +187,9 @@ jQuery(document).ready(function ($) {
 	if (("veteranFlow" in sessionStorage) || ("claimantFlow" in sessionStorage)) {
 		var question = {
 			id1: "Student's Title",
-			id2: "Student's First Name",
-			id3: "Student's Last Name",
-			id4: "Student's Date of Birth",
+			id2: "Student's First name",
+			id3: "Student's Last name",
+			id4: "Student's Date of birth",
 			id5: "Your relationship to the student",
 			id5a: "Please provide a brief statement explaining how the student came into your care. If relevant, please provide a copy of any standing orders from the Family Court etc.",
 			id6: "Will the student be engaged in full time employment whilst studying?",
@@ -206,14 +213,17 @@ jQuery(document).ready(function ($) {
 			id20: "Date the student plans to complete their studies <span class='hint'>(  MM / YYYY)</span>",
 			id21: "What is the student's study load?",
 			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(  MM / YYYY)</span>",
+			id21c: "Has the student enrolled in this course?",
+			id21ci: "[TEXT TBD] You are no longer eligible",
+			id21u: "Please provide evidence to explain why the student is studying part-time",
 			id22: "Is this the student’s address? ",
 			id23: "Will the student be living away from home whilst undertaking study?",
 			id23a: "Please select a statement that best describes the situation",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Does the student require rent assistance? (optional)",
 			id24a: "Do you know the student's rental details?",
-			id24a1: "Date the student began/will be living at a new rental address",
-			id24a2: "Date the student rental agreement ends",
+			id24a1: "Date the student began/will be living at a new rental address<span class='hint'>(DD / MM / YYYY)</span>",
+			id24a2: "Date the student rental agreement ends<span class='hint'>(DD / MM / YYYY)</span>",
 			id24a3: "What type of accommodation payment does the student make?",
 			id24a4: "Name of person or agency the student pays rent to",
 			id24a5: "What is their email address?",
@@ -224,8 +234,8 @@ jQuery(document).ready(function ($) {
 			id24a9a: "How much of the payment is for meals?  ",
 			id25: "Please provide any supporting documents (e.g. Rental agreement)",
 			id26: "Who currently receives the Family Tax Benefit for the student?",
-			id26a: "What is your Customer Reference Number (optional)",
-			id26b: "What is the percentage care of a parent?",
+			id26a: "What is your Customer Reference Number (if known)",
+			id26b: "What is your percentage care?",
 			id26b1: "[Text TBD] You may not be eligible",
 			id26b2: "[Text TBD] The other care giver may not be eligible",
 			id26c: "What is the name of the other care giver? (optional)",
@@ -233,11 +243,16 @@ jQuery(document).ready(function ($) {
 			id27: "Student's Tax File Number",
 			id28: "Would you like your education allowance taxed? ",
 			id28a: "How much do you pay per fortnight? ",
-			id28ai: "Payments will be made directly to these bank account details.	<br>If you applying for a student 18 years and over, please enter their Bank details.",
+			id28ai: "Payments will be made directly to these bank account details.	",
 			id29: "Account Name",
 			id30: "BSB",
 			id31: "Account Number",
 		};
+	}
+
+
+	if ("claimantFlow" in sessionStorage) {
+		question.id5 = "What is the Veteran/Member's relationship to the student?"
 	}
 
 	for (var key in question) {
@@ -293,21 +308,87 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Page landing
+	if (window.location.pathname === "/student-assistance-landing") {
+		var getUrlParameter = function getUrlParameter(sParam) {
+			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+				sURLVariables = sPageURL.split('&'),
+				sParameterName,
+				i;
+
+			for (i = 0; i < sURLVariables.length; i++) {
+				sParameterName = sURLVariables[i].split('=');
+
+				if (sParameterName[0] === sParam) {
+					return sParameterName[1] === undefined ? true : sParameterName[1];
+				}
+			}
+		};
+
+		var flow = getUrlParameter('flow');
+		var age = getUrlParameter('studentAge');
+
+		sessionStorage.clear();
+
+		if (flow) {
+			console.log(flow);
+			sessionStorage.setItem(flow, true);
+			console.log(age);
+			if (age) {
+				sessionStorage.setItem('studentAge', age);
+			}
+		} else {
+			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
+		}
+
+
+	}
+
 
 	if (window.location.pathname === "/studentclaim1") {
 		// Page 1
 		$(".pt-studentAge--mature").hide();
 		$(".pt-studentLivingSameAddress").hide();
 
-		$(".pt-noLongerEligible").hide();
+		$(".pt-studentLivingWithPartnerLessRate").hide();
+
+		if (sessionStorage.getItem('studentAge') > 15) {
+
+			if ("veteranFlow" in sessionStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--veteran")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+			if ("studentFlow" in sessionStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--student")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+			if ("claimantFlow" in sessionStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--claimant")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+		} else {
+			$(".pt-studentAge--mature").hide("slow");
+		}
 
 		$('input[name=studentLivingWithPartner]').change(function () {
 			if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
-				$(".pt-noLongerEligible").show();
-				$(".pagination").find('button').prop('disabled', true);
+				$(".pt-studentLivingWithPartnerLessRate").show();
+				// $(".pagination").find('button').prop('disabled', true);
 			} else {
-				$(".pt-noLongerEligible").hide();
-				$(".pagination").find('button').prop('disabled', false);
+				$(".pt-studentLivingWithPartnerLessRate").hide();
+				// $(".pagination").find('button').prop('disabled', false);
 			}
 		});
 
@@ -354,11 +435,16 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfTertiary").hide();
 		$(".pt-showIfPartTime").hide();
 		$(".pt-noLongerEligible").hide();
+		$(".pt-noLongerEligibleTwo").hide();
 
 
-		$('input[name=studentLevelOfStudy]').change(function () {
-			console.log('input studentLevelOfStudy changed to ' + $('input[name=studentLevelOfStudy]:checked').val());
-			if ($('input[name=studentLevelOfStudy]:checked').val() === 'primary') {
+
+		$("#studentLevelOfStudy").change(function () {
+			var selected_option = $('#studentLevelOfStudy').val();
+			console.log('input studentLevelOfStudy changed to ' + $("#studentLevelOfStudy").val());
+			var grade_options;
+
+			if (selected_option === 'primary') {
 
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfSecondary").hide();
@@ -368,9 +454,18 @@ jQuery(document).ready(function ($) {
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'primary');
 				$(".pagination").find('button').prop('disabled', false);
+				// grade_options == 
+
+
+				$("#studentGradeThisYearSelect option[value='7']").remove();
+				$("#studentGradeThisYearSelect option[value='8']").remove();
+				$("#studentGradeThisYearSelect option[value='9']").remove();
+				$("#studentGradeThisYearSelect option[value='10']").remove();
+				$("#studentGradeThisYearSelect option[value='11']").remove();
+				$("#studentGradeThisYearSelect option[value='12']").remove();
 
 			}
-			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'secondary') {
+			else if (selected_option === 'secondary') {
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfTertiary").hide();
 				$(".pt-showIfPrimary").hide();
@@ -378,36 +473,50 @@ jQuery(document).ready(function ($) {
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'secondary');
+
+				$("#studentGradeThisYearSelect option[value='0']").remove();
+				$("#studentGradeThisYearSelect option[value='1']").remove();
+				$("#studentGradeThisYearSelect option[value='2']").remove();
+				$("#studentGradeThisYearSelect option[value='3']").remove();
+				$("#studentGradeThisYearSelect option[value='4']").remove();
+				$("#studentGradeThisYearSelect option[value='5']").remove();
+				$("#studentGradeThisYearSelect option[value='6']").remove();
+
+
 				$(".pagination").find('button').prop('disabled', false);
 			}
-			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'tertiary') {
+			else if (selected_option === 'tertiary') {
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfPrimary").hide();
 				$(".pt-showIfSecondary").hide();
 				$(".pt-showIfTertiary").show('fast');
 
+
+
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
 				$(".pagination").find('button').prop('disabled', false);
 			}
-			else if ($('input[name=studentLevelOfStudy]:checked').val() === 'none') {
 
-				$(".pt-showIfPrimary").hide();
-				$(".pt-showIfSecondary").hide();
-				$(".pt-showIfTertiary").hide();
-				$(".pt-noLongerEligible").show('fast');
+			// $("#studentGradeThisYearSelect").removeItem
 
-				sessionStorage.removeItem('studentLevelOfStudy');
-				sessionStorage.setItem('studentLevelOfStudy', 'none');
-				$(".pagination").find('button').prop('disabled', true);
-			}
+
 		});
+
 
 		$('input[name=studyLoad]').change(function () {
 			if ($('input[name=studyLoad]:checked').val() === 'part-time') {
 				$(".pt-showIfPartTime").show('fast');
 			} else {
 				$(".pt-showIfPartTime").hide();
+			}
+		});
+
+		$('input[name=enroleStatus]').change(function () {
+			if ($('input[name=enroleStatus]:checked').val() === 'no') {
+				$(".pt-noLongerEligibleTwo").show();
+			} else {
+				$(".pt-noLongerEligibleTwo").hide();
 			}
 		});
 	}
@@ -420,8 +529,8 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
 		$(".pt-showIfRentAssistanceKnown").hide();
+		$(".pt-showIfRentLandLord").hide();
 		$(".pt-typeOfAccommodationPaymentOther").hide();
-
 
 		if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
 			$(".pt-showIfNotPrimaryStudent").show('fast');
@@ -470,6 +579,15 @@ jQuery(document).ready(function ($) {
 		});
 
 		$('input[name=typeOfAccommodationPayment]').change(function () {
+			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
+				$(".pt-showIfRentLandLord").show('fast');
+			} else {
+				$(".pt-showIfRentLandLord").hide();
+			}
+		});
+
+
+		$('input[name=typeOfAccommodationPayment]').change(function () {
 			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
 				$(".pt-typeOfAccommodationPaymentOther").show('fast');
 			} else {
@@ -495,7 +613,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		$('input[name=whoReceivesFTB]').change(function () {
-			if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one') {
+			if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one' || $('input[name=whoReceivesFTB]:checked').val() === 'myself') {
 				$(".pt-showIfCentrelinkCustomer").hide();
 			} else {
 				$(".pt-showIfCentrelinkCustomer").show('fast');
@@ -513,17 +631,17 @@ jQuery(document).ready(function ($) {
 				$(this).prev('label').html(question.id26b);
 			}
 
-			if (this.value < 35) {
-				$('.pt-showIfCarePercentageLow').show();
-				$('.pt-showIfCarePercentageHigh').hide();
-			}
-			else if (this.value > 65) {
-				$('.pt-showIfCarePercentageHigh').show();
-				$('.pt-showIfCarePercentageLow').hide();
-			} else {
-				$('.pt-showIfCarePercentageHigh').hide();
-				$('.pt-showIfCarePercentageLow').hide();
-			}
+			// if (this.value < 35) {
+			// 	$('.pt-showIfCarePercentageLow').show();
+			// 	$('.pt-showIfCarePercentageHigh').hide();
+			// }
+			// else if (this.value > 65) {
+			// 	$('.pt-showIfCarePercentageHigh').show();
+			// 	$('.pt-showIfCarePercentageLow').hide();
+			// } else {
+			// 	$('.pt-showIfCarePercentageHigh').hide();
+			// 	$('.pt-showIfCarePercentageLow').hide();
+			// }
 
 		});
 
