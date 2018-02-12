@@ -178,30 +178,68 @@
 
     // Progress percentage
 
-    document.getElementById("percentage").style.width = "80%";
+    document.getElementById("percentage").style.width = "83%";
+
+    var allOptionNames = [
+        $("input[name=work-stopped]"),
+        $("input[name=tasks-stopped]"),
+        $("input[name=work-changes]"),
+        $("input[name=duties-changed]"),
+        $("input[name=time-off]"),
+        $("input[name=work-hours]"),
+        $("input[name=environment-mods]"),
+        $("input[name=work-looking]"),
+        $("input[name=work-future]"),
+        $("input[name=return-program]")
+    ];
+
+    function changeProp(obj, prop, propVal) {
+        $.each(obj, function(index, value) {
+            value.prop(prop, propVal);
+        });
+    };
 
     // Show and hide options
     $( "#work-ability-yes" ).click(function() {
-        $( "#dropContainer1" ).show("fast");
-        $( "#drop1" ).show("fast");
+        $( "#drop1, #dropContainer1" ).show("fast");
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', false);
     });
     $( "#work-ability-no" ).click(function() {
-        $( "#dropContainer1" ).hide();
-        $( "#dropContainer2" ).hide();
-        $( "#moreinfo" ).hide();
+        $( "#dropContainer1, #dropContainer2, #moreinfo" ).hide();
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', true);
+        changeProp(allOptionNames, 'checked', false);
+
+        $("#drop1, #drop2, #drop3, #drop4, #drop5, #drop6, #drop7, #drop8, #drop9, #drop10, #moreinfo, #dropContainer1, #dropContainer1a, #dropContainer2").hide();
     });
 
     $( "#work-stopped-yes" ).click(function() {
-        $( "#dropContainer1a" ).show("hide");
+        $( "#dropContainer1a" ).show("fast");
         $( "#dropContainer2" ).hide();
         $( "#drop2" ).show("fast");
+        $("#moreinfo" ).hide();
+
+        var optionNames1 = [
+            $("input[name=tasks-stopped]"),
+            $("input[name=work-changes]"),
+            $("input[name=duties-changed]"),
+            $("input[name=time-off]"),
+            $("input[name=work-hours]"),
+            $("input[name=environment-mods]"),
+            $("input[name=work-looking]"),
+            $("input[name=work-future]"),
+            $("input[name=return-program]")
+        ];
+
+        changeProp(optionNames1, 'checked', false);
+        $("#drop3, #drop4, #drop5, #drop6, #drop7, #drop8, #drop9, #drop10, #moreinfo, #dropContainer2").hide();
     });
     $( "#work-stopped-no" ).click(function() {
         $( "#dropContainer1a" ).hide();
         $( "#dropContainer2" ).show("fast");
         $( "#drop8" ).show("fast");
+        $("#moreinfo" ).hide();
     });
 
     $( "#tasks-stopped-yes, #tasks-stopped-no" ).click(function() {
@@ -224,7 +262,7 @@
         $( "#drop7" ).show("fast");
     });
 
-    $( "#work-hours-yes, #work-hours-no" ).click(function() {
+    $( "#environment-mods-yes, #environment-mods-no" ).click(function() {
         $( "#dropContainer2" ).show("fast");
         $( "#drop8" ).show("fast");
     });

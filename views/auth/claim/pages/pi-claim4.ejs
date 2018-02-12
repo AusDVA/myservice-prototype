@@ -102,18 +102,31 @@
 
     // Progress percentage
 
-    document.getElementById("percentage").style.width = "60%";
+    document.getElementById("percentage").style.width = "66.4%";
+
+    var allOptionNames = [
+        $("input[name=jobs-stopped]"),
+        $("input[name=difficult-jobs]"),
+        $("input[name=jobs-help]")];
+
+    function changeProp(obj, prop, propVal) {
+        $.each(obj, function(index, value) {
+            value.prop(prop, propVal);
+        });
+    };
 
     // Show and hide options
     $( "#house-jobs-yes" ).click(function() {
-        $( "#dropContainer1" ).show("fast");
-        $( "#drop1" ).show("fast");
+        $( "#drop1, #dropContainer1" ).show("fast");
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', false);
     });
     $( "#house-jobs-no" ).click(function() {
-        $( "#dropContainer1" ).hide();
-        $( "#moreinfo" ).hide();
+        $( "#dropContainer1, #moreinfo" ).hide();
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', true);
+        changeProp(allOptionNames, 'checked', false);
+        $("#drop1, #drop2, #drop3, #moreinfo, #dropContainer1").hide();
     });
 
     $( "#jobs-stopped-yes, #jobs-stopped-no" ).click(function() {

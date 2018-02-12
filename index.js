@@ -342,6 +342,9 @@ app.get('/viewNLHCClaimDetail', function(request, response) {
 });
 
 /* PI claims */
+app.get('/pi-start', function(request, response) {
+    response.render('auth/claim/pages/pi-start');
+});
 app.get('/pi-claim1', function(request, response) {
   response.render('auth/claim/pages/pi-claim1');
 });
@@ -362,6 +365,10 @@ app.get('/pi-review', function(request, response) {
 });
 app.get('/pi-submitted', function(request, response) {
     response.render('auth/claim/pages/pi-submitted');
+});
+
+app.get('/pi-email', function(request, response) {
+    response.render('auth/claim/pages/pi-email');
 });
 
 /**

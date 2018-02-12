@@ -98,18 +98,30 @@
 
     // Progress percentage
 
-    document.getElementById("percentage").style.width = "40%";
+    document.getElementById("percentage").style.width = "49.8%";
+
+    var allOptionNames = [
+        $("input[name=quit-activities]"),
+        $("input[name=interference-activities]")];
+
+    function changeProp(obj, prop, propVal) {
+        $.each(obj, function(index, value) {
+            value.prop(prop, propVal);
+        });
+    };
 
     // Show and hide options
     $( "#rec-act-yes" ).click(function() {
-        $( "#dropContainer1" ).show("fast");
-        $( "#drop1" ).show("fast");
+        $( "#drop1, #dropContainer1" ).show("fast");
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', false);
     });
     $( "#rec-act-no" ).click(function() {
-        $( "#dropContainer1" ).hide();
-        $( "#moreinfo" ).hide();
+        $( "#dropContainer1, #moreinfo" ).hide();
         $("#btnNext").prop('disabled', false);
+        changeProp(allOptionNames, 'disabled', true);
+        changeProp(allOptionNames, 'checked', false);
+        $("#drop1, #drop2, #moreinfo, #dropContainer1").hide();
     });
 
     $( "#quit-act-yes, #quit-act-no" ).click(function() {
