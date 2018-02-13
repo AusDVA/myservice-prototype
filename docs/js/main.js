@@ -518,14 +518,13 @@ jQuery(document).ready(function ($) {
 	}
 
 
-
 	if (window.location.pathname === "/studentclaim3") {
 		// Page 3
 		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
 		$(".pt-showIfRentAssistanceKnown").hide();
-		$(".pt-showIfRentLandLord").hide();
+		$(".pt-showIfNotRentLandLord").hide();
 		$(".pt-typeOfAccommodationPaymentOther").hide();
 
 		if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
@@ -576,9 +575,9 @@ jQuery(document).ready(function ($) {
 
 		$('input[name=typeOfAccommodationPayment]').change(function () {
 			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
-				$(".pt-showIfRentLandLord").show('fast');
+				$(".pt-showIfNotRentLandLord").hide();
 			} else {
-				$(".pt-showIfRentLandLord").hide();
+				$(".pt-showIfNotRentLandLord").show();
 			}
 		});
 
