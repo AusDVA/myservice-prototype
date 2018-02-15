@@ -1,3 +1,4 @@
+
 jQuery(document).ready(function ($) {
 	// open the panel
 	$('.panel-btn').on('click', function (event) {
@@ -99,7 +100,7 @@ jQuery(document).ready(function ($) {
 
 
 	// Student claim pages
-
+	// TODO:: this would be better placed in a separate file
 	if ("veteranFlow" in sessionStorage) {
 		$(".pt-flow--veteran").show("fast");
 	}
