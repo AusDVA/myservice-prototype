@@ -97,7 +97,15 @@ jQuery(document).ready(function ($) {
 	});
 
 	// Toast mockup
+
 	$(".call-toast").on("click", function () {
+		var randomWords = ["Pink Fairy Armadillo", "Okapi", "Glaucus Atlanticus", "The Maned Wolf", "Fossa", "Iguana"];
+		function getRandomArbitrary(max) {
+			return Math.floor(Math.random() * Math.floor(max));
+		}
+		var randInt = getRandomArbitrary(6);
+		console.log(randInt);
+		var item = randomWords[randInt];
 
 		document.body.setAttribute('tabindex', '0');
 		document.body.focus();
@@ -105,7 +113,7 @@ jQuery(document).ready(function ($) {
 
 		var now = new Date().toLocaleString();
 
-		jQuery('.toast-container').append('<button class="uikit-btn toast" role="alert"><div class="toast__type toast__type--success"><span class="sr">Success</span></div><div class="toast__message"><p>You added this at ' + now + '</p></div></button>');
+		jQuery('.toast-container').append('<button class="uikit-btn toast" role="alert"><div class="toast__type toast__type--success"><span class="sr">Success</span></div><div class="toast__message"><p>You added this a ' + item + ' at ' + now + '</p></div></button>');
 
 		jQuery(".toast-container").show();
 	});
@@ -274,9 +282,9 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/student-assistance-landing") {
 		var getUrlParameter = function getUrlParameter(sParam) {
 			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-			    sURLVariables = sPageURL.split('&'),
-			    sParameterName,
-			    i;
+				sURLVariables = sPageURL.split('&'),
+				sParameterName,
+				i;
 
 			for (i = 0; i < sURLVariables.length; i++) {
 				sParameterName = sURLVariables[i].split('=');
