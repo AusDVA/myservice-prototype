@@ -96,7 +96,7 @@ jQuery(document).ready(function ($) {
 		});
 	});
 
-	// Toast mockup
+	// Toast mock
 
 	$(".call-toast").on("click", function () {
 		var randomWords = ["Pink Fairy Armadillo", "Okapi", "Glaucus Atlanticus", "The Maned Wolf", "Fossa", "Iguana"];
@@ -104,7 +104,6 @@ jQuery(document).ready(function ($) {
 			return Math.floor(Math.random() * Math.floor(max));
 		}
 		var randInt = getRandomArbitrary(6);
-		console.log(randInt);
 		var item = randomWords[randInt];
 
 		document.body.setAttribute('tabindex', '0');
