@@ -1,7 +1,6 @@
-/**********************************
-	Styling of feature boxes, mostly on authenticated home page. Each widget must contain a heading with identifying icon.
-
-**********************************/
+//
+// Styling of feature boxes, mostly on authenticated home page. Each widget must contain a heading with identifying icon.
+//
 
 // Container
 .widget-mini {
@@ -26,9 +25,9 @@
 	}
 }
 .widget {
-  background-color: white;
+  background-color: $white;
   margin-bottom: 1em;
-  border: 1px solid #cccccc;
+  border: 1px solid $gray-mild;
   margin: 0 0 2em;
   position: relative;
 
@@ -113,13 +112,17 @@
 @media only screen and (min-width: $medium-tablet) {
   .widget {
   }
+
+  .widget-btn {
+    margin: 0 0.5em 2em 2em;
+  }
 }
 
 // Claims table on authenticated home page
 .table-claims {
-  border-radius: 0;
   border: 1px solid $gray-mild;
   border-bottom: 0;
+  border-radius: 0;
 
   th {
     background-color: $white;
@@ -128,9 +131,9 @@
 
   td,
   th {
+    border-bottom: 1px solid $gray-mild;
     padding: 0.75em 1em 0.75em 0.75em;
     vertical-align: middle;
-    border-bottom: 1px solid $gray-mild;
   }
 
   td {
@@ -149,22 +152,17 @@
     width: 65%;
   }
 
-  .actions {
-    width: 35%;
-    text-align: right;
-  }
-
-  button {
-    padding: 0.25em 0.7em 0.4em;
-    font-size: 0.9rem;
-    font-weight: normal;
-  }
+  // button {
+  //   padding: 0.25em 0.7em 0.4em;
+  //   font-size: 0.9rem;
+  //   font-weight: normal;
+  // }
 }
 
 .callout {
+  color: $blue;
   font-size: 1.6rem;
   line-height: 1;
-  color: $blue;
   text-align: center;
 
   span {
@@ -173,12 +171,12 @@
 }
 
 .status-icon {
-  padding: 0.25em 0.25em 0.25em 40px;
-  background-position: 0 0;
+  background-position: -.25em 0;
   background-repeat: no-repeat;
+  padding: 0.25em 0.25em 0.25em 40px;
 
   span {
-    font-size: 0.9rem;
+    font-size: .9rem;
   }
 
   em {
@@ -209,7 +207,7 @@
 }
 
 .status-required {
-  background-color: lighten($color: #1057A7, $amount: 55%);
+  background-color: lighten($color: $blue, $amount: 55%);
 }
 
 .status-incomplete {
@@ -239,4 +237,73 @@
 
 .add-claims--box {
   text-align: center;
+}
+
+@media only screen and (min-width: $large-handheld) {
+  .widget {
+    min-height: 320px;
+
+    .col-sm-4 {
+      padding-top: 0;
+    }
+
+    .widget--noclaims {
+      // border: 1px solid #cccccc; //I can't see how this is needed. The default has this set already
+      padding: 2em 2em 8em; // no need for !important. Its specificity is at the right level now
+   
+    }
+  }
+}
+
+@media only screen and (min-width: $medium-tablet) {
+  .widget {
+    .widget--noclaims {
+      // border: 1px solid #cccccc; //I can't see how this is needed. The default has this set already
+      padding: 2em 2em 4em; // no need for !important. Its specificity is at the right level now
+   
+    }
+  }
+}
+
+@media only screen and (min-width: $medium-handheld) {
+  .widget-actions {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: $medium-handheld) {
+  .widget {
+    .widget-actions {
+      display: flex;
+
+      .uikit-btn {
+        flex-grow: 1;
+
+        // margin-left: .5em;
+        + .uikit-btn {
+          margin-left: .5em;
+        }
+      }
+    }
+
+    .widget-header__title {
+      display: block;
+      margin-bottom: 1em;
+    }
+  }
+}
+
+@media screen and (max-width: $small-handheld) {
+  .widget-header {
+    padding: .3em 1em;
+  }
+
+  .widget--justclaims {
+    .table-claims {
+      td {
+        padding-left: 1em;
+        padding-right: 1em;
+      }
+    }
+  }
 }

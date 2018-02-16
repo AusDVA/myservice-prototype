@@ -1,4 +1,3 @@
-'use strict';
 
 jQuery(document).ready(function ($) {
 	// open the panel
@@ -53,48 +52,52 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+
 	// Help slide gesture
-	var panels = $('.panel');
-	panels.map(function (index, panel) {
-		var panelContainer = $(panel).find('.panel-container');
-		var panelHeader = $(panel).find('.panel-header');
-		var originX = 0;
-		var lastX = 0;
-		var dragging = false;
-		var uiBunch = panelContainer.add(panelHeader);
-		uiBunch.on('mousedown touchstart', function (event) {
+	let panels = $('.panel');
+	panels.map((index, panel) => {
+		let panelContainer = $(panel).find('.panel-container');
+		let panelHeader = $(panel).find('.panel-header');
+		let originX = 0;
+		let lastX = 0;
+		let dragging = false;
+		let uiBunch = panelContainer.add(panelHeader);
+		uiBunch.on('mousedown touchstart', (event) => {
 			if (!dragging && !$(event.target).is('.panel-close')) {
 				dragging = true;
 				originX = event.screenX || event.targetTouches[0].screenX;
 				lastX = originX;
 			}
 		});
-		uiBunch.on('mousemove touchmove', function (event) {
+		uiBunch.on('mousemove touchmove', (event) => {
 			if (dragging) {
-				lastX = event.screenX || event.targetTouches[0].screenX;
-				var newX = lastX - originX;
-				if (newX >= 0) uiBunch.css({ right: -newX + 'px' });
+				lastX = (event.screenX || event.targetTouches[0].screenX);
+				let newX = lastX - originX;
+				if (newX >= 0)
+					uiBunch.css({ right: -newX + 'px' });
 			}
 		});
-		uiBunch.on('mouseup touchend', function (event) {
+		uiBunch.on('mouseup touchend', (event) => {
 			if (dragging && !$(event.target).is('.panel-close')) {
 				dragging = false;
-				var newX = (event.screenX || lastX) - originX;
-				if (newX > panelContainer[0].offsetWidth * 0.25) {
+				let newX = (event.screenX || lastX) - originX;
+				if (newX > (panelContainer[0].offsetWidth * 0.25)) {
 					$(panel).removeClass('is-visible').addClass('swipe-closing');
-					window.setTimeout(function () {
+					window.setTimeout(() => {
 						$(panel).removeClass('swipe-closing');
 						uiBunch.css({ right: '' });
 					}, 400);
-				} else {
+				}
+				else {
 					uiBunch.css({ right: '0px', transition: 'right 0.3s' });
-					window.setTimeout(function () {
-						uiBunch.css({ transition: '' });
-					}, 300);
+					window.setTimeout(() => { uiBunch.css({ transition: '' }); }, 300);
 				}
 			}
 		});
 	});
+
+
+
 
 	// Student claim pages
 	// TODO:: this would be better placed in a separate file
@@ -174,11 +177,11 @@ jQuery(document).ready(function ($) {
 			id28ai: "Payments will be made directly to these bank account details.",
 			id29: "Account Name",
 			id30: "BSB",
-			id31: "Account Number"
+			id31: "Account Number",
 		};
 	}
 
-	if ("veteranFlow" in sessionStorage || "claimantFlow" in sessionStorage) {
+	if (("veteranFlow" in sessionStorage) || ("claimantFlow" in sessionStorage)) {
 		var question = {
 			id1: "Student's Title",
 			id2: "Student's First name",
@@ -240,17 +243,19 @@ jQuery(document).ready(function ($) {
 			id28ai: "Payments will be made directly to these bank account details.	",
 			id29: "Account Name",
 			id30: "BSB",
-			id31: "Account Number"
+			id31: "Account Number",
 		};
 	}
 
+
 	if ("claimantFlow" in sessionStorage) {
-		question.id5 = "What is the Veteran/Member's relationship to the student?";
+		question.id5 = "What is the Veteran/Member's relationship to the student?"
 	}
 
 	for (var key in question) {
 		$("#question_" + key).html(question[key]);
 	}
+
 
 	// Calculate student age
 	$(".pt-student-dob > :input").focusout(function () {
@@ -293,6 +298,7 @@ jQuery(document).ready(function ($) {
 						}
 					});
 				}
+
 			} else {
 				$(".pt-studentAge--mature").hide("slow");
 			}
@@ -303,9 +309,9 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/student-assistance-landing") {
 		var getUrlParameter = function getUrlParameter(sParam) {
 			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-			    sURLVariables = sPageURL.split('&'),
-			    sParameterName,
-			    i;
+				sURLVariables = sPageURL.split('&'),
+				sParameterName,
+				i;
 
 			for (i = 0; i < sURLVariables.length; i++) {
 				sParameterName = sURLVariables[i].split('=');
@@ -329,9 +335,12 @@ jQuery(document).ready(function ($) {
 				sessionStorage.setItem('studentAge', age);
 			}
 		} else {
-			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10');
+			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
 		}
+
+
 	}
+
 
 	if (window.location.pathname === "/studentclaim1") {
 		// Page 1
@@ -365,6 +374,7 @@ jQuery(document).ready(function ($) {
 					}
 				});
 			}
+
 		} else {
 			$(".pt-studentAge--mature").hide("slow");
 		}
@@ -410,6 +420,11 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
+
+
+
+
+
 	if (window.location.pathname === "/studentclaim2") {
 		// page 2
 		$(".pt-showIfPrimary").hide();
@@ -418,6 +433,8 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfPartTime").hide();
 		$(".pt-noLongerEligible").hide();
 		$(".pt-noLongerEligibleTwo").hide();
+
+
 
 		$("#studentLevelOfStudy").change(function () {
 			var selected_option = $('#studentLevelOfStudy').val();
@@ -443,7 +460,9 @@ jQuery(document).ready(function ($) {
 				$("#studentGradeThisYearSelect option[value='10']").remove();
 				$("#studentGradeThisYearSelect option[value='11']").remove();
 				$("#studentGradeThisYearSelect option[value='12']").remove();
-			} else if (selected_option === 'secondary') {
+
+			}
+			else if (selected_option === 'secondary') {
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfTertiary").hide();
 				$(".pt-showIfPrimary").hide();
@@ -460,12 +479,16 @@ jQuery(document).ready(function ($) {
 				$("#studentGradeThisYearSelect option[value='5']").remove();
 				$("#studentGradeThisYearSelect option[value='6']").remove();
 
+
 				$(".pagination").find('button').prop('disabled', false);
-			} else if (selected_option === 'tertiary') {
+			}
+			else if (selected_option === 'tertiary') {
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfPrimary").hide();
 				$(".pt-showIfSecondary").hide();
 				$(".pt-showIfTertiary").show('fast');
+
+
 
 				sessionStorage.removeItem('studentLevelOfStudy');
 				sessionStorage.setItem('studentLevelOfStudy', 'tertiary');
@@ -474,7 +497,9 @@ jQuery(document).ready(function ($) {
 
 			// $("#studentGradeThisYearSelect").removeItem
 
+
 		});
+
 
 		$('input[name=studyLoad]').change(function () {
 			if ($('input[name=studyLoad]:checked').val() === 'part-time') {
@@ -492,6 +517,7 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	}
+
 
 	if (window.location.pathname === "/studentclaim3") {
 		// Page 3
@@ -556,6 +582,7 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+
 		$('input[name=typeOfAccommodationPayment]').change(function () {
 			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
 				$(".pt-typeOfAccommodationPaymentOther").show('fast');
@@ -563,7 +590,10 @@ jQuery(document).ready(function ($) {
 				$(".pt-typeOfAccommodationPaymentOther").hide();
 			}
 		});
+
 	}
+
+
 
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
@@ -608,6 +638,7 @@ jQuery(document).ready(function ($) {
 			// 	$('.pt-showIfCarePercentageHigh').hide();
 			// 	$('.pt-showIfCarePercentageLow').hide();
 			// }
+
 		});
 
 		$('input[name=educationAllowanceTaxed]').change(function () {
@@ -618,4 +649,5 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	}
+
 });

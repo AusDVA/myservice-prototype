@@ -8,6 +8,7 @@ var jshint = require('gulp-jshint');
 var livereload = require('gulp-livereload');
 var sassdoc = require('sassdoc');
 var util = require('gulp-util');
+var babel = require("gulp-babel");
 
 var config = {
   // assetsDir: 'app/Resources/assets',
@@ -20,6 +21,11 @@ var autoprefixerOptions = {
 };
 
 
+gulp.task("js", function () {
+  return gulp.src("src/js/main.js")
+    .pipe(babel())
+    .pipe(gulp.dest("docs/js"));
+});
 
 gulp.task('sass', function () {
   return gulp.src('src/sass/main.scss')
@@ -34,13 +40,6 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
-gulp.task('scripts', function () {
-  return gulp.src('docs/js/*.js')
-    .pipe(jshint('.jshintrc'))
-    .pipe(jshint.reporter('default'))
-    .pipe(livereload());
-});
-
 gulp.task('ejs', function () {
   return gulp.src('views/**/*.ejs')
     .pipe(livereload());
@@ -49,7 +48,7 @@ gulp.task('ejs', function () {
 gulp.task('watch', function () {
   livereload.listen();
   gulp.watch('src/sass/*.scss', ['sass']);
-  gulp.watch('docs/js/*.js', ['scripts']);
+  gulp.watch('src/js/*.js', ['js']);
   gulp.watch('views/**/*.ejs', ['ejs']);
 });
 
