@@ -97,6 +97,25 @@ jQuery(document).ready(function ($) {
 	});
 
 
+	// Toast mockup
+	$(".call-toast").on("click", function () {
+
+		document.body.setAttribute('tabindex', '0');
+		document.body.focus();
+		document.body.removeAttribute('tabindex');
+
+		var now = new Date().toLocaleString();
+
+		jQuery('.toast-container').append('<button class="uikit-btn toast" role="alert"><div class="toast__type toast__type--success"><span class="sr">Success</span></div><div class="toast__message"><p>You added this at ' +
+			now + '</p></div></button>');
+
+		jQuery(".toast-container").show();
+
+	});
+
+	jQuery(".toast-container").on("click", "button", function (event) {
+		jQuery(this).hide();
+	});
 
 
 	// Student claim pages
@@ -257,53 +276,7 @@ jQuery(document).ready(function ($) {
 	}
 
 
-	// Calculate student age
-	$(".pt-student-dob > :input").focusout(function () {
-		var dobDay = $("#dd-date").val();
-		var dobMonth = $("#mm-date").val();
-		var dobYear = $("#yyyy-date").val();
 
-		if (dobDay && dobMonth && dobYear) {
-			var dob = dobYear + '-' + dobMonth + '-' + dobDay;
-			dob = new Date(dob);
-			var today = new Date();
-			var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-			console.log(age + ' years old');
-			sessionStorage.removeItem('studentAge');
-			sessionStorage.setItem('studentAge', age);
-
-			// TODO: handle state better and make this a separate function 
-			if (sessionStorage.getItem('studentAge') > 15) {
-
-				if ("veteranFlow" in sessionStorage) {
-					$(".pt-studentAge--mature").each(function () {
-						if ($(this).is(".pt-flow--veteran")) {
-							$(this).show("fast");
-						}
-					});
-				}
-
-				if ("studentFlow" in sessionStorage) {
-					$(".pt-studentAge--mature").each(function () {
-						if ($(this).is(".pt-flow--student")) {
-							$(this).show("fast");
-						}
-					});
-				}
-
-				if ("claimantFlow" in sessionStorage) {
-					$(".pt-studentAge--mature").each(function () {
-						if ($(this).is(".pt-flow--claimant")) {
-							$(this).show("fast");
-						}
-					});
-				}
-
-			} else {
-				$(".pt-studentAge--mature").hide("slow");
-			}
-		}
-	});
 
 	// Page landing
 	if (window.location.pathname === "/student-assistance-landing") {
@@ -341,13 +314,59 @@ jQuery(document).ready(function ($) {
 
 	}
 
-
 	if (window.location.pathname === "/studentclaim1") {
 		// Page 1
 		$(".pt-studentAge--mature").hide();
 		$(".pt-studentLivingSameAddress").hide();
-
 		$(".pt-studentLivingWithPartnerLessRate").hide();
+
+		// Calculate student age
+		$(".pt-student-dob > :input").focusout(function () {
+			var dobDay = $("#dd-date").val();
+			var dobMonth = $("#mm-date").val();
+			var dobYear = $("#yyyy-date").val();
+
+			if (dobDay && dobMonth && dobYear) {
+				var dob = dobYear + '-' + dobMonth + '-' + dobDay;
+				dob = new Date(dob);
+				var today = new Date();
+				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+				console.log(age + ' years old');
+				sessionStorage.removeItem('studentAge');
+				sessionStorage.setItem('studentAge', age);
+
+				// TODO: handle state better and make this a separate function 
+				if (sessionStorage.getItem('studentAge') > 15) {
+
+					if ("veteranFlow" in sessionStorage) {
+						$(".pt-studentAge--mature").each(function () {
+							if ($(this).is(".pt-flow--veteran")) {
+								$(this).show("fast");
+							}
+						});
+					}
+
+					if ("studentFlow" in sessionStorage) {
+						$(".pt-studentAge--mature").each(function () {
+							if ($(this).is(".pt-flow--student")) {
+								$(this).show("fast");
+							}
+						});
+					}
+
+					if ("claimantFlow" in sessionStorage) {
+						$(".pt-studentAge--mature").each(function () {
+							if ($(this).is(".pt-flow--claimant")) {
+								$(this).show("fast");
+							}
+						});
+					}
+
+				} else {
+					$(".pt-studentAge--mature").hide("slow");
+				}
+			}
+		});
 
 		if (sessionStorage.getItem('studentAge') > 15) {
 
@@ -419,11 +438,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	}
-
-
-
-
-
 
 	if (window.location.pathname === "/studentclaim2") {
 		// page 2
@@ -518,7 +532,6 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
-
 	if (window.location.pathname === "/studentclaim3") {
 		// Page 3
 		$(".pt-showIfNotPrimaryStudent").hide();
@@ -592,8 +605,6 @@ jQuery(document).ready(function ($) {
 		});
 
 	}
-
-
 
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
