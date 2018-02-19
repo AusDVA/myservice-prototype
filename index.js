@@ -188,6 +188,12 @@ app.get('/healthcard-home', function (request, response) {
 app.get('/healthcard-gold', function (request, response) {
   response.render('auth/healthcard/healthcard-gold');
 });
+app.get('/healthcard-nlhc', function (request, response) {
+  response.render('auth/healthcard/healthcard-nlhc');
+});
+app.get('/healthcard-none', function (request, response) {
+  response.render('auth/healthcard/healthcard-none');
+});
 
 /* Change email flow */
 app.get('/change-email-poi', function (request, response) {
