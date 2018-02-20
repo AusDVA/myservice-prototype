@@ -351,8 +351,17 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
 
 
 /* Health card */
-app.get('/healthcard', function (request, response) {
-  response.render('auth/healthcard/healthcard');
+app.get('/healthcard-home', function (request, response) {
+  response.render('auth/healthcard/healthcard-home');
+});
+app.get('/healthcard-gold', function (request, response) {
+  response.render('auth/healthcard/healthcard-gold');
+});
+app.get('/healthcard-nlhc', function (request, response) {
+  response.render('auth/healthcard/healthcard-nlhc');
+});
+app.get('/healthcard-none', function (request, response) {
+  response.render('auth/healthcard/healthcard-none');
 });
 
 
