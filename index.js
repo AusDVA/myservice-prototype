@@ -75,33 +75,25 @@ app.get('/address', function (request, response) {
 
 
 /*
-Registration flow
+New registration flow for broadening
 */
 
 app.get('/register', function (request, response) {
   response.render('unauth/registration/pages/register');
 });
-app.get('/register-alternate', function (request, response) {
-  response.render('unauth/registration/pages/register-alternate');
-});
-app.get('/register-2', function (request, response) {
-  response.render('unauth/registration/pages/register-2');
-});
 /* PMKeys only */
-app.get('/register-3', function (request, response) {
-  response.render('unauth/registration/pages/register-3');
+app.get('/register-pmkeys-only1', function (request, response) {
+  response.render('unauth/registration/pages/register-pmkeys-only1');
 });
-app.get('/register-4', function (request, response) {
-  response.render('unauth/registration/pages/register-4');
+app.get('/register-pmkeys-only2', function (request, response) {
+  response.render('unauth/registration/pages/register-pmkeys-only2');
 });
-app.get('/register-5', function (request, response) {
-  response.render('unauth/registration/pages/register-5');
+app.get('/register-pmkeys-only3', function (request, response) {
+  response.render('unauth/registration/pages/register-pmkeys-only3');
 });
-app.get('/register-6', function (request, response) {
-  response.render('unauth/registration/pages/register-6');
+app.get('/register-service-number4', function (request, response) {
+  response.render('unauth/registration/pages/register-service-number4');
 });
-
-
 
 
 app.get('/contactusscreen', function (request, response) {
@@ -189,6 +181,19 @@ app.get('/profile-assets-added', function (request, response) {
   response.render('auth/profile-assets-added');
 });
 
+/* Separate healthcard screens */
+app.get('/healthcard-home', function (request, response) {
+  response.render('auth/healthcard/healthcard-home');
+});
+app.get('/healthcard-gold', function (request, response) {
+  response.render('auth/healthcard/healthcard-gold');
+});
+app.get('/healthcard-nlhc', function (request, response) {
+  response.render('auth/healthcard/healthcard-nlhc');
+});
+app.get('/healthcard-none', function (request, response) {
+  response.render('auth/healthcard/healthcard-none');
+});
 
 /* Change email flow */
 app.get('/change-email-poi', function (request, response) {
@@ -234,10 +239,6 @@ app.get('/terms-and-conditions', function (request, response) {
   response.render('global/pages/terms-and-conditions');
 });
 
-/* Claims */
-app.get('/claims', function (request, response) {
-  response.render('auth/claim/pages/claims');
-});
 
 /* Broadened claim flow */
 app.get('/claim1', function (request, response) {
@@ -349,12 +350,35 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
   response.render('auth/claim/pages/viewNLHCClaimDetail');
 });
 
-
-/* Health card */
-app.get('/healthcard', function (request, response) {
-  response.render('auth/healthcard/healthcard');
+/* PI claims */
+app.get('/pi-start', function (request, response) {
+  response.render('auth/claim/pages/pi-start');
+});
+app.get('/pi-claim1', function (request, response) {
+  response.render('auth/claim/pages/pi-claim1');
+});
+app.get('/pi-claim2', function (request, response) {
+  response.render('auth/claim/pages/pi-claim2');
+});
+app.get('/pi-claim3', function (request, response) {
+  response.render('auth/claim/pages/pi-claim3');
+});
+app.get('/pi-claim4', function (request, response) {
+  response.render('auth/claim/pages/pi-claim4');
+});
+app.get('/pi-claim5', function (request, response) {
+  response.render('auth/claim/pages/pi-claim5');
+});
+app.get('/pi-review', function (request, response) {
+  response.render('auth/claim/pages/pi-review');
+});
+app.get('/pi-submitted', function (request, response) {
+  response.render('auth/claim/pages/pi-submitted');
 });
 
+app.get('/pi-email', function (request, response) {
+  response.render('auth/claim/pages/pi-email');
+});
 
 /**
   Component testing
