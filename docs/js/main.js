@@ -317,6 +317,7 @@ jQuery(document).ready(function ($) {
 		$(".pt-studentAge--mature").hide();
 		$(".pt-studentLivingSameAddress").hide();
 		$(".pt-studentLivingWithPartnerLessRate").hide();
+		$(".upload-list").show();
 
 		// Calculate student age
 		$(".pt-student-dob > :input").focusout(function () {
