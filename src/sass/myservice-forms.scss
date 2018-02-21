@@ -1,8 +1,7 @@
-/**********************************
-  Primary for styling form elements (buttons, fields, legends, radio buttons and checkboxes).
-  Also contains classes for specific styling such as the width of DD MM YYYY input fields. 
-
-**********************************/
+//
+// Primary for styling form elements (buttons, fields, legends, radio buttons and checkboxes).
+// Also contains classes for specific styling such as the width of DD MM YYYY input fields. 
+//
 
 // Button styling
 
@@ -100,17 +99,6 @@
   margin-left: 0 !important;
 }
 
-// Styling for waiting buttons - e.g. to disable navigation buttons in the cover screens when waiting for a server response
-@keyframes spintranslate {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
 .uikit-btn--waiting {
   position: relative;
 
@@ -134,6 +122,7 @@
 
 .hint {
   font-size: 1rem;
+  font-weight: normal;
   margin: 2px 0 15px 0;
 }
 
@@ -319,10 +308,6 @@ label {
   // }
 }
 
-.hint {
-  font-weight: normal;
-}
-
 // Style legends to appear like labels
 .legend-label {
   font-weight: bold;
@@ -353,7 +338,7 @@ label {
 input[type='checkbox'] + span,
 input[type='radio'] + span {
   display: inline-block;
-  font-weight: normal !important;
+  font-weight: normal;
 }
 
 input[type='search'] {
@@ -498,21 +483,102 @@ input[type=number] {
   }
 }
 
+// Toggle styled radio buttons - must render on mobile width screens without wrapping
+// ------------------------------------------------------------------------------------------------------
+
+.radio-toggle {
+  label {
+    background-color: $gray-light;
+    border: 1px solid $gray-mild;
+    border-radius: $uikit-border-radius;
+    float: left;
+    margin: uikit-space(0) uikit-space(0) uikit-space(1);
+    overflow: visible;
+    padding: 0;
+    width: 140px;
+
+    &.label-left,
+    &.label-left span {
+      border-radius: 4px 0 0 4px;
+      border-right: 0;
+    }
+
+    &.label-right,
+    &.label-right span {
+      border-radius: 0 4px 4px 0;
+    }
+
+    &.label-middle {
+      border-left: 1px solid $gray-mild;
+      border-radius: 0;
+      border-right: 0;
+    }
+
+    &:hover,
+    &:focus {
+      background-color: $white;
+    }
+
+    span {
+      cursor: pointer;
+      display: block;
+      padding: 10px 0;
+      text-align: center;
+    }
+
+    input {
+      height: 1px;
+      left: -9999px;
+      opacity: 0;
+      overflow: hidden;
+      position: absolute;
+      width: 1px;
+    }
+  }
+
+  input {
+    &:focus + span {
+      background-color: $input-focus;
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2), inset 0 0 0 1px $blue;
+    }
+
+    &:checked + span {
+      background: $blue;
+      border-color: #2366a1;
+      box-shadow: inset 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
+      color: $white;
+    }
+
+    &:checked:focus + span {
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    }
+
+    + span:hover,
+    + span:focus {
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    }
+  }
+}
+
 // Radio button tiles
-.radio-tile--group {
+.radio-toggle--tiles {
   margin: 1em 0 0 0;
 
-  // input[type='radio'] {
-  //   display: none;
-  // }
-
   label {
+    background-color: transparent;
+    border: 0;
+    float: none;
     position: relative;
+
+    span {
+      display: inline-block;
+      padding: 1em;
+    }
   }
 
   span {
-    padding: 1em;
-    border: 1px solid #c4c4c4;
+    // padding: 1em;
+    border: 1px solid $gray-mild;
     border-radius: 3px;
     margin: 0 1em 1em 0;
     min-width: 91%;
@@ -532,37 +598,55 @@ input[type=number] {
     }
   }
 
-  input[type=radio]:checked + span {
-    background: $gray-light url(../images/ico-tick-green.svg) no-repeat;
-    background-size: 30px 30px;
-    background-position: right 10px top 10px;
-  }
+  input {
+    &:checked + span {
+      background: $gray-light url(../images/ico-tick-green.svg) no-repeat;
+      background-size: 30px 30px;
+      background-position: right 10px top 10px;
+      color: initial;
+      box-shadow: none;
+      border-color: $gray-mild;
+    }
 
-  input[type=radio]:checked + span:before {}
+    &:checked:focus + span {
+      box-shadow: none;
+    }
+
+    + span:hover,
+    + span:focus {
+      box-shadow: none;
+    }
+  }
 }
 
+// not sure about this
 .uikit-body {
   .uiToolKitCheckBox {
     margin-bottom: 1em;
   }
 }
 
+// Styling for waiting buttons - e.g. to disable navigation buttons in the cover screens when waiting for a server response
+@keyframes spintranslate {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
 @media only screen and (min-width: 646px) {
-  .radio-tile--group {
+  .radio-toggle--tiles {
     span {
       min-width: 150px;
-    }
-
-    input[type=radio]:checked + span {
-      background: $gray-light url(../images/ico-tick-green.svg) no-repeat;
-      background-size: 30px 30px;
-      background-position: right 10px top 10px;
     }
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .radio-tile--group {
+  .radio-toggle--tiles {
     span {
       min-width: 180px;
     }
@@ -570,23 +654,9 @@ input[type=number] {
 }
 
 @media only screen and (min-width: 992px) {
-  .radio-tile--group {
+  .radio-toggle--tiles {
     span {
       min-width: 210px;
-    }
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .radio-tile--group {
-    span {
-      min-width: 210px;
-    }
-
-    input[type=radio]:checked + span {
-      background: $gray-light url(../images/ico-tick-green.svg) no-repeat;
-      background-size: 30px 30px;
-      background-position: right 10px top 10px;
     }
   }
 }
