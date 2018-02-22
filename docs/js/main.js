@@ -279,7 +279,8 @@ jQuery(document).ready(function ($) {
 	}
 
 	// Page landing
-	if (window.location.pathname === "/student-assistance-landing") {
+
+	if (window.location.href.indexOf("student") > -1) {
 		var getUrlParameter = function getUrlParameter(sParam) {
 			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
 			    sURLVariables = sPageURL.split('&'),
@@ -295,15 +296,26 @@ jQuery(document).ready(function ($) {
 			}
 		};
 
-		var flow = getUrlParameter('flow');
-		var age = getUrlParameter('studentAge');
-
-		sessionStorage.clear();
+		// sessionStorage.clear();
 
 		if (flow) {
-			console.log(flow);
 			sessionStorage.setItem(flow, true);
-			console.log(age);
+		} else {
+			var flow = getUrlParameter('flow');
+		}
+
+		if (age) {
+			console.log('setting age');
+			sessionStorage.setItem('studentAge', age);
+		} else {
+			var age = getUrlParameter('studentAge');
+		}
+	}
+
+	if (window.location.pathname === "/student-assistance-landing") {
+
+		if (flow) {
+			sessionStorage.setItem(flow, true);
 			if (age) {
 				sessionStorage.setItem('studentAge', age);
 			}
@@ -505,8 +517,12 @@ jQuery(document).ready(function ($) {
 		$('input[name=studyLoad]').change(function () {
 			if ($('input[name=studyLoad]:checked').val() === 'part-time') {
 				$(".pt-showIfPartTime").show('fast');
+				sessionStorage.removeItem('studentLoadOfStudy');
+				sessionStorage.setItem('studentLoadOfStudy', 'part-time');
 			} else {
 				$(".pt-showIfPartTime").hide();
+				sessionStorage.removeItem('studentLoadOfStudy');
+				sessionStorage.setItem('studentLoadOfStudy', 'full-time');
 			}
 		});
 
@@ -540,12 +556,16 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfLivingAway").show('fast');
 				$(".pt-showIfNoPartner").hide();
 
+				sessionStorage.removeItem('studyAwayFromHome');
+				sessionStorage.setItem('studyAwayFromHome', true);
+
 				if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
 					$(".pt-showIfNoPartner").show('fast');
 				}
 			} else {
 				$(".pt-showIfLivingAway").hide();
 				$(".pt-showIfNoPartner").hide();
+				sessionStorage.removeItem('studyAwayFromHome');
 			}
 		});
 
@@ -644,4 +664,126 @@ jQuery(document).ready(function ($) {
 			}
 		});
 	}
+
+	// PoC check docs required for prototype
+
+	function Person() {
+		// how many times is the called
+		this.i = 0;
+
+		this.studentAge;
+		this.docsRequired = [];
+
+		// privileged init method
+		this.init();
+	}
+
+	// defining init method
+	Person.prototype.init = function () {
+		// reassign this
+		var _this = this;
+		setInterval(function () {
+
+			_this.checkDocs();
+		}, 3500);
+	};
+
+	Person.prototype.checkDocs = function () {
+		this.i++;
+		// list of docs
+		// Proof of relationship = proofOfRelationship
+		// Proof of residence = proofOfResidence
+		// Proof of enrolment = proofOfEnrolment
+		// Part-time study reason = partTimeStudyReason
+		// Tax file number declaration = tFNDeclaraion
+
+		// check type of person 
+		if ("studentFlow" in sessionStorage || "veteranFlow" in sessionStorage || "claimantFlow" in sessionStorage) {
+
+			// Proof of relationship for all
+			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+
+			if ("studentFlow" in sessionStorage) {
+				this.type = 'student';
+			} else if ("veteranFlow" in sessionStorage) {
+				this.type = 'veteran';
+			} else if ("claimantFlow" in sessionStorage) {
+				this.type = 'claimant';
+			}
+		}
+
+		// check student age
+		if ("studentAge" in sessionStorage) {
+			this.studentAge = sessionStorage.getItem('studentAge');
+			if (this.studentAge > 15) {
+				this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
+			}
+		}
+		// check if living away from home
+		if ("studyAwayFromHome" in sessionStorage) {
+			this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
+		} else {
+			var i = this.docsRequired.indexOf("proofOfResidence");
+			if (i != -1) {
+				this.docsRequired.splice(i, 1);
+			}
+		}
+
+		// Display if Study level == Tertiary &; Study load == part time
+		if (sessionStorage.getItem('studentLevelOfStudy') !== 'tertiary') {}
+
+		if (this.type === 'student') {}
+
+		// this.docsRequired = ['123', 'wqerwe'];
+		console.log(this.docsRequired);
+		console.log(this.studentAge);
+		console.log(this.type);
+	};
+
+	// create a new instance of our counter class
+	var counter = new Person();
+
+	// PoC file upload for prototype
+
+	;(function (document, window, index) {
+		var inputs = document.querySelectorAll('.file-upload__input');
+		Array.prototype.forEach.call(inputs, function (input) {
+			var label = input.nextElementSibling,
+			    labelVal = label.innerHTML;
+
+			input.addEventListener('change', function (e) {
+				var fileName = '';
+
+				fileName = e.target.value.split('\\').pop();
+
+				if (fileName) {
+					label.querySelector('.file-upload__file-name').innerHTML = fileName;
+					label.querySelector('.uikit-btn').innerHTML = 'Remove';
+					label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
+
+					var status = label.querySelector('.file-upload__file-name').closest('tr');
+					console.log(status);
+
+					status = status.querySelector('.file-status');
+					status.innerHTML = 'Remove';
+					status.innerHTML = '<span> Uploaded</span>';
+					status = status.classList;
+					console.log(status);
+					status.remove('file-status--required');
+					status.add('file-status--uploaded');
+				} else {
+
+					label.innerHTML = labelVal;
+				}
+			});
+
+			// Firefox bug fix
+			input.addEventListener('focus', function () {
+				input.classList.add('has-focus');
+			});
+			input.addEventListener('blur', function () {
+				input.classList.remove('has-focus');
+			});
+		});
+	})(document, window, 0);
 });

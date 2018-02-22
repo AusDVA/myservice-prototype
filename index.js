@@ -288,6 +288,9 @@ app.get('/studentclaim5', function (request, response) {
 app.get('/studentclaim6', function (request, response) {
   response.render('auth/claim/pages/studentclaim6');
 });
+app.get('/studentclaimupload', function (request, response) {
+  response.render('auth/claim/pages/studentclaimupload');
+});
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
 });
