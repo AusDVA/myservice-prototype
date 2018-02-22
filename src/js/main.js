@@ -283,10 +283,9 @@ jQuery(document).ready(function ($) {
 
 
 
+	if (window.location.pathname === "/student-assistance-landing") {
+		console.log('Student landing page');
 
-	// Page landing
-
-	if (window.location.href.indexOf("student") > -1) {
 		var getUrlParameter = function getUrlParameter(sParam) {
 			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
 				sURLVariables = sPageURL.split('&'),
@@ -302,25 +301,9 @@ jQuery(document).ready(function ($) {
 			}
 		};
 
-		// sessionStorage.clear();
-
-		if (flow) {
-			sessionStorage.setItem(flow, true);
-		} else {
-			var flow = getUrlParameter('flow');
-		}
-
-
-		if (age) {
-			console.log('setting age');
-			sessionStorage.setItem('studentAge', age);
-		} else {
-			var age = getUrlParameter('studentAge');
-		}
-	}
-
-	if (window.location.pathname === "/student-assistance-landing") {
-
+		sessionStorage.clear();
+		var flow = getUrlParameter('flow');
+		var age = getUrlParameter('studentAge');
 
 		if (flow) {
 			sessionStorage.setItem(flow, true);
@@ -333,6 +316,26 @@ jQuery(document).ready(function ($) {
 
 
 	}
+
+	// All student pages 
+
+	if (window.location.href.indexOf("student") > -1) {
+		console.log('All student pages');
+
+
+
+		// Proof of relationship = proofOfRelationship
+		// Proof of residence = proofOfResidence
+		// Proof of enrolment = proofOfEnrolment
+		// Part-time study reason = partTimeStudyReason
+		// Tax file number declaration = tFNDeclaraion
+		$('.proofOfRelationship, .proofOfResidence, .proofOfEnrolment, .partTimeStudyReason, .tFNDeclaraion').hide();
+
+
+
+	}
+
+
 
 	if (window.location.pathname === "/studentclaim1") {
 		// Page 1
@@ -648,6 +651,15 @@ jQuery(document).ready(function ($) {
 			$('.pt-studentAge--mature').show();
 		}
 
+		$("#studentTFN").focusout(function () {
+			if ($(this).val()) {
+				sessionStorage.removeItem('studentTFN');
+				sessionStorage.setItem('studentTFN', true);
+			} else {
+				sessionStorage.removeItem('studentTFN');
+			}
+		});
+
 		$('input[name=whoReceivesFTB]').change(function () {
 			if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one' || $('input[name=whoReceivesFTB]:checked').val() === 'myself') {
 				$(".pt-showIfCentrelinkCustomer").hide();
@@ -707,6 +719,7 @@ jQuery(document).ready(function ($) {
 	Person.prototype.init = function () {
 		// reassign this
 		var _this = this;
+		_this.checkDocs();
 		setInterval(function () {
 
 			_this.checkDocs();
@@ -755,14 +768,31 @@ jQuery(document).ready(function ($) {
 		}
 
 		// Display if Study level == Tertiary &; Study load == part time
-		if (sessionStorage.getItem('studentLevelOfStudy') !== 'tertiary') {
-
+		if ((sessionStorage.getItem('studentLevelOfStudy') === 'tertiary') && (sessionStorage.getItem('studentLoadOfStudy') === 'part-time')) {
+			console.log('studentLevelOfStudy and studentLoadOfStudy = true')
+			this.docsRequired.indexOf("partTimeStudyReason") === -1 ? this.docsRequired.push("partTimeStudyReason") : console.log();
+		} else {
+			var i = this.docsRequired.indexOf("partTimeStudyReason");
+			if (i != -1) {
+				this.docsRequired.splice(i, 1);
+			}
 		}
 
 		if (this.type === 'student') {
-
+			if (sessionStorage.getItem('studentTFN')) {
+				this.docsRequired.indexOf("tFNDeclaraion") === -1 ? this.docsRequired.push("tFNDeclaraion") : console.log();
+			} else {
+				var i = this.docsRequired.indexOf("tFNDeclaraion");
+				if (i != -1) {
+					this.docsRequired.splice(i, 1);
+				}
+			}
 		}
 
+		// show all required docs 
+		$.each(this.docsRequired, function () {
+			$('.' + this).show();
+		});
 
 		// this.docsRequired = ['123', 'wqerwe'];
 		console.log(this.docsRequired);
@@ -770,13 +800,11 @@ jQuery(document).ready(function ($) {
 		console.log(this.type);
 	};
 
-	// create a new instance of our counter class
+	// create a new person
 	var counter = new Person();
 
 
-
 	// PoC file upload for prototype
-
 	; (function (document, window, index) {
 		var inputs = document.querySelectorAll('.file-upload__input');
 		Array.prototype.forEach.call(inputs, function (input) {
