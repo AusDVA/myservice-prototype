@@ -270,6 +270,9 @@ app.get('/claim8', function (request, response) {
 app.get('/student-assistance-landing', function (request, response) {
   response.render('auth/claim/pages/student-assistance-landing');
 });
+app.get('/studentpreeligibility', function (request, response) {
+  response.render('auth/claim/pages/studentpreeligibility');
+});
 app.get('/studentclaim1', function (request, response) {
   response.render('auth/claim/pages/studentclaim1');
 });

@@ -200,7 +200,16 @@ jQuery(document).ready(function ($) {
 			id28ai: "Payments will be made directly to these bank account details.",
 			id29: "Account Name",
 			id30: "BSB",
-			id31: "Account Number"
+			id31: "Account Number",
+			id32: "Are you studying full time or planning to study full time?",
+			id33a: "Are you or were you cared for by a veteran who is significantly injured or deceased?",
+			id33b: "Are you a veteran who is significantly injured as a result of your service?",
+			id34: "Are you applying for a student who is studying full time or planning to study full time?",
+			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
+			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
+			id37: "You are eligible to apply for student support payments.",
+			id38: "You may need to provide more evidence to apply for student support payments.",
+			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254."
 		};
 	}
 
@@ -266,7 +275,17 @@ jQuery(document).ready(function ($) {
 			id28ai: "Payments will be made directly to these bank account details.	",
 			id29: "Account Name",
 			id30: "BSB",
-			id31: "Account Number"
+			id31: "Account Number",
+			id32: "Are you studying full time or planning to study full time?",
+			id33a: "Are you or were you cared for by a veteran who is significantly injured or deceased?",
+			id33b: "Are you a veteran who is significantly injured as a result of your service?",
+			id34: "Are you applying for a student who is studying full time or planning to study full time?",
+			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
+			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
+			id37: "You are eligible to apply for student support payments.",
+			id38: "You may need to provide more evidence to apply for student support payments.",
+			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254."
+
 		};
 	}
 
@@ -278,6 +297,7 @@ jQuery(document).ready(function ($) {
 		$("#question_" + key).html(question[key]);
 	}
 
+	// Student landing page
 	if (window.location.pathname === "/student-assistance-landing") {
 		console.log('Student landing page');
 
@@ -321,6 +341,11 @@ jQuery(document).ready(function ($) {
 		// Part-time study reason = partTimeStudyReason
 		// Tax file number declaration = tFNDeclaraion
 		$('.proofOfRelationship, .proofOfResidence, .proofOfEnrolment, .partTimeStudyReason, .tFNDeclaraion').hide();
+	}
+
+	if (window.location.pathname === "/studentpreeligibility") {
+		// Page eligibility
+		$(".pt-outcome").show();
 	}
 
 	if (window.location.pathname === "/studentclaim1") {
@@ -671,6 +696,32 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfEducationAllowanceTaxed").hide();
 			}
 		});
+	}
+
+	if (window.location.pathname === "/studentclaim6") {
+		// var someDate = new Date();
+		// var numberOfDaysToAdd = 14;
+		// someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
+		// var dd = someDate.getDate();
+		// var mm = someDate.getMonth() + 1;
+		// var y = someDate.getFullYear();
+
+		// var someFormattedDate = dd + '/' + mm + '/' + y;
+
+		var businessDays = 5,
+		    counter = 1; // set to 1 to count from next business day
+		while (businessDays > 0) {
+			var tmp = new Date();
+			tmp.setDate(tmp.getDate() + counter++);
+			switch (tmp.getDay()) {
+				case 0:case 6:
+					break; // sunday & saturday
+				default:
+					businessDays--;
+			};
+		}
+
+		document.querySelector(".pt-bussnessDaysOutcome").innerHTML = tmp.toDateString();
 	}
 
 	// PoC check docs required for prototype
