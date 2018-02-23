@@ -209,7 +209,8 @@ jQuery(document).ready(function ($) {
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
-			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254."
+			id39: "You are not eligible for student support payments. For more information call 133 254.",
+			iid40: "Are you a student, or carer claiming on behalf of a student?"
 		};
 	}
 
@@ -284,7 +285,8 @@ jQuery(document).ready(function ($) {
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
-			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254."
+			id39: "You are not eligible for student support payments. For more information call 133 254.",
+			id40: "Are you a student, or carer claiming on behalf of a student?"
 
 		};
 	}
