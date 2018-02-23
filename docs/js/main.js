@@ -351,13 +351,6 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.href.indexOf("student") > -1) {
 		console.log('All student pages');
-
-		// Proof of relationship = proofOfRelationship
-		// Proof of residence = proofOfResidence
-		// Proof of enrolment = proofOfEnrolment
-		// Part-time study reason = partTimeStudyReason
-		// Tax file number declaration = tFNDeclaraion
-		// $('.pt-proofOfRelationship, .pt-proofOfResidence, .pt-proofOfEnrolment, .pt-partTimeStudyReason, .pt-tFNDeclaraion').hide();
 	}
 
 	if (window.location.pathname === "/studentpreeligibility") {
@@ -388,6 +381,12 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfLivingAway").hide();
 				$(".pt-showIfNoPartner").hide();
 				sessionStorage.removeItem('studyAwayFromHome');
+
+				// skip the livering arangement details 
+				$('.btnNext').click(function () {
+					event.stopPropagation();
+					window.location.href = 'studentclaim3';
+				});
 			}
 		});
 
@@ -470,10 +469,8 @@ jQuery(document).ready(function ($) {
 		$('input[name=studentLivingWithPartner]').change(function () {
 			if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
 				$(".pt-studentLivingWithPartnerLessRate").show();
-				// $(".pagination").find('button').prop('disabled', true);
 			} else {
 				$(".pt-studentLivingWithPartnerLessRate").hide();
-				// $(".pagination").find('button').prop('disabled', false);
 			}
 		});
 
@@ -506,13 +503,6 @@ jQuery(document).ready(function ($) {
 				$('#veteranRelationshipToStudentOther').hide("slow");
 			}
 		});
-
-		if ("studyAwayFromHome" in sessionStorage) {} else {
-			$('.btnNext').click(function () {
-				event.stopPropagation();
-				window.location.href = 'studentclaim3';
-			});
-		}
 	}
 
 	if (window.location.pathname === "/studentclaim2") {
