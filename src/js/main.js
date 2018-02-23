@@ -141,6 +141,7 @@ jQuery(document).ready(function ($) {
 	// Student questions 
 	if ("studentFlow" in sessionStorage) {
 		var question = {
+			pageheader1: "Veterans details	<span>(Student claims)</span>",
 			id1: "Title",
 			id2: "First name",
 			id3: "Last name",
@@ -211,7 +212,17 @@ jQuery(document).ready(function ($) {
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
-			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254.",
+			id39: "You are not eligible for student support payments. For more information call 133 254.",
+			id40: "Are you a student, or carer claiming on behalf of a student?",
+			id41: "Veterans Titile",
+			id42: "Veterans First name",
+			id43: "Veterans Last name",
+			id44: "Veterans Date of Birth",
+			id45: "DVA file number (if known)",
+			id46: "PMKeyS ID (if known)",
+			id47: "Your relationship to the veteran",
+			id48: "Please provide a brief statement explaining how you came into the veterans care. ",
+
 		};
 	}
 
@@ -226,6 +237,7 @@ jQuery(document).ready(function ($) {
 
 	if (("veteranFlow" in sessionStorage) || ("claimantFlow" in sessionStorage)) {
 		var question = {
+			pageheader1: "Student details	<span>(Student claims)</span>",
 			id1: "Student's Title",
 			id2: "Student's First name",
 			id3: "Student's Last name",
@@ -295,7 +307,8 @@ jQuery(document).ready(function ($) {
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
-			id39: "You are not eligible for student support payments. Find out more about <other DVA payments><link to: claims page> or call 133 254.",
+			id39: "You are not eligible for student support payments. For more information call 133 254.",
+			id40: "Are you a student, or carer claiming on behalf of a student?",
 
 		};
 	}
@@ -304,7 +317,7 @@ jQuery(document).ready(function ($) {
 	if ("claimantFlow" in sessionStorage) {
 		question.id5 = "What is the Veteran/Member's relationship to the student?";
 		question.id9 = "What is the Veteran/Member's relationship to the student?";
-
+		question.id47 = "The students relationship to the veteran";
 	}
 
 	for (var key in question) {
@@ -548,7 +561,7 @@ jQuery(document).ready(function ($) {
 
 				$(".pagination").find('button').prop('disabled', false);
 			}
-			else if (selected_option === 'tertiary') {
+			else if ((selected_option === 'tertiary') || (selected_option === 'apprenticeship')) {
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfPrimary").hide();
 				$(".pt-showIfSecondary").hide();
