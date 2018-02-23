@@ -141,7 +141,9 @@ jQuery(document).ready(function ($) {
 	// Student questions 
 	if ("studentFlow" in sessionStorage) {
 		var question = {
-			pageheader1: "Veterans details	<span>(Student claims)</span>",
+			pageheader1: "Personal details	<span>(Student claims)</span>",
+			pageheader1a: "Veterans details",
+			pageheader1b: "Student details",
 			id1: "Title",
 			id2: "First name",
 			id3: "Last name",
@@ -225,10 +227,6 @@ jQuery(document).ready(function ($) {
 
 		};
 	}
-
-
-
-
 
 
 
@@ -385,6 +383,25 @@ jQuery(document).ready(function ($) {
 		$(".pt-studentLivingWithPartnerLessRate").hide();
 		$(".upload-list").show();
 
+		$('input[name=studyAwayFromHomeRadio]').change(function () {
+
+			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
+				$(".pt-showIfLivingAway").show('fast');
+				$(".pt-showIfNoPartner").hide();
+
+				sessionStorage.removeItem('studyAwayFromHome');
+				sessionStorage.setItem('studyAwayFromHome', true);
+
+				if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
+					$(".pt-showIfNoPartner").show('fast');
+				}
+			} else {
+				$(".pt-showIfLivingAway").hide();
+				$(".pt-showIfNoPartner").hide();
+				sessionStorage.removeItem('studyAwayFromHome');
+			}
+		});
+
 		// Calculate student age
 		$(".pt-student-dob > :input").focusout(function () {
 			var dobDay = $("#dd-date").val();
@@ -502,9 +519,79 @@ jQuery(document).ready(function ($) {
 				$('#veteranRelationshipToStudentOther').hide("slow");
 			}
 		});
+
+		if ("studyAwayFromHome" in sessionStorage) {
+
+		} else {
+			$('.btnNext').click(function () {
+				event.stopPropagation();
+				window.location.href = 'studentclaim3';
+			})
+		}
 	}
 
 	if (window.location.pathname === "/studentclaim2") {
+		// Page 3
+		$(".pt-showIfNotPrimaryStudent").hide();
+		$(".pt-showIfHomeless").hide();
+		$(".pt-showIfRequireRentAssistance").hide();
+		$(".pt-showIfRentAssistanceKnown").hide();
+		$(".pt-showIfNotRentLandLord").hide();
+		$(".pt-typeOfAccommodationPaymentOther").hide();
+
+		if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
+			$(".pt-showIfNotPrimaryStudent").show('fast');
+		}
+
+		$(".pt-showIfLivingAway").hide();
+
+
+
+		$("#studyAwayFromHomeExplanation").change(function () {
+			var selected_option = $('#studyAwayFromHomeExplanation').val();
+			if (selected_option === 'homeless') {
+				$(".pt-showIfHomeless").show('fast');
+			} else {
+				$(".pt-showIfHomeless").hide();
+			}
+		});
+
+		$('input[name=requireRentAssistanceRadio]').change(function () {
+			if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
+				$(".pt-showIfRequireRentAssistance").show('fast');
+			} else {
+				$(".pt-showIfRequireRentAssistance").hide();
+			}
+		});
+
+		$('input[name=knowRentalDetails]').change(function () {
+			if ($('input[name=knowRentalDetails]:checked').val() === 'yes') {
+				$(".pt-showIfRentAssistanceKnown").show('fast');
+			} else {
+				$(".pt-showIfRentAssistanceKnown").hide();
+			}
+		});
+
+		$('input[name=typeOfAccommodationPayment]').change(function () {
+			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
+				$(".pt-showIfNotRentLandLord").hide();
+			} else {
+				$(".pt-showIfNotRentLandLord").show();
+			}
+		});
+
+
+		$('input[name=typeOfAccommodationPayment]').change(function () {
+			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
+				$(".pt-typeOfAccommodationPaymentOther").show('fast');
+			} else {
+				$(".pt-typeOfAccommodationPaymentOther").hide();
+			}
+		});
+
+	}
+
+	if (window.location.pathname === "/studentclaim3") {
 		// page 2
 		$(".pt-showIfPrimary").hide();
 		$(".pt-showIfSecondary").hide();
@@ -512,6 +599,7 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfPartTime").hide();
 		$(".pt-noLongerEligible").hide();
 		$(".pt-noLongerEligibleTwo").hide();
+
 
 
 
@@ -601,83 +689,7 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
-	if (window.location.pathname === "/studentclaim3") {
-		// Page 3
-		$(".pt-showIfNotPrimaryStudent").hide();
-		$(".pt-showIfHomeless").hide();
-		$(".pt-showIfRequireRentAssistance").hide();
-		$(".pt-showIfRentAssistanceKnown").hide();
-		$(".pt-showIfNotRentLandLord").hide();
-		$(".pt-typeOfAccommodationPaymentOther").hide();
 
-		if (sessionStorage.getItem('studentLevelOfStudy') !== 'primary') {
-			$(".pt-showIfNotPrimaryStudent").show('fast');
-		}
-
-		$(".pt-showIfLivingAway").hide();
-
-		$('input[name=studyAwayFromHomeRadio]').change(function () {
-
-			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
-				$(".pt-showIfLivingAway").show('fast');
-				$(".pt-showIfNoPartner").hide();
-
-				sessionStorage.removeItem('studyAwayFromHome');
-				sessionStorage.setItem('studyAwayFromHome', true);
-
-				if (sessionStorage.getItem('studentPartneredRelationship') === 'no') {
-					$(".pt-showIfNoPartner").show('fast');
-				}
-			} else {
-				$(".pt-showIfLivingAway").hide();
-				$(".pt-showIfNoPartner").hide();
-				sessionStorage.removeItem('studyAwayFromHome');
-			}
-		});
-
-		$("#studyAwayFromHomeExplanation").change(function () {
-			var selected_option = $('#studyAwayFromHomeExplanation').val();
-			if (selected_option === 'homeless') {
-				$(".pt-showIfHomeless").show('fast');
-			} else {
-				$(".pt-showIfHomeless").hide();
-			}
-		});
-
-		$('input[name=requireRentAssistanceRadio]').change(function () {
-			if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
-				$(".pt-showIfRequireRentAssistance").show('fast');
-			} else {
-				$(".pt-showIfRequireRentAssistance").hide();
-			}
-		});
-
-		$('input[name=knowRentalDetails]').change(function () {
-			if ($('input[name=knowRentalDetails]:checked').val() === 'yes') {
-				$(".pt-showIfRentAssistanceKnown").show('fast');
-			} else {
-				$(".pt-showIfRentAssistanceKnown").hide();
-			}
-		});
-
-		$('input[name=typeOfAccommodationPayment]').change(function () {
-			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
-				$(".pt-showIfNotRentLandLord").hide();
-			} else {
-				$(".pt-showIfNotRentLandLord").show();
-			}
-		});
-
-
-		$('input[name=typeOfAccommodationPayment]').change(function () {
-			if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
-				$(".pt-typeOfAccommodationPaymentOther").show('fast');
-			} else {
-				$(".pt-typeOfAccommodationPaymentOther").hide();
-			}
-		});
-
-	}
 
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
