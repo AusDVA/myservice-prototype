@@ -176,7 +176,7 @@ jQuery(document).ready(function ($) {
 			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Is this your current address?",
 			id23: "Will you be living away from home while studying?",
-			id23a: "What best describes the student’s situation? The student:",
+			id23a: "What best describes your situation? I:",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Do you need rent assistance? (optional)",
 			id24a: "Do you have your rental details?",
@@ -293,12 +293,12 @@ jQuery(document).ready(function ($) {
 			id29: "Account Name",
 			id30: "BSB",
 			id31: "Account Number",
-			id32: "Are you studying full time or planning to study full time?",
-			id33a: "Are you or were you cared for by a veteran who is significantly injured or deceased?",
+			id32: "",
+			id33a: "",
 			id33b: "Are you a veteran who is significantly injured as a result of your service?",
 			id34: "Are you applying for a student who is studying full time or planning to study full time?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
-			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
+			id36: "",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
 			id39: "You are not eligible for student support payments. For more information call 133 254.",
@@ -309,9 +309,12 @@ jQuery(document).ready(function ($) {
 
 
 	if ("claimantFlow" in sessionStorage) {
-		question.id5 = "What is the Veteran/Member's relationship to the student?";
-		question.id9 = "What is the Veteran/Member's relationship to the student?";
+		question.id5 = "What is the Veteran's relationship to the student?";
+		question.id9 = "What is the Veteran's relationship to the student?";
 		question.id47 = "The students relationship to the veteran";
+		question.id33b = "Is the student the dependant of a veteran who is significantly injured or deceased?";
+		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
+		question.id36 = "";
 	}
 
 	for (var key in question) {
@@ -355,7 +358,6 @@ jQuery(document).ready(function ($) {
 	}
 
 	// All student pages 
-
 	if (window.location.href.indexOf("student") > -1) {
 		console.log('All student pages');
 
@@ -364,27 +366,58 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentpreeligibility") {
 		// Page eligibility
 		$(".pt-outcome").hide();
+		$(".pt-showIfStudentConfirm").hide();
+		$(".pt-showIfStudentVeteranInjured").hide();
+		$(".pt-showIfClaimentConfirm").hide();
+
+
+
 		$('input[name=eligibilityPersonType]').change(function () {
 			if ($('input[name=eligibilityPersonType]:checked').val() === 'student') {
 
+				$(".pt-showIfStudentConfirm").show();
+
+
 				if (sessionStorage.getItem('claimantFlow')) {
 					sessionStorage.removeItem('claimantFlow');
+					sessionStorage.removeItem('claimantFlowConfirmed');
 					sessionStorage.setItem('studentFlow', true);
-					// window.location.reload(true);
+					sessionStorage.setItem('studentFlowConfirmed', true);
+					window.location.reload(true);
 				}
 
 			} else if ($('input[name=eligibilityPersonType]:checked').val() === 'carer') {
 
+				$(".pt-showIfClaimentConfirm").show();
+
 				if (sessionStorage.getItem('studentFlow')) {
 					sessionStorage.removeItem('studentFlow');
+					sessionStorage.removeItem('studentFlowConfirmed');
 					sessionStorage.setItem('claimantFlow', true);
-					// window.location.reload(true);
+					sessionStorage.setItem('claimantFlowConfirmed', true);
+					window.location.reload(true);
 				}
 			}
 		});
 
+		if (sessionStorage.getItem('claimantFlowConfirmed')) {
+			$('#eligibilityPersonType-carer').prop('checked', true);
+		}
+
+		if (sessionStorage.getItem('studentFlowConfirmed')) {
+			$('#eligibilityPersonType-student').prop('checked', true);
+
+		}
+
+		$('input[name=eligibilityPersonType]').trigger("change");
+
+		// student only flow
 		$('input[name=eligibilityFullTimeStudy]').change(function () {
 			if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'yes') {
+
+				$(".pt-showIfStudentVeteranInjured").show();
+
+
 				sessionStorage.setItem('fullTimeStudy', true);
 				$(".pt-outcome--maybe, .pt-outcome--yes, .pt-outcome--no").hide();
 
@@ -410,6 +443,74 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+		// veteran and claiment flow 
+		$('input[name=eligibilityVeteranSignificantlyInjured]').change(function () {
+			if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'yes') {
+				sessionStorage.setItem('veteranSignificantlyInjured', true);
+
+			} else if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'no') {
+
+				sessionStorage.removeItem('veteranSignificantlyInjured');
+				sessionStorage.setItem('veteranSignificantlyInjured', false);
+			}
+			eligible();
+		});
+
+		$('input[name=eligibilityStudentFullTimeStudy]').change(function () {
+			if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'yes') {
+				sessionStorage.setItem('fullTimeStudy', true);
+			} else if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'no') {
+				sessionStorage.removeItem('fullTimeStudy');
+				sessionStorage.setItem('fullTimeStudy', false);
+			}
+			eligible();
+		});
+
+		$('input[name=eligibilityCareForStudentOrFTB]').change(function () {
+			if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'yes') {
+				sessionStorage.setItem('careForStudentOrFTB', true);
+			} else if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'no') {
+				sessionStorage.removeItem('careForStudentOrFTB');
+				sessionStorage.setItem('careForStudentOrFTB', false);
+			}
+			eligible();
+
+
+		});
+
+		function eligible() {
+			console.log('checking eligible status');
+			if (sessionStorage.getItem('fullTimeStudy') === 'false') {
+				$(".pt-outcome--no").show();
+				$(".pt-outcome--yes, .pt-outcome--maybe").hide();
+
+			} else if ((sessionStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+				(sessionStorage.getItem('fullTimeStudy') === 'true') &&
+				(sessionStorage.getItem('careForStudentOrFTB') === 'true')) {
+				$(".pt-outcome--yes").show();
+				$(".pt-outcome--no, .pt-outcome--maybe").hide();
+
+			} else if ((sessionStorage.getItem('veteranSignificantlyInjured') === 'false') &&
+				(sessionStorage.getItem('fullTimeStudy') === 'true') &&
+				(sessionStorage.getItem('careForStudentOrFTB') === 'true')) {
+				$(".pt-outcome--maybe").show();
+				$(".pt-outcome--no, .pt-outcome--yes").hide();
+
+			} else if ((sessionStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+				(sessionStorage.getItem('fullTimeStudy') === 'true') &&
+				(sessionStorage.getItem('careForStudentOrFTB') === 'false')) {
+				$(".pt-outcome--maybe").show();
+				$(".pt-outcome--no, .pt-outcome--yes").hide();
+
+			} else if ((sessionStorage.getItem('veteranSignificantlyInjured') === 'false') &&
+				(sessionStorage.getItem('fullTimeStudy') === 'true') &&
+				(sessionStorage.getItem('careForStudentOrFTB') === 'false')) {
+				$(".pt-outcome--maybe").show();
+				$(".pt-outcome--no, .pt-outcome--yes").hide();
+			} else {
+				$(".pt-outcome--no, .pt-outcome--yes, .pt-outcome--maybe").hide();
+			}
+		}
 
 
 	}
@@ -569,7 +670,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	if (window.location.pathname === "/studentclaim2") {
-		// Page 3
+		// Page 2
 		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
@@ -910,10 +1011,9 @@ jQuery(document).ready(function ($) {
 			$('.pt-' + this).show();
 		});
 
-		// this.docsRequired = ['123', 'wqerwe'];
-		console.log(this.docsRequired);
-		console.log(this.studentAge);
-		console.log(this.type);
+		// console.log(this.docsRequired);
+		// console.log(this.studentAge);
+		// console.log(this.type);
 	};
 
 	// create a new person
