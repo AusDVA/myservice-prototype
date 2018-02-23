@@ -174,7 +174,7 @@ jQuery(document).ready(function ($) {
 			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Is this your current address?",
 			id23: "Will you be living away from home while studying?",
-			id23a: "Choose a statement that best describes the student's situation",
+			id23a: "What best describes the student’s situation? The student:",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Do you need rent assistance? (optional)",
 			id24a: "Do you have your rental details?",
@@ -261,7 +261,7 @@ jQuery(document).ready(function ($) {
 			id21u: "Please provide evidence to explain why the student is studying part-time",
 			id22: "Is this the student’s address? ",
 			id23: "Will the student be living away from home while studying?",
-			id23a: "Choose a statement that best describes the student's situation",
+			id23a: "What best describes the student’s situation? The student:",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Does the student need rent assistance? (optional)",
 			id24a: "Do you know the student's rental details?",
@@ -355,7 +355,48 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentpreeligibility") {
 		// Page eligibility
-		$(".pt-outcome").show();
+		$(".pt-outcome").hide();
+		$('input[name=eligibilityPersonType]').change(function () {
+			if ($('input[name=eligibilityPersonType]:checked').val() === 'student') {
+
+				if (sessionStorage.getItem('claimantFlow')) {
+					sessionStorage.removeItem('claimantFlow');
+					sessionStorage.setItem('studentFlow', true);
+					// window.location.reload(true);
+				}
+			} else if ($('input[name=eligibilityPersonType]:checked').val() === 'carer') {
+
+				if (sessionStorage.getItem('studentFlow')) {
+					sessionStorage.removeItem('studentFlow');
+					sessionStorage.setItem('claimantFlow', true);
+					// window.location.reload(true);
+				}
+			}
+		});
+
+		$('input[name=eligibilityFullTimeStudy]').change(function () {
+			if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'yes') {
+				sessionStorage.setItem('fullTimeStudy', true);
+				$(".pt-outcome--maybe, .pt-outcome--yes, .pt-outcome--no").hide();
+			} else if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'no') {
+				sessionStorage.removeItem('fullTimeStudy');
+				$(".pt-outcome--no").show();
+				$(".pt-outcome--maybe, .pt-outcome--yes").hide();
+			}
+		});
+
+		$('input[name=eligibilityCaredForByVeteran]').change(function () {
+			if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'yes') {
+				if (sessionStorage.getItem('fullTimeStudy')) {
+					$(".pt-outcome--yes").show();
+					$(".pt-outcome--no, .pt-outcome--maybe").hide();
+				}
+			} else if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'no') {
+
+				$(".pt-outcome--maybe").show();
+				$(".pt-outcome--no, .pt-outcome--yes").hide();
+			}
+		});
 	}
 
 	if (window.location.pathname === "/studentclaim1") {
@@ -805,7 +846,7 @@ jQuery(document).ready(function ($) {
 
 		// Display if Study level == Tertiary &; Study load == part time
 		if (sessionStorage.getItem('studentLevelOfStudy') === 'tertiary' && sessionStorage.getItem('studentLoadOfStudy') === 'part-time') {
-			console.log('studentLevelOfStudy and studentLoadOfStudy = true');
+
 			this.docsRequired.indexOf("partTimeStudyReason") === -1 ? this.docsRequired.push("partTimeStudyReason") : console.log();
 		} else {
 			var i = this.docsRequired.indexOf("partTimeStudyReason");
