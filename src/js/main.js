@@ -367,8 +367,9 @@ jQuery(document).ready(function ($) {
 		// Page eligibility
 		$(".pt-outcome").hide();
 		$(".pt-showIfStudentConfirm").hide();
+		$(".pt-showIfClaimantConfirm").hide();
 		$(".pt-showIfStudentVeteranInjured").hide();
-		$(".pt-showIfClaimentConfirm").hide();
+
 
 
 
@@ -388,7 +389,7 @@ jQuery(document).ready(function ($) {
 
 			} else if ($('input[name=eligibilityPersonType]:checked').val() === 'carer') {
 
-				$(".pt-showIfClaimentConfirm").show();
+				$(".pt-showIfClaimantConfirm").show();
 
 				if (sessionStorage.getItem('studentFlow')) {
 					sessionStorage.removeItem('studentFlow');
