@@ -410,6 +410,11 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+		// show all for veterans 
+		if (sessionStorage.getItem('veteranFlow')) {
+			$(".pt-showIfClaimantConfirm").show();
+		}
+
 		if (sessionStorage.getItem('claimantFlowConfirmed')) {
 			$('#eligibilityPersonType-carer').prop('checked', true);
 		}
@@ -448,7 +453,7 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		// veteran and claiment flow 
+		// veteran and claimant flow 
 		$('input[name=eligibilityVeteranSignificantlyInjured]').change(function () {
 			if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'yes') {
 				sessionStorage.setItem('veteranSignificantlyInjured', true);
