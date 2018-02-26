@@ -188,6 +188,9 @@ app.get('/healthcard-home', function (request, response) {
 app.get('/healthcard-gold', function (request, response) {
   response.render('auth/healthcard/healthcard-gold');
 });
+app.get('/healthcard-goldTpi', function (request, response) {
+  response.render('auth/healthcard/healthcard-goldTpi');
+});
 app.get('/healthcard-nlhc', function (request, response) {
   response.render('auth/healthcard/healthcard-nlhc');
 });
