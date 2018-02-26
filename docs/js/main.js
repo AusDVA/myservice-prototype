@@ -219,7 +219,7 @@ jQuery(document).ready(function ($) {
 			id43: "Veterans Last name",
 			id44: "Veterans Date of Birth",
 			id45: "DVA file number",
-			id46: "PMKeyS ID (prefered)",
+			id46: "PMKeyS ID (preferred)",
 			id47: "Your relationship to the veteran",
 			id48: "Please provide a brief statement explaining how you came into the veterans care. "
 
@@ -234,13 +234,13 @@ jQuery(document).ready(function ($) {
 			id3: "Student's Last name",
 			id4: "Student's Date of birth",
 			id5: "Your relationship to the student",
-			id5a: "Provide a brief statement explaining how the student came into your care. If relevant, provide a copy of any standing orders from the Family Court or other proof of care documents.",
+			id5a: "Provide a brief statement explaining how the student came into your care. ",
 			id6: "Will the student be working full time while studying?",
 			id7: "",
 			id8: "",
 			id8a: "",
 			id9: "What is the Veteran/Member's relationship to the student?",
-			id9a: "Provide a brief statement explaining how the student came into your care. If relevant, provide a copy of any standing orders from the Family Court or other proof of care documents.",
+			id9a: "Provide a brief statement explaining how the student came into your care. ",
 			id9b: "Provide any supporting documents to prove your relationship to the student.",
 			id10: "Type of study",
 			id10a: "[TEXT TBD] You are no longer eligible",
@@ -305,7 +305,7 @@ jQuery(document).ready(function ($) {
 			id43: "Veterans Last name",
 			id44: "Veterans Date of Birth",
 			id45: "DVA file number",
-			id46: "PMKeyS ID (prefered)",
+			id46: "PMKeyS ID (preferred)",
 			id47: "Your relationship to the veteran"
 
 		};
@@ -313,12 +313,14 @@ jQuery(document).ready(function ($) {
 
 	if ("claimantFlow" in sessionStorage) {
 		question.id5 = "What is the Veteran's relationship to the student?";
+		question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
 		question.id9 = "What is the Veteran's relationship to the student?";
 		question.id47 = "The students relationship to the veteran";
 		question.id33b = "Is the student the dependant of a veteran who is significantly injured or deceased?";
 		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 		question.id36 = "";
-		question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ", question.pageheader1 = "Student and veteran details	<span>(Student claims)</span>";
+		question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
+		question.pageheader1 = "Student and veteran details	<span>(Student claims)</span>";
 		question.pageheader1a = "Veterans details";
 		question.pageheader1b = "Student details";
 	}
@@ -488,16 +490,11 @@ jQuery(document).ready(function ($) {
 
 		$('input[name=eligibilityCaredForByVeteran]').change(function () {
 			if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'yes') {
-				// if (sessionStorage.getItem('fullTimeStudy')) {
-				// 	$(".pt-outcome--yes").show();
-				// 	$(".pt-outcome--no, .pt-outcome--maybe").hide();
-				// }
+
 				sessionStorage.removeItem('veteranSignificantlyInjured');
 				sessionStorage.setItem('veteranSignificantlyInjured', true);
 			} else if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'no') {
 
-				// $(".pt-outcome--maybe").show();
-				// $(".pt-outcome--no, .pt-outcome--yes").hide();
 				sessionStorage.removeItem('veteranSignificantlyInjured');
 				sessionStorage.setItem('veteranSignificantlyInjured', false);
 			}
@@ -562,7 +559,7 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfNoPartner").hide();
 				sessionStorage.removeItem('studyAwayFromHome');
 
-				// skip the livering arangement details 
+				// skip the living arrangment details 
 				$('.btnNext').click(function () {
 					event.stopPropagation();
 					window.location.href = 'studentclaim3';
@@ -670,9 +667,9 @@ jQuery(document).ready(function ($) {
 
 			var selected_option = $('#relationshipToVeteran').val();
 			if (selected_option === 'other') {
-				$('#relationshipToStudentOther').show("fast");
+				$('#relationshipToVeteranOther').show("fast");
 			} else {
-				$('#relationshipToStudentOther').hide("slow");
+				$('#relationshipToVeteranOther').hide("slow");
 			}
 		});
 
