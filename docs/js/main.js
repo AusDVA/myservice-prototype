@@ -299,7 +299,15 @@ jQuery(document).ready(function ($) {
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
 			id39: "You are not eligible for student support payments. For more information call 133 254.",
-			id40: "Are you a student, or carer claiming on behalf of a student?"
+			id40: "Are you a student, or carer claiming on behalf of a student?",
+			id41: "Veterans Title",
+			id42: "Veterans First name",
+			id43: "Veterans Last name",
+			id44: "Veterans Date of Birth",
+			id45: "DVA file number",
+			id46: "PMKeyS ID (prefered)",
+			id47: "Your relationship to the veteran"
+
 		};
 	}
 
@@ -310,6 +318,9 @@ jQuery(document).ready(function ($) {
 		question.id33b = "Is the student the dependant of a veteran who is significantly injured or deceased?";
 		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 		question.id36 = "";
+		question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ", question.pageheader1 = "Student and veteran details	<span>(Student claims)</span>";
+		question.pageheader1a = "Veterans details";
+		question.pageheader1b = "Student details";
 	}
 
 	for (var key in question) {
