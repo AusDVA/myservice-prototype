@@ -149,7 +149,7 @@ jQuery(document).ready(function ($) {
 			id5: "",
 			id5a: "",
 			id6: "",
-			id7: "Are you in a partnered relationship?",
+			id7: "Are you in a recognised partnered relationship?",
 			id8: "Will you be living at the same address with your partner while you're studying?",
 			id8a: "[TEXT TBD] You will be eligible for a lesser payment",
 			id9: "",
@@ -170,11 +170,11 @@ jQuery(document).ready(function ($) {
 			id21: "What is your study load?",
 			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(MM / YYYY)</span>",
 			id21c: "Have you enrolled in this course?",
-			id21ci: "[TEXT TBD] You are no longer eligible",
+			id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
 			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Is this your current address?",
 			id23: "Will you be living away from home while studying?",
-			id23a: "What best describes your situation? I:",
+			id23a: "What best describes your situation?",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Do you need rent assistance? (optional)",
 			id24a: "Do you have your rental details?",
@@ -207,7 +207,7 @@ jQuery(document).ready(function ($) {
 			id32: "Are you studying full time or planning to study full time?",
 			id33a: "Are you or were you cared for by a veteran who is significantly injured or deceased?",
 			id33b: "Are you a veteran who is significantly injured as a result of your service?",
-			id34: "Are you applying for a student who is studying full time or planning to study full time?",
+			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
 			id37: "You are eligible to apply for student support payments.",
@@ -257,11 +257,11 @@ jQuery(document).ready(function ($) {
 			id21: "What is the student's study load?",
 			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(  MM / YYYY)</span>",
 			id21c: "Has the student enrolled in this course?",
-			id21ci: "[TEXT TBD] You are no longer eligible",
+			id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
 			id21u: "Please provide evidence to explain why the student is studying part-time",
 			id22: "Is this the student’s address? ",
 			id23: "Will the student be living away from home while studying?",
-			id23a: "What best describes the student’s situation? The student:",
+			id23a: "What best describes the student’s situation? ",
 			id23ai: "[TEXT TBD] The DVA can assist you",
 			id24: "Does the student need rent assistance? (optional)",
 			id24a: "Do you know the student's rental details?",
@@ -293,14 +293,13 @@ jQuery(document).ready(function ($) {
 			id32: "",
 			id33a: "",
 			id33b: "Are you a veteran who is significantly injured as a result of your service?",
-			id34: "Are you applying for a student who is studying full time or planning to study full time?",
+			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
 			id36: "",
 			id37: "You are eligible to apply for student support payments.",
 			id38: "You may need to provide more evidence to apply for student support payments.",
 			id39: "You are not eligible for student support payments. For more information call 133 254.",
 			id40: "Are you a student, or carer claiming on behalf of a student?"
-
 		};
 	}
 
@@ -384,10 +383,18 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfClaimantConfirm").hide();
 		$(".pt-showIfStudentVeteranInjured").hide();
 
+		if (sessionStorage.getItem('studentAge') > 15 && sessionStorage.getItem('studentAge') < 18) {
+
+			$(".pt-flow--confirmStudentOrClaimant").hide();
+			$(".pt-showIfStudentVeteranInjured").show();
+			sessionStorage.setItem('studentFlowConfirmed', true);
+		}
+
 		$('input[name=eligibilityPersonType]').change(function () {
 			if ($('input[name=eligibilityPersonType]:checked').val() === 'student') {
 
 				$(".pt-showIfStudentConfirm").show();
+				$(".pt-showIfStudentVeteranInjured").show();
 
 				if (sessionStorage.getItem('claimantFlow')) {
 					sessionStorage.removeItem('claimantFlow');
@@ -429,14 +436,12 @@ jQuery(document).ready(function ($) {
 		$('input[name=eligibilityFullTimeStudy]').change(function () {
 			if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'yes') {
 
-				$(".pt-showIfStudentVeteranInjured").show();
-
 				sessionStorage.setItem('fullTimeStudy', true);
 				$(".pt-outcome--maybe, .pt-outcome--yes, .pt-outcome--no").hide();
 			} else if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'no') {
 				sessionStorage.removeItem('fullTimeStudy');
-				$(".pt-outcome--no").show();
-				$(".pt-outcome--maybe, .pt-outcome--yes").hide();
+				$(".pt-outcome--maybe").show();
+				$(".pt-outcome--no, .pt-outcome--yes").hide();
 			}
 		});
 
@@ -611,6 +616,16 @@ jQuery(document).ready(function ($) {
 				sessionStorage.removeItem('studentPartneredRelationship');
 				sessionStorage.setItem('studentPartneredRelationship', 'no');
 				$(".pt-studentLivingSameAddress").hide();
+			}
+		});
+
+		$("#relationshipToVeteran").change(function () {
+
+			var selected_option = $('#relationshipToVeteran').val();
+			if (selected_option === 'other') {
+				$('#relationshipToStudentOther').show("fast");
+			} else {
+				$('#relationshipToStudentOther').hide("slow");
 			}
 		});
 

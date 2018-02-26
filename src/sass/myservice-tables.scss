@@ -2,6 +2,41 @@
 // Table styling
 //
 
+@mixin table-responsive {
+  width: 100%;
+
+  thead {
+    display: none;
+  }
+
+  tr {
+    &:nth-of-type(2n) {
+      background-color: inherit;
+    }
+
+    td {
+      &:first-child {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+
+  tbody {
+    td {
+      display: block;
+
+      // background-color: red;
+
+      &::before {
+        content: attr(data-th);
+        display: block;
+        text-align: center;
+      }
+    }
+  }
+}
+
 // codesmells
 table {
   border-spacing: 0;
@@ -135,48 +170,15 @@ table {
   }
 }
 
+.table-responsive--always-stacked {
+  &.table-responsive {
+    @include table-responsive;
+  }
+}
+
 // responsive table
 @media screen and (max-width: $medium-handheld) {
   .table-responsive {
-    // No
-    // &table {
-    //   width: 100%;
-    // }
-
-    // Yes
-    width: 100%;
-
-    thead {
-      display: none;
-    }
-
-    tr {
-      &:nth-of-type(2n) {
-        background-color: inherit;
-      }
-
-      td {
-        &:first-child {
-          // background-color: #f0f0f0;
-          // font-weight: bold;
-          border-bottom: 0;
-          padding-bottom: 0;
-        }
-      }
-    }
-
-    tbody {
-      td {
-        display: block;
-
-        // text-align: center;
-
-        &::before {
-          content: attr(data-th);
-          display: block;
-          text-align: center;
-        }
-      }
-    }
+    @include table-responsive;
   }
 }
