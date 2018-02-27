@@ -82,6 +82,7 @@
 													<div class="expanel-btn">
 														<button class="uikit-btn uikit-btn--tertiary small cancel-title-button">Cancel</button>
 														<button class="uikit-btn small save-title-button">Save</button>
+														<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
 													</div>
 												</div>
 											</div>
@@ -164,6 +165,7 @@
 													<div class="expanel-btn">
 														<button class="uikit-btn uikit-btn--tertiary small cancel-rank-button">Cancel</button>
 														<button class="uikit-btn small save-rank-button">Save</button>
+														<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
 													</div>
 												</div>
 											</div>
@@ -219,6 +221,7 @@
 													<div class="expanel-btn">
 														<button class="uikit-btn uikit-btn--tertiary small cancel-relationship-button">Cancel</button>
 														<button class="uikit-btn small save-relationship-button">Save</button>
+														<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
 													</div>
 												</div>
 											</div>
@@ -228,6 +231,12 @@
 									<br>
 									<br>
 
+									<button class="uikit-btn" onclick="window.location.href = '#open-modal-unsaved-changes'">Test modal</button>
+									<% include ../auth/partials/modal-unsaved-changes.ejs %>
+
+										<br>
+										<br>
+
 							</div>
 				</section>
 
@@ -236,6 +245,10 @@
 			<% include ../global/partials/footer.ejs %>
 
 				<script>
+
+					// mimic functionality need after a save button is pressed
+					// to disable all edit buttons to allow for saving time
+					var fewSeconds = 2;
 
 					// When the edit field is cicked for title
 					$(".edit-title-button").click(function () {
@@ -249,14 +262,22 @@
 
 					// When the save field is cicked for title
 					$(".save-title-button").click(function () {
-						$(".title-editable-div").hide();
-						$(".save-title-button").hide();
-						$(".edit-title-button").show();
-						$(".title-uneditable-div").show();
-						var title_new = $("#title").val();
-						$("#title-span").html(title_new)
-						// re-enable other edit fields
-						$('.edit-rank-button, .edit-relationship-button').prop('disabled', false);
+
+						var btn = $(".save-title-button, .cancel-title-button");
+						btn.prop('disabled', true);
+						$('.waiting-animation').show();
+						setTimeout(function () {
+							btn.prop('disabled', false);
+							var title_new = $("#title").val();
+							$("#title-span").html(title_new)
+							// re-enable other edit fields
+							$('.edit-rank-button, .edit-relationship-button').prop('disabled', false);
+							$(".title-editable-div").hide();
+							$(".save-title-button").hide();
+							$(".edit-title-button").show();
+							$(".title-uneditable-div").show();
+							$('.waiting-animation').hide();
+						}, fewSeconds * 1000);
 					});
 
 					// When the cancel field is cicked for title
@@ -281,14 +302,23 @@
 
 					// When the save field is cicked for rank
 					$(".save-rank-button").click(function () {
-						$(".rank-editable-div").hide();
-						$(".save-rank-button").hide();
-						$(".edit-rank-button").show();
-						$(".rank-uneditable-div").show();
-						var rank_new = $("#highest-rank").val();
-						$("#rank-span").html(rank_new)
-						// re-enable other edit fields
-						$('.edit-title-button, .edit-relationship-button').prop('disabled', false);
+
+						var btn = $(".save-rank-button, .cancel-rank-button");
+						btn.prop('disabled', true);
+						$('.waiting-animation').show();
+						setTimeout(function () {
+							btn.prop('disabled', false);
+
+							$(".rank-editable-div").hide();
+							$(".save-rank-button").hide();
+							$(".edit-rank-button").show();
+							$(".rank-uneditable-div").show();
+							var rank_new = $("#highest-rank").val();
+							$("#rank-span").html(rank_new)
+							// re-enable other edit fields
+							$('.edit-title-button, .edit-relationship-button').prop('disabled', false);
+							$('.waiting-animation').hide();
+						}, fewSeconds * 1000);
 					});
 
 					// When the cancel field is cicked for rank
@@ -313,14 +343,22 @@
 
 					// When the save field is cicked for relationship status
 					$(".save-relationship-button").click(function () {
-						$(".relationship-editable-div").hide();
-						$(".save-relationship-button").hide();
-						$(".edit-relationship-button").show();
-						$(".relationship-uneditable-div").show();
-						var relationship_new = $("#relationship").val();
-						$("#relationship-span").html(relationship_new)
-						// re-enable other edit fields
-						$('.edit-title-button, .edit-rank-button').prop('disabled', false);
+
+						var btn = $(".save-relationship-button, .cancel-relationship-button");
+						btn.prop('disabled', true);
+						$('.waiting-animation').show();
+						setTimeout(function () {
+							btn.prop('disabled', false);
+							$(".relationship-editable-div").hide();
+							$(".save-relationship-button").hide();
+							$(".edit-relationship-button").show();
+							$(".relationship-uneditable-div").show();
+							var relationship_new = $("#relationship").val();
+							$("#relationship-span").html(relationship_new)
+							// re-enable other edit fields
+							$('.edit-title-button, .edit-rank-button').prop('disabled', false);
+							$('.waiting-animation').hide();
+						}, fewSeconds * 1000);
 					});
 
 					// When the cancel field is cicked for relationship status
@@ -333,18 +371,7 @@
 						$('.edit-title-button, .edit-rank-button').prop('disabled', false);
 					});
 
-					// mimic functionality need after a save button is pressed
-					// to disable all edit buttons to allow for saving time
-					// TODO : need to add the save wheel animation
-					var fewSeconds = 2;
-					$('.save-title-button, .save-rank-button, .save-relationship-button').click(function () {
-						// Ajax request
-						var btn = $(".edit-title-button, .edit-rank-button, .edit-relationship-button");
-						btn.prop('disabled', true);
-						setTimeout(function () {
-							btn.prop('disabled', false);
-						}, fewSeconds * 1000);
-					});
+
 
 				</script>
 

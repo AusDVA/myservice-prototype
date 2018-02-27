@@ -42,7 +42,7 @@
                 </ul>
               </div>
               <div class="col-sm-9">
-                <% include ../global/partials/breadcrumb-profile-contact.ejs %>
+                <% include ../global/partials/breadcrumb-profile.ejs %>
 
                   <div class="expanel">
                     <div class="expanel-row expanel-header">
@@ -69,7 +69,7 @@
                         </div>
                       </div>
                     </div>
-                    <div class="expanel-row">
+                    <div class="expanel-row has-error">
                       <div class="expanel-title">Home phone number
                         <span class="hint">(optional)</span>
                         <!-- <span class="hint display-block">Please include your area code (for example, "03" for Victoria)</span> -->
@@ -83,13 +83,18 @@
                             <button class="uikit-btn uikit-btn--tertiary small edit-home-button">Change</button>
                           </div>
                         </div>
-                        <div class="expanel-uneditable home-editable-div" style="display:none;">
+                        <div class="expanel-editable home-editable-div" style="display:none;">
+                          <!-- <p>Please include your area code (for example, "03" for Victoria)</p> -->
+
                           <div class="expanel-form-field">
+                            <span class="hint display-block">Please include your area code (for example, "03" for Victoria)</span>
+                            <span id="phone-error" class="input-error-message" aria-live="polite">Enter a valid home phone number</span>
                             <input class="uikit-text-input" name="home-phone" id="home-phone" type="phone" value="">
                           </div>
                           <div class="expanel-btn">
                             <button class="uikit-btn uikit-btn--tertiary small cancel-home-button">Cancel</button>
                             <button class="uikit-btn small save-home-button">Save</button>
+                            <div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
                           </div>
                         </div>
                       </div>
@@ -107,13 +112,14 @@
                             <button class="uikit-btn uikit-btn--tertiary small edit-mobile-button">Change</button>
                           </div>
                         </div>
-                        <div class="expanel-uneditable mobile-editable-div" style="display:none;">
+                        <div class="expanel-editable mobile-editable-div" style="display:none;">
                           <div class="expanel-form-field">
                             <input class="uikit-text-input" name="mobile-phone" id="mobile-phone" type="phone" value="0402111222">
                           </div>
                           <div class="expanel-btn">
                             <button class="uikit-btn uikit-btn--tertiary small cancel-mobile-button">Cancel</button>
                             <button class="uikit-btn small save-mobile-button">Save</button>
+                            <div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
                           </div>
                         </div>
                       </div>
@@ -217,6 +223,7 @@
                           <div class="expanel-btn">
                             <button class="uikit-btn uikit-btn--tertiary small cancel-postal-button">Cancel</button>
                             <button class="uikit-btn small save-postal-button">Save</button>
+                            <div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
                           </div>
                         </div>
                       </div>
@@ -242,6 +249,7 @@
                           <div class="expanel-btn">
                             <button class="uikit-btn uikit-btn--tertiary small cancel-residential-button">Cancel</button>
                             <button class="uikit-btn small save-residential-button">Save</button>
+                            <div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
                           </div>
                         </div>
                       </div>
@@ -422,6 +430,10 @@
 
         <script>
 
+          // mimic functionality need after a save button is pressed
+          // to disable all edit buttons to allow for saving time
+          var fewSeconds = 2;
+
           // // When the edit field is cicked for email 
           // $(".edit-email-button").click(function () {
           //   $(".email-editable-div").show();
@@ -455,14 +467,23 @@
 
           // When the save field is clicked for home phone number
           $(".save-home-button").click(function () {
-            $(".home-editable-div").hide();
-            $(".save-home-button").hide();
-            $(".edit-home-button").show();
-            $(".home-uneditable-div").show();
-            var home_new = $("#home-phone").val();
-            $("#home-span").html(home_new)
-            // re-enable other edit fields
-            $('.edit-email-button, .edit-mobile-button, .edit-postal-button, .edit-residential-button').prop('disabled', false);
+
+            var btn = $(".save-home-button, .cancel-home-button");
+            btn.prop('disabled', true);
+            $('.waiting-animation').show();
+            setTimeout(function () {
+              btn.prop('disabled', false);
+
+              $(".home-editable-div").hide();
+              $(".save-home-button").hide();
+              $(".edit-home-button").show();
+              $(".home-uneditable-div").show();
+              var home_new = $("#home-phone").val();
+              $("#home-span").html(home_new)
+              // re-enable other edit fields
+              $('.edit-email-button, .edit-mobile-button, .edit-postal-button, .edit-residential-button').prop('disabled', false);
+              $('.waiting-animation').hide();
+            }, fewSeconds * 1000);
           });
 
           // When the cancel field is clicked for home phone number
@@ -487,14 +508,22 @@
 
           // When the save field is cicked for mobile phone number
           $(".save-mobile-button").click(function () {
-            $(".mobile-editable-div").hide();
-            $(".save-mobile-button").hide();
-            $(".edit-mobile-button").show();
-            $(".mobile-uneditable-div").show();
-            var mobile_new = $("#mobile-phone").val();
-            $("#mobile-span").html(mobile_new)
-            // re-enable other edit fields
-            $('.edit-home-button, .edit-email-button, .edit-postal-button, .edit-residential-button').prop('disabled', false);
+
+            var btn = $(".save-home-button, .cancel-home-button");
+            btn.prop('disabled', true);
+            $('.waiting-animation').show();
+            setTimeout(function () {
+              btn.prop('disabled', false);
+              $(".mobile-editable-div").hide();
+              $(".save-mobile-button").hide();
+              $(".edit-mobile-button").show();
+              $(".mobile-uneditable-div").show();
+              var mobile_new = $("#mobile-phone").val();
+              $("#mobile-span").html(mobile_new)
+              // re-enable other edit fields
+              $('.edit-home-button, .edit-email-button, .edit-postal-button, .edit-residential-button').prop('disabled', false);
+              $('.waiting-animation').hide();
+            }, fewSeconds * 1000);
           });
 
           // When the cancel field is cicked for mobile phone number
@@ -520,13 +549,22 @@
 
           // When the save field is cicked for postal address
           $(".save-postal-button").click(function () {
-            $(".postal-editable-div").hide();
-            $(".save-postal-button").hide();
-            $(".edit-postal-button").show();
-            $(".postal-uneditable-div").show();
+            var btn = $(".save-home-button, .cancel-home-button");
+            btn.prop('disabled', true);
+            $('.waiting-animation').show();
+            setTimeout(function () {
+              btn.prop('disabled', false);
 
-            // re-enable other edit fields
-            $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-residential-button').prop('disabled', false);
+              $(".postal-editable-div").hide();
+              $(".save-postal-button").hide();
+              $(".edit-postal-button").show();
+              $(".postal-uneditable-div").show();
+
+              // re-enable other edit fields
+              $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-residential-button').prop('disabled', false);
+
+              $('.waiting-animation').hide();
+            }, fewSeconds * 1000);
           });
 
           // When the cancel field is cicked for postal address
@@ -552,13 +590,20 @@
 
           // When the save field is cicked for residential address
           $(".save-residential-button").click(function () {
-            $(".residential-editable-div").hide();
-            $(".save-residential-button").hide();
-            $(".edit-residential-button").show();
-            $(".residential-uneditable-div").show();
+            var btn = $(".save-home-button, .cancel-home-button");
+            btn.prop('disabled', true);
+            $('.waiting-animation').show();
+            setTimeout(function () {
+              btn.prop('disabled', false);
+              $(".residential-editable-div").hide();
+              $(".save-residential-button").hide();
+              $(".edit-residential-button").show();
+              $(".residential-uneditable-div").show();
 
-            // re-enable other edit fields
-            $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
+              // re-enable other edit fields
+              $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
+              $('.waiting-animation').hide();
+            }, fewSeconds * 1000);
           });
 
           // When the cancel field is cicked for residential address
@@ -571,18 +616,6 @@
             $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
           });
 
-          // mimic functionality need after a save button is pressed
-          // to disable all edit buttons to allow for saving time
-          // TODO : need to add the save wheel animation
-          var fewSeconds = 2;
-          $('.save-title-button, .save-rank-button, .save-relationship-button').click(function () {
-            // Ajax request
-            var btn = $(".edit-title-button, .edit-rank-button, .edit-relationship-button");
-            btn.prop('disabled', true);
-            setTimeout(function () {
-              btn.prop('disabled', false);
-            }, fewSeconds * 1000);
-          });
 
         </script>
 </body>
