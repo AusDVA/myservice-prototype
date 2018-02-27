@@ -739,16 +739,14 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim2") {
 		// Page 2
-		$(".pt-showIfNotPrimaryStudent").hide();
+
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
 		$(".pt-showIfRentAssistanceKnown").hide();
 		$(".pt-showIfNotRentLandLord").hide();
 		$(".pt-typeOfAccommodationPaymentOther").hide();
 
-		if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
-			$(".pt-showIfNotPrimaryStudent").show('fast');
-		}
+
 
 		$(".pt-showIfLivingAway").hide();
 
@@ -800,6 +798,7 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim3") {
 		// page 2
+		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfPrimary").hide();
 		$(".pt-showIfSecondary").hide();
 		$(".pt-showIfTertiary").hide();
@@ -808,6 +807,9 @@ jQuery(document).ready(function ($) {
 		$(".pt-noLongerEligibleTwo").hide();
 		$(".pt-showIfStudyLoadNotAnswered").hide();
 
+		if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
+			$(".pt-showIfNotPrimaryStudent").show('fast');
+		}
 
 		$("#studentLevelOfStudy").change(function () {
 			var selected_option = $('#studentLevelOfStudy').val();
@@ -815,6 +817,7 @@ jQuery(document).ready(function ($) {
 			var grade_options;
 
 			if (selected_option === 'primary') {
+				console.log(' selected_option = ' + selected_option);
 
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfSecondary").hide();
@@ -824,8 +827,6 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('studentLevelOfStudy');
 				localStorage.setItem('studentLevelOfStudy', 'primary');
 				$(".pagination").find('button').prop('disabled', false);
-				// grade_options == 
-
 
 				$("#studentGradeThisYearSelect option[value='7']").remove();
 				$("#studentGradeThisYearSelect option[value='8']").remove();
@@ -836,11 +837,12 @@ jQuery(document).ready(function ($) {
 
 			}
 			else if (selected_option === 'secondary') {
+				console.log(' selected_option = ' + selected_option);
 				$(".pt-noLongerEligible").hide();
 				$(".pt-showIfTertiary").hide();
 				$(".pt-showIfPrimary").hide();
 
-
+				$(".pt-showIfSecondary").show();
 
 				localStorage.removeItem('studentLevelOfStudy');
 				localStorage.setItem('studentLevelOfStudy', 'secondary');
