@@ -700,8 +700,9 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfRentAssistanceKnown").hide();
 		$(".pt-showIfNotRentLandLord").hide();
 		$(".pt-typeOfAccommodationPaymentOther").hide();
-
 		$(".pt-showIfLivingAway").hide();
+
+		$(".pt-showIfNotPrimaryStudent").show();
 
 		$("#studyAwayFromHomeExplanation").change(function () {
 			var selected_option = $('#studyAwayFromHomeExplanation').val();
@@ -746,7 +747,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	if (window.location.pathname === "/studentclaim3") {
-		// page 2
+		// page 3
 		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfPrimary").hide();
 		$(".pt-showIfSecondary").hide();
@@ -1000,8 +1001,8 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		// Display if Study level == Tertiary &; Study load == part time
-		if (localStorage.getItem('studentLevelOfStudy') === 'tertiary' && localStorage.getItem('studentLoadOfStudy') === 'part-time') {
+		// Display if  Study load == part time
+		if (localStorage.getItem('studentLoadOfStudy') === 'part-time') {
 
 			this.docsRequired.indexOf("partTimeStudyReason") === -1 ? this.docsRequired.push("partTimeStudyReason") : console.log();
 		} else {
@@ -1030,7 +1031,7 @@ jQuery(document).ready(function ($) {
 
 		// show all required docs 
 		$.each(this.docsRequired, function () {
-			$('.pt-' + this).show();
+			$('.pt-' + this).show('slow');
 		});
 
 		// console.log(this.docsRequired);
