@@ -355,22 +355,30 @@ jQuery(document).ready(function ($) {
 		localStorage.clear();
 		var flow = getUrlParameter('flow');
 		var age = getUrlParameter('studentAge');
+		var docUploads = getUrlParameter('docUploads');
 
 		if (flow) {
 			localStorage.setItem(flow, true);
 			if (age) {
 				localStorage.setItem('studentAge', age);
 			}
+			if (docUploads) {
+				localStorage.setItem('docUploads', docUploads);
+			}
 		} else {
 			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
 		}
-
-
 	}
 
 	// All student pages 
 	if (window.location.href.indexOf("student") > -1) {
 		console.log('All student pages');
+		$(".pt-showIfDocumentUploadShoppingCart").hide();
+		if (localStorage.getItem('docUploads') === 'shopping') {
+			$(".pt-showIfDocumentUploadShoppingCart").show();
+		}
+
+		$(".upload-list").show();
 	}
 
 
