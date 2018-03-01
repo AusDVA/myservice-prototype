@@ -141,13 +141,13 @@ jQuery(document).ready(function ($) {
 	// Student questions 
 	if ("studentFlow" in localStorage) {
 		var question = {
-			pageheader1: "Personal details	<span>(Student claims)</span>",
+			pageheader1: "Personal details	",
 			pageheader1a: "Veterans details",
 			pageheader1b: "Student details",
 			id1: "Title",
 			id2: "First name",
 			id3: "Last name",
-			id4: "Date of birth",
+			id4: "Date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
 			id5: "",
 			id5a: "",
 			id6: "",
@@ -157,7 +157,7 @@ jQuery(document).ready(function ($) {
 			id9: "",
 			id9a: "",
 			id9b: "Provide any supporting documents to prove your relationship to the student.",
-			id10: "Type of study",
+			id10: "Student's level of study",
 			id10a: "[TEXT TBD] You are no longer eligible",
 			id11: "Grade This Year",
 			id12: "Name of School",
@@ -169,16 +169,16 @@ jQuery(document).ready(function ($) {
 			id18: "Course Code  / Degree code",
 			id19: "Date you started or plan to start studying <span class='hint'>(DD / MM / YYYY)</span>",
 			id20: "Date you plan to complete your studies <span class='hint'>(MM / YYYY)</span>",
-			id21: "What is your study load?",
+			id21: "Are you studying full time?",
 			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(MM / YYYY)</span>",
-			id21c: "Have you enrolled in this course?",
+			id21c: "Have you enrolled?",
 			id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
 			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Is this your current address?",
-			id23: "Will you be living away from home while studying?",
+			id23: "Will you be living at your parents home while studying?",
 			id23a: "What best describes your situation?",
 			id23ai: "[TEXT TBD] The DVA can assist you",
-			id24: "Do you need rent assistance? (optional)",
+			id24: "Do you need rent assistance? <span class='hint'>(optional)</span>",
 			id24a: "Do you have your rental details?",
 			id24a1: "When will  you be living at the rental address <span class='hint'>(DD / MM / YYYY)</span>",
 			id24a2: "When does the your rental agreement end? <span class='hint'>(DD / MM / YYYY)</span>",
@@ -224,6 +224,7 @@ jQuery(document).ready(function ($) {
 			id46: "PMKeyS ID (preferred)",
 			id47: "Your relationship to the veteran",
 			id48: "Please provide a brief statement explaining how you came into the veterans care. ",
+			id49: "Student's parent/family status",
 
 		};
 	}
@@ -231,42 +232,42 @@ jQuery(document).ready(function ($) {
 
 	if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
 		var question = {
-			pageheader1: "Student details	<span>(Student claims)</span>",
+			pageheader1: "Student details	",
 			id1: "Student's Title",
-			id2: "Student's First name",
-			id3: "Student's Last name",
-			id4: "Student's Date of birth",
+			id2: "Student's given name <span class='hint'>(First name)</span>",
+			id3: "Student's surname <span class='hint'>(Last name)</span>",
+			id4: "Student's date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
 			id5: "Your relationship to the student",
 			id5a: "Provide a brief statement explaining how the student came into your care. ",
-			id6: "Will the student be working full time while studying?",
+			id6: "Is the student employed full time?",
 			id7: "",
 			id8: "",
 			id8a: "",
 			id9: "What is the Veteran/Member's relationship to the student?",
 			id9a: "Provide a brief statement explaining how the student came into your care. ",
 			id9b: "Provide any supporting documents to prove your relationship to the student.",
-			id10: "Type of study",
+			id10: "Level of study",
 			id10a: "[TEXT TBD] You are no longer eligible",
 			id11: "Grade This Year",
 			id12: "Name of School",
 			id13: "School address",
 			id14: "School phone number",
 			id15: "What type of education will the student be studying this year?",
-			id16: "Where is the student currently  studying or planning to study?",
+			id16: "Where is James studying?",
 			id17: "Course name / Degree name",
 			id18: "Course Code  / Degree code",
 			id19: "Date the student started or plan to start studying <span class='hint'>(DD / MM / YYYY)</span>",
 			id20: "Date the student plans to complete their studies <span class='hint'>(  MM / YYYY)</span>",
-			id21: "What is the student's study load?",
-			id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(  MM / YYYY)</span>",
-			id21c: "Has the student enrolled in this course?",
+			id21: "Is James studying full time?",
+			id21b: "When do you intend on returning to full-time study? <span class='hint'>(optional)</span>  <span class='hint'>(  MM / YYYY)</span>",
+			id21c: "Is James enrolled?",
 			id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
 			id21u: "Please provide evidence to explain why the student is studying part-time",
 			id22: "Is this the student’s address? ",
-			id23: "Will the student be living away from home while studying?",
+			id23: "Is the student living away from home to study?",
 			id23a: "What best describes the student’s situation? ",
 			id23ai: "[TEXT TBD] The DVA can assist you",
-			id24: "Does the student need rent assistance? (optional)",
+			id24: "Is the student renting? ",
 			id24a: "Do you know the student's rental details?",
 			id24a1: "When will the student be living at the rental address <span class='hint'>(DD / MM / YYYY)</span>",
 			id24a2: "When does the student's rental agreement end? <span class='hint'>(DD / MM / YYYY)</span>",
@@ -278,14 +279,15 @@ jQuery(document).ready(function ($) {
 			id24a8: "Is the student sharing accommodation with anyone else?",
 			id24a9: "Are meals included in the accommodation costs?",
 			id24a9a: "How much of the payment is for meals?  ",
+			id24: "",
 			id25: "Provide any supporting documents, for example rental agreement",
 			id26: "Who receives the Family Tax Benefit for the student?",
-			id26a: "What is their Customer Reference Number (optional)",
+			id26a: "What is their Customer Reference Number <span class='hint'>(optional)</span>",
 			id26b: "What is the percentage care of a parent?",
 			id26b1: "[Text TBD] You may not be eligible",
 			id26b2: "[Text TBD] The other care giver may not be eligible",
-			id26c: "What is the name of the other care giver? (optional)",
-			id26d: "What are the contact details for the other care giver? (optional)",
+			id26c: "What is the name of the other care giver? <span class='hint'>(optional)</span>",
+			id26d: "What are the contact details for the other care giver? <span class='hint'>(optional)</span>",
 			id27: "Student's Tax File Number",
 			id28: "Would you like to have the student's  education allowance taxed?  ",
 			id28a: "How much does the student pay per fortnight?  ",
@@ -310,6 +312,7 @@ jQuery(document).ready(function ($) {
 			id45: "DVA file number",
 			id46: "PMKeyS ID (preferred)",
 			id47: "Your relationship to the veteran",
+			id49: "James' parents are;",
 
 		};
 	}
@@ -323,7 +326,7 @@ jQuery(document).ready(function ($) {
 		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 		question.id36 = "";
 		question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
-		question.pageheader1 = "Student and veteran details	<span>(Student claims)</span>";
+		question.pageheader1 = "Student and veteran details	";
 		question.pageheader1a = "Veterans details";
 		question.pageheader1b = "Student details";
 	}
@@ -372,11 +375,14 @@ jQuery(document).ready(function ($) {
 
 	// All student pages 
 	if (window.location.href.indexOf("student") > -1) {
+
+
 		console.log('All student pages');
 		$(".pt-showIfDocumentUploadShoppingCart").hide();
 		if (localStorage.getItem('docUploads') === 'shopping') {
 			$(".pt-showIfDocumentUploadShoppingCart").show();
 		}
+
 
 		$(".upload-list").show();
 	}
@@ -587,11 +593,22 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim1") {
 		// Page 1
 		$(".pt-studentAge--mature").hide();
+		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
 		$(".pt-studentLivingWithPartnerLessRate").hide();
 		$(".upload-list").show();
 
+		$("#firstName").focusout(function () {
+			if ($(this).val()) {
+				localStorage.removeItem('studentName');
+				localStorage.setItem('studentName', $(this).val());
+			} else {
+				localStorage.removeItem('studentName');
+			}
+		});
+
 		$('input[name=studyAwayFromHomeRadio]').change(function () {
+
 
 			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
 				$(".pt-showIfLivingAway").show('fast');
@@ -614,6 +631,10 @@ jQuery(document).ready(function ($) {
 					window.location.href = 'studentclaim3';
 				})
 			}
+		});
+
+		$('input[name=engagedInFullTimeEmployment]').change(function () {
+			$(".pt-showIfStudentLivingAtHome").show();
 		});
 
 		// Calculate student age
@@ -811,6 +832,7 @@ jQuery(document).ready(function ($) {
 		$(".pt-noLongerEligible").hide();
 		$(".pt-noLongerEligibleTwo").hide();
 		$(".pt-showIfStudyLoadNotAnswered").hide();
+		$(".pt-showIfEnrolled").hide();
 
 		if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
 			$(".pt-showIfNotPrimaryStudent").show('fast');
@@ -903,8 +925,10 @@ jQuery(document).ready(function ($) {
 		$('input[name=enroleStatus]').change(function () {
 			if ($('input[name=enroleStatus]:checked').val() === 'no') {
 				$(".pt-noLongerEligibleTwo").show();
+				$(".pt-showIfEnrolled").hide();
 			} else {
 				$(".pt-noLongerEligibleTwo").hide();
+				$(".pt-showIfEnrolled").show();
 			}
 		});
 	}
@@ -1005,6 +1029,7 @@ jQuery(document).ready(function ($) {
 		this.i = 0;
 
 		this.studentAge;
+		this.studentName;
 		this.docsRequired = [];
 
 		// privileged init method

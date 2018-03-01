@@ -283,6 +283,9 @@ app.get('/studentclaim1', function (request, response) {
 app.get('/studentclaim2', function (request, response) {
   response.render('auth/claim/pages/studentclaim2');
 });
+app.get('/studentclaim-rental-details', function (request, response) {
+  response.render('auth/claim/pages/studentclaim-rental-details');
+});
 app.get('/studentclaim3', function (request, response) {
   response.render('auth/claim/pages/studentclaim3');
 });
