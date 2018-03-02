@@ -123,6 +123,7 @@ jQuery(document).ready(function ($) {
 		jQuery(this).hide();
 	});
 
+	// TODO:: fade in docs once (relationship status is selected)
 
 	// Student claim pages
 	// TODO:: this would be better placed in a separate file
@@ -234,8 +235,8 @@ jQuery(document).ready(function ($) {
 		var question = {
 			pageheader1: "Student details	",
 			id1: "Student's Title",
-			id2: "Student's given name <span class='hint'>(First name)</span>",
-			id3: "Student's surname <span class='hint'>(Last name)</span>",
+			id2: "Student's given name <span class='hint'>(first name)</span>",
+			id3: "Student's surname <span class='hint'>(last name)</span>",
 			id4: "Student's date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
 			id5: "Your relationship to the student",
 			id5a: "Provide a brief statement explaining how the student came into your care. ",
@@ -281,9 +282,9 @@ jQuery(document).ready(function ($) {
 			id24a9a: "How much of the payment is for meals?  ",
 			id24: "",
 			id25: "Provide any supporting documents, for example rental agreement",
-			id26: "Who receives the Family Tax Benefit for the student?",
+			id26: "Do you receive Family Tax Benefit for James?",
 			id26a: "What is their Customer Reference Number <span class='hint'>(optional)</span>",
-			id26b: "What is the percentage care of a parent?",
+			id26b: "What is your FTB percentage for James?",
 			id26b1: "[Text TBD] You may not be eligible",
 			id26b2: "[Text TBD] The other care giver may not be eligible",
 			id26c: "What is the name of the other care giver? <span class='hint'>(optional)</span>",
@@ -610,7 +611,7 @@ jQuery(document).ready(function ($) {
 		$('input[name=studyAwayFromHomeRadio]').change(function () {
 
 
-			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'yes') {
+			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'away-from-home') {
 				$(".pt-showIfLivingAway").show('fast');
 				$(".pt-showIfNoPartner").hide();
 
@@ -620,7 +621,8 @@ jQuery(document).ready(function ($) {
 				if (localStorage.getItem('studentPartneredRelationship') === 'no') {
 					$(".pt-showIfNoPartner").show('fast');
 				}
-			} else {
+				// } else if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'at-home') { 
+			} else { // student is homeless or at home
 				$(".pt-showIfLivingAway").hide();
 				$(".pt-showIfNoPartner").hide();
 				localStorage.removeItem('studyAwayFromHome');
@@ -735,9 +737,14 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+
 		$("#relationshipToVeteran").change(function () {
 
 			var selected_option = $('#relationshipToVeteran').val();
+
+			localStorage.removeItem('relationshipType');
+			localStorage.setItem('relationshipType', selected_option);
+
 			if (selected_option === 'other') {
 				$('#relationshipToVeteranOther').show("fast");
 			} else {
@@ -746,7 +753,12 @@ jQuery(document).ready(function ($) {
 		});
 
 		$("#relationshipToStudent").change(function () {
+
 			var selected_option = $('#relationshipToStudent').val();
+
+			localStorage.removeItem('relationshipType');
+			localStorage.setItem('relationshipType', selected_option);
+
 			if (selected_option === 'other') {
 				$('#relationshipToStudentOther').show("fast");
 			} else {
@@ -940,6 +952,8 @@ jQuery(document).ready(function ($) {
 		$('.pt-showIfEducationAllowanceTaxed').hide();
 		$('.pt-showIfCarePercentageLow').hide();
 		$('.pt-showIfCarePercentageHigh').hide();
+		$('.bank-details-container').hide();
+
 
 		if (localStorage.getItem('studentAge') > 15) {
 			console.log('mature student');
@@ -955,11 +969,26 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		$('input[name=whoReceivesFTB]').change(function () {
-			if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one' || $('input[name=whoReceivesFTB]:checked').val() === 'myself') {
-				$(".pt-showIfCentrelinkCustomer").hide();
-			} else {
+		// $('input[name=whoReceivesFTB]').change(function () {
+		// 	if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one' || $('input[name=whoReceivesFTB]:checked').val() === 'myself') {
+		// 		$(".pt-showIfCentrelinkCustomer").hide();
+		// 	} else {
+		// 		$(".pt-showIfCentrelinkCustomer").show('fast');
+		// 	}
+		// });
+		$('input[name=fTBYou]').change(function () {
+			if ($('input[name=fTBYou]:checked').val() === 'yes') {
 				$(".pt-showIfCentrelinkCustomer").show('fast');
+			} else {
+				$(".pt-showIfCentrelinkCustomer").hide();
+			}
+		});
+
+		$('input[name=fTBYou]').change(function () {
+			if ($('input[name=fTBYou]:checked').val() === 'yes') {
+				$(".pt-showIfCentrelinkCustomer").show('fast');
+			} else {
+				$(".pt-showIfCentrelinkCustomer").hide();
 			}
 		});
 
@@ -995,15 +1024,33 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfEducationAllowanceTaxed").hide();
 			}
 		});
+
+
+
+		// bank details button function
+		$("#btnAddBank").click(function () {
+			$(".bank-details-container").show("fast");
+			$("#btnAddBank-box").hide();
+			$("#bankoptional").hide();
+			$("#btnCancelBank").show();
+			$("#bank-name").focus();
+		});
+		$("#btnCancelBank").click(function () {
+			$(".bank-details-container").hide("fast");
+			$("#btnCancelBank").hide();
+			$("#bankoptional").show();
+			$("#btnAddBank-box").show();
+		});
+
+		$(".message-close").click(function () {
+			$(".bank-details-container").hide("fast");
+		});
+
+
 	}
 
 	if (window.location.pathname === "/studentclaim6") {
-		// var someDate = new Date();
-		// var numberOfDaysToAdd = 14;
-		// someDate.setDate(someDate.getDate() + numberOfDaysToAdd);
-		// var dd = someDate.getDate();
-		// var mm = someDate.getMonth() + 1;
-		// var y = someDate.getFullYear();
+
 
 		// var someFormattedDate = dd + '/' + mm + '/' + y;
 
@@ -1049,6 +1096,8 @@ jQuery(document).ready(function ($) {
 
 	Person.prototype.checkDocs = function () {
 		this.i++;
+
+
 		// list of docs
 		// Proof of relationship = proofOfRelationship
 		// Proof of residence = proofOfResidence
@@ -1059,8 +1108,6 @@ jQuery(document).ready(function ($) {
 		// check type of person 
 		if (("studentFlow" in localStorage) || ("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
 
-			// Proof of relationship for all
-			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
 
 			if ("studentFlow" in localStorage) {
 				this.type = 'student';
@@ -1071,6 +1118,12 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
+		// check relationship 
+		if ("relationshipType" in localStorage) {
+			// Proof of relationship for all
+			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+
+		}
 		// check student age
 		if ("studentAge" in localStorage) {
 			this.studentAge = localStorage.getItem('studentAge');
