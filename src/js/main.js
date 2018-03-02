@@ -282,8 +282,8 @@ jQuery(document).ready(function ($) {
 			id24a9a: "How much of the payment is for meals?  ",
 			id24: "",
 			id25: "Provide any supporting documents, for example rental agreement",
-			id26: "Do you receive Family Tax Benefit for James?",
-			id26a: "What is their Customer Reference Number <span class='hint'>(optional)</span>",
+			id26: "Do you receive Family Tax Benefit for the student?",
+			id26a: "What is your Customer Reference Number <span class='hint'>(optional)</span>",
 			id26b: "What is your FTB percentage for James?",
 			id26b1: "[Text TBD] You may not be eligible",
 			id26b2: "[Text TBD] The other care giver may not be eligible",
@@ -390,203 +390,281 @@ jQuery(document).ready(function ($) {
 
 
 	if (window.location.pathname === "/studentpreeligibility") {
+
+		$(".pt-showIfStudentShouldClaimThemselves").hide();
+		$(".pt-showIfStudentUnder18").hide();
+		$(".pt-showIfCentrelinkCustomer").hide();
+		$(".pt-showIfYourFTB").hide();
+		$(".pt-showIfSomeoneElseFTB").hide();
+		$(".pt-showIfNoFTB").hide();
+		$(".pt-showIfStudentBetween16and18").hide();
+
+
+
+		$('input[name=fTBYou]').change(function () {
+			if ($('input[name=fTBYou]:checked').val() === 'yes') {
+
+				$(".pt-showIfYourFTB").show();
+				$(".pt-showIfSomeoneElseFTB").hide();
+				$(".pt-showIfCentrelinkCustomer").show();
+			} else {
+				$(".pt-showIfYourFTB").hide();
+				$(".pt-showIfSomeoneElseFTB").show();
+				$(".pt-showIfCentrelinkCustomer").hide();
+			}
+		});
+
+		$('input[name=fTBSomeoneElse]').change(function () {
+			if ($('input[name=fTBSomeoneElse]:checked').val() === 'yes') {
+
+				$(".pt-showIfNoFTB").hide();
+				$(".pt-showIfCentrelinkCustomer").show();
+			} else {
+				$(".pt-showIfNoFTB").show();
+				$(".pt-showIfCentrelinkCustomer").hide();
+			}
+		});
+
+
+
+
+		// Calculate student age
+		$(".pt-student-dob > :input").focusout(function () {
+			var dobDay = $("#dd-date").val();
+			var dobMonth = $("#mm-date").val();
+			var dobYear = $("#yyyy-date").val();
+
+			if (dobDay && dobMonth && dobYear) {
+				var dob = dobYear + '-' + dobMonth + '-' + dobDay;
+				dob = new Date(dob);
+				var today = new Date();
+				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+				console.log(age + ' years old');
+				localStorage.removeItem('studentAge');
+				localStorage.setItem('studentAge', age);
+
+				// TODO: handle state better and make this a separate function 
+
+				if ("veteranFlow" in localStorage) {
+
+					if (localStorage.getItem('studentAge') > 17) {
+						$(".pt-showIfStudentShouldClaimThemselves").show();
+						$(".pt-showIfStudentUnder18").hide();
+					} else {
+						$(".pt-showIfStudentShouldClaimThemselves").hide();
+						$(".pt-showIfStudentUnder18").show();
+
+					}
+
+					if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+						$(".pt-showIfStudentBetween16and18").show();
+					} else {
+						$(".pt-showIfStudentBetween16and18").hide();
+					}
+				}
+
+
+
+
+			}
+		});
 		// Page eligibility
-		$(".pt-outcome").hide();
-		$(".pt-showIfStudentConfirm").hide();
-		$(".pt-showIfClaimantConfirm").hide();
-		$(".pt-showIfStudentVeteranInjured").hide();
+		// $(".pt-outcome").hide();
+		// $(".pt-showIfStudentConfirm").hide();
+		// $(".pt-showIfClaimantConfirm").hide();
+		// $(".pt-showIfStudentVeteranInjured").hide();
 
-		if (localStorage.getItem('studentAge') > 15 && localStorage.getItem('studentAge') < 18) {
+		// if (localStorage.getItem('studentAge') > 15 && localStorage.getItem('studentAge') < 18) {
 
-			$(".pt-flow--confirmStudentOrClaimant").hide();
-			$(".pt-showIfStudentVeteranInjured").show();
-			localStorage.setItem('studentFlowConfirmed', true);
-		}
-
-
-		$('input[name=eligibilityPersonType]').change(function () {
-			if ($('input[name=eligibilityPersonType]:checked').val() === 'student') {
-
-				$(".pt-showIfStudentConfirm").show();
-				$(".pt-showIfStudentVeteranInjured").show();
-
-				if (localStorage.getItem('claimantFlow')) {
-					localStorage.removeItem('claimantFlow');
-					localStorage.removeItem('claimantFlowConfirmed');
-					localStorage.setItem('studentFlow', true);
-					localStorage.setItem('studentFlowConfirmed', true);
-					window.location.reload(true);
-				}
-
-			} else if ($('input[name=eligibilityPersonType]:checked').val() === 'carer') {
-
-				$(".pt-showIfClaimantConfirm").show();
+		// 	$(".pt-flow--confirmStudentOrClaimant").hide();
+		// 	$(".pt-showIfStudentVeteranInjured").show();
+		// 	localStorage.setItem('studentFlowConfirmed', true);
+		// }
 
 
-				if (localStorage.getItem('studentFlow')) {
-					localStorage.removeItem('studentFlow');
-					localStorage.removeItem('studentFlowConfirmed');
-					localStorage.setItem('claimantFlow', true);
-					localStorage.setItem('claimantFlowConfirmed', true);
-					window.location.reload(true);
-				}
-			}
-		});
+		// $('input[name=eligibilityPersonType]').change(function () {
+		// 	if ($('input[name=eligibilityPersonType]:checked').val() === 'student') {
+
+		// 		$(".pt-showIfStudentConfirm").show();
+		// 		$(".pt-showIfStudentVeteranInjured").show();
+
+		// 		if (localStorage.getItem('claimantFlow')) {
+		// 			localStorage.removeItem('claimantFlow');
+		// 			localStorage.removeItem('claimantFlowConfirmed');
+		// 			localStorage.setItem('studentFlow', true);
+		// 			localStorage.setItem('studentFlowConfirmed', true);
+		// 			window.location.reload(true);
+		// 		}
+
+		// 	} else if ($('input[name=eligibilityPersonType]:checked').val() === 'carer') {
+
+		// 		$(".pt-showIfClaimantConfirm").show();
 
 
-		// show all for veterans 
-		if (localStorage.getItem('veteranFlow')) {
-			$(".pt-showIfClaimantConfirm").show();
-		}
-
-		if (localStorage.getItem('claimantFlowConfirmed')) {
-			$('#eligibilityPersonType-carer').prop('checked', true);
-		}
-
-		if (localStorage.getItem('studentFlowConfirmed')) {
-			$('#eligibilityPersonType-student').prop('checked', true);
-
-		}
-
-		$('input[name=eligibilityPersonType]').trigger("change");
-
-		// student only flow
-		// TODO: refactor!  
-		$('input[name=eligibilityFullTimeStudy]').change(function () {
-			if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'full-time') {
-				localStorage.removeItem('fullTimeStudy');
-				localStorage.setItem('fullTimeStudy', true);
-				localStorage.removeItem('studentLoadOfStudy');
-				localStorage.setItem('studentLoadOfStudy', 'full-time');
-
-			} else if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'part-time') {
-				localStorage.removeItem('fullTimeStudy');
-				localStorage.setItem('fullTimeStudy', false);
-				localStorage.removeItem('studentLoadOfStudy');
-				localStorage.setItem('studentLoadOfStudy', 'part-time');
-			}
-			eligible();
-		});
+		// 		if (localStorage.getItem('studentFlow')) {
+		// 			localStorage.removeItem('studentFlow');
+		// 			localStorage.removeItem('studentFlowConfirmed');
+		// 			localStorage.setItem('claimantFlow', true);
+		// 			localStorage.setItem('claimantFlowConfirmed', true);
+		// 			window.location.reload(true);
+		// 		}
+		// 	}
+		// });
 
 
+		// // show all for veterans 
+		// if (localStorage.getItem('veteranFlow')) {
+		// 	$(".pt-showIfClaimantConfirm").show();
+		// }
 
-		$('input[name=eligibilityCaredForByVeteran]').change(function () {
-			if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'yes') {
+		// if (localStorage.getItem('claimantFlowConfirmed')) {
+		// 	$('#eligibilityPersonType-carer').prop('checked', true);
+		// }
 
-				localStorage.removeItem('veteranSignificantlyInjured');
-				localStorage.setItem('veteranSignificantlyInjured', true);
-			} else if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'no') {
+		// if (localStorage.getItem('studentFlowConfirmed')) {
+		// 	$('#eligibilityPersonType-student').prop('checked', true);
 
-				localStorage.removeItem('veteranSignificantlyInjured');
-				localStorage.setItem('veteranSignificantlyInjured', false);
-			}
+		// }
 
-			eligible();
-		});
+		// $('input[name=eligibilityPersonType]').trigger("change");
 
-		// veteran and claimant flow 
-		$('input[name=eligibilityVeteranSignificantlyInjured]').change(function () {
-			if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'yes') {
-				localStorage.setItem('veteranSignificantlyInjured', true);
+		// // student only flow
+		// // TODO: refactor!  
+		// $('input[name=eligibilityFullTimeStudy]').change(function () {
+		// 	if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'full-time') {
+		// 		localStorage.removeItem('fullTimeStudy');
+		// 		localStorage.setItem('fullTimeStudy', true);
+		// 		localStorage.removeItem('studentLoadOfStudy');
+		// 		localStorage.setItem('studentLoadOfStudy', 'full-time');
 
-			} else if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'no') {
-
-				localStorage.removeItem('veteranSignificantlyInjured');
-				localStorage.setItem('veteranSignificantlyInjured', false);
-			}
-			eligible();
-		});
-
-		$('input[name=eligibilityStudentFullTimeStudy]').change(function () {
-			if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'yes') {
-				localStorage.setItem('realStudent', true);
-			} else if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'no') {
-				localStorage.removeItem('realStudent');
-				localStorage.setItem('realStudent', false);
-			}
-			eligible();
-		});
-
-		$('input[name=eligibilityCareForStudentOrFTB]').change(function () {
-			if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'yes') {
-				localStorage.setItem('careForStudentOrFTB', true);
-			} else if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'no') {
-				localStorage.removeItem('careForStudentOrFTB');
-				localStorage.setItem('careForStudentOrFTB', false);
-			}
-			eligible();
+		// 	} else if ($('input[name=eligibilityFullTimeStudy]:checked').val() === 'part-time') {
+		// 		localStorage.removeItem('fullTimeStudy');
+		// 		localStorage.setItem('fullTimeStudy', false);
+		// 		localStorage.removeItem('studentLoadOfStudy');
+		// 		localStorage.setItem('studentLoadOfStudy', 'part-time');
+		// 	}
+		// 	eligible();
+		// });
 
 
-		});
 
-		function eligible() {
-			console.log('checking eligible status');
+		// $('input[name=eligibilityCaredForByVeteran]').change(function () {
+		// 	if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'yes') {
 
-			console.log('fullTimeStudy ' + localStorage.getItem('fullTimeStudy'));
-			console.log('veteranSignificantlyInjured ' + localStorage.getItem('veteranSignificantlyInjured'));
-			console.log('careForStudentOrFTB ' + localStorage.getItem('careForStudentOrFTB'));
-			// console.log('studentFlow ' + localStorage.getItem('studentFlow'));
-			// console.log('veteranFlow ' + localStorage.getItem('veteranFlow'));
-			// console.log('claimantFlow ' + localStorage.getItem('claimantFlow'));
+		// 		localStorage.removeItem('veteranSignificantlyInjured');
+		// 		localStorage.setItem('veteranSignificantlyInjured', true);
+		// 	} else if ($('input[name=eligibilityCaredForByVeteran]:checked').val() === 'no') {
 
-			if (localStorage.getItem('studentFlow') === 'true') {
-				console.log('IS STUDENT');
-				if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
-					(localStorage.getItem('fullTimeStudy') === 'true')) {
-					$(".pt-outcome--yes").show();
-					$(".pt-outcome--no, .pt-outcome--maybe").hide();
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
-					(localStorage.getItem('fullTimeStudy') === 'false')) {
-					$(".pt-outcome--maybe").show();
-					$(".pt-outcome--no, .pt-outcome--yes").hide();
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
-					(localStorage.getItem('fullTimeStudy') === 'true')) {
-					$(".pt-outcome--maybe").show();
-					$(".pt-outcome--no, .pt-outcome--yes").hide();
-				}
-			}
+		// 		localStorage.removeItem('veteranSignificantlyInjured');
+		// 		localStorage.setItem('veteranSignificantlyInjured', false);
+		// 	}
 
-			else if ((localStorage.getItem('veteranFlow') === 'true') || localStorage.getItem('claimantFlow') === 'true') {
+		// 	eligible();
+		// });
 
-				if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
-					(localStorage.getItem('realStudent') === 'true') &&
-					(localStorage.getItem('careForStudentOrFTB') === 'true')) {
-					$(".pt-outcome--yes").show();
-					$(".pt-outcome--no, .pt-outcome--maybe").hide();
+		// // veteran and claimant flow 
+		// $('input[name=eligibilityVeteranSignificantlyInjured]').change(function () {
+		// 	if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'yes') {
+		// 		localStorage.setItem('veteranSignificantlyInjured', true);
 
-				} else if (localStorage.getItem('realStudent') === 'false') {
-					$(".pt-outcome--no").show();
-					$(".pt-outcome--yes, .pt-outcome--maybe").hide();
+		// 	} else if ($('input[name=eligibilityVeteranSignificantlyInjured]:checked').val() === 'no') {
 
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
-					(localStorage.getItem('realStudent') === 'true') &&
-					(localStorage.getItem('careForStudentOrFTB') === 'true')) {
-					$(".pt-outcome--yes").show();
-					$(".pt-outcome--no, .pt-outcome--maybe").hide();
+		// 		localStorage.removeItem('veteranSignificantlyInjured');
+		// 		localStorage.setItem('veteranSignificantlyInjured', false);
+		// 	}
+		// 	eligible();
+		// });
 
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
-					(localStorage.getItem('realStudent') === 'true') &&
-					(localStorage.getItem('careForStudentOrFTB') === 'true')) {
-					$(".pt-outcome--maybe").show();
-					$(".pt-outcome--no, .pt-outcome--yes").hide();
+		// $('input[name=eligibilityStudentFullTimeStudy]').change(function () {
+		// 	if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'yes') {
+		// 		localStorage.setItem('realStudent', true);
+		// 	} else if ($('input[name=eligibilityStudentFullTimeStudy]:checked').val() === 'no') {
+		// 		localStorage.removeItem('realStudent');
+		// 		localStorage.setItem('realStudent', false);
+		// 	}
+		// 	eligible();
+		// });
 
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
-					(localStorage.getItem('realStudent') === 'true') &&
-					(localStorage.getItem('careForStudentOrFTB') === 'false')) {
-					$(".pt-outcome--maybe").show();
-					$(".pt-outcome--no, .pt-outcome--yes").hide();
+		// $('input[name=eligibilityCareForStudentOrFTB]').change(function () {
+		// 	if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'yes') {
+		// 		localStorage.setItem('careForStudentOrFTB', true);
+		// 	} else if ($('input[name=eligibilityCareForStudentOrFTB]:checked').val() === 'no') {
+		// 		localStorage.removeItem('careForStudentOrFTB');
+		// 		localStorage.setItem('careForStudentOrFTB', false);
+		// 	}
+		// 	eligible();
 
-				} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
-					(localStorage.getItem('realStudent') === 'true') &&
-					(localStorage.getItem('careForStudentOrFTB') === 'false')) {
-					$(".pt-outcome--maybe").show();
-					$(".pt-outcome--no, .pt-outcome--yes").hide();
-				} else {
-					$(".pt-outcome--no, .pt-outcome--yes, .pt-outcome--maybe").hide();
-				}
-			}
 
-		}
+		// });
+
+		// function eligible() {
+		// 	console.log('checking eligible status');
+
+		// 	console.log('fullTimeStudy ' + localStorage.getItem('fullTimeStudy'));
+		// 	console.log('veteranSignificantlyInjured ' + localStorage.getItem('veteranSignificantlyInjured'));
+		// 	console.log('careForStudentOrFTB ' + localStorage.getItem('careForStudentOrFTB'));
+		// 	// console.log('studentFlow ' + localStorage.getItem('studentFlow'));
+		// 	// console.log('veteranFlow ' + localStorage.getItem('veteranFlow'));
+		// 	// console.log('claimantFlow ' + localStorage.getItem('claimantFlow'));
+
+		// 	if (localStorage.getItem('studentFlow') === 'true') {
+		// 		console.log('IS STUDENT');
+		// 		if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+		// 			(localStorage.getItem('fullTimeStudy') === 'true')) {
+		// 			$(".pt-outcome--yes").show();
+		// 			$(".pt-outcome--no, .pt-outcome--maybe").hide();
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+		// 			(localStorage.getItem('fullTimeStudy') === 'false')) {
+		// 			$(".pt-outcome--maybe").show();
+		// 			$(".pt-outcome--no, .pt-outcome--yes").hide();
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
+		// 			(localStorage.getItem('fullTimeStudy') === 'true')) {
+		// 			$(".pt-outcome--maybe").show();
+		// 			$(".pt-outcome--no, .pt-outcome--yes").hide();
+		// 		}
+		// 	}
+
+		// 	else if ((localStorage.getItem('veteranFlow') === 'true') || localStorage.getItem('claimantFlow') === 'true') {
+
+		// 		if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+		// 			(localStorage.getItem('realStudent') === 'true') &&
+		// 			(localStorage.getItem('careForStudentOrFTB') === 'true')) {
+		// 			$(".pt-outcome--yes").show();
+		// 			$(".pt-outcome--no, .pt-outcome--maybe").hide();
+
+		// 		} else if (localStorage.getItem('realStudent') === 'false') {
+		// 			$(".pt-outcome--no").show();
+		// 			$(".pt-outcome--yes, .pt-outcome--maybe").hide();
+
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+		// 			(localStorage.getItem('realStudent') === 'true') &&
+		// 			(localStorage.getItem('careForStudentOrFTB') === 'true')) {
+		// 			$(".pt-outcome--yes").show();
+		// 			$(".pt-outcome--no, .pt-outcome--maybe").hide();
+
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
+		// 			(localStorage.getItem('realStudent') === 'true') &&
+		// 			(localStorage.getItem('careForStudentOrFTB') === 'true')) {
+		// 			$(".pt-outcome--maybe").show();
+		// 			$(".pt-outcome--no, .pt-outcome--yes").hide();
+
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'true') &&
+		// 			(localStorage.getItem('realStudent') === 'true') &&
+		// 			(localStorage.getItem('careForStudentOrFTB') === 'false')) {
+		// 			$(".pt-outcome--maybe").show();
+		// 			$(".pt-outcome--no, .pt-outcome--yes").hide();
+
+		// 		} else if ((localStorage.getItem('veteranSignificantlyInjured') === 'false') &&
+		// 			(localStorage.getItem('realStudent') === 'true') &&
+		// 			(localStorage.getItem('careForStudentOrFTB') === 'false')) {
+		// 			$(".pt-outcome--maybe").show();
+		// 			$(".pt-outcome--no, .pt-outcome--yes").hide();
+		// 		} else {
+		// 			$(".pt-outcome--no, .pt-outcome--yes, .pt-outcome--maybe").hide();
+		// 		}
+		// 	}
+
+		// }
 
 
 	}
@@ -597,7 +675,10 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
 		$(".pt-studentLivingWithPartnerLessRate").hide();
+
 		$(".upload-list").show();
+
+
 
 		$("#firstName").focusout(function () {
 			if ($(this).val()) {
@@ -607,6 +688,38 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('studentName');
 			}
 		});
+
+
+
+		if (localStorage.getItem('studentAge') > 15) {
+
+			if ("studentFlow" in localStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--student")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+			if ("veteranFlow" in localStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--veteran")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+			if ("claimantFlow" in localStorage) {
+				$(".pt-studentAge--mature").each(function () {
+					if ($(this).is(".pt-flow--claimant")) {
+						$(this).show("fast");
+					}
+				});
+			}
+
+		} else {
+			$(".pt-studentAge--mature").hide("slow");
+		}
 
 		$('input[name=studyAwayFromHomeRadio]').change(function () {
 
@@ -639,53 +752,7 @@ jQuery(document).ready(function ($) {
 			$(".pt-showIfStudentLivingAtHome").show();
 		});
 
-		// Calculate student age
-		$(".pt-student-dob > :input").focusout(function () {
-			var dobDay = $("#dd-date").val();
-			var dobMonth = $("#mm-date").val();
-			var dobYear = $("#yyyy-date").val();
 
-			if (dobDay && dobMonth && dobYear) {
-				var dob = dobYear + '-' + dobMonth + '-' + dobDay;
-				dob = new Date(dob);
-				var today = new Date();
-				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-				console.log(age + ' years old');
-				localStorage.removeItem('studentAge');
-				localStorage.setItem('studentAge', age);
-
-				// TODO: handle state better and make this a separate function 
-				if (localStorage.getItem('studentAge') > 15) {
-
-					if ("veteranFlow" in localStorage) {
-						$(".pt-studentAge--mature").each(function () {
-							if ($(this).is(".pt-flow--veteran")) {
-								$(this).show("fast");
-							}
-						});
-					}
-
-					if ("studentFlow" in localStorage) {
-						$(".pt-studentAge--mature").each(function () {
-							if ($(this).is(".pt-flow--student")) {
-								$(this).show("fast");
-							}
-						});
-					}
-
-					if ("claimantFlow" in localStorage) {
-						$(".pt-studentAge--mature").each(function () {
-							if ($(this).is(".pt-flow--claimant")) {
-								$(this).show("fast");
-							}
-						});
-					}
-
-				} else {
-					$(".pt-studentAge--mature").hide("slow");
-				}
-			}
-		});
 
 		if (localStorage.getItem('studentAge') > 15) {
 
@@ -936,9 +1003,13 @@ jQuery(document).ready(function ($) {
 
 		$('input[name=enroleStatus]').change(function () {
 			if ($('input[name=enroleStatus]:checked').val() === 'no') {
+				localStorage.removeItem('enroleStatus');
+
 				$(".pt-noLongerEligibleTwo").show();
 				$(".pt-showIfEnrolled").hide();
 			} else {
+				localStorage.removeItem('enroleStatus');
+				localStorage.setItem('enroleStatus', true);
 				$(".pt-noLongerEligibleTwo").hide();
 				$(".pt-showIfEnrolled").show();
 			}
@@ -947,7 +1018,7 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
-		$(".pt-showIfCentrelinkCustomer").hide();
+
 		$('.pt-studentAge--mature').hide();
 		$('.pt-showIfEducationAllowanceTaxed').hide();
 		$('.pt-showIfCarePercentageLow').hide();
@@ -976,21 +1047,7 @@ jQuery(document).ready(function ($) {
 		// 		$(".pt-showIfCentrelinkCustomer").show('fast');
 		// 	}
 		// });
-		$('input[name=fTBYou]').change(function () {
-			if ($('input[name=fTBYou]:checked').val() === 'yes') {
-				$(".pt-showIfCentrelinkCustomer").show('fast');
-			} else {
-				$(".pt-showIfCentrelinkCustomer").hide();
-			}
-		});
 
-		$('input[name=fTBYou]').change(function () {
-			if ($('input[name=fTBYou]:checked').val() === 'yes') {
-				$(".pt-showIfCentrelinkCustomer").show('fast');
-			} else {
-				$(".pt-showIfCentrelinkCustomer").hide();
-			}
-		});
 
 		$("#percentageCare").focusout(function () {
 			if (this.value < 0 || this.value > 100) {
@@ -1124,8 +1181,9 @@ jQuery(document).ready(function ($) {
 			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
 
 		}
+
 		// check student age
-		if ("studentAge" in localStorage) {
+		if (("studentAge" in localStorage) && ("enroleStatus" in localStorage)) {
 			this.studentAge = localStorage.getItem('studentAge');
 			if (this.studentAge > 15) {
 				this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
@@ -1202,6 +1260,10 @@ jQuery(document).ready(function ($) {
 					label.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
 					label.querySelector('.uikit-btn').innerHTML = 'Remove';
 					label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
+
+					$('.file-upload--add').show();
+
+
 
 					var status = label.querySelector('.file-upload__file-name').closest('tr');
 
