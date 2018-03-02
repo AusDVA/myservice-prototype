@@ -81,18 +81,24 @@ New registration flow for broadening
 app.get('/register', function (request, response) {
   response.render('unauth/registration/pages/register');
 });
+app.get('/register-alternate', function (request, response) {
+  response.render('unauth/registration/pages/register-alternate');
+});
+app.get('/register-2', function (request, response) {
+  response.render('unauth/registration/pages/register-2');
+});
 /* PMKeys only */
-app.get('/register-pmkeys-only1', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only1');
+app.get('/register-3', function (request, response) {
+  response.render('unauth/registration/pages/register-3');
 });
-app.get('/register-pmkeys-only2', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only2');
+app.get('/register-4', function (request, response) {
+  response.render('unauth/registration/pages/register-4');
 });
-app.get('/register-pmkeys-only3', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only3');
+app.get('/register-5', function (request, response) {
+  response.render('unauth/registration/pages/register-5');
 });
-app.get('/register-service-number4', function (request, response) {
-  response.render('unauth/registration/pages/register-service-number4');
+app.get('/register-6', function (request, response) {
+  response.render('unauth/registration/pages/register-6');
 });
 
 
@@ -239,8 +245,13 @@ app.get('/terms-and-conditions', function (request, response) {
   response.render('global/pages/terms-and-conditions');
 });
 
-/* Claims page */
+/* Claims Page */
 app.get('/claims', function (request, response) {
+  response.render('auth/claim/pages/claims');
+});
+
+/* Claims Page 2? */
+app.get('/claims2', function (request, response) {
   response.render('auth/claims');
 });
 
