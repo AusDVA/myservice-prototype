@@ -254,14 +254,14 @@ jQuery(document).ready(function ($) {
 			id13: "School address",
 			id14: "School phone number",
 			id15: "What type of education will the student be studying this year?",
-			id16: "Where is James studying?",
+			id16: "Where is James studying? xxx",
 			id17: "Course name / Degree name",
 			id18: "Course Code  / Degree code",
 			id19: "Date the student started or plan to start studying <span class='hint'>(DD / MM / YYYY)</span>",
 			id20: "Date the student plans to complete their studies <span class='hint'>(  MM / YYYY)</span>",
-			id21: "Is James studying full time?",
+			id21: "Is James studying full time? xxx",
 			id21b: "When do you intend on returning to full-time study? <span class='hint'>(optional)</span>  <span class='hint'>(  MM / YYYY)</span>",
-			id21c: "Is James enrolled?",
+			id21c: "Is James enrolled? xxx",
 			id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
 			id21u: "Please provide evidence to explain why the student is studying part-time",
 			id22: "Is this the student’s address? ",
@@ -377,13 +377,20 @@ jQuery(document).ready(function ($) {
 	// All student pages 
 	if (window.location.href.indexOf("student") > -1) {
 
-
 		console.log('All student pages');
-		// $(".pt-showIfDocumentUploadShoppingCart").hide();
-		// if (localStorage.getItem('docUploads') === 'shopping') {
-		// 	$(".pt-showIfDocumentUploadShoppingCart").show();
-		// }
 
+		$(".pt-showIfDocumentUploadShoppingCart").hide();
+
+		if (localStorage.getItem('studentName')) {
+			var apostrophe = "'";
+			if (localStorage.getItem('studentName').slice(-1) !== "s") {
+				apostrophe = apostrophe + "s";
+			}
+		}
+		var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
+
+		$(".studentNameApostrophed").html(studentApostrophedName);
+		$(".studentName").html(localStorage.getItem('studentName'));
 
 		$(".upload-list").show();
 	}
@@ -987,6 +994,15 @@ jQuery(document).ready(function ($) {
 		$(".pt-noLongerEligibleTwo").hide();
 		$(".pt-showIfStudyLoadNotAnswered").hide();
 		$(".pt-showIfEnrolled").hide();
+
+		// skip the financial details if we're in veteran flow
+		if ("veteranFlow" in localStorage) {
+			$('.btnNext').click(function () {
+				event.stopPropagation();
+				window.location.href = '/studentclaimupload';
+			})
+		}
+
 
 		if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
 			$(".pt-showIfNotPrimaryStudent").show('fast');
