@@ -389,17 +389,23 @@ jQuery(document).ready(function ($) {
 	}
 
 
+	// TODO:: handle reset if change of age after other flows
 	if (window.location.pathname === "/studentpreeligibility") {
 
-		$(".pt-showIfStudentShouldClaimThemselves").hide();
-		$(".pt-showIfStudentUnder18").hide();
-		$(".pt-showIfCentrelinkCustomer").hide();
-		$(".pt-showIfYourFTB").hide();
-		$(".pt-showIfSomeoneElseFTB").hide();
-		$(".pt-showIfNoFTB").hide();
-		$(".pt-showIfStudentBetween16and18").hide();
+		function init() {
+			$(".pt-showIfStudentShouldClaimThemselves").hide();
+			$(".pt-showIfStudentUnder18").hide();
+			$(".pt-showIfCentrelinkCustomer").hide();
+			$(".pt-showIfYourFTB").hide();
+			$(".pt-showIfSomeoneElseFTB").hide();
+			$(".pt-showIfNoFTB").hide();
+			$(".pt-showIfStudentBetween16and18").hide();
+			$(".pt-showIfStudentUnder0").hide();
+			$(".pt-showIfNoTFN").hide();
+			$(".pt-showFTBIsBest").hide();
+		}
 
-
+		init();
 
 		$('input[name=fTBYou]').change(function () {
 			if ($('input[name=fTBYou]:checked').val() === 'yes') {
@@ -407,21 +413,50 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfYourFTB").show();
 				$(".pt-showIfSomeoneElseFTB").hide();
 				$(".pt-showIfCentrelinkCustomer").show();
+				localStorage.removeItem('veteranReceivesFTB');
+				localStorage.setItem('veteranReceivesFTB', true);
+
+				if ("veteranFlow" in localStorage) {
+					if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+						$(".pt-showFTBIsBest").show();
+					}
+				}
+
 			} else {
 				$(".pt-showIfYourFTB").hide();
 				$(".pt-showIfSomeoneElseFTB").show();
 				$(".pt-showIfCentrelinkCustomer").hide();
+				localStorage.removeItem('veteranReceivesFTB');
+				localStorage.setItem('veteranReceivesFTB', false);
 			}
+
+
+			// if student 16 or 17 ask for TFN
+			if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+				$(".pt-showIfStudentBetween16and18").show();
+			} else {
+				$(".pt-showIfStudentBetween16and18").hide();
+			}
+
+
 		});
 
 		$('input[name=fTBSomeoneElse]').change(function () {
 			if ($('input[name=fTBSomeoneElse]:checked').val() === 'yes') {
 
-				$(".pt-showIfNoFTB").hide();
-				$(".pt-showIfCentrelinkCustomer").show();
-			} else {
 				$(".pt-showIfNoFTB").show();
+			} else {
+				$(".pt-showIfNoFTB").hide();
 				$(".pt-showIfCentrelinkCustomer").hide();
+			}
+		});
+
+		$('input[name=doesStudentHaveTFN]').change(function () {
+			if ($('input[name=doesStudentHaveTFN]:checked').val() === 'yes') {
+				localStorage.removeItem('studentHasTFN');
+				localStorage.setItem('studentHasTFN', true);
+			} else {
+				localStorage.removeItem('studentHasTFN');
 			}
 		});
 
@@ -429,45 +464,52 @@ jQuery(document).ready(function ($) {
 
 
 		// Calculate student age
-		$(".pt-student-dob > :input").focusout(function () {
+		$(".pt-student-dob > :input").keyup(function () {
 			var dobDay = $("#dd-date").val();
 			var dobMonth = $("#mm-date").val();
 			var dobYear = $("#yyyy-date").val();
 
-			if (dobDay && dobMonth && dobYear) {
+			// if a valid date
+			if (dobDay && dobMonth && (dobYear.length === 4)) {
 				var dob = dobYear + '-' + dobMonth + '-' + dobDay;
 				dob = new Date(dob);
 				var today = new Date();
 				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
-				console.log(age + ' years old');
+
 				localStorage.removeItem('studentAge');
 				localStorage.setItem('studentAge', age);
 
-				// TODO: handle state better and make this a separate function 
+				// validation:: older than 5
+				if (localStorage.getItem('studentAge') < 6) {
+					init();
+					$(".pt-showIfStudentUnder0").show();
+				} else {
+					$(".pt-showIfStudentUnder0").hide();
 
-				if ("veteranFlow" in localStorage) {
+					// veteran flow only
+					if ("veteranFlow" in localStorage) {
 
-					if (localStorage.getItem('studentAge') > 17) {
-						$(".pt-showIfStudentShouldClaimThemselves").show();
-						$(".pt-showIfStudentUnder18").hide();
-					} else {
-						$(".pt-showIfStudentShouldClaimThemselves").hide();
-						$(".pt-showIfStudentUnder18").show();
+						// if over 18, suggest student claims on their own 
+						if (localStorage.getItem('studentAge') > 17) {
+							$(".pt-showIfStudentShouldClaimThemselves").show();
+							$(".pt-showIfStudentUnder18").hide();
+						} else {
+							$(".pt-showIfStudentShouldClaimThemselves").hide();
+							$(".pt-showIfStudentUnder18").show();
+						}
 
-					}
 
-					if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
-						$(".pt-showIfStudentBetween16and18").show();
-					} else {
-						$(".pt-showIfStudentBetween16and18").hide();
 					}
 				}
 
-
-
-
 			}
 		});
+
+
+
+
+
+
 		// Page eligibility
 		// $(".pt-outcome").hide();
 		// $(".pt-showIfStudentConfirm").hide();
@@ -675,8 +717,9 @@ jQuery(document).ready(function ($) {
 		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
 		$(".pt-studentLivingWithPartnerLessRate").hide();
-
+		$(".pt-showLivingLocation").hide();
 		$(".upload-list").show();
+		$(".pt-showIfLivingAwayFromHome").hide();
 
 
 
@@ -721,35 +764,44 @@ jQuery(document).ready(function ($) {
 			$(".pt-studentAge--mature").hide("slow");
 		}
 
-		$('input[name=studyAwayFromHomeRadio]').change(function () {
+		$('input[name=studentLivingLocation]').change(function () {
 
+			localStorage.removeItem('studentLivingLocation');
+			localStorage.setItem('studentLivingLocation', $('input[name=studentLivingLocation]:checked').val());
 
-			if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'away-from-home') {
-				$(".pt-showIfLivingAway").show('fast');
-				$(".pt-showIfNoPartner").hide();
-
-				localStorage.removeItem('studyAwayFromHome');
-				localStorage.setItem('studyAwayFromHome', true);
-
-				if (localStorage.getItem('studentPartneredRelationship') === 'no') {
-					$(".pt-showIfNoPartner").show('fast');
-				}
-				// } else if ($('input[name=studyAwayFromHomeRadio]:checked').val() === 'at-home') { 
-			} else { // student is homeless or at home
+			if ($('input[name=studentLivingLocation]:checked').val() === 'homeless') {
 				$(".pt-showIfLivingAway").hide();
 				$(".pt-showIfNoPartner").hide();
-				localStorage.removeItem('studyAwayFromHome');
+				// localStorage.removeItem('studyAwayFromHome');
 
 				// skip the living arrangment details 
 				$('.btnNext').click(function () {
 					event.stopPropagation();
 					window.location.href = 'studentclaim3';
 				})
+			} else { // student is homeless or at home
+
+
+				$(".pt-showIfLivingAway").show('fast');
+				$(".pt-showIfNoPartner").hide();
+
+				if (localStorage.getItem('studentPartneredRelationship') === 'no') {
+					$(".pt-showIfNoPartner").show();
+				}
+
 			}
+
+			if ($('input[name=studentLivingLocation]:checked').val() === 'away-from-home') {
+				$(".pt-showIfLivingAwayFromHome").show();
+			} else {
+				$(".pt-showIfLivingAwayFromHome").hide();
+			}
+
+
 		});
 
 		$('input[name=engagedInFullTimeEmployment]').change(function () {
-			$(".pt-showIfStudentLivingAtHome").show();
+			$(".pt-showLivingLocation").show();
 		});
 
 
@@ -842,11 +894,26 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+		$('input[name=studentLivingAwayValidReason]').change(function () {
+			if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes') {
+				localStorage.removeItem('studentLivingAwayValidReason');
+				localStorage.setItem('studentLivingAwayValidReason', true);
+
+			} else {
+				localStorage.removeItem('studentLivingAwayValidReason');
+				// localStorage.setItem('studentLivingAwayValidReason', false);
+
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'at-home');
+			}
+		});
+
+
 
 	}
 
 	if (window.location.pathname === "/studentclaim2") {
-		// Page 2
+		// Page 2 
 
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
@@ -857,6 +924,11 @@ jQuery(document).ready(function ($) {
 
 		$(".pt-showIfNotPrimaryStudent").show();
 
+
+		if (localStorage.getItem('studentLivingLocation') === 'at-home') {
+			$(".pt-showIfLivingAway").hide();
+		}
+
 		$("#studyAwayFromHomeExplanation").change(function () {
 			var selected_option = $('#studyAwayFromHomeExplanation').val();
 			if (selected_option === 'homeless') {
@@ -866,11 +938,13 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		$('input[name=requireRentAssistanceRadio]').change(function () {
-			if ($('input[name=requireRentAssistanceRadio]:checked').val() === 'yes') {
+		$('input[name=isStudentRenting]').change(function () {
+			if ($('input[name=isStudentRenting]:checked').val() === 'yes') {
 				$(".pt-showIfRequireRentAssistance").show('fast');
+				localStorage.removeItem('studentRenting');
+				localStorage.setItem('studentRenting', true);
 			} else {
-				$(".pt-showIfRequireRentAssistance").hide();
+				localStorage.removeItem('studentRenting');
 			}
 		});
 
@@ -1175,9 +1249,18 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
+
+		// if ("relationshipType" in localStorage) {
+
 		// check relationship 
-		if ("relationshipType" in localStorage) {
+
+		console.log('relationship');
+		console.log(localStorage.getItem('veteranReceivesFTB'));
+		console.log(localStorage.getItem('studentName'));
+
+		if ((localStorage.getItem('veteranReceivesFTB') === 'false') && (localStorage.getItem('studentName') !== null)) {
 			// Proof of relationship for all
+			console.log('need proof of relationship now');
 			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
 
 		}
@@ -1190,7 +1273,8 @@ jQuery(document).ready(function ($) {
 			}
 		}
 		// check if living away from home
-		if ("studyAwayFromHome" in localStorage) {
+
+		if (localStorage.getItem('studentRenting')) {
 			this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
 		} else {
 			var i = this.docsRequired.indexOf("proofOfResidence");
@@ -1244,6 +1328,8 @@ jQuery(document).ready(function ($) {
 
 
 	// PoC file upload for prototype
+	// TODO:: handle cancel 
+	// TODO:: add additional items 
 	; (function (document, window, index) {
 		var inputs = document.querySelectorAll('.file-upload__input');
 		Array.prototype.forEach.call(inputs, function (input) {
@@ -1262,8 +1348,6 @@ jQuery(document).ready(function ($) {
 					label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
 
 					$('.file-upload--add').show();
-
-
 
 					var status = label.querySelector('.file-upload__file-name').closest('tr');
 
