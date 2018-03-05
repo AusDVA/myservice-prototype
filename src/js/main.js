@@ -379,10 +379,10 @@ jQuery(document).ready(function ($) {
 
 
 		console.log('All student pages');
-		$(".pt-showIfDocumentUploadShoppingCart").hide();
-		if (localStorage.getItem('docUploads') === 'shopping') {
-			$(".pt-showIfDocumentUploadShoppingCart").show();
-		}
+		// $(".pt-showIfDocumentUploadShoppingCart").hide();
+		// if (localStorage.getItem('docUploads') === 'shopping') {
+		// 	$(".pt-showIfDocumentUploadShoppingCart").show();
+		// }
 
 
 		$(".upload-list").show();
@@ -720,6 +720,7 @@ jQuery(document).ready(function ($) {
 		$(".pt-showLivingLocation").hide();
 		$(".upload-list").show();
 		$(".pt-showIfLivingAwayFromHome").hide();
+		$(".pt-showIfDocumentUploadShoppingCart").hide();
 
 
 
@@ -1183,7 +1184,12 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim6") {
 
 
-		// var someFormattedDate = dd + '/' + mm + '/' + y;
+		$(".pt-showIfNoStudentTFN").hide();
+
+		if (!(localStorage.getItem('studentHasTFN'))) {
+
+			$(".pt-showIfNoStudentTFN").show();
+		}
 
 		var businessDays = 5, counter = 1; // set to 1 to count from next business day
 		while (businessDays > 0) {
@@ -1222,12 +1228,11 @@ jQuery(document).ready(function ($) {
 		setInterval(function () {
 
 			_this.checkDocs();
-		}, 3500);
+		}, 1500);
 	};
 
 	Person.prototype.checkDocs = function () {
 		this.i++;
-
 
 		// list of docs
 		// Proof of relationship = proofOfRelationship
@@ -1239,7 +1244,6 @@ jQuery(document).ready(function ($) {
 		// check type of person 
 		if (("studentFlow" in localStorage) || ("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
 
-
 			if ("studentFlow" in localStorage) {
 				this.type = 'student';
 			} else if ("veteranFlow" in localStorage) {
@@ -1250,19 +1254,9 @@ jQuery(document).ready(function ($) {
 		}
 
 
-		// if ("relationshipType" in localStorage) {
-
 		// check relationship 
-
-		console.log('relationship');
-		console.log(localStorage.getItem('veteranReceivesFTB'));
-		console.log(localStorage.getItem('studentName'));
-
 		if ((localStorage.getItem('veteranReceivesFTB') === 'false') && (localStorage.getItem('studentName') !== null)) {
-			// Proof of relationship for all
-			console.log('need proof of relationship now');
 			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
-
 		}
 
 		// check student age
@@ -1314,9 +1308,15 @@ jQuery(document).ready(function ($) {
 		}
 
 		// show all required docs 
-		$.each(this.docsRequired, function () {
-			$('.pt-' + this).show('slow');
-		});
+		console.log('number of docs required = ' + this.docsRequired.length);
+
+		if (this.docsRequired.length > 0) {
+			$(".pt-showIfDocumentUploadShoppingCart").show();
+			$.each(this.docsRequired, function () {
+				$('.pt-' + this).show('slow');
+			});
+		}
+
 
 		// console.log(this.docsRequired);
 		// console.log(this.studentAge);

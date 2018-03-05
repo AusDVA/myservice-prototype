@@ -344,10 +344,11 @@ jQuery(document).ready(function ($) {
 	if (window.location.href.indexOf("student") > -1) {
 
 		console.log('All student pages');
-		$(".pt-showIfDocumentUploadShoppingCart").hide();
-		if (localStorage.getItem('docUploads') === 'shopping') {
-			$(".pt-showIfDocumentUploadShoppingCart").show();
-		}
+		// $(".pt-showIfDocumentUploadShoppingCart").hide();
+		// if (localStorage.getItem('docUploads') === 'shopping') {
+		// 	$(".pt-showIfDocumentUploadShoppingCart").show();
+		// }
+
 
 		$(".upload-list").show();
 	}
@@ -665,6 +666,7 @@ jQuery(document).ready(function ($) {
 		$(".pt-showLivingLocation").hide();
 		$(".upload-list").show();
 		$(".pt-showIfLivingAwayFromHome").hide();
+		$(".pt-showIfDocumentUploadShoppingCart").hide();
 
 		$("#firstName").focusout(function () {
 			if ($(this).val()) {
@@ -1096,7 +1098,12 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim6") {
 
-		// var someFormattedDate = dd + '/' + mm + '/' + y;
+		$(".pt-showIfNoStudentTFN").hide();
+
+		if (!localStorage.getItem('studentHasTFN')) {
+
+			$(".pt-showIfNoStudentTFN").show();
+		}
 
 		var businessDays = 5,
 		    counter = 1; // set to 1 to count from next business day
@@ -1136,7 +1143,7 @@ jQuery(document).ready(function ($) {
 		setInterval(function () {
 
 			_this.checkDocs();
-		}, 3500);
+		}, 1500);
 	};
 
 	Person.prototype.checkDocs = function () {
@@ -1161,17 +1168,8 @@ jQuery(document).ready(function ($) {
 			}
 		}
 
-		// if ("relationshipType" in localStorage) {
-
 		// check relationship 
-
-		console.log('relationship');
-		console.log(localStorage.getItem('veteranReceivesFTB'));
-		console.log(localStorage.getItem('studentName'));
-
 		if (localStorage.getItem('veteranReceivesFTB') === 'false' && localStorage.getItem('studentName') !== null) {
-			// Proof of relationship for all
-			console.log('need proof of relationship now');
 			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
 		}
 
@@ -1222,9 +1220,14 @@ jQuery(document).ready(function ($) {
 		}
 
 		// show all required docs 
-		$.each(this.docsRequired, function () {
-			$('.pt-' + this).show('slow');
-		});
+		console.log('number of docs required = ' + this.docsRequired.length);
+
+		if (this.docsRequired.length > 0) {
+			$(".pt-showIfDocumentUploadShoppingCart").show();
+			$.each(this.docsRequired, function () {
+				$('.pt-' + this).show('slow');
+			});
+		}
 
 		// console.log(this.docsRequired);
 		// console.log(this.studentAge);
