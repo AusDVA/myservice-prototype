@@ -156,6 +156,91 @@
 
 			<hr>
 
+			<h2>Accordian edit form</h2>
+			<p>Accordian edit forms limit the user to edit one field at a time. If a user presses a <i>Change</i> button they are presented with the option to edit that field. Other editable fields on the page are disabled until the user saves or cancels the field they are editting.</p>
+			<p>Validation appears as shown in the <i>Home phone number</i> field shown below when the <i>Change</i> button is pressed</p>
+
+			<div class="example-box">
+			<h6>EXAMPLE ACCORDIAN EDIT FORM</h6>
+			<div class="profile-table">
+				<div class="row profile-row">
+					<div class="col-sm-10 col-xs-8 description-fields">
+						<div class="row">
+							<div class="col-sm-4 title-field">Drop-down</div>
+							<div class="col-sm-8 uneditable dd-uneditable-div">3</div>
+							<div class="col-sm-8 editable dd-editable-div" style="display:none;">
+								<select class="uikit-text-input" id="drop-down" name="drop-down">
+									<option>-- Select an item --</option>
+									<option>Item 1</option>
+									<option>Item 2</option>
+									<option selected>Item 3</option>
+									<option>Item 4</option>
+								</select>
+								<button class="uikit-btn uikit-btn--tertiary small cancel-dd-button">Cancel</button>
+								<button class="uikit-btn small save-dd-button">Save</button>
+								<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 col-xs-4 change-button">
+						<button class="uikit-btn uikit-btn--tertiary small edit-dd-button">Change</button>
+					</div>
+				</div>
+				<div class="row profile-row">
+					<div class="col-sm-10 col-xs-8 description-fields">
+						<div class="row">
+							<div class="col-sm-4 title-field">Input text field</div>
+							<div class="col-sm-8 uneditable text-uneditable-div">Input text</div>
+							<div class="col-sm-8 editable text-editable-div" style="display:none;">
+								<input class="uikit-text-input" name="Input field" id="Input field" type="text" value="Input text" required aria-required="true">
+								<button class="uikit-btn uikit-btn--tertiary small cancel-text-button">Cancel</button>
+								<button class="uikit-btn small save-text-button">Save</button>
+								<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-2 col-xs-4 change-button">
+						<button class="uikit-btn uikit-btn--tertiary small edit-text-button">Change</button>
+					</div>
+				</div>
+				<div class="row profile-row">
+					<div class="col-sm-10 col-xs-8 description-fields">
+						<div id="error-example" class="row">
+						<div class="col-sm-4 title-field">Home phone number</div>
+						<div class="col-sm-8 uneditable home-uneditable-div">
+							<span id="home-span" class="no-value">Not provided</span>
+						</div>
+						<div class="col-sm-6 editable home-editable-div" style="display:none;">
+							<span class="hint display-block">Please include your area code (for example, "03" for Victoria)</span>
+							<span id="phone-error" class="input-error-profile" aria-live="polite">Enter a valid home phone number</span>
+							<input class="uikit-text-input" name="home-phone" id="home-phone" type="text" value="">
+							<button class="uikit-btn uikit-btn--tertiary small cancel-home-button">Cancel</button>
+							<button class="uikit-btn small save-home-button">Save</button>
+							<div class="waiting-animation ico-waiting-inline" style="display:none;"></div>
+						</div>
+						</div>
+					</div>
+					<div class="col-sm-2 col-xs-4 change-button">
+						<button class="uikit-btn uikit-btn--tertiary small edit-home-button">Change</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<br/>
+		<p>The fields stack in smaller viewports such that the title field and the change button are side-by-side with the value or input fields stacking beneath them.</p>
+
+		<div class="example-box">
+			<h6>EXAMPLE OF ACCORDIAN EDIT FORM IN MOBILE VIEWPORT</h6>
+			<img src="../../../docs/images/styleguide/sg-accordian-edit-form.png" style="width:18em">		
+		</div>
+
+		<br/>
+
+		<h3>Note on using accordian edit forms</h3>
+		<p>The purpose of the accordian edit form is to limit the user to edit one field at a time. Within the form there these limitations exist, however the user is to free to click on navigation items. Clicking on a navigation in the <i>edit</i> state could result in loss of changes. Use a modal in this case to warn the user that they could lose changes.</p>
+
+		<hr>
 		</div>
 		<% include ../partials/sidenav.ejs %>
 	</div>
@@ -176,6 +261,126 @@ $( "#no" ).click(function() {
 	$( "#yes-content" ).hide();
 	$( "#no-content" ).show("fast");
 });
+
+
+// mimic functionality need after a save button is pressed
+// to disable all edit buttons to allow for saving time
+var fewSeconds = 2;
+
+// When the edit field is cicked for title
+$(".edit-dd-button").click(function () {
+	$(".dd-editable-div").show();
+	$(".save-dd-button").show();
+	$(".edit-dd-button").hide();
+	$(".dd-uneditable-div").hide();
+	// disable other edit fields
+	$('.edit-text-button, .edit-home-button').prop('disabled', true);
+});
+
+// When the save field is cicked for title
+$(".save-dd-button").click(function () {
+
+	var btn = $(".save-dd-button, .cancel-dd-button");
+	btn.prop('disabled', true);
+	$('.waiting-animation').show();
+	setTimeout(function () {
+		btn.prop('disabled', false);
+		// re-enable other edit fields
+		$('.edit-text-button, .edit-home-button').prop('disabled', false);
+		$(".dd-editable-div").hide();
+		$(".save-dd-button").hide();
+		$(".edit-dd-button").show();
+		$(".dd-uneditable-div").show();
+		$('.waiting-animation').hide();
+	}, fewSeconds * 1000);
+});
+
+// When the cancel field is cicked for title
+$(".cancel-dd-button").click(function () {
+	$(".dd-editable-div").hide();
+	$(".save-dd-button").hide();
+	$(".edit-dd-button").show();
+	$(".dd-uneditable-div").show();
+	// re-enable other edit fields
+	$('.edit-text-button, .edit-home-button').prop('disabled', false);
+});
+
+// When the edit field is cicked for title
+$(".edit-text-button").click(function () {
+	$(".text-editable-div").show();
+	$(".save-text-button").show();
+	$(".edit-text-button").hide();
+	$(".text-uneditable-div").hide();
+	// disable other edit fields
+	$('.edit-dd-button, .edit-home-button').prop('disabled', true);
+});
+
+// When the save field is cicked for title
+$(".save-text-button").click(function () {
+
+	var btn = $(".save-text-button, .cancel-text-button");
+	btn.prop('disabled', true);
+	$('.waiting-animation').show();
+	setTimeout(function () {
+		btn.prop('disabled', false);
+		// re-enable other edit fields
+		$('.edit-dd-button, .edit-home-button').prop('disabled', false);
+		$(".text-editable-div").hide();
+		$(".save-text-button").hide();
+		$(".edit-text-button").show();
+		$(".text-uneditable-div").show();
+		$('.waiting-animation').hide();
+	}, fewSeconds * 1000);
+});
+
+// When the cancel field is cicked for title
+$(".cancel-text-button").click(function () {
+	$(".text-editable-div").hide();
+	$(".save-text-button").hide();
+	$(".edit-text-button").show();
+	$(".text-uneditable-div").show();
+	// re-enable other edit fields
+	$('.edit-dd-button, .edit-home-button').prop('disabled', false);
+});
+
+// When the edit field is cicked for title
+$(".edit-home-button").click(function () {
+	$(".home-editable-div").show();
+	$(".save-home-button").show();
+	$(".edit-home-button").hide();
+	$(".home-uneditable-div").hide();
+	// disable other edit fields
+	$('.edit-dd-button, .edit-text-button').prop('disabled', true);
+});
+
+// When the save field is cicked for title
+$(".save-home-button").click(function () {
+
+	var btn = $(".save-home-button, .cancel-home-button");
+	btn.prop('disabled', true);
+	$('.waiting-animation').show();
+	setTimeout(function () {
+		btn.prop('disabled', false);
+		// re-enable other edit fields
+		$('.edit-dd-button, .edit-text-button').prop('disabled', false);
+		$(".home-editable-div").hide();
+		$(".save-home-button").hide();
+		$(".edit-home-button").show();
+		$(".home-uneditable-div").show();
+		$('.waiting-animation').hide();
+	}, fewSeconds * 1000);
+});
+
+// When the cancel field is cicked for title
+$(".cancel-home-button").click(function () {
+	$(".home-editable-div").hide();
+	$(".save-home-button").hide();
+	$(".edit-home-button").show();
+	$(".home-uneditable-div").show();
+	// re-enable other edit fields
+	$('.edit-dd-button, .edit-text-button').prop('disabled', false);
+});
+
 </script>
 
 </body>
