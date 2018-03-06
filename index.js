@@ -291,6 +291,9 @@ app.get('/studentpreeligibility', function (request, response) {
 app.get('/studentclaim1', function (request, response) {
   response.render('auth/claim/pages/studentclaim1');
 });
+app.get('/studentclaim1a', function (request, response) {
+  response.render('auth/claim/pages/studentclaim1a');
+});
 app.get('/studentclaim2', function (request, response) {
   response.render('auth/claim/pages/studentclaim2');
 });
