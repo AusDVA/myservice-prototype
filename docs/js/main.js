@@ -128,17 +128,7 @@ jQuery(document).ready(function ($) {
 
 	// Student claim pages
 	// TODO:: this would be better placed in a separate file
-	if ("veteranFlow" in localStorage) {
-		$(".pt-flow--veteran").show("fast");
-	}
 
-	if ("studentFlow" in localStorage) {
-		$(".pt-flow--student").show("fast");
-	}
-
-	if ("claimantFlow" in localStorage) {
-		$(".pt-flow--claimant").show("fast");
-	}
 
 	// Student questions 
 	if ("studentFlow" in localStorage) {
@@ -317,74 +307,97 @@ jQuery(document).ready(function ($) {
 		$("#question_" + key).html(question[key]);
 	}
 
+	function initStudents() {
+		if ("veteranFlow" in localStorage) {
+			$(".pt-flow--veteran").show("fast");
+		}
+
+		if ("studentFlow" in localStorage) {
+			$(".pt-flow--student").show("fast");
+		}
+
+		if ("claimantFlow" in localStorage) {
+			$(".pt-flow--claimant").show("fast");
+		}
+	}
+
 	// TODO:: handle reset if change of age after other flows
 	if (window.location.pathname === "/studentpreeligibility") {
+
+		// if (localStorage.getItem('flow')) {
+		// 	// window.location.reload(true);
+		// 	setTimeout(window.location.reload.bind(window.location), 2050);
+		// }
+
+
 		var init = function init() {
-			if (true) {
 
-				var getUrlParameter = function getUrlParameter(sParam) {
-					var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-					    sURLVariables = sPageURL.split('&'),
-					    sParameterName,
-					    i;
+			var getUrlParameter = function getUrlParameter(sParam) {
+				var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+				    sURLVariables = sPageURL.split('&'),
+				    sParameterName,
+				    i;
 
-					for (i = 0; i < sURLVariables.length; i++) {
-						sParameterName = sURLVariables[i].split('=');
+				for (i = 0; i < sURLVariables.length; i++) {
+					sParameterName = sURLVariables[i].split('=');
 
-						if (sParameterName[0] === sParam) {
-							return sParameterName[1] === undefined ? true : sParameterName[1];
-						}
+					if (sParameterName[0] === sParam) {
+						return sParameterName[1] === undefined ? true : sParameterName[1];
 					}
-				};
-
-				var flow = getUrlParameter('flow');
-				var age = getUrlParameter('studentAge');
-				var docUploads = getUrlParameter('docUploads');
-				var act = getUrlParameter('act');
-
-				if (flow) {
-					localStorage.setItem(flow, true);
-					localStorage.setItem('flow', flow);
-					if (age) {
-						localStorage.setItem('studentAge', age);
-					}
-					if (docUploads) {
-						localStorage.setItem('docUploads', docUploads);
-					}
-					if (act) {
-						localStorage.setItem('act', act);
-					}
-				} else {
-					alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10');
 				}
+			};
 
-				// run when condition is met
-				$(".pt-showIfStudentShouldClaimThemselves").hide();
-				$(".pt-showIfStudentUnder18").hide();
-				$(".pt-showIfCentrelinkCustomer").hide();
-				$(".pt-showIfYourFTB").hide();
-				$(".pt-showIfSomeoneElseFTB").hide();
-				$(".pt-showIfNoFTB").hide();
-				$(".pt-showIfStudentBetween16and18").hide();
-				$(".pt-showIfStudentUnder0").hide();
-				$(".pt-showIfNoTFN").hide();
-				$(".pt-showFTBIsBest").hide();
-				$('.pt-showIfMRCA').hide();
-				$(".pt-showIfStudentFullTimeAndMRCA").hide();
+			var flow = getUrlParameter('flow');
+			var age = getUrlParameter('studentAge');
+			var docUploads = getUrlParameter('docUploads');
+			var act = getUrlParameter('act');
 
-				$(".pt-showIfStudentConfirmed").hide();
-				$('.pt-showIfEngagedInFullTimeEmployment').hide();
-				$(".pt-showIfStudentDependantOnVeteran").hide();
+			if (flow) {
+				localStorage.setItem(flow, true);
+				localStorage.setItem('flow', flow);
+				if (age) {
+					localStorage.setItem('studentAge', age);
+				}
+				if (docUploads) {
+					localStorage.setItem('docUploads', docUploads);
+				}
+				if (act) {
+					localStorage.setItem('act', act);
+				}
 			} else {
-				setTimeout(init, 1000); // check again in a second
+				alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10');
 			}
+
+			console.log('flooooo');
+			console.log(localStorage.getItem('flow'));
+			console.log(flow);
+
+			if (flow !== localStorage.getItem('flow')) {
+				window.location.reload(true);
+			}
+
+			initStudents();
+
+			// run when condition is met
+			$(".pt-showIfStudentShouldClaimThemselves").hide();
+			$(".pt-showIfStudentUnder18").hide();
+			$(".pt-showIfCentrelinkCustomer").hide();
+			$(".pt-showIfYourFTB").hide();
+			$(".pt-showIfSomeoneElseFTB").hide();
+			$(".pt-showIfNoFTB").hide();
+			$(".pt-showIfStudentBetween16and18").hide();
+			$(".pt-showIfStudentUnder0").hide();
+			$(".pt-showIfNoTFN").hide();
+			$(".pt-showFTBIsBest").hide();
+			$('.pt-showIfMRCA').hide();
+			$(".pt-showIfStudentFullTimeAndMRCA").hide();
+
+			$(".pt-showIfStudentConfirmed").hide();
+			$('.pt-showIfEngagedInFullTimeEmployment').hide();
+			$(".pt-showIfStudentDependantOnVeteran").hide();
 		};
 
 		localStorage.clear();
-
-		if (localStorage.getItem('flow')) {
-			window.location.reload(true);
-		}
 
 		init();
 
@@ -565,8 +578,10 @@ jQuery(document).ready(function ($) {
 		$(".upload-list").show();
 	}
 
+	// Page 1
 	if (window.location.pathname === "/studentclaim1") {
-		// Page 1
+
+		initStudents();
 		$(".pt-studentAge--mature").hide();
 		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
@@ -757,8 +772,11 @@ jQuery(document).ready(function ($) {
 		});
 	}
 
+	// Page 1a
 	if (window.location.pathname === "/studentclaim1a") {
-		// Page 1a
+
+		initStudents();
+
 		$(".pt-showLivingLocation").hide();
 		$(".pt-showIfLivingAwayFromHome").hide();
 
@@ -777,7 +795,7 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim2") {
 		// Page 2 
-
+		initStudents();
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
 		$(".pt-showIfRentAssistanceKnown").hide();
@@ -846,6 +864,8 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim3") {
 		// page 3
+		initStudents();
+
 		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfPrimary").hide();
 		$(".pt-showIfSecondary").hide();
@@ -944,6 +964,7 @@ jQuery(document).ready(function ($) {
 
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
+		initStudents();
 
 		$('.pt-studentAge--mature').hide();
 		$('.pt-showIfEducationAllowanceTaxed').hide();
@@ -1007,6 +1028,7 @@ jQuery(document).ready(function ($) {
 	}
 
 	if (window.location.pathname === "/studentclaim6") {
+		initStudents();
 
 		$(".pt-showIfNoStudentTFN").hide();
 
