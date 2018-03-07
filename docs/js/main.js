@@ -527,14 +527,20 @@ jQuery(document).ready(function ($) {
 
 		$(".pt-showIfDocumentUploadShoppingCart").hide();
 
+		// only for veteran and parent/guardian flows
 		if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
+			// get the name from storage 
 			if (localStorage.getItem('studentName')) {
+				// add '
 				var apostrophe = "'";
+				// add s to ' if student's name doesn't end in s
 				if (localStorage.getItem('studentName').slice(-1) !== "s") {
 					apostrophe = apostrophe + "s";
 				}
 			}
+
 			var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
+			// both apostrophed and straight names are used in the screens 
 			$(".studentNameApostrophed").html(studentApostrophedName);
 			$(".studentName").html(localStorage.getItem('studentName'));
 		} else {
