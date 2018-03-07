@@ -361,66 +361,56 @@ jQuery(document).ready(function ($) {
 
 		localStorage.clear();
 
-		// if (localStorage.getItem('flow')) {
-		// 	// window.location.reload(true);
-		// 	setTimeout(window.location.reload.bind(window.location), 2050);
-		// }
 
+
+
+		var getUrlParameter = function getUrlParameter(sParam) {
+			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+				sURLVariables = sPageURL.split('&'),
+				sParameterName,
+				i;
+
+			for (i = 0; i < sURLVariables.length; i++) {
+				sParameterName = sURLVariables[i].split('=');
+
+				if (sParameterName[0] === sParam) {
+					return sParameterName[1] === undefined ? true : sParameterName[1];
+				}
+			}
+		};
+
+		var flow = getUrlParameter('flow');
+		var age = getUrlParameter('studentAge');
+		var docUploads = getUrlParameter('docUploads');
+		var act = getUrlParameter('act');
+
+
+
+		if (flow) {
+			localStorage.setItem(flow, true);
+			localStorage.setItem('flow', flow);
+			if (age) {
+				localStorage.setItem('studentAge', age);
+			}
+			if (docUploads) {
+				localStorage.setItem('docUploads', docUploads);
+			}
+			if (act) {
+				localStorage.setItem('act', act);
+			}
+		} else {
+			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
+		}
+
+		if (flow !== (localStorage.getItem('flow'))) {
+			window.location.reload(true);
+		}
+
+		initStudents();
 
 		function init() {
+			console.log('loading init');
 
-
-			var getUrlParameter = function getUrlParameter(sParam) {
-				var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-					sURLVariables = sPageURL.split('&'),
-					sParameterName,
-					i;
-
-				for (i = 0; i < sURLVariables.length; i++) {
-					sParameterName = sURLVariables[i].split('=');
-
-					if (sParameterName[0] === sParam) {
-						return sParameterName[1] === undefined ? true : sParameterName[1];
-					}
-				}
-			};
-
-
-			var flow = getUrlParameter('flow');
-			var age = getUrlParameter('studentAge');
-			var docUploads = getUrlParameter('docUploads');
-			var act = getUrlParameter('act');
-
-
-
-			if (flow) {
-				localStorage.setItem(flow, true);
-				localStorage.setItem('flow', flow);
-				if (age) {
-					localStorage.setItem('studentAge', age);
-				}
-				if (docUploads) {
-					localStorage.setItem('docUploads', docUploads);
-				}
-				if (act) {
-					localStorage.setItem('act', act);
-				}
-			} else {
-				alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
-			}
-
-			console.log('flooooo');
-			console.log(localStorage.getItem('flow'));
-			console.log(flow);
-
-
-			if (flow !== (localStorage.getItem('flow'))) {
-				window.location.reload(true);
-			}
-
-			initStudents();
-
-			// run when condition is met
 			$(".pt-showIfStudentShouldClaimThemselves").hide();
 			$(".pt-showIfStudentUnder18").hide();
 			$(".pt-showIfCentrelinkCustomer").hide();
@@ -433,11 +423,9 @@ jQuery(document).ready(function ($) {
 			$(".pt-showFTBIsBest").hide();
 			$('.pt-showIfMRCA').hide();
 			$(".pt-showIfStudentFullTimeAndMRCA").hide();
-
 			$(".pt-showIfStudentConfirmed").hide();
 			$('.pt-showIfEngagedInFullTimeEmployment').hide();
 			$(".pt-showIfStudentDependantOnVeteran").hide();
-
 
 		}
 
@@ -493,7 +481,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-
 		$('input[name=engagedInFullTimeEmployment]').change(function () {
 			if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
 				$(".pt-showIfStudentFullTimeAndMRCA").show();
@@ -530,6 +517,7 @@ jQuery(document).ready(function ($) {
 
 						// if over 18, suggest student claims on their own 
 						if (localStorage.getItem('studentAge') > 17) {
+							init();
 							$(".pt-showIfStudentShouldClaimThemselves").show();
 							$(".pt-showIfStudentUnder18").hide();
 						} else {
@@ -1255,7 +1243,7 @@ jQuery(document).ready(function ($) {
 		}
 
 		// show all required docs 
-		console.log('number of docs required = ' + this.docsRequired.length);
+		//console.log('number of docs required = ' + this.docsRequired.length);
 
 		if (this.docsRequired.length > 0) {
 			$(".pt-showIfDocumentUploadShoppingCart").show();
