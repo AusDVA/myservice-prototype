@@ -317,11 +317,6 @@ jQuery(document).ready(function ($) {
 		$("#question_" + key).html(question[key]);
 	}
 
-	// Student landing page
-	if (window.location.pathname === "/student-assistance-landing") {
-		console.log('Student landing page');
-	}
-
 	// TODO:: handle reset if change of age after other flows
 	if (window.location.pathname === "/studentpreeligibility") {
 		var init = function init() {
@@ -387,6 +382,10 @@ jQuery(document).ready(function ($) {
 
 		localStorage.clear();
 
+		if (localStorage.getItem('flow')) {
+			window.location.reload(true);
+		}
+
 		init();
 
 		$('input[name=fTBYou]').change(function () {
@@ -426,6 +425,7 @@ jQuery(document).ready(function ($) {
 			} else {
 				$(".pt-showIfNoFTB").hide();
 				$(".pt-showIfCentrelinkCustomer").hide();
+
 				// if student 16 or 17 ask for TFN
 				if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
 					$(".pt-showIfStudentBetween16and18").show();
@@ -501,9 +501,7 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfStudentConfirmed").show();
 
 				$('input[name=engagedInFullTimeEmployment]').change(function () {
-					if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
-						// $(".pt-showIfStudentFullTimeAndMRCA").show();
-					} else {
+					if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {} else {
 						$('.pt-showIfEngagedInFullTimeEmployment').show();
 					}
 				});
@@ -520,12 +518,6 @@ jQuery(document).ready(function ($) {
 				$('.pt-showIfStudentDependantOnVeteran').hide();
 			}
 		});
-
-		// if (localStorage.removeItem('studentFlowConfirmed')) {
-
-
-		// }
-
 	}
 
 	// All student pages 
@@ -626,7 +618,7 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfLivingAway").hide();
 				$(".pt-showIfNoPartner").hide();
 
-				// skip the living arrangment details 
+				// skip the living arrangement details 
 				$('.btnNext').click(function () {
 					event.stopPropagation();
 					window.location.href = 'studentclaim3';
@@ -657,11 +649,6 @@ jQuery(document).ready(function ($) {
 				window.location.href = 'studentclaim1a';
 			});
 		}
-
-		// $('input[name=engagedInFullTimeEmployment]').change(function () {
-		// 	$(".pt-showLivingLocation").show();
-		// });
-
 
 		if (localStorage.getItem('studentAge') > 15) {
 
@@ -758,8 +745,6 @@ jQuery(document).ready(function ($) {
 				localStorage.setItem('studentLivingAwayValidReason', true);
 			} else {
 				localStorage.removeItem('studentLivingAwayValidReason');
-				// localStorage.setItem('studentLivingAwayValidReason', false);
-
 				localStorage.removeItem('studentLivingLocation');
 				localStorage.setItem('studentLivingLocation', 'at-home');
 			}
@@ -774,10 +759,6 @@ jQuery(document).ready(function ($) {
 		$('input[name=studentPartneredRelationship]').change(function () {
 
 			$(".pt-showLivingLocation").show();
-
-			// if ($('input[name=studentPartneredRelationship]:checked').val() === 'homeless') {
-
-			// }
 		});
 		$('input[name=studentLivingLocation]').change(function () {
 			if ($('input[name=studentLivingLocation]:checked').val() === 'away-from-home') {
@@ -897,13 +878,6 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('studentLevelOfStudy');
 				localStorage.setItem('studentLevelOfStudy', 'primary');
 				$(".pagination").find('button').prop('disabled', false);
-
-				// $("#studentGradeThisYearSelect option[value='7']").remove();
-				// $("#studentGradeThisYearSelect option[value='8']").remove();
-				// $("#studentGradeThisYearSelect option[value='9']").remove();
-				// $("#studentGradeThisYearSelect option[value='10']").remove();
-				// $("#studentGradeThisYearSelect option[value='11']").remove();
-				// $("#studentGradeThisYearSelect option[value='12']").remove();
 			} else if (selected_option === 'secondary') {
 				console.log(' selected_option = ' + selected_option);
 				$(".pt-noLongerEligible").hide();
@@ -914,15 +888,6 @@ jQuery(document).ready(function ($) {
 
 				localStorage.removeItem('studentLevelOfStudy');
 				localStorage.setItem('studentLevelOfStudy', 'secondary');
-
-				// $("#studentGradeThisYearSelect option[value='0']").remove();
-				// $("#studentGradeThisYearSelect option[value='1']").remove();
-				// $("#studentGradeThisYearSelect option[value='2']").remove();
-				// $("#studentGradeThisYearSelect option[value='3']").remove();
-				// $("#studentGradeThisYearSelect option[value='4']").remove();
-				// $("#studentGradeThisYearSelect option[value='5']").remove();
-				// $("#studentGradeThisYearSelect option[value='6']").remove();
-
 
 				$(".pagination").find('button').prop('disabled', false);
 			} else if (selected_option === 'tertiary' || selected_option === 'apprenticeship') {
@@ -942,9 +907,6 @@ jQuery(document).ready(function ($) {
 				localStorage.setItem('studentLevelOfStudy', 'tertiary');
 				$(".pagination").find('button').prop('disabled', false);
 			}
-
-			// $("#studentGradeThisYearSelect").removeItem
-
 		});
 
 		$('input[name=studyLoad]').change(function () {
@@ -988,24 +950,6 @@ jQuery(document).ready(function ($) {
 			$('.pt-studentAge--mature').show();
 		}
 
-		// $("#studentTFN").focusout(function () {
-		// 	if ($(this).val()) {
-		// 		localStorage.removeItem('studentTFN');
-		// 		localStorage.setItem('studentTFN', true);
-		// 	} else {
-		// 		localStorage.removeItem('studentTFN');
-		// 	}
-		// });
-
-		// $('input[name=whoReceivesFTB]').change(function () {
-		// 	if ($('input[name=whoReceivesFTB]:checked').val() === 'no-one' || $('input[name=whoReceivesFTB]:checked').val() === 'myself') {
-		// 		$(".pt-showIfCentrelinkCustomer").hide();
-		// 	} else {
-		// 		$(".pt-showIfCentrelinkCustomer").show('fast');
-		// 	}
-		// });
-
-
 		$("#percentageCare").focusout(function () {
 			if (this.value < 0 || this.value > 100) {
 				$(this).closest('.form-group').addClass('has-error');
@@ -1016,18 +960,6 @@ jQuery(document).ready(function ($) {
 				$(this).prev('label').empty();
 				$(this).prev('label').html(question.id26b);
 			}
-
-			// if (this.value < 35) {
-			// 	$('.pt-showIfCarePercentageLow').show();
-			// 	$('.pt-showIfCarePercentageHigh').hide();
-			// }
-			// else if (this.value > 65) {
-			// 	$('.pt-showIfCarePercentageHigh').show();
-			// 	$('.pt-showIfCarePercentageLow').hide();
-			// } else {
-			// 	$('.pt-showIfCarePercentageHigh').hide();
-			// 	$('.pt-showIfCarePercentageLow').hide();
-			// }
 		});
 
 		$('input[name=educationAllowanceTaxed]').change(function () {
