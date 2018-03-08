@@ -141,7 +141,7 @@ jQuery(document).ready(function ($) {
 			id2: "Given name <span class='hint'>(first name)</span>",
 			id3: "Surname <span class='hint'>(last name)</span>",
 			id4: "Date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
-			id5: "",
+			id5: "The veteran is my",
 			id5a: "",
 			id6: "Are you employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
 			id7: "Are you married or in a de facto relationship?",
@@ -171,7 +171,7 @@ jQuery(document).ready(function ($) {
 			id21u: "Please provide evidence to explain why you study part-time",
 			id22: "Residential address",
 			id22a: "Postal address",
-			id23: "Will you be living at your parents home while studying?",
+			id23: "Where are you living?",
 			id23a: "What best describes your situation?",
 			id23ai: "Why are you",
 			id24: "Are you",
@@ -204,8 +204,8 @@ jQuery(document).ready(function ($) {
 			id30: "BSB",
 			id31: "Account Number",
 			id32: "Are you studying full time or planning to study full time?",
-			id33a: "Are you or were you cared for by a veteran who is significantly injured ",
-			id33b: "",
+			id33a: "Are you dependant on the veteran?<span class='hint'>Completely or substantially</span>",
+			id33b: "Is the veteran significantly injured or deceased because of their service? For example:",
 			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
 			id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
@@ -238,7 +238,7 @@ jQuery(document).ready(function ($) {
 			id2: "Student's given name <span class='hint'>(first name)</span>",
 			id3: "Student's surname <span class='hint'>(last name)</span>",
 			id4: "Student's date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
-			id5: "Your relationship to the student",
+			id5: "The student is my",
 			id5a: "Provide a brief statement explaining how the student came into your care. ",
 			id6: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
 			id7: "Is the student in a de facto / married relationship?",
@@ -268,7 +268,7 @@ jQuery(document).ready(function ($) {
 			id21u: "Provide evidence to explain why the student is studying part-time",
 			id22: "residential address ",
 			id22a: "postal address",
-			id23: "Is the student living away from home to study?",
+			id23: "Where is the student living?",
 			id23a: "What best describes the student’s situation? ",
 			id23ai: "Why is ",
 			id24: "Is ",
@@ -301,7 +301,7 @@ jQuery(document).ready(function ($) {
 			id30: "BSB",
 			id31: "Account Number",
 			id32: "",
-			id33a: "",
+			id33a: "Is the veteran significantly injured or deceased because of their service? For example:",
 			id33b: "Are you a veteran who is significantly injured as a result of your service?",
 			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
@@ -325,11 +325,11 @@ jQuery(document).ready(function ($) {
 	}
 
 	if ("claimantFlow" in localStorage) {
-		question.id5 = "What is the Veteran's relationship to the student?";
+		question.id5 = "The veteran is the student's";
 		question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
 		question.id9 = "What is the Veteran's relationship to the student?";
 		question.id47 = "The students relationship to the veteran";
-		question.id33b = "Is the student the dependant of a veteran who is significantly injured or deceased?";
+		question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:";
 		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 		question.id36 = "";
 		question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
@@ -426,6 +426,9 @@ jQuery(document).ready(function ($) {
 			$(".pt-showIfStudentConfirmed").hide();
 			$('.pt-showIfEngagedInFullTimeEmployment').hide();
 			$(".pt-showIfStudentDependantOnVeteran").hide();
+			// $(".pt-claimantShowIfStudentOver16").hide();
+			$('.pt-showIfRelationshipValid').hide();
+
 
 		}
 
@@ -447,12 +450,13 @@ jQuery(document).ready(function ($) {
 						$(".pt-showFTBIsBest").show();
 					}
 				}
-
-				// if student 16 or 17 ask for TFN
-				if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
-					$(".pt-showIfStudentBetween16and18").show();
-				} else {
-					$(".pt-showIfStudentBetween16and18").hide();
+				if (!("claimantFlow" in localStorage)) {
+					// if student 16 or 17 ask for TFN
+					if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+						$(".pt-showIfStudentBetween16and18").show();
+					} else {
+						$(".pt-showIfStudentBetween16and18").hide();
+					}
 				}
 
 			} else {
@@ -473,10 +477,12 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfCentrelinkCustomer").hide();
 
 				// if student 16 or 17 ask for TFN
-				if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
-					$(".pt-showIfStudentBetween16and18").show();
-				} else {
-					$(".pt-showIfStudentBetween16and18").hide();
+				if (!("claimantFlow" in localStorage)) {
+					if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+						$(".pt-showIfStudentBetween16and18").show();
+					} else {
+						$(".pt-showIfStudentBetween16and18").hide();
+					}
 				}
 			}
 		});
@@ -506,14 +512,14 @@ jQuery(document).ready(function ($) {
 				localStorage.setItem('studentAge', age);
 
 				// validation:: older than 5
-				if (localStorage.getItem('studentAge') < 6) {
+				if (localStorage.getItem('studentAge') < 5) {
 					init();
 					$(".pt-showIfStudentUnder0").show();
 				} else {
 					$(".pt-showIfStudentUnder0").hide();
 
-					// veteran flow only
-					if ("veteranFlow" in localStorage) {
+					// veteran and claimant flow only
+					if (("veteranFlow" in localStorage)) {
 
 						// if over 18, suggest student claims on their own 
 						if (localStorage.getItem('studentAge') > 17) {
@@ -525,6 +531,43 @@ jQuery(document).ready(function ($) {
 							$(".pt-showIfStudentUnder18").show();
 						}
 
+						$('input[name=veteranSignificantlyInjured]').change(function () {
+							if ($('input[name=veteranSignificantlyInjured]:checked').val() === 'yes') {
+								$(".pt-showIfStudentNotDependant").show();
+							} else {
+								$(".pt-showIfStudentNotDependant").hide();
+							}
+						});
+					}
+
+					// claimant flow only
+					if ("claimantFlow" in localStorage) {
+						if (localStorage.getItem('studentAge') > 17) {
+							init();
+							$(".pt-showIfStudentShouldClaimThemselves").show();
+							$(".pt-showIfStudentUnder18").hide();
+						} else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') < 18)) {
+							$(".pt-showIfStudentShouldClaimThemselves").hide();
+							$(".pt-claimantShowIfStudentOver16").show();
+
+
+						} else {
+							$(".pt-showIfStudentShouldClaimThemselves").hide();
+							$(".pt-showIfStudentUnder18").show();
+						}
+
+
+						$('input[name=veteranSignificantlyInjured]').change(function () {
+							if ($('input[name=veteranSignificantlyInjured]:checked').val() === 'yes') {
+								$(".pt-showIfStudentUnder18").show();
+								$(".pt-showIfStudentNotDependant").hide();
+							} else {
+								$(".pt-showIfStudentUnder18").hide();
+								$(".pt-showIfStudentNotDependant").show();
+							}
+						});
+
+
 
 					}
 				}
@@ -532,13 +575,65 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
+		$("#relationshipToStudent").change(function () {
+
+			var selected_option = $('#relationshipToStudent').val();
+
+			localStorage.removeItem('relationshipType');
+			localStorage.setItem('relationshipType', selected_option);
+
+
+			if ("claimantFlow" in localStorage) {
+				console.log(selected_option);
+
+				if ((selected_option === 'adoptive-parent') || (selected_option === 'parent')) {
+					console.log('valid');
+					$('.pt-showIfRelationshipValid').hide();
+					$('#relationshipToStudentOther').hide();
+					$('.pt-showIfStudentDependantOnVeteran').show();
+
+				} else if (selected_option === 'other') {
+					$('#relationshipToStudentOther').show();
+				} else {
+					$('.pt-showIfRelationshipValid').show();
+					$('#relationshipToStudentOther').hide();
+					$('.pt-showIfStudentDependantOnVeteran').hide();
+				}
+
+			} else {
+				if (selected_option === 'other') {
+					$('#relationshipToStudentOther').show();
+				} else {
+					$('#relationshipToStudentOther').hide();
+				}
+			}
+
+		});
+
 		// confirm student or claimant
 		$('input[name=confirmStudentOrClaimant]').change(function () {
+
+			$('input[name=engagedInFullTimeEmployment]').change(function () {
+				if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
+
+				} else {
+					$('.pt-showIfEngagedInFullTimeEmployment').show();
+					if (!("claimantFlow" in localStorage)) {
+						$('.pt-showIfRelationshipValid').show();
+					}
+
+				}
+			});
+
 			if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
 				localStorage.removeItem('studentFlow');
 				localStorage.removeItem('studentFlowConfirmed');
 				localStorage.setItem('claimantFlow', true);
 				localStorage.setItem('claimantFlowConfirmed', true);
+
+
+				$(".pt-student-dob").show();
+
 
 			} else if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'student') {
 				localStorage.removeItem('claimantFlowConfirmed');
@@ -551,15 +646,7 @@ jQuery(document).ready(function ($) {
 				$('.pt-showIfMRCA').show();
 				$(".pt-showIfStudentConfirmed").show();
 
-				$('input[name=engagedInFullTimeEmployment]').change(function () {
-					if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
 
-					} else {
-						$('.pt-showIfEngagedInFullTimeEmployment').show();
-					}
-
-
-				});
 
 			}
 		});
@@ -569,7 +656,6 @@ jQuery(document).ready(function ($) {
 				$('.pt-showIfStudentNotDependant').hide();
 				$('.pt-showIfStudentDependantOnVeteran').show();
 			} else {
-
 
 				$('.pt-showIfStudentNotDependant').show();
 				$('.pt-showIfStudentDependantOnVeteran').hide();
@@ -796,19 +882,7 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-		$("#relationshipToStudent").change(function () {
 
-			var selected_option = $('#relationshipToStudent').val();
-
-			localStorage.removeItem('relationshipType');
-			localStorage.setItem('relationshipType', selected_option);
-
-			if (selected_option === 'other') {
-				$('#relationshipToStudentOther').show("fast");
-			} else {
-				$('#relationshipToStudentOther').hide("slow");
-			}
-		});
 
 		$("#veteranRelationshipToStudent").change(function () {
 			var selected_option = $('#veteranRelationshipToStudent').val();
@@ -1287,7 +1361,6 @@ jQuery(document).ready(function ($) {
 
 					var status = label.querySelector('.file-upload__file-name').closest('tr');
 
-					console.log(status);
 
 					status = status.querySelector('.file-status');
 					status.innerHTML = 'Remove';
