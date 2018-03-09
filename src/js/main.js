@@ -531,6 +531,7 @@ jQuery(document).ready(function ($) {
 				// validation:: older than 5
 				if (localStorage.getItem('studentAge') < 5) {
 					init();
+					resetForm($('#pt-form'));
 					$(".pt-showIfStudentUnder0").show();
 				} else {
 					$(".pt-showIfStudentUnder0").hide();
@@ -541,6 +542,7 @@ jQuery(document).ready(function ($) {
 						// if over 18, suggest student claims on their own 
 						if (localStorage.getItem('studentAge') > 17) {
 							init();
+							resetForm($('#pt-form'));
 							$(".pt-showIfStudentShouldClaimThemselves").show();
 							$(".pt-showIfStudentUnder18").hide();
 						} else {
