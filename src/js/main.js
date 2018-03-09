@@ -204,7 +204,7 @@ jQuery(document).ready(function ($) {
 			id30: "BSB",
 			id31: "Account Number",
 			id32: "Are you studying full time or planning to study full time?",
-			id33a: "Are you dependant on the veteran?<span class='hint'>Completely or substantially</span>",
+			id33a: "Are you or where you dependant on the veteran? <span class='hint'>Completely or substantially</span>",
 			id33b: "Is the veteran significantly injured or deceased because of their service? For example:",
 			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
@@ -301,7 +301,7 @@ jQuery(document).ready(function ($) {
 			id30: "BSB",
 			id31: "Account Number",
 			id32: "",
-			id33a: "Is the veteran significantly injured or deceased because of their service? For example:",
+			id33a: "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>",
 			id33b: "Are you a veteran who is significantly injured as a result of your service?",
 			id34: "Are you applying for a student?",
 			id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
@@ -320,7 +320,6 @@ jQuery(document).ready(function ($) {
 			id49: "James' parents are;",
 			id50: "Have",
 			id50a: "apply",
-
 		};
 	}
 
@@ -329,6 +328,7 @@ jQuery(document).ready(function ($) {
 		question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
 		question.id9 = "What is the Veteran's relationship to the student?";
 		question.id47 = "The students relationship to the veteran";
+		question.id33a = "Is the student dependent on the veteran? <span class='hint'>Completely or substantially</span>"
 		question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:";
 		question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 		question.id36 = "";
@@ -408,6 +408,8 @@ jQuery(document).ready(function ($) {
 
 		initStudents();
 
+
+
 		function init() {
 			console.log('loading init');
 
@@ -426,10 +428,25 @@ jQuery(document).ready(function ($) {
 			$(".pt-showIfStudentConfirmed").hide();
 			$('.pt-showIfEngagedInFullTimeEmployment').hide();
 			$(".pt-showIfStudentDependantOnVeteran").hide();
-			// $(".pt-claimantShowIfStudentOver16").hide();
 			$('.pt-showIfRelationshipValid').hide();
+		}
 
+		function resetForm($form) {
+			// $form.find('input:text, input:password, input:file, select, textarea').val('');
+			// $form.find('input:radio, input:checkbox')
+			// 	.removeAttr('checked').removeAttr('selected');
 
+			// Use a whitelist of fields to minimize unintended side effects.
+			// $('INPUT:text, INPUT:password, INPUT:file, SELECT, TEXTAREA', $form).val('');
+			// De-select any checkboxes, radios and drop-down menus
+			// $('INPUT:checkbox, INPUT:radio', $form).removeAttr('checked').removeAttr('selected');
+			// $('INPUT:checkbox, INPUT:radio:not(name="confirmStudentOrClaimant")', $form).prop('checked', false);
+
+			$('input[type=radio]:checked').not('input[type=radio][name=confirmStudentOrClaimant]').prop('checked', false);
+
+			// $('input').prop('checked', false);
+			// $(".thisclass:not(#thisid)").doAction();
+			// confirmStudentOrClaimant
 		}
 
 		init();
@@ -547,11 +564,11 @@ jQuery(document).ready(function ($) {
 							$(".pt-showIfStudentShouldClaimThemselves").show();
 							$(".pt-showIfStudentUnder18").hide();
 						} else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') < 18)) {
+							init();
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-claimantShowIfStudentOver16").show();
-
-
 						} else {
+							init();
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-showIfStudentUnder18").show();
 						}
@@ -566,8 +583,6 @@ jQuery(document).ready(function ($) {
 								$(".pt-showIfStudentNotDependant").show();
 							}
 						});
-
-
 
 					}
 				}
@@ -613,17 +628,12 @@ jQuery(document).ready(function ($) {
 		// confirm student or claimant
 		$('input[name=confirmStudentOrClaimant]').change(function () {
 
-			$('input[name=engagedInFullTimeEmployment]').change(function () {
-				if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
+			// var selected_option = $('input[name=confirmStudentOrClaimant]:checked').val();
 
-				} else {
-					$('.pt-showIfEngagedInFullTimeEmployment').show();
-					if (!("claimantFlow" in localStorage)) {
-						$('.pt-showIfRelationshipValid').show();
-					}
+			init();
 
-				}
-			});
+			// console.log((selected_option));
+
 
 			if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
 				localStorage.removeItem('studentFlow');
@@ -631,9 +641,7 @@ jQuery(document).ready(function ($) {
 				localStorage.setItem('claimantFlow', true);
 				localStorage.setItem('claimantFlowConfirmed', true);
 
-
 				$(".pt-student-dob").show();
-
 
 			} else if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'student') {
 				localStorage.removeItem('claimantFlowConfirmed');
@@ -642,11 +650,25 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('claimantFlowConfirmed');
 				localStorage.setItem('studentFlow', true);
 				localStorage.setItem('studentFlowConfirmed', true);
-
+				$(".pt-student-dob").hide();
 				$('.pt-showIfMRCA').show();
 				$(".pt-showIfStudentConfirmed").show();
 
 
+			}
+
+			resetForm($('#pt-form'));
+
+		});
+
+		$('input[name=engagedInFullTimeEmployment]').change(function () {
+			if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
+
+			} else {
+				$('.pt-showIfEngagedInFullTimeEmployment').show();
+				if (!("claimantFlow" in localStorage)) {
+					$('.pt-showIfRelationshipValid').show();
+				}
 
 			}
 		});
