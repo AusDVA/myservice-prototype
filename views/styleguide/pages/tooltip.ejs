@@ -10,12 +10,19 @@
 
         // open the dialog
         $(document).ready(function(){
+            $(".tooltip-click .arrow-triangle").attr("aria-hidden","true");
             $("#tooltip1").attr("aria-hidden","true");
             $("#tooltip2").attr("aria-hidden","true");
 
             $(".tooltip-click a.qmark").click(function(ev){
+                $(".tooltip-click .arrow-triangle").attr("aria-hidden", "true");
+                $(".tooltip-click .arrow-triangle").addClass("hidden");
+                $(".tooltip").attr("aria-hidden", "true");
+                $(".tooltip").addClass("hidden");
                 $("#"+this.name).attr("aria-hidden","false");
                 $("#"+this.name).removeClass("hidden");
+                $(this).find(".arrow-triangle").attr("aria-hidden", "false");
+                $(this).find(".arrow-triangle").removeClass("hidden");
 
                 ev.preventDefault();
             });
@@ -31,6 +38,8 @@
                 var ttName = tt.prop("name");
                 $("#" + ttName).attr("aria-hidden","true");
                 $("#" + ttName).addClass("hidden");
+                $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
+                $(tt).find(".arrow-triangle").addClass("hidden");
                 $(tt).focus();
                 ev.preventDefault();
 
@@ -43,6 +52,8 @@
                 {			case 27:
                     $("#"+ttName).attr("aria-hidden","true");
                     $("#"+ttName).addClass("hidden");
+                    $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
+                    $(tt).find(".arrow-triangle").addClass("hidden");
                     $(tt).focus();
                     ev.preventDefault();
                     return false;
@@ -65,6 +76,8 @@
                     case 13:
                         $("#"+ttName).attr("aria-hidden","true");
                         $("#"+ttName).addClass("hidden");
+                        $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
+                        $(tt).find(".arrow-triangle").addClass("hidden");
                         $(tt).focus();
                         ev.preventDefault();
                         return false;
@@ -125,21 +138,24 @@
                                 <div>
                                     <a class="modal-close" href="#" id="closebtn1">Close</a>
                                     <div class="tooltip-content" id="tooltip-content1">First one</div>
-                                    <div class="arrow-triangle down"></div>
+
                                 </div>
                             </div>
-                                <a href="#closebtn" class="qmark" name="tooltip1" id="tooltip-associate1" title="First one"><span>More info</span></a></span>
+                            <span>
+                                <a href="#closebtn" class="qmark" name="tooltip1" id="tooltip-associate1" title="First one" style="border-bottom: none;"><span class="mark"><div class="arrow-triangle down hidden"></div></span></a>
+                            </span>
                         </div>
 
                         <div class="tooltip-click">
-                            <span>
+                            text before the qmark
                                 <div class="tooltip hidden" aria-labelledby="tooltip-content2" role="alertdialog" id="tooltip2" aria-describedby="dialogtext" aria-hidden="true">
                                 <div>
                                     <a class="modal-close" href="#" id="closebtn2">Close</a>
                                         <div class="tooltip-content" id="tooltip-content2">Second one Second one Second oneSecond one Second one Second one Second </div>
-                                        <div class="arrow-triangle down"></div>
                                     </div>
-                                </div><a href="#closebtn" class="qmark" name="tooltip2" id="tooltip-associate1" title="Second one"><span>More info</span></a>
+                                </div>
+                            <span>
+                                <a href="#closebtn" class="qmark" name="tooltip2" id="tooltip-associate1" title="Second one"><span class="mark"><div class="arrow-triangle down hidden"></div></span></a>
                             </span>
                         </div>
 
