@@ -450,3 +450,6 @@ app.get('/styleguide-notifications', function (request, response) {
 app.get('/styleguide-modals', function (request, response) {
   response.render('styleguide/pages/modals');
 });
+app.get('/styleguide-tooltip', function (request, response) {
+    response.render('styleguide/pages/tooltip');
+});
