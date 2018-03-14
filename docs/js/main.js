@@ -211,7 +211,7 @@ jQuery(document).ready(function ($) {
 				id30: "BSB",
 				id31: "Account Number",
 				id32: "Are you studying full time or planning to study full time?",
-				id33a: "Are you or where you dependant on the veteran? <span class='hint'>Completely or substantially</span>",
+				id33a: "Are you or were you dependant on the veteran? <span class='hint'>Completely or substantially</span>",
 				id33b: "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>",
 				id34: "Are you applying for a student?",
 				id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
@@ -733,6 +733,24 @@ jQuery(document).ready(function ($) {
 						$(this).show("fast");
 					}
 				});
+
+				$("#veteranFirstName").focusout(function () {
+					if ($(this).val()) {
+						localStorage.removeItem('veteranFirstName');
+						localStorage.setItem('veteranFirstName', $(this).val());
+					} else {
+						localStorage.removeItem('veteranFirstName');
+					}
+				});
+
+				$("#veteranLastName").focusout(function () {
+					if ($(this).val()) {
+						localStorage.removeItem('veteranLastName');
+						localStorage.setItem('veteranLastName', $(this).val());
+					} else {
+						localStorage.removeItem('veteranLastName');
+					}
+				});
 			}
 
 			if ("veteranFlow" in localStorage) {
@@ -765,8 +783,9 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfNoPartner").hide();
 
 				// skip the living arrangement details 
+				$('.btnNext').prop('onclick', null);
 				$('.btnNext').click(function () {
-					event.stopPropagation();
+					// event.stopPropagation();
 					window.location.href = 'studentclaim3';
 				});
 			} else {
@@ -790,8 +809,11 @@ jQuery(document).ready(function ($) {
 
 		// extra details for students 
 		if ("studentFlow" in localStorage) {
+
+			$('.btnNext').prop('onclick', null);
+
 			$('.btnNext').click(function () {
-				event.stopPropagation();
+
 				window.location.href = 'studentclaim1a';
 			});
 		}
@@ -992,8 +1014,9 @@ jQuery(document).ready(function ($) {
 
 		// skip the financial details if we're in veteran flow
 		if ("veteranFlow" in localStorage) {
+			$('.btnNext').prop('onclick', null);
 			$('.btnNext').click(function () {
-				event.stopPropagation();
+				// event.stopPropagation();
 				window.location.href = '/studentclaimupload';
 			});
 		}
@@ -1215,8 +1238,17 @@ jQuery(document).ready(function ($) {
 		}
 
 		// check relationship 
-		if (localStorage.getItem('veteranReceivesFTB') === 'false' && localStorage.getItem('studentName') !== null) {
-			this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+
+		if ("veteranFlow" in localStorage) {
+			if (localStorage.getItem('veteranReceivesFTB') === 'false' && localStorage.getItem('studentName') !== null) {
+				// if (true) {
+				this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+			}
+		} else {
+			if (localStorage.getItem('veteranFirstName') !== null && localStorage.getItem('veteranLastName') !== null) {
+				// if (true) {
+				this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+			}
 		}
 
 		// check student age
