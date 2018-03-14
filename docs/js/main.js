@@ -783,8 +783,9 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfNoPartner").hide();
 
 				// skip the living arrangement details 
+				$('.btnNext').prop('onclick', null);
 				$('.btnNext').click(function () {
-					event.stopPropagation();
+					// event.stopPropagation();
 					window.location.href = 'studentclaim3';
 				});
 			} else {
@@ -808,8 +809,11 @@ jQuery(document).ready(function ($) {
 
 		// extra details for students 
 		if ("studentFlow" in localStorage) {
+
+			$('.btnNext').prop('onclick', null);
+
 			$('.btnNext').click(function () {
-				event.stopPropagation();
+
 				window.location.href = 'studentclaim1a';
 			});
 		}
@@ -1010,8 +1014,9 @@ jQuery(document).ready(function ($) {
 
 		// skip the financial details if we're in veteran flow
 		if ("veteranFlow" in localStorage) {
+			$('.btnNext').prop('onclick', null);
 			$('.btnNext').click(function () {
-				event.stopPropagation();
+				// event.stopPropagation();
 				window.location.href = '/studentclaimupload';
 			});
 		}
