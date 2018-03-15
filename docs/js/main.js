@@ -822,8 +822,6 @@ jQuery(document).ready(function ($) {
 					window.location.href = 'studentclaim3';
 				});
 			} else {
-				// student is homeless or at home
-
 
 				$(".pt-showIfLivingAway").show('fast');
 				$(".pt-showIfNoPartner").hide();
@@ -965,6 +963,14 @@ jQuery(document).ready(function ($) {
 				$(".pt-showIfLivingAwayFromHome").show();
 			} else {
 				$(".pt-showIfLivingAwayFromHome").hide();
+			}
+
+			if ($('input[name=studentLivingLocation]:checked').val() === 'homeless') {
+				// skip the living arrangement details 
+				$('.btnNext').prop('onclick', null);
+				$('.btnNext').click(function () {
+					window.location.href = 'studentclaim3';
+				});
 			}
 		});
 	}
