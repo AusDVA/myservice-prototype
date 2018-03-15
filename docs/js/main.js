@@ -134,10 +134,12 @@ jQuery(document).ready(function ($) {
 
 		var studentName = localStorage.getItem('studentName');
 
-		console.log(studentName);
+		var question = '';
 		// Student questions 
+
 		if ("studentFlow" in localStorage) {
-			var question = {
+			console.log('I am in student flow');
+			question = {
 				pageheader1: "Veteran details	",
 				pageheader1a: "Your details",
 				pageheader1b: "",
@@ -238,7 +240,8 @@ jQuery(document).ready(function ($) {
 		if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
 			var _question;
 
-			var question = (_question = {
+			console.log('I am in veteran / claimant flow flow');
+			question = (_question = {
 				pageheader1: "Student details	",
 				pageheaderLiving: "Student's living arrangements",
 				pageheaderStudy: "Student's study details",
@@ -294,13 +297,12 @@ jQuery(document).ready(function ($) {
 				id24a8: "",
 				id24a9: "Are meals included in the accommodation costs?",
 				id24a9a: "How much of the payment is for meals?  "
-			}, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veterans First name"), _defineProperty(_question, 'id43', "Veterans Last name"), _defineProperty(_question, 'id44', "Veterans Date of Birth"), _defineProperty(_question, 'id45', "DVA file number"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _question);
+			}, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veteran's given name <span class='hint'>(first name)</span>"), _defineProperty(_question, 'id43', "Veteran's surname <span class='hint'>(last name)</span>"), _defineProperty(_question, 'id44', "Veteran's date of birth"), _defineProperty(_question, 'id45', "Veteran's DVA file number <span class='hint'>(if known)</span>"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _question);
 
 			question.id24 = "Is " + studentName + " renting?";
 			question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
 			question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
 			question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
-
 			question.id24a7 = "How much rent does " + studentName + " pay every two weeks ?<span class='hint display-block'>This does not include meals</span> ";
 		}
 
@@ -310,21 +312,39 @@ jQuery(document).ready(function ($) {
 			question.id6 = "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>";
 			question.id9 = "What is the Veteran's relationship to the student?";
 			question.id47 = "The students relationship to the veteran";
-			question.id33a = "Is the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
-			question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:";
+			question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
+			question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>";
 			question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
 			question.id36 = "";
 			question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
-			question.pageheader1 = "Student and veteran details	";
-			question.pageheader1a = "Veterans details";
-			question.pageheader1b = "Student details";
+			question.pageheader1 = "Veteran details	";
+			question.pageheader1a = "Student details";
+			question.pageheader1b = "";
 		}
 
-		console.log(question);
+		console.log('local storage = ');
+		console.log("studentFlow" in localStorage);
+		console.log("veteranFlow" in localStorage);
+		console.log("claimantFlow" in localStorage);
+		console.log("claimantFlowConfirmed" in localStorage);
+
 		for (var key in question) {
 			$("#question_" + key).html(question[key]);
 		}
 
+		// if ("veteranFlow" in localStorage) {
+		// 	$(".pt-flow--veteran").show("fast");
+		// }
+
+		// if ("studentFlow" in localStorage) {
+		// 	$(".pt-flow--student").show("fast");
+		// }
+
+		// if ("claimantFlow" in localStorage) {
+		// 	$(".pt-flow--claimant").show("fast");
+		// }
+	}
+	function initFlow() {
 		if ("veteranFlow" in localStorage) {
 			$(".pt-flow--veteran").show("fast");
 		}
@@ -342,6 +362,18 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentpreeligibility") {
 		var init = function init() {
 			console.log('loading init');
+
+			if ("veteranFlow" in localStorage) {
+				$(".pt-flow--veteran").show("fast");
+			}
+
+			if ("studentFlow" in localStorage) {
+				$(".pt-flow--student").show("fast");
+			}
+
+			if ("claimantFlow" in localStorage) {
+				$(".pt-flow--claimant").show("fast");
+			}
 
 			$(".pt-showIfStudentShouldClaimThemselves").hide();
 			$(".pt-showIfStudentUnder18").hide();
@@ -361,24 +393,13 @@ jQuery(document).ready(function ($) {
 			$(".pt-showIfStudentDependantOnVeteran").hide();
 			$('.pt-showIfRelationshipValid').hide();
 			$('.pt-studentFullTime').hide();
+			$('.pt-showIfStudentCantClaim').hide();
+			$('.pt-showIfStudentNotDependant').hide();
 		};
 
 		var resetForm = function resetForm($form) {
-			// $form.find('input:text, input:password, input:file, select, textarea').val('');
-			// $form.find('input:radio, input:checkbox')
-			// 	.removeAttr('checked').removeAttr('selected');
-
-			// Use a whitelist of fields to minimize unintended side effects.
-			// $('INPUT:text, INPUT:password, INPUT:file, SELECT, TEXTAREA', $form).val('');
-			// De-select any checkboxes, radios and drop-down menus
-			// $('INPUT:checkbox, INPUT:radio', $form).removeAttr('checked').removeAttr('selected');
-			// $('INPUT:checkbox, INPUT:radio:not(name="confirmStudentOrClaimant")', $form).prop('checked', false);
 
 			$('input[type=radio]:checked').not('input[type=radio][name=confirmStudentOrClaimant]').prop('checked', false);
-
-			// $('input').prop('checked', false);
-			// $(".thisclass:not(#thisid)").doAction();
-			// confirmStudentOrClaimant
 		};
 
 		localStorage.clear();
@@ -436,7 +457,7 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('veteranReceivesFTB');
 				localStorage.setItem('veteranReceivesFTB', true);
 
-				if ("veteranFlow" in localStorage) {
+				if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
 					if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
 						$(".pt-showFTBIsBest").show();
 					}
@@ -521,11 +542,15 @@ jQuery(document).ready(function ($) {
 					if ("veteranFlow" in localStorage) {
 
 						// if over 18, suggest student claims on their own 
-						if (localStorage.getItem('studentAge') > 17) {
+						if (localStorage.getItem('studentAge') > 24) {
+							init();
+							$(".pt-showIfStudentCantClaim").show();
+						} else if (localStorage.getItem('studentAge') > 17) {
+
 							init();
 							resetForm($('#pt-form'));
 							$(".pt-showIfStudentShouldClaimThemselves").show();
-							$(".pt-showIfStudentUnder18").hide();
+							// $(".pt-showIfStudentUnder18").hide();
 						} else {
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-showIfStudentUnder18").show();
@@ -542,17 +567,20 @@ jQuery(document).ready(function ($) {
 
 					// claimant flow only
 					if ("claimantFlow" in localStorage) {
-						if (localStorage.getItem('studentAge') > 17) {
+						if (localStorage.getItem('studentAge') > 24) {
+							init();
+							$(".pt-showIfStudentCantClaim").show();
+						} else if (localStorage.getItem('studentAge') > 17) {
 							init();
 							$(".pt-showIfStudentShouldClaimThemselves").show();
-							$(".pt-showIfStudentUnder18").hide();
+							// $(".pt-showIfStudentUnder18").hide();
 						} else if (localStorage.getItem('studentAge') > 15 && localStorage.getItem('studentAge') < 18) {
 							init();
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-claimantShowIfStudentOver16").show();
 						} else {
 							init();
-							$(".pt-showIfStudentShouldClaimThemselves").hide();
+							// $(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-showIfStudentUnder18").show();
 						}
 
@@ -603,12 +631,7 @@ jQuery(document).ready(function ($) {
 
 		// confirm student or claimant
 		$('input[name=confirmStudentOrClaimant]').change(function () {
-
-			// var selected_option = $('input[name=confirmStudentOrClaimant]:checked').val();
-
-			init();
-
-			// console.log((selected_option));
+			// localStorage.clear();
 
 
 			if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
@@ -616,18 +639,22 @@ jQuery(document).ready(function ($) {
 				localStorage.removeItem('studentFlowConfirmed');
 				localStorage.setItem('claimantFlow', true);
 				localStorage.setItem('claimantFlowConfirmed', true);
+				init();
 
 				$(".pt-student-dob").show();
+
+				initStudents();
 			} else if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'student') {
 				localStorage.removeItem('claimantFlowConfirmed');
-				localStorage.setItem('claimantFlowConfirmed', true);
 				localStorage.removeItem('claimantFlow');
-				localStorage.removeItem('claimantFlowConfirmed');
 				localStorage.setItem('studentFlow', true);
 				localStorage.setItem('studentFlowConfirmed', true);
+				init();
 				$(".pt-student-dob").hide();
 				$('.pt-studentFullTime').show();
 				$(".pt-showIfStudentConfirmed").show();
+
+				initStudents();
 			}
 
 			resetForm($('#pt-form'));
@@ -707,6 +734,7 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim1") {
 
 		initStudents();
+		// initFlow();
 		$(".pt-studentAge--mature").hide();
 		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
@@ -715,6 +743,11 @@ jQuery(document).ready(function ($) {
 		$(".upload-list").show();
 		$(".pt-showIfLivingAwayFromHome").hide();
 		$(".pt-showIfDocumentUploadShoppingCart").hide();
+		$(".pt-partneredRelationship").hide();
+
+		$('input[name=gender]').change(function () {
+			$(".pt-partneredRelationship").show();
+		});
 
 		$("#firstName").focusout(function () {
 			if ($(this).val()) {
@@ -770,7 +803,7 @@ jQuery(document).ready(function ($) {
 			}
 		} else {
 			$(".pt-studentAge--mature").hide("slow");
-			$(".pt-showLivingLocation").show();
+			// $(".pt-showLivingLocation").show();
 		}
 
 		$('input[name=studentLivingLocation]').change(function () {
@@ -808,7 +841,7 @@ jQuery(document).ready(function ($) {
 		});
 
 		// extra details for students 
-		if ("studentFlow" in localStorage) {
+		if ("studentFlow" in localStorage || "claimantFlow" in localStorage) {
 
 			$('.btnNext').prop('onclick', null);
 
@@ -911,14 +944,22 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim1a") {
 
 		initStudents();
+		initFlow();
 
 		$(".pt-showLivingLocation").hide();
 		$(".pt-showIfLivingAwayFromHome").hide();
+		if ("claimantFlow" in localStorage) {
+			$(".pt-partneredRelationship").hide();
+		}
+
+		$('input[name=gender]').change(function () {
+			$(".pt-partneredRelationship").show();
+		});
 
 		$('input[name=studentPartneredRelationship]').change(function () {
-
 			$(".pt-showLivingLocation").show();
 		});
+
 		$('input[name=studentLivingLocation]').change(function () {
 			if ($('input[name=studentLivingLocation]:checked').val() === 'away-from-home') {
 				$(".pt-showIfLivingAwayFromHome").show();
@@ -931,6 +972,7 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim2") {
 		// Page 2 
 		initStudents();
+		initFlow();
 		$(".pt-showIfHomeless").hide();
 		$(".pt-showIfRequireRentAssistance").hide();
 		$(".pt-showIfRenting").hide();
