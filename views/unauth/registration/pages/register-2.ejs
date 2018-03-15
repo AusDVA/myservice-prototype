@@ -148,6 +148,7 @@
                     <span>
                       <a href="#closebtn" class="tooltip__trigger" name="tooltip1" id="tooltip-associate1" title="More information" style="border-bottom: none;">
                         <span class="tooltip__trigger-icon"></span>
+                        <span class="tooltip__trigger-marker hidden"></span>
                       </a>
                     </span>
                   </div>
@@ -160,6 +161,7 @@
 
               <fieldset>
                 <legend>Contact details</legend>
+
                 <div class="form-group">
                   <label class="uikit-text-input__label" for="email">Email address</label>
                   <input class="uikit-text-input" name="email" id="email" type="email" value="">
@@ -258,18 +260,18 @@
             // Tooltip
             // open the dialog
             $(document).ready(function () {
-              $(".tooltip-container .arrow-triangle").attr("aria-hidden", "true");
+              $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
               $("#tooltip1").attr("aria-hidden", "true");
 
               $(".tooltip-container a.tooltip__trigger").click(function (ev) {
-                $(".tooltip-container .arrow-triangle").attr("aria-hidden", "true");
-                $(".tooltip-container .arrow-triangle").addClass("hidden");
+                $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
+                $(".tooltip-container .tooltip__trigger-markere").addClass("hidden");
                 $(".tooltip").attr("aria-hidden", "true");
                 $(".tooltip").addClass("hidden");
                 $("#" + this.name).attr("aria-hidden", "false");
                 $("#" + this.name).removeClass("hidden");
-                $(this).find(".arrow-triangle").attr("aria-hidden", "false");
-                $(this).find(".arrow-triangle").removeClass("hidden");
+                $(this).find(".tooltip__trigger-marker").attr("aria-hidden", "false");
+                $(this).find(".tooltip__trigger-marker").removeClass("hidden");
 
                 ev.preventDefault();
               });
@@ -285,8 +287,8 @@
                 var ttName = tt.prop("name");
                 $("#" + ttName).attr("aria-hidden", "true");
                 $("#" + ttName).addClass("hidden");
-                $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
-                $(tt).find(".arrow-triangle").addClass("hidden");
+                $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                $(tt).find(".tooltip__trigger-marker").addClass("hidden");
                 $(tt).focus();
                 ev.preventDefault();
 
@@ -299,8 +301,8 @@
                   case 27:
                     $("#" + ttName).attr("aria-hidden", "true");
                     $("#" + ttName).addClass("hidden");
-                    $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
-                    $(tt).find(".arrow-triangle").addClass("hidden");
+                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
                     $(tt).focus();
                     ev.preventDefault();
                     return false;
@@ -322,8 +324,8 @@
                   case 13:
                     $("#" + ttName).attr("aria-hidden", "true");
                     $("#" + ttName).addClass("hidden");
-                    $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
-                    $(tt).find(".arrow-triangle").addClass("hidden");
+                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
                     $(tt).focus();
                     ev.preventDefault();
                     return false;
@@ -335,15 +337,91 @@
                     ev.preventDefault();
                     return false;
                     break;
-                  //	 			default:
-
-                  //					$("a#closebtn1").focus();
-                  //					 ev.preventDefault();
-                  //					 return false;
 
                 }
               });
 
+
+              $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
+              $("#tooltip2").attr("aria-hidden", "true");
+
+              $(".tooltip-container a.tooltip__trigger").click(function (ev) {
+                $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
+                $(".tooltip-container .tooltip__trigger-markere").addClass("hidden");
+                $(".tooltip").attr("aria-hidden", "true");
+                $(".tooltip").addClass("hidden");
+                $("#" + this.name).attr("aria-hidden", "false");
+                $("#" + this.name).removeClass("hidden");
+                $(this).find(".tooltip__trigger-marker").attr("aria-hidden", "false");
+                $(this).find(".tooltip__trigger-marker").removeClass("hidden");
+
+                ev.preventDefault();
+              });
+
+              $(".tooltip-container a").keypress(function (ev) {
+                if (ev.which == 13) {
+                  $(this).click();
+                }
+              });
+
+              $(".tooltip-container a.modal-close").click(function (ev) {
+                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+                var ttName = tt.prop("name");
+                $("#" + ttName).attr("aria-hidden", "true");
+                $("#" + ttName).addClass("hidden");
+                $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                $(tt).find(".tooltip__trigger-marker").addClass("hidden");
+                $(tt).focus();
+                ev.preventDefault();
+
+              });
+
+              $(".modal-close").keydown(function (ev) {
+                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+                var ttName = tt.prop("name");
+                switch (ev.which) {
+                  case 27:
+                    $("#" + ttName).attr("aria-hidden", "true");
+                    $("#" + ttName).addClass("hidden");
+                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
+                    $(tt).focus();
+                    ev.preventDefault();
+                    return false;
+                    break;
+
+                  case 117:
+                    $(tt).focus();
+                    ev.preventDefault();
+                    return false;
+                    break;
+
+                }
+              });
+
+              $(".modal-close").keypress(function (ev) {
+                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+                var ttName = tt.prop("name");
+                switch (ev.which) {
+                  case 13:
+                    $("#" + ttName).attr("aria-hidden", "true");
+                    $("#" + ttName).addClass("hidden");
+                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
+                    $(tt).focus();
+                    ev.preventDefault();
+                    return false;
+                    break;
+
+                  default:
+
+                    $("a#closebtn2").focus();
+                    ev.preventDefault();
+                    return false;
+                    break;
+
+                }
+              });
             });
           </script>
 </body>
