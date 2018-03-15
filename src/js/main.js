@@ -1419,10 +1419,14 @@ jQuery(document).ready(function ($) {
 		//console.log('number of docs required = ' + this.docsRequired.length);
 
 		if (this.docsRequired.length > 0) {
-			// $(".pt-showIfDocumentUploadShoppingCart").show();
+			$(".pt-showIfDocumentUploadShoppingCart").show();
 			$.each(this.docsRequired, function () {
 				console.log('docs required = ' + this);
 				// $('.pt-' + this).show('slow');
+
+				$('.pt-' + this).removeClass('display-none');
+				$('.pt-' + this).addClass('display-block');
+
 			});
 		}
 
@@ -1480,5 +1484,12 @@ jQuery(document).ready(function ($) {
 		});
 	}(document, window, 0));
 
+
+	$(".accordion__trigger").click(function () {
+
+		$(this).toggleClass("accordion__trigger--open accordion__trigger--closed");
+		$(this).closest(".accordion").toggleClass("accordion--closed accordion--open");
+
+	});
 
 });
