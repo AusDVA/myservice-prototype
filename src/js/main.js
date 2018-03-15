@@ -1419,7 +1419,7 @@ jQuery(document).ready(function ($) {
 		//console.log('number of docs required = ' + this.docsRequired.length);
 
 		if (this.docsRequired.length > 0) {
-			$(".pt-showIfDocumentUploadShoppingCart").show();
+			jQuery(".pt-showIfDocumentUploadShoppingCart").show();
 			$.each(this.docsRequired, function () {
 				console.log('docs required = ' + this);
 				// $('.pt-' + this).show('slow');
