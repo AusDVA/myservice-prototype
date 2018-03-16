@@ -339,7 +339,7 @@ jQuery(document).ready(function ($) {
 			question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
 			question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
 			question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
-			question.id24a7 = "How much rent does " + studentName + " pay every two weeks ?<span class='hint display-block'>This does not include meals</span> ";
+			question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
 
 		}
 
@@ -513,7 +513,6 @@ jQuery(document).ready(function ($) {
 					}
 				}
 
-
 			} else {
 				$(".pt-showIfYourFTB").hide();
 				$(".pt-showIfSomeoneElseFTB").show();
@@ -551,11 +550,8 @@ jQuery(document).ready(function ($) {
 					$(".pt-showIfStudentFullTimeAndMRCA").show();
 				}
 			} else {
-
 				$(".pt-vetShowIfStudentFullTimeAndMRCA").hide();
-
 				$(".pt-showIfStudentFullTimeAndMRCA").hide();
-
 			}
 		});
 
@@ -625,10 +621,12 @@ jQuery(document).ready(function ($) {
 							init();
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-claimantShowIfStudentOver16").show();
-						} else {
+						} else { // under 16
 							init();
 							// $(".pt-showIfStudentShouldClaimThemselves").hide();
-							$(".pt-showIfStudentUnder18").show();
+							// $(".pt-showIfStudentUnder18").show();
+							$(".pt-showIfEngagedInFullTimeEmployment").show();
+
 						}
 
 
@@ -730,9 +728,12 @@ jQuery(document).ready(function ($) {
 						$('.pt-showIfRelationshipValid').show();
 					}
 				}
-
 			}
 		});
+
+		if (!("studentFlow" in localStorage)) {
+
+		}
 
 		$('input[name=studentDependantOnVeteran]').change(function () {
 			if ($('input[name=studentDependantOnVeteran]:checked').val() === 'yes') {
@@ -801,7 +802,7 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim1") {
 
 		initStudents();
-		// initFlow();
+		initFlow();
 		$(".pt-studentAge--mature").hide();
 		$(".pt-showIfStudentLivingAtHome").hide();
 		$(".pt-studentLivingSameAddress").hide();
@@ -856,11 +857,6 @@ jQuery(document).ready(function ($) {
 						localStorage.removeItem('veteranLastName');
 					}
 				});
-
-
-
-
-
 			}
 
 			if ("veteranFlow" in localStorage) {
@@ -880,8 +876,8 @@ jQuery(document).ready(function ($) {
 			}
 
 		} else {
-			$(".pt-studentAge--mature").hide("slow");
-			// $(".pt-showLivingLocation").show();
+			// $(".pt-studentAge--mature").hide("slow");
+
 
 		}
 
@@ -901,7 +897,6 @@ jQuery(document).ready(function ($) {
 					window.location.href = 'studentclaim3';
 				});
 			} else {
-
 
 				$(".pt-showIfLivingAway").show('fast');
 				$(".pt-showIfNoPartner").hide();
@@ -1035,6 +1030,8 @@ jQuery(document).ready(function ($) {
 		initStudents();
 		initFlow();
 
+
+
 		$(".pt-showLivingLocation").hide();
 		$(".pt-showIfLivingAwayFromHome").hide();
 		if ("claimantFlow" in localStorage) {
@@ -1050,7 +1047,6 @@ jQuery(document).ready(function ($) {
 			}
 		});
 
-
 		$('input[name=gender]').change(function () {
 			$(".pt-partneredRelationship").show();
 		});
@@ -1060,6 +1056,21 @@ jQuery(document).ready(function ($) {
 		});
 
 		$('input[name=studentLivingLocation]').change(function () {
+
+			if ($('input[name=studentLivingLocation]:checked').val() === 'homeless') {
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'homeless');
+			} else if ($('input[name=studentLivingLocation]:checked').val() === 'at-home') {
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'at-home');
+			} else if ($('input[name=studentLivingLocation]:checked').val() === 'away-from-home') {
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'away-from-home');
+			} else {
+				localStorage.removeItem('studentLivingLocation');
+			}
+
+
 			if ($('input[name=studentLivingLocation]:checked').val() === 'away-from-home') {
 				$(".pt-showIfLivingAwayFromHome").show();
 			} else {
@@ -1072,11 +1083,43 @@ jQuery(document).ready(function ($) {
 				$('.btnNext').click(function () {
 					window.location.href = 'studentclaim3';
 				});
+			} else {
+				$('.btnNext').prop('onclick', null);
+				$('.btnNext').click(function () {
+					window.location.href = 'studentclaim2';
+				});
 			}
 		});
 
 
+		$('input[name=studentLivingAwayValidReason]').change(function () {
+			if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes') {
+				localStorage.removeItem('studentLivingAwayValidReason');
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'away-from-home');
+				localStorage.setItem('studentLivingAwayValidReason', true);
 
+			} else {
+				localStorage.removeItem('studentLivingAwayValidReason');
+				localStorage.removeItem('studentLivingLocation');
+				localStorage.setItem('studentLivingLocation', 'at-home');
+			}
+		});
+
+		$('input[name=studentPartneredRelationship]').change(function () {
+
+			$(".pt-showLivingLocation").show();
+
+			if ($('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
+				localStorage.removeItem('studentPartneredRelationship');
+				localStorage.setItem('studentPartneredRelationship', 'yes');
+				$(".pt-studentLivingSameAddress").show();
+			} else {
+				localStorage.removeItem('studentPartneredRelationship');
+				localStorage.setItem('studentPartneredRelationship', 'no');
+				$(".pt-studentLivingSameAddress").hide();
+			}
+		});
 
 
 	}
