@@ -322,12 +322,6 @@ jQuery(document).ready(function ($) {
 			question.pageheader1b = "";
 		}
 
-		console.log('local storage = ');
-		console.log("studentFlow" in localStorage);
-		console.log("veteranFlow" in localStorage);
-		console.log("claimantFlow" in localStorage);
-		console.log("claimantFlowConfirmed" in localStorage);
-
 		for (var key in question) {
 			$("#question_" + key).html(question[key]);
 		}
@@ -536,6 +530,7 @@ jQuery(document).ready(function ($) {
 					resetForm($('#pt-form'));
 					$(".pt-showIfStudentUnder0").show();
 				} else {
+					console.log('student is older than 4');
 					$(".pt-showIfStudentUnder0").hide();
 
 					// veteran and claimant flow only
@@ -552,6 +547,7 @@ jQuery(document).ready(function ($) {
 							$(".pt-showIfStudentShouldClaimThemselves").show();
 							// $(".pt-showIfStudentUnder18").hide();
 						} else {
+							init();
 							$(".pt-showIfStudentShouldClaimThemselves").hide();
 							$(".pt-showIfStudentUnder18").show();
 						}
@@ -950,6 +946,15 @@ jQuery(document).ready(function ($) {
 			$(".pt-partneredRelationship").hide();
 		}
 
+		$("#firstName").focusout(function () {
+			if ($(this).val()) {
+				localStorage.removeItem('studentName');
+				localStorage.setItem('studentName', $(this).val());
+			} else {
+				localStorage.removeItem('studentName');
+			}
+		});
+
 		$('input[name=gender]').change(function () {
 			$(".pt-partneredRelationship").show();
 		});
@@ -1049,7 +1054,7 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim3") {
 		// page 3
 		initStudents();
-
+		initFlow();
 		$(".pt-showIfNotPrimaryStudent").hide();
 		$(".pt-showIfPrimary").hide();
 		$(".pt-showIfSecondary").hide();
@@ -1150,7 +1155,7 @@ jQuery(document).ready(function ($) {
 	if (window.location.pathname === "/studentclaim4") {
 		// Page 4
 		initStudents();
-
+		initFlow();
 		$('.pt-studentAge--mature').hide();
 		$('.pt-showIfEducationAllowanceTaxed').hide();
 		$('.pt-showIfCarePercentageLow').hide();
