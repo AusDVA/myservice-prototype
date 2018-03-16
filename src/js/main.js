@@ -814,25 +814,9 @@ jQuery(document).ready(function ($) {
 		$(".pt-partneredRelationship").hide();
 
 
-
-		$('input[name=gender]').change(function () {
-			$(".pt-partneredRelationship").show();
-		});
-
-		$("#firstName").focusout(function () {
-			if ($(this).val()) {
-				localStorage.removeItem('studentName');
-				localStorage.setItem('studentName', $(this).val());
-			} else {
-				localStorage.removeItem('studentName');
-			}
-		});
-
-
-
-
+		// if (true) {
 		if (localStorage.getItem('studentAge') > 15) {
-
+			console.log('student is older than 15');
 			if ("studentFlow" in localStorage) {
 				$(".pt-studentAge--mature").each(function () {
 					if ($(this).is(".pt-flow--student")) {
@@ -876,10 +860,42 @@ jQuery(document).ready(function ($) {
 			}
 
 		} else {
-			// $(".pt-studentAge--mature").hide("slow");
-
-
+			$(".pt-studentAge--mature").hide("slow");
 		}
+
+
+		// extra details for students 
+		if (("studentFlow" in localStorage) || "claimantFlow" in localStorage) {
+
+			$('.btnNext').prop('onclick', null);
+
+			$('.btnNext').click(function () {
+
+				window.location.href = 'studentclaim1a';
+
+			});
+		}
+
+
+
+		$('input[name=gender]').change(function () {
+			if (localStorage.getItem('studentAge') > 15) {
+				$(".pt-partneredRelationship").show();
+			}
+			else {
+
+				$(".pt-showLivingLocation").show();
+			}
+		});
+
+		$("#firstName").focusout(function () {
+			if ($(this).val()) {
+				localStorage.removeItem('studentName');
+				localStorage.setItem('studentName', $(this).val());
+			} else {
+				localStorage.removeItem('studentName');
+			}
+		});
 
 		$('input[name=studentLivingLocation]').change(function () {
 
@@ -916,47 +932,6 @@ jQuery(document).ready(function ($) {
 		});
 
 
-		// extra details for students 
-		if (("studentFlow" in localStorage) || "claimantFlow" in localStorage) {
-
-			$('.btnNext').prop('onclick', null);
-
-			$('.btnNext').click(function () {
-
-				window.location.href = 'studentclaim1a';
-
-			});
-		}
-
-		if (localStorage.getItem('studentAge') > 15) {
-
-			if ("veteranFlow" in localStorage) {
-				$(".pt-studentAge--mature").each(function () {
-					if ($(this).is(".pt-flow--veteran")) {
-						$(this).show("fast");
-					}
-				});
-			}
-
-			if ("studentFlow" in localStorage) {
-				$(".pt-studentAge--mature").each(function () {
-					if ($(this).is(".pt-flow--student")) {
-						$(this).show("fast");
-					}
-				});
-			}
-
-			if ("claimantFlow" in localStorage) {
-				$(".pt-studentAge--mature").each(function () {
-					if ($(this).is(".pt-flow--claimant")) {
-						$(this).show("fast");
-					}
-				});
-			}
-
-		} else {
-			$(".pt-studentAge--mature").hide("slow");
-		}
 
 		$('input[name=studentLivingWithPartner]').change(function () {
 			if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
@@ -1048,7 +1023,13 @@ jQuery(document).ready(function ($) {
 		});
 
 		$('input[name=gender]').change(function () {
-			$(".pt-partneredRelationship").show();
+			if (localStorage.getItem('studentAge') > 15) {
+				$(".pt-partneredRelationship").show();
+			}
+			else {
+
+				$(".pt-showLivingLocation").show();
+			}
 		});
 
 		$('input[name=studentPartneredRelationship]').change(function () {
