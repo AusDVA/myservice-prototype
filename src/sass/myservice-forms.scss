@@ -63,6 +63,11 @@
   margin: 2em 0;
   padding-top: 2em;
 
+  // Remove bolding from selected radios
+  label {
+    font-weight: normal !important;
+  }
+
   @media only screen and (min-width: $small-handheld) {
     .uikit-btn {
       padding: .8em 0.6em !important;
@@ -96,13 +101,13 @@
 
 // Styling for Borderless button eg. Cancel button used across Add Cover pages
 .uikit-btn--borderless {
-  background-color: #fff;
+  background-color: $white;
+  border: 0;
+  border-bottom: solid 1px $uikit-colour-Primary;
+  border-radius: 0;
   color: $uikit-colour-Text;
   font-weight: normal;
-  border: 0px;
-  border-radius: 0px;
-  border-bottom: solid 1px $uikit-colour-Primary;
-  padding: 0px;
+  padding: 0;
 
   &:focus,
   &:hover {
@@ -292,29 +297,80 @@ select,
 
 // end jquery override
 
-input[type=phone],
-input.input-half,
-select.input-half,
-textarea.input-half {
-  width: 45%;
-  max-width: 22em;
+// input[type=phone],
+// input.input-half,
+// select.input-half,
+// textarea.input-half {
+//   width: 45%;
+//   max-width: 22em;
+// }
+
+@include uikit-media(xs) {
+  input,
+  select,
+  textarea {
+    &.input-half,
+    &[type=phone] {
+      max-width: 22em;
+      width: 45%;
+    }
+
+    &.input-auto {
+      width: auto;
+    }
+  }
+
+  input {
+    &.input-small {
+      max-width: 10em;
+      width: 25%;
+    }
+
+    &[type='checkbox'] + span,
+    &[type='radio'] + span {
+      display: inline-block;
+      font-weight: normal !important;
+    }
+
+    &[type='search'] {
+      // Ensure input type=search has consistent sizing with input type=text
+      box-sizing: content-box;
+      -moz-appearance: searchfield;
+    }
+
+    // Remove the up/down arrows on HTML5 number fields
+    &[type=number]::-webkit-inner-spin-button,
+    &[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+  }
 }
 
-input[type=phone],
-input.input-auto,
-select.input-auto {
-  width: auto;
+
+input,
+select,
+textarea {
+  &.input-half,
+  &[type=phone] {
+    width: 90%;
+  }
 }
 
-input.input-small {
-  width: 25%;
-  max-width: 10em;
+input {
+  &.input-small {
+    width: 50%;
+  }
 }
 
 fieldset {
   border: 0;
   clear: both;
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
   padding: 0;
 }
 
@@ -360,9 +416,9 @@ label {
 }
 
 .breakout {
-  padding: 2.5em 2em 2em 2em;
   background: $gray-light;
   margin: 0 0 30px 0;
+  padding: 2.5em 2em 2em 2em;
 
   .hint {
     display: block;
@@ -373,34 +429,6 @@ label {
       white-space: nowrap;
     }
   }
-}
-
-input[type='checkbox'] + span,
-input[type='radio'] + span {
-  display: inline-block;
-  font-weight: normal !important;
-}
-
-input[type='search'] {
-  // Ensure input type=search has consistent sizing with input type=text
-  box-sizing: content-box;
-  -moz-appearance: searchfield;
-}
-
-// Remove the up/down arrows on HTML5 number fields
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-input[type=number] {
-  -moz-appearance: textfield;
-}
-
-// Remove bolding from selected radios
-.pagination label {
-  font-weight: normal !important;
 }
 
 // Space between label and input
