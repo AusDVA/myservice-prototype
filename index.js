@@ -242,6 +242,10 @@ app.get('/terms-and-conditions', function (request, response) {
   response.render('global/pages/terms-and-conditions');
 });
 
+/* Claims page */
+app.get('/claims', function (request, response) {
+  response.render('auth/claim/pages/claims');
+});
 
 /* Broadened claim flow */
 app.get('/claim1', function (request, response) {
@@ -451,5 +455,5 @@ app.get('/styleguide-modals', function (request, response) {
   response.render('styleguide/pages/modals');
 });
 app.get('/styleguide-tooltip', function (request, response) {
-    response.render('styleguide/pages/tooltip');
+  response.render('styleguide/pages/tooltip');
 });
