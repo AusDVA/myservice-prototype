@@ -426,9 +426,13 @@ jQuery(document).ready(function ($) {
 			}
 			if (docUploads) {
 				localStorage.setItem('docUploads', docUploads);
+			} else { // setting all flows to shopping card uploads by default 
+				localStorage.setItem('docUploads', 'shopping');
 			}
 			if (act) {
 				localStorage.setItem('act', act);
+			} else { // setting everyone to mrca if not specified 
+				localStorage.setItem('act', 'mrca');
 			}
 		} else {
 			alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
