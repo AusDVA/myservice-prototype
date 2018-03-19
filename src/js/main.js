@@ -563,7 +563,16 @@ jQuery(document).ready(function ($) {
 
 			// if a valid date
 			if (dobDay && dobMonth && (dobYear.length === 4)) {
+				if (dobDay.longth === 1) {
+					dobDay = "0" + dobDay;
+				}
+				if (dobMonth.longth === 1) {
+					dobMonth = "0" + dobMonth;
+				}
 				var dob = dobYear + '-' + dobMonth + '-' + dobDay;
+
+
+
 				dob = new Date(dob);
 				var today = new Date();
 				var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
