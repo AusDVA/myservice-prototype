@@ -469,3 +469,6 @@ app.get('/styleguide-cards', function (request, response) {
 app.get('/styleguide-document-uploads', function (request, response) {
   response.render('styleguide/pages/document-uploads');
 });
+app.get('/styleguide-tooltip', function (request, response) {
+  response.render('styleguide/pages/tooltip');
+});
