@@ -100,6 +100,9 @@ app.get('/register-5', function (request, response) {
 app.get('/register-6', function (request, response) {
   response.render('unauth/registration/pages/register-6');
 });
+app.get('/register-7', function (request, response) {
+  response.render('unauth/registration/pages/register-7');
+});
 
 
 app.get('/contactusscreen', function (request, response) {
