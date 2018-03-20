@@ -252,6 +252,18 @@ app.get('/terms-and-conditions', function (request, response) {
 app.get('/claims', function (request, response) {
   response.render('auth/claim/pages/claims');
 });
+app.get('/claims-neverserved', function (request, response) {
+  response.render('auth/claim/pages/claims-neverserved');
+});
+app.get('/claims-existingnlhc', function (request, response) {
+  response.render('auth/claim/pages/claims-existingnlhc');
+});
+app.get('/claims-existingnlhc-nostudentpayments', function (request, response) {
+  response.render('auth/claim/pages/claims-existingnlhc-nostudentpayments');
+});
+app.get('/claims-nostudentpayments', function (request, response) {
+  response.render('auth/claim/pages/claims-nostudentpayments');
+});
 
 /* Claims Page 2? */
 app.get('/claims2', function (request, response) {
