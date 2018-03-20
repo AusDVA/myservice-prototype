@@ -426,6 +426,9 @@ jQuery(document).ready(function ($) {
 			}
 			if (docUploads) {
 				localStorage.setItem('docUploads', docUploads);
+			} else {
+				// setting all flows to shopping card uploads by default 
+				localStorage.setItem('docUploads', 'shopping');
 			}
 			if (act) {
 				localStorage.setItem('act', act);
