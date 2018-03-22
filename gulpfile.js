@@ -11,22 +11,12 @@ var util = require('gulp-util');
 var babel = require("gulp-babel");
 
 var config = {
-  // assetsDir: 'app/Resources/assets',
-  // sassPattern: 'sass/**/*.scss',
   production: !!util.env.production
 };
 
 var autoprefixerOptions = {
   browsers: ['last 2 versions', '> 5%', 'Firefox ESR']
 };
-
-
-// gulp.task("js", function () {
-//   return gulp.src("src/js/main.js")
-//     .pipe(babel())
-//     .pipe(gulp.dest("docs/js"));
-// });
-
 
 gulp.task("js", function () {
   return gulp.src("src/js/*.js")
@@ -55,8 +45,7 @@ gulp.task('sass-prod', function () {
     .pipe(sass().on('error', sass.logError))
     .pipe(uglifycss())
     .pipe(autoprefixer(autoprefixerOptions))
-    .pipe(gulp.dest('docs/css'))
-    .pipe(sassdoc());
+    .pipe(gulp.dest('docs/css'));
 });
 
 
@@ -80,4 +69,4 @@ gulp.task('server', function () {
   });
 });
 
-gulp.task('serve', ['server', 'watch']);
+gulp.task('serve', ['server', 'sass', 'watch']);
