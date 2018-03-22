@@ -48,6 +48,19 @@ gulp.task('sass', function () {
     .pipe(livereload());
 });
 
+gulp.task('sass-prod', function () {
+  return gulp.src('src/sass/main.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass({ includePaths: ['src/sass'] }))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(uglifycss())
+    .pipe(autoprefixer(autoprefixerOptions))
+    .pipe(gulp.dest('docs/css'))
+    .pipe(sassdoc());
+});
+
+
+
 gulp.task('ejs', function () {
   return gulp.src('views/**/*.ejs')
     .pipe(livereload());
