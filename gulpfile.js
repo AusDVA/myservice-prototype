@@ -21,11 +21,19 @@ var autoprefixerOptions = {
 };
 
 
+// gulp.task("js", function () {
+//   return gulp.src("src/js/main.js")
+//     .pipe(babel())
+//     .pipe(gulp.dest("docs/js"));
+// });
+
+
 gulp.task("js", function () {
-  return gulp.src("src/js/main.js")
+  return gulp.src("src/js/*.js")
     .pipe(babel())
     .pipe(gulp.dest("docs/js"));
 });
+
 
 gulp.task('sass', function () {
   return gulp.src('src/sass/main.scss')
