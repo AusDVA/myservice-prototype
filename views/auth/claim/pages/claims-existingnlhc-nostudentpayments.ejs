@@ -24,6 +24,12 @@
               <h1 class="margin-below--small margin-above--small">
                 <span class="heading">Claims</span>
               </h1>
+
+              <div class="pagination padding-above--none
+              small-handheld-skip">
+                <button class="uikit-btn uikit-btn--tertiary margin-below" id="claim-activity-link">See all claims</button>
+              </div>
+
               <div class="container claims-accordion simple-accordion simple-accordion--open margin-below">
                 <div class="row simple-accordion__trigger">
                   <div class="col-sm-12" id="simple-accordion-trigger">
@@ -47,7 +53,7 @@
               </div>
             </div>
           </div>
-          <div class="container margin-above--extra margin-below--extra">
+          <div class="container margin-above--extra margin-below--extra" id="claim-activity">
             <h2 class="simple-accordion__heading">
               <center>
                 <b>Manage and track your claims</b>
@@ -99,6 +105,18 @@
           $("#simple-accordion-trigger").click(function () {
             $(this).toggleClass('simple-accordion__trigger--open');
             $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
+          });
+
+          function goToByScroll(id) {
+            id = id.replace("-link", "");
+            $('html,body').animate({
+              scrollTop: $("#" + id).offset().top
+            },
+              'slow');
+          }
+          $("#claim-activity-link").click(function (e) {
+            e.preventDefault();
+            goToByScroll($(this).attr("id"));
           });
 
 
