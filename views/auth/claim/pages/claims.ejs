@@ -24,19 +24,19 @@
               <h1 class="margin-below--small margin-above--small">
                 <span class="heading">Claims</span>
               </h1>
-              <div class="container simple-accordian margin-below">
-                <div class="row simple-accordian--trigger">
-                  <div class="col-sm-12" id="simple-accordian-trigger">
-                    <h2 class="simple-accordian--heading margin-above--none margin-below--none">
+              <div class="container simple-accordion simple-accordion--open margin-below">
+                <div class="row simple-accordion__trigger">
+                  <div class="col-sm-12" id="simple-accordion-trigger">
+                    <h2 class="simple-accordion__heading margin-above--none margin-below--none">
                       <a class="toggle-arrow">
                         <b>Get the entitlements you deserve</b>
                       </a>
                     </h2>
                   </div>
                 </div>
-                <div class="row simple-accordian--body margin-below--extra">
+                <div class="row simple-accordion__body margin-below--extra">
                   <div class="col-sm-6 dividing-line">
-                    <h2 class="simple-accordian--heading margin-above--none">Claim now for service-related
+                    <h2 class="simple-accordion__heading margin-above--none">Claim now for service-related
                       <br>
                       <b>injuries or illness</b>
                     </h2>
@@ -45,25 +45,25 @@
                   </div>
 
                   <div class="col-sm-5">
-                    <h2 class="simple-accordian--heading margin-above--none margin-below--none">Find other entitlements</h2>
+                    <h2 class="simple-accordion__heading margin-above--none margin-below--none">Find other entitlements</h2>
 
-                    <div class="margin-above--mid">
+                    <div class="action-group margin-above--mid">
                       <div class="select-container margin-above--none margin-below--none">
                         <select class="uikit-text-input" id="entitlements" name="entitlements">
-                          <option>Choose a claim</option>
-                          <option>Free mental health treatment</option>
-                          <option>Education allowance</option>
+                          <option value="">Choose a claim</option>
+                          <option value="mentalhealth">Free mental health treatment</option>
+                          <option value="education">Education allowance</option>
                         </select>
                       </div>
-                      <div class="entitlement-mh" style="display:none;">
-                        <p class="margin-below--none margin-above--mid ">Get immediate mental health treatment at no cost to you.</p>
-                        <button class="uikit-btn small margin-above--mid " onclick="window.location.href='/health-card1' ">
+                      <div class="action-group__reveal--closed" id="entitlement-mh">
+                        <p class="margin-below--none margin-above--mid">Get immediate mental health treatment at no cost to you.</p>
+                        <button class="uikit-btn small margin-above--mid" onclick="window.location.href='/health-card1'">
                           <b>Access now</b>
                         </button>
                       </div>
-                      <div class="entitlement-student " style="display:none; ">
-                        <p class="margin-below--none margin-above--mid ">Get help with the cost of education for your family.</p>
-                        <button class="uikit-btn small margin-above--mid " onclick="window.location.href='http://myservice-disco.herokuapp.com/studentpreeligibility?flow=veteranFlow' ">
+                      <div class="action-group__reveal--closed" id="entitlement-student">
+                        <p class="margin-below--none margin-above--mid">Get help with the cost of education for your family.</p>
+                        <button class="uikit-btn small margin-above--mid" onclick="window.location.href='http://myservice-disco.herokuapp.com/studentpreeligibility?flow=veteranFlow' ">
                           <b>Make a claim</b>
                         </button>
                       </div>
@@ -107,21 +107,26 @@
       <% include ../../../global/partials/footer.ejs %>
 
         <script>
-          $("#simple-accordian--trigger").click(function () {
-            $(".simple-accordian--body").toggle("fast");
+          $("#simple-accordion-trigger").click(function () {
+            $(this).toggleClass('simple-accordion__trigger--open');
+            $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
           });
 
 
           $("#entitlements").change(function () {
-            if ($('#entitlements :selected').val() == "Free mental health treatment") {
-              $(".entitlement-mh").show("fast");
+            if ($('#entitlements :selected').val() == "mentalhealth") {
+              $("#entitlement-mh").removeClass('action-group__reveal--closed');
+              $("#entitlement-mh").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-mh").hide();
+              $("#entitlement-mh").removeClass('action-group__reveal--open');
+              $("#entitlement-mh").addClass('action-group__reveal--closed');
             }
-            if ($('#entitlements :selected').val() == "Education allowance") {
-              $(".entitlement-student").show("fast");
+            if ($('#entitlements :selected').val() == "education") {
+              $("#entitlement-student").removeClass('action-group__reveal--closed');
+              $("#entitlement-student").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-student").hide();
+              $("#entitlement-student").removeClass('action-group__reveal--open');
+              $("#entitlement-student").addClass('action-group__reveal--closed');
             }
           });
 

@@ -24,9 +24,9 @@
               <h1 class="margin-below--small margin-above--small">
                 <span class="heading">Claims</span>
               </h1>
-              <div class="container claims-accordian simple-accordian margin-below">
-                <div class="row simple-accordian--trigger">
-                  <div class="col-sm-12" id="simple-accordian--trigger">
+              <div class="container claims-accordion simple-accordion simple-accordion--open margin-below">
+                <div class="row simple-accordion__trigger">
+                  <div class="col-sm-12" id="simple-accordion-trigger">
                     <h2 class="margin-above--none margin-below--none">
                       <a class="toggle-arrow">
                         <b>Get the entitlements you deserve</b>
@@ -34,9 +34,9 @@
                     </h2>
                   </div>
                 </div>
-                <div class="row simple-accordian--body margin-below--extra">
-                  <div class="col-sm-12 claims-accordian--singleclaim">
-                    <h2 class="simple-accordian--heading">Claim now for
+                <div class="row simple-accordion__body margin-below--extra">
+                  <div class="col-sm-12 claims-accordion--singleclaim">
+                    <h2 class="simple-accordion__heading">Claim now for
                       <br>
                       <b>education assistance</b>
                     </h2>
@@ -48,14 +48,14 @@
             </div>
           </div>
           <div class="container margin-above--extra margin-below--extra">
-            <h2 class="simple-accordian--heading">
+            <h2 class="simple-accordion__heading">
               <center>
                 <b>Manage and track your claims</b>
               </center>
             </h2>
             <section class="widget">
               <div class="widget-header">
-                <h2 class="simple-accordian--heading">
+                <h2 class="simple-accordion__heading">
                   <span class="widget-header__title">
                     <img src="../../../docs/images/ico-claims.svg" alt="">Claim activity
                   </span>
@@ -78,21 +78,25 @@
       <% include ../../../global/partials/footer.ejs %>
 
         <script>
-          $("#simple-accordian-trigger").click(function () {
-            $(".simple-accordian-body").toggle("fast");
+          $("#simple-accordion-trigger").click(function () {
+            $(this).toggleClass('simple-accordion__trigger--open');
+            $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
           });
 
-
           $("#entitlements").change(function () {
-            if ($('#entitlements :selected').val() == "Free mental health treatment") {
-              $(".entitlement-mh").show("fast");
+            if ($('#entitlements :selected').val() == "mentalhealth") {
+              $("#entitlement-mh").removeClass('action-group__reveal--closed');
+              $("#entitlement-mh").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-mh").hide();
+              $("#entitlement-mh").removeClass('action-group__reveal--open');
+              $("#entitlement-mh").addClass('action-group__reveal--closed');
             }
-            if ($('#entitlements :selected').val() == "Student payments") {
-              $(".entitlement-student").show("fast");
+            if ($('#entitlements :selected').val() == "education") {
+              $("#entitlement-student").removeClass('action-group__reveal--closed');
+              $("#entitlement-student").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-student").hide();
+              $("#entitlement-student").removeClass('action-group__reveal--open');
+              $("#entitlement-student").addClass('action-group__reveal--closed');
             }
           });
 
