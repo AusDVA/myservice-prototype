@@ -55,7 +55,7 @@ jQuery(document).ready(function ($) {
         id23: "Where are you living?",
         id23a: "What best describes your situation?",
         id23ai: "Why are you",
-        id24: "Are you renting?",
+        id24: "What is your living situation?",
         id24x: "Are you sharing the cost of rent with anyone else?",
         id24a: "Do you have your rental details?",
         id24a1: "When did you start renting? <span class='hint'>(DD / MM / YYYY)</span>",
@@ -67,8 +67,9 @@ jQuery(document).ready(function ($) {
         id24a6: "Contact number",
         id24a7: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
         id24a8: "Do you share the cost of rent with anyone else? ",
-        id24a9: "Are meals included in the accommodation costs?",
-        id24a9a: "How much of the payment is for meals?  ",
+        id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
+        id24a9a: "How much do you pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>",
+        id24a9b: "Tell us about your situation",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Who receives the Family Tax Benefit for the student?",
         id26a: "What is your Customer Reference Number (CRN)",
@@ -168,8 +169,9 @@ jQuery(document).ready(function ($) {
         id24a6: "Contact number",
         id24a7: "How much rent does  pay every two weeks ?",
         id24a8: "",
-        id24a9: "Are meals included in the accommodation costs?",
-        id24a9a: "How much of the payment is for meals?  ",
+        // id24a9: "Are meals included in the accommodation costs?",
+        // id24a9a: "How much of the payment is for meals?  ",
+
         id24: "",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Do you receive Family Tax Benefit for the student?",
@@ -213,6 +215,9 @@ jQuery(document).ready(function ($) {
       question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id24a9 = "When did " + studentName + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
+      question.id24a9a = "How much does " + studentName + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9b = "Tell us about " + studentName + "'s situation";
 
     }
 
@@ -819,6 +824,7 @@ jQuery(document).ready(function ($) {
 
     $('input[name=studentLivingWithPartner]').change(function () {
       if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
+
         $(".pt-studentLivingWithPartnerLessRate").show();
       } else {
         $(".pt-studentLivingWithPartnerLessRate").hide();
@@ -1024,7 +1030,6 @@ jQuery(document).ready(function ($) {
       } else {
         localStorage.removeItem('studentLivingWithPartner');
         localStorage.setItem('studentLivingWithPartner', 'no');
-        // $(".pt-studentLivingSameAddress").hide();
       }
     });
 
@@ -1043,9 +1048,13 @@ jQuery(document).ready(function ($) {
     $(".pt-rentPayed").hide();
     $(".pt-showIfAdditionalAddress").hide();
     $(".pt-showIfLivingAway").hide();
+    $(".pt-showIfBoarding").hide();
+    $(".pt-boardPaid").hide();
+    $(".pt-showIfOther").hide();
 
+    //localStorage.getItem('studentPartneredRelationship') === 'yes'
     if ((localStorage.getItem('studentLivingLocation') === 'at-home')
-      || (localStorage.getItem('studentPartneredRelationship') === 'yes')
+      || (localStorage.getItem('studentLivingWithPartner') === 'yes')
       || (localStorage.getItem('studentAge') < 16)) {
       $(".pt-showIfLivingAway").hide();
     } else {
@@ -1061,17 +1070,38 @@ jQuery(document).ready(function ($) {
       }
     });
 
-    $('input[name=isStudentRenting]').change(function () {
-      if ($('input[name=isStudentRenting]:checked').val() === 'yes') {
+
+    $('input[name=studentLivingArrangement]').change(function () {
+      if ($('input[name=studentLivingArrangement]:checked').val() === 'renting') {
         $(".pt-showIfRequireRentAssistance").show();
         $(".pt-showIfRenting").show('fast');
-        localStorage.removeItem('studentRenting');
-        localStorage.setItem('studentRenting', true);
-      } else {
-        localStorage.removeItem('studentRenting');
+        $(".pt-showIfBoarding").hide();
+        $(".pt-boardPaid").hide();
+        $(".pt-showIfOther").hide();
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'renting');
+      } else if ($('input[name=studentLivingArrangement]:checked').val() === 'boarding') {
+        $(".pt-boardPaid").show();
+        $(".pt-showIfBoarding").show('fast');
         $(".pt-showIfRenting").hide();
+        $(".pt-showIfOther").hide();
+        $(".pt-showIfRequireRentAssistance").hide();
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'boarding');
+      } else if ($('input[name=studentLivingArrangement]:checked').val() === 'other') {
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'other');
+        $(".pt-showIfOther").show();
+        $(".pt-boardPaid").hide();
+        $(".pt-showIfBoarding").hide();
+        $(".pt-showIfRenting").hide();
+        $(".pt-showIfRequireRentAssistance").hide();
+      } else {
+        localStorage.removeItem('studentLivingArrangement');
       }
     });
+
+
 
     $('input[name=sharingResidence]').change(function () {
 
@@ -1387,7 +1417,7 @@ jQuery(document).ready(function ($) {
     }
     // check if living away from home
 
-    if (localStorage.getItem('studentRenting')) {
+    if (localStorage.getItem('studentLivingArrangement') === 'renting' || localStorage.getItem('studentLivingArrangement') === 'boarding') {
       this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
     } else {
       var i = this.docsRequired.indexOf("proofOfResidence");
