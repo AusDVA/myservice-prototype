@@ -3,7 +3,30 @@ jQuery(document).ready(function ($) {
   function initStudents() {
 
     var studentName = localStorage.getItem('studentName');
+    // get the name from storage 
+    if (localStorage.getItem('studentName')) {
+      // add '
+      var apostrophe = "'";
+      // add s to ' if student's name doesn't end in s
+      if (localStorage.getItem('studentName').slice(-1) !== "s") {
+        apostrophe = apostrophe + "s";
+      }
+    }
 
+    var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
+
+    // only for veteran and parent/guardian flows
+    if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
+
+      // both apostrophed and straight names are used in the screens 
+      $(".studentNameApostrophed").html(studentApostrophedName);
+      $(".studentName").html(localStorage.getItem('studentName'));
+
+
+    } else {
+      $(".studentNameApostrophed").html('');
+      $(".studentName").html('');
+    }
     var question = '';
     // Student questions 
 
@@ -210,14 +233,14 @@ jQuery(document).ready(function ($) {
         id50a: "apply",
       };
 
-      question.id24 = "Is " + studentName + " renting?";
+      question.id24 = "What is " + studentApostrophedName + " living situation?";
       question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
       question.id24a9 = "When did " + studentName + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a9a = "How much does " + studentName + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
-      question.id24a9b = "Tell us about " + studentName + "'s situation";
+      question.id24a9b = "Tell us about " + studentApostrophedName + " situation";
 
     }
 
@@ -650,28 +673,7 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfDocumentUploadShoppingCart").hide();
     $(".pt-final-toggle").hide();
 
-    // only for veteran and parent/guardian flows
-    if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-      // get the name from storage 
-      if (localStorage.getItem('studentName')) {
-        // add '
-        var apostrophe = "'";
-        // add s to ' if student's name doesn't end in s
-        if (localStorage.getItem('studentName').slice(-1) !== "s") {
-          apostrophe = apostrophe + "s";
-        }
-      }
 
-      var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
-      // both apostrophed and straight names are used in the screens 
-      $(".studentNameApostrophed").html(studentApostrophedName);
-      $(".studentName").html(localStorage.getItem('studentName'));
-
-
-    } else {
-      $(".studentNameApostrophed").html('');
-      $(".studentName").html('');
-    }
 
     $('input[name=doesStudentHaveTFN]').change(function () {
 
