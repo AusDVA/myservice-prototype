@@ -267,6 +267,7 @@ jQuery(document).ready(function ($) {
       $('.pt-studentFullTime').hide();
       $('.pt-showIfStudentCantClaim').hide();
       $('.pt-showIfStudentNotDependant').hide();
+      $('.pt-aboutYou').hide();
     };
 
     var resetForm = function resetForm($form) {
@@ -475,9 +476,11 @@ jQuery(document).ready(function ($) {
             $('input[name=veteranSignificantlyInjured]').change(function () {
               if ($('input[name=veteranSignificantlyInjured]:checked').val() === 'yes') {
                 $(".pt-showIfStudentUnder18").show();
+                $(".pt-aboutYou").show();
                 $(".pt-showIfStudentNotDependant").hide();
               } else {
                 $(".pt-showIfStudentUnder18").hide();
+                $(".pt-aboutYou").hide();
                 $(".pt-showIfStudentNotDependant").show();
               }
             });

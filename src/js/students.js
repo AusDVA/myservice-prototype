@@ -356,6 +356,7 @@ jQuery(document).ready(function ($) {
       $('.pt-studentFullTime').hide();
       $('.pt-showIfStudentCantClaim').hide();
       $('.pt-showIfStudentNotDependant').hide();
+      $('.pt-aboutYou').hide();
 
     }
 
@@ -509,6 +510,7 @@ jQuery(document).ready(function ($) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").hide();
               $(".pt-claimantShowIfStudentOver16").show();
+
             } else { // under 16
               init();
               // $(".pt-showIfStudentShouldClaimThemselves").hide();
@@ -521,9 +523,11 @@ jQuery(document).ready(function ($) {
             $('input[name=veteranSignificantlyInjured]').change(function () {
               if ($('input[name=veteranSignificantlyInjured]:checked').val() === 'yes') {
                 $(".pt-showIfStudentUnder18").show();
+                $(".pt-aboutYou").show();
                 $(".pt-showIfStudentNotDependant").hide();
               } else {
                 $(".pt-showIfStudentUnder18").hide();
+                $(".pt-aboutYou").hide();
                 $(".pt-showIfStudentNotDependant").show();
               }
             });
