@@ -6,28 +6,28 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 jQuery(document).ready(function ($) {
   function initStudents() {
 
-    var studentName = localStorage.getItem('studentName');
+    var studentNameFirst = localStorage.getItem('studentNameFirst');
     // get the name from storage 
-    if (localStorage.getItem('studentName')) {
+    if (localStorage.getItem('studentNameFirst')) {
       // add '
       var apostrophe = "'";
       // add s to ' if student's name doesn't end in s
-      if (localStorage.getItem('studentName').slice(-1) !== "s") {
+      if (localStorage.getItem('studentNameFirst').slice(-1) !== "s") {
         apostrophe = apostrophe + "s";
       }
     }
 
-    var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
+    var studentNameFirstApostrophed = localStorage.getItem('studentNameFirst') + apostrophe;
 
     // only for veteran and parent/guardian flows
     if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
 
       // both apostrophed and straight names are used in the screens 
-      $(".studentNameApostrophed").html(studentApostrophedName);
-      $(".studentName").html(localStorage.getItem('studentName'));
+      $(".studentNameFirstApostrophed").html(studentNameFirstApostrophed);
+      $(".studentNameFirst").html(localStorage.getItem('studentNameFirst'));
     } else {
-      $(".studentNameApostrophed").html('');
-      $(".studentName").html('');
+      $(".studentNameFirstApostrophed").html('');
+      $(".studentNameFirst").html('');
     }
     var question = '';
     // Student questions 
@@ -196,14 +196,14 @@ jQuery(document).ready(function ($) {
         id24a8: ""
       }, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veteran's given name <span class='hint'>(first name)</span>"), _defineProperty(_question, 'id43', "Veteran's surname <span class='hint'>(last name)</span>"), _defineProperty(_question, 'id44', "Veteran's date of birth"), _defineProperty(_question, 'id45', "Veteran's DVA file number <span class='hint'>(if known)</span>"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _question);
 
-      question.id24 = "What is " + studentApostrophedName + " living situation?";
-      question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
-      question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
-      question.id24a9 = "When did " + studentName + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentName + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
-      question.id24a9b = "Tell us about " + studentApostrophedName + " situation";
+      question.id24 = "What is " + studentNameFirstApostrophed + " living situation?";
+      question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
+      question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
+      question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
+      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
+      question.id24a9a = "How much does " + studentNameFirst + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
     }
 
     if ("claimantFlow" in localStorage) {
@@ -651,24 +651,6 @@ jQuery(document).ready(function ($) {
             $(this).show("fast");
           }
         });
-
-        $("#veteranFirstName").focusout(function () {
-          if ($(this).val()) {
-            localStorage.removeItem('veteranFirstName');
-            localStorage.setItem('veteranFirstName', $(this).val());
-          } else {
-            localStorage.removeItem('veteranFirstName');
-          }
-        });
-
-        $("#veteranLastName").focusout(function () {
-          if ($(this).val()) {
-            localStorage.removeItem('veteranLastName');
-            localStorage.setItem('veteranLastName', $(this).val());
-          } else {
-            localStorage.removeItem('veteranLastName');
-          }
-        });
       }
 
       if ("veteranFlow" in localStorage) {
@@ -686,6 +668,24 @@ jQuery(document).ready(function ($) {
           }
         });
       }
+
+      $("#veteranNameFirst").focusout(function () {
+        if ($(this).val()) {
+          localStorage.removeItem('veteranNameFirst');
+          localStorage.setItem('veteranNameFirst', $(this).val());
+        } else {
+          localStorage.removeItem('veteranNameFirst');
+        }
+      });
+
+      $("#veteranNameLast").focusout(function () {
+        if ($(this).val()) {
+          localStorage.removeItem('veteranNameLast');
+          localStorage.setItem('veteranNameLast', $(this).val());
+        } else {
+          localStorage.removeItem('veteranNameLast');
+        }
+      });
     } else {
       $(".pt-studentAge--mature").hide("slow");
     }
@@ -708,10 +708,10 @@ jQuery(document).ready(function ($) {
 
     $("#firstName").focusout(function () {
       if ($(this).val()) {
-        localStorage.removeItem('studentName');
-        localStorage.setItem('studentName', $(this).val());
+        localStorage.removeItem('studentNameFirst');
+        localStorage.setItem('studentNameFirst', $(this).val());
       } else {
-        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentNameFirst');
       }
     });
 
@@ -849,10 +849,19 @@ jQuery(document).ready(function ($) {
 
     $("#firstName").focusout(function () {
       if ($(this).val()) {
-        localStorage.removeItem('studentName');
-        localStorage.setItem('studentName', $(this).val());
+        localStorage.removeItem('studentNameFirst');
+        localStorage.setItem('studentNameFirst', $(this).val());
       } else {
-        localStorage.removeItem('studentName');
+        localStorage.removeItem('studentNameFirst');
+      }
+    });
+
+    $("#lastName").focusout(function () {
+      if ($(this).val()) {
+        localStorage.removeItem('studentNameLast');
+        localStorage.setItem('studentNameLast', $(this).val());
+      } else {
+        localStorage.removeItem('studentNameLast');
       }
     });
 
@@ -1244,7 +1253,7 @@ jQuery(document).ready(function ($) {
     this.i = 0;
 
     this.studentAge;
-    this.studentName;
+    this.studentNameFirst;
     this.docsRequired = [];
 
     // privileged init method
@@ -1286,85 +1295,110 @@ jQuery(document).ready(function ($) {
 
     // Proof of relationship 
     if ("veteranFlow" in localStorage) {
-      if (localStorage.getItem('studentName') !== null && localStorage.getItem('studentNameLast') !== null) {
+      if (localStorage.getItem('studentNameFirst') !== null && localStorage.getItem('studentNameLast') !== null) {
         this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+      } else {
+        var i = this.docsRequired.indexOf("proofOfRelationship");
+        if (i != -1) {
+          this.docsRequired.splice(i, 1);
+          $('.pt-proofOfRelationship').addClass('display-none');
+        }
       }
+    } else if ("studentFlow" in localStorage) {
+      if (localStorage.getItem('veteranNameFirst') !== null && localStorage.getItem('veteranNameLast') !== null) {
+        this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+      } else {
+        var i = this.docsRequired.indexOf("proofOfRelationship");
+        if (i != -1) {
+          this.docsRequired.splice(i, 1);
+          $('.pt-proofOfRelationship').addClass('display-none');
+        }
+      }
+    } else if ("claimantFlow" in localStorage) {
+      if (localStorage.getItem('veteranNameFirst') !== null && localStorage.getItem('veteranNameLast') !== null) {
+        this.docsRequired.indexOf("proofOfRelationshipVeteranStudent") === -1 ? this.docsRequired.push("proofOfRelationshipVeteranStudent") : console.log();
+      } else {
+        var i = this.docsRequired.indexOf("proofOfRelationshipVeteranStudent");
+        if (i != -1) {
+          this.docsRequired.splice(i, 1);
+          $('.pt-proofOfRelationshipVeteranStudent').addClass('display-none');
+        }
+      }
+
+      if (localStorage.getItem('studentNameFirst') !== null && localStorage.getItem('studentNameLast') !== null) {
+        this.docsRequired.indexOf("proofOfRelationshipClaimantStudent") === -1 ? this.docsRequired.push("proofOfRelationshipClaimantStudent") : console.log();
+      } else {
+        var i = this.docsRequired.indexOf("proofOfRelationshipClaimantStudent");
+        if (i != -1) {
+          this.docsRequired.splice(i, 1);
+          $('.pt-proofOfRelationshipClaimantStudent').addClass('display-none');
+        }
+      }
+    }
+
+    // Proof of enrolment 
+    if ("enrolStatus" in localStorage) {
+      this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
     } else {
-      if (localStorage.getItem('veteranFirstName') !== null && localStorage.getItem('veteranLastName') !== null) {
-        // if (true) {
-        this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+      console.log('remove Proof of enrolment ' + this);
+      var i = this.docsRequired.indexOf("proofOfEnrolment");
+      if (i != -1) {
+        this.docsRequired.splice(i, 1);
+        $('.pt-proofOfEnrolment').addClass('display-none');
       }
     }
 
-    // check student age
-    if ("studentAge" in localStorage && "enrolStatus" in localStorage) {
-      this.studentAge = localStorage.getItem('studentAge');
-      if (this.studentAge > 15) {
-        this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
-      }
-    }
-
-<<<<<<< HEAD
-    // check if living away from home
-    if (localStorage.getItem('studentRenting')) {
-=======
-    if (localStorage.getItem('studentLivingArrangement') === 'renting' || localStorage.getItem('studentLivingArrangement') === 'boarding') {
->>>>>>> MYS-1790-living-situation
+    // Proof of residence 
+    // if (localStorage.getItem('studentRenting')) {
+    if (localStorage.getItem('studentLivingLocation') === 'away-from-home') {
       this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
     } else {
       var i = this.docsRequired.indexOf("proofOfResidence");
       if (i != -1) {
         this.docsRequired.splice(i, 1);
+        $('.pt-proofOfResidence').addClass('display-none');
       }
     }
 
-    // Display if  Study load == part time
+    // Part-time study reason 
     if (localStorage.getItem('studentLoadOfStudy') === 'part-time') {
-
       this.docsRequired.indexOf("partTimeStudyReason") === -1 ? this.docsRequired.push("partTimeStudyReason") : console.log();
     } else {
       var i = this.docsRequired.indexOf("partTimeStudyReason");
       if (i != -1) {
         this.docsRequired.splice(i, 1);
+        $('.pt-partTimeStudyReason').addClass('display-none');
       }
     }
 
-    if (this.type === 'student') {
+    // No more TFN
+    // if (this.type === 'student') {
 
-      if (localStorage.getItem('studentTFN') === 'true') {
-        var i = this.docsRequired.indexOf("noTFN");
-        if (i != -1) {
-          this.docsRequired.splice(i, 1);
-        }
+    //   if (localStorage.getItem('studentTFN') === 'true') {
+    //     var i = this.docsRequired.indexOf("noTFN");
+    //     if (i != -1) {
+    //       this.docsRequired.splice(i, 1);
+    //     }
 
-        this.docsRequired.indexOf("tFNDeclaraion") === -1 ? this.docsRequired.push("tFNDeclaraion") : console.log();
-      } else {
-        // var i = this.docsRequired.indexOf("tFNDeclaraion");
-        // if (i != -1) {
-        // 	this.docsRequired.splice(i, 1);
-        // }
-        // this.docsRequired.indexOf("noTFN") === -1 ? this.docsRequired.push("noTFN") : console.log();
+    //     this.docsRequired.indexOf("tFNDeclaraion") === -1 ? this.docsRequired.push("tFNDeclaraion") : console.log();
 
-      }
-    }
+    //   } else {
+    //     var i = this.docsRequired.indexOf("tFNDeclaraion");
+    //     if (i != -1) {
+    //     	this.docsRequired.splice(i, 1);
+    //     }
+    //     this.docsRequired.indexOf("noTFN") === -1 ? this.docsRequired.push("noTFN") : console.log();
+    //   }
+    // }
 
     // show all required docs 
-    //console.log('number of docs required = ' + this.docsRequired.length);
-
     if (this.docsRequired.length > 0) {
       jQuery(".pt-showIfDocumentUploadShoppingCart").show();
       $.each(this.docsRequired, function () {
         console.log('docs required = ' + this);
-        // $('.pt-' + this).show('slow');
-
         $('.pt-' + this).removeClass('display-none');
-        $('.pt-' + this).addClass('display-block');
       });
     }
-
-    // console.log(this.docsRequired);
-    // console.log(this.studentAge);
-    // console.log(this.type);
   };
 
   // create a new person
