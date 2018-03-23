@@ -53,7 +53,7 @@ jQuery(document).ready(function ($) {
         id8: "Are you living away from home for any of the above reasons?",
         id8a: "[TEXT TBD] You will be eligible for a lesser payment",
         id9: "",
-        id9a: "",
+        id9a: "Approximately, when will you ",
         id9b: "Provide any supporting documents to prove your relationship to the student.",
         id10: "Level of study",
         id10a: "[TEXT TBD] You are no longer eligible",
