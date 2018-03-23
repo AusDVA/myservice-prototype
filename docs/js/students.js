@@ -713,6 +713,15 @@ jQuery(document).ready(function ($) {
       }
     });
 
+    $("#lastName").focusout(function () {
+      if ($(this).val()) {
+        localStorage.removeItem('studentNameLast');
+        localStorage.setItem('studentNameLast', $(this).val());
+      } else {
+        localStorage.removeItem('studentNameLast');
+      }
+    });
+
     $('input[name=studentLivingLocation]').change(function () {
 
       localStorage.removeItem('studentLivingLocation');
@@ -1259,11 +1268,9 @@ jQuery(document).ready(function ($) {
       }
     }
 
-    // check relationship 
-
+    // Proof of relationship 
     if ("veteranFlow" in localStorage) {
-      if (localStorage.getItem('veteranReceivesFTB') === 'false' && localStorage.getItem('studentName') !== null) {
-        // if (true) {
+      if (localStorage.getItem('studentName') !== null && localStorage.getItem('studentNameLast') !== null) {
         this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
       }
     } else {
@@ -1280,8 +1287,8 @@ jQuery(document).ready(function ($) {
         this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
       }
     }
-    // check if living away from home
 
+    // check if living away from home
     if (localStorage.getItem('studentRenting')) {
       this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
     } else {
