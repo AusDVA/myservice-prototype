@@ -1436,23 +1436,26 @@ jQuery(document).ready(function ($) {
         }
       }
     } else if ("claimantFlow" in localStorage) {
-      if ((localStorage.getItem('veteranNameFirst') !== null) && (localStorage.getItem('veteranNameLast') !== null)) {
-        this.docsRequired.indexOf("proofOfRelationshipVeteranStudent") === -1 ? this.docsRequired.push("proofOfRelationshipVeteranStudent") : console.log();
-      } else {
-        var i = this.docsRequired.indexOf("proofOfRelationshipVeteranStudent");
-        if (i != -1) {
-          this.docsRequired.splice(i, 1);
-          $('.pt-proofOfRelationshipVeteranStudent').addClass('display-none');
+      if ((localStorage.getItem('veteranNameFirst') !== null) && (localStorage.getItem('veteranNameLast') !== null) && (localStorage.getItem('studentNameFirst') !== null) && (localStorage.getItem('studentNameLast') !== null)) {
+        initStudents();
+        if ((localStorage.getItem('veteranNameFirst') !== null) && (localStorage.getItem('veteranNameLast') !== null)) {
+          this.docsRequired.indexOf("proofOfRelationshipVeteranStudent") === -1 ? this.docsRequired.push("proofOfRelationshipVeteranStudent") : console.log();
+        } else {
+          var i = this.docsRequired.indexOf("proofOfRelationshipVeteranStudent");
+          if (i != -1) {
+            this.docsRequired.splice(i, 1);
+            $('.pt-proofOfRelationshipVeteranStudent').addClass('display-none');
+          }
         }
-      }
 
-      if ((localStorage.getItem('studentNameFirst') !== null) && (localStorage.getItem('studentNameLast') !== null)) {
-        this.docsRequired.indexOf("proofOfRelationshipClaimantStudent") === -1 ? this.docsRequired.push("proofOfRelationshipClaimantStudent") : console.log();
-      } else {
-        var i = this.docsRequired.indexOf("proofOfRelationshipClaimantStudent");
-        if (i != -1) {
-          this.docsRequired.splice(i, 1);
-          $('.pt-proofOfRelationshipClaimantStudent').addClass('display-none');
+        if ((localStorage.getItem('studentNameFirst') !== null) && (localStorage.getItem('studentNameLast') !== null)) {
+          this.docsRequired.indexOf("proofOfRelationshipClaimantStudent") === -1 ? this.docsRequired.push("proofOfRelationshipClaimantStudent") : console.log();
+        } else {
+          var i = this.docsRequired.indexOf("proofOfRelationshipClaimantStudent");
+          if (i != -1) {
+            this.docsRequired.splice(i, 1);
+            $('.pt-proofOfRelationshipClaimantStudent').addClass('display-none');
+          }
         }
       }
     }
@@ -1471,7 +1474,6 @@ jQuery(document).ready(function ($) {
     }
 
     // Proof of residence 
-    // if (localStorage.getItem('studentRenting')) {
     if (localStorage.getItem('studentLivingLocation') === 'away-from-home') {
       this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
     } else {
