@@ -4,6 +4,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // Student claim pages
 jQuery(document).ready(function ($) {
+
   function initStudents() {
 
     var studentNameFirst = localStorage.getItem('studentNameFirst');
@@ -226,19 +227,8 @@ jQuery(document).ready(function ($) {
     for (var key in question) {
       $("#question_" + key).html(question[key]);
     }
-
-    // if ("veteranFlow" in localStorage) {
-    // 	$(".pt-flow--veteran").show("fast");
-    // }
-
-    // if ("studentFlow" in localStorage) {
-    // 	$(".pt-flow--student").show("fast");
-    // }
-
-    // if ("claimantFlow" in localStorage) {
-    // 	$(".pt-flow--claimant").show("fast");
-    // }
   }
+
   function initFlow() {
     if ("veteranFlow" in localStorage) {
       $(".pt-flow--veteran").show("fast");
@@ -1155,6 +1145,10 @@ jQuery(document).ready(function ($) {
     });
   }
 
+  if (window.location.pathname === "/studentclaimupload") {
+    initStudents();
+  }
+
   if (window.location.pathname === "/studentclaim4") {
     // Page 4
     initStudents();
@@ -1296,12 +1290,12 @@ jQuery(document).ready(function ($) {
     // Proof of relationship 
     if ("veteranFlow" in localStorage) {
       if (localStorage.getItem('studentNameFirst') !== null && localStorage.getItem('studentNameLast') !== null) {
-        this.docsRequired.indexOf("proofOfRelationship") === -1 ? this.docsRequired.push("proofOfRelationship") : console.log();
+        this.docsRequired.indexOf("proofOfRelationshipClaimantStudent") === -1 ? this.docsRequired.push("proofOfRelationshipClaimantStudent") : console.log();
       } else {
-        var i = this.docsRequired.indexOf("proofOfRelationship");
+        var i = this.docsRequired.indexOf("proofOfRelationshipClaimantStudent");
         if (i != -1) {
           this.docsRequired.splice(i, 1);
-          $('.pt-proofOfRelationship').addClass('display-none');
+          $('.pt-proofOfRelationshipClaimantStudent').addClass('display-none');
         }
       }
     } else if ("studentFlow" in localStorage) {
