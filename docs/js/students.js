@@ -793,9 +793,8 @@ jQuery(document).ready(function ($) {
     });
 
     $('input[name=studentLivingAwayValidReason]').change(function () {
-
+      $(".pt-livingWithPartner").show();
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' && $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
-        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
@@ -805,13 +804,10 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
         localStorage.setItem('studentLivingAwayValidReason', true);
-        $(".pt-final-toggle").show();
       } else {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
-        $(".pt-livingWithPartner").hide();
-        $(".pt-final-toggle").show();
       }
     });
 
@@ -823,7 +819,6 @@ jQuery(document).ready(function ($) {
       } else {
         localStorage.removeItem('studentLivingWithPartner');
         localStorage.setItem('studentLivingWithPartner', 'no');
-        // $(".pt-studentLivingSameAddress").hide();
       }
     });
   }
@@ -900,9 +895,8 @@ jQuery(document).ready(function ($) {
     });
 
     $('input[name=studentLivingAwayValidReason]').change(function () {
-
+      $(".pt-livingWithPartner").show();
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' && $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
-        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
@@ -917,8 +911,6 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
-        $(".pt-livingWithPartner").hide();
-        $(".pt-final-toggle").show();
       }
     });
 
