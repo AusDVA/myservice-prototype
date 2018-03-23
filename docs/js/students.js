@@ -7,7 +7,28 @@ jQuery(document).ready(function ($) {
   function initStudents() {
 
     var studentName = localStorage.getItem('studentName');
+    // get the name from storage 
+    if (localStorage.getItem('studentName')) {
+      // add '
+      var apostrophe = "'";
+      // add s to ' if student's name doesn't end in s
+      if (localStorage.getItem('studentName').slice(-1) !== "s") {
+        apostrophe = apostrophe + "s";
+      }
+    }
 
+    var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
+
+    // only for veteran and parent/guardian flows
+    if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
+
+      // both apostrophed and straight names are used in the screens 
+      $(".studentNameApostrophed").html(studentApostrophedName);
+      $(".studentName").html(localStorage.getItem('studentName'));
+    } else {
+      $(".studentNameApostrophed").html('');
+      $(".studentName").html('');
+    }
     var question = '';
     // Student questions 
 
@@ -59,7 +80,7 @@ jQuery(document).ready(function ($) {
         id23: "Where are you living?",
         id23a: "What best describes your situation?",
         id23ai: "Why are you",
-        id24: "Are you renting?",
+        id24: "What is your living situation?",
         id24x: "Are you sharing the cost of rent with anyone else?",
         id24a: "Do you have your rental details?",
         id24a1: "When did you start renting? <span class='hint'>(DD / MM / YYYY)</span>",
@@ -71,8 +92,9 @@ jQuery(document).ready(function ($) {
         id24a6: "Contact number",
         id24a7: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
         id24a8: "Do you share the cost of rent with anyone else? ",
-        id24a9: "Are meals included in the accommodation costs?",
-        id24a9a: "How much of the payment is for meals?  ",
+        id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
+        id24a9a: "How much do you pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>",
+        id24a9b: "Tell us about your situation",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Who receives the Family Tax Benefit for the student?",
         id26a: "What is your Customer Reference Number (CRN)",
@@ -171,16 +193,17 @@ jQuery(document).ready(function ($) {
         id24a5: "Email address",
         id24a6: "Contact number",
         id24a7: "How much rent does  pay every two weeks ?",
-        id24a8: "",
-        id24a9: "Are meals included in the accommodation costs?",
-        id24a9a: "How much of the payment is for meals?  "
+        id24a8: ""
       }, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veteran's given name <span class='hint'>(first name)</span>"), _defineProperty(_question, 'id43', "Veteran's surname <span class='hint'>(last name)</span>"), _defineProperty(_question, 'id44', "Veteran's date of birth"), _defineProperty(_question, 'id45', "Veteran's DVA file number <span class='hint'>(if known)</span>"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _question);
 
-      question.id24 = "Is " + studentName + " renting?";
+      question.id24 = "What is " + studentApostrophedName + " living situation?";
       question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id24a9 = "When did " + studentName + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
+      question.id24a9a = "How much does " + studentName + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9b = "Tell us about " + studentApostrophedName + " situation";
     }
 
     if ("claimantFlow" in localStorage) {
@@ -586,27 +609,6 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfDocumentUploadShoppingCart").hide();
     $(".pt-final-toggle").hide();
 
-    // only for veteran and parent/guardian flows
-    if ("veteranFlow" in localStorage || "claimantFlow" in localStorage) {
-      // get the name from storage 
-      if (localStorage.getItem('studentName')) {
-        // add '
-        var apostrophe = "'";
-        // add s to ' if student's name doesn't end in s
-        if (localStorage.getItem('studentName').slice(-1) !== "s") {
-          apostrophe = apostrophe + "s";
-        }
-      }
-
-      var studentApostrophedName = localStorage.getItem('studentName') + apostrophe;
-      // both apostrophed and straight names are used in the screens 
-      $(".studentNameApostrophed").html(studentApostrophedName);
-      $(".studentName").html(localStorage.getItem('studentName'));
-    } else {
-      $(".studentNameApostrophed").html('');
-      $(".studentName").html('');
-    }
-
     $('input[name=doesStudentHaveTFN]').change(function () {
 
       if (localStorage.getItem('act') === 'mrca') {
@@ -759,6 +761,7 @@ jQuery(document).ready(function ($) {
 
     $('input[name=studentLivingWithPartner]').change(function () {
       if ($('input[name=studentLivingWithPartner]:checked').val() === 'yes') {
+
         $(".pt-studentLivingWithPartnerLessRate").show();
       } else {
         $(".pt-studentLivingWithPartnerLessRate").hide();
@@ -802,9 +805,8 @@ jQuery(document).ready(function ($) {
     });
 
     $('input[name=studentLivingAwayValidReason]').change(function () {
-
+      $(".pt-livingWithPartner").show();
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' && $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
-        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
@@ -814,13 +816,10 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
         localStorage.setItem('studentLivingAwayValidReason', true);
-        $(".pt-final-toggle").show();
       } else {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
-        $(".pt-livingWithPartner").hide();
-        $(".pt-final-toggle").show();
       }
     });
 
@@ -832,7 +831,6 @@ jQuery(document).ready(function ($) {
       } else {
         localStorage.removeItem('studentLivingWithPartner');
         localStorage.setItem('studentLivingWithPartner', 'no');
-        // $(".pt-studentLivingSameAddress").hide();
       }
     });
   }
@@ -909,9 +907,8 @@ jQuery(document).ready(function ($) {
     });
 
     $('input[name=studentLivingAwayValidReason]').change(function () {
-
+      $(".pt-livingWithPartner").show();
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' && $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
-        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
@@ -926,8 +923,6 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
-        $(".pt-livingWithPartner").hide();
-        $(".pt-final-toggle").show();
       }
     });
 
@@ -953,7 +948,6 @@ jQuery(document).ready(function ($) {
       } else {
         localStorage.removeItem('studentLivingWithPartner');
         localStorage.setItem('studentLivingWithPartner', 'no');
-        // $(".pt-studentLivingSameAddress").hide();
       }
     });
   }
@@ -970,8 +964,12 @@ jQuery(document).ready(function ($) {
     $(".pt-rentPayed").hide();
     $(".pt-showIfAdditionalAddress").hide();
     $(".pt-showIfLivingAway").hide();
+    $(".pt-showIfBoarding").hide();
+    $(".pt-boardPaid").hide();
+    $(".pt-showIfOther").hide();
 
-    if (localStorage.getItem('studentLivingLocation') === 'at-home' || localStorage.getItem('studentPartneredRelationship') === 'yes' || localStorage.getItem('studentAge') < 16) {
+    //localStorage.getItem('studentPartneredRelationship') === 'yes'
+    if (localStorage.getItem('studentLivingLocation') === 'at-home' || localStorage.getItem('studentLivingWithPartner') === 'yes' || localStorage.getItem('studentAge') < 16) {
       $(".pt-showIfLivingAway").hide();
     } else {
       $(".pt-showIfLivingAway").show();
@@ -986,15 +984,33 @@ jQuery(document).ready(function ($) {
       }
     });
 
-    $('input[name=isStudentRenting]').change(function () {
-      if ($('input[name=isStudentRenting]:checked').val() === 'yes') {
+    $('input[name=studentLivingArrangement]').change(function () {
+      if ($('input[name=studentLivingArrangement]:checked').val() === 'renting') {
         $(".pt-showIfRequireRentAssistance").show();
         $(".pt-showIfRenting").show('fast');
-        localStorage.removeItem('studentRenting');
-        localStorage.setItem('studentRenting', true);
-      } else {
-        localStorage.removeItem('studentRenting');
+        $(".pt-showIfBoarding").hide();
+        $(".pt-boardPaid").hide();
+        $(".pt-showIfOther").hide();
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'renting');
+      } else if ($('input[name=studentLivingArrangement]:checked').val() === 'boarding') {
+        $(".pt-boardPaid").show();
+        $(".pt-showIfBoarding").show('fast');
         $(".pt-showIfRenting").hide();
+        $(".pt-showIfOther").hide();
+        $(".pt-showIfRequireRentAssistance").hide();
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'boarding');
+      } else if ($('input[name=studentLivingArrangement]:checked').val() === 'other') {
+        localStorage.removeItem('studentLivingArrangement');
+        localStorage.setItem('studentLivingArrangement', 'other');
+        $(".pt-showIfOther").show();
+        $(".pt-boardPaid").hide();
+        $(".pt-showIfBoarding").hide();
+        $(".pt-showIfRenting").hide();
+        $(".pt-showIfRequireRentAssistance").hide();
+      } else {
+        localStorage.removeItem('studentLivingArrangement');
       }
     });
 
@@ -1288,8 +1304,12 @@ jQuery(document).ready(function ($) {
       }
     }
 
+<<<<<<< HEAD
     // check if living away from home
     if (localStorage.getItem('studentRenting')) {
+=======
+    if (localStorage.getItem('studentLivingArrangement') === 'renting' || localStorage.getItem('studentLivingArrangement') === 'boarding') {
+>>>>>>> MYS-1790-living-situation
       this.docsRequired.indexOf("proofOfResidence") === -1 ? this.docsRequired.push("proofOfResidence") : console.log();
     } else {
       var i = this.docsRequired.indexOf("proofOfResidence");
