@@ -186,7 +186,7 @@ jQuery(document).ready(function ($) {
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
       question.id52 = studentApostrophedName + " tax details";
-      question.id55 = "Does " + studentName + " you have a tax file number?";
+      question.id55 = "Does " + studentName + " have a tax file number?";
     }
 
     if ("claimantFlow" in localStorage) {
@@ -207,7 +207,7 @@ jQuery(document).ready(function ($) {
       question.id52 = studentApostrophedName + " tax details";
       question.id53 = "Do you want this payment to be taxed?";
       question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
-      question.id55 = "Does " + studentName + " you have a tax file number?";
+      question.id55 = "Does " + studentName + " have a tax file number?";
     }
 
     for (var key in question) {
