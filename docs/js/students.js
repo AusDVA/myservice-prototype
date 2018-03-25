@@ -108,8 +108,11 @@ jQuery(document).ready(function ($) {
         id48: "Please provide a brief statement explaining how you came into the veterans care. ",
         id49: "Student's parent/family status",
         id50: "",
-        id50a: "Apply"
-
+        id50a: "Apply",
+        id51: "Your bank details",
+        id52: "Your tax details",
+        id53: "Do you want your payment to be taxed?",
+        id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>"
       };
     }
 
@@ -174,13 +177,14 @@ jQuery(document).ready(function ($) {
         id24a8: "",
         id24a9: "Are meals included in the accommodation costs?",
         id24a9a: "How much of the payment is for meals?  "
-      }, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veteran's given name <span class='hint'>(first name)</span>"), _defineProperty(_question, 'id43', "Veteran's surname <span class='hint'>(last name)</span>"), _defineProperty(_question, 'id44', "Veteran's date of birth"), _defineProperty(_question, 'id45', "Veteran's DVA file number <span class='hint'>(if known)</span>"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _question);
+      }, _defineProperty(_question, 'id24', ""), _defineProperty(_question, 'id25', "Provide any supporting documents, for example rental agreement"), _defineProperty(_question, 'id26', "Do you receive Family Tax Benefit for the student?"), _defineProperty(_question, 'id26a', "What is your Customer Reference Number"), _defineProperty(_question, 'id26b', "What is your FTB percentage for James?"), _defineProperty(_question, 'id26b1', "[Text TBD] You may not be eligible"), _defineProperty(_question, 'id26b2', "[Text TBD] The other care giver may not be eligible"), _defineProperty(_question, 'id26c', "What is the name of the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id26d', "What are the contact details for the other care giver? <span class='hint'>(optional)</span>"), _defineProperty(_question, 'id27', "Student's Tax File Number"), _defineProperty(_question, 'id28', "Would you like to have the student's  education allowance taxed?  "), _defineProperty(_question, 'id28a', "  "), _defineProperty(_question, 'id28ai', "Payments will be made directly to these bank account details.	"), _defineProperty(_question, 'id29', "Account Name"), _defineProperty(_question, 'id30', "BSB"), _defineProperty(_question, 'id31', "Account Number"), _defineProperty(_question, 'id32', ""), _defineProperty(_question, 'id33a', "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>"), _defineProperty(_question, 'id33b', "Are you a veteran who is significantly injured as a result of your service?"), _defineProperty(_question, 'id34', "Are you applying for a student?"), _defineProperty(_question, 'id35', "Do you provide care for the student or receive the Family Tax Benefit for them?"), _defineProperty(_question, 'id36', ""), _defineProperty(_question, 'id37', "You are eligible to apply for student support payments."), _defineProperty(_question, 'id38', "You may need to provide more evidence to apply for student support payments."), _defineProperty(_question, 'id39', "You are not eligible for student support payments. For more information call 133 254."), _defineProperty(_question, 'id40', "Are you a student, or carer claiming on behalf of a student?"), _defineProperty(_question, 'id41', "Veterans Title"), _defineProperty(_question, 'id42', "Veteran's given name <span class='hint'>(first name)</span>"), _defineProperty(_question, 'id43', "Veteran's surname <span class='hint'>(last name)</span>"), _defineProperty(_question, 'id44', "Veteran's date of birth"), _defineProperty(_question, 'id45', "Veteran's DVA file number <span class='hint'>(if known)</span>"), _defineProperty(_question, 'id46', "PMKeyS ID (preferred)"), _defineProperty(_question, 'id47', "Your relationship to the veteran"), _defineProperty(_question, 'id49', "James' parents are;"), _defineProperty(_question, 'id50', "Have"), _defineProperty(_question, 'id50a', "apply"), _defineProperty(_question, 'id53', "Do you want this payment to be taxed?"), _defineProperty(_question, 'id54', "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>"), _question);
 
       question.id24 = "Is " + studentName + " renting?";
       question.id24x = "Is " + studentName + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentName + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id52 = studentApostrophedName + " tax details";
     }
 
     if ("claimantFlow" in localStorage) {
@@ -198,6 +202,9 @@ jQuery(document).ready(function ($) {
       question.pageheader1 = "Veteran details	";
       question.pageheader1a = "Student details";
       question.pageheader1b = "";
+      question.id52 = studentApostrophedName + " tax details";
+      question.id53 = "Do you want this payment to be taxed?";
+      question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
     }
 
     for (var key in question) {
@@ -605,7 +612,6 @@ jQuery(document).ready(function ($) {
     }
 
     $('input[name=doesStudentHaveTFN]').change(function () {
-
       if (localStorage.getItem('act') === 'mrca') {
         $('.pt-showIfMRCA').show();
       }
@@ -1032,13 +1038,14 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfEnrolled").hide();
 
     // skip the financial details if we're in veteran flow
-    if ("veteranFlow" in localStorage) {
-      $('.btnNext').prop('onclick', null);
-      $('.btnNext').click(function () {
-        // event.stopPropagation();
-        window.location.href = '/studentclaimupload';
-      });
-    }
+    // if ("veteranFlow" in localStorage) {
+    //   $('.btnNext').prop('onclick', null);
+    //   $('.btnNext').click(function () {
+    //     // event.stopPropagation();
+    //     window.location.href = '/studentclaimupload';
+    //   })
+    // }
+
 
     if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
       $(".pt-showIfNotPrimaryStudent").show('fast');
@@ -1124,9 +1131,21 @@ jQuery(document).ready(function ($) {
     initFlow();
     $('.pt-studentAge--mature').hide();
     $('.pt-showIfEducationAllowanceTaxed').hide();
+    $('.pt-showIfEducationAllowanceNotTaxed').hide();
     $('.pt-showIfCarePercentageLow').hide();
     $('.pt-showIfCarePercentageHigh').hide();
     $('.bank-details-container').hide();
+    $('.pt-showIfNoStudentTFN').hide();
+    $('.pt-showIfStudentTFN').hide();
+
+    // if student 16 or 17 ask for TFN
+    if ("claimantFlow" in localStorage || "veteranFlow" in localStorage) {
+      if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
+        $(".pt-showIfStudentBetween16and18").show();
+      } else {
+        $(".pt-showIfStudentBetween16and18").hide();
+      }
+    }
 
     if (localStorage.getItem('studentAge') > 15) {
       console.log('mature student');
@@ -1147,9 +1166,11 @@ jQuery(document).ready(function ($) {
 
     $('input[name=educationAllowanceTaxed]').change(function () {
       if ($('input[name=educationAllowanceTaxed]:checked').val() === 'yes') {
-        $(".pt-showIfEducationAllowanceTaxed").show('fast');
+        $(".pt-showIfEducationAllowanceTaxed").show();
+        $('.pt-showIfEducationAllowanceNotTaxed').hide();
       } else {
         $(".pt-showIfEducationAllowanceTaxed").hide();
+        $('.pt-showIfEducationAllowanceNotTaxed').show('fast');
       }
     });
 
@@ -1174,11 +1195,13 @@ jQuery(document).ready(function ($) {
 
     $('input[name=doesStudentHaveTFN]').change(function () {
       if ($('input[name=doesStudentHaveTFN]:checked').val() === 'yes') {
-        $(".pt-showIfStudentTFN").show('fast');
         localStorage.setItem('studentTFN', true);
+        $(".pt-showIfNoStudentTFN").hide();
+        $(".pt-showIfStudentTFN").show();
       } else {
-        $(".pt-showIfStudentTFN").hide();
         localStorage.setItem('studentTFN', false);
+        $(".pt-showIfNoStudentTFN").show('fast');
+        $(".pt-showIfStudentTFN").hide();
       }
     });
   }
@@ -1189,7 +1212,6 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfNoStudentTFN").hide();
 
     if (!localStorage.getItem('studentHasTFN') && localStorage.getItem('studentAge') > 15) {
-
       $(".pt-showIfNoStudentTFN").show();
     }
 
