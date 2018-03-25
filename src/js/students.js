@@ -109,6 +109,7 @@ jQuery(document).ready(function ($) {
         id52: "Your tax details",
         id53: "Do you want your payment to be taxed?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
+        id55: "Do you have a tax file number?",
       };
     }
 
@@ -209,7 +210,6 @@ jQuery(document).ready(function ($) {
         id49: "James' parents are;",
         id50: "Have",
         id50a: "apply",
-
         id53: "Do you want this payment to be taxed?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
 
@@ -221,6 +221,7 @@ jQuery(document).ready(function ($) {
       question.id24a8 = "Does " + studentName + " share  the cost of rent with anyone else? ";
       question.id24a7 = "How much rent does " + studentName + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
       question.id52 = studentApostrophedName + " tax details";
+      question.id55 = "Does " + studentName + " you have a tax file number?";
 
     }
 
@@ -242,6 +243,7 @@ jQuery(document).ready(function ($) {
       question.id52 = studentApostrophedName + " tax details";
       question.id53 = "Do you want this payment to be taxed?";
       question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
+      question.id55 = "Does " + studentName + " you have a tax file number?";
     }
 
     for (var key in question) {
