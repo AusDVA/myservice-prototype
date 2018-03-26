@@ -284,7 +284,7 @@ jQuery(document).ready(function ($) {
   // TODO:: handle reset if change of age after other flows
   if (window.location.pathname === "/studentpreeligibility") {
 
-    console.log('studentpreeligibility');
+    // console.log('studentpreeligibility');
     localStorage.clear();
 
 
@@ -440,7 +440,6 @@ jQuery(document).ready(function ($) {
 
     $('input[name=engagedInFullTimeEmployment]').change(function () {
       if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
-        console.log('val of employment ' + $('input[name=engagedInFullTimeEmployment]:checked').val());
         if (("veteranFlow" in localStorage)) {
           $(".pt-vetShowIfStudentFullTimeAndMRCA").show();
         } else {
@@ -563,10 +562,9 @@ jQuery(document).ready(function ($) {
       localStorage.setItem('relationshipType', selected_option);
 
       if ("claimantFlow" in localStorage) {
-        console.log(selected_option);
 
         if ((selected_option === 'adoptive-parent') || (selected_option === 'parent')) {
-          console.log('valid');
+
           $('.pt-showIfRelationshipValid').hide();
           $('#relationshipToStudentOther').hide();
           $('.pt-showIfStudentDependantOnVeteran').show();
@@ -1176,12 +1174,10 @@ jQuery(document).ready(function ($) {
 
     $("#studentLevelOfStudy").change(function () {
       var selected_option = $('#studentLevelOfStudy').val();
-      console.log('input studentLevelOfStudy changed to ' + $("#studentLevelOfStudy").val());
+
       var grade_options;
 
       if (selected_option === 'primary') {
-        console.log(' selected_option = ' + selected_option);
-
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfSecondary").hide();
         $(".pt-showIfTertiary").hide();
@@ -1193,7 +1189,7 @@ jQuery(document).ready(function ($) {
 
       }
       else if (selected_option === 'secondary') {
-        console.log(' selected_option = ' + selected_option);
+
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfTertiary").hide();
         $(".pt-showIfPrimary").hide();
@@ -1513,7 +1509,7 @@ jQuery(document).ready(function ($) {
     if (this.docsRequired.length > 0) {
       jQuery(".pt-showIfDocumentUploadShoppingCart").show();
       $.each(this.docsRequired, function () {
-        console.log('docs required = ' + this);
+        // console.log('docs required = ' + this);
         $('.pt-' + this).removeClass('display-none');
       });
     }
@@ -1533,10 +1529,14 @@ jQuery(document).ready(function ($) {
       var label = input.nextElementSibling,
         labelVal = label.innerHTML;
 
+      console.log(label);
+
       input.addEventListener('change', function (e) {
         var fileName = '';
 
         fileName = e.target.value.split('\\').pop();
+
+        console.log(fileName);
 
         if (fileName) {
           label.querySelector('.file-upload__file-name').innerHTML = fileName;
