@@ -130,7 +130,11 @@ jQuery(document).ready(function ($) {
         id49: "Student's parent/family status",
         id50: "",
         id50a: "Apply",
-
+        id51: "Your bank details",
+        id52: "Your tax details",
+        id53: "Do you want your payment to be taxed?",
+        id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
+        id55: "Do you have a tax file number?",
       };
     }
 
@@ -232,6 +236,9 @@ jQuery(document).ready(function ($) {
         id49: "James' parents are;",
         id50: "Have",
         id50a: "apply",
+        id53: "Do you want this payment to be taxed?",
+        id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
+
       };
 
       question.id24 = "What is " + studentNameFirstApostrophed + " living situation?";
@@ -243,6 +250,9 @@ jQuery(document).ready(function ($) {
       question.id24a9a = "How much does " + studentNameFirst + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
       question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
 
+      question.id52 = studentNameFirstApostrophed + " tax details";
+      question.id55 = "Does " + studentNameFirst + " have a tax file number?";
+
     }
 
     if ("claimantFlow" in localStorage) {
@@ -252,7 +262,7 @@ jQuery(document).ready(function ($) {
       question.id7a = "Is the student living with their partner?";
       question.id9 = "What is the Veteran's relationship to the student?";
       question.id47 = "The students relationship to the veteran";
-      question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>"
+      question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
       question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>";
       question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
       question.id36 = "";
@@ -260,6 +270,10 @@ jQuery(document).ready(function ($) {
       question.pageheader1 = "Veteran details	";
       question.pageheader1a = "Student details";
       question.pageheader1b = "";
+      question.id52 = studentNameFirstApostrophed + " tax details";
+      question.id53 = "Do you want this payment to be taxed?";
+      question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
+      question.id55 = "Does " + studentNameFirst + " have a tax file number?";
     }
 
     for (var key in question) {
@@ -669,7 +683,6 @@ jQuery(document).ready(function ($) {
 
 
     $('input[name=doesStudentHaveTFN]').change(function () {
-
       if (localStorage.getItem('act') === 'mrca') {
         $('.pt-showIfMRCA').show();
       }
@@ -1161,13 +1174,13 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfEnrolled").hide();
 
     // skip the financial details if we're in veteran flow
-    if ("veteranFlow" in localStorage) {
-      $('.btnNext').prop('onclick', null);
-      $('.btnNext').click(function () {
-        // event.stopPropagation();
-        window.location.href = '/studentclaimupload';
-      })
-    }
+    // if ("veteranFlow" in localStorage) {
+    //   $('.btnNext').prop('onclick', null);
+    //   $('.btnNext').click(function () {
+    //     // event.stopPropagation();
+    //     window.location.href = '/studentclaimupload';
+    //   })
+    // }
 
 
     if (localStorage.getItem('studentLevelOfStudy') !== 'primary') {
@@ -1265,9 +1278,22 @@ jQuery(document).ready(function ($) {
     initFlow();
     $('.pt-studentAge--mature').hide();
     $('.pt-showIfEducationAllowanceTaxed').hide();
+    $('.pt-showIfEducationAllowanceNotTaxed').hide();
     $('.pt-showIfCarePercentageLow').hide();
     $('.pt-showIfCarePercentageHigh').hide();
     $('.bank-details-container').hide();
+    $('.pt-showIfNoStudentTFN').hide();
+    $('.pt-showIfStudentTFN').hide();
+
+
+    // if student 16 or 17 ask for TFN
+    if (("claimantFlow" in localStorage) || ("veteranFlow" in localStorage)) {
+      if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+        $(".pt-showIfStudentBetween16and18").show();
+      } else {
+        $(".pt-showIfStudentBetween16and18").hide();
+      }
+    }
 
 
     if (localStorage.getItem('studentAge') > 15) {
@@ -1292,9 +1318,11 @@ jQuery(document).ready(function ($) {
 
     $('input[name=educationAllowanceTaxed]').change(function () {
       if ($('input[name=educationAllowanceTaxed]:checked').val() === 'yes') {
-        $(".pt-showIfEducationAllowanceTaxed").show('fast');
+        $(".pt-showIfEducationAllowanceTaxed").show();
+        $('.pt-showIfEducationAllowanceNotTaxed').hide();
       } else {
         $(".pt-showIfEducationAllowanceTaxed").hide();
+        $('.pt-showIfEducationAllowanceNotTaxed').show('fast');
       }
     });
 
@@ -1321,11 +1349,13 @@ jQuery(document).ready(function ($) {
 
     $('input[name=doesStudentHaveTFN]').change(function () {
       if ($('input[name=doesStudentHaveTFN]:checked').val() === 'yes') {
-        $(".pt-showIfStudentTFN").show('fast');
         localStorage.setItem('studentTFN', true);
+        $(".pt-showIfNoStudentTFN").hide();
+        $(".pt-showIfStudentTFN").show();
       } else {
-        $(".pt-showIfStudentTFN").hide();
         localStorage.setItem('studentTFN', false);
+        $(".pt-showIfNoStudentTFN").show('fast');
+        $(".pt-showIfStudentTFN").hide();
       }
     });
 
@@ -1340,7 +1370,6 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfNoStudentTFN").hide();
 
     if (!(localStorage.getItem('studentHasTFN')) && (localStorage.getItem('studentAge') > 15)) {
-
       $(".pt-showIfNoStudentTFN").show();
     }
 
