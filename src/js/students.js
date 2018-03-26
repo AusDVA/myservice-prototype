@@ -1557,13 +1557,16 @@ jQuery(document).ready(function ($) {
       var label = input.nextElementSibling,
         labelVal = label.innerHTML;
 
-      console.log(label);
+      // removeEvent(label.querySelectorAll('button'), 'click', foo);
+      console.log(label.querySelectorAll('button'));
+
 
       input.addEventListener('change', function (e) {
         var fileName = '';
 
         fileName = e.target.value.split('\\').pop();
 
+        console.log('fileName');
         console.log(fileName);
 
         if (fileName) {
@@ -1576,10 +1579,9 @@ jQuery(document).ready(function ($) {
 
           var status = label.querySelector('.file-upload__file-name').closest('tr');
 
-
           status = status.querySelector('.file-status');
           status.innerHTML = 'Remove';
-          status.innerHTML = '<span> Uploaded</span>';
+          status.innerHTML = '<span class="sr"> Uploaded</span>';
           status = status.classList;
           status.remove('file-status--required');
           status.add('file-status--uploaded');
