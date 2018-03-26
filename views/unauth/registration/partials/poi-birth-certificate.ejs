@@ -22,28 +22,6 @@
     </select>
   </div>
 
-  <div class="uikit-page-alerts birthFields" id="birth-coverage-ACT" role="alert" style="display: none;">
-    <p>If your birth certificate was issued
-      <strong>before 1 May 2002</strong>, MyService cannot verify it. Please select another form of identification.</p>
-  </div>
-  <div class="uikit-page-alerts birthFields" id="birth-coverage-NT" role="alert" style="display: none;">
-    <p>If your birth certificate was issued
-      <strong>before 12 July 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
-  </div>
-  <div class="uikit-page-alerts birthFields" id="birth-coverage-QLD" role="alert" style="display: none;">
-    <p>If your birth certificate was issued
-      <strong>before 2 July 1996</strong>, MyService cannot verify it. Please select another form of identification.</p>
-  </div>
-  <div class="uikit-page-alerts birthFields" id="birth-coverage-SA" role="alert" style="display: none;">
-    <p>If your birth certificate was issued
-      <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
-  </div>
-  <div class="uikit-page-alerts birthFields" id="birth-coverage-TAS" role="alert" style="display: none;">
-    <p>If your birth certificate was issued
-      <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
-  </div>
-
-
   <fieldset>
 
     <div class="form-group birthFields" id="birthRegoNumber" style="display: none;">
@@ -62,6 +40,12 @@
     <div class="form-group birthFields" id="birthRegoDate" style="display: none;">
       <label class="uikit-text-input__label" for="marriage-registration-dd">Registration date
         <span class="hint">(DD / MM / YYYY)</span>
+        <span id="birthRegoDate-error-TAS" class="input-error-message" aria-live="polite" style="display: none;">
+          If your marriage certificate was issued
+          <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</span>
+        <span id="birthRegoDate-error-QLD" class="input-error-message" aria-live="polite" style="display: none;">
+          If your marriage certificate was issued
+          <strong>before 2 July 1996</strong>, MyService cannot verify it. Please select another form of identification.</span>
       </label>
       <input class="uikit-text-input dd birth-registration-dd" type="text" name="birth-registration-dd" id="birth-registration-dd"
         maxlength="2" required aria-required="true" aria-label="2 digit day"> /
@@ -85,6 +69,9 @@
         <span id="birthCertDate-error-SA" class="input-error-message" aria-live="polite" style="display: none;">
           If your marriage certificate was issued
           <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</span>
+        <span id="birthCertDate-error-NT" class="input-error-message" aria-live="polite" style="display: none;">
+          If your marriage certificate was issued
+          <strong>before 12 July 1999</strong>, MyService cannot verify it. Please select another form of identification.</span>
       </label>
       <input class="uikit-text-input dd birth-certificate-dd" type="text" name="birth-certificate-dd" id="birth-certificate-dd"
         maxlength="2" required aria-required="true" aria-label="2 digit day"> /
@@ -109,10 +96,15 @@
       $('#birthRegoNumber').show();
       $('#birthCertNumber').show();
       $('#birthCertDate').show();
-      //Validation
-      $("#birthCertDate").focusout(function () {
-        $("#birthCertDate").addClass("has-error");
-        $('#birthCertDate-error-ACT').show();
+      // Validation
+      $(".birth-certificate-yyyy").change(function () {
+        if ($(".birth-certificate-yyyy").val() <= 2002 && $(".birth-certificate-mm").val() <= 5 && $(".birth-certificate-dd").val() <= 1) {
+          $("#birthCertDate").addClass("has-error");
+          $('#birthCertDate-error-ACT').show();
+        } else {
+          $("#birthCertDate").removeClass("has-error");
+          $('#birthCertDate-error-ACT').hide();
+        }
       });
     }
     if ($(this).val() == 'nsw') {
@@ -129,6 +121,16 @@
       $('.birthFields').hide();
       $('#birtheRegoNumber').show();
       $('#birthRegoDate').show();
+      // Validation
+      $(".birth-registration-yyyy").change(function () {
+        if ($(".birth-registration-yyyy").val() <= 1996 && $(".birth-registration-mm").val() <= 7 && $(".birth-registration-dd").val() <= 2) {
+          $("#birthRegoDate").addClass("has-error");
+          $('#birthRegoDate-error-QLD').show();
+        } else {
+          $("#birthRegoDate").removeClass("has-error");
+          $('#birthRegoDate-error-QLD').hide();
+        }
+      });
     }
     if ($(this).val() == 'wa') {
       $('.birthFields').hide();
@@ -140,31 +142,48 @@
       $('#birthRegoNumber').show();
       $('#birthCertNumber').show();
       $('#birthCertDate').show();
-      //Validation
-      $("#birthCertDate").focusout(function () {
-        $("#birthCertDate").addClass("has-error");
-        $('#birthCertDate-error-SA').show();
+      // Validation
+      $(".birth-certificate-yyyy").change(function () {
+        if ($(".birth-certificate-yyyy").val() <= 1999 && $(".birth-certificate-mm").val() <= 11 && $(".birth-certificate-dd").val() <= 1) {
+          $("#birthCertDate").addClass("has-error");
+          $('#birthCertDate-error-SA').show();
+        } else {
+          $("#birthCertDate").removeClass("has-error");
+          $('#birthCertDate-error-SA').hide();
+        }
       });
     }
     if ($(this).val() == 'tas') {
       $('.birthFields').hide();
       $('#birthRegoNumber').show();
-      $('#vRegoYear').show();
-      if ($('#namechange-no')[0].checked) {
-        $('#birth-coverage-TAS').show();
-      }
-
+      // $('#birthRegoYear').show();
+      $('#birthRegoDate').show();
+      //Validation
+      $(".birth-registration-yyyy").change(function () {
+        if ($(".birth-registration-yyyy").val() <= 1999 && $(".birth-registration-mm").val() <= 11 && $(".birth-registration-dd").val() <= 1) {
+          $("#birthRegoDate").addClass("has-error");
+          $('#birthRegoDate-error-TAS').show();
+        } else {
+          $("#birthRegoDate").removeClass("has-error");
+          $('#birthRegoDate-error-TAS').hide();
+        }
+      });
     }
     if ($(this).val() == 'nt') {
       $('.birthFields').hide();
-
-
       $('#birthRegoNumber').show();
       $('#birthCertNumber').show();
       $('#birthCertDate').show();
-      if ($('#namechange-no')[0].checked) {
-        $('#birth-coverage-NT').show();
-      }
+      // Validation
+      $(".birth-certificate-yyyy").change(function () {
+        if ($(".birth-certificate-yyyy").val() <= 1999 && $(".birth-certificate-mm").val() <= 7 && $(".birth-certificate-dd").val() <= 12) {
+          $("#birthCertDate").addClass("has-error");
+          $('#birthCertDate-error-NT').show();
+        } else {
+          $("#birthCertDate").removeClass("has-error");
+          $('#birthCertDate-error-NT').hide();
+        }
+      });
     }
   });
 
