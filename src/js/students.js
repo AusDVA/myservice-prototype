@@ -31,6 +31,7 @@ jQuery(document).ready(function ($) {
     var question = '';
     // Student questions 
 
+
     if ("studentFlow" in localStorage) {
       console.log('I am in student flow');
       question = {
@@ -186,7 +187,6 @@ jQuery(document).ready(function ($) {
         id23: "Where is the student living?",
         id23a: "What best describes the student’s situation? ",
         id23ai: "Why is ",
-        id24: "Is renting?",
         id24x: "Is ",
         id24a: "Do you know the student's rental details?",
         id24a1: "",
@@ -197,9 +197,6 @@ jQuery(document).ready(function ($) {
         id24a6: "Contact number",
         id24a7: "How much rent does  pay every two weeks ?",
         id24a8: "",
-        // id24a9: "Are meals included in the accommodation costs?",
-        // id24a9a: "How much of the payment is for meals?  ",
-
         id24: "",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Do you receive Family Tax Benefit for the student?",
