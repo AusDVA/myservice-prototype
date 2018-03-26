@@ -132,7 +132,7 @@ jQuery(document).ready(function ($) {
         id50a: "Apply",
         id51: "Your bank details",
         id52: "Your tax details",
-        id53: "Do you want your payment to be taxed?",
+        id53: "Would you like DVA to withhold tax from your payment?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
         id55: "Do you have a tax file number?",
       };
@@ -236,7 +236,7 @@ jQuery(document).ready(function ($) {
         id49: "James' parents are;",
         id50: "Have",
         id50a: "apply",
-        id53: "Do you want this payment to be taxed?",
+        id53: "Would you like DVA to withhold tax from your payment?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
 
       };
@@ -270,8 +270,8 @@ jQuery(document).ready(function ($) {
       question.pageheader1 = "Veteran details	";
       question.pageheader1a = "Student details";
       question.pageheader1b = "";
-      question.id52 = studentNameFirstApostrophed + " tax details";
-      question.id53 = "Do you want this payment to be taxed?";
+      question.id52 = studentApostrophedName + " tax details";
+      question.id53 = "Would you like DVA to withhold tax from your payment?";
       question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
       question.id55 = "Does " + studentNameFirst + " have a tax file number?";
     }
