@@ -11,6 +11,7 @@ jQuery(document).ready(function ($) {
     var question = '';
     // Student questions 
 
+
     if ("studentFlow" in localStorage) {
       console.log('I am in student flow');
       question = {
