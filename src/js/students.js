@@ -1081,7 +1081,7 @@ jQuery(document).ready(function ($) {
     $(".pt-boardPaid").hide();
     $(".pt-showIfOther").hide();
 
-    //localStorage.getItem('studentPartneredRelationship') === 'yes'
+
     if ((localStorage.getItem('studentLivingLocation') === 'at-home')
       || (localStorage.getItem('studentLivingWithPartner') === 'yes')
       || (localStorage.getItem('studentAge') < 16)) {
@@ -1136,14 +1136,6 @@ jQuery(document).ready(function ($) {
 
       $(".pt-rentPayed").show();
 
-    });
-
-    $('input[name=typeOfAccommodationPayment]').change(function () {
-      if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
-        $(".pt-showIfNotRentLandLord").hide();
-      } else {
-        $(".pt-showIfNotRentLandLord").show();
-      }
     });
 
 
