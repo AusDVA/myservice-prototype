@@ -91,10 +91,10 @@ jQuery(document).ready(function ($) {
         id24a4: "Name of person or agency you pay rent to",
         id24a5: "Email address",
         id24a6: "Contact number",
-        id24a7: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
+        id24a7: "How much rent do you pay every two week?",
         id24a8: "Do you share the cost of rent with anyone else? ",
         id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a9a: "How much do you pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>",
+        id24a9a: "How much do you pay in board every two week? <span class='hint'>(minus the cost of meals)</span>",
         id24a9b: "Tell us about your situation",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Who receives the Family Tax Benefit for the student?",
@@ -106,7 +106,7 @@ jQuery(document).ready(function ($) {
         id26d: "What are the contact details for the other care giver? (optional)",
         id27: "Your tax file number",
         id28: "Would you like to have the your education allowance taxed?  ",
-        id28a: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
+        id28a: "How much rent do you pay every two week? ",
         id28ai: "Payments will be made directly to these bank account details.",
         id29: "Account Name",
         id30: "BSB",
@@ -205,9 +205,9 @@ jQuery(document).ready(function ($) {
       question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks? ";
       question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentNameFirst + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9a = "How much does " + studentNameFirst + " pay in board every two week? <span class='hint'>(minus the cost of meals)</span>";
       question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
 
       question.id52 = studentNameFirstApostrophed + " tax details";

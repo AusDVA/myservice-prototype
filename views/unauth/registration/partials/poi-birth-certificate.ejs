@@ -1,0 +1,207 @@
+<div class="id-types id-birth" style="display: none">
+
+  <div class="uikit-page-alerts" role="alert">
+    <p>
+      <strong>Your birth certificate must match the name provided during registration. </strong>
+    </p>
+  </div>
+
+  <div class="form-group">
+    <legend>Australian birth certificate</legend>
+    <label class="uikit-text-input__label" for="birthState">Which state or territory were you born in?</label>
+    <select class="uikit-text-input input-half" id="birthState" name="birthState" required aria-required="true">
+      <option value=0 selected>-- Select state or territory --</option>
+      <option value="act">Australian Capital Territory</option>
+      <option value="nsw">New South Wales</option>
+      <option value="nt">Northern Territory</option>
+      <option value="qld">Queensland</option>
+      <option value="sa">South Australia</option>
+      <option value="tas">Tasmania</option>
+      <option value="vic">Victoria</option>
+      <option value="wa">Western Australia</option>
+    </select>
+  </div>
+
+  <div class="uikit-page-alerts birthFields" id="birth-coverage-ACT" role="alert" style="display: none;">
+    <p>If your birth certificate was issued
+      <strong>before 1 May 2002</strong>, MyService cannot verify it. Please select another form of identification.</p>
+  </div>
+  <div class="uikit-page-alerts birthFields" id="birth-coverage-NT" role="alert" style="display: none;">
+    <p>If your birth certificate was issued
+      <strong>before 12 July 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
+  </div>
+  <div class="uikit-page-alerts birthFields" id="birth-coverage-QLD" role="alert" style="display: none;">
+    <p>If your birth certificate was issued
+      <strong>before 2 July 1996</strong>, MyService cannot verify it. Please select another form of identification.</p>
+  </div>
+  <div class="uikit-page-alerts birthFields" id="birth-coverage-SA" role="alert" style="display: none;">
+    <p>If your birth certificate was issued
+      <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
+  </div>
+  <div class="uikit-page-alerts birthFields" id="birth-coverage-TAS" role="alert" style="display: none;">
+    <p>If your birth certificate was issued
+      <strong>before 1 November 1999</strong>, MyService cannot verify it. Please select another form of identification.</p>
+  </div>
+
+
+  <fieldset>
+
+    <div class="form-group birthFields" id="birthRegoNumber" style="display: none;">
+      <label class="uikit-text-input__label" for="birth-registration">Registration number</label>
+      <input class="uikit-text-input input-half" name="birth-registration" id="birth-registration" type="text" value="">
+    </div>
+
+    <div class="form-group birthFields" id="birthRegoYear" style="display: none;">
+      <label class="uikit-text-input__label" for="birth-rego-yyyy">Year of registration
+        <span class="hint">(YYYY)</span>
+      </label>
+      <input class="uikit-text-input yyyy birth-rego-yyyy" type="text" name="birth-rego-yyyy" id="birth-rego-yyyy" maxlength="4"
+        required aria-required="true" aria-label="4 digit year">
+    </div>
+
+    <div class="form-group birthFields" id="birthRegoDate" style="display: none;">
+      <label class="uikit-text-input__label" for="marriage-registration-dd">Registration date
+        <span class="hint">(DD / MM / YYYY)</span>
+      </label>
+      <input class="uikit-text-input dd birth-registration-dd" type="text" name="birth-registration-dd" id="birth-registration-dd"
+        maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+      <input class="uikit-text-input mm birth-registration-mm" type="text" name="birth-registration-mm" id="birth-registration-mm"
+        maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+      <input class="uikit-text-input yyyy birth-registration-yyyy" type="text" name="birth-registration-yyyy" id="birth-registration-yyyy"
+        maxlength="4" required aria-required="true" aria-label="4 digit year">
+    </div>
+
+    <div class="form-group birthFields" id="birthCertNumber" style="display: none;">
+      <label class="uikit-text-input__label" for="birth-certificate">Certificate number</label>
+      <input class="uikit-text-input input-half" name="birth-certificate" id="birth-certificate" type="text" value="">
+    </div>
+
+    <div class="form-group birthFields" id="birthCertDate" style="display: none;">
+      <label class="uikit-text-input__label" for="birth-certificate-dd">Certificate issue date
+        <span class="hint">(DD / MM / YYYY)</span>
+        <span id="birthCertDate-error-ACT" class="input-error-message" aria-live="polite" style="display: none;">
+          If your marriage certificate was issued
+          <strong>before 1 May 2002</strong>, MyService cannot verify it. Please select another form of identification.</span>
+      </label>
+      <input class="uikit-text-input dd birth-certificate-dd" type="text" name="birth-certificate-dd" id="birth-certificate-dd"
+        maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+      <input class="uikit-text-input mm birth-certificate-mm" type="text" name="birth-certificate-mm" id="birth-certificate-mm"
+        maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+      <input class="uikit-text-input yyyy birth-certificate-yyyy" type="text" name="birth-certificate-yyyy" id="birth-certificate-yyyy"
+        maxlength="4" required aria-required="true" aria-label="4 digit year">
+    </div>
+  </fieldset>
+</div>
+
+<script src="/docs/js/jquery-3.2.1.min.js"></script>
+<script>
+
+  // User will select a state or territory from the drop-down list and will only see the fields relevant to them.
+
+  var birthState = jQuery('#birthState');
+  var selectBirthState = this.value;
+  birthState.change(function () {
+    if ($(this).val() == 'act') {
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('#birthCertNumber').show();
+      $('#birthCertDate').show();
+
+      //Validation
+      $("#birthCertDate").focusout(function () {
+        $("birthCertDate").addClass("has-error");
+        $('#birthCertDate-error-ACT').show();
+      });
+    }
+    if ($(this).val() == 'nsw') {
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('#birthRegoYear').show();
+    }
+    if ($(this).val() == 'vic') {
+      $(".birthnameFail").hide();
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('#birthRegoYear').show();
+      if ($('#namechange-no')[0].checked) {
+        $('#birth-coverage-VIC').show();
+      }
+
+    }
+    if ($(this).val() == 'qld') {
+      $(".birthnameFail").hide();
+      $('.birthFields').hide();
+      $('#birtheRegoNumber').show();
+      $('#birthRegoDate').show();
+      if ($('#namechange-no')[0].checked) {
+        $('#birth-coverage-QLD').show();
+      }
+    }
+    if ($(this).val() == 'wa') {
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('birthRegoYear').show();
+    }
+    if ($(this).val() == 'sa') {
+      $(".birthnameFail").hide();
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('#birthCertNumber').show();
+      $('#birthCertDate').show();
+      if ($('#namechange-no')[0].checked) {
+        $('#birth-coverage-SA').show();
+      }
+    }
+    if ($(this).val() == 'tas') {
+      $(".birthnameFail").hide();
+      $('.birthFields').hide();
+      $('#birthRegoNumber').show();
+      $('#vRegoYear').show();
+      if ($('#namechange-no')[0].checked) {
+        $('#birth-coverage-TAS').show();
+      }
+
+    }
+    if ($(this).val() == 'nt') {
+      $(".birthnameFail").hide();
+      $('.birthFields').hide();
+
+
+      $('#birthRegoNumber').show();
+      $('#birthCertNumber').show();
+      $('#birthCertDate').show();
+      if ($('#namechange-no')[0].checked) {
+        $('#birth-coverage-NT').show();
+      }
+    }
+  });
+
+</script>
+
+
+<script>
+  $(document).ready(function () {
+    // Client side field validation
+    // Client validation masquerading as server side
+    $(".btnNext").click(function () {
+      if ($('#birth-date-yyyy').val()) {
+
+        $("#error-empty-fields").toggle("fast");
+        $('html, body').animate({
+          scrollTop: $('#error-empty-fields').position().top
+        }, 'fast');
+        $(".heading-error").focus();
+      }
+      if ($('#birthCertDate-yyyy').val()) {
+
+        $("#error-empty-fields").toggle("fast");
+        $('html, body').animate({
+          scrollTop: $('#error-empty-fields').position().top
+        }, 'fast');
+        $(".heading-error").focus();
+      }
+    });
+
+
+  });
+</script>
