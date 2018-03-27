@@ -64,6 +64,13 @@ app.get('/change-password', function (request, response) {
   response.render('auth/change-password');
 });
 
+/**
+Onboarding page
+*/
+
+app.get('/onboarding', function (request, response) {
+  response.render('auth/onboarding');
+});
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {
