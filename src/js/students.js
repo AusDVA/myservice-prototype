@@ -31,6 +31,7 @@ jQuery(document).ready(function ($) {
     var question = '';
     // Student questions 
 
+
     if ("studentFlow" in localStorage) {
       console.log('I am in student flow');
       question = {
@@ -89,10 +90,10 @@ jQuery(document).ready(function ($) {
         id24a4: "Name of person or agency you pay rent to",
         id24a5: "Email address",
         id24a6: "Contact number",
-        id24a7: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
+        id24a7: "How much rent do you pay every two week?",
         id24a8: "Do you share the cost of rent with anyone else? ",
         id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a9a: "How much do you pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>",
+        id24a9a: "How much do you pay in board every two week? <span class='hint'>(minus the cost of meals)</span>",
         id24a9b: "Tell us about your situation",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Who receives the Family Tax Benefit for the student?",
@@ -104,7 +105,7 @@ jQuery(document).ready(function ($) {
         id26d: "What are the contact details for the other care giver? (optional)",
         id27: "Your tax file number",
         id28: "Would you like to have the your education allowance taxed?  ",
-        id28a: "How much rent do you pay every two week? <span class='hint display-block'>This does not include meals</span> ",
+        id28a: "How much rent do you pay every two week? ",
         id28ai: "Payments will be made directly to these bank account details.",
         id29: "Account Name",
         id30: "BSB",
@@ -132,7 +133,7 @@ jQuery(document).ready(function ($) {
         id50a: "Apply",
         id51: "Your bank details",
         id52: "Your tax details",
-        id53: "Do you want your payment to be taxed?",
+        id53: "Would you like DVA to withhold tax from this payment?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
         id55: "Do you have a tax file number?",
       };
@@ -186,7 +187,6 @@ jQuery(document).ready(function ($) {
         id23: "Where is the student living?",
         id23a: "What best describes the student’s situation? ",
         id23ai: "Why is ",
-        id24: "Is renting?",
         id24x: "Is ",
         id24a: "Do you know the student's rental details?",
         id24a1: "",
@@ -197,9 +197,6 @@ jQuery(document).ready(function ($) {
         id24a6: "Contact number",
         id24a7: "How much rent does  pay every two weeks ?",
         id24a8: "",
-        // id24a9: "Are meals included in the accommodation costs?",
-        // id24a9a: "How much of the payment is for meals?  ",
-
         id24: "",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Do you receive Family Tax Benefit for the student?",
@@ -236,7 +233,7 @@ jQuery(document).ready(function ($) {
         id49: "James' parents are;",
         id50: "Have",
         id50a: "apply",
-        id53: "Do you want this payment to be taxed?",
+        id53: "Would you like DVA to withhold tax from this payment?",
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
 
       };
@@ -245,9 +242,9 @@ jQuery(document).ready(function ($) {
       question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks?<span class='hint display-block'>This does not include meals</span> ";
+      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks? ";
       question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentNameFirst + " pay in board per fortnight? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9a = "How much does " + studentNameFirst + " pay in board every two week? <span class='hint'>(minus the cost of meals)</span>";
       question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
 
       question.id52 = studentNameFirstApostrophed + " tax details";
@@ -271,7 +268,7 @@ jQuery(document).ready(function ($) {
       question.pageheader1a = "Student details";
       question.pageheader1b = "";
       question.id52 = studentNameFirstApostrophed + " tax details";
-      question.id53 = "Do you want this payment to be taxed?";
+      question.id53 = "Would you like DVA to withhold tax from this payment?";
       question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
       question.id55 = "Does " + studentNameFirst + " have a tax file number?";
     }
@@ -298,7 +295,7 @@ jQuery(document).ready(function ($) {
   // TODO:: handle reset if change of age after other flows
   if (window.location.pathname === "/studentpreeligibility") {
 
-    console.log('studentpreeligibility');
+    // console.log('studentpreeligibility');
     localStorage.clear();
 
 
@@ -454,7 +451,6 @@ jQuery(document).ready(function ($) {
 
     $('input[name=engagedInFullTimeEmployment]').change(function () {
       if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
-        console.log('val of employment ' + $('input[name=engagedInFullTimeEmployment]:checked').val());
         if (("veteranFlow" in localStorage)) {
           $(".pt-vetShowIfStudentFullTimeAndMRCA").show();
         } else {
@@ -577,10 +573,9 @@ jQuery(document).ready(function ($) {
       localStorage.setItem('relationshipType', selected_option);
 
       if ("claimantFlow" in localStorage) {
-        console.log(selected_option);
 
         if ((selected_option === 'adoptive-parent') || (selected_option === 'parent')) {
-          console.log('valid');
+
           $('.pt-showIfRelationshipValid').hide();
           $('#relationshipToStudentOther').hide();
           $('.pt-showIfStudentDependantOnVeteran').show();
@@ -891,11 +886,11 @@ jQuery(document).ready(function ($) {
       }
     });
 
-
     $('input[name=studentLivingAwayValidReason]').change(function () {
-      $(".pt-livingWithPartner").show();
+
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' &&
         $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
+        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
@@ -905,12 +900,18 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
         localStorage.setItem('studentLivingAwayValidReason', true);
+        $(".pt-final-toggle").show();
       } else {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
+        $(".pt-livingWithPartner").hide();
+        $(".pt-final-toggle").show();
       }
     });
+
+
+
 
     $('input[name=studentLivingWithPartner]').change(function () {
       $(".pt-final-toggle").show();
@@ -1008,14 +1009,14 @@ jQuery(document).ready(function ($) {
 
 
     $('input[name=studentLivingAwayValidReason]').change(function () {
-      $(".pt-livingWithPartner").show();
+
       if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes' &&
         $('input[name=studentPartneredRelationship]:checked').val() === 'yes') {
+        $(".pt-livingWithPartner").show();
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'away-from-home');
         localStorage.setItem('studentLivingAwayValidReason', true);
-
       } else if ($('input[name=studentLivingAwayValidReason]:checked').val() === 'yes') {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
@@ -1026,8 +1027,11 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLivingAwayValidReason');
         localStorage.removeItem('studentLivingLocation');
         localStorage.setItem('studentLivingLocation', 'at-home');
+        $(".pt-livingWithPartner").hide();
+        $(".pt-final-toggle").show();
       }
     });
+
 
     $('input[name=studentPartneredRelationship]').change(function () {
 
@@ -1055,6 +1059,7 @@ jQuery(document).ready(function ($) {
       }
     });
 
+
   }
 
 
@@ -1074,7 +1079,7 @@ jQuery(document).ready(function ($) {
     $(".pt-boardPaid").hide();
     $(".pt-showIfOther").hide();
 
-    //localStorage.getItem('studentPartneredRelationship') === 'yes'
+
     if ((localStorage.getItem('studentLivingLocation') === 'at-home')
       || (localStorage.getItem('studentLivingWithPartner') === 'yes')
       || (localStorage.getItem('studentAge') < 16)) {
@@ -1131,14 +1136,6 @@ jQuery(document).ready(function ($) {
 
     });
 
-    $('input[name=typeOfAccommodationPayment]').change(function () {
-      if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'private') {
-        $(".pt-showIfNotRentLandLord").hide();
-      } else {
-        $(".pt-showIfNotRentLandLord").show();
-      }
-    });
-
 
     $('input[name=typeOfAccommodationPayment]').change(function () {
       if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
@@ -1189,12 +1186,10 @@ jQuery(document).ready(function ($) {
 
     $("#studentLevelOfStudy").change(function () {
       var selected_option = $('#studentLevelOfStudy').val();
-      console.log('input studentLevelOfStudy changed to ' + $("#studentLevelOfStudy").val());
+
       var grade_options;
 
       if (selected_option === 'primary') {
-        console.log(' selected_option = ' + selected_option);
-
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfSecondary").hide();
         $(".pt-showIfTertiary").hide();
@@ -1206,7 +1201,7 @@ jQuery(document).ready(function ($) {
 
       }
       else if (selected_option === 'secondary') {
-        console.log(' selected_option = ' + selected_option);
+
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfTertiary").hide();
         $(".pt-showIfPrimary").hide();
@@ -1542,7 +1537,7 @@ jQuery(document).ready(function ($) {
     if (this.docsRequired.length > 0) {
       jQuery(".pt-showIfDocumentUploadShoppingCart").show();
       $.each(this.docsRequired, function () {
-        console.log('docs required = ' + this);
+        // console.log('docs required = ' + this);
         $('.pt-' + this).removeClass('display-none');
       });
     }
@@ -1562,10 +1557,17 @@ jQuery(document).ready(function ($) {
       var label = input.nextElementSibling,
         labelVal = label.innerHTML;
 
+      // removeEvent(label.querySelectorAll('button'), 'click', foo);
+      console.log(label.querySelectorAll('button'));
+
+
       input.addEventListener('change', function (e) {
         var fileName = '';
 
         fileName = e.target.value.split('\\').pop();
+
+        console.log('fileName');
+        console.log(fileName);
 
         if (fileName) {
           label.querySelector('.file-upload__file-name').innerHTML = fileName;
@@ -1577,10 +1579,9 @@ jQuery(document).ready(function ($) {
 
           var status = label.querySelector('.file-upload__file-name').closest('tr');
 
-
           status = status.querySelector('.file-status');
           status.innerHTML = 'Remove';
-          status.innerHTML = '<span> Uploaded</span>';
+          status.innerHTML = '<span class="sr"> Uploaded</span>';
           status = status.classList;
           status.remove('file-status--required');
           status.add('file-status--uploaded');
