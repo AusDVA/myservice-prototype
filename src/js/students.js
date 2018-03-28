@@ -237,7 +237,7 @@ jQuery(document).ready(function ($) {
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
 
       };
-
+      question.gender = question.id1a;
       question.id24 = "What is " + studentNameFirstApostrophed + " living situation?";
       question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
