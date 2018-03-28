@@ -155,6 +155,7 @@ jQuery(document).ready(function ($) {
         id6: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
         id6a: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
         id7: "Is the student married or in a de facto relationship?",
+        id7a: "Is the student living with their partner?",
         id8: "Is the student living away from home for any of the above reasons?",
         id8a: "",
         id9: "What is the Veteran/Member's relationship to the student?",
@@ -240,10 +241,10 @@ jQuery(document).ready(function ($) {
       question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks? ";
+      question.id24a7 = "How much rent does " + studentNameFirst + " pay every 2 weeks? ";
       question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentNameFirst + " pay in board every two week? <span class='hint'>(minus the cost of meals)</span>";
-      question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
+      question.id24a9a = "How much does " + studentNameFirst + " pay in board every 2 weeks? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9b = "Tell us more about " + studentNameFirstApostrophed + " situation";
 
       question.id52 = studentNameFirstApostrophed + " tax details";
       question.id55 = "Does " + studentNameFirst + " have a tax file number?";
@@ -253,7 +254,6 @@ jQuery(document).ready(function ($) {
       question.id5 = "The veteran is the student's";
       question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
       question.id6 = "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>";
-      question.id7a = "Is the student living with their partner?";
       question.id9 = "What is the Veteran's relationship to the student?";
       question.id47 = "The students relationship to the veteran";
       question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
