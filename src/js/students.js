@@ -63,7 +63,7 @@ jQuery(document).ready(function ($) {
         id14: "School phone number",
         id15: "What type of education will you be studying this year?",
         id16: "Where are you",
-        id17: "Course name / Degree name",
+        id17: "Course name / degree name",
         id18: "Course Code  / Degree code",
         id19: "Date you ",
         id19a: "Approximately, when will you ",
@@ -90,14 +90,14 @@ jQuery(document).ready(function ($) {
         id24a4: "Name of person or agency you pay rent to",
         id24a5: "Email address",
         id24a6: "Contact number",
-        id24a7: "How much rent do you pay every two week?",
+        id24a7: "How much rent do you pay every 2 weeks?",
         id24a8: "Do you share the cost of rent with anyone else? ",
         id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a9a: "How much do you pay in board every two week? <span class='hint'>(minus the cost of meals)</span>",
+        id24a9a: "How much do you pay in board every 2 weeks? <span class='hint'>(minus the cost of meals)</span>",
         id24a9b: "Tell us about your situation",
         id25: "Provide any supporting documents, for example rental agreement",
         id26: "Who receives the Family Tax Benefit for the student?",
-        id26a: "What is your Centrelink Customer Reference Number (CRN)",
+        id26a: "What is your Centrelink Customer Reference Number (CRN)?",
         id26b: "What percentage do you care for your child?",
         id26b1: "[Text TBD] You may not be eligible",
         id26b2: "[Text TBD] The other care giver may not be eligible",
@@ -111,7 +111,7 @@ jQuery(document).ready(function ($) {
         id30: "BSB",
         id31: "Account Number",
         id32: "Are you studying full time or planning to study full time?",
-        id33a: "Are you or were you dependant on the veteran? <span class='hint'>Completely or substantially</span>",
+        id33a: "Are you dependant on the veteran? Or were you previously? <span class='hint'>Completely or substantially</span>",
         id33b: "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>",
         id34: "Are you applying for a student?",
         id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
@@ -156,7 +156,8 @@ jQuery(document).ready(function ($) {
         id5a: "Provide a brief statement explaining how the student came into your care. ",
         id6: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
         id6a: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
-        id7: "Is the student in a de facto / married relationship?",
+        id7: "Is the student married or in a de facto relationship?",
+        id7a: "Is the student living with their partner?",
         id8: "Is the student living away from home for any of the above reasons?",
         id8a: "",
         id9: "What is the Veteran/Member's relationship to the student?",
@@ -170,7 +171,7 @@ jQuery(document).ready(function ($) {
         id14: "School phone number",
         id15: "What type of education will the student be studying this year?",
         id16: "Where is",
-        id17: "Course name / Degree name",
+        id17: "Course name / degree name",
         id18: "Course Code  / Degree code",
         id19: "Date that ",
         id19a: "Approximately, when will ",
@@ -199,8 +200,8 @@ jQuery(document).ready(function ($) {
         id24a8: "",
         id24: "",
         id25: "Provide any supporting documents, for example rental agreement",
-        id26: "Do you receive Family Tax Benefit for the student?",
-        id26a: "What is your Centrelink Customer Reference Number (CRN)",
+        id26: "Do you receive the Family Tax Benefit for the student?",
+        id26a: "What is your Centrelink Customer Reference Number (CRN)?",
         id26b: "What is your FTB percentage for James?",
         id26b1: "[Text TBD] You may not be eligible",
         id26b2: "[Text TBD] The other care giver may not be eligible",
@@ -237,15 +238,15 @@ jQuery(document).ready(function ($) {
         id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
 
       };
-
+      question.gender = question.id1a;
       question.id24 = "What is " + studentNameFirstApostrophed + " living situation?";
       question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
       question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
       question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks? ";
+      question.id24a7 = "How much rent does " + studentNameFirst + " pay every 2 weeks? ";
       question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentNameFirst + " pay in board every two week? <span class='hint'>(minus the cost of meals)</span>";
-      question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
+      question.id24a9a = "How much does " + studentNameFirst + " pay in board every 2 weeks? <span class='hint'>(minus the cost of meals)</span>";
+      question.id24a9b = "Tell us more about " + studentNameFirstApostrophed + " living situation.";
 
       question.id52 = studentNameFirstApostrophed + " tax details";
       question.id55 = "Does " + studentNameFirst + " have a tax file number?";
@@ -256,7 +257,6 @@ jQuery(document).ready(function ($) {
       question.id5 = "The veteran is the student's";
       question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
       question.id6 = "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>";
-      question.id7a = "Is the student living with their partner?";
       question.id9 = "What is the Veteran's relationship to the student?";
       question.id47 = "The students relationship to the veteran";
       question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
