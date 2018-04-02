@@ -29,38 +29,58 @@ jQuery(document).ready(function ($) {
       $(".studentNameFirst").html('');
     }
 
-
+    // Pull in the json content 
     $.ajax({
-      url: './docs/data/student-questions.json',
+      url: './docs/data/student-claim-content.json',
       async: false,
       dataType: 'json',
-
-
     }).done(function (data) {
 
       console.log('Content data back');
 
-      $(jQuery.parseJSON(JSON.stringify(data.questions))).each(function () {
+      var contentSet = [];
+      var contentVeteran = [];
+      var contentStudent = [];
+      var contentParentGuardian = [];
+      var contentMessages = [];
 
-        if ("studentFlow" in localStorage) {
-          console.log('I am in student flow');
-          var questionSet = this.student;
+      $.each(data.contents, function (index, element) {
+
+        if (element.veteran) {
+          contentVeteran = element.veteran;
+        }
+        if (element.parentGuardian) {
+          contentParentGuardian = element.parentGuardian;
+        }
+        if (element.student) {
+          contentStudent = element.student;
+        }
+        if (element.messages) {
+          contentMessages = element.messages;
         }
 
-        if ("veteranFlow" in localStorage) {
-          var questionSet = this.veteran;
-        }
-
-        if ("claimantFlow" in localStorage) {
-          var questionSet = this.parentGuardian;
-        }
-
-        for (var key in questionSet) {
-          var question = questionSet[key].replace(/{{studentNameFirstApostrophed}}/g, studentNameFirstApostrophed);
-          question = question.replace(/{{studentNameFirst}}/g, studentNameFirst);
-          $("#question_" + key).html(question);
-        }
       });
+
+      if ("veteranFlow" in localStorage) {
+
+        contentSet = Object.assign({}, contentVeteran, contentMessages);
+      }
+
+      if ("claimantFlow" in localStorage) {
+
+        contentSet = Object.assign({}, contentParentGuardian, contentMessages);
+      }
+
+      if ("studentFlow" in localStorage) {
+
+        contentSet = Object.assign({}, contentStudent, contentMessages);
+      }
+
+      for (var key in contentSet) {
+        var content = contentSet[key].replace(/{{studentNameFirstApostrophed}}/g, studentNameFirstApostrophed);
+        content = content.replace(/{{studentNameFirst}}/g, studentNameFirst);
+        $("#question_" + key).html(content);
+      }
     });
 
 
@@ -73,35 +93,17 @@ jQuery(document).ready(function ($) {
 
 
     if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-      console.log('I am in veteran / claimant flow flow');
-
 
 
     }
 
     if ("claimantFlow" in localStorage) {
-      question.id5 = "The veteran is the student's";
-      question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
-      question.id6 = "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>";
-      question.id9 = "What is the Veteran's relationship to the student?";
-      question.id47 = "The students relationship to the veteran";
-      question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
-      question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>";
-      question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
-      question.id36 = "";
-      question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
-      question.pageheader1 = "Veteran details	";
-      question.pageheader1a = "Student details";
-      question.pageheader1b = "";
-      question.id52 = studentNameFirstApostrophed + " tax details";
-      question.id53 = "Would you like DVA to withhold tax from this payment?";
-      question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
-      question.id55 = "Does " + studentNameFirst + " have a tax file number?";
+
     }
 
-    for (var key in question) {
-      $("#question_" + key).html(question[key]);
-    }
+    // for (var key in question) {
+    //   $("#question_" + key).html(question[key]);
+    // }
   }
 
   function initFlow() {
@@ -1123,20 +1125,6 @@ jQuery(document).ready(function ($) {
     }
 
 
-    $("#percentageCare").focusout(function () {
-      if (this.value < 0 || this.value > 100) {
-        $(this).closest('.form-group').addClass('has-error');
-        $(this).prev('label').append('<label class="input-error-message">Please enter a percentage between 0 and 100</label>');
-        return;
-      } else {
-        $(this).closest('.form-group').removeClass('has-error');
-        $(this).prev('label').empty();
-        $(this).prev('label').html(question.id26b);
-      }
-
-
-    });
-
     $('input[name=educationAllowanceTaxed]').change(function () {
       if ($('input[name=educationAllowanceTaxed]:checked').val() === 'yes') {
         $(".pt-showIfEducationAllowanceTaxed").show();
@@ -1308,7 +1296,7 @@ jQuery(document).ready(function ($) {
     if ("enrolStatus" in localStorage) {
       this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
     } else {
-      console.log('remove Proof of enrolment ' + this);
+
       var i = this.docsRequired.indexOf("proofOfEnrolment");
       if (i != -1) {
         this.docsRequired.splice(i, 1);
