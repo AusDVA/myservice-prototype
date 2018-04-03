@@ -1,9 +1,9 @@
-/**********************************
-	Navigation includes primary navigation (home, profile) and secondary navigation (navigating through various profile pages). It also includes any anchor link navigation controls for navigating within a single screen (example: back to top).
-	
-**********************************/
+///
+///Navigation includes primary navigation (home, profile) and secondary navigation (navigating through various profile pages). It also includes any anchor link navigation controls for navigating within a single screen (example: back to top).
+///
 
-.pagination, .skip-link {
+.pagination,
+.skip-link {
   button {
     clear: both;
     display: block;
@@ -21,12 +21,13 @@
 
 @include uikit-media(sm) {
   // @media only print, screen and (min-width: $small-handheld) {
-  .pagination, .skip-link {
+  .pagination,
+  .skip-link {
     button {
       clear: none;
       display: inline;
       margin: auto;
-      width: auto;
+      width: auto; //doesn't work on inline
 
       .floated {
         float: right;
@@ -35,7 +36,7 @@
   }
 
   .uikit-btn--borderless {
-    margin: 0 20px 0 20px !important;
+    margin: 0 20px !important;
   }
 }
 
@@ -45,10 +46,10 @@
 
   // padding-top: 1em;
   h1 {
+    color: $gray;
     font-size: 1.1rem;
     padding: 0.3em 0 0.35em 0.75em;
     text-transform: uppercase;
-    color: $gray;
   }
 
   ul {
@@ -59,15 +60,15 @@
   }
 
   li {
+    list-style-type: none;
     margin-left: 0;
     padding-left: 0;
-    list-style-type: none;
 
     a {
-      padding: 0.35em 0 0.35em 0.5em;
-      display: block;
-      border: none;
+      border: 0;
       color: $blue;
+      display: block;
+      padding: 0.35em 0 0.35em 0.5em;
     }
 
     &.active {
@@ -75,9 +76,9 @@
 
       a {
         background-color: $gray-light;
-        color: $black;
         border-bottom: 1px solid $feature-border;
         border-top: 1px solid $feature-border;
+        color: $black;
       }
     }
   }
@@ -207,9 +208,30 @@
 }
 
 .uikit-btn--drop-down {
-  padding-right:2.6em;
-  background-image: url(../images/ico-arrow-down-white.svg);
-  background-size: 18px 18px;
-  background-repeat: no-repeat;
-  background-position: right 15px center;
+  // background-image: url(../images/ico-arrow-down-white.svg);
+  // background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/></svg>');
+  // background-position: right 15px center;
+  // background-repeat: no-repeat;
+  // background-size: 18px;
+  // padding-right: 2.6em;
+  position: relative;
+
+  &::after {
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/></svg>');
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 0;
+    content: ' ';
+    height: 1.2em;
+    position: absolute;
+    right: 0;
+    top: 2px;
+    transition: transform 0.25s ease-in;
+    width: 22px;
+    z-index: 0;
+  }
+}
+
+.uikit-btn--drop-down {
+  // transform: rotate(-180deg);
 }
