@@ -71,6 +71,9 @@ Onboarding page
 app.get('/onboarding', function (request, response) {
   response.render('auth/onboarding');
 });
+app.get('/mygov-login', function (request, response) {
+  response.render('auth/mygov-login');
+});
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {
