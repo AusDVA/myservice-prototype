@@ -63,17 +63,17 @@ jQuery(document).ready(function ($) {
 
       if ("veteranFlow" in localStorage) {
 
-        contentSet = Object.assign({}, contentVeteran, contentMessages);
+        contentSet = Object.assign({}, contentMessages, contentVeteran);
       }
 
       if ("claimantFlow" in localStorage) {
 
-        contentSet = Object.assign({}, contentParentGuardian, contentMessages);
+        contentSet = Object.assign({}, contentMessages, contentParentGuardian);
       }
 
       if ("studentFlow" in localStorage) {
 
-        contentSet = Object.assign({}, contentStudent, contentMessages);
+        contentSet = Object.assign({}, contentMessages, contentStudent);
       }
 
       for (var key in contentSet) {
