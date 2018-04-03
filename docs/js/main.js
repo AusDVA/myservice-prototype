@@ -122,5 +122,91 @@ jQuery(document).ready(function ($) {
 		jQuery(this).hide();
 	});
 
-	// TODO:: fade in docs once (relationship status is selected)
+	// Tooltip
+
+	// open the dialog
+
+	$(".tooltip__trigger").click(function (ev) {
+		ev.preventDefault();
+
+		// let trigger = this.name;
+
+
+		var tooltipContainer = $(this).closest(".tooltip-container");
+		var tooltip = $(tooltipContainer).find('.tooltip');
+		var tooltipMarker = $(tooltipContainer).find('.tooltip__trigger-marker');
+		$(tooltip).add(tooltipMarker).toggleClass("hidden");
+
+		// hide show is handled via aria-hidden
+		if ($(tooltip).attr('aria-hidden') === 'true') {
+			$(tooltip).attr('aria-hidden', 'false');
+		} else {
+			$(tooltip).attr('aria-hidden', 'true');
+		}
+	});
+
+	$(".tooltip-container a").keypress(function (ev) {
+		if (ev.which == 13) {
+			$(this).click();
+		}
+	});
+
+	// TODO:: refactor modal
+	$(".tooltip-container .modal-close").click(function (ev) {
+		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+		var ttName = tt.prop("name");
+		$("#" + ttName).attr("aria-hidden", "true");
+		$("#" + ttName).addClass("hidden");
+		$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+		$(tt).find(".tooltip__trigger-marker").addClass("hidden");
+		$(tt).focus();
+		ev.preventDefault();
+	});
+
+	$(".modal-close").keydown(function (ev) {
+		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+		var ttName = tt.prop("name");
+		switch (ev.which) {
+			case 27:
+				$("#" + ttName).attr("aria-hidden", "true");
+				$("#" + ttName).addClass("hidden");
+				$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+				$(tt).find(".tooltip__trigger-marker").addClass("hidden");
+				$(tt).focus();
+				ev.preventDefault();
+				return false;
+				break;
+
+			case 117:
+				$(tt).focus();
+				ev.preventDefault();
+				return false;
+				break;
+
+		}
+	});
+
+	$(".modal-close").keypress(function (ev) {
+		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
+		var ttName = tt.prop("name");
+		switch (ev.which) {
+			case 13:
+				$("#" + ttName).attr("aria-hidden", "true");
+				$("#" + ttName).addClass("hidden");
+				$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
+				$(tt).find(".tooltip__trigger-marker").addClass("hidden");
+				$(tt).focus();
+				ev.preventDefault();
+				return false;
+				break;
+
+			default:
+
+				$("a#closebtn1").focus();
+				ev.preventDefault();
+				return false;
+				break;
+
+		}
+	});
 });

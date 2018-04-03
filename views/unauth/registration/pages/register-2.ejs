@@ -122,35 +122,10 @@
                   <input class="uikit-text-input mm" type="text" name="mm" id="mm" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                   <input class="uikit-text-input yyyy" type="text" name="yyyy" id="yyyy" maxlength="4" required aria-required="true" aria-label="4 digit year">
                 </div>
+
+
                 <div id="pt-gender-fields" class="form-group">
-                  <label class="uikit-text-input__label">Gender</label>
-                  <div class="radio-toggle">
-                    <label class="on label-left" for="gender-male">
-                      <input id="gender-male" name="gender" type="radio">
-                      <span>Male</span>
-                    </label>
-                    <label class="off label-right" for="gender-female">
-                      <input id="gender-female" name="gender" type="radio">
-                      <span>Female</span>
-                    </label>
-                  </div>
-                  <div class="tooltip-container">
-                    <div class="tooltip hidden" aria-labelledby="tooltip__content1" role="alertdialog" id="tooltip1" aria-describedby="dialogtext"
-                      aria-hidden="true">
-                      <div class="tooltip__body">
-                        <a class="modal-close" href="#" id="closebtn1">Close</a>
-                        <div class="tooltip__content" id="tooltip__content1">Currently, our system only allows us to record your gender as male or female. If you don't identify
-                          as either, you can discuss this with your delegate after you have registered.
-                        </div>
-                      </div>
-                    </div>
-                    <span>
-                      <a href="#closebtn" class="tooltip__trigger" name="tooltip1" id="tooltip-associate1" title="More information" style="border-bottom: none;">
-                        <span class="tooltip__trigger-icon"></span>
-                        <span class="tooltip__trigger-marker hidden"></span>
-                      </a>
-                    </span>
-                  </div>
+                  <% include ../../../global/partials/gender.ejs %>
                 </div>
               </fieldset>
 
@@ -199,9 +174,10 @@
       </main>
       <% include ../partials/cancelrego-modal.ejs %>
         <% include ../../../global/partials/footer.ejs %>
-          <script src="/docs/js/jquery-effects.js"></script>
+          <!-- These are in the footer -->
+          <!-- <script src="/docs/js/jquery-effects.js"></script>
           <script src="/docs/js/main.js"></script>
-          <script src="/docs/js/jquery-3.2.1.min.js"></script>
+          <script src="/docs/js/jquery-3.2.1.min.js"></script> -->
           <script>
             // Progress percentage
 
@@ -267,172 +243,7 @@
               }
             });
 
-            // Tooltip
-            // open the dialog
-            $(document).ready(function () {
-              $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
-              $("#tooltip1").attr("aria-hidden", "true");
 
-              $(".tooltip-container a.tooltip__trigger").click(function (ev) {
-                $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
-                $(".tooltip-container .tooltip__trigger-markere").addClass("hidden");
-                $(".tooltip").attr("aria-hidden", "true");
-                $(".tooltip").addClass("hidden");
-                $("#" + this.name).attr("aria-hidden", "false");
-                $("#" + this.name).removeClass("hidden");
-                $(this).find(".tooltip__trigger-marker").attr("aria-hidden", "false");
-                $(this).find(".tooltip__trigger-marker").removeClass("hidden");
-
-                ev.preventDefault();
-              });
-
-              $(".tooltip-container a").keypress(function (ev) {
-                if (ev.which == 13) {
-                  $(this).click();
-                }
-              });
-
-              $(".tooltip-container a.modal-close").click(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                $("#" + ttName).attr("aria-hidden", "true");
-                $("#" + ttName).addClass("hidden");
-                $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                $(tt).focus();
-                ev.preventDefault();
-
-              });
-
-              $(".modal-close").keydown(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                switch (ev.which) {
-                  case 27:
-                    $("#" + ttName).attr("aria-hidden", "true");
-                    $("#" + ttName).addClass("hidden");
-                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                  case 117:
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                }
-              });
-
-              $(".modal-close").keypress(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                switch (ev.which) {
-                  case 13:
-                    $("#" + ttName).attr("aria-hidden", "true");
-                    $("#" + ttName).addClass("hidden");
-                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                  default:
-
-                    $("a#closebtn1").focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                }
-              });
-
-
-              $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
-              $("#tooltip2").attr("aria-hidden", "true");
-
-              $(".tooltip-container a.tooltip__trigger").click(function (ev) {
-                $(".tooltip-container .tooltip__trigger-marker").attr("aria-hidden", "true");
-                $(".tooltip-container .tooltip__trigger-markere").addClass("hidden");
-                $(".tooltip").attr("aria-hidden", "true");
-                $(".tooltip").addClass("hidden");
-                $("#" + this.name).attr("aria-hidden", "false");
-                $("#" + this.name).removeClass("hidden");
-                $(this).find(".tooltip__trigger-marker").attr("aria-hidden", "false");
-                $(this).find(".tooltip__trigger-marker").removeClass("hidden");
-
-                ev.preventDefault();
-              });
-
-              $(".tooltip-container a").keypress(function (ev) {
-                if (ev.which == 13) {
-                  $(this).click();
-                }
-              });
-
-              $(".tooltip-container a.modal-close").click(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                $("#" + ttName).attr("aria-hidden", "true");
-                $("#" + ttName).addClass("hidden");
-                $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                $(tt).focus();
-                ev.preventDefault();
-
-              });
-
-              $(".modal-close").keydown(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                switch (ev.which) {
-                  case 27:
-                    $("#" + ttName).attr("aria-hidden", "true");
-                    $("#" + ttName).addClass("hidden");
-                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                  case 117:
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                }
-              });
-
-              $(".modal-close").keypress(function (ev) {
-                var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-                var ttName = tt.prop("name");
-                switch (ev.which) {
-                  case 13:
-                    $("#" + ttName).attr("aria-hidden", "true");
-                    $("#" + ttName).addClass("hidden");
-                    $(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-                    $(tt).find(".tooltip__trigger-marker").addClass("hidden");
-                    $(tt).focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                  default:
-
-                    $("a#closebtn2").focus();
-                    ev.preventDefault();
-                    return false;
-                    break;
-
-                }
-              });
-            });
 
 
 

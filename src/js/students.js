@@ -28,254 +28,61 @@ jQuery(document).ready(function ($) {
       $(".studentNameFirstApostrophed").html('');
       $(".studentNameFirst").html('');
     }
-    var question = '';
-    // Student questions 
 
+    // Pull in the json content 
+    $.ajax({
+      url: './docs/data/student-claim-content.json',
+      async: false,
+      dataType: 'json',
+    }).done(function (data) {
 
-    if ("studentFlow" in localStorage) {
-      console.log('I am in student flow');
-      question = {
-        pageheader1: "Veteran details	",
-        pageheader1a: "Your details",
-        pageheader1b: "",
-        pageheaderLiving: "Your living arrangements",
-        pageheaderStudy: "Your study details",
-        id1: "Title",
-        id1a: "Gender",
-        id2: "Given name <span class='hint'>(first name)</span>",
-        id3: "Surname <span class='hint'>(last name)</span>",
-        id4: "Date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
-        id5: "The veteran is my",
-        id5a: "",
-        id6: "Are you employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
-        id7: "Are you married or in a de facto relationship?",
-        id7a: "Are you living with your partner?",
-        id8: "Are you living away from home for any of the above reasons?",
-        id8a: "[TEXT TBD] You will be eligible for a lesser payment",
-        id9: "",
-        id9a: "Approximately, when will you ",
-        id9b: "Provide any supporting documents to prove your relationship to the student.",
-        id10: "Level of study",
-        id10a: "[TEXT TBD] You are no longer eligible",
-        id11: "Grade this year",
-        id12: "Name of school",
-        id13: "School address",
-        id14: "School phone number",
-        id15: "What type of education will you be studying this year?",
-        id16: "Where are you",
-        id17: "Course name / Degree name",
-        id18: "Course Code  / Degree code",
-        id19: "Date you ",
-        id19a: "Approximately, when will you ",
-        id20: "Date you plan to complete your studies <span class='hint'>(MM / YYYY)</span>",
-        id21: "Are you ",
-        id21a: "Tell us more about your",
-        id21ai: "Why are you",
-        id21b: "When do you intend on returning to full-time study? (optional)  <span class='hint'>(MM / YYYY)</span>",
-        id21c: "Have you ",
-        id21ci: "Please notify DVA when you have enrolled. You may continue to submit the claim, although the claim will not be received without proof of enrolment.",
-        id21u: "Please provide evidence to explain why you study part-time",
-        id22: "Residential address",
-        id22a: "Postal address",
-        id23: "Where are you living?",
-        id23a: "What best describes your situation?",
-        id23ai: "Why are you",
-        id24: "What is your living situation?",
-        id24x: "Are you sharing the cost of rent with anyone else?",
-        id24a: "Do you have your rental details?",
-        id24a1: "When did you start renting? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a2: "When does the your rental agreement end? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a3: "What type of payment do you make for accommodation?",
-        id24a3a: "Please provide details...",
-        id24a4: "Name of person or agency you pay rent to",
-        id24a5: "Email address",
-        id24a6: "Contact number",
-        id24a7: "How much rent do you pay every two week?",
-        id24a8: "Do you share the cost of rent with anyone else? ",
-        id24a9: "When did you start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a9a: "How much do you pay in board every two week? <span class='hint'>(minus the cost of meals)</span>",
-        id24a9b: "Tell us about your situation",
-        id25: "Provide any supporting documents, for example rental agreement",
-        id26: "Who receives the Family Tax Benefit for the student?",
-        id26a: "What is your Centrelink Customer Reference Number (CRN)",
-        id26b: "What percentage do you care for your child?",
-        id26b1: "[Text TBD] You may not be eligible",
-        id26b2: "[Text TBD] The other care giver may not be eligible",
-        id26c: "What is the name of the other care giver? (optional)",
-        id26d: "What are the contact details for the other care giver? (optional)",
-        id27: "Your tax file number",
-        id28: "Would you like to have the your education allowance taxed?  ",
-        id28a: "How much rent do you pay every two week? ",
-        id28ai: "Payments will be made directly to these bank account details.",
-        id29: "Account Name",
-        id30: "BSB",
-        id31: "Account Number",
-        id32: "Are you studying full time or planning to study full time?",
-        id33a: "Are you or were you dependant on the veteran? <span class='hint'>Completely or substantially</span>",
-        id33b: "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>",
-        id34: "Are you applying for a student?",
-        id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
-        id36: "Is the student the dependant of a veteran who is significantly injured or deceased?",
-        id37: "You are eligible to apply for student support payments.",
-        id38: "You may need to provide more evidence to apply for student support payments.",
-        id39: "You are not eligible for student support payments. For more information call 133 254.",
-        id40: "Are you a student, or carer claiming on behalf of a student?",
-        id41: "Veteran's title",
-        id42: "Veteran's given name <span class='hint'>(first name)</span>",
-        id43: "Veteran's surname <span class='hint'>(last name)</span>",
-        id44: "Veteran's date of birth",
-        id45: "Veteran's DVA file number <span class='hint'>(if known)</span>",
-        id46: "PMKeyS ID (preferred)",
-        id47: "Your relationship to the veteran",
-        id48: "Please provide a brief statement explaining how you came into the veterans care. ",
-        id49: "Student's parent/family status",
-        id50: "",
-        id50a: "Apply",
-        id51: "Your bank details",
-        id52: "Your tax details",
-        id53: "Would you like DVA to withhold tax from this payment?",
-        id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
-        id55: "Do you have a tax file number?",
-      };
-    }
+      console.log('Content data back');
 
+      var contentSet = [];
+      var contentVeteran = [];
+      var contentStudent = [];
+      var contentParentGuardian = [];
+      var contentMessages = [];
 
+      $.each(data.contents, function (index, element) {
 
-    if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-      console.log('I am in veteran / claimant flow flow');
-      question = {
-        pageheader1: "Student details	",
-        pageheaderLiving: "Student's living arrangements",
-        pageheaderStudy: "Student's study details",
-        id1: "Student's title",
-        id1a: "Student's gender",
-        id2: "Student's given name <span class='hint'>(first name)</span>",
-        id3: "Student's surname <span class='hint'>(last name)</span>",
-        id4: "Student's date of birth  <span class='hint'>(DD / MM / YYYY)</span>",
-        id5: "The student is my",
-        id5a: "Provide a brief statement explaining how the student came into your care. ",
-        id6: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
-        id6a: "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>",
-        id7: "Is the student in a de facto / married relationship?",
-        id8: "Is the student living away from home for any of the above reasons?",
-        id8a: "",
-        id9: "What is the Veteran/Member's relationship to the student?",
-        id9a: "Provide a brief statement explaining how the student came into your care. ",
-        id9b: "Provide any supporting documents to prove your relationship to the student.",
-        id10: "Level of study",
-        id10a: "[TEXT TBD] You are no longer eligible",
-        id11: "Grade this year",
-        id12: "Name of school",
-        id13: "School address",
-        id14: "School phone number",
-        id15: "What type of education will the student be studying this year?",
-        id16: "Where is",
-        id17: "Course name / Degree name",
-        id18: "Course Code  / Degree code",
-        id19: "Date that ",
-        id19a: "Approximately, when will ",
-        id20: "Date the student plans to complete their studies <span class='hint'>(  MM / YYYY)</span>",
-        id21: "Is ",
-        id21a: "Tell us more about",
-        id21ai: "Why is ",
-        id21b: "When do you intend on returning to full-time study? <span class='hint'>(optional)</span>  <span class='hint'>(  MM / YYYY)</span>",
-        id21c: "Is ",
-        id21ci: "Notify DVA when you have enrolled. You can continue your claim, but the claim will not be complete without proof of enrolment. xxx",
-        id21u: "Provide evidence to explain why the student is studying part-time",
-        id22: "residential address ",
-        id22a: "postal address",
-        id23: "Where is the student living?",
-        id23a: "What best describes the student’s situation? ",
-        id23ai: "Why is ",
-        id24x: "Is ",
-        id24a: "Do you know the student's rental details?",
-        id24a1: "",
-        id24a2: "When does the student's rental agreement end? <span class='hint'>(DD / MM / YYYY)</span>",
-        id24a3: "What type of payment does the student make for accommodation?",
-        id24a4: "Name of person or agency the student pays rent to",
-        id24a5: "Email address",
-        id24a6: "Contact number",
-        id24a7: "How much rent does  pay every two weeks ?",
-        id24a8: "",
-        id24: "",
-        id25: "Provide any supporting documents, for example rental agreement",
-        id26: "Do you receive Family Tax Benefit for the student?",
-        id26a: "What is your Centrelink Customer Reference Number (CRN)",
-        id26b: "What is your FTB percentage for James?",
-        id26b1: "[Text TBD] You may not be eligible",
-        id26b2: "[Text TBD] The other care giver may not be eligible",
-        id26c: "What is the name of the other care giver? <span class='hint'>(optional)</span>",
-        id26d: "What are the contact details for the other care giver? <span class='hint'>(optional)</span>",
-        id27: "Student's Tax File Number",
-        id28: "Would you like to have the student's  education allowance taxed?  ",
-        id28a: "  ",
-        id28ai: "Payments will be made directly to these bank account details.	",
-        id29: "Account Name",
-        id30: "BSB",
-        id31: "Account Number",
-        id32: "",
-        id33a: "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>",
-        id33b: "Are you a veteran who is significantly injured as a result of your service?",
-        id34: "Are you applying for a student?",
-        id35: "Do you provide care for the student or receive the Family Tax Benefit for them?",
-        id36: "",
-        id37: "You are eligible to apply for student support payments.",
-        id38: "You may need to provide more evidence to apply for student support payments.",
-        id39: "You are not eligible for student support payments. For more information call 133 254.",
-        id40: "Are you a student, or carer claiming on behalf of a student?",
-        id41: "Veterans Title",
-        id42: "Veteran's given name <span class='hint'>(first name)</span>",
-        id43: "Veteran's surname <span class='hint'>(last name)</span>",
-        id44: "Veteran's date of birth",
-        id45: "Veteran's DVA file number <span class='hint'>(if known)</span>",
-        id46: "PMKeyS ID (preferred)",
-        id47: "Your relationship to the veteran",
-        id49: "James' parents are;",
-        id50: "Have",
-        id50a: "apply",
-        id53: "Would you like DVA to withhold tax from this payment?",
-        id54: "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>",
+        if (element.veteran) {
+          contentVeteran = element.veteran;
+        }
+        if (element.parentGuardian) {
+          contentParentGuardian = element.parentGuardian;
+        }
+        if (element.student) {
+          contentStudent = element.student;
+        }
+        if (element.messages) {
+          contentMessages = element.messages;
+        }
 
-      };
+      });
 
-      question.id24 = "What is " + studentNameFirstApostrophed + " living situation?";
-      question.id24x = "Is " + studentNameFirst + " sharing the cost of rent with anyone else?";
-      question.id24a1 = "When did " + studentNameFirst + " start renting? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a8 = "Does " + studentNameFirst + " share  the cost of rent with anyone else? ";
-      question.id24a7 = "How much rent does " + studentNameFirst + " pay every two weeks? ";
-      question.id24a9 = "When did " + studentNameFirst + " start boarding / lodging? <span class='hint'>(DD / MM / YYYY)</span>";
-      question.id24a9a = "How much does " + studentNameFirst + " pay in board every two week? <span class='hint'>(minus the cost of meals)</span>";
-      question.id24a9b = "Tell us about " + studentNameFirstApostrophed + " situation";
+      if ("veteranFlow" in localStorage) {
 
-      question.id52 = studentNameFirstApostrophed + " tax details";
-      question.id55 = "Does " + studentNameFirst + " have a tax file number?";
+        contentSet = Object.assign({}, contentMessages, contentVeteran);
+      }
 
-    }
+      if ("claimantFlow" in localStorage) {
 
-    if ("claimantFlow" in localStorage) {
-      question.id5 = "The veteran is the student's";
-      question.id5a = "Provide a brief statement explaining how the student came into the veterans care. ";
-      question.id6 = "Is the student employed full time? <span class='hint display-block'>This does not include apprenticeships.</span>";
-      question.id7a = "Is the student living with their partner?";
-      question.id9 = "What is the Veteran's relationship to the student?";
-      question.id47 = "The students relationship to the veteran";
-      question.id33a = "Is the student or was the student dependent on the veteran? <span class='hint'>Completely or substantially</span>";
-      question.id33b = "Is the veteran significantly injured or deceased because of their service? For example:<span class='hint display-block'> <ul> <li>The veteran has 80 impairment points</li><li>The veteran is totally and permanently impaired</li><li>The veteran is eligible for an extreme disablement adjustment rate</li><li>The veteran is, or was eligible for the special rate disability pension</li></ul> </span>";
-      question.id35 = "Does the Veteran provide care for the student or receive the Family Tax Benefit for them?";
-      question.id36 = "";
-      question.id48 = "Please provide a brief statement explaining how the student came into the veterans care. ";
-      question.pageheader1 = "Veteran details	";
-      question.pageheader1a = "Student details";
-      question.pageheader1b = "";
-      question.id52 = studentNameFirstApostrophed + " tax details";
-      question.id53 = "Would you like DVA to withhold tax from this payment?";
-      question.id54 = "How much would you like to withhold per fortnight for tax? <span class='hint display-block'> For information about payments see the <a href='https://www.dva.gov.au/factsheet-mrc04-compensation-payment-rates' target='_blank' class='external-link'>DVA website</a></span>";
-      question.id55 = "Does " + studentNameFirst + " have a tax file number?";
-    }
+        contentSet = Object.assign({}, contentMessages, contentParentGuardian);
+      }
 
-    for (var key in question) {
-      $("#question_" + key).html(question[key]);
-    }
+      if ("studentFlow" in localStorage) {
+
+        contentSet = Object.assign({}, contentMessages, contentStudent);
+      }
+
+      for (var key in contentSet) {
+        var content = contentSet[key].replace(/{{studentNameFirstApostrophed}}/g, studentNameFirstApostrophed);
+        content = content.replace(/{{studentNameFirst}}/g, studentNameFirst);
+        $("#question_" + key).html(content);
+      }
+    });
+
   }
 
   function initFlow() {
@@ -1297,20 +1104,6 @@ jQuery(document).ready(function ($) {
     }
 
 
-    $("#percentageCare").focusout(function () {
-      if (this.value < 0 || this.value > 100) {
-        $(this).closest('.form-group').addClass('has-error');
-        $(this).prev('label').append('<label class="input-error-message">Please enter a percentage between 0 and 100</label>');
-        return;
-      } else {
-        $(this).closest('.form-group').removeClass('has-error');
-        $(this).prev('label').empty();
-        $(this).prev('label').html(question.id26b);
-      }
-
-
-    });
-
     $('input[name=educationAllowanceTaxed]').change(function () {
       if ($('input[name=educationAllowanceTaxed]:checked').val() === 'yes') {
         $(".pt-showIfEducationAllowanceTaxed").show();
@@ -1482,7 +1275,7 @@ jQuery(document).ready(function ($) {
     if ("enrolStatus" in localStorage) {
       this.docsRequired.indexOf("proofOfEnrolment") === -1 ? this.docsRequired.push("proofOfEnrolment") : console.log();
     } else {
-      console.log('remove Proof of enrolment ' + this);
+
       var i = this.docsRequired.indexOf("proofOfEnrolment");
       if (i != -1) {
         this.docsRequired.splice(i, 1);
