@@ -83,27 +83,6 @@ jQuery(document).ready(function ($) {
       }
     });
 
-
-
-
-    if ("studentFlow" in localStorage) {
-
-    }
-
-
-
-    if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-
-
-    }
-
-    if ("claimantFlow" in localStorage) {
-
-    }
-
-    // for (var key in question) {
-    //   $("#question_" + key).html(question[key]);
-    // }
   }
 
   function initFlow() {
