@@ -22,14 +22,11 @@
     td {
       border-bottom: 0;
 
-      // margin-top: uikit-space(0.6);
-
       &:first-child {
         padding-bottom: 0;
       }
 
       &:last-child {
-        // border-bottom: 1px solid $gray-light;
         margin-bottom: uikit-space(0.6);
       }
     }
@@ -50,11 +47,13 @@
   // other blocks
   .right {
     text-align: left;
-  }
 
-  .right .accordion-title__details:last-child {
-    .file-upload__label {
-      float: right;
+    .accordion-title__details {
+      &:last-child {
+        .file-upload__label {
+          float: right;
+        }
+      }
     }
   }
 
@@ -188,14 +187,13 @@ table {
     background-color: $white;
     box-shadow: 0 -1px 0 $gray-light;
 
-    // box-shadow: 0 1px 0 0 $gray-light;
-
-    // 0 1px 0px 0px
-
-    &:first-child {
-      // box-shadow: none;
-   
+    > td {
+      &:last-of-type {
+        padding-right: uikit-space(0.75);
+      }
     }
+
+    &:first-child {}
   }
 
   .centred {
@@ -204,14 +202,6 @@ table {
 
   .right {
     text-align: right;
-  }
-
-  tr {
-    > td {
-      &:last-of-type {
-        padding-right: uikit-space(0.75);
-      }
-    }
   }
 
   &.data-centred {
@@ -223,8 +213,8 @@ table {
 
     td,
     th {
+      font-size: .9rem;
       padding: .75em .5em;
-      font-size: 0.9rem;
       text-align: center;
       vertical-align: middle;
     }
@@ -252,15 +242,6 @@ table {
   }
 }
 
-// This is part of a prototype. reinstate if needed
-// .table--large {
-//   td,
-//   th {
-//     padding-top: 1.1em;
-//     padding-bottom: 1.1em;
-//     vertical-align: middle;
-//   }
-// }
 .table-responsive--no-border { // not sure about this
   border: 0;
 
@@ -303,88 +284,10 @@ table {
     content: ' ';
     display: block;
     height: 24px;
-
-    // margin-top: uikit-space(0.5);
     margin-top: 1.35em;
     position: absolute;
     top: 0;
     width: 24px;
-  }
-
-  // span {
-  // font-weight: bold;
-  // margin-left: uikit-space(1.5);
-  // }
-}
-
-.accordion__trigger {
-  border: 1px solid transparent;
-  border-bottom: 0;
-  box-sizing: border-box;
-  cursor: pointer;
-  display: block;
-
-  // font-size: 0;
-  line-height: 1.3;
-
-  // padding: uikit-space(0.75) uikit-space(0.375);
-  padding: .7em;
-  position: relative;
-  text-decoration: none;
-
-  // width: 100%;
-  height: 24px;
-  width: 24px;
-
-  &:focus,
-  &:hover {
-    background-color: transparent;
-    border: 1px solid transparent;
-    border-bottom: 1px solid $uikit-colour-Text;
-    outline: 1px solid transparent;
-    outline-offset: 1px;
-  }
-
-  // remove the default details arrow icon
-  &::-webkit-details-marker {
-    display: none;
-  }
-
-  &::after {
-    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l16 16-64 64L0 64"/></svg>');
-    background-position: center;
-    background-repeat: no-repeat;
-    bottom: 0;
-    content: ' ';
-    height: 1.2em;
-    position: absolute;
-    right: 0;
-    top: 2px;
-    transition: transform 0.25s ease-in;
-    width: 22px;
-    z-index: 0;
-  }
-}
-
-.accordion__trigger--closed {
-  &::after {
-    transform: rotate(-180deg);
-  }
-}
-
-.accordion--open {
-  .accordion-title__details {
-    display: block;
-
-    &.file-upload {
-      margin-top: 1em;
-    }
-  }
-}
-
-.accordion--closed {
-  .accordion-title__details {
-    display: none;
   }
 }
 
@@ -424,44 +327,52 @@ table {
 }
 
 .claim-summary-table {
-  border: 0px solid #cccccc !important;
+  border: 0 solid $gray-mild !important;
 
-  tr, td {
-    padding: 0.6em 1em 0.6em 1em;
-    text-align: left;
+  tr,
+  td {
     font-weight: bold;
+    padding: .6em 1em;
+    text-align: left;
   }
 
-  td:first-child {
-    width: 55%;
-    padding-right: 2em;
-    font-size: 0.9em;
-    text-align: left;
-    font-weight: normal;
-  }
+  td {
+    &:first-child {
+      font-size: 0.9em;
+      font-weight: normal;
+      padding-right: 2em;
+      text-align: left;
+      width: 55%;
+    }
 
-  td ul {
-    text-align: left;
+    ul {
+      text-align: left;
+    }
   }
 }
 
 @media screen and (min-width: $medium-handheld) {
   .claim-summary-table {
-    tr, td {
-      text-align: right;
+    tr,
+    td {
       font-size: 1em;
+      text-align: right;
     }
 
-    td ul {
-      text-align: left;
+    td {
+      ul {
+        text-align: left;
+      }
     }
   }
 }
 
 @media screen and (max-width: $medium-handheld) {
   .claim-summary-table {
-    td:first-child {
-      width: auto;
+    td {
+      &:first-child {
+        width: auto;
+      }
     }
   }
 }
@@ -471,30 +382,27 @@ table {
 
   th {
     background-color: $blue-dark;
+    border-left: 1px solid $gray-mid;
     color: $white;
     vertical-align: middle;
 
-    // border-top:4px solid #888888;
-    border-left: 1px solid #888888;
-  }
+    &:first-child {
+      border-left: 0 solid $gray-mid;
 
-  th:first-child {
-    // border-top:0px solid #888888;
-    border-left: 0px solid #888888;
-
-    p {
-      font-weight: normal;
+      p {
+        font-weight: normal;
+      }
     }
   }
 
   td {
-    text-align: center;
     border-left: 1px solid $gray-light;
-  }
+    text-align: center;
 
-  td:first-child {
-    text-align: left;
-    border-left: 0px solid $gray-light;
+    &:first-child {
+      border-left: 0 solid $gray-light;
+      text-align: left;
+    }
   }
 
   img {
@@ -502,8 +410,11 @@ table {
   }
 }
 
-.feature-set tr:hover, .feature-set__sub-heading td:hover {
-  background-color: #f4f4f4;
+.feature-set,
+.feature-set__sub-heading {
+  tr:hover {
+    background-color: $gray-light;
+  }
 }
 
 .feature-set tr:last-child {
@@ -514,14 +425,12 @@ table {
 
 .feature-set__sub-heading {
   td {
-    // border-top:1px solid #666666;
     background: $blue-5;
     border-left: 1px solid $blue-20;
   }
 
   td:first-child {
-    // border-left:6px solid $blue;
-    border-left: 0px solid $blue-20;
+    border-left: 0 solid $blue-20;
   }
 }
 
