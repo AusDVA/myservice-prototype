@@ -148,9 +148,9 @@ jQuery(document).ready(function ($) {
 
     var getUrlParameter = function getUrlParameter(sParam) {
       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-          sURLVariables = sPageURL.split('&'),
-          sParameterName,
-          i;
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
       for (i = 0; i < sURLVariables.length; i++) {
         sParameterName = sURLVariables[i].split('=');
@@ -413,6 +413,7 @@ jQuery(document).ready(function ($) {
 
         if (localStorage.getItem('studentAge') > 25) {
           $(".pt-studentOver25").show();
+          $(".pagination").find('.btnNext').prop('disabled', true);
           $('.pt-studentFullTime').hide();
         }
 
@@ -424,7 +425,7 @@ jQuery(document).ready(function ($) {
 
     $('input[name=engagedInFullTimeEmployment]').change(function () {
 
-      if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {} else {
+      if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') { } else {
         if (!("veteranFlow" in localStorage)) {
 
           $('.pt-showIfEngagedInFullTimeEmployment').show();
@@ -435,7 +436,7 @@ jQuery(document).ready(function ($) {
       }
     });
 
-    if (!("studentFlow" in localStorage)) {}
+    if (!("studentFlow" in localStorage)) { }
 
     $('input[name=studentDependantOnVeteran]').change(function () {
       if ($('input[name=studentDependantOnVeteran]:checked').val() === 'yes') {
@@ -1082,12 +1083,12 @@ jQuery(document).ready(function ($) {
     }
 
     var businessDays = 5,
-        counter = 1; // set to 1 to count from next business day
+      counter = 1; // set to 1 to count from next business day
     while (businessDays > 0) {
       var tmp = new Date();
       tmp.setDate(tmp.getDate() + counter++);
       switch (tmp.getDay()) {
-        case 0:case 6:
+        case 0: case 6:
           break; // sunday & saturday
         default:
           businessDays--;
@@ -1260,11 +1261,11 @@ jQuery(document).ready(function ($) {
   // PoC file upload for prototype
   // TODO:: handle cancel 
   // TODO:: add additional items 
-  ;(function (document, window, index) {
+  ; (function (document, window, index) {
     var inputs = document.querySelectorAll('.file-upload__input');
     Array.prototype.forEach.call(inputs, function (input) {
       var label = input.nextElementSibling,
-          labelVal = label.innerHTML;
+        labelVal = label.innerHTML;
 
       // removeEvent(label.querySelectorAll('button'), 'click', foo);
       console.log(label.querySelectorAll('button'));
