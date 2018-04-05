@@ -396,6 +396,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentFlowConfirmed');
         localStorage.setItem('claimantFlow', true);
         localStorage.setItem('claimantFlowConfirmed', true);
+        $(".pagination").find('.btnNext').prop('disabled', false);
         init();
 
         $(".pt-student-dob").show();
