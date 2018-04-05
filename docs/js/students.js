@@ -135,6 +135,7 @@ jQuery(document).ready(function ($) {
       $('.pt-showIfStudentCantClaim').hide();
       $('.pt-showIfStudentNotDependant').hide();
       $('.pt-aboutYou').hide();
+      $('.pt-studentOver25').hide();
     };
 
     var resetForm = function resetForm($form) {
@@ -389,8 +390,9 @@ jQuery(document).ready(function ($) {
     $('input[name=confirmStudentOrClaimant]').change(function () {
       // localStorage.clear();
 
-
-      if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
+      if (localStorage.getItem('studentAge') > 25) {
+        '.pt-studentOver25'.show();
+      } else if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
         localStorage.removeItem('studentFlow');
         localStorage.removeItem('studentFlowConfirmed');
         localStorage.setItem('claimantFlow', true);
