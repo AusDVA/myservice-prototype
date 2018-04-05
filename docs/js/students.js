@@ -390,9 +390,8 @@ jQuery(document).ready(function ($) {
     $('input[name=confirmStudentOrClaimant]').change(function () {
       // localStorage.clear();
 
-      if (localStorage.getItem('studentAge') > 25) {
-        '.pt-studentOver25'.show();
-      } else if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
+
+      if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
         localStorage.removeItem('studentFlow');
         localStorage.removeItem('studentFlowConfirmed');
         localStorage.setItem('claimantFlow', true);
@@ -411,6 +410,11 @@ jQuery(document).ready(function ($) {
         $(".pt-student-dob").hide();
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
+
+        if (localStorage.getItem('studentAge') > 25) {
+          $(".pt-studentOver25").show();
+          $('.pt-studentFullTime').hide();
+        }
 
         initStudents();
       }
