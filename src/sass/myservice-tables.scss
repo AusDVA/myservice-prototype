@@ -157,7 +157,8 @@
 // codesmells
 table {
   border: 1px solid $gray-light;
-  border-radius: 6px;
+
+  // border-radius: 6px;
   border-spacing: 0;
   margin-bottom: 2em;
   width: 100%;
@@ -184,7 +185,7 @@ table {
     text-align: left;
   }
 
-  tr {
+  tr:not(:first-child) {
     background-color: $white;
     box-shadow: 0 -1px 0 $gray-light;
 
@@ -324,6 +325,78 @@ table {
 @media screen and (max-width: $medium-handheld) {
   .table-responsive {
     @include table-responsive;
+
+    &.feature-set {
+      border-top: 10px solid $blue-dark;
+
+      tr {
+        &:nth-of-type(2n) {
+          background-color: $white;
+        }
+      }
+
+      td {
+        &:not(.feature-set__no) {
+          border: 0;
+          display: table-cell;
+          padding-bottom: 1.5em;
+          text-align: left;
+        }
+      }
+
+      .feature-set__ss-hide {
+        display: none;
+      }
+
+      .feature-set__ss-show {
+        display: table-row;
+        white-space: nowrap;
+
+        .uikit-btn {
+          white-space: normal;
+          width: 50%;
+        }
+      }
+
+      .feature-set__no {
+        display: none;
+      }
+
+      .feature-set__yes {
+        a {
+          background-position-x: 0;
+
+          // font-style: italic;
+          // font-weight: 600;
+          margin-left: 0;
+          padding: 0 0 0 2em;
+          text-align: left;
+          width: auto;
+        }
+
+        .sr {
+          clip: initial;
+          color: $blue-mild;
+          overflow: initial;
+          position: relative;
+        }
+      }
+
+      .feature-set__yes--green {
+        .sr {
+          color: $large-text-green;
+        }
+      }
+    }
+
+    &.feature-set,
+    &.feature-set__sub-heading {
+      tr {
+        &:hover {
+          background-color: $white;
+        }
+      }
+    }
   }
 }
 
@@ -417,6 +490,10 @@ table {
   img {
     width: 25px;
   }
+
+  .feature-set__ss-show {
+    display: none;
+  }
 }
 
 .feature-set,
@@ -428,21 +505,19 @@ table {
   }
 }
 
-.feature-set {}
-
 .feature-set__sub-heading {
   td {
     background: $blue-5;
     border-left: 1px solid $blue-20;
-  }
 
-  td:first-child {
-    border-left: 0 solid $blue-20;
+    &:first-child {
+      border-left: 0 solid $blue-20;
+    }
   }
 }
 
 @mixin tick-icon($colour) {
-  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.7 426.7"><style>.st0{fill:#{$colour}} </style><path class="st0" d="M213.3 29.6c49.1 0 95.2 19.1 129.9 53.8 34.7 34.7 53.8 80.8 53.8 129.9 0 49.1-19.1 95.2-53.8 129.9S262.4 397 213.3 397s-95.2-19.1-129.9-53.8-53.8-80.8-53.8-129.9 19.1-95.2 53.8-129.9 80.8-53.8 129.9-53.8m0-29.6C95.5 0 0 95.5 0 213.3s95.5 213.3 213.3 213.3 213.3-95.5 213.3-213.3S331.2 0 213.3 0z"/><path class="st0" d="M83.1 229l28.5-28.5 62.6 62.7 140.9-140.9 28.5 28.5-169.4 169.3z"/></svg>');
+  background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.7 426.7"><style>.st0{fill:#{$colour}} </style><path class="st0" d="M213.3 29.6c49.1 0 95.2 19.1 129.9 53.8 34.7 34.7 53.8 80.8 53.8 129.9 0 49.1-19.1 95.2-53.8 129.9S262.4 397 213.3 397s-95.2-19.1-129.9-53.8-53.8-80.8-53.8-129.9 19.1-95.2 53.8-129.9 80.8-53.8 129.9-53.8m0-29.6C95.5 0 0 95.5 0 213.3s95.5 213.3 213.3 213.3 213.3-95.5 213.3-213.3S331.2 0 213.3 0z"/><path class="st0" d="M83.1 229l28.5-28.5 62.6 62.7 140.9-140.9 28.5 28.5-169.4 169.3z"/></svg>');
 }
 
 .feature-set__yes {
@@ -455,7 +530,8 @@ table {
     border-bottom: 0 solid;
     display: block;
     height: 25px;
-    line-height: 1em;
+
+    // line-height: 1em;
     margin-left: auto;
     margin-right: auto;
     width: 25px;
@@ -477,32 +553,4 @@ table {
   background-position: center center;
   background-repeat: no-repeat;
   background-size: 25px 25px;
-
-  // display: inherit;
-}
-
-@media screen and (max-width: $medium-handheld) {
-  .table-responsive {
-    .feature-set__no {
-      display: none;
-    }
-
-    .feature-set__yes {
-      a {
-        background-position-x: 0;
-        font-style: italic;
-        font-weight: 600;
-        margin-left: 0;
-        padding: 0.7em 0 0 2em;
-        text-align: left;
-        width: auto;
-      }
-
-      .sr {
-        clip: initial;
-        overflow: initial;
-        position: relative;
-      }
-    }
-  }
 }
