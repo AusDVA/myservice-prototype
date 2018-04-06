@@ -396,7 +396,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentFlowConfirmed');
         localStorage.setItem('claimantFlow', true);
         localStorage.setItem('claimantFlowConfirmed', true);
-        $(".pagination").find('.btnNext').prop('disabled', false);
+        // $(".pagination").find('.btnNext').prop('disabled', false);
         init();
 
         $(".pt-student-dob").show();
@@ -414,8 +414,9 @@ jQuery(document).ready(function ($) {
 
         if (localStorage.getItem('studentAge') > 25) {
           $(".pt-studentOver25").show();
-          $(".pagination").find('.btnNext').prop('disabled', true);
-          $('.pt-studentFullTime').hide();
+          // $(".pagination").find('.btnNext').prop('disabled', true);
+          $('.pt-studentFullTime').show();
+          $(".pt-showIfStudentConfirmed").show();
         }
 
         initStudents();
@@ -914,6 +915,7 @@ jQuery(document).ready(function ($) {
     $(".pt-noLongerEligibleTwo").hide();
     $(".pt-showIfStudyLoadNotAnswered").hide();
     $(".pt-showIfEnrolled").hide();
+    $('.pt-enrollDatestudentOver25').hide();
 
     // skip the financial details if we're in veteran flow
     // if ("veteranFlow" in localStorage) {
@@ -943,6 +945,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLevelOfStudy');
         localStorage.setItem('studentLevelOfStudy', 'primary');
         $(".pagination").find('button').prop('disabled', false);
+
       } else if (selected_option === 'secondary') {
 
         $(".pt-noLongerEligible").hide();
@@ -960,6 +963,8 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfPrimary").hide();
         $(".pt-showIfSecondary").hide();
         $(".pt-showIfTertiary").show('fast');
+
+
         if (localStorage.getItem('studentLoadOfStudy') === null) {
           $(".pt-showIfStudyLoadNotAnswered").show('fast');
         }
@@ -997,8 +1002,13 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('enrolStatus', true);
         $(".pt-noLongerEligibleTwo").hide();
         $(".pt-showIfEnrolled").show();
+        if (localStorage.getItem('studentAge') > 25) {
+          $('.pt-enrollDatestudentOver25').show();
+        }
       }
     });
+
+    // date started studying
   }
 
   if (window.location.pathname === "/studentclaimupload") {
