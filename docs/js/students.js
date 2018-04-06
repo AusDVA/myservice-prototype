@@ -412,7 +412,7 @@ jQuery(document).ready(function ($) {
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
-        if (localStorage.getItem('studentAge') > 25) {
+        if (localStorage.getItem('studentAge') > 24) {
           $(".pt-studentOver25").show();
           // $(".pagination").find('.btnNext').prop('disabled', true);
           $('.pt-studentFullTime').show();
@@ -916,6 +916,8 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfStudyLoadNotAnswered").hide();
     $(".pt-showIfEnrolled").hide();
     $('.pt-enrollDatestudentOver25').hide();
+    $('.pt-enrollStatusStudentOver25').hide();
+
 
     // skip the financial details if we're in veteran flow
     // if ("veteranFlow" in localStorage) {
@@ -997,13 +999,21 @@ jQuery(document).ready(function ($) {
 
         $(".pt-noLongerEligibleTwo").show();
         $(".pt-showIfEnrolled").hide();
+        if (localStorage.getItem('studentAge') > 24) {
+
+          $('.pt-enrollStatusStudentOver25').show();
+          $('.pt-enrollDatestudentOver25').hide();
+          $(".pt-noLongerEligibleTwo").hide();
+        }
+
       } else {
         localStorage.removeItem('enrolStatus');
         localStorage.setItem('enrolStatus', true);
         $(".pt-noLongerEligibleTwo").hide();
         $(".pt-showIfEnrolled").show();
-        if (localStorage.getItem('studentAge') > 25) {
+        if (localStorage.getItem('studentAge') > 24) {
           $('.pt-enrollDatestudentOver25').show();
+          $('.pt-enrollStatusStudentOver25').hide();
         }
       }
     });
