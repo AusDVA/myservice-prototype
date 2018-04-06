@@ -1,258 +1,236 @@
 <!DOCTYPE html>
 <html class="js" lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta content="width=device-width" name="viewport">
-    <title>Student Claim</title>
-    <link href="docs/css/main.css" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Student Claim</title>
+  <link href="docs/css/main.css" rel="stylesheet">
+
+  <style>
+    .pt-flow--veteran,
+    .pt-flow--student,
+    .pt-flow--claimant {
+      display: none;
+    }
+
+    .hide-fields>div {
+      display: none;
+    }
+  </style>
 </head>
+
 <body class="uikit-body uikit-grid uikit-refactor">
-    <noscript><p role="alert">This website needs JavaScript to work properly.</p></noscript>
-    <nav class="uikit-skip-link"><a class="uikit-skip-link__link" href="#main-content">Skip to main content</a></nav>
-    <% include ../../../global/partials/header-topbar.ejs %>
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../global/partials/header-topbar.ejs %>
     <% include ../../../global/partials/header-claims.ejs %>
-    <% include ../partials/help-button.ejs %>
-    <main> 
-    <div class="container" id="main-content">
-    <div id="progressbar"><div id="percentage"></div></div>
-    <h1>Student Claims (Step 3: Living arrangements)</h1>
-    <div id="optional-fields-message">All fields are required unless marked (optional).</div>
-    
+      <% include ../partials/help-button.ejs %>
+        <main>
+          <div class="container" id="main-content">
+            <!-- <div id="progressbar">
+              <div id="percentage"></div>
+            </div> -->
+            <h1 id="question_pageheaderStudy">
 
-    <fieldset>
-        
-        <div class="form-group" id="studyawayfromhomeqst" style="display:none;">
-            <label class="uikit-text-input__label" for="toggle-buttons">Will the student be living away from home this year?</label>
-            <div class="radio-toggle">
-              <label class="on label-left" for="yes"><input id="yes" type="radio" name="toggle-buttons"><span>Yes</span></label>
-              <label class="off label-right" for="no"><input id="no" type="radio" name="toggle-buttons"><span>No</span></label>
+            </h1>
+            <div class="row">
+
+              <fieldset class="hide-fields grids col-sm-7">
+
+                <!-- 10 -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant" id="studyLevel">
+                  <legend class="legend-label" id="question_id10"></legend>
+                  <select id="studentLevelOfStudy" class="uikit-text-input input-half">
+                    <option value="">-- Select a level --</option>
+                    <option value="primary">Primary / secondary</option>
+                    <option value="tertiary">Tertiary</option>
+                    <option value="apprenticeship">Apprenticeship / traineeship</option>
+                  </select>
+
+                </div>
+
+
+                <!-- 21 c-->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
+                  <legend class="legend-label" id="question_id21c">
+
+
+                  </legend>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input id="yes" type="radio" name="enrolStatus" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input id="no" type="radio" name="enrolStatus" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <!-- 21 c i -->
+                <div class="form-group  pt-flow--veteran pt-flow--student pt-flow--claimant uikit-page-alerts uikit-page-alerts--warning pt-noLongerEligibleTwo">
+                  <p id="question_id21ci">
+
+
+                  </p>
+                </div>
+
+
+
+                <!-- 12 -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfPrimary pt-showIfSecondary" id="schoolName">
+                  <label class="uikit-text-input__label" for="schoolNameInput" id="question_id12"></label>
+                  <input class="uikit-text-input input-half" id="schoolNameInput" name="schoolNameInput" type="text" value="" required aria-required="true">
+                </div>
+
+
+
+                <!-- 11 -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfPrimary pt-showIfSecondary" id="studentGradeThisYear">
+                  <label class="uikit-text-input__label" for="studentGradeThisYearSelect" id="question_id11"></label>
+
+                  <select class="uikit-text-input input-half" id="studentGradeThisYearSelect">
+                    <option>-- Select an item --</option>
+                    <option value="0">Kindergarten</option>
+                    <option value="1"> 1</option>
+                    <option value="2"> 2</option>
+                    <option value="3"> 3</option>
+                    <option value="4"> 4</option>
+                    <option value="5"> 5</option>
+                    <option value="6"> 6</option>
+                    <option value="7"> 7</option>
+                    <option value="8"> 8</option>
+                    <option value="9"> 9</option>
+                    <option value="10"> 10</option>
+                    <option value="11"> 11</option>
+                    <option value="12"> 12</option>
+                  </select>
+                </div>
+
+                <!-- 14 -->
+
+
+                <!-- 15 -->
+
+
+                <!-- 16 -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfEnrolled">
+                  <label class="uikit-text-input__label" for="studyingWhere" id="question_id16"></label>
+                  <select class="uikit-text-input input-half" id="studyingWhere" name="studyingWhere">
+                    <option>-- Select location --</option>
+                    <option> Australian Capital Territory </option>
+                    <option> New South Wales </option>
+                    <option> Northern Territory </option>
+                    <option> Queensland </option>
+                    <option> South Australia </option>
+                    <option> Tasmania </option>
+                    <option> Victoria </option>
+                    <option> Western Australia </option>
+                    <option value="overseas">Overseas</option>
+                  </select>
+                </div>
+
+
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfEnrolled">
+                  <label class="uikit-text-input__label" for="institutionName" id="question_id16a"></label>
+                  <input class="uikit-text-input input-half" name="institutionName" id="institutionName" type="text" value="" required aria-required="true">
+                </div>
+
+
+                <!-- 17 -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfEnrolled">
+                  <label class="uikit-text-input__label" for="studyingCourse" id="question_id17"></label>
+                  <input class="uikit-text-input input-half" name="studyingCourse" id="studyingCourse" type="text" value="" required aria-required="true">
+                </div>
+
+
+                <!-- 19 -->
+                <div class="form-group pt-flow--veteran pt-flow--claimant pt-showIfEnrolled pt-student-dob ">
+                  <label class="uikit-text-input__label" for="date" id="question_id19">
+                  </label>
+                  <input class="uikit-text-input dd" type="text" name="dd-date-start-studying" id="dd-date-start-studying" maxlength="2" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="mm-date-start-studying" id="mm-date-start-studying" maxlength="2" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date-start-studying" id="yyyy-date-start-studying" maxlength="4"
+                    aria-label="4 digit year">
+                </div>
+
+                <div class="form-group uikit-page-alerts uikit-page-alerts--error pt-flow--student pt-enrollDatestudentOver25" id="question_message11">
+                </div>
+
+                <div class="form-group pt-flow--veteran pt-flow--claimant pt-showIfEnrolled pt-student-dob ">
+                  <label class="uikit-text-input__label" for="date" id="question_id20">
+                  </label>
+                  <input class="uikit-text-input dd" type="text" name="dd-date-finish-studying" id="dd-date-finish-studying" maxlength="2"
+                    aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="mm-date-finish-studying" id="mm-date-finish-studying" maxlength="2"
+                    aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date-finish-studying" id="yyyy-date-finish-studying" maxlength="4"
+                    aria-label="4 digit year">
+                </div>
+
+                <!-- 21 -->
+                <div class="form-group pt-flow--veteran  pt-flow--claimant pt-showIfEnrolled">
+                  <legend class="legend-label" id="question_id21">
+                  </legend>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input id="yes" type="radio" name="studyLoad" value="full-time">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input id="no" type="radio" name="studyLoad" value="part-time">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- 21a -->
+                <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfPartTime">
+                  <label class="uikit-text-input__label" for="partTimeExplination" id="question_id21a">
+                  </label>
+                  <textarea id="partTimeExplination" name="partTimeExplination" rows="4"></textarea>
+                </div>
+
+
+              </fieldset>
+
+              <% include ../partials/uploads-shopping-cart.ejs %>
             </div>
-        </div>
 
-        <div class="form-group" id="livingwhere" style="display:none;">
-            <label class="uikit-text-input__label" for="radio-buttons">Where will the student be living this year?</label>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">With partner/friends away from home</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Student is studying away from home</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Student is homeless</span>
-                </label>
-            </p>
-        </div>
+            <div class="pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+              <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'">Save and exit</button>
 
-        <div class="form-group" id="livingwhere-student" style="display:none;">
-            <label class="uikit-text-input__label" for="radio-buttons">Where will you be living this year?</label>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">At home</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Away from home</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">I am homeless</span>
-                </label>
-            </p>
-        </div>
-
-        <div class="form-group" id="rentstartdate" style="display:none;">
-            <label class="uikit-text-input__label" for="date">Date you began living at a new rental address <span class="hint">(DD / MM / YYYY)</span></label>
-            <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-            <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-            <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-        </div>
-
-        <div class="form-group" id="rentpaymenttype" style="display:none;">
-            <label class="uikit-text-input__label" for="radio-buttons">What type of accommodation payment do you make?</label>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Rent to a private landlord or real estate agent</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Money for a room in a boarding house</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Money to an education institution e.g. student accommodation</span>
-                </label>
-            </p>
-            <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="radio" name="radio-ex">
-                    <span class="uikit-control-input__text">Other (please specify)</span>
-                </label>
-            </p>
-        </div>
-
-        <div class="form-group" id="landlordname" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">Name of entity to whom rent is paid </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-        <div class="form-group" id="landlordaddress" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">Their address </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-        <div class="form-group" id="landlordnumber" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">Their contact number </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-        <div class="form-group" id="shareaccomqst" style="display:none;">
-            <label class="uikit-text-input__label" for="toggle-buttons">Do you share accommodation with anybody?</label>
-            <div class="radio-toggle">
-              <label class="on label-left" for="yes"><input id="yes" type="radio" name="toggle-buttons"><span>Yes</span></label>
-              <label class="off label-right" for="no"><input id="no" type="radio" name="toggle-buttons"><span>No</span></label>
+                <button class="uikit-btn btnNext" onclick="window.location.href = '/studentclaim4'">Save and next</button>
+              </div>
             </div>
-        </div>
+            <% include ../partials/cancel-modal.ejs %>
+          </div>
 
-        <div class="form-group" id="housematenumber" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">How many people do you share with? </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
+        </main>
 
-        <div class="form-group" id="partnerrentassistanceqst" style="display:none;">
-            <label class="uikit-text-input__label" for="toggle-buttons">Does your partner currently receive any rent assistance from another source?</label>
-            <div class="radio-toggle">
-              <label class="on label-left" for="yes"><input id="yes" type="radio" name="toggle-buttons"><span>Yes</span></label>
-              <label class="off label-right" for="no"><input id="no" type="radio" name="toggle-buttons"><span>No</span></label>
-            </div>
-        </div>
-
-        <div class="form-group" id="fortnightlyrentcharged" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">How much is the total fortnightly rent charged? </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-        <div class="form-group" id="fortnightlyamountpaid" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">How much do you pay per fortnight? </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-        <div class="form-group" id="mealqst" style="display:none;">
-            <label class="uikit-text-input__label" for="toggle-buttons">Do you receive meals as part of your accommodation costs?</label>
-            <div class="radio-toggle">
-              <label class="on label-left" for="yes"><input id="yes" type="radio" name="toggle-buttons"><span>Yes</span></label>
-              <label class="off label-right" for="no"><input id="no" type="radio" name="toggle-buttons"><span>No</span></label>
-            </div>
-        </div>
-
-        <div class="form-group" id="mealamount" style="display:none;">
-            <label class="uikit-text-input__label" for="Input field">How much of the payment is for meals? </label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-
-      
-    </fieldset>
-    
-    
-    
-
-    <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/studentclaim2'">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-        <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'">Save and exit</button>&nbsp;
-            <button class="uikit-btn btnNext" onclick="window.location.href = '/studentclaim4'">Save and next</button>
-        </div>
-    </div>
-    <% include ../partials/cancel-modal.ejs %>
-    </div>
-
-  </main>
-  
-  <% include ../../../global/partials/footer.ejs %>
-  <% include ../partials/panel-help.ejs %>
-
-	<script>
-	
-	// Progress percentage
-    // document.getElementById("percentage").style.width = "75%";
-    document.getElementById("percentage").style.width = "60%";
+        <% include ../../../global/partials/footer.ejs %>
+          <script src="/docs/js/students.js"></script>
+          <% include ../partials/panel-help.ejs %>
 
 
-    if("veteranflow" in sessionStorage){
-        $("#studyawayfromhomeqst").show();
-        $("#livingwhere").hide();
-        $("#livingwhere-student").hide();
-        $("#rentstartdate").hide();
-        $("#rentpaymenttype").hide();
-        $("#landlordname").hide();
-        $("#landlordaddress").hide();
-        $("#landlordnumber").hide();
-        $("#shareaccomqst").hide();
-        $("#housematenumber").hide();
-        $("#partnerrentassistanceqst").hide();
-        $("#fortnightlyrentcharged").hide();
-        $("#fortnightlyamountpaid").hide();
-        $("#mealqst").hide();
-        $("#mealamount").hide();
+            <script>
 
-    }
+              // Progress percentage
+              // document.getElementById("percentage").style.width = "40%";
 
-    if("studentflow" in sessionStorage){
-        $("#studyawayfromhomeqst").hide();
-        $("#livingwhere").hide();
-        $("#livingwhere-student").show();
-        $("#rentstartdate").show();
-        $("#rentpaymenttype").show();
-        $("#landlordname").show();
-        $("#landlordaddress").show();
-        $("#landlordnumber").show();
-        $("#shareaccomqst").show();
-        $("#housematenumber").show();
-        $("#partnerrentassistanceqst").show();
-        $("#fortnightlyrentcharged").show();
-        $("#fortnightlyamountpaid").show();
-        $("#mealqst").show();
-        $("#mealamount").show();
-    }
+            </script>
 
-    if("claimantflow" in sessionStorage){
-        $("#studyawayfromhomeqst").show();
-        $("#livingwhere").show();
-        $("#livingwhere-student").hide();
-        $("#rentstartdate").hide();
-        $("#rentpaymenttype").hide();
-        $("#landlordname").hide();
-        $("#landlordaddress").hide();
-        $("#landlordnumber").hide();
-        $("#shareaccomqst").hide();
-        $("#housematenumber").hide();
-        $("#partnerrentassistanceqst").hide();
-        $("#fortnightlyrentcharged").hide();
-        $("#fortnightlyamountpaid").hide();
-        $("#mealqst").hide();
-        $("#mealamount").hide();
- 
-    }
-	
-	</script>
+
+
 
 </body>
+
 </html>

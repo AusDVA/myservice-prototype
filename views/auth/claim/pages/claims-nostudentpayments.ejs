@@ -24,19 +24,25 @@
               <h1 class="margin-below--small margin-above--small">
                 <span class="heading">Claims</span>
               </h1>
-              <div class="container claims-accordian simple-accordian margin-below">
-                <div class="row simple-accordian--trigger">
-                  <div class="col-sm-12" id="simple-accordian--trigger">
-                    <h2 class="simple-accordian--heading margin-above--none margin-below--none">
+
+              <div class="skip-link padding-above--none
+              small-handheld-skip">
+                <button class="uikit-btn uikit-btn--tertiary margin-below" id="claim-activity-link">See all claims</button>
+              </div>
+
+              <div class="container claims-accordion simple-accordion simple-accordion--open margin-below">
+                <div class="row simple-accordion__trigger">
+                  <div class="col-sm-12">
+                    <h2 class="simple-accordion__heading margin-above--none margin-below--none">
                       <a class="toggle-arrow">
                         <b>Get the entitlements you deserve</b>
                       </a>
                     </h2>
                   </div>
                 </div>
-                <div class="row simple-accordian--body margin-below--extra">
+                <div class="row simple-accordion__body margin-below--extra">
                   <div class="col-sm-6 dividing-line">
-                    <h2 class="simple-accordian--heading">Claim now for service-related
+                    <h2 class="simple-accordion__heading">Claim now for service-related
                       <br>
                       <b>injuries or illness</b>
                     </h2>
@@ -46,7 +52,7 @@
 
                   <div class="col-sm-5">
 
-                    <h2 class="simple-accordian--heading">Claim now for
+                    <h2 class="simple-accordion__heading">Claim now for
                       <br>
                       <b>free mental health treatment</b>
                     </h2>
@@ -58,7 +64,7 @@
               </div>
             </div>
           </div>
-          <div class="container margin-above--extra margin-below--extra">
+          <div class="container margin-above--extra margin-below--extra" id="claim-activity">
             <h2>
               <center>
                 <b>Manage and track your claims</b>
@@ -92,21 +98,37 @@
       <% include ../../../global/partials/footer.ejs %>
 
         <script>
-          $("#simple-accordian--trigger").click(function () {
-            $(".simple-accordian--body").toggle("fast");
+          $(".toggle-arrow").click(function () {
+            $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
+          });
+
+          function goToByScroll(id) {
+            id = id.replace("-link", "");
+            $('html,body').animate({
+              scrollTop: $("#" + id).offset().top
+            },
+              'slow');
+          }
+          $("#claim-activity-link").click(function (e) {
+            e.preventDefault();
+            goToByScroll($(this).attr("id"));
           });
 
 
           $("#entitlements").change(function () {
-            if ($('#entitlements :selected').val() == "Free mental health treatment") {
-              $(".entitlement-mh").show("fast");
+            if ($('#entitlements :selected').val() == "mentalhealth") {
+              $("#entitlement-mh").removeClass('action-group__reveal--closed');
+              $("#entitlement-mh").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-mh").hide();
+              $("#entitlement-mh").removeClass('action-group__reveal--open');
+              $("#entitlement-mh").addClass('action-group__reveal--closed');
             }
-            if ($('#entitlements :selected').val() == "Student payments") {
-              $(".entitlement-student").show("fast");
+            if ($('#entitlements :selected').val() == "education") {
+              $("#entitlement-student").removeClass('action-group__reveal--closed');
+              $("#entitlement-student").addClass('action-group__reveal--open');
             } else {
-              $(".entitlement-student").hide();
+              $("#entitlement-student").removeClass('action-group__reveal--open');
+              $("#entitlement-student").addClass('action-group__reveal--closed');
             }
           });
 

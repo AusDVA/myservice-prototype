@@ -1,0 +1,96 @@
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Forked from the DTA's page-alerts module
+// Use page alerts to notify users of important information and state changes to the page.
+//
+// Content:
+// - Generic page alert styling
+// - Generic page alert icon position styling
+// - Page alert error
+// - Page alert warning
+// - Page alert success
+// - Page alert info
+// - Page alert screen-reader only
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+// Page alert defaults to info
+//--------------------------------------------------------------------------------------------------------------------------------------------------------------
+.uikit-page-alerts {
+  background-color: $blue-10;
+  border-left: 4px solid $uikit-colour-Info;
+  color: $uikit-colour-Text;
+  font-family: $uikit-font-system;
+  line-height: $uikit-leading;
+  margin: uikit-space(1) 0;
+  max-width: $uikit-maxwidth;
+  padding: uikit-space(0.75) uikit-space(0.5) uikit-space(0.75) uikit-space(2.4);
+  position: relative;
+
+  :first-child {
+    margin-top: 0;
+  }
+
+  :last-child {
+    margin-bottom: 0;
+  }
+
+  &::after {
+    // background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.3 39.3"><style>.st0{fill:#{$uikit-colour-Info}}</style><path class="st0" d="M33 6.2C29.4 2.6 24.6.6 19.6.6c-5.1 0-9.8 2-13.4 5.6S.6 14.6.6 19.6c0 5.1 2 9.8 5.6 13.4 3.6 3.6 8.4 5.6 13.4 5.6 5.1 0 9.8-2 13.4-5.6s5.6-8.4 5.6-13.4c.1-5-1.9-9.8-5.6-13.4zm-1.4 25.4c-3.2 3.2-7.4 4.9-11.9 4.9S11 34.7 7.8 31.6C1.2 25 1.2 14.3 7.8 7.8c3.2-3.2 7.4-4.9 11.9-4.9s8.7 1.8 11.9 4.9c6.4 6.5 6.4 17.2 0 23.8z"/><path class="st0" d="M20.7 8.9c0-.6-.5-1.1-1.1-1.1-.6 0-1.1.5-1.1 1.1l.1 15.4c0 .3.1.6.4.8s.5.4.8.4c.6 0 1.1-.5 1.1-1.1l-.2-15.5z"/><circle class="st0" cx="19.8" cy="29.3" r="1.3"/></svg>');
+    background-image: uikit-svguri('<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">\a     <style>\a       .st0{fill:#{$uikit-colour-Info}}\a     </style>\a     <path class="st0" d="M20 .4C9.2.4.4 9.2.4 20S9.2 39.7 20 39.7 39.7 30.8 39.7 20 30.9.4 20 .4zm0 37.4c-9.8 0-17.7-8-17.7-17.7S10.3 2.3 20 2.3s17.7 8 17.7 17.8S29.8 37.8 20 37.8z"/>\a     <circle class="st0" cx="20" cy="11" r="1.4"/>\a     <path class="st0" d="M21.2 16.6v14.9c0 .5-.5.9-1.2.9s-1.2-.4-1.2-.9V16.7c0-.5.5-.9 1.2-.9s1.2.3 1.2.8z"/>\a   </svg>');
+    background-repeat: no-repeat;
+
+    // content: $content-blank;
+    content: ' ';
+    display: block;
+    height: 35px;
+    left: 1em;
+    position: absolute;
+    top: 1em;
+    width: 35px;
+  }
+}
+
+// 
+// Page alert success
+//
+.uikit-page-alerts--success {
+  background-color: mix($white, $uikit-colour-Success, 88);
+  border-color: $uikit-colour-Success;
+
+  &::after {
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.7 426.7">\a     <path d="M213.3 0C95.5 0 0 95.5 0 213.3s95.5 213.3 213.3 213.3 213.3-95.5 213.3-213.3S331.2 0 213.3 0zm-39.1 322.9L80.3 229l31.3-31.3 62.6 62.7 140.9-140.9 31.3 31.3-172.2 172.1z" fill="#{$uikit-colour-Success}"/>\a   </svg>');
+  }
+}
+
+//
+// Page alert warning.
+//
+.uikit-page-alerts--warning {
+  background-color: mix($white, $uikit-colour-Warning, 90);
+
+  // background-color: $white;
+  border-color: $uikit-colour-Warning;
+
+  &::after {
+    background-image: uikit-svguri('<svg id="Layer_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 39.3 39.3">\a     <style>\a       .st0{fill:#{$uikit-colour-Warning}}\a     </style>\a     <path class="st0" d="M33 6.2C29.4 2.6 24.6.6 19.6.6c-5.1 0-9.8 2-13.4 5.6S.6 14.6.6 19.6c0 5.1 2 9.8 5.6 13.4 3.6 3.6 8.4 5.6 13.4 5.6 5.1 0 9.8-2 13.4-5.6s5.6-8.4 5.6-13.4c.1-5-1.9-9.8-5.6-13.4zm-1.4 25.4c-3.2 3.2-7.4 4.9-11.9 4.9S11 34.7 7.8 31.6C1.2 25 1.2 14.3 7.8 7.8c3.2-3.2 7.4-4.9 11.9-4.9s8.7 1.8 11.9 4.9c6.4 6.5 6.4 17.2 0 23.8z"/>\a     <path class="st0" d="M20.7 8.9c0-.6-.5-1.1-1.1-1.1-.6 0-1.1.5-1.1 1.1l.1 15.4c0 .3.1.6.4.8s.5.4.8.4c.6 0 1.1-.5 1.1-1.1l-.2-15.5z"/>\a     <circle class="st0" cx="19.8" cy="29.3" r="1.3"/>\a   </svg>');
+  }
+}
+
+//
+// Page alert error.
+//
+.uikit-page-alerts--error {
+  background-color: mix($white, $uikit-colour-Error, 90);
+  border-color: $uikit-colour-Error;
+
+  &::after {
+    background-image: uikit-svguri('<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38.44 36.25"><defs><style>.cls-1{fill:#{$uikit-colour-Error};}</style></defs><title>ico-error</title><path class="cls-1" d="M38.6,34.24,21.84,2.81a2.43,2.43,0,0,0-2.14-1.27,2.4,2.4,0,0,0-2.12,1.27L.73,34.24a2.4,2.4,0,0,0,.06,2.37,2.42,2.42,0,0,0,2.08,1.18H36.47a2.42,2.42,0,0,0,2.12-3.55ZM19.71,33a2.41,2.41,0,1,1,2.42-2.4A2.41,2.41,0,0,1,19.71,33Zm2.42-9.63a2.42,2.42,0,0,1-4.84,0V13.66a2.42,2.42,0,1,1,4.84,0Zm0,0" transform="translate(-0.45 -1.54)"/></svg>');
+  }
+}
+
+//
+// Screen-reader only class for interlinking error messages and corresponding form elements.
+//
+.uikit-page-alerts__sronly {
+  @include uikit-sronly;
+}
