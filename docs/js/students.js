@@ -135,6 +135,7 @@ jQuery(document).ready(function ($) {
       $('.pt-showIfStudentCantClaim').hide();
       $('.pt-showIfStudentNotDependant').hide();
       $('.pt-aboutYou').hide();
+      $('.pt-studentOver25').hide();
     };
 
     var resetForm = function resetForm($form) {
@@ -147,9 +148,9 @@ jQuery(document).ready(function ($) {
 
     var getUrlParameter = function getUrlParameter(sParam) {
       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-          sURLVariables = sPageURL.split('&'),
-          sParameterName,
-          i;
+        sURLVariables = sPageURL.split('&'),
+        sParameterName,
+        i;
 
       for (i = 0; i < sURLVariables.length; i++) {
         sParameterName = sURLVariables[i].split('=');
@@ -395,6 +396,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentFlowConfirmed');
         localStorage.setItem('claimantFlow', true);
         localStorage.setItem('claimantFlowConfirmed', true);
+        // $(".pagination").find('.btnNext').prop('disabled', false);
         init();
 
         $(".pt-student-dob").show();
@@ -410,6 +412,13 @@ jQuery(document).ready(function ($) {
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
+        if (localStorage.getItem('studentAge') > 25) {
+          $(".pt-studentOver25").show();
+          // $(".pagination").find('.btnNext').prop('disabled', true);
+          $('.pt-studentFullTime').show();
+          $(".pt-showIfStudentConfirmed").show();
+        }
+
         initStudents();
       }
 
@@ -418,7 +427,7 @@ jQuery(document).ready(function ($) {
 
     $('input[name=engagedInFullTimeEmployment]').change(function () {
 
-      if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {} else {
+      if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') { } else {
         if (!("veteranFlow" in localStorage)) {
 
           $('.pt-showIfEngagedInFullTimeEmployment').show();
@@ -429,7 +438,7 @@ jQuery(document).ready(function ($) {
       }
     });
 
-    if (!("studentFlow" in localStorage)) {}
+    if (!("studentFlow" in localStorage)) { }
 
     $('input[name=studentDependantOnVeteran]').change(function () {
       if ($('input[name=studentDependantOnVeteran]:checked').val() === 'yes') {
@@ -906,6 +915,7 @@ jQuery(document).ready(function ($) {
     $(".pt-noLongerEligibleTwo").hide();
     $(".pt-showIfStudyLoadNotAnswered").hide();
     $(".pt-showIfEnrolled").hide();
+    $('.pt-enrollDatestudentOver25').hide();
 
     // skip the financial details if we're in veteran flow
     // if ("veteranFlow" in localStorage) {
@@ -935,6 +945,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLevelOfStudy');
         localStorage.setItem('studentLevelOfStudy', 'primary');
         $(".pagination").find('button').prop('disabled', false);
+
       } else if (selected_option === 'secondary') {
 
         $(".pt-noLongerEligible").hide();
@@ -952,6 +963,8 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfPrimary").hide();
         $(".pt-showIfSecondary").hide();
         $(".pt-showIfTertiary").show('fast');
+
+
         if (localStorage.getItem('studentLoadOfStudy') === null) {
           $(".pt-showIfStudyLoadNotAnswered").show('fast');
         }
@@ -989,8 +1002,13 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('enrolStatus', true);
         $(".pt-noLongerEligibleTwo").hide();
         $(".pt-showIfEnrolled").show();
+        if (localStorage.getItem('studentAge') > 25) {
+          $('.pt-enrollDatestudentOver25').show();
+        }
       }
     });
+
+    // date started studying
   }
 
   if (window.location.pathname === "/studentclaimupload") {
@@ -1076,12 +1094,12 @@ jQuery(document).ready(function ($) {
     }
 
     var businessDays = 5,
-        counter = 1; // set to 1 to count from next business day
+      counter = 1; // set to 1 to count from next business day
     while (businessDays > 0) {
       var tmp = new Date();
       tmp.setDate(tmp.getDate() + counter++);
       switch (tmp.getDay()) {
-        case 0:case 6:
+        case 0: case 6:
           break; // sunday & saturday
         default:
           businessDays--;
@@ -1254,11 +1272,11 @@ jQuery(document).ready(function ($) {
   // PoC file upload for prototype
   // TODO:: handle cancel 
   // TODO:: add additional items 
-  ;(function (document, window, index) {
+  ; (function (document, window, index) {
     var inputs = document.querySelectorAll('.file-upload__input');
     Array.prototype.forEach.call(inputs, function (input) {
       var label = input.nextElementSibling,
-          labelVal = label.innerHTML;
+        labelVal = label.innerHTML;
 
       // removeEvent(label.querySelectorAll('button'), 'click', foo);
       console.log(label.querySelectorAll('button'));

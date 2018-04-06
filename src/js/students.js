@@ -192,6 +192,7 @@ jQuery(document).ready(function ($) {
       $('.pt-showIfStudentCantClaim').hide();
       $('.pt-showIfStudentNotDependant').hide();
       $('.pt-aboutYou').hide();
+      $('.pt-studentOver25').hide();
 
     }
 
@@ -410,7 +411,6 @@ jQuery(document).ready(function ($) {
       // localStorage.clear();
 
 
-
       if ($('input[name=confirmStudentOrClaimant]:checked').val() === 'guardian') {
         localStorage.removeItem('studentFlow');
         localStorage.removeItem('studentFlowConfirmed');
@@ -431,6 +431,11 @@ jQuery(document).ready(function ($) {
         $(".pt-student-dob").hide();
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
+
+        if (localStorage.getItem('studentAge') > 25) {
+          $(".pt-studentOver25").show();
+          $('.pt-studentFullTime').hide();
+        }
 
         initStudents();
       }
