@@ -7,26 +7,27 @@
 .uikit-callout {
   background-color: $gray-light;
   border-radius: 6px;
-  padding: 1em 2em;
   margin-bottom: 2em;
+  padding: 1em 2em;
 }
 
 // Float right for wider displays
-
-@media only screen and (min-width: $medium-handheld) {
+@include uikit-media(sm) {
+  // @media only screen and (min-width: $medium-handheld) {
   .floated {
     float: right;
-    margin-right: 0em;
     margin-left: 0.25em;
+    margin-right: 0;
   }
 }
+
 
 // Float right for mobile displays
 .floated {
   &.floated--always {
     float: right !important;
-    margin-right: 0em;
     margin-left: 0.25em;
+    margin-right: 0;
   }
 }
 
@@ -35,7 +36,7 @@
 // Delete this block ASAP
 .tip--wrapper {
   border-left: 4px solid $blue-60;
-  background: $blue-10 url(../images/ico-info-thin-blue.svg) no-repeat 1em 2.2em;
+  background: $blue-10 url("../images/ico-info-thin-blue.svg") no-repeat 1em 2.2em;
   background-size: 35px 35px; // explicit dimensions due to buggy SVG rendering in IE.
   padding: 2em 2em 2em 4em;
   display: block;
@@ -76,14 +77,14 @@
   }
 
   &.tip--white {
-    background: url(../images/ico-info-thin-orange.svg) no-repeat 1em 2.2em;
-    background-color:#ffffff!important;
+    background: url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
+    background-color: $white !important;
     background-size: 35px;
   }
-  
+
   &.tip-warning {
     border-left: 4px solid $orange;
-    background: $gray-light url(../images/ico-info-thin-orange.svg) no-repeat 1em 2.2em;
+    background: $gray-light url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
     background-size: 35px;
 
     h3 {
@@ -108,6 +109,10 @@
         width: $uikit-maxwidth;
       }
 
+      &.tip--white {
+        background: $white url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
+        background-size: 35px;
+      }
     }
   }
 }
@@ -130,40 +135,42 @@
 
 .radio-toggle {
   label {
-    float: left;
-    width: 140px;
-    margin: 0 0 1.5em 0;
-    background-color: #EFEFEF;
+    background-color: $gray-light;
+    border: 1px solid $gray-mild;
     border-radius: 4px;
-    padding: 0;
-    border: 1px solid #D0D0D0;
+    float: left;
+    margin: 0 0 1.5em;
     overflow: visible;
+    padding: 0;
+    width: 140px;
 
-    &.label-left, &.label-left span {
+    &.label-left,
+    &.label-left span {
       border-radius: 4px 0 0 4px;
       border-right: 0;
     }
 
-    &.label-right, &.label-right span {
+    &.label-right,
+    &.label-right span {
       border-radius: 0 4px 4px 0;
     }
 
     &.label-middle {
-      border-left: 1px solid #D0D0D0;
-      border-right: 0;
+      border-left: 1px solid $gray-mild;
       border-radius: 0;
+      border-right: 0;
     }
 
     &:hover,
-    &focus {
-      background-color: #fff;
+    &:focus {
+      background-color: $white;
     }
 
     span {
-      text-align: center;
-      padding: 10px 0;
-      display: block;
       cursor: pointer;
+      display: block;
+      padding: 10px 0;
+      text-align: center;
     }
 
     input {
@@ -175,32 +182,34 @@
       left: -9999px;
     }
 
-    &:hover + input[type=radio]:disabled {
-      background-color: #000;
+    &:hover + input[type='radio']:disabled {
+      background-color: $black;
     }
   }
 
-  input:focus + span {
-    background-color: $input-focus;
-    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-    padding: 9px 0;
-    border: 1px solid $blue;
-  }
+  input {
+    &:focus + span {
+      background-color: $input-focus;
+      border: 1px solid $blue;
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+      padding: 9px 0;
+    }
 
-  input:checked + span {
-    box-shadow: inset 0px 1px 2px 2px rgba(0, 0, 0, 0.1);
-    background: $blue;
-    color: #FFFFFF;
-    border-color: #2366a1;
-  }
+    &:checked + span {
+      background: $blue;
+      border-color: $blue-90;
+      box-shadow: inset 0 1px 2px 2px rgba(0, 0, 0, 0.1);
+      color: $white;
+    }
 
-  input:checked:focus + span {
-    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
-  }
+    &:checked:focus + span {
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    }
 
-  input + span:hover,
-  input + span:focus {
-    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    + span:hover,
+    + span:focus {
+      box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    }
   }
 
   &:disabled {
@@ -211,42 +220,50 @@
   }
 
   &.disabled {
-    label:hover {
-      background-color: #efefef !important;
+    label {
+      &:hover {
+        background-color: $gray-light !important;
+      }
     }
   }
 }
 
 // Visually hidden
 .sr {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
+  // border: 0;
+  // clip: rect(0, 0, 0, 0);
+  // height: 1px;
+  // margin: -1px;
+  // overflow: hidden;
+  // padding: 0;
+  // position: absolute;
+  // width: 1px;
+  @include uikit-sronly;
+
+  &:hover,
+  &:focus {
+    background-color: transparent;
+    text-decoration: underline;
+  }
 }
 
-// Clearfix hack
-.clearfix:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: ' ';
-  clear: both;
-  height: 0;
-}
-
-/* start commented backslash hack \*/
+// Clearfix
 * html .clearfix {
   height: 1%;
 }
 
 .clearfix {
-  display: block;
   clear: both;
+  display: block;
+
+  &::after {
+    clear: both;
+    content: ' ';
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+  }
 }
 
 /* close commented backslash hack */
@@ -255,12 +272,14 @@
 
 .timebox--wrapper {
   background-color: $gray-light;
-  padding: 3em 2em 3em 2em;
   display: block;
+  padding: 3em 2em;
 
-  h2, h3, p {
+  h2,
+  h3,
+  p {
+    margin: $margin-zero;
     overflow: hidden;
-    margin: 0;
     padding: 0;
   }
 
@@ -270,10 +289,10 @@
 
   img {
     float: left;
-    width: 40px;
     height: 40px;
-    margin: 0 0.8em 0 0;
+    margin: 0 0.8em;
     vertical-align: middle;
+    width: 40px;
   }
 }
 
@@ -288,23 +307,23 @@
   padding: 0;
 
   .uikit-btn--help {
-    background-color: #eeeeee;
-    color: #444444;
+    background-color: $gray-light;
+    color: $gray-dark;
     display: inline-block;
     -webkit-border-radius: 5px 0 0 5px !important;
     border-radius: 5px 0 0 5px !important;
-    border: 1px solid #444444;
+    border: 1px solid $gray-dark;
     border-right: none;
     margin-right: -1px;
     padding: 30px 13px 5px 13px;
-    background: #eeeeee url(../images/ico-help-gray.svg) no-repeat center 10px;
+    background: $gray-light url("../images/ico-help-gray.svg") no-repeat center 10px;
     background-size: 20px 20px;
     box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
 
     &:focus,
     &:hover {
-      color: white;
-      background: #043c75 url(../images/ico-help-white.svg) no-repeat center 10px;
+      color: $white;
+      background: $blue-dark url("../images/ico-help-white.svg") no-repeat center 10px;
       background-size: 20px 20px;
     }
   }
@@ -312,13 +331,13 @@
 
 // External link icon
 .external-link {
-  background: url(../images/ico-external-blue.svg) no-repeat right 2px;
+  background: url("../images/ico-external-blue.svg") no-repeat right 2px;
   padding-right: 24px;
   background-size: 16px 16px;
 }
 
 .external-link-white {
-  background: url(../images/ico-external-white.svg) no-repeat right 2px;
+  background: url("../images/ico-external-white.svg") no-repeat right 2px;
   background-size: 14px 14px;
 }
 
@@ -360,6 +379,7 @@
 // summary box styling
 
 .summary-box {
+  width: $uikit-maxwidth;
   max-width: $uikit-maxwidth;
 
   .summary--header {
@@ -369,7 +389,7 @@
   }
 
   .summary--content {
-    background-color: #eeeeee;
+    background-color: $gray-light;
     padding: 2em;
 
     h3 {
@@ -385,9 +405,8 @@
 // wave border style
 
 .wave {
-  background: white;
-
-  padding-bottom:2em;
+  background: $white;
+  padding-bottom: 2em;
   position: relative;
 }
 
@@ -400,7 +419,7 @@
   background-repeat: repeat;
   height: 10px;
   background-size: 20px 20px;
-  background-image: radial-gradient(circle at 10px -5px, transparent 12px, #eeeeee 13px);
+  background-image: radial-gradient(circle at 10px -5px, transparent 12px, $gray-light 13px);
 }
 
 .wave::after {
@@ -412,7 +431,39 @@
   background-repeat: repeat;
   height: 15px;
   background-size: 40px 20px;
-  background-image: radial-gradient(circle at 10px 15px, #eeeeee 12px, transparent 13px);
+  background-image: radial-gradient(circle at 10px 15px, $gray-light 12px, transparent 13px);
+}
+
+.wave-reversed {
+  background: transparent;
+  padding-bottom: 0.4em;
+  position: relative;
+  border-left: 1px solid $gray-mild;
+  border-right: 1px solid $gray-mild;
+}
+
+.wave-reversed::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-repeat: repeat;
+  height: 8px;
+  background-size: 20px 20px;
+  background-image: radial-gradient(circle at 10px -5px, transparent 12px, $white 13px);
+}
+
+.wave-reversed::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-repeat: repeat;
+  height: 12px;
+  background-size: 40px 40px;
+  background-image: radial-gradient(circle at 10px 15px, $white 12px, transparent 13px);
 }
 
 // Boxed list items
@@ -422,7 +473,7 @@
   padding-left: 0px !important;
 
   li {
-    border: 1px solid #cccccc;
+    border: 1px solid $gray-mild;
     padding: 1em;
   }
 }
@@ -460,9 +511,32 @@
 // Feature section
 
 .section-feature {
-  background: #f4f4f4;
-  padding: 30px 0 40px 0;
-  margin: 20px 0 20px 0;
+  background: $gray-light;
+  margin: 20px 0;
+  padding: 30px 0 40px;
+}
+
+.section-feature--bg {
+  background: $gray-light url("../images/bg-claims.jpg") no-repeat;
+  background-size: cover;
+  margin: $margin-zero;
+  padding: 0;
+}
+
+.section-feature--bg-hero {
+  background-color: transparent;
+  background-size: 100% 350px;
+}
+
+.section-feature--white {
+  background: $white;
+  margin: 20px 0;
+  padding: 30px 0 40px;
+
+  h2 {
+    border-bottom: 1px solid $gray-mild;
+    padding-bottom: 0.2em;
+  }
 }
 
 // boxed content
@@ -470,89 +544,115 @@
   .boxed {
     border: 1px solid $gray-mild;
     padding: 2em;
+
     &--white {
-      background-color: #ffffff;
+      background-color: $white;
     }
   }
 }
 
 // simple accordian (used on Claims page)
-.section-feature--bg {
-  background: #eeeeee url(../images/bg-claims.jpg) no-repeat!important;
-  background-size: cover!important;
+
+.simple-accordion {
+  background-color: rgba(250, 250, 250, 0.8);
+  border: 1px solid $gray-mild;
+  margin-top: 2em;
 }
-.simple-accordian {
-  margin-top:2em;
-  border:1px solid #cccccc;
-  background-color: rgba(250,250,250,0.8);
-}
-.simple-accordian--trigger {
-  padding:1em 0.5em 1em 0.5em;
+
+.simple-accordion__trigger {
+  padding: 1em 0.5em;
   text-align: center;
-  -moz-transition: all .2s ease-in;
-  -o-transition: all .2s ease-in;
-  -webkit-transition: all .2s ease-in;
   transition: all .2s ease-in;
+
   &:hover {
+    background-color: $uikit-hover;
     cursor: pointer;
-    background-color:$uikit-hover;
   }
 }
-.simple-accordian--heading {
-  font-size:18px;
+
+.simple-accordion__heading {
+  font-size: 18px;
 }
-.simple-accordian--body {
-  padding:1em 0.5em 0 0.5em;
-  border-top:1px solid #cccccc;
+
+.simple-accordion__body {
+  border-top: 1px solid $gray-mild;
+  padding: 1em 0.5em 0;
 }
+
+.simple-accordion--open {
+  .simple-accordion__body {
+    display: block;
+  }
+
+  .toggle-arrow {
+    ::after {
+      transform: rotate(-180deg);
+    }
+  }
+}
+
+.simple-accordion--closed {
+  .simple-accordion__body {
+    display: none;
+  }
+}
+
 .toggle-arrow {
-  position:relative;
-  margin-right:0;
-  :after {
-    display:none;
-    background-image: url(../images/ico-arrow-down.svg);
+  margin-right: 0;
+  position: relative;
+
+  ::after {
+    background-image: url("../images/ico-arrow-down.svg");
     background-position: center;
     background-repeat: no-repeat;
     bottom: -2px;
     content: ' ';
+    display: none;
     height: 1.2em;
     position: absolute;
     right: -24px;
+    transition: transform 0.25s ease-in;
     width: 15px;
   }
 }
 
 @media only screen and (min-width: $medium-handheld) {
-	.simple-accordian {
-    margin-top:0;
-    border:1px solid #cccccc;
-    background-color: rgba(250,250,250,0.8);
+  .simple-accordion {
+    margin-top: 0;
+    border: 1px solid $gray-mild;
+    background-color: rgba(250, 250, 250, 0.8);
   }
-  .simple-accordian--trigger {
-    padding:1em 0.5em 1em 0.5em;
+
+  .simple-accordion__trigger {
+    padding: 1em 0.5em 1em 0.5em;
     text-align: center;
     -moz-transition: all .2s ease-in;
     -o-transition: all .2s ease-in;
     -webkit-transition: all .2s ease-in;
     transition: all .2s ease-in;
+
     &:hover {
       cursor: pointer;
-      background-color:$uikit-hover;
+      background-color: $uikit-hover;
     }
   }
-  .simple-accordian--heading {
-    font-size:1.5em!important;
+
+  .simple-accordion__heading {
+    font-size: 1.5em !important;
   }
-  .simple-accordian--body {
-    padding:1em 2em 0 2em;
-    border-top:0px solid #cccccc;
+
+  .simple-accordion__body {
+    padding: 1em 2em 0 2em;
+    border-top: 0px solid $gray-mild;
   }
+
   .toggle-arrow {
-    position:relative;
-    margin-right:30px;
+    position: relative;
+    margin-right: 30px;
+
     :after {
       display: block;
-      background-image: url(../images/ico-arrow-down.svg);
+      background-image: url("../images/ico-arrow-down.svg");
       background-position: center;
       background-repeat: no-repeat;
       bottom: -2px;
@@ -565,46 +665,170 @@
   }
 }
 
-.claims-accordian--singleclaim {
+.claims-accordion--singleclaim {
   text-align: center;
   margin-left: auto;
   margin-right: auto;
+
   h2 {
-    margin-top:1em;
+    margin-top: 1em;
   }
+
   p {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
   }
 }
+
 @media only screen and (min-width: $medium-handheld) {
-  .claims-accordian--singleclaim {
+  .claims-accordion--singleclaim {
     h2 {
-      margin-top:0;
+      margin-top: 0;
     }
   }
 }
 
-
 // dividing line between two columns
 .dividing-line {
-  border-bottom:1px solid #cccccc;
-  border-right:0px solid #cccccc;
-  padding-right:0;
-  margin-right:0;
-  margin-bottom:2em;
-  padding-bottom:2em;
+  border-bottom: 1px solid $gray-mild;
+  border-right: 0px solid $gray-mild;
+  padding-right: 0;
+  margin-right: 0;
+  margin-bottom: 2em;
+  padding-bottom: 2em;
 }
+
 @media only screen and (min-width: $large-handheld) {
   .dividing-line {
-    border-bottom:0px solid #cccccc;
-    border-right:1px solid #cccccc;
-    padding-right:2em;
-    margin-right:1em;
-    margin-bottom:0;
-    padding-bottom:0;
+    border-bottom: 0px solid $gray-mild;
+    border-right: 1px solid $gray-mild;
+    padding-right: 2em;
+    margin-right: 1em;
+    margin-bottom: 0;
+    padding-bottom: 0;
   }
 }
 
+// action groups contain action items (via a select list) that when selected, reveal additional content. Used on the Claims page.
 
+.action-group {}
+
+.action-group__reveal--open {
+  display: block;
+}
+
+.action-group__reveal--closed {
+  display: none;
+}
+
+// styling for buttons to appear only on small handheld devices that skip to a place further down the page.
+
+.small-handheld-skip {
+  display: block;
+}
+
+.accordion {}
+
+.accordion--button {
+  position: relative;
+  padding-right: 50px;
+
+  .accordion__trigger {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+  }
+}
+
+a {
+  &.accordion__trigger {
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-bottom: 0;
+
+    &:focus,
+    &:hover {
+      background-color: transparent;
+    }
+
+    // background: red;
+ 
+  }
+}
+
+.accordion__trigger {
+  box-sizing: border-box;
+  cursor: pointer;
+  display: inline-block;
+  line-height: 1.3;
+  padding: .7em;
+  padding: 0;
+  position: relative;
+  height: 24px;
+  width: 24px;
+
+  &:focus,
+  &:hover {
+    background-color: transparent;
+    border: 1px solid transparent;
+    border-bottom: 1px solid $uikit-colour-Text;
+    outline: 1px solid transparent;
+    outline-offset: 1px;
+  }
+
+  // remove the default details arrow icon
+  &::-webkit-details-marker {
+    display: none;
+  }
+
+  &::after {
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l16 16-64 64L0 64"/></svg>');
+    background-position: center;
+    background-repeat: no-repeat;
+    bottom: 0;
+    content: ' ';
+    height: 1rem;
+    margin-top: -.5rem;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transition: transform 0.25s ease-in;
+    width: 1rem;
+    z-index: 0;
+  }
+}
+
+.accordion__trigger--closed {
+  &::after {
+    transform: rotate(-180deg);
+  }
+}
+
+.accordion__trigger--white {
+  &::after {
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/></svg>');
+  }
+}
+
+.accordion--open {
+  .accordion-title__details {
+    display: block;
+
+    &.file-upload {
+      margin-top: 1em;
+    }
+  }
+}
+
+.accordion--closed {
+  .accordion-title__details {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: $medium-handheld) {
+  .small-handheld-skip {
+    display: none;
+  }
+}
