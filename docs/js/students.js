@@ -924,6 +924,8 @@ jQuery(document).ready(function ($) {
     $(".pt-noLongerEligibleTwo").hide();
     $(".pt-showIfStudyLoadNotAnswered").hide();
     $(".pt-showIfEnrolled").hide();
+    $(".pt-enrollStatusStudentOver25").hide();
+    $(".pt-enrollDatestudentOver25").hide();
 
     // skip the financial details if we're in veteran flow
     // if ("veteranFlow" in localStorage) {
@@ -1002,11 +1004,25 @@ jQuery(document).ready(function ($) {
 
         $(".pt-noLongerEligibleTwo").show();
         $(".pt-showIfEnrolled").hide();
+
+        // Show an error message if the student is 25 or older and hasn't enrolled
+        if (localStorage.getItem('studentAge') > 24) {
+          $(".pt-enrollStatusStudentOver25").show();
+          $(".pt-noLongerEligibleTwo").hide();
+          $(".pt-enrollDatestudentOver25").hide();
+          $(".pagination").find('.btnNext').prop('disabled', true);
+        }
       } else {
         localStorage.removeItem('enrolStatus');
         localStorage.setItem('enrolStatus', true);
         $(".pt-noLongerEligibleTwo").hide();
+        $(".pt-enrollStatusStudentOver25").hide();
         $(".pt-showIfEnrolled").show();
+        //show an error message if the student is 25 or older and enrolled after they turned 25. The smarts don't exist in prototype.
+        if (localStorage.getItem('studentAge') > 24) {
+          $(".pt-enrollDatestudentOver25").show();
+          $(".pagination").find('.btnNext').prop('disabled', false);
+        }
       }
     });
   }
