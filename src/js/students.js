@@ -105,9 +105,7 @@ jQuery(document).ready(function ($) {
   // TODO:: handle reset if change of age after other flows
   if (window.location.pathname === "/studentpreeligibility") {
 
-    // console.log('studentpreeligibility');
     localStorage.clear();
-
 
     var getUrlParameter = function getUrlParameter(sParam) {
       var sPageURL = decodeURIComponent(window.location.search.substring(1)),
@@ -158,21 +156,20 @@ jQuery(document).ready(function ($) {
     initStudents();
 
 
+    if ("veteranFlow" in localStorage) {
+      $(".pt-flow--veteran").show();
+    }
+
+    if ("studentFlow" in localStorage) {
+      $(".pt-flow--student").show();
+    }
+
+    if ("claimantFlow" in localStorage) {
+      $(".pt-flow--claimant").show();
+    }
 
     function init() {
       console.log('loading init');
-
-      if ("veteranFlow" in localStorage) {
-        $(".pt-flow--veteran").show("fast");
-      }
-
-      if ("studentFlow" in localStorage) {
-        $(".pt-flow--student").show("fast");
-      }
-
-      if ("claimantFlow" in localStorage) {
-        $(".pt-flow--claimant").show("fast");
-      }
 
       $(".pt-showIfStudentShouldClaimThemselves").hide();
       $(".pt-showIfStudentUnder18").hide();
@@ -282,6 +279,9 @@ jQuery(document).ready(function ($) {
 
       // if a valid date
       if (dobDay && dobMonth && (dobYear.length === 4)) {
+
+
+
         if (dobDay.longth === 1) {
           dobDay = "0" + dobDay;
         }
@@ -290,7 +290,7 @@ jQuery(document).ready(function ($) {
         }
         var dob = dobYear + '-' + dobMonth + '-' + dobDay;
 
-
+        console.log('dob = ' + dob);
 
         dob = new Date(dob);
         var today = new Date();
@@ -352,8 +352,6 @@ jQuery(document).ready(function ($) {
 
             } else { // under 16
               init();
-              // $(".pt-showIfStudentShouldClaimThemselves").hide();
-              // $(".pt-showIfStudentUnder18").show();
               $(".pt-showIfEngagedInFullTimeEmployment").show();
 
             }
@@ -524,7 +522,7 @@ jQuery(document).ready(function ($) {
 
   // Page 1
   if (window.location.pathname === "/studentclaim1") {
-    console.log('studentclaim1');
+
     initStudents();
     initFlow();
     $(".pt-studentAge--mature").hide();
@@ -540,7 +538,7 @@ jQuery(document).ready(function ($) {
 
     // if (true) {
     if (localStorage.getItem('studentAge') > 15) {
-      console.log('student is older than 15');
+
       if ("studentFlow" in localStorage) {
         $(".pt-studentAge--mature").each(function () {
           if ($(this).is(".pt-flow--student")) {
@@ -1138,7 +1136,6 @@ jQuery(document).ready(function ($) {
 
 
     if (localStorage.getItem('studentAge') > 15) {
-      console.log('mature student');
       $('.pt-studentAge--mature').show();
     }
 
@@ -1344,32 +1341,10 @@ jQuery(document).ready(function ($) {
       }
     }
 
-
-    // No more TFN
-    // if (this.type === 'student') {
-
-    //   if (localStorage.getItem('studentTFN') === 'true') {
-    //     var i = this.docsRequired.indexOf("noTFN");
-    //     if (i != -1) {
-    //       this.docsRequired.splice(i, 1);
-    //     }
-
-    //     this.docsRequired.indexOf("tFNDeclaraion") === -1 ? this.docsRequired.push("tFNDeclaraion") : console.log();
-
-    //   } else {
-    //     var i = this.docsRequired.indexOf("tFNDeclaraion");
-    //     if (i != -1) {
-    //     	this.docsRequired.splice(i, 1);
-    //     }
-    //     this.docsRequired.indexOf("noTFN") === -1 ? this.docsRequired.push("noTFN") : console.log();
-    //   }
-    // }
-
     // show all required docs 
     if (this.docsRequired.length > 0) {
       jQuery(".pt-showIfDocumentUploadShoppingCart").show();
       $.each(this.docsRequired, function () {
-        // console.log('docs required = ' + this);
         $('.pt-' + this).removeClass('display-none');
       });
     }
@@ -1389,17 +1364,11 @@ jQuery(document).ready(function ($) {
       var label = input.nextElementSibling,
         labelVal = label.innerHTML;
 
-      // removeEvent(label.querySelectorAll('button'), 'click', foo);
-      console.log(label.querySelectorAll('button'));
-
-
       input.addEventListener('change', function (e) {
         var fileName = '';
 
         fileName = e.target.value.split('\\').pop();
 
-        console.log('fileName');
-        console.log(fileName);
 
         if (fileName) {
           label.querySelector('.file-upload__file-name').innerHTML = fileName;
