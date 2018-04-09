@@ -430,12 +430,14 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentFlowConfirmed', true);
         init();
         $(".pt-student-dob").hide();
+        $(".pt-studentTooyoung").hide();
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
         // Show warning eligibility message if student is over 25.
         if (localStorage.getItem('studentAge') > 24) {
           $(".pt-studentOver25").show();
+          $(".pt-studentTooyoung").hide();
           $('.pt-studentFullTime').show();
           $(".pt-showIfStudentConfirmed").show();
         }
