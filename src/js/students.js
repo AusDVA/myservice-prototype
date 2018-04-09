@@ -1,3 +1,6 @@
+
+
+
 // Student claim pages
 jQuery(document).ready(function ($) {
 
@@ -895,7 +898,6 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfRequireRentAssistance").hide();
     $(".pt-showIfRenting").hide();
     $(".pt-showIfNotRentLandLord").hide();
-    $(".pt-typeOfAccommodationPaymentOther").hide();
     $(".pt-rentPayed").hide();
     $(".pt-showIfAdditionalAddress").hide();
     $(".pt-showIfLivingAway").hide();
@@ -960,14 +962,6 @@ jQuery(document).ready(function ($) {
 
     });
 
-
-    $('input[name=typeOfAccommodationPayment]').change(function () {
-      if ($('input[name=typeOfAccommodationPayment]:checked').val() === 'other') {
-        $(".pt-typeOfAccommodationPaymentOther").show('fast');
-      } else {
-        $(".pt-typeOfAccommodationPaymentOther").hide();
-      }
-    });
 
     $('input[name=sameAsPostal]').change(function () {
 
