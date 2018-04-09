@@ -1103,16 +1103,26 @@ jQuery(document).ready(function ($) {
     $('.bank-details-container').hide();
     $('.pt-showIfNoStudentTFN').hide();
     $('.pt-showIfStudentTFN').hide();
+    $('.pt-studentFinancialPermission').hide();
 
 
     // if student 16 or 17 ask for TFN
     if (("claimantFlow" in localStorage) || ("veteranFlow" in localStorage)) {
       if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
         $(".pt-showIfStudentBetween16and18").show();
+
       } else {
         $(".pt-showIfStudentBetween16and18").hide();
       }
     }
+
+    if (("studentFlow" in localStorage)) {
+      if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+        $('.pt-studentFinancialPermission').show();
+      }
+    }
+
+
 
 
     if (localStorage.getItem('studentAge') > 15) {
