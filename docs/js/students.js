@@ -425,6 +425,7 @@ jQuery(document).ready(function ($) {
           $(".pt-studentTooyoung").show();
           $('.pt-studentFullTime').hide();
           $(".pt-showIfStudentConfirmed").hide();
+          $(".pagination").find('.btnNext').prop('disabled', true);
         }
 
         initStudents();
