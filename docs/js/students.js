@@ -136,6 +136,7 @@ jQuery(document).ready(function ($) {
       $('.pt-showIfStudentNotDependant').hide();
       $('.pt-aboutYou').hide();
       $('.pt-studentOver25').hide();
+      $('.pt-studentTooyoung').hide();
     };
 
     var resetForm = function resetForm($form) {
@@ -411,9 +412,19 @@ jQuery(document).ready(function ($) {
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
-        if (localStorage.getItem('studentAge') > 25) {
+        // Show warning eligibility message if student is over 25.
+        if (localStorage.getItem('studentAge') > 24) {
           $(".pt-studentOver25").show();
+          $(".pt-studentTooyoung").hide();
+          $('.pt-studentFullTime').show();
+          $(".pt-showIfStudentConfirmed").show();
+        }
+
+        // Show error message if student is under 16
+        if (localStorage.getItem('studentAge') < 16) {
+          $(".pt-studentTooyoung").show();
           $('.pt-studentFullTime').hide();
+          $(".pt-showIfStudentConfirmed").hide();
         }
 
         initStudents();

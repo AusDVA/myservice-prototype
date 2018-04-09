@@ -430,7 +430,6 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentFlowConfirmed', true);
         init();
         $(".pt-student-dob").hide();
-        $(".pt-studentTooyoung").hide();
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
