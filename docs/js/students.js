@@ -290,8 +290,6 @@ jQuery(document).ready(function ($) {
         }
         var dob = dobYear + '-' + dobMonth + '-' + dobDay;
 
-        console.log('dob = ' + dob);
-
         dob = new Date(dob);
         var today = new Date();
         var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));

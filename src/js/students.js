@@ -1,6 +1,3 @@
-
-
-
 // Student claim pages
 jQuery(document).ready(function ($) {
 
@@ -308,8 +305,6 @@ jQuery(document).ready(function ($) {
           dobMonth = "0" + dobMonth;
         }
         var dob = dobYear + '-' + dobMonth + '-' + dobDay;
-
-        console.log('dob = ' + dob);
 
         dob = new Date(dob);
         var today = new Date();
