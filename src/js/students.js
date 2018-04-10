@@ -218,6 +218,15 @@ jQuery(document).ready(function ($) {
         if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
           if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showFTBIsBest").show();
+
+
+          }
+        }
+        if (("veteranFlow" in localStorage)) {
+          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+
+            $(".pt-vetStudentEngagedInFullTimeEmployment").show();
+
           }
         }
         if (!("claimantFlow" in localStorage)) {
@@ -239,6 +248,8 @@ jQuery(document).ready(function ($) {
       }
     });
 
+
+
     $('input[name=fTBSomeoneElse]').change(function () {
       if ($('input[name=fTBSomeoneElse]:checked').val() === 'yes') {
 
@@ -255,6 +266,11 @@ jQuery(document).ready(function ($) {
             $(".pt-showIfStudentBetween16and18").hide();
           }
         }
+        if ("veteranFlow" in localStorage) {
+          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+            $(".pt-vetStudentEngagedInFullTimeEmployment").show();
+          }
+        }
       }
     });
 
@@ -268,6 +284,9 @@ jQuery(document).ready(function ($) {
       } else {
         $(".pt-vetShowIfStudentFullTimeAndMRCA").hide();
         $(".pt-showIfStudentFullTimeAndMRCA").hide();
+      }
+      if (("veteranFlow" in localStorage)) {
+        $(".pt-final-toggle").show();
       }
     });
 
@@ -325,6 +344,8 @@ jQuery(document).ready(function ($) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").hide();
               $(".pt-showIfStudentUnder18").show();
+              // $(".pt-claimantShowIfStudentOver16").show();
+
             }
 
             $('input[name=veteranSignificantlyInjured]').change(function () {
