@@ -307,9 +307,6 @@ app.get('/claim8', function (request, response) {
 });
 
 /* Student assistance flow */
-app.get('/student-assistance-landing', function (request, response) {
-  response.render('auth/claim/pages/student-assistance-landing');
-});
 app.get('/studentpreeligibility', function (request, response) {
   response.render('auth/claim/pages/studentpreeligibility');
 });
