@@ -191,7 +191,9 @@ jQuery(document).ready(function ($) {
       $('.pt-aboutYou').hide();
       $('.pt-studentOver25').hide();
       $('.pt-studentTooyoung').hide();
-
+      $('.pt-VeteranRelationshipToStudent').hide();
+      $(".pt-StudentRelationshipToVeteran").hide();
+      $(".pt-StudentRelationshipToClaimant").hide();
     }
 
     function resetForm($form) {
@@ -275,12 +277,14 @@ jQuery(document).ready(function ($) {
       if ($('input[name=engagedInFullTimeEmployment]:checked').val() === 'yes') {
         if (("veteranFlow" in localStorage)) {
           $(".pt-vetShowIfStudentFullTimeAndMRCA").show();
+
         } else {
           $(".pt-showIfStudentFullTimeAndMRCA").show();
         }
       } else {
         $(".pt-vetShowIfStudentFullTimeAndMRCA").hide();
         $(".pt-showIfStudentFullTimeAndMRCA").hide();
+        $(".pt-StudentRelationshipToVeteran").show();
       }
       if (("veteranFlow" in localStorage)) {
         $(".pt-final-toggle").show();
@@ -338,6 +342,8 @@ jQuery(document).ready(function ($) {
             } else {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").hide();
+              $(".pt-VeteranRelationshipToStudent").show();
+              $(".pt-StudentRelationshipToVeteran").hide();
               $(".pt-showIfStudentUnder18").show();
               // $(".pt-claimantShowIfStudentOver16").show();
 
@@ -366,16 +372,18 @@ jQuery(document).ready(function ($) {
               $(".pt-showIfStudentShouldClaimThemselves").hide();
               $(".pt-claimantShowIfStudentOver16").show();
 
+
             } else { // under 16
               init();
               $(".pt-showIfEngagedInFullTimeEmployment").show();
-
+              $(".pt-StudentRelationshipToVeteran").show();
             }
 
 
             $('input[name=veteranSignificantlyInjured]').change(function () {
               if ($('input[name=veteranSignificantlyInjured]:checked').val() === 'yes') {
                 $(".pt-showIfStudentUnder18").show();
+                $(".pt-StudentRelationshipToClaimant").show();
                 $(".pt-aboutYou").show();
                 $(".pt-showIfStudentNotDependant").hide();
               } else {
@@ -450,8 +458,11 @@ jQuery(document).ready(function ($) {
         $('.pt-studentFullTime').show();
         $(".pt-showIfStudentConfirmed").show();
 
+        console.log(localStorage.getItem('studentAge'));
+
         // Show warning eligibility message if student is over 25.
         if (localStorage.getItem('studentAge') > 24) {
+          console.log('over 25');
           $(".pt-studentOver25").show();
           $(".pt-studentTooyoung").hide();
           $('.pt-studentFullTime').show();
@@ -460,6 +471,7 @@ jQuery(document).ready(function ($) {
 
         // Show error message if student is under 16
         if (localStorage.getItem('studentAge') < 16) {
+          console.log('under 16');
           $(".pt-studentTooyoung").show();
           $('.pt-studentFullTime').hide();
           $(".pt-showIfStudentConfirmed").hide();
