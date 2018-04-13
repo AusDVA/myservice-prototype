@@ -792,7 +792,7 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfLivingAwayFromHome").hide();
       }
 
-      if ($('input[name=studentLivingLocation]:checked').val() === 'homeless') {
+      if ($('input[name=studentLivingLocation]:checked').val() === 'homeless' || $('input[name=studentLivingLocation]:checked').val() === 'at-home') {
         // skip the living arrangement details 
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
