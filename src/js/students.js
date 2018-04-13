@@ -553,6 +553,7 @@ jQuery(document).ready(function ($) {
 
     initStudents();
     initFlow();
+
     $(".pt-studentAge--mature").hide();
     $(".pt-showIfStudentLivingAtHome").hide();
     $(".pt-studentLivingSameAddress").hide();
@@ -616,6 +617,7 @@ jQuery(document).ready(function ($) {
       $(".pt-studentAge--mature").hide("slow");
     }
 
+    $(".pt-partneredRelationship").hide();
 
     // extra details for students 
     if (("studentFlow" in localStorage) || "claimantFlow" in localStorage) {
@@ -652,6 +654,8 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentNameLast');
       }
     });
+
+
 
     $('input[name=studentLivingLocation]').change(function () {
 
@@ -1291,6 +1295,7 @@ jQuery(document).ready(function ($) {
     // Proof of relationship 
     if ("veteranFlow" in localStorage) {
       if ((localStorage.getItem('studentNameFirst') !== null) && (localStorage.getItem('studentNameLast') !== null)) {
+        initStudents();
         this.docsRequired.indexOf("proofOfRelationshipClaimantStudent") === -1 ? this.docsRequired.push("proofOfRelationshipClaimantStudent") : console.log();
       } else {
         var i = this.docsRequired.indexOf("proofOfRelationshipClaimantStudent");
