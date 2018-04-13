@@ -792,12 +792,25 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfLivingAwayFromHome").hide();
       }
 
-      if ($('input[name=studentLivingLocation]:checked').val() === 'homeless' || $('input[name=studentLivingLocation]:checked').val() === 'at-home') {
+      if ($('input[name=studentLivingLocation]:checked').val() === 'homeless') {
         // skip the living arrangement details 
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
           window.location.href = 'studentclaim3';
         });
+      } else if ($('input[name=studentLivingLocation]:checked').val() === 'at-home') {
+        if ("studentFlow" in localStorage) {
+          // skip the living arrangement details 
+          $('.btnNext').prop('onclick', null);
+          $('.btnNext').click(function () {
+            window.location.href = 'studentclaim3';
+          });
+        } else {
+          $('.btnNext').prop('onclick', null);
+          $('.btnNext').click(function () {
+            window.location.href = 'studentclaim2';
+          });
+        }
       } else {
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
