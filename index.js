@@ -64,6 +64,16 @@ app.get('/change-password', function (request, response) {
   response.render('auth/change-password');
 });
 
+/**
+Onboarding page
+*/
+
+app.get('/onboarding', function (request, response) {
+  response.render('auth/onboarding');
+});
+app.get('/mygov-login', function (request, response) {
+  response.render('auth/mygov-login');
+});
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {
@@ -81,18 +91,27 @@ New registration flow for broadening
 app.get('/register', function (request, response) {
   response.render('unauth/registration/pages/register');
 });
+app.get('/register-alternate', function (request, response) {
+  response.render('unauth/registration/pages/register-alternate');
+});
+app.get('/register-2', function (request, response) {
+  response.render('unauth/registration/pages/register-2');
+});
 /* PMKeys only */
-app.get('/register-pmkeys-only1', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only1');
+app.get('/register-3', function (request, response) {
+  response.render('unauth/registration/pages/register-3');
 });
-app.get('/register-pmkeys-only2', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only2');
+app.get('/register-4', function (request, response) {
+  response.render('unauth/registration/pages/register-4');
 });
-app.get('/register-pmkeys-only3', function (request, response) {
-  response.render('unauth/registration/pages/register-pmkeys-only3');
+app.get('/register-5', function (request, response) {
+  response.render('unauth/registration/pages/register-5');
 });
-app.get('/register-service-number4', function (request, response) {
-  response.render('unauth/registration/pages/register-service-number4');
+app.get('/register-6', function (request, response) {
+  response.render('unauth/registration/pages/register-6');
+});
+app.get('/register-7', function (request, response) {
+  response.render('unauth/registration/pages/register-7');
 });
 
 
@@ -188,9 +207,6 @@ app.get('/healthcard-home', function (request, response) {
 app.get('/healthcard-gold', function (request, response) {
   response.render('auth/healthcard/healthcard-gold');
 });
-app.get('/healthcard-gold-tpi', function (request, response) {
-  response.render('auth/healthcard/healthcard-gold-tpi');
-});
 app.get('/healthcard-nlhc', function (request, response) {
   response.render('auth/healthcard/healthcard-nlhc');
 });
@@ -242,7 +258,7 @@ app.get('/terms-and-conditions', function (request, response) {
   response.render('global/pages/terms-and-conditions');
 });
 
-/* Claims page */
+/* Claims Page */
 app.get('/claims', function (request, response) {
   response.render('auth/claim/pages/claims');
 });
@@ -257,6 +273,11 @@ app.get('/claims-existingnlhc-nostudentpayments', function (request, response) {
 });
 app.get('/claims-nostudentpayments', function (request, response) {
   response.render('auth/claim/pages/claims-nostudentpayments');
+});
+
+/* Claims Page 2? */
+app.get('/claims2', function (request, response) {
+  response.render('auth/claims');
 });
 
 /* Broadened claim flow */
@@ -286,11 +307,14 @@ app.get('/claim8', function (request, response) {
 });
 
 /* Student assistance flow */
-app.get('/student-assistance-landing', function (request, response) {
-  response.render('auth/claim/pages/student-assistance-landing');
+app.get('/studentpreeligibility', function (request, response) {
+  response.render('auth/claim/pages/studentpreeligibility');
 });
 app.get('/studentclaim1', function (request, response) {
   response.render('auth/claim/pages/studentclaim1');
+});
+app.get('/studentclaim1a', function (request, response) {
+  response.render('auth/claim/pages/studentclaim1a');
 });
 app.get('/studentclaim2', function (request, response) {
   response.render('auth/claim/pages/studentclaim2');
@@ -306,6 +330,9 @@ app.get('/studentclaim5', function (request, response) {
 });
 app.get('/studentclaim6', function (request, response) {
   response.render('auth/claim/pages/studentclaim6');
+});
+app.get('/studentclaimupload', function (request, response) {
+  response.render('auth/claim/pages/studentclaimupload');
 });
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
@@ -369,30 +396,19 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
   response.render('auth/claim/pages/viewNLHCClaimDetail');
 });
 
-/* PI claims */
-app.get('/pi-start', function (request, response) {
-  response.render('auth/claim/pages/pi-start');
+
+/* Health card */
+app.get('/healthcard-home', function (request, response) {
+  response.render('auth/healthcard/healthcard-home');
 });
-app.get('/pi-claim1', function (request, response) {
-  response.render('auth/claim/pages/pi-claim1');
+app.get('/healthcard-gold', function (request, response) {
+  response.render('auth/healthcard/healthcard-gold');
 });
-app.get('/pi-claim2', function (request, response) {
-  response.render('auth/claim/pages/pi-claim2');
+app.get('/healthcard-nlhc', function (request, response) {
+  response.render('auth/healthcard/healthcard-nlhc');
 });
-app.get('/pi-claim3', function (request, response) {
-  response.render('auth/claim/pages/pi-claim3');
-});
-app.get('/pi-claim4', function (request, response) {
-  response.render('auth/claim/pages/pi-claim4');
-});
-app.get('/pi-claim5', function (request, response) {
-  response.render('auth/claim/pages/pi-claim5');
-});
-app.get('/pi-review', function (request, response) {
-  response.render('auth/claim/pages/pi-review');
-});
-app.get('/pi-submitted', function (request, response) {
-  response.render('auth/claim/pages/pi-submitted');
+app.get('/healthcard-none', function (request, response) {
+  response.render('auth/healthcard/healthcard-none');
 });
 
 app.get('/pi-email', function (request, response) {
@@ -465,6 +481,12 @@ app.get('/styleguide-notifications', function (request, response) {
 });
 app.get('/styleguide-modals', function (request, response) {
   response.render('styleguide/pages/modals');
+});
+app.get('/styleguide-cards', function (request, response) {
+  response.render('styleguide/pages/cards');
+});
+app.get('/styleguide-document-uploads', function (request, response) {
+  response.render('styleguide/pages/document-uploads');
 });
 app.get('/styleguide-tooltip', function (request, response) {
   response.render('styleguide/pages/tooltip');
