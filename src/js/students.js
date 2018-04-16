@@ -1031,7 +1031,7 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfStudyLoadNotAnswered").hide();
     $(".pt-showIfEnrolled").hide();
     $(".pt-enrollStatusStudentOver25").hide();
-    $(".pt-enrollDatestudentOver25").hide();
+    // $(".pt-enrollDatestudentOver25").hide();
 
 
 
@@ -1124,7 +1124,7 @@ jQuery(document).ready(function ($) {
         if (localStorage.getItem('studentAge') > 24) {
           $(".pt-enrollStatusStudentOver25").show();
           $(".pt-noLongerEligibleTwo").hide();
-          $(".pt-enrollDatestudentOver25").hide();
+          // $(".pt-enrollDatestudentOver25").hide();
           $(".pagination").find('.btnNext').prop('disabled', true);
         }
       } else {
@@ -1135,7 +1135,7 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfEnrolled").show();
         //show an error message if the student is 25 or older and enrolled after they turned 25. The smarts don't exist in prototype.
         if (localStorage.getItem('studentAge') > 24) {
-          $(".pt-enrollDatestudentOver25").show();
+          // $(".pt-enrollDatestudentOver25").show();
           $(".pagination").find('.btnNext').prop('disabled', false);
         }
       }
