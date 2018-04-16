@@ -1,172 +1,186 @@
 <!DOCTYPE html>
 <html class="js" lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width" name="viewport">
     <title>Style Guide | Tooltip | MyService</title>
     <% include ../partials/styles-and-scripts.ejs %>
-    <script>
+        <script>
 
 
-        // open the dialog
-        $(document).ready(function(){
-            $(".tooltip-click .arrow-triangle").attr("aria-hidden","true");
-            $("#tooltip1").attr("aria-hidden","true");
-            $("#tooltip2").attr("aria-hidden","true");
-
-            $(".tooltip-click a.qmark").click(function(ev){
+            // open the dialog
+            $(document).ready(function () {
                 $(".tooltip-click .arrow-triangle").attr("aria-hidden", "true");
-                $(".tooltip-click .arrow-triangle").addClass("hidden");
-                $(".tooltip").attr("aria-hidden", "true");
-                $(".tooltip").addClass("hidden");
-                $("#"+this.name).attr("aria-hidden","false");
-                $("#"+this.name).removeClass("hidden");
-                $(this).find(".arrow-triangle").attr("aria-hidden", "false");
-                $(this).find(".arrow-triangle").removeClass("hidden");
+                $("#tooltip1").attr("aria-hidden", "true");
+                $("#tooltip2").attr("aria-hidden", "true");
 
-                ev.preventDefault();
-            });
+                $(".tooltip-click a.qmark").click(function (ev) {
+                    $(".tooltip-click .arrow-triangle").attr("aria-hidden", "true");
+                    $(".tooltip-click .arrow-triangle").addClass("hidden");
+                    $(".tooltip").attr("aria-hidden", "true");
+                    $(".tooltip").addClass("hidden");
+                    $("#" + this.name).attr("aria-hidden", "false");
+                    $("#" + this.name).removeClass("hidden");
+                    $(this).find(".arrow-triangle").attr("aria-hidden", "false");
+                    $(this).find(".arrow-triangle").removeClass("hidden");
 
-            $(".tooltip-click a").keypress(function(ev) {
-                if (ev.which==13) {
-                    $(this).click();
-                }
-            });
+                    ev.preventDefault();
+                });
 
-            $(".tooltip-click a.modal-close").click(function(ev){
-                var tt = $(this).closest(".tooltip-click").find(".qmark");
-                var ttName = tt.prop("name");
-                $("#" + ttName).attr("aria-hidden","true");
-                $("#" + ttName).addClass("hidden");
-                $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
-                $(tt).find(".arrow-triangle").addClass("hidden");
-                $(tt).focus();
-                ev.preventDefault();
+                $(".tooltip-click a").keypress(function (ev) {
+                    if (ev.which == 13) {
+                        $(this).click();
+                    }
+                });
 
-            });
-
-            $(".modal-close").keydown(function(ev){
-                var tt = $(this).closest(".tooltip-click").find(".qmark");
-                var ttName = tt.prop("name");
-                switch(ev.which)
-                {			case 27:
-                    $("#"+ttName).attr("aria-hidden","true");
-                    $("#"+ttName).addClass("hidden");
+                $(".tooltip-click a.modal-close").click(function (ev) {
+                    var tt = $(this).closest(".tooltip-click").find(".qmark");
+                    var ttName = tt.prop("name");
+                    $("#" + ttName).attr("aria-hidden", "true");
+                    $("#" + ttName).addClass("hidden");
                     $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
                     $(tt).find(".arrow-triangle").addClass("hidden");
                     $(tt).focus();
                     ev.preventDefault();
-                    return false;
-                    break;
 
-                    case 117:
-                        $(tt).focus();
-                        ev.preventDefault();
-                        return false;
-                        break;
+                });
 
-                }
+                $(".modal-close").keydown(function (ev) {
+                    var tt = $(this).closest(".tooltip-click").find(".qmark");
+                    var ttName = tt.prop("name");
+                    switch (ev.which) {
+                        case 27:
+                            $("#" + ttName).attr("aria-hidden", "true");
+                            $("#" + ttName).addClass("hidden");
+                            $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
+                            $(tt).find(".arrow-triangle").addClass("hidden");
+                            $(tt).focus();
+                            ev.preventDefault();
+                            return false;
+                            break;
+
+                        case 117:
+                            $(tt).focus();
+                            ev.preventDefault();
+                            return false;
+                            break;
+
+                    }
+                });
+
+                $(".modal-close").keypress(function (ev) {
+                    var tt = $(this).closest(".tooltip-click").find(".qmark");
+                    var ttName = tt.prop("name");
+                    switch (ev.which) {
+                        case 13:
+                            $("#" + ttName).attr("aria-hidden", "true");
+                            $("#" + ttName).addClass("hidden");
+                            $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
+                            $(tt).find(".arrow-triangle").addClass("hidden");
+                            $(tt).focus();
+                            ev.preventDefault();
+                            return false;
+                            break;
+
+                        default:
+
+                            $("a#closebtn1").focus();
+                            ev.preventDefault();
+                            return false;
+                            break;
+                        //	 			default:
+
+                        //					$("a#closebtn1").focus();
+                        //					 ev.preventDefault();
+                        //					 return false;
+
+                    }
+                });
+
             });
 
-            $(".modal-close").keypress(function(ev){
-                var tt = $(this).closest(".tooltip-click").find(".qmark");
-                var ttName = tt.prop("name");
-                switch(ev.which)
-                {
-                    case 13:
-                        $("#"+ttName).attr("aria-hidden","true");
-                        $("#"+ttName).addClass("hidden");
-                        $(tt).find(".arrow-triangle").attr("aria-hidden", "true");
-                        $(tt).find(".arrow-triangle").addClass("hidden");
-                        $(tt).focus();
-                        ev.preventDefault();
-                        return false;
-                        break;
-
-                    default:
-
-                        $("a#closebtn1").focus();
-                        ev.preventDefault();
-                        return false;
-                        break;
-                    //	 			default:
-
-                    //					$("a#closebtn1").focus();
-                    //					 ev.preventDefault();
-                    //					 return false;
-
-                }
-            });
-
-        });
 
 
-
-    </script>
+        </script>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
 
-<% include ../partials/header.ejs %>
+    <% include ../partials/header.ejs %>
 
-<main>
-    <div class="container" id="main-content">
+        <main>
+            <div class="container" id="main-content">
 
-        <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
-            <ul class="uikit-link-list uikit-link-list--inline">
-                <li><a href="/styleguide">Home</a></li>
-                <li>Tooltip</li>
-            </ul>
-        </nav>
+                <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
+                    <ul class="uikit-link-list uikit-link-list--inline">
+                        <li>
+                            <a href="/styleguide">Home</a>
+                        </li>
+                        <li>Tooltip</li>
+                    </ul>
+                </nav>
 
-        <div class="row">
-            <div class="col-sm-8">
-                <h1>Tooltip</h1>
-                <div class="breakout">
-                    <p>The MyService tooltip style is... something about meeting AA Accessibility standards.</p>
-                </div>
-
-                <h2>Tooltip example</h2>
-
-                <div class="row" name="7">
-                    <div class="col-xs-12" name="stuff">
-
-                        <div class="tooltip-click">
-
-                            write lots of stuff in here write lots of stuff in here write lots of stuff in <span>
-                                <div class="tooltip hidden" aria-labelledby="tooltip-content1" role="alertdialog" id="tooltip1" aria-describedby="dialogtext" aria-hidden="true">
-                                <div>
-                                    <a class="modal-close" href="#" id="closebtn1">Close</a>
-                                    <div class="tooltip-content" id="tooltip-content1">First one</div>
-
-                                </div>
-                            </div>
-                            <span>
-                                <a href="#closebtn" class="qmark" name="tooltip1" id="tooltip-associate1" title="First one" style="border-bottom: none;"><span class="mark"><span class="arrow-triangle down hidden"></span></span></a>
-                            </span>
+                <div class="row">
+                    <div class="col-sm-9">
+                        <h1>Tooltip</h1>
+                        <div class="breakout">
+                            <p>The MyService tooltip style is... something about meeting AA Accessibility standards.</p>
                         </div>
 
-                        <div class="tooltip-click">
-                            text before the qmark
-                            <div class="tooltip hidden" aria-labelledby="tooltip-content2" role="alertdialog" id="tooltip2" aria-describedby="dialogtext" aria-hidden="true">
-                                <div>
-                                    <a class="modal-close" href="#" id="closebtn2">Close</a>
-                                    <div class="tooltip-content" id="tooltip-content2">Second one Second one Second oneSecond one Second one Second one Second </div>
+                        <h2>Tooltip example</h2>
+
+                        <div class="row" name="7">
+                            <div class="col-xs-12" name="stuff">
+
+                                <div class="tooltip-click">
+
+                                    write lots of stuff in here write lots of stuff in here write lots of stuff in
+                                    <span>
+                                        <div class="tooltip hidden" aria-labelledby="tooltip-content1" role="alertdialog" id="tooltip1" aria-describedby="dialogtext"
+                                            aria-hidden="true">
+                                            <div>
+                                                <a class="modal-close" href="#" id="closebtn1">Close</a>
+                                                <div class="tooltip-content" id="tooltip-content1">First one</div>
+
+                                            </div>
+                                        </div>
+                                        <span>
+                                            <a href="#closebtn" class="qmark" name="tooltip1" id="tooltip-associate1" title="First one" style="border-bottom: none;">
+                                                <span class="mark">
+                                                    <span class="arrow-triangle down hidden"></span>
+                                                </span>
+                                            </a>
+                                        </span>
                                 </div>
+
+                                <div class="tooltip-click">
+                                    text before the qmark
+                                    <div class="tooltip hidden" aria-labelledby="tooltip-content2" role="alertdialog" id="tooltip2" aria-describedby="dialogtext"
+                                        aria-hidden="true">
+                                        <div>
+                                            <a class="modal-close" href="#" id="closebtn2">Close</a>
+                                            <div class="tooltip-content" id="tooltip-content2">Second one Second one Second oneSecond one Second one Second one Second </div>
+                                        </div>
+                                    </div>
+                                    <span>
+                                        <a href="#closebtn" class="qmark" name="tooltip2" id="tooltip-associate1" title="Second one">
+                                            <span class="mark">
+                                                <span class="arrow-triangle down hidden"></span>
+                                            </span>
+                                        </a>
+                                    </span>
+                                </div>
+
                             </div>
-                            <span>
-                                <a href="#closebtn" class="qmark" name="tooltip2" id="tooltip-associate1" title="Second one"><span class="mark"><span class="arrow-triangle down hidden"></span></span></a>
-                            </span>
                         </div>
 
                     </div>
+                    <% include ../partials/sidenav.ejs %>
                 </div>
-
             </div>
-            <% include ../partials/sidenav.ejs %>
-        </div>
-    </div>
-</main>
-<% include ../partials/footer.ejs %>
+        </main>
+        <% include ../partials/footer.ejs %>
 </body>
+
 </html>
