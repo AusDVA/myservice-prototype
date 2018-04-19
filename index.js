@@ -61,7 +61,9 @@ app.get('/index-login-errors', function (request, response) {
 
 
 app.get('/change-password', function (request, response) {
-  response.render('auth/change-password');
+  response.render('auth/change-password', {
+    main_nav_active: 'home'
+  });
 });
 
 /**
@@ -147,19 +149,27 @@ app.get('/timeout', function (request, response) {
   Authenticated space
 */
 app.get('/auth', function (request, response) {
-  response.render('auth/index');
+  response.render('auth/index', {
+    main_nav_active: 'home'
+  });
 });
 app.get('/dashboard', function (request, response) {
-  response.render('auth/index-dashboard');
+  response.render('auth/index-dashboard', {
+    main_nav_active: 'home'
+  });
 });
 app.get('/index-claims', function (request, response) {
-  response.render('auth/index-claims');
+  response.render('auth/index-claims', {
+    main_nav_active: 'home'
+  });
 });
 app.get('/index-preloader', function (request, response) {
   response.render('auth/index-preloader');
 });
 app.get('/index-timeout', function (request, response) {
-  response.render('auth/index-timeout');
+  response.render('auth/index-timeout', {
+    main_nav_active: 'home'
+  });
 });
 app.get('/needs1', function (request, response) {
   response.render('auth/needs1');
@@ -176,19 +186,36 @@ app.get('/needs-success', function (request, response) {
 
 /* Separate profile screens */
 app.get('/profile-account', function (request, response) {
-  response.render('auth/profile-account');
+  response.render('auth/profile-account', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-bank', function (request, response) {
-  response.render('auth/profile-bank');
+  response.render('auth/profile-bank', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-contact', function (request, response) {
-  response.render('auth/profile-contact');
+  response.render('auth/profile-contact', {
+    main_nav_active: 'profile'
+  });
 });
+
+app.get('/222', function (request, response) {
+  response.render('auth/profile-contact', {
+    main_nav_active: 'my-profile'
+  });
+});
+
 app.get('/profile-history', function (request, response) {
-  response.render('auth/profile-history');
+  response.render('auth/profile-history', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-assets', function (request, response) {
-  response.render('auth/profile-assets');
+  response.render('auth/profile-assets', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-farm', function (request, response) {
   response.render('auth/profile-farm');
@@ -201,18 +228,18 @@ app.get('/profile-assets-added', function (request, response) {
 });
 
 /* Separate healthcard screens */
-app.get('/healthcard-home', function (request, response) {
-  response.render('auth/healthcard/healthcard-home');
-});
-app.get('/healthcard-gold', function (request, response) {
-  response.render('auth/healthcard/healthcard-gold');
-});
-app.get('/healthcard-nlhc', function (request, response) {
-  response.render('auth/healthcard/healthcard-nlhc');
-});
-app.get('/healthcard-none', function (request, response) {
-  response.render('auth/healthcard/healthcard-none');
-});
+// app.get('/healthcard-home', function (request, response) {
+//   response.render('auth/healthcard/healthcard-home');
+// });
+// app.get('/healthcard-gold', function (request, response) {
+//   response.render('auth/healthcard/healthcard-gold');
+// });
+// app.get('/healthcard-nlhc', function (request, response) {
+//   response.render('auth/healthcard/healthcard-nlhc');
+// });
+// app.get('/healthcard-none', function (request, response) {
+//   response.render('auth/healthcard/healthcard-none');
+// });
 
 /* Change email flow */
 app.get('/change-email-poi', function (request, response) {
@@ -237,20 +264,26 @@ app.get('/staff', function (request, response) {
 
 /* Old single screen profile */
 app.get('/profile', function (request, response) {
-  response.render('auth/profile');
+  response.render('auth/profile', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-new', function (request, response) {
-  response.render('auth/profile-new');
+  response.render('auth/profile-new', {
+    main_nav_active: 'profile'
+  });
 });
 app.get('/profile-password', function (request, response) {
   response.render('auth/profile-password');
 });
 app.get('/profile-updated', function (request, response) {
-  response.render('auth/profile-updated');
+  response.render('auth/profile-updated', {
+    main_nav_active: 'profile'
+  });
 });
-app.get('/change-password', function (request, response) {
-  response.render('auth/change-password');
-});
+// app.get('/change-password', function (request, response) {
+//   response.render('auth/change-password');
+// });
 app.get('/profile-password-updated', function (request, response) {
   response.render('auth/profile-password-updated');
 });
@@ -260,24 +293,36 @@ app.get('/terms-and-conditions', function (request, response) {
 
 /* Claims Page */
 app.get('/claims', function (request, response) {
-  response.render('auth/claim/pages/claims');
+  response.render('auth/claim/pages/claims', {
+    main_nav_active: 'claims'
+  });
 });
 app.get('/claims-neverserved', function (request, response) {
-  response.render('auth/claim/pages/claims-neverserved');
+  response.render('auth/claim/pages/claims-neverserved', {
+    main_nav_active: 'claims'
+  });
 });
 app.get('/claims-existingnlhc', function (request, response) {
-  response.render('auth/claim/pages/claims-existingnlhc');
+  response.render('auth/claim/pages/claims-existingnlhc', {
+    main_nav_active: 'claims'
+  });
 });
 app.get('/claims-existingnlhc-nostudentpayments', function (request, response) {
-  response.render('auth/claim/pages/claims-existingnlhc-nostudentpayments');
+  response.render('auth/claim/pages/claims-existingnlhc-nostudentpayments', {
+    main_nav_active: 'claims'
+  });
 });
 app.get('/claims-nostudentpayments', function (request, response) {
-  response.render('auth/claim/pages/claims-nostudentpayments');
+  response.render('auth/claim/pages/claims-nostudentpayments', {
+    main_nav_active: 'claims'
+  });
 });
 
 /* Claims Page 2? */
 app.get('/claims2', function (request, response) {
-  response.render('auth/claims');
+  response.render('auth/claims', {
+    main_nav_active: 'claims'
+  });
 });
 
 /* Broadened claim flow */
@@ -399,16 +444,24 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
 
 /* Health card */
 app.get('/healthcard-home', function (request, response) {
-  response.render('auth/healthcard/healthcard-home');
+  response.render('auth/healthcard/healthcard-home', {
+    main_nav_active: 'healthcard'
+  });
 });
 app.get('/healthcard-gold', function (request, response) {
-  response.render('auth/healthcard/healthcard-gold');
+  response.render('auth/healthcard/healthcard-gold', {
+    main_nav_active: 'healthcard'
+  });
 });
 app.get('/healthcard-nlhc', function (request, response) {
-  response.render('auth/healthcard/healthcard-nlhc');
+  response.render('auth/healthcard/healthcard-nlhc', {
+    main_nav_active: 'healthcard'
+  });
 });
 app.get('/healthcard-none', function (request, response) {
-  response.render('auth/healthcard/healthcard-none');
+  response.render('auth/healthcard/healthcard-none', {
+    main_nav_active: 'healthcard'
+  });
 });
 
 app.get('/pi-email', function (request, response) {
