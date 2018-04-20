@@ -417,7 +417,11 @@ app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
 });
 
+/* Permanent impairment */
 
+app.get('/pi-claim2', function (request, response) {
+  response.render('auth/claim/pages/pi-claim2');
+});
 
 /* Mental health treatment path */
 app.get('/health-card1', function (request, response) {
