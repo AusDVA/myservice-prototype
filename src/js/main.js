@@ -215,6 +215,11 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-
+	$(".mys-radio__control").click(function (ev) {
+		let siblings = $(this).closest(".mys-radio-group").find(".mys-radio");
+		let thisBox = $(this).closest(".mys-radio");
+		$(siblings).removeClass('mys-radio--not-selected');
+		$(siblings).not(thisBox).addClass('mys-radio--not-selected');
+	});
 
 });
