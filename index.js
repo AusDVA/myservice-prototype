@@ -418,7 +418,9 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
-
+app.get('/pi-start', function (request, response) {
+  response.render('auth/claim/pages/pi-start');
+});
 app.get('/pi-claim2', function (request, response) {
   response.render('auth/claim/pages/pi-claim2');
 });
