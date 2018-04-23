@@ -215,11 +215,30 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Three state check boxes 
 	$(".mys-radio__control").click(function (ev) {
-		let siblings = $(this).closest(".mys-radio-group").find(".mys-radio");
-		let thisBox = $(this).closest(".mys-radio");
-		$(siblings).removeClass('mys-radio--not-selected');
-		$(siblings).not(thisBox).addClass('mys-radio--not-selected');
+		let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
+		let thisBox = $(this).next(".mys-radio__box");
+		$(siblings).removeClass('mys-radio__box--not-selected');
+		$(siblings).not(thisBox).addClass('mys-radio__box--not-selected');
+	});
+
+	$(".mys-radio-group").mouseover(function (ev) {
+		let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+		if (checkedBox.length !== 0) {
+			let siblings = $(this).find(".mys-radio__box");
+			let checkedBox = $(this).next(".mys-radio__box");
+			$(siblings).removeClass('mys-radio__box--not-selected');
+		}
+	});
+
+	$(".mys-radio-group").mouseleave(function (ev) {
+		let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+		if (checkedBox.length !== 0) {
+			let siblings = $(this).find(".mys-radio__box");
+			$(siblings).removeClass('mys-radio__box--not-selected');
+			$(siblings).not(checkedBox).addClass('mys-radio__box--not-selected');
+		}
 	});
 
 });
