@@ -325,6 +325,9 @@ app.get('/studentclaim3', function (request, response) {
 app.get('/studentclaim4', function (request, response) {
   response.render('auth/claim/pages/studentclaim4');
 });
+app.get('/studentclaim4a', function (request, response) {
+  response.render('auth/claim/pages/studentclaim4a');
+});
 app.get('/studentclaim5', function (request, response) {
   response.render('auth/claim/pages/studentclaim5');
 });
