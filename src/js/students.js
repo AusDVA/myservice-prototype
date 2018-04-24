@@ -143,7 +143,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('act', 'mrca');
       }
     } else {
-      alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
+      // alert('The prototype requires a flow and age in the url string e.g.  ' + location.protocol + '//' + location.host + location.pathname + '?flow=studentFlow&studentAge=10')
     }
 
     if (flow !== (localStorage.getItem('flow'))) {
@@ -1228,9 +1228,12 @@ jQuery(document).ready(function ($) {
       }
     });
 
+  }
 
 
-
+  if (window.location.pathname === "/studentclaim4a") {
+    initStudents();
+    initFlow();
   }
 
   if (window.location.pathname === "/studentclaim6") {
