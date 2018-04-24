@@ -426,6 +426,25 @@ app.get('/pi-claim2', function (request, response) {
   response.render('auth/claim/pages/pi-claim2');
 });
 
+/* Disability pension AFI (application for increase) */
+app.get('/afi-start', function (request, response) {
+  response.render('auth/claim/pages/afi-start');
+});
+app.get('/afi-claim1', function (request, response) {
+  response.render('auth/claim/pages/afi-claim1');
+});
+app.get('/afi-claim2', function (request, response) {
+  response.render('auth/claim/pages/afi-claim2');
+});
+app.get('/afi-claim3', function (request, response) {
+  response.render('auth/claim/pages/afi-claim3');
+});
+app.get('/afi-submitted', function (request, response) {
+  response.render('auth/claim/pages/afi-submitted');
+});
+
+
+
 /* Mental health treatment path */
 app.get('/health-card1', function (request, response) {
   response.render('auth/claim/pages/health-card1');
