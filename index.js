@@ -424,7 +424,9 @@ app.get('/index-claimsstudent', function (request, response) {
 app.get('/pi-start', function (request, response) {
   response.render('auth/claim/pages/pi-start');
 });
-
+app.get('/pi-claim1', function (request, response) {
+  response.render('auth/claim/pages/pi-claim1');
+});
 app.get('/pi-claim2', function (request, response) {
   response.render('auth/claim/pages/pi-claim2');
 });
