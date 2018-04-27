@@ -5,6 +5,11 @@
 @mixin table-responsive {
   width: 100%;
 
+  td,
+  th {
+    width: auto;
+  }
+
   thead {
     display: none;
   }
@@ -16,15 +21,14 @@
 
     td {
       border-bottom: 0;
-      margin-top: uikit-space(0.6);
 
       &:first-child {
         padding-bottom: 0;
       }
 
       &:last-child {
-        // border-bottom: 1px solid $gray-light;
-        margin-bottom: uikit-space(0.6);
+        // margin-bottom: uikit-space(0.6);
+        padding-bottom: uikit-space(0.6);
       }
     }
   }
@@ -36,7 +40,9 @@
       &::before {
         content: attr(data-th);
         display: block;
-        text-align: center;
+
+        // text-align: center;
+     
       }
     }
   }
@@ -44,10 +50,18 @@
   // other blocks
   .right {
     text-align: left;
+
+    .accordion-title__details {
+      &:last-child {
+        .file-upload__label {
+          float: right;
+        }
+      }
+    }
   }
 
   .file-upload {
-    display: inline;
+    overflow: auto;
   }
 
   .file-upload--add {
@@ -56,12 +70,42 @@
   }
 
   .file-upload__file-name {
+    line-height: 2;
     margin-bottom: uikit-space(0.6);
+    overflow-wrap: break-word;
     padding-right: 0;
+    word-break: break-word;
+    word-wrap: break-word;
   }
 
-  .file-upload__file-name--uploaded {
-    display: block;
+  .file-upload__label {
+    display: table;
+    table-layout: fixed;
+    text-align: right;
+    vertical-align: top;
+
+    .uikit-btn--tertiary {
+      float: right;
+    }
+  }
+
+  .file-upload__input + label {
+    white-space: initial;
+    width: 100%;
+  }
+
+  .file-upload__document,
+  .file-upload__button {
+    display: table-cell;
+    vertical-align: top;
+  }
+
+  .file-upload__document {
+    text-align: left;
+  }
+
+  .file-upload__button {
+    text-align: right;
   }
 
   .file-status {
@@ -69,6 +113,12 @@
     ~ td {
       margin-top: -(uikit-space(0.45));
       padding-left: uikit-space(1.5);
+      padding-right: 32px;
+      padding-top: .6em;
+
+      &.right {
+        padding-right: 0;
+      }
     }
 
     // hide the text content
@@ -77,12 +127,40 @@
       position: absolute;
     }
   }
+
+  .accordion {
+    display: block;
+    position: relative;
+
+    td {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  .accordion--closed {
+    .right {
+      display: none;
+    }
+  }
+
+  .accordion__trigger {
+    bottom: 0;
+    content: ' ';
+    height: uikit-space(0.75);
+    position: absolute;
+    right: 0;
+    top: 1.4em;
+    width: uikit-space(0.75);
+  }
 }
 
 // codesmells
 table {
   border: 1px solid $gray-light;
-  border-radius: 6px;
+
+  // border-radius: 6px;
   border-spacing: 0;
   margin-bottom: 2em;
   width: 100%;
@@ -93,11 +171,14 @@ table {
 
   td,
   th {
-    padding: uikit-space(0.45) uikit-space(0.3) uikit-space(0.45) uikit-space(0.65);
-
-    // padding: 0.75em 0.5em 0.75em 1em;
+    // padding: uikit-space(0.45) uikit-space(0.3) uikit-space(0.45) uikit-space(0.65);
+    padding: 1.5em 0.5em 1em 1em;
     text-align: left;
     vertical-align: top;
+
+    // this is a bad idea. need to come up with another way of handeling the problem that is was trying to fix
+    // width: 100%;
+ 
   }
 
   th {
@@ -106,17 +187,17 @@ table {
     text-align: left;
   }
 
-  tr {
+  tr:not(:first-child) {
     background-color: $white;
     box-shadow: 0 -1px 0 $gray-light;
 
-    // box-shadow: 0 1px 0 0 $gray-light;
-
-    // 0 1px 0px 0px
-
-    &:first-child {
-      box-shadow: none;
+    > td {
+      &:last-of-type {
+        padding-right: uikit-space(0.75);
+      }
     }
+
+    &:first-child {}
   }
 
   .centred {
@@ -125,14 +206,6 @@ table {
 
   .right {
     text-align: right;
-  }
-
-  tr {
-    > td {
-      &:last-of-type {
-        padding-right: uikit-space(0.75);
-      }
-    }
   }
 
   &.data-centred {
@@ -144,8 +217,8 @@ table {
 
     td,
     th {
+      font-size: .9rem;
       padding: .75em .5em;
-      font-size: 0.9rem;
       text-align: center;
       vertical-align: middle;
     }
@@ -173,15 +246,6 @@ table {
   }
 }
 
-// This is part of a prototype. reinstate if needed
-// .table--large {
-//   td,
-//   th {
-//     padding-top: 1.1em;
-//     padding-bottom: 1.1em;
-//     vertical-align: middle;
-//   }
-// }
 .table-responsive--no-border { // not sure about this
   border: 0;
 
@@ -196,40 +260,61 @@ table {
       }
     }
   }
+
+  .accordion {
+    td {
+      &:last-child {
+        width: 24px;
+      }
+    }
+  }
 }
 
-.file-status {
-  position: relative;
+.file-upload {
+  margin-top: -.5em;
 
-  // vertical-align: middle;
+  // padding-bottom: 1em;
+}
+
+.file-upload--left {}
+
+.file-status {
+  min-width: 1em;
+  position: relative;
+  width: 1em;
 
   &::after {
     background-repeat: no-repeat;
     content: ' ';
     display: block;
     height: 24px;
-    margin-top: uikit-space(0.5);
+    margin-top: 1.35em;
     position: absolute;
     top: 0;
     width: 24px;
   }
+}
 
-  span {
-    font-weight: bold;
-    margin-left: uikit-space(1.5);
-  }
+.file-upload-container {
+  max-width: 250px;
+  min-width: 250px;
 }
 
 .file-status--required {
   &::after {
-    background-image: uikit-svguri('<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">\a     <style>\a       .st0{fill:#{$uikit-colour-Warning}\a     </style>\a     <circle class="st0" cx="20" cy="31" r="1.4"/>\a     <path class="st0" d="M18.8 25.4V12.5c0-.5.5-.9 1.2-.9s1.2.4 1.2.9v12.8c0 .5-.5.9-1.2.9s-1.2-.3-1.2-.8z"/>\a     <path class="st0" d="M3.5 38.5c-1.2 0-2.3-.6-2.9-1.6-.6-1-.6-2.3-.1-3.3L17.1 2.4c.6-1.1 1.7-1.8 3-1.8 1.2 0 2.4.7 3 1.8l16.3 31.1c.6 1.1.5 2.4.1 3.3-.4.8-1.6 1.7-2.8 1.7H3.5zM20.1 2.6c-.5 0-1 .3-1.2.7L2.2 34.5c-.2.4-.2 1 0 1.4.3.4.7.7 1.2.7h33.2c.4 0 .7-.2 1-.4.3-.3.4-.6.4-1 0-.2-.1-.4-.2-.6l-.7-1.6L21.4 3.4c-.3-.5-.8-.8-1.3-.8z"/>\a   </svg>');
+    background-image: uikit-svguri('<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">\a     <style>\a       .st0{fill:#{$uikit-colour-Warning}\a     </style>\a     <circle class="st0" cx="20" cy="31" r="1.4"/>\a     <path class="st0" d="M18.8 25.4V12.5c0-.5.5-.9 1.2-.9s1.2.4 1.2.9v12.8c0 .5-.5.9-1.2.9s-1.2-.3-1.2-.8z"/>\a     <path class="st0" d="M3.5 38.5c-1.2 0-2.3-.6-2.9-1.6-.6-1-.6-2.3-.1-3.3L17.1 2.4c.6-1.1 1.7-1.8 3-1.8 1.2 0 2.4.7 3 1.8l16.3 31.1c.6 1.1.5 2.4.1 3.3-.4.8-1.6 1.7-2.8 1.7H3.5zM20.1 2.6c-.5 0-1 .3-1.2.7L2.2 34.5c-.2.4-.2 1 0 1.4.3.4.7.7 1.2.7h33.2c.4 0 .7-.2 1-.4.3-.3.4-.6.4-1 0-.2-.1-.4-.2-.6l-.7-1.6L21.4 3.4c-.3-.5-.8-.8-1.3-.8z"/>\a   </svg>');
   }
 }
 
 .file-status--uploaded {
   &::after {
-    background-image: uikit-svguri('<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">\a     <style>\a       .st0{fill:#{$uikit-colour-Success}}\a     </style>\a     <path class="st0" d="M20 .4C9.2.4.4 9.2.4 20S9.2 39.7 20 39.7 39.7 30.8 39.7 20 30.9.4 20 .4zm0 37.4c-9.8 0-17.7-8-17.7-17.7S10.3 2.3 20 2.3s17.7 8 17.7 17.8S29.8 37.8 20 37.8z"/>\a     <path class="st0" d="M29.8 12.4l-14 14.1-6.4-6.4-1.5 1.5 7.9 7.9L31.4 14z"/>\a   </svg>');
+    background-image: uikit-svguri('<svg  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">\a     <style>\a       .st0{fill:#{$uikit-colour-Success}}\a     </style>\a     <path class="st0" d="M20 .4C9.2.4.4 9.2.4 20S9.2 39.7 20 39.7 39.7 30.8 39.7 20 30.9.4 20 .4zm0 37.4c-9.8 0-17.7-8-17.7-17.7S10.3 2.3 20 2.3s17.7 8 17.7 17.8S29.8 37.8 20 37.8z"/>\a     <path class="st0" d="M29.8 12.4l-14 14.1-6.4-6.4-1.5 1.5 7.9 7.9L31.4 14z"/>\a   </svg>');
   }
+}
+
+.file-status--uploading::after {
+  animation: spin linear 1s infinite;
+  background-image: url(../images/waiting-blue.svg);
 }
 
 .table-responsive--always-stacked {
@@ -242,5 +327,232 @@ table {
 @media screen and (max-width: $medium-handheld) {
   .table-responsive {
     @include table-responsive;
+
+    &.feature-set {
+      border-top: 10px solid $blue-dark;
+
+      tr {
+        &:nth-of-type(2n) {
+          background-color: $white;
+        }
+      }
+
+      td {
+        &:not(.feature-set__no) {
+          border: 0;
+          display: table-cell;
+          padding-bottom: 1.5em;
+          text-align: left;
+        }
+      }
+
+      .feature-set__ss-hide {
+        display: none;
+      }
+
+      .feature-set__ss-show {
+        display: table-row;
+        white-space: nowrap;
+
+        .uikit-btn {
+          white-space: normal;
+          width: 50%;
+        }
+      }
+
+      .feature-set__no {
+        display: none;
+      }
+
+      .feature-set__yes {
+        a {
+          background-position-x: 0;
+
+          // font-style: italic;
+          // font-weight: 600;
+          margin-left: 0;
+          padding: 0 0 0 2em;
+          text-align: left;
+          width: auto;
+        }
+
+        .sr {
+          clip: initial;
+          color: $blue-mild;
+          overflow: initial;
+          position: relative;
+        }
+      }
+
+      .feature-set__yes--green {
+        .sr {
+          color: $large-text-green;
+        }
+      }
+    }
+
+    &.feature-set,
+    &.feature-set__sub-heading {
+      tr {
+        &:hover {
+          background-color: $white;
+        }
+      }
+    }
   }
+}
+
+.claim-summary-table {
+  border: 0 solid $gray-mild !important;
+
+  tr,
+  td {
+    font-weight: bold;
+    padding: .6em 1em;
+    text-align: left;
+  }
+
+  td {
+    &:first-child {
+      font-size: 0.9em;
+      font-weight: normal;
+      padding-right: 2em;
+      text-align: left;
+      width: 55%;
+    }
+
+    ul {
+      text-align: left;
+    }
+  }
+}
+
+@media screen and (min-width: $medium-handheld) {
+  .claim-summary-table {
+    tr,
+    td {
+      font-size: 1em;
+      text-align: right;
+    }
+
+    td {
+      ul {
+        text-align: left;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: $medium-handheld) {
+  .claim-summary-table {
+    td {
+      &:first-child {
+        width: auto;
+      }
+    }
+  }
+}
+
+.feature-set {
+  border: 1px solid $blue-dark;
+
+  tr {
+    &:last-child {
+      &:hover {
+        background-color: $white;
+      }
+    }
+  }
+
+  th {
+    background-color: $blue-dark;
+    border-left: 1px solid $gray-mid;
+    color: $white;
+    vertical-align: middle;
+
+    &:first-child {
+      border-left: 0 solid $gray-mid;
+
+      p {
+        font-weight: normal;
+      }
+    }
+  }
+
+  td {
+    border-left: 1px solid $gray-light;
+    text-align: center;
+
+    &:first-child {
+      border-left: 0 solid $gray-light;
+      text-align: left;
+    }
+  }
+
+  img {
+    width: 25px;
+  }
+
+  .feature-set__ss-show {
+    display: none;
+  }
+}
+
+.feature-set,
+.feature-set__sub-heading {
+  tr {
+    &:hover {
+      background-color: $gray-light;
+    }
+  }
+}
+
+.feature-set__sub-heading {
+  td {
+    background: $blue-5;
+    border-left: 1px solid $blue-20;
+
+    &:first-child {
+      border-left: 0 solid $blue-20;
+    }
+  }
+}
+
+@mixin tick-icon($colour) {
+  background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 426.7 426.7"><style>.st0{fill:#{$colour}} </style><path class="st0" d="M213.3 29.6c49.1 0 95.2 19.1 129.9 53.8 34.7 34.7 53.8 80.8 53.8 129.9 0 49.1-19.1 95.2-53.8 129.9S262.4 397 213.3 397s-95.2-19.1-129.9-53.8-53.8-80.8-53.8-129.9 19.1-95.2 53.8-129.9 80.8-53.8 129.9-53.8m0-29.6C95.5 0 0 95.5 0 213.3s95.5 213.3 213.3 213.3 213.3-95.5 213.3-213.3S331.2 0 213.3 0z"/><path class="st0" d="M83.1 229l28.5-28.5 62.6 62.7 140.9-140.9 28.5 28.5-169.4 169.3z"/></svg>');
+}
+
+.feature-set__yes {
+  a {
+    @include tick-icon($blue-mild);
+
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 25px 25px;
+    border-bottom: 0 solid;
+    display: block;
+    height: 25px;
+
+    // line-height: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    width: 25px;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+}
+
+.feature-set__yes--green {
+  a {
+    @include tick-icon($large-text-green);
+  }
+}
+
+.feature-set__no {
+  background-image: url("../images/ico-na-grey.svg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 25px 25px;
 }
