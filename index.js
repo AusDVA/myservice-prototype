@@ -445,6 +445,10 @@ app.get('/afi-claim3', function (request, response) {
 app.get('/afi-submitted', function (request, response) {
   response.render('auth/claim/pages/afi-submitted');
 });
+app.get('/afi-claimdetail', function (request, response) {
+  response.render('auth/claim/pages/viewAFIClaimDetail');
+});
+
 
 
 
