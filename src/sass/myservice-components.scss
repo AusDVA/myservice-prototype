@@ -133,42 +133,63 @@
 // Toggle styled radio buttons - must render on mobile width screens without wrapping
 // ------------------------------------------------------------------------------------------------------
 
-.mys-radiogroup {
-  label {
-    background-color: $white;
-    border: 1px solid $gray-mild;
-    border-radius: 4px;
-    float: left;
-    margin: 0 0.2em 1em 0.2em;
-    overflow: visible;
-    padding: 0;
-    width: 120px;
+.mys-radio-group {
+  display: flex;
+}
 
-    &:hover,
-    &:focus {
-      border: 1px solid $blue;
-    }
+.mys-radio {
+  background-color: $white;
+  flex-basis: 0;
+  flex-grow: 1;
+  float: left;
+  margin: 0 .2em;
+  overflow: visible;
+  padding: 0;
+  width: 120px;
+}
 
-    span {
-      cursor: pointer;
-      display: block;
-      padding: 5px 0;
-      text-align: center;
-    }
+.mys-radio__control {
+  @include uikit-sronly;
 
-    input {
-      width: 1px;
-      height: 1px;
-      opacity: 0;
-      overflow: hidden;
-      position: absolute;
-      left: -9999px;
-    }
-
-    &:hover + input[type='radio']:disabled {
-      background-color: $black;
+  &:checked {
+    + .mys-radio__box {
+      border: 1px solid $blue-90;
     }
   }
+
+  &:hover,
+  &:focus {
+    + .mys-radio__box {
+      border: 1px solid $blue;
+    }
+  }
+
+  &:hover {
+    + .mys-radio__box {
+      background-color: $blue;
+      color:$white;
+      font-weight:normal;
+    }
+  }
+}
+
+.mys-radio__box {
+  border: 1px solid $gray-mild;
+  border-radius: 4px;
+  cursor: pointer;
+  display: block;
+  padding: .3em 0;
+  text-align: center;
+}
+
+.mys-radio__box--not-selected {
+  background-color: $white;
+  border-color: transparent;
+  color: $gray;
+  font-size: 0.9em;
+  font-style: italic;
+  font-weight: normal;
+  padding: .4em 0;
 }
 
 .radio-toggle {
@@ -239,6 +260,7 @@
 
       &:checked:focus + span {
         box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+        
       }
 
       + span {

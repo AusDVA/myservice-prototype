@@ -373,6 +373,9 @@ app.get('/studentclaim3', function (request, response) {
 app.get('/studentclaim4', function (request, response) {
   response.render('auth/claim/pages/studentclaim4');
 });
+app.get('/studentclaim4a', function (request, response) {
+  response.render('auth/claim/pages/studentclaim4a');
+});
 app.get('/studentclaim5', function (request, response) {
   response.render('auth/claim/pages/studentclaim5');
 });
@@ -421,10 +424,36 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
+app.get('/pi-start', function (request, response) {
+  response.render('auth/claim/pages/pi-start');
+});
 
 app.get('/pi-claim2', function (request, response) {
   response.render('auth/claim/pages/pi-claim2');
 });
+
+/* Disability pension AFI (application for increase) */
+app.get('/afi-start', function (request, response) {
+  response.render('auth/claim/pages/afi-start');
+});
+app.get('/afi-claim1', function (request, response) {
+  response.render('auth/claim/pages/afi-claim1');
+});
+app.get('/afi-claim2', function (request, response) {
+  response.render('auth/claim/pages/afi-claim2');
+});
+app.get('/afi-claim3', function (request, response) {
+  response.render('auth/claim/pages/afi-claim3');
+});
+app.get('/afi-submitted', function (request, response) {
+  response.render('auth/claim/pages/afi-submitted');
+});
+app.get('/afi-claimdetail', function (request, response) {
+  response.render('auth/claim/pages/viewAFIClaimDetail');
+});
+
+
+
 
 /* Mental health treatment path */
 app.get('/health-card1', function (request, response) {

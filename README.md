@@ -5,4 +5,8 @@ Install Gulp CLI npm install --global gulp-cli
 
 Run npm install
 
-Then run gulp serve
+Then run: 
+gulp serve
+
+Problems with the server? Run:
+killall node
