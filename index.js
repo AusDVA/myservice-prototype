@@ -350,6 +350,9 @@ app.get('/claim7', function (request, response) {
 app.get('/claim8', function (request, response) {
   response.render('auth/claim/pages/claim8');
 });
+app.get('/claim8a', function (request, response) {
+  response.render('auth/claim/pages/claim8a');
+});
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {
