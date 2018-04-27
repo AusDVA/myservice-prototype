@@ -29,10 +29,6 @@
 
                     <div class="container margin-above--large" id="main-content">
 
-                        <div class="uikit-page-alerts uikit-page-alerts--error margin-above--none margin-below--large">
-                            <p>Still need to look into the question around your 10 years of work history</p>
-                        </div>
-
                         <div class="container">
                             <div class="form-group">
                                 <label class="uikit-text-input__label" for="employed">Are you employed?</label>
@@ -50,24 +46,6 @@
                         </div>
 
                         <div class="container">
-                            <div class="form-group" id="change-in-employment" style="display:none;">
-                                <label class="uikit-text-input__label" for="employment-change">Has your employment changed since your last assessment?
-                                    <span class="hint display-block">Includes place of employment or hours worked per week.</span>
-                                </label>
-                                <div class="radio-toggle">
-                                    <label class="on label-left">
-                                        <input id="employment-change-yes" type="radio" name="employment-change" value="yes">
-                                        <span>Yes</span>
-                                    </label>
-                                    <label class="off label-right">
-                                        <input id="employment-change-no" type="radio" name="employment-change" value="no">
-                                        <span>No</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="container">
                             <div class="form-group" id="employment-details" style="display:none;">
 
                                 <div class="form-group">
@@ -77,16 +55,56 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label class="uikit-text-input__label" for="hours-worked">Hours worked per week
+                                    <label class="uikit-text-input__label" for="hours-worked">Average hours worked per week
                                     </label>
-                                    <input class="uikit-text-input" name="hours-worked" id="hours-worked" type="text" value="" required="" aria-required="true">
+                                    <input class="uikit-text-input yyyy" type="text" name="hours-worked" id="hours-worked" maxlength="3" aria-label="3 digit hours">&nbsp; hours per week
                                 </div>
 
+                                <!-- <div class="form-group" id="abilitytowork">
+                                    <label class="uikit-text-input__label" for="abilitytowork">Does your condition affect your ability to work?
+                                        <span class="hint display-block">For example the hours you can work or type of work you can do.</span>
+                                    </label>
+                                    <div class="radio-toggle">
+                                        <label class="on label-left">
+                                            <input id="abilitytowork-yes" type="radio" name="abilitytowork" value="yes">
+                                            <span>Yes</span>
+                                        </label>
+                                        <label class="off label-right">
+                                            <input id="abilitytowork-no" type="radio" name="abilitytowork" value="no">
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                        <!-- <div class="container">
+                            <div class="form-group" id="tellusmore" style="display:none;">
+                                <label class="uikit-text-input__label" for="ability-to-work-reason">Tell us more about how your condition affects your ability to work
+                                    <span class="hint display-block">(Do we need to give more information to help the user shape their story?)</span>
+                                </label>
+                                <textarea id="ability-to-work-reason" name="ability-to-work-reason" rows="2"></textarea>
+                            </div>
+                        </div> -->
+
+                        <div class="container">
+                            <div class="form-group" id="ceaseworkfromcondition" style="display:none;">
+                                <label class="uikit-text-input__label" for="resultofcondition">Did you cease work as a result of your worsened condition?</label>
+                                <div class="radio-toggle">
+                                    <label class="on label-left">
+                                        <input id="resultofcondition-yes" type="radio" name="resultofcondition" value="yes">
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="off label-right">
+                                        <input id="resultofcondition-no" type="radio" name="resultofcondition" value="no">
+                                        <span>No</span>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 
                         <div class="container">
                             <div class="form-group" id="unemployed" style="display:none;">
+
                                 <div class="form-group">
                                     <label class="uikit-text-input__label" for="cease-work-date">Approximately when did you cease work?
                                         <span class="hint display-block">(MM / YYYY)</span>
@@ -97,12 +115,14 @@
                                         aria-label="4 digit year">
                                 </div>
 
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <label class="uikit-text-input__label" for="cease-work-reason">Why did you cease work?
                                         <span class="hint display-block">For example retirement, illness or redundancy.</span>
                                     </label>
-                                    <input class="uikit-text-input" name="cease-work-reason" id="cease-work-reason" type="text" value="" required="" aria-required="true">
-                                </div>
+                                    <textarea id="cease-work-reason" name="cease-work-reason" rows="2"></textarea>
+                                </div> -->
+
+
                             </div>
                         </div>
 
@@ -115,7 +135,9 @@
 
                         <div class="pagination">
                             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/afi-claim1'">Previous</button>
+                            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
                             <div class="floated">
+                                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
                                 <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/afi-claim3'">Save and next</button>
                             </div>
                         </div>
@@ -130,21 +152,36 @@
 
                         <script>
                             $("#employed-yes").click(function () {
-                                $("#change-in-employment").show();
-                                $("#unemployed").hide();
-                            });
-                            $("#employed-no").click(function () {
-                                $("#unemployed").show();
-                                $("#change-in-employment").hide();
-                            });
-                            $("#employment-change-yes").click(function () {
                                 $("#employment-details").show();
+                                $("#ceaseworkfromcondition").hide();
+                                $("#unemployed").hide();
                                 $("#save-and-next").hide();
                             });
-                            $("#employment-change-no").click(function () {
+                            $("#employed-no").click(function () {
+                                // $("#save-and-next").show();
+                                // $("#unemployed").show();
+                                $("#ceaseworkfromcondition").show();
                                 $("#employment-details").hide();
+                            });
+
+                            $("#resultofcondition-yes").click(function () {
+                                // $("#save-and-next").hide();
+                                $("#unemployed").show();
+                            });
+                            $("#resultofcondition-no").click(function () {
+                                $("#unemployed").show();
+                                // $("#save-and-next").show();
+                            });
+
+                            $("#abilitytowork-yes").click(function () {
+                                $("#save-and-next").hide();
+                                $("#tellusmore").show();
+                            });
+                            $("#abilitytowork-no").click(function () {
+                                $("#tellusmore").hide();
                                 $("#save-and-next").show();
                             });
+
                         </script>
 
 </body>
