@@ -388,6 +388,9 @@ app.get('/studentclaimupload', function (request, response) {
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
 });
+app.get('/viewClaimRejected', function (request, response) {
+  response.render('auth/claim/pages/viewClaimRejected');
+});
 app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
 });
