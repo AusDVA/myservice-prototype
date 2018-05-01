@@ -388,8 +388,17 @@ app.get('/studentclaimupload', function (request, response) {
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
 });
+app.get('/viewClaimRejected', function (request, response) {
+  response.render('auth/claim/pages/viewClaimRejected');
+});
 app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
+});
+app.get('/viewClaimWithdrawn', function (request, response) {
+  response.render('auth/claim/pages/viewClaimWithdrawn');
+});
+app.get('/viewClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/viewClaimInProgress');
 });
 
 
