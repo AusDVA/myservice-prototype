@@ -394,6 +394,12 @@ app.get('/viewClaimRejected', function (request, response) {
 app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
 });
+app.get('/viewClaimWithdrawn', function (request, response) {
+  response.render('auth/claim/pages/viewClaimWithdrawn');
+});
+app.get('/viewClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/viewClaimInProgress');
+});
 
 
 
