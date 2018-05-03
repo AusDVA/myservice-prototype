@@ -594,3 +594,6 @@ app.get('/styleguide-document-uploads', function (request, response) {
 app.get('/styleguide-tooltip', function (request, response) {
   response.render('styleguide/pages/tooltip');
 });
+app.get('/styleguide-animations', function (request, response) {
+  response.render('styleguide/pages/animations');
+});
