@@ -464,7 +464,10 @@ app.get('/afi-claimdetail', function (request, response) {
 });
 
 
-
+/* Qualifying Service */
+app.get('/qs-claimdetail', function (request, response) {
+  response.render('auth/claim/pages/viewQSClaimDetail');
+});
 
 /* Mental health treatment path */
 app.get('/health-card1', function (request, response) {
