@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
-var serveIndex = require('serve-index')
+var serveIndex = require('serve-index');
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -347,12 +348,14 @@ app.get('/claim6', function (request, response) {
 app.get('/claim7', function (request, response) {
   response.render('auth/claim/pages/claim7');
 });
-app.get('/claim8', function (request, response) {
+
+app.get('/claim8', function (request, response, next) {
+  // put the url params in the template
+  response.locals.query = request.query;
+  // console.log(response.locals.query);
   response.render('auth/claim/pages/claim8');
 });
-app.get('/claim8a', function (request, response) {
-  response.render('auth/claim/pages/claim8a');
-});
+
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {

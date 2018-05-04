@@ -9,14 +9,10 @@
   <title>Add claim: Review and submit | MyService</title>
   <link href="docs/css/main.css"
         rel="stylesheet">
-  <style>
-    .pt-claim-type--cbd {
-      display: none;
-    }
-  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
+
   <noscript>
     <p role="alert">This website needs JavaScript to work properly.</p>
   </noscript>
@@ -38,72 +34,82 @@
                 <div class="claim-end">
 
                   <!-- submitted start -->
-                  <div class="pt-claim-type--normal">
-                    <div class="margin-above ie-success-animation">
-                      <img src="../../../docs/images/ico-submitted.svg"
-                           alt="Success tick icon">
-                    </div>
-                    <div class="margin-above submitted-animation">
-                      <% include ../../../global/partials/animation-submitted.ejs %>
-                    </div>
-                    <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
-                      <h1>We're submitting your claim application</h1>
-
-                    </div>
-                  </div>
-                  <!-- submitted end -->
-
-                  <!-- success start -->
-                  <div class="pt-claim-type--cbd">
-                    <div class="margin-above ie-success-animation">
-                      <img src="../../../docs/images/ico-tick-green.svg"
-                           alt="Success tick icon">
-                    </div>
-
-                    <div class="margin-above success-animation">
-                      <% include ../../../global/partials/animation-success.ejs %>
-                    </div>
-
-
-                    <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
-                      <h1>We're assessing your claim application</h1>
-                      <p>Stay on this page and we'll let you know the outcome very shortly.</p>
-                    </div>
-                  </div>
-
-                  <div class="transition-content pt-claim-animation-end">
-
-                    <div class="pt-claim-type--cbd">
-                      <h1 class="cantered-item">Success! Your claim is
-                        <span class="font-weight-heavy"> approved</span>
-                      </h1>
-                    </div>
-
+                  <% if (query.claimType != "cbd") { %>
                     <div class="pt-claim-type--normal">
-                      <h1 class="cantered-item">Your claim is
-                        <span class="font-weight-heavy"> submitted</span>
-                      </h1>
+                      <div class="margin-above ie-success-animation">
+                        <img src="../../../docs/images/ico-submitted.svg"
+                             alt="Success tick icon">
+                      </div>
+                      <div class="margin-above submitted-animation">
+                        <% include ../../../global/partials/animation-submitted.ejs %>
+                      </div>
+                      <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
+                        <h1>We're submitting your claim application</h1>
+
+                      </div>
                     </div>
+                    <% } %>
+                      <!-- submitted end -->
+
+                      <!-- success start -->
+                      <% if (query.claimType == "cbd") { %>
+                        <div class="pt-claim-type--cbd">
+                          <div class="margin-above ie-success-animation">
+                            <img src="../../../docs/images/ico-tick-green.svg"
+                                 alt="Success tick icon">
+                          </div>
+
+                          <div class="margin-above success-animation">
+                            <% include ../../../global/partials/animation-success.ejs %>
+                          </div>
 
 
-                    <!-- To be reinstated at a later date -->
-                    <h3 class="cantered-item">Claim ID is 12345678</h3>
+                          <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
+                            <h1>We're assessing your claim application</h1>
+                            <p>Stay on this page and we'll let you know the outcome very shortly.</p>
+                          </div>
+                        </div>
+                        <% } %>
 
-                    <div class="timebox--wrapper margin-below">
-                      <img src="../../../docs/images/ico-phone-blue.svg"
-                           alt="Phone icon">
-                      <p>
-                        <strong>We will contact you in the next XX days to discuss the support we can offer you.</strong>
-                      </p>
-                    </div>
-                    <div class="pt-claim-type--cbd">
-                      <p>We will also send you a DVA health card (if you don't already have one), which you can use to cover
-                        the cost of treatment for [insert condition]. If you have any questions or concerns, please contact
-                        <a href="">MyServiceSupport@dva.gov.au</a>
-                      </p>
-                    </div>
-                    <% include ../../../global/partials/five-star-rating-component.ejs %>
-                  </div>
+
+                          <div class="transition-content pt-claim-animation-end">
+                            <% if (query.claimType == "cbd") { %>
+                              <div class="pt-claim-type--cbd">
+                                <h1 class="cantered-item">Success! Your claim is
+                                  <span class="font-weight-heavy"> approved</span>
+                                </h1>
+                              </div>
+                              <% } else { %>
+                                <div class="pt-claim-type--normal">
+                                  <h1 class="cantered-item">Your claim is
+                                    <span class="font-weight-heavy"> submitted</span>
+                                  </h1>
+                                </div>
+                                <% } %>
+
+                                  <!-- To be reinstated at a later date -->
+                                  <h3 class="cantered-item">Claim ID is 12345678</h3>
+
+                                  <div class="timebox--wrapper margin-below">
+                                    <img src="../../../docs/images/ico-phone-blue.svg"
+                                         alt="Phone icon">
+                                    <p>
+                                      <strong>We will contact you in the next XX days to discuss the support we can offer you.</strong>
+                                    </p>
+                                  </div>
+
+                                  <% if (query.claimType == "cbd") { %>
+                                    <div class="pt-claim-type--cbd">
+                                      <p>We will also send you a DVA health card (if you don't already have one), which you
+                                        can use to cover the cost of treatment for [insert condition]. If you have any questions
+                                        or concerns, please contact
+                                        <a href="">MyServiceSupport@dva.gov.au</a>
+                                      </p>
+                                    </div>
+                                    <% } %>
+
+                                      <% include ../../../global/partials/five-star-rating-component.ejs %>
+                          </div>
 
                 </div>
 

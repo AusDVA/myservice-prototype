@@ -266,9 +266,9 @@ jQuery(document).ready(function ($) {
 	if (claimType) {
 		localStorage.setItem('claimType', claimType);
 	}
-	if (localStorage.getItem('claimType') === 'cbd') {
-		$(".pt-claim-type--cbd").show();
-		$(".pt-claim-type--normal").hide();
-	}
+	// if (localStorage.getItem('claimType') === 'cbd') {
+	// 	$(".pt-claim-type--cbd").show();
+	// 	$(".pt-claim-type--normal").hide();
+	// }
 
 });
