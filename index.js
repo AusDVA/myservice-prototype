@@ -352,6 +352,7 @@ app.get('/claim7', function (request, response) {
 app.get('/claim8', function (request, response, next) {
   // put the url params in the template
   response.locals.query = request.query;
+  response.locals.justtext = 'JUST TEXT';
   // console.log(response.locals.query);
   response.render('auth/claim/pages/claim8');
 });
