@@ -52,7 +52,7 @@
 
                                         <div class="row margin-below--large">
                                             <div class="form-group" id="reason-unemployed" style="display:none;">
-                                                <h3 class="uikit-text-input__label" for="reason-unemployed">Did you cease work because of your condition?</h3>
+                                                <h3 class="uikit-text-input__label" for="reason-unemployed">Did you stop working because of your condition?</h3>
                                                 <div class="radio-toggle">
                                                     <label class="on label-left">
                                                         <input id="reason-unemployed-yes" type="radio" name="reason-unemployed" value="yes">
@@ -64,6 +64,10 @@
                                                     </label>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div id="save-and-next" style="display:none;">
+                                            <p>Choose
+                                                <b>Save and next</b> to continue your Lifestyle Questionnaire.</p>
                                         </div>
                                     </div>
                                 </div>
@@ -79,7 +83,7 @@
                                     </h3>
                                 </div>
                                 <div class="col-sm-12 col-md-9 margin-below--extra action-group">
-                                    <label for="mobility" class="mys-label-nl">The affect my conditions have on my employment is &nbsp;</label>
+                                    <label for="mobility" class="mys-label-nl">The affect my conditions have on my ability to work is &nbsp;</label>
                                     <span class="mys-dropdown mys-dropdown-nl">
                                         <select class="uikit-text-input mys-dropdown__select" id="mobility" name="mobility">
                                             <option value="">Choose an option</option>
@@ -167,21 +171,23 @@
                                 </div>
                             </div>
 
-                            <% include ../partials/pi-claim3-toggles.ejs %>
+                            <div id="employment-toggles" style="display:none;">
+                                <% include ../partials/pi-claim3-toggles.ejs %>
+                            </div>
 
-                                <div class="row border-top--mild">
-                                    <div class="col-sm-12 margin-above">
-                                        <fieldset>
-                                            <div class="form-group">
-                                                <h3 class="uikit-text-input__label" for="textArea">Tell us more
-                                                    <span class="hint display-block">This will help us understand how your conditions have affected your employment.
-                                                    </span>
-                                                </h3>
-                                                <textarea id="textArea" name="statementText" rows="6"></textarea>
-                                            </div>
-                                        </fieldset>
-                                    </div>
+                            <div class="row border-top--mild">
+                                <div class="col-sm-12 margin-above">
+                                    <fieldset>
+                                        <div class="form-group">
+                                            <h3 class="uikit-text-input__label" for="textArea">Tell us more
+                                                <span class="hint display-block">This will help us understand how your conditions have affected your employment.
+                                                </span>
+                                            </h3>
+                                            <textarea id="textArea" name="statementText" rows="6"></textarea>
+                                        </div>
+                                    </fieldset>
                                 </div>
+                            </div>
                         </div>
 
                         <div class="pagination">
@@ -203,11 +209,25 @@
 
                             $("#employed-yes").click(function () {
                                 $("#reason-unemployed").hide();
+                                $("#save-and-next").hide();
                                 $("#employment-rating").show();
+                                $("#employment-toggles").show();
                             });
                             $("#employed-no").click(function () {
                                 $("#employment-rating").hide();
+                                $("#employment-toggles").hide();
+                                $("#save-and-next").hide();
                                 $("#reason-unemployed").show();
+                            });
+
+                            $("#reason-unemployed-yes").click(function () {
+                                $("#save-and-next").hide();
+                                $("#employment-rating").show();
+                                $("#employment-toggles").hide();
+                            });
+                            $("#reason-unemployed-no").click(function () {
+                                $("#employment-rating").hide();
+                                $("#save-and-next").show();
                             });
 
 
