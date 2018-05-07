@@ -445,14 +445,29 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
-app.get('/pi-start', function (request, response) {
-  response.render('auth/claim/pages/pi-start');
+app.get('/pi-lsq-start', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-start');
 });
-app.get('/pi-claim1', function (request, response) {
-  response.render('auth/claim/pages/pi-claim1');
+app.get('/pi-lsq-claim1', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim1');
 });
-app.get('/pi-claim2', function (request, response) {
-  response.render('auth/claim/pages/pi-claim2');
+app.get('/pi-lsq-claim2', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim2');
+});
+app.get('/pi-lsq-claim3', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim3');
+});
+app.get('/pi-lsq-claim4', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim4');
+});
+app.get('/pi-lsq-claim5', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim5');
+});
+app.get('/pi-lsq-claim6', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6');
+});
+app.get('/pi-lsq-submitted', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-submitted');
 });
 
 /* Disability pension AFI (application for increase) */
