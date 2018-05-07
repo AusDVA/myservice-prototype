@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html class="js"
       lang="en">
 
@@ -24,6 +25,7 @@
     <% include ../../../global/partials/header-claims.ejs %>
       <% include ../partials/help-button.ejs %>
         <main>
+          <!-- <%- claimType -%> -->
           <div class="container"
                id="main-content">
 
@@ -34,7 +36,7 @@
                 <div class="claim-end">
 
                   <!-- submitted start -->
-                  <% if (query.claimType != "cbd") { %>
+                  <% if (claimType != "cbd") { %>
                     <div class="pt-claim-type--normal">
                       <div class="margin-above ie-success-animation">
                         <img src="../../../docs/images/ico-submitted.svg"
@@ -52,7 +54,7 @@
                       <!-- submitted end -->
 
                       <!-- success start -->
-                      <% if (query.claimType == "cbd") { %>
+                      <% if (claimType == "cbd") { %>
                         <div class="pt-claim-type--cbd">
                           <div class="margin-above ie-success-animation">
                             <img src="../../../docs/images/ico-tick-green.svg"
@@ -73,7 +75,7 @@
 
 
                           <div class="transition-content pt-claim-animation-end">
-                            <% if (query.claimType == "cbd") { %>
+                            <% if (claimType == "cbd") { %>
                               <div class="pt-claim-type--cbd">
                                 <h1 class="cantered-item">Success! Your claim is
                                   <span class="font-weight-heavy"> approved</span>
@@ -98,7 +100,7 @@
                                     </p>
                                   </div>
 
-                                  <% if (query.claimType == "cbd") { %>
+                                  <% if (claimType == "cbd") { %>
                                     <div class="pt-claim-type--cbd">
                                       <p>We will also send you a DVA health card (if you don't already have one), which you
                                         can use to cover the cost of treatment for [insert condition]. If you have any questions
@@ -132,21 +134,24 @@
         <% include ../../../global/partials/footer.ejs %>
           <% include ../partials/panel-help.ejs %>
 
+
+
             <script>
-
-              // $('.success-animation').hide();
-              var timeDelay = 3500
-              if (localStorage.getItem('claimType') === 'cbd') {
-                timeDelay = 5500;
-              }
-              setTimeout(
-                function () {
-                  $(".pt-claim-animation-start").toggleClass("transition-content--open");
-                  $(".pt-claim-animation-end").toggleClass("transition-content--open");
-                }, timeDelay);
-
-
+              var timeDelay = 3500;
             </script>
+
+            <% if (claimType == "cbd") { %>
+              <script>
+                timeDelay = 5500;
+              </script>
+              <% } %>
+                <script>  
+                  setTimeout(
+                    function () {
+                      $(".pt-claim-animation-start").toggleClass("transition-content--open");
+                      $(".pt-claim-animation-end").toggleClass("transition-content--open");
+                    }, timeDelay);
+                </script>
 
 </body>
 

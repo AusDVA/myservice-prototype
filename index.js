@@ -1,7 +1,10 @@
 var express = require('express');
 var app = express();
-var serveIndex = require('serve-index');
+var cookieParser = require('cookie-parser')
 
+app.use(cookieParser())
+
+var serveIndex = require('serve-index');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -10,6 +13,9 @@ app.use(express.static(__dirname));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+
+
 
 /*
 /**
@@ -345,14 +351,17 @@ app.get('/claim5', function (request, response) {
 app.get('/claim6', function (request, response) {
   response.render('auth/claim/pages/claim6');
 });
-app.get('/claim7', function (request, response) {
+app.get('/claim7', function (request, response, next) {
   response.render('auth/claim/pages/claim7');
 });
 
 app.get('/claim8', function (request, response, next) {
-  // put the url params in the template
-  response.locals.query = request.query;
-  // console.log(response.locals.query);
+
+  var claimTypeCookie = request.cookies.claimType;
+  // Cookies that have not been signed
+  console.log('Cookies: ', request.cookies)
+
+  response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
 
