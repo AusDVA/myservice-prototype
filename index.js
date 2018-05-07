@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
-var serveIndex = require('serve-index')
+var serveIndex = require('serve-index');
+
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -347,12 +348,15 @@ app.get('/claim6', function (request, response) {
 app.get('/claim7', function (request, response) {
   response.render('auth/claim/pages/claim7');
 });
-app.get('/claim8', function (request, response) {
+
+app.get('/claim8', function (request, response, next) {
+  // put the url params in the template
+  response.locals.query = request.query;
+  response.locals.justtext = 'JUST TEXT';
+  // console.log(response.locals.query);
   response.render('auth/claim/pages/claim8');
 });
-app.get('/claim8a', function (request, response) {
-  response.render('auth/claim/pages/claim8a');
-});
+
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {
@@ -388,8 +392,17 @@ app.get('/studentclaimupload', function (request, response) {
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
 });
+app.get('/viewClaimRejected', function (request, response) {
+  response.render('auth/claim/pages/viewClaimRejected');
+});
 app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
+});
+app.get('/viewClaimWithdrawn', function (request, response) {
+  response.render('auth/claim/pages/viewClaimWithdrawn');
+});
+app.get('/viewClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/viewClaimInProgress');
 });
 
 
@@ -455,7 +468,10 @@ app.get('/afi-claimdetail', function (request, response) {
 });
 
 
-
+/* Qualifying Service */
+app.get('/qs-claimdetail', function (request, response) {
+  response.render('auth/claim/pages/viewQSClaimDetail');
+});
 
 /* Mental health treatment path */
 app.get('/health-card1', function (request, response) {
@@ -581,4 +597,7 @@ app.get('/styleguide-document-uploads', function (request, response) {
 });
 app.get('/styleguide-tooltip', function (request, response) {
   response.render('styleguide/pages/tooltip');
+});
+app.get('/styleguide-animations', function (request, response) {
+  response.render('styleguide/pages/animations');
 });
