@@ -132,20 +132,52 @@
 
 // Toggle styled radio buttons - must render on mobile width screens without wrapping
 // ------------------------------------------------------------------------------------------------------
+$gutter: 0.2em;
 
 .mys-radio-group {
   display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  margin-left: -$gutter;
+
+  .mys-radio {
+    padding-left: $gutter;
+  }
+}
+
+.mys-radio-group--cols-2 > .mys-radio,
+.mys-radio-group--cols-3 > .mys-radio,
+.mys-radio-group--cols-4 > .mys-radio {
+  flex: 0 0 100%;
+  padding-bottom: #{$gutter * 2};
+}
+
+@media (min-width: 30em) {
+  .mys-radio-group--cols-4 > .mys-radio,
+  .mys-radio-group--cols-2 > .mys-radio {
+    flex: 0 0 calc(50% - #{$gutter});
+  }
+}
+
+@media (min-width: 30em) {
+  .mys-radio-group--cols-2 > .mys-radio,
+  .mys-radio-group--cols-3 > .mys-radio,
+  .mys-radio-group--cols-4 > .mys-radio {
+    flex: 1;
+  }
 }
 
 .mys-radio {
   background-color: $white;
-  flex-basis: 0;
-  flex-grow: 1;
-  float: left;
+
+  // flex-basis: 0;
+  // flex-grow: 1;
+  // float: left;
   margin: 0 .2em;
-  overflow: visible;
-  padding: 0;
-  width: 120px;
+
+  // overflow: visible;
+  // padding: 0;
+  // width: 120px;
 }
 
 .mys-radio__control {
@@ -155,11 +187,12 @@
     + .mys-radio__box {
       border: 1px solid $blue-90;
     }
+
     + .mys-radio__box--large {
-      border: 1px solid $blue-90;
       background: url("../images/ico-tick-blue-solid.svg") no-repeat;
-      background-size: 30px 30px;
       background-position: right 10px top 10px;
+      background-size: 30px 30px;
+      border: 1px solid $blue-90;
     }
   }
 
@@ -176,6 +209,7 @@
       color: $white;
       font-weight: normal;
     }
+
     + .mys-radio__box--large {
       background-color: $gray-mild;
       color: $uikit-colour-Text;
@@ -194,15 +228,24 @@
 }
 
 .mys-radio__icon {
-  width:60px;
-  height:60px;
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
+  width: 60px;
+  height: 60px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .mys-radio__box--large {
-  padding:2em;
+  padding: 2em;
+
+  &.mys-radio__box--not-selected {
+    border: 1px solid $gray-mild;
+    color: $black;
+    font-size: 1em;
+    font-style: normal;
+    font-weight: bold;
+    padding: 2em;
+  }
 }
 
 .mys-radio__box--not-selected {
@@ -216,12 +259,12 @@
 }
 
 .mys-radio__box--large-not-selected {
-  padding:2em;
-  border: 1px solid $gray-mild;
-  color: $black!important;
-  font-size: 1em;
-  font-style: normal;
-  font-weight:bold;
+  // padding: 2em;
+  // border: 1px solid $gray-mild;
+  // color: $black !important;
+  // font-size: 1em;
+  // font-style: normal;
+  // font-weight: bold;
 }
 
 .radio-toggle {
