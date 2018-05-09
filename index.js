@@ -466,6 +466,9 @@ app.get('/pi-lsq-claim5', function (request, response) {
 app.get('/pi-lsq-claim6', function (request, response) {
   response.render('auth/claim/pages/pi-lsq-claim6');
 });
+app.get('/pi-lsq-claim6b', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6b');
+});
 app.get('/pi-lsq-claim7', function (request, response) {
   response.render('auth/claim/pages/pi-lsq-claim7');
 });
