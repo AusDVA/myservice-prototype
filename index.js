@@ -415,8 +415,9 @@ app.get('/viewClaimInProgress', function (request, response) {
 app.get('/updateClaimInProgress', function (request, response) {
   response.render('auth/claim/pages/updateClaimInProgress');
 });
-
-
+app.get('/updateClaimInProgressSubmitting', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgressSubmitting');
+});
 
 /* Student assistance flow */
 app.get('/student-assistance-landing', function (request, response) {
