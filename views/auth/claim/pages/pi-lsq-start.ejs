@@ -31,54 +31,63 @@
             <div class="row">
               <div class="col-md-offset-2 col-md-8">
 
-                <h2 class="margin-above--large">When determining your level of Permanent Impairment compensation, we look at the effect your conditions have
-                  <b>on your lifestyle</b>.
+                <h2 class="margin-above--large">When determining your level of Permanent Impairment compensation, we look at the affect your conditions have
+                  on your lifestyle.</h2>
+                <h2>And no one knows how you've been affected better than you.
                 </h2>
 
                 <p class="margin-below">The Lifestyle Questionnaire is your opportunity to
-                  <b>tell your story</b> and contribute to this decision. Alternatively, we can decide how your lifestyle has
-                  been affected by using medical reports already provided to us.</p>
+                  <b>tell us how your conditions are affecting your life</b>. Your story will contribute to the decision on
+                  your level of impairment and may result in a greater rate of compensation.</p>
+                <p>Alternatively, we can decide how your lifestyle has been affected without hearing from you.</p>
 
-                <div class="form-group">
-                  <legend class="legend-label margin-below">Select an option to get started</legend>
-                  <div class="mys-radio-group mys-radio-group--cols-2">
-                    <label class="mys-radio">
-                      <input id="lsq-pathway-tellstory" class="mys-radio__control" type="radio" name="home" value="no">
-                      <span class="mys-radio__box mys-radio__box--large">
-                        <img class="mys-radio__icon" src="../../../../docs/images/ico-message.svg">
-                        <span>Complete a
-                          <br>Lifestyle Questionnaire</span>
-                      </span>
-                    </label>
-                    <label class="mys-radio">
-                      <input id="lsq-pathway-dvadoit" class="mys-radio__control" type="radio" name="home" value="yes-a-little">
-                      <span class="mys-radio__box mys-radio__box--large">
-                        <img class="mys-radio__icon" src="../../../../docs/images/ico-folder.svg">
-                        <span>Have DVA make a decision based on my medical reports.</span>
-                      </span>
-                    </label>
+                <div class="margin-below--extra">
+                  <div class="ss-align--center">
+                    <a id="comparison-button" class="uikit-btn uikit-btn--tertiary accordion accordion--button">Select an option to get started
+                      <span class="accordion__trigger accordion__trigger--closed accordion__trigger--white"></span>
+                    </a>
+                  </div>
+                  <div id="comparison-table" class="transition-content margin-above--large">
+
+                    <div class="form-group">
+                      <div class="mys-radio-group mys-radio-group--cols-2">
+                        <label class="mys-radio">
+                          <input id="lsq-pathway-tellstory" class="mys-radio__control" type="radio" name="home" value="no">
+                          <span class="mys-radio__box mys-radio__box--large">
+                            <img class="mys-radio__icon" src="../../../../docs/images/ico-message.svg">
+                            <span>Complete a
+                              <br>Lifestyle Questionnaire</span>
+                          </span>
+                        </label>
+                        <label class="mys-radio">
+                          <input id="lsq-pathway-dvadoit" class="mys-radio__control" type="radio" name="home" value="yes-a-little">
+                          <span class="mys-radio__box mys-radio__box--large">
+                            <img class="mys-radio__icon" src="../../../../docs/images/ico-folder.svg">
+                            <span>Have DVA make a decision based on my medical reports.</span>
+                          </span>
+                        </label>
+                      </div>
+                    </div>
+
+                    <div class="uikit-page-alerts uikit-page-alerts--info margin-below--large" style="display:none;" id="lsq-pathway-tellstory--info">
+                      <p>Answer based on your worst day. Take into consideration all your accepted conditions. We have sent
+                        you an email with the accepted conditions being assessed in this claim.
+                      </p>
+                    </div>
+
+                    <div class="pagination">
+                      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth?user=LSQuser'">Back to Claims page</button>
+                      <div class="floated">
+                        <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
+
+
               </div>
             </div>
-
-            <div class="row">
-              <div class="col-md-offset-2 col-md-8">
-                <div class="uikit-page-alerts uikit-page-alerts--info margin-below--large" style="display:none;" id="lsq-pathway-tellstory--info">
-                  <p>Answer based on your worst day. Take into consideration all your accepted conditions. We have sent you
-                    an email with the accepted conditions being assessed in this claim.
-                  </p>
-                </div>
-
-                <div class="pagination">
-                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth?user=LSQuser'">Back to Claims page</button>
-                  <div class="floated">
-                    <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
 
             <% include ../partials/cancel-modal.ejs %>
           </div>
@@ -89,6 +98,18 @@
           <% include ../partials/panel-help.ejs %>
 
             <script>
+
+              // $('#comparison-table').hide();
+              $("#comparison-button").click(function () {
+                $("#comparison-table").toggleClass("transition-content--open");
+                $(this).find('.accordion__trigger').toggleClass('accordion__trigger--closed');
+              });
+
+
+              $(".toggle-arrow ").click(function () {
+                $(".simple-accordion ").toggleClass('simple-accordion--open simple-accordion--closed');
+              });
+
               $(Document).ready(function () {
                 $("#btnNext").click(function () { window.location.href = "/pi-lsq-claim1" });
 
