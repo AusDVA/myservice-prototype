@@ -412,6 +412,9 @@ app.get('/viewClaimWithdrawn', function (request, response) {
 app.get('/viewClaimInProgress', function (request, response) {
   response.render('auth/claim/pages/viewClaimInProgress');
 });
+app.get('/updateClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgress');
+});
 
 
 
