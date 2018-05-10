@@ -284,8 +284,37 @@
       </main>
       <% include ../auth/partials/modal-deleteclaim.ejs %>
         <% include ../global/partials/footer.ejs %>
+          <script>
+            function makeToast(pType, pMessage) {
+              var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
+              $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
+                '<span class="sr">' +
+                pType + '</span>');
+              $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
+              return $('<div class="toast-container"></div>').append($element);
+            }
 
+            if (localStorage.getItem('updateClaimInProgress')) {
+              var settings = JSON.parse(localStorage.getItem('updateClaimInProgress'));
 
+              var submitted = settings.actions.some(pAction => {
+                return pAction.status === 'submitted'
+              })
+
+              if (submitted) {
+                $('#main-content').append(makeToast('success', 'Documents successfully submitted'))
+
+              }
+
+              settings.actions.forEach(pAction => {
+                if (pAction.status === 'submitted') {
+                  pAction.status = 'complete'
+                }
+              })
+
+              localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
+            }
+          </script>
 </body>
 
 </html>
