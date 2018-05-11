@@ -22,12 +22,11 @@
           <div class="container" id="main-content">
 
             <h1>
-              <span class="heading">Education assistance claim</span>
+              <span class="heading">Education allowance for Kim</span>
             </h1>
-            <h2>Kim's education assistance claim has outstanding actions</h2>
-            <p>If you don't provide these now, a delegate will contact you for the documents and your claim could take longer
-              to process.</p>
-            <p>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB. </p>
+            <h2>We still need some documents from you to process your claim</h2>
+            <p>Please upload and submit the documents below.</p>
+            <p>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
 
             <!-- Actions -->
             <fieldset>
@@ -109,11 +108,11 @@
           <div id="warning" class="modal-window">
             <div>
               <a href="#modal-close" title="Close" class="modal-close">Close</a>
-              <h2>Leaving this page will discard your uploads</h2>
-              <p>Are you sure you want to leave this page</p>
+              <h2>Your documents are still not submitted</h2>
+              <p>Do you want to stay on this page and submit your uploaded documents?</p>
               <div class="modal-buttons">
-                <button class="uikit-btn" onclick="window.location.href = '/index-claims'">Leave page</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
+                <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'">Leave page</button>
               </div>
             </div>
           </div>
@@ -143,7 +142,7 @@
             if (storage) {
               settings = JSON.parse(storage)
               if (settings.actions.every(pAction => pAction.status === STATUS_SUBMITTED || pAction.status ===
-                STATUS_COMPLETE)) {
+                  STATUS_COMPLETE)) {
                 localStorage.setItem(STORAGE_PROPERTY, JSON.stringify(DEFAULT_SETTINGS))
               } else {
                 settings.actions.forEach(pAction => {
@@ -166,13 +165,15 @@
                 }
               })
 
+              var someRequired = settings.actions.some(pAction => pAction.status === STATUS_REQUIRED)
+
+              if (!someRequired) {
+                settings.actions.forEach(pAction => pAction.status = STATUS_COMPLETE)
+              }
+
               localStorage.setItem(STORAGE_PROPERTY, JSON.stringify(settings))
 
-              var incomplete = settings.actions.some(pAction => {
-                return pAction.status === STATUS_REQUIRED
-              })
-
-              window.location.href = incomplete ? '/index-claims' : '/updateClaimInProgressSubmitting'
+              window.location.href = someRequired ? '/index-claims' : '/updateClaimInProgressSubmitting'
             })
 
             function onChangeHandler(pClassName, pEvent) {
