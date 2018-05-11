@@ -52,7 +52,7 @@
 												<th class="widget-actions">Actions</th>
 											</tr>
 										</thead>
-										<tr id="qsclaim">
+										<tr id="qs-claim">
 											<td>
 												<p class="status-icon status-approved">
 													Qualifying Service
@@ -64,6 +64,34 @@
 											</td>
 											<td class="widget-actions">
 												<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'qs-claimdetail'">View</button>
+											</td>
+										</tr>
+										<tr id="lsq-claim">
+											<td>
+												<p class="status-icon status-incomplete">
+													Permanent Impairment Lifestyle Questionnaire
+													<br />
+													<span>Incomplete
+														<em>&ndash; 3 May 2018</em>
+													</span>
+												</p>
+											</td>
+											<td class="widget-actions">
+												<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'pi-lsq-start'">Resume</button>
+											</td>
+										</tr>
+										<tr id="lsq-claim-submitted">
+											<td>
+												<p class="status-icon status-submitted">
+													Permanent Impairment Lifestyle Questionnaire
+													<br />
+													<span>Submitted
+														<em>&ndash; 3 May 2018</em>
+													</span>
+												</p>
+											</td>
+											<td class="widget-actions">
+												<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewPI-LSQ-detail'">View</button>
 											</td>
 										</tr>
 									</table>
@@ -114,41 +142,54 @@
 			<% include ../global/partials/footer.ejs %>
 </body>
 <script>
-	if (window.location.pathname === "/auth") {
-		console.log('loading init');
-		localStorage.clear();
-		var getUrlParameter = function getUrlParameter(sParam) {
-			var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-				sURLVariables = sPageURL.split('&'),
-				sParameterName,
-				i;
-			for (i = 0; i < sURLVariables.length; i++) {
-				sParameterName = sURLVariables[i].split('=');
 
-				if (sParameterName[0] === sParam) {
-					return sParameterName[1] === undefined ? true : sParameterName[1];
-				}
-			}
-		};
+	$(document).ready(function () {
+		localStorage.clear();
+
 		var user = getUrlParameter('user');
 		if (user) {
 			localStorage.setItem('user', user);
 		}
-		if (user !== localStorage.getItem('user')) {
-			window.location.reload(true);
-		}
+
+		$("#claims").hide();
+		$("#qs-claim").hide();
+		$("#lsq-claim").hide();
+		$("#lsq-claim-submitted").hide();
+
 		if (localStorage.getItem('user') === 'QSuser') {
 			$("#no-claims").hide();
 			$("#claims").show();
+			$("#lsq-claim").hide();
+			$("#lsq-claim-submitted").hide();
 			$("#qs-claim").show();
 			$(".widget-content").addClass("widget--justclaims");
 			$(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-		} else {
+		}
+		else if (localStorage.getItem('user') === 'LSQuser') {
+			$("#no-claims").hide();
+			$("#claims").show();
+			$("#qs-claim").hide();
+			$("#lsq-claim-submitted").hide();
+			$("#lsq-claim").show();
+			$(".widget-content").addClass("widget--justclaims");
+			$(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
+		}
+		else if (localStorage.getItem('user') === 'LSQuser-submitted') {
+			$("#no-claims").hide();
+			$("#claims").show();
+			$("#qs-claim").hide();
+			$("#lsq-claim").hide();
+			$("#lsq-claim-submitted").show();
+			$(".widget-content").addClass("widget--justclaims");
+			$(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
+		}
+		else {
 			$("#no-claims").show();
 			$("#claims").hide();
 			$("#qs-claim").hide();
 		}
-	}
+	});
+
 </script>
 
 </html>

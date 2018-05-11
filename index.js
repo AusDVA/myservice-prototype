@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
-var serveIndex = require('serve-index')
+var cookieParser = require('cookie-parser')
+
+app.use(cookieParser())
+
+var serveIndex = require('serve-index');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -9,6 +13,9 @@ app.use(express.static(__dirname));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+
+
 
 /*
 /**
@@ -344,15 +351,20 @@ app.get('/claim5', function (request, response) {
 app.get('/claim6', function (request, response) {
   response.render('auth/claim/pages/claim6');
 });
-app.get('/claim7', function (request, response) {
+app.get('/claim7', function (request, response, next) {
   response.render('auth/claim/pages/claim7');
 });
-app.get('/claim8', function (request, response) {
+
+app.get('/claim8', function (request, response, next) {
+
+  var claimTypeCookie = request.cookies.claimType;
+  // Cookies that have not been signed
+  console.log('Cookies: ', request.cookies)
+
+  response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
-app.get('/claim8a', function (request, response) {
-  response.render('auth/claim/pages/claim8a');
-});
+
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {
@@ -400,8 +412,12 @@ app.get('/viewClaimWithdrawn', function (request, response) {
 app.get('/viewClaimInProgress', function (request, response) {
   response.render('auth/claim/pages/viewClaimInProgress');
 });
-
-
+app.get('/updateClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgress');
+});
+app.get('/updateClaimInProgressSubmitting', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgressSubmitting');
+});
 
 /* Student assistance flow */
 app.get('/student-assistance-landing', function (request, response) {
@@ -433,15 +449,37 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
-app.get('/pi-start', function (request, response) {
-  response.render('auth/claim/pages/pi-start');
+app.get('/pi-lsq-start', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-start');
 });
-app.get('/pi-claim1', function (request, response) {
-  response.render('auth/claim/pages/pi-claim1');
+app.get('/pi-lsq-claim1', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim1');
 });
-app.get('/pi-claim2', function (request, response) {
-  response.render('auth/claim/pages/pi-claim2');
+app.get('/pi-lsq-claim2', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim2');
 });
+app.get('/pi-lsq-claim3', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim3');
+});
+app.get('/pi-lsq-claim4', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim4');
+});
+app.get('/pi-lsq-claim5', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim5');
+});
+app.get('/pi-lsq-claim6', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6');
+});
+app.get('/pi-lsq-claim6b', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6b');
+});
+app.get('/pi-lsq-claim7', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim7');
+});
+app.get('/viewPI-LSQ-detail', function (request, response) {
+  response.render('auth/claim/pages/viewPI-LSQ-detail');
+});
+
 
 /* Disability pension AFI (application for increase) */
 app.get('/afi-start', function (request, response) {

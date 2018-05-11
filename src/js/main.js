@@ -1,4 +1,20 @@
 
+var getUrlParameter = function getUrlParameter(sParam) {
+	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+		sURLVariables = sPageURL.split('&'),
+		sParameterName,
+		i;
+
+	for (i = 0; i < sURLVariables.length; i++) {
+		sParameterName = sURLVariables[i].split('=');
+
+		if (sParameterName[0] === sParam) {
+			return sParameterName[1] === undefined ? true : sParameterName[1];
+		}
+	}
+};
+
+
 jQuery(document).ready(function ($) {
 	// open the panel
 	$('.panel-btn').on('click', function (event) {
@@ -241,22 +257,33 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
+	// Large icon-based check boxes 
+	// $(".mys-radio__control").click(function (ev) {
+	// 	let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
+	// 	let thisBox = $(this).next(".mys-radio__box");
+	// 	$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
+	// 	$(siblings).not(thisBox).addClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
+	// });
+
+	// $(".mys-radio-group").mouseover(function (ev) {
+	// 	let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+	// 	if (checkedBox.length !== 0) {
+	// 		let siblings = $(this).find(".mys-radio__box");
+	// 		let checkedBox = $(this).next(".mys-radio__box");
+	// 		$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
+	// 	}
+	// });
+
+	// $(".mys-radio-group").mouseleave(function (ev) {
+	// 	let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+	// 	if (checkedBox.length !== 0) {
+	// 		let siblings = $(this).find(".mys-radio__box");
+	// 		$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
+	// 		$(siblings).not(checkedBox).addClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
+	// 	}
+	// });
 
 
-	var getUrlParameter = function getUrlParameter(sParam) {
-		var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-			sURLVariables = sPageURL.split('&'),
-			sParameterName,
-			i;
-
-		for (i = 0; i < sURLVariables.length; i++) {
-			sParameterName = sURLVariables[i].split('=');
-
-			if (sParameterName[0] === sParam) {
-				return sParameterName[1] === undefined ? true : sParameterName[1];
-			}
-		}
-	};
 
 
 	var claimType = getUrlParameter('claimType');
@@ -264,9 +291,9 @@ jQuery(document).ready(function ($) {
 	if (claimType) {
 		localStorage.setItem('claimType', claimType);
 	}
-	if (localStorage.getItem('claimType') === 'cbd') {
-		$(".pt-claim-type--cbd").show();
-		$(".pt-claim-type--normal").hide();
-	}
+	// if (localStorage.getItem('claimType') === 'cbd') {
+	// 	$(".pt-claim-type--cbd").show();
+	// 	$(".pt-claim-type--normal").hide();
+	// }
 
 });

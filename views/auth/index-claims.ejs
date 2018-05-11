@@ -77,7 +77,22 @@
                       </td>
                       <td class="widget-actions">
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claimdetail'">View</button>
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button>
+                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="status-icon status-incomplete">
+                          Increase to Disability Pension
+                          <br />
+                          <span>Incomplete
+                            <em>&ndash; 27 April 2018</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claimdetail'">View</button>
+                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
                       </td>
                     </tr>
                     <tr>
@@ -91,7 +106,22 @@
                         </p>
                       </td>
                       <td class="widget-actions">
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/pi-start'">Start</button>
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/pi-lsq-start'">Start</button>
+                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="status-icon status-submitted">
+                          Permanent Impairment Lifestyle Questionnaire
+                          <br />
+                          <span>Submitted
+                            <em>&ndash; 8 May 2018</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/viewPI-LSQ-detail'">View</button>
                         <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
                       </td>
                     </tr>
@@ -186,12 +216,13 @@
                         <p class="status-icon status-in-progress">
                           Education assistance for Kim
                           <br />
-                          <span>In progress
+                          <span>Action Required
                             <em>&ndash; 3 Jan 2018</em>
                           </span>
                         </p>
                       </td>
                       <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'updateClaimInProgress'">Update</button>
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button>
                       </td>
@@ -253,8 +284,37 @@
       </main>
       <% include ../auth/partials/modal-deleteclaim.ejs %>
         <% include ../global/partials/footer.ejs %>
+          <script>
+            function makeToast(pType, pMessage) {
+              var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
+              $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
+                '<span class="sr">' +
+                pType + '</span>');
+              $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
+              return $('<div class="toast-container"></div>').append($element);
+            }
 
+            if (localStorage.getItem('updateClaimInProgress')) {
+              var settings = JSON.parse(localStorage.getItem('updateClaimInProgress'));
 
+              var submitted = settings.actions.some(pAction => {
+                return pAction.status === 'submitted'
+              })
+
+              if (submitted) {
+                $('#main-content').append(makeToast('success', 'Documents successfully submitted'))
+
+              }
+
+              settings.actions.forEach(pAction => {
+                if (pAction.status === 'submitted') {
+                  pAction.status = 'complete'
+                }
+              })
+
+              localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
+            }
+          </script>
 </body>
 
 </html>
