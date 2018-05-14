@@ -482,6 +482,9 @@ app.get('/pi-lsq-claim7b', function (request, response) {
 app.get('/viewPI-LSQ-detail', function (request, response) {
   response.render('auth/claim/pages/viewPI-LSQ-detail');
 });
+app.get('/viewPI-LSQ-detailb', function (request, response) {
+  response.render('auth/claim/pages/viewPI-LSQ-detailb');
+});
 
 
 /* Disability pension AFI (application for increase) */
