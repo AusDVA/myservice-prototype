@@ -990,7 +990,7 @@ jQuery(document).ready(function ($) {
         localStorage.removeItem('studentLevelOfStudy');
         localStorage.setItem('studentLevelOfStudy', 'primary');
         $(".pagination").find('button').prop('disabled', false);
-      } else if (selected_option === 'secondary') {
+      } else if (selected_option.startsWith('secondary')) {
 
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfTertiary").hide();
@@ -1002,7 +1002,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentLevelOfStudy', 'secondary');
 
         $(".pagination").find('button').prop('disabled', false);
-      } else if (selected_option === 'tertiary' || selected_option === 'apprenticeship') {
+      } else if (selected_option.startsWith('tertiary') || selected_option === 'apprenticeship') {
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfPrimary").hide();
         $(".pt-showIfSecondary").hide();
