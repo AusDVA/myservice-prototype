@@ -76,6 +76,13 @@
                         style="max-width: 22em;">
                     </div>
 
+                    <!-- TFN - only for 18+ year olds -->
+                    <div class="display-none form-group margin-below--none tfn-group">
+                      <label class="uikit-text-input__label" for="TFN" id="question_id32">Tax File Number</label>
+                      <p>// Only meant for students 18+</p>
+                      <input class="uikit-text-input" name="tfn" id="tfn" type="number" value="" required="" aria-required="true" style="max-width: 22em;">
+                    </div>
+
                 </div>
 
                 <div class="pt-flow--student pt-flow--claimant pt-flow--veteran pt-showIfStudentBetween16and18">
@@ -168,13 +175,22 @@
 
         <% include ../../../global/partials/footer.ejs %>
           <script src="/docs/js/students.js "></script>
+          <script>
+            $(document).ready(function () {
+              let age = localStorage.getItem('studentAge');
+              console.debug('in studentclaim4 - age: ', age);
+              if (age && age >= 18) {
+                $(".pt-tfnClaimantStudent").show();
+                $(".pt-tfnClaimantStudent").removeClass('display-none');
+                $(".tfn-group").removeClass('display-none');
+              }
+            });
+          </script>
           <% include ../partials/panel-help.ejs %>
 
-            <script>
 
-              // Progress percentage
-              // document.getElementById("percentage ").style.width ="75% ";
-              // document.getElementById("percentage ").style.width = "80% ";
+            // Progress percentage // document.getElementById("percentage ").style.width ="75% "; // document.getElementById("percentage").style.width
+            = "80% ";
 
 
 
