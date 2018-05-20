@@ -524,133 +524,124 @@
 }
 
 /* Tooltip */
-.uikit-body a.tooltip__trigger {
-  border-bottom: none;
-}
-
-.uikit-body a.tooltip__trigger-withlabel {
-  .tooltop__trigger-label {
-    border-bottom: solid 1px $uikit-colour-Primary;
-  }
-}
 
 .tooltip {
-  width: 100%;
+  position: relative;
 }
 
-@media only screen and (max-width: $medium-handheld) {
-  .tooltip {
-    width: 100%;
+.tooltip__inline-block {
+  display: inline-block;
+}
+
+.tooltip__control {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+}
+
+.tooltip__label {
+  padding: 0 25px 0 0;
+  background: url(../images/ico-help-mid-gray.svg);
+  background-repeat: no-repeat;
+  background-position: 100% 50%;
+  background-size: 20px 20px;
+  white-space: nowrap;
+
+  &--icon-only {
+    overflow: hidden;
+    background-position: 0 50%;
+    padding: 0 0 0 20px;
+    width: 0;
+    height: 20px;
   }
 }
 
-.tooltip__body {
-  background: $blue-10; // url("../images/ico-info-thin-blue.svg") no-repeat 1em 2.2em;
-  background-size: 35px 35px; // explicit dimensions due to buggy SVG rendering in IE.
-  border: 1px solid $blue-60;
-  border-radius: 0.3em;
-  bottom: -6px;
-  left: -8px;
-  max-width: $uikit-maxwidth;
-  opacity: 1;
-  outline: medium none;
-  -webkit-filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
-  padding: 1.5em;
-  padding-top:2.4em;
+.tooltip__tab {
   position: absolute;
-  z-index: 9100;
-}
+  padding: 13px 0;
+  top: -13px;
+  width: 100%;
+  height: 100%;
 
-.tooltip[aria-hidden='true'] {
-  display: none;
-}
+  &--active::before {
+    content: '';
+    left: 50%;
+    margin-left: -12px;
+    position: absolute;
+    z-index: 1;
+  }
 
-.tooltip[aria-hidden='false'] {
-  display: block;
-}
+  &--top::before {
+    border: 12px solid;
+    border-color: $blue-60 transparent transparent;
+    top: -1px;
+  }
 
-.hidden {
-  display: none;
+  &--bottom::before {
+    border: 12px solid;
+    border-color: transparent transparent $blue-60;
+    bottom: -1px;
+  }
+
+  &--active::after {
+    content: '';
+    left: 50%;
+    margin-left: -11px;
+    position: absolute;
+    z-index: 2;
+  }
+
+  &--top::after {
+    border: 11px solid;
+    border-color: $blue-10 transparent transparent;
+    top: -1px;
+  }
+
+  &--bottom::after {
+    border: 11px solid;
+    border-color: transparent transparent $blue-10;
+    bottom: -1px;
+  }
 }
 
 .tooltip__content {
-  width: 100%;
-}
-
-.tooltip__trigger-icon {
-  background: url(../images/ico-help-mid-gray.svg) no-repeat;
-  border-bottom: 0;
-  display: inline-block;
-  height: 20px;
-  margin: $margin-zero;
-  width: 20px;
-}
-
-.tooltip__trigger {
-  display: inline-block;
-  height: 20px;
-  margin-left: 10px;
-  margin-top: 14px;
-}
-
-.tooltip__trigger-marker {
-  &::before {
-    border: 11px solid;
-    border-color: $blue-60 transparent transparent;
-    content: '';
-    display: block;
-    height: 0;
-    left: 293px;
-    position: absolute;
-    top: 39px;
-    width: 0;
-    z-index: 9200;
-  }
-
-  &::after {
-    border: 10px solid;
-    border-color: $blue-10 transparent transparent;
-    content: '';
-    left: 294px;
-    position: absolute;
-    top: 38px;
-    z-index: 9201;
-  }
-}
-
-.arrow-triangle {
-  background-color: $blue-60;
-  text-align: left;
-  display: inline-block;
-}
-
-.arrow-triangle:before,
-.arrow-triangle:after {
-  content: '';
   position: absolute;
-  background-color: inherit;
+  z-index: 1;
+
+  &[aria-hidden='true'] {
+    display: none;
+  }
 }
 
-.arrow-triangle,
-.arrow-triangle:before,
-.arrow-triangle:after {
-  width: 0.5em;
-  height: 0.5em;
-  border-top-right-radius: 30%;
+.tooltip__message {
+  background: $blue-10; // url("../images/ico-info-thin-blue.svg") no-repeat 1em 2.2em;
+  border: 1px solid $blue-60;
+  border-radius: 0.3em;
+  max-width: $uikit-maxwidth;
+  opacity: 1;
+  outline: medium none;
+  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
+  padding: 3em 2em 2em 2em;
 }
 
-.arrow-triangle.down {
-  transform: rotate(-120deg) skewX(-30deg) scale(1, 0.866);
-  left: -1px;
-  z-index: 9001;
-  position: relative;
-  top: -18px;
-}
+.tooltip__close {
+  right: 0.5em;
+  top: 0.5em;
+  position: absolute;
+  max-height: 40px;
+  background-image: url('../images/ico-close-thin-black.svg');
+  background-repeat: no-repeat;
+  background-size: 32px 32px;
+  background-position: 6px 5px;
+  padding: 0.5em 0.5em 0.5em 2.8em;
+  z-index: 2;
+  cursor: pointer;
 
-.arrow-triangle:before {
-  transform: rotate(-135deg) skewX(-45deg) scale(1.414, 0.707) translate(0, -50%);
-}
+  &:focus {
+    background-color: #fff;
+  }
 
-.arrow-triangle:after {
-  transform: rotate(135deg) skewY(-45deg) scale(0.707, 1.414) translate(50%);
+  &:hover {
+    background-color: $uikit-colour-Link;
+  }
 }
