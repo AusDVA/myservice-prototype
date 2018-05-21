@@ -397,25 +397,27 @@ h3.heading-icon {
   align-items: center;
   display: flex;
   list-style: none;
-
-  // max-width: 900px; //fix
-  padding: 0 0 40px 0;
+  padding: 0 0 40px;
 }
 
-.progress-step,
-.progress-step a {
+.progress-step {
   align-items: center;
+  border-bottom: solid 3px $gray-mild;
   display: flex;
-  flex-direction: row;
+  flex: 1;
   position: relative;
   z-index: 1;
 
-  &:hover,
-  &:active,
-  &:focus {
-    background-color: transparent;
-    outline: 0; // fix
-    text-decoration: none;
+  a {
+    border-bottom: 0;
+
+    &:hover,
+    &:active,
+    &:focus {
+      background-color: transparent;
+      outline: 0; // fix
+      text-decoration: none;
+    }
   }
 }
 
@@ -423,41 +425,66 @@ h3.heading-icon {
   background: $gray-mild;
   border-bottom: 0;
   border-radius: 50%;
-  display: block; // Added for IE10
+  display: block; //  for IE10
   height: 11px;
+  left: -1px;
   line-height: 12px;
   margin: 0;
   position: relative;
-  top: 6px;
+  top: 7px;
   width: 11px;
 }
 
-.progress-step--active,
+.progress-step--active {
+  .progress-step__icon {
+    background-color: transparent;
+
+    // little circle
+    &::before {
+      background: $white;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 6px;
+      left: 2px;
+      margin: 0;
+      position: relative;
+      top: 2px;
+      width: 6px;
+    }
+
+    // big circle
+    &::after {
+      background: $blue;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 18px;
+      left: -4px;
+      margin: 0;
+      position: relative;
+      top: -10px;
+      width: 18px;
+      z-index: -1;
+    }
+  }
+}
+
 .progress-step--done {
+  border-bottom: solid 3px $blue;
+
   .progress-step__icon {
     background: $blue;
   }
+}
 
+.progress-step--done,
+.progress-step--active {
   .progress-step-label {
     color: $black;
     font-style: initial;
     font-weight: bold;
   }
-}
-
-.progress-step {
-  border-bottom: solid 2px $gray-mild;
-  display: inline-block;
-  flex: 1;
-  position: relative;
-
-  a {
-    border-bottom: 0;
-  }
-}
-
-.progress-step--done {
-  border-bottom: solid 2px $blue;
 }
 
 .progress-step-label {
@@ -470,23 +497,16 @@ h3.heading-icon {
   transform: translateX(-50%) translateX(5px);
 }
 
-.progress-step.progress-step--done .progress-step-label {
-  color: $black;
-}
-
-/* Small devices Tablets (≥768px) */
 @media (min-width: 768px) {
-  /* progress-stepper */
-  .progress-step .progress-step-label {
+  .progress-step-label {
     display: block;
   }
 }
 
-/* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
-  /* progress-stepper */
-  .progress-step .progress-step-label {
-    min-width: 130px;
-    max-width: 130px;
+  .progress-step-label {
+    // min-width: 130px;
+    // max-width: 230px;
+ 
   }
 }
