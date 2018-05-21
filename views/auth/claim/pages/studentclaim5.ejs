@@ -129,18 +129,20 @@
                 <td>1234567809</td>
               </tr>
             </table>
-            <p>By clicking
-              <strong>submit claim</strong> you confirm this information is correct.</p>
-            <div class="pagination pagination--ss-reverse-order">
+            <% include ../partials/uploads-shopping-cart.ejs %>
 
-              <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = '/studentclaim6'">Submit claim</button>
+              <p>By clicking
+                <strong>submit claim</strong> you confirm this information is correct.</p>
+              <div class="pagination pagination--ss-reverse-order">
+
+                <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                <div class="floated">
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/index-claims'">Save and exit</button>
+                  <button class="uikit-btn btnNext" onclick="window.location.href = '/studentclaim6'">Submit claim</button>
+                </div>
               </div>
-            </div>
-            <% include ../partials/cancel-modal.ejs %>
+              <% include ../partials/cancel-modal.ejs %>
           </div>
 
         </main>
@@ -153,27 +155,51 @@
 
               // Progress percentage
               // document.getElementById("percentage").style.width = "87.5%";
+              $(document).ready(function () {
+                $("#btnAddNominee").click(function () {
+                  $(".nominee-details-container").show("fast");
+                  $("#btnAddNominee").hide();
+                  $("#btnCancelNominee").show("fast");
+                  $("#nominee-name").focus();
+                });
+                $("#btnCancelNominee").click(function () {
+                  $(".nominee-details-container").hide("fast");
+                  $("#btnCancelNominee").hide();
+                  $("#btnAddNominee").show();
+                });
+                $(".nominee-save").click(function () {
+                  $(".nominee-details").hide();
+                  $(".toast-saved").show("fast");
+                  $(".nominee-intro").hide("fast");
+                });
+                $(".message-close").click(function () {
+                  $(".nominee-details-container").hide("fast");
+                });
+                // Modify Document Uploads that is normally pushed to the right to sit at bottom on content as view-only
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-5').removeClass('col-sm-5').addClass('col-sm-12');
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').removeClass('display-none');
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').removeAttr("style")
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').show();
 
-              $("#btnAddNominee").click(function () {
-                $(".nominee-details-container").show("fast");
-                $("#btnAddNominee").hide();
-                $("#btnCancelNominee").show("fast");
-                $("#nominee-name").focus();
-              });
-              $("#btnCancelNominee").click(function () {
-                $(".nominee-details-container").hide("fast");
-                $("#btnCancelNominee").hide();
-                $("#btnAddNominee").show();
-              });
-              $(".nominee-save").click(function () {
-                $(".nominee-details").hide();
-                $(".toast-saved").show("fast");
-                $(".nominee-intro").hide("fast");
-              });
-              $(".message-close").click(function () {
-                $(".nominee-details-container").hide("fast");
-              });
+                $('h2.heading-highlight:contains("Document uploads")').text('Documents uploaded');
 
+                let age = localStorage.getItem('studentAge');
+                console.debug('in studentclaim5 - age: ', age);
+                if (age && age >= 18) {
+                  $(".pt-tfnClaimantStudent").show();
+                  $(".pt-tfnClaimantStudent").removeClass('display-none');
+
+                  $(".hide-in-view-only").hide();
+                  $(".show-in-view-only").show();
+                  $(".show-in-view-only").removeClass('display-none');
+                  $(".show-in-view-only").text("C:\\documents\\TFN_declaration_form_N3092.pdf")
+
+                  $("tr td.file-status--required").removeClass('file-status--required').addClass('file-status--uploaded');
+                } else {
+                  $(".no-documents-to-upload").show();
+                  $(".no-documents-to-upload").removeClass('display-none');
+                }
+              });
             </script>
 
 </body>

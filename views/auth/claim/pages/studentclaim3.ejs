@@ -47,9 +47,11 @@
                   <legend class="legend-label" id="question_id10"></legend>
                   <select id="studentLevelOfStudy" class="uikit-text-input input-half">
                     <option value="">-- Select a level --</option>
-                    <option value="primary">Primary / secondary</option>
-                    <option value="tertiary">Tertiary</option>
-                    <option value="apprenticeship">Apprenticeship / traineeship</option>
+                    <option value="primary">Primary</option>
+                    <option value="secondary">Secondary</option>
+                    <option value="secondary-tafe">Secondary - TAFE</option>
+                    <option value="tertiary-tafe">Tertiary TAFE / Other</option>
+                    <option value="tertiary-uni">Tertiary University</option>
                   </select>
 
                 </div>
@@ -221,12 +223,72 @@
           <script src="/docs/js/students.js"></script>
           <% include ../partials/panel-help.ejs %>
 
+            <script src="/docs/js/jquery-ui.min.js"></script>
 
             <script>
 
               // Progress percentage
               // document.getElementById("percentage").style.width = "40%";
+              $(function () {
 
+                var availableInstitutions = [
+                  { label: "AUSTRALIAN CATHOLIC UNIVERSITY (ACU)", category: "" },
+                  { label: "BATCHELOR INSTITUTE OF INDIGENOUS TERTIARY EDUC", category: "" },
+                  { label: "BOND UNIVERSITY", category: "" },
+                  { label: "CARNEGIE MELLON UNIVERSITY AUSTRALIA - CMU", category: "" },
+                  { label: "CHARLES DARWIN UNI - CDU", category: "" },
+                  { label: "CHARLES STURT UNIVERSITY (CSU)", category: "" },
+                  { label: "CQUNIVERSITY (CQU)- HIGHER ED COURSES", category: "" },
+                  { label: "CURTIN UNIVERSITY", category: "" },
+                  { label: "DEAKIN UNIVERSITY", category: "" },
+                  { label: "EDITH COWAN UNIVERSITY (ECU)", category: "" },
+                  { label: "FEDERATION UNIVERSITY - HIGHER ED - FEDUNI", category: "" },
+                  { label: "FLINDERS UNIVERSITY", category: "" },
+                  { label: "GRIFFITH UNIVERSITY (GU)", category: "" },
+                  { label: "JAMES COOK UNIVERSITY (JCU)", category: "" },
+                  { label: "LA TROBE UNIVERSITY", category: "" },
+                  { label: "MACQUARIE UNIVERSITY", category: "" },
+                  { label: "MONASH UNIVERSITY", category: "" },
+                  { label: "MURDOCH UNIVERSITY", category: "" },
+                  { label: "OPEN UNIVERSITIES AUSTRALIA - OUA", category: "" },
+                  { label: "QUEENSLAND UNIVERSITY OF TECHNOLOGY (QUT)", category: "" },
+                  { label: "RMIT UNIVERSITY", category: "" },
+                  { label: "SOUTHERN CROSS UNIVERSITY (SCU)", category: "" },
+                  { label: "SWINBURNE UNIVERSITY OF TECHNOLOGY", category: "" },
+                  { label: "TORRENS UNIVERSITY AUSTRALIA", category: "" },
+                  { label: "UNIVERSITY OF ADELAIDE", category: "" },
+                  { label: "AUSTRALIAN NATIONAL UNIVERSITY (ANU)", category: "" },
+                  { label: "UNIVERSITY OF CANBERRA (UC)", category: "" },
+                  { label: "UNIVERSITY OF MELBOURNE (UNIMELB)", category: "" },
+                  { label: "UNIVERSITY OF NEW ENGLAND (UNE)", category: "" },
+                  { label: "UNIVERSITY OF NEWCASTLE - UON", category: "" },
+                  { label: "UNIVERSITY OF NOTRE DAME AUSTRALIA - UNDA", category: "" },
+                  { label: "UNIVERSITY OF NSW - UNSW", category: "" },
+                  { label: "UNIVERSITY OF QUEENSLAND (UQ)", category: "" },
+                  { label: "UNIVERSITY OF SOUTH AUSTRALIA (UNISA)", category: "" },
+                  { label: "UNIVERSITY OF SOUTHERN QUEENSLAND (USQ)", category: "" },
+                  { label: "UNIVERSITY OF SYDNEY", category: "" },
+                  { label: "UNIVERSITY OF TASMANIA (UTAS)", category: "" },
+                  { label: "UNIVERSITY OF TECHNOLOGY SYDNEY (UTS)", category: "" },
+                  { label: "UNIVERSITY OF THE SUNSHINE COAST (USC)", category: "" },
+                  { label: "UNIVERSITY OF WESTERN AUSTRALIA (UWA)", category: "" },
+                  { label: "UNIVERSITY OF WOLLONGONG (UOW)", category: "" },
+                  { label: "VICTORIA UNIVERSITY - HIGHER ED - VU", category: "" },
+                  { label: "WESTERN SYDNEY UNIVERSITY (WSU)", category: "" }
+                ];
+
+                $("#schoolNameInput").autocomplete({
+                  source: availableInstitutions,
+                  select: function (event, ui) {
+                    // js.cookies dependancy 
+                    Cookies.remove('institution');
+                    // checking if it's a condition that is a candidate for a computer based decision 
+                    if (ui.item.category === 'cbd') {
+                      Cookies.set('institution', 'cbd', { expires: 1 });
+                    }
+                  }
+                });
+              });
             </script>
 
 
