@@ -222,7 +222,7 @@ jQuery(document).ready(function ($) {
         }
         if (!("claimantFlow" in localStorage)) {
           // if student 16 or 17 ask for TFN
-          if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
+          if (localStorage.getItem('studentAge') <= 18 && localStorage.getItem('studentAge') > 15) {
             $(".pt-showIfStudentBetween16and18").show();
           } else {
             $(".pt-showIfStudentBetween16and18").hide();
@@ -247,7 +247,7 @@ jQuery(document).ready(function ($) {
 
         // if student 16 or 17 ask for TFN
         if (!("claimantFlow" in localStorage)) {
-          if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
+          if (localStorage.getItem('studentAge') <= 18 && localStorage.getItem('studentAge') > 15) {
             $(".pt-showIfStudentBetween16and18").show();
           } else {
             $(".pt-showIfStudentBetween16and18").hide();
@@ -506,6 +506,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentHasTFN', true);
       } else {
         localStorage.removeItem('studentHasTFN');
+        localStorage.removeItem('tfn');
       }
     });
 
@@ -1082,7 +1083,7 @@ jQuery(document).ready(function ($) {
 
     // if student 16 or 17 ask for TFN
     if ("claimantFlow" in localStorage || "veteranFlow" in localStorage) {
-      if (localStorage.getItem('studentAge') < 18 && localStorage.getItem('studentAge') > 15) {
+      if (localStorage.getItem('studentAge') <= 18 && localStorage.getItem('studentAge') > 15) {
         $(".pt-showIfStudentBetween16and18").show();
       } else {
         $(".pt-showIfStudentBetween16and18").hide();
@@ -1135,6 +1136,7 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfStudentTFN").show();
       } else {
         localStorage.setItem('studentTFN', false);
+        localStorage.removeItem('tfn');
         $(".pt-showIfNoStudentTFN").show('fast');
         $(".pt-showIfStudentTFN").hide();
       }
@@ -1357,5 +1359,14 @@ jQuery(document).ready(function ($) {
 
     $(this).toggleClass("accordion__trigger--open accordion__trigger--closed");
     $(this).closest(".accordion").toggleClass("accordion--closed accordion--open");
+  });
+
+  $('input[name=tax-file-number]').change(function () {
+    if (this.value) {
+      console.log('TFN set to: ', this.value);
+      localStorage.setItem('tfn', this.value);
+    } else {
+      localStorage.removeItem('tfn');
+    }
   });
 });
