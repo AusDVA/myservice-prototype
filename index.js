@@ -85,6 +85,9 @@ app.get('/mygov-linking', function (request, response) {
 app.get('/onboarding', function (request, response) {
   response.render('auth/onboarding');
 });
+app.get('/user-testing-stop', function (request, response) {
+  response.render('global/user-testing-stop');
+});
 
 
 /* Verify displays service history if DVA only */
