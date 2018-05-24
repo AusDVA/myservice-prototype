@@ -76,13 +76,22 @@ app.get('/change-password', function (request, response) {
 /**
 Onboarding page
 */
-
-app.get('/onboarding', function (request, response) {
-  response.render('auth/onboarding');
-});
 app.get('/mygov-login', function (request, response) {
   response.render('auth/mygov-login');
 });
+app.get('/mygov-linking', function (request, response) {
+  response.render('auth/mygov-linking');
+});
+app.get('/onboarding', function (request, response) {
+  response.render('auth/onboarding');
+});
+app.get('/user-testing-stop', function (request, response) {
+  response.render('global/user-testing-stop');
+});
+app.get('/user-testing-mygov-reg', function (request, response) {
+  response.render('global/user-testing-mygov-reg');
+});
+
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {

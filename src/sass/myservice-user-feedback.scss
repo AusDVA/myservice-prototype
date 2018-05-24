@@ -314,7 +314,7 @@ h3.heading-icon {
 }
 
 // Progress indicator on claim flow screens
-
+// deprecated
 #progressbar {
   background-color: $gray-light;
   border-radius: 10px; /* (height of inner div) / 2 + padding */
@@ -337,18 +337,6 @@ h3.heading-icon {
   background-repeat: no-repeat;
   background-position: top left;
   background-size: 25px 25px;
-  -webkit-animation-name: spin;
-  -webkit-animation-duration: 1000ms;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-  -moz-animation-name: spin;
-  -moz-animation-duration: 1000ms;
-  -moz-animation-iteration-count: infinite;
-  -moz-animation-timing-function: linear;
-  -ms-animation-name: spin;
-  -ms-animation-duration: 1000ms;
-  -ms-animation-iteration-count: infinite;
-  -ms-animation-timing-function: linear;
   animation-name: spin;
   animation-duration: 1000ms;
   animation-iteration-count: infinite;
@@ -383,4 +371,220 @@ h3.heading-icon {
   to {
     transform: rotate(360deg);
   }
+}
+
+// 
+//
+//
+//
+//
+// new progress bar / progress-stepper
+//
+//
+//
+//
+//
+.progress-container {
+  counter-reset: section;
+  list-style: none;
+}
+
+.progress-step-label {
+  display: none;
+}
+
+.progress-step {
+  &::before {
+    counter-increment: section;
+    content: counter(section);
+  }
+}
+
+.progress-step__icon {
+  background: $gray-mild;
+  border-bottom: 0;
+  border-radius: 50%;
+  display: block; //  for IE10
+  height: 25px;
+  left: -8px;
+  line-height: 12px;
+  margin: 0;
+  position: relative;
+  top: -25px;
+  width: 25px;
+  z-index: -1;
+}
+
+.progress-step--active {
+  .progress-step__icon {
+    background-color: transparent;
+    color: $white;
+
+    // big circle
+    &::after {
+      background: $blue;
+      border-radius: 50%;
+      content: '';
+      display: block;
+      height: 40px;
+      left: -7px;
+      margin: 0;
+      position: relative;
+      top: -8px;
+      width: 40px;
+    }
+  }
+
+  &.progress-step {
+    &::before {
+      color: $white;
+    }
+  }
+}
+
+.progress-step--done {
+  .progress-step__icon {
+    background: $blue;
+  }
+
+  &.progress-step {
+    &::before {
+      color: $white;
+    }
+  }
+}
+
+@include uikit-media(sm) {
+  .uikit-body {
+    .progress-container {
+      margin-top: 80px;
+      padding-left: 55px; // fix this
+   
+    }
+  }
+
+  .progress-container {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    max-width: 100%;
+    padding: 0 0 40px;
+
+    &::before,
+    &::after {
+      content: '';
+      height: 8px;
+      margin: 0;
+      position: absolute;
+      top: 50%;
+      width: 50%;
+    }
+
+    &::before {
+      border-bottom: solid 3px $blue;
+      left: -100px;
+    }
+
+    &::after {
+      border-bottom: solid 3px $gray-mild;
+      right: -100px;
+    }
+  }
+
+  .progress-step {
+    align-items: center;
+    border-bottom: solid 3px $gray-mild;
+    display: flex;
+    flex: 1;
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      content: '';
+    }
+
+    a {
+      border-bottom: 0;
+
+      &:hover,
+      &:active,
+      &:focus {
+        background-color: transparent;
+        outline: 0; // fix
+        text-decoration: none;
+      }
+    }
+  }
+
+  .progress-step__icon {
+    height: 11px;
+    left: -1px;
+    line-height: 12px;
+    top: 7px;
+    width: 11px;
+  }
+
+  .progress-step--active {
+    .progress-step__icon {
+      background-color: transparent;
+
+      // little circle
+      &::before {
+        background: $white;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 6px;
+        left: 2px;
+        margin: 0;
+        position: relative;
+        top: 2px;
+        width: 6px;
+      }
+
+      // big circle
+      &::after {
+        background: $blue;
+        border-radius: 50%;
+        content: '';
+        display: block;
+        height: 18px;
+        left: -4px;
+        margin: 0;
+        position: relative;
+        top: -10px;
+        width: 18px;
+        z-index: -1;
+      }
+    }
+  }
+
+  .progress-step--done {
+    border-bottom: solid 3px $blue;
+  }
+
+  .progress-step--done,
+  .progress-step--active {
+    .progress-step-label {
+      color: $black;
+      font-style: initial;
+      font-weight: bold;
+    }
+  }
+
+  .progress-step-label {
+    color: $gray-mid;
+    display: block;
+    font-style: italic;
+    padding: 0 1.5em;
+    position: absolute;
+    text-align: center;
+    top: -33px;
+    transform: translateX(-50%) translateX(5px) translateY(-50%);
+  }
+}
+
+
+@media (min-width: 992px) {
+  .progress-step-label {}
 }
