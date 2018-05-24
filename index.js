@@ -641,3 +641,9 @@ app.get('/styleguide-tooltip', function (request, response) {
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
 });
+
+
+/* MyAccount */
+app.get('/myaccount', function (request, response) {
+  response.render('myaccount/index');
+});
