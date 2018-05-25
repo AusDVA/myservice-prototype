@@ -26,7 +26,7 @@ gulp.task("js", function () {
 
 
 gulp.task('sass', function () {
-  return gulp.src('src/sass/main.scss')
+  return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
     .pipe(sourcemaps.init())
     .pipe(sass({ includePaths: ['src/sass'] }))
     .pipe(sass().on('error', sass.logError))
@@ -39,7 +39,7 @@ gulp.task('sass', function () {
 });
 
 gulp.task('sass-prod', function () {
-  return gulp.src('src/sass/main.scss')
+  return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
     .pipe(sourcemaps.init())
     .pipe(sass({ includePaths: ['src/sass'] }))
     .pipe(sass().on('error', sass.logError))
@@ -70,3 +70,4 @@ gulp.task('server', function () {
 });
 
 gulp.task('serve', ['server', 'sass', 'js', 'watch']);
+
