@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width" name="viewport">
+	<title>Service history</title>
+	<link href="docs/css/main.css" rel="stylesheet">
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+	<noscript>
+		<p role="alert">This website needs JavaScript to work properly.</p>
+	</noscript>
+	<nav class="uikit-skip-link">
+		<a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+	</nav>
+	<% include ../global/partials/header-topbar.ejs %>
+		<% include ../global/partials/header-claims.ejs %>
+			<main>
+				<div class="container" id="main-content">
+					<h1>
+						<span class="heading">Service period operations</span>
+					</h1>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur mollitia veritatis minima molestias debitis impedit ducimus excepturi ea, quo sequi dolore corrupti ipsa
+						iure minus amet recusandae itaque enim qui?</p>
+					<div class="row margin-below--extra">
+						<div class="col-sm-7">
+
+							<div class="opperations">
+
+								<div class="opperation">
+
+									<div class="form-group">
+										<label class="uikit-text-input__label" for="opperation">Operation name</label>
+										<select class="uikit-text-input input-half" name="opperation" type="text" value="">
+											<option selected>-- Select title --</option>
+											<option>Goldfinger</option>
+											<option>Moonraker</option>
+											<option>Skyfall</option>
+										</select>
+									</div>
+
+									<div class="form-group">
+										<label class="uikit-text-input__label">Field start date</label>
+										<input class="uikit-text-input dd" type="text" name="start-day" maxlength="2" aria-label="2 digit day"> /
+										<input class="uikit-text-input mm" type="text" name="start-month" maxlength="2" aria-label="2 digit month"> /
+										<input class="uikit-text-input yyyy" type="text" name="start-year" maxlength="4" aria-label="4 digit year">
+									</div>
+
+									<div class="form-group">
+										<label class="uikit-text-input__label">Field end date</label>
+										<input class="uikit-text-input dd" type="text" name="end-day" maxlength="2" aria-label="2 digit day"> /
+										<input class="uikit-text-input mm" type="text" name="end-month" maxlength="2" aria-label="2 digit month"> /
+										<input class="uikit-text-input yyyy" type="text" name="end-year" maxlength="4" aria-label="4 digit year">
+									</div>
+
+								</div>
+
+							</div>
+
+							<hr class="margin-above margin-below--small">
+							<button id="add-opperation" class="uikit-btn uikit-btn--tertiary">Add another opperation</button>
+
+						</div>
+					</div>
+					<div class="pagination">
+						<button id="cancel" class="uikit-btn uikit-btn--tertiary">Cancel</button>
+						<div class="floated">
+							<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/profile-history'">Save and exit</button>
+							<button class="uikit-btn" onclick="window.location.href='/service-period-3'">Save and next</button>
+						</div>
+					</div>
+				</div>
+			</main>
+
+			<% include ../global/partials/footer.ejs %>
+
+				<div id="modal" class="modal-window">
+					<div>
+						<a href="#modal-close" title="Close" class="modal-close">Close</a>
+						<h2>Exit to service details?</h2>
+						<p>Changes may not be saved</p>
+						<div class="modal-buttons">
+							<button class="uikit-btn" onclick="window.location.href = '/profile-history'">OK</button>
+							<button class="uikit-btn uikit-btn--tertiary cancel">Cancel</button>
+						</div>
+					</div>
+				</div>
+
+				<script>
+					const opperationElement = document.getElementsByClassName('opperation')[0]
+
+					document.getElementById('add-opperation').addEventListener('click', () => {
+						document.getElementsByClassName('opperations')[0].appendChild(opperationElement.cloneNode())
+					})
+
+					document.getElementById('cancel').addEventListener('click', () => {
+						document.getElementById('modal').classList.add('modal-visible')
+					})
+
+					document.getElementById('modal').getElementsByClassName('modal-close')[0].addEventListener('click', () => {
+						document.getElementById('modal').classList.remove('modal-visible')
+					})
+					document.getElementById('modal').getElementsByClassName('cancel')[0].addEventListener('click', () => {
+						document.getElementById('modal').classList.remove('modal-visible')
+					})
+				</script>
+</body>
+
+</html>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width" name="viewport">
+	<title>Service history</title>
+	<link href="docs/css/main.css" rel="stylesheet">
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+	<noscript>
+		<p role="alert">This website needs JavaScript to work properly.</p>
+	</noscript>
+	<nav class="uikit-skip-link">
+		<a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+	</nav>
+	<% include ../global/partials/header-topbar.ejs %>
+		<% include ../global/partials/header-claims.ejs %>
+			<main>
+				<div class="container" id="main-content">
+					<h1>
+						<span class="heading">Service period evidence</span>
+					</h1>
+					<p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur mollitia veritatis minima molestias debitis impedit ducimus excepturi ea, quo sequi dolore corrupti ipsa
+						iure minus amet recusandae itaque enim qui?</p>
+					<div class="row">
+						<div class="col-sm-7">
+							<p>Please upload and submit the documents below.</p>
+							<p>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
+							<table class="table-responsive table-responsive--no-border">
+								<tr class="accordion accordion--open">
+									<td class="file-status file-status--uploaded">
+										<span class="sr">
+											Success
+										</span>
+									</td>
+									<td>
+										<span>
+											<b>Service documents</b>
+										</span>
+										<span class="accordion-title__details">For example, ...</span>
+									</td>
+
+									<td class="right">
+										<div class="file-upload">
+											<input type="file" class="file-upload__input">
+											<label class="file-upload__label">
+												<span class="file-upload__document">
+													<a class="file-upload__file-name file-upload__file-name--uploaded">Service document 1.pdf</a>
+												</span>
+												<span class="file-upload__button">
+													<button href="#" class="uikit-btn small uikit-btn--tertiary">Remove</button>
+												</span>
+											</label>
+										</div>
+
+										<div class="file-upload accordion-title__details">
+											<input type="file" class="file-upload__input">
+											<label class="file-upload__label">
+												<span class="file-upload__document">
+													<a href="#" class="file-upload__file-name file-upload__file-name--uploaded">Service document 2.pdf</a>
+												</span>
+												<span class="file-upload__button">
+													<button href="#" class="uikit-btn small uikit-btn--tertiary">Remove</button>
+												</span>
+											</label>
+										</div>
+
+										<div class="file-upload accordion-title__details">
+											<input type="file" class="file-upload__input">
+											<label class="file-upload__label">
+												<span class="file-upload__button">
+													<button href="#" class="uikit-btn small uikit-btn--tertiary">Add another</button>
+												</span>
+											</label>
+										</div>
+									</td>
+									<td>
+										<a href="javascript:void(0);" class="accordion__trigger accordion__trigger--closed">
+											<span class="sr">Toggle accordion</span>
+										</a>
+									</td>
+								</tr>
+							</table>
+
+							<div class="form-group">
+								<legend class="legend-label">Do you want to provide more details about this period of service?</legend>
+								<div class="radio-toggle">
+									<label class="on label-left">
+										<input id="details-yes" type="radio" name="details" value="yes">
+										<span>Yes</span>
+									</label>
+									<label class="off label-right ">
+										<input id="details-no" type="radio" name="details" value="no">
+										<span>No</span>
+									</label>
+								</div>
+							</div>
+
+							<div id="details" class="form-group hide">
+								<label class="uikit-text-input__label" for="details">Details</label>
+								<textarea></textarea>
+							</div>
+
+						</div>
+					</div>
+					<div class="pagination">
+						<button id="cancel" class="uikit-btn uikit-btn--tertiary">Cancel</button>
+						<div class="floated">
+							<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/service-period-1'">Add service period</button>
+							<button class="uikit-btn" onclick="window.location.href='/profile-history'">Done</button>
+						</div>
+					</div>
+				</div>
+			</main>
+			<% include ../global/partials/footer.ejs %>
+
+				<div id="modal" class="modal-window">
+					<div>
+						<a href="#modal-close" title="Close" class="modal-close">Close</a>
+						<h2>Exit to service details?</h2>
+						<p>Changes may not be saved</p>
+						<div class="modal-buttons">
+							<button class="uikit-btn" onclick="window.location.href = '/profile-history'">OK</button>
+							<button class="uikit-btn uikit-btn--tertiary cancel">Cancel</button>
+						</div>
+					</div>
+				</div>
+
+				<script>
+					Array.prototype.forEach.call(document.getElementsByClassName('hide'), (pElement) => {
+						pElement.style.display = 'none'
+					})
+
+					document.getElementById('details-yes').addEventListener('click', () => {
+						document.getElementById('details').style.display = ''
+					})
+
+					document.getElementById('details-no').addEventListener('click', () => {
+						document.getElementById('details').style.display = 'none'
+					})
+
+					document.getElementById('cancel').addEventListener('click', () => {
+						document.getElementById('modal').classList.add('modal-visible')
+					})
+
+					document.getElementById('modal').getElementsByClassName('modal-close')[0].addEventListener('click', () => {
+						document.getElementById('modal').classList.remove('modal-visible')
+					})
+					document.getElementById('modal').getElementsByClassName('cancel')[0].addEventListener('click', () => {
+						document.getElementById('modal').classList.remove('modal-visible')
+					})
+				</script>
+</body>
+
+</html>
