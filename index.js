@@ -220,11 +220,18 @@ app.get('/profile-contact', function (request, response) {
   });
 });
 
+app.get('/profile-contact-2', function (request, response) {
+  response.render('auth/profile-contact-2', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/222', function (request, response) {
   response.render('auth/profile-contact', {
     main_nav_active: 'my-profile'
   });
 });
+
 
 app.get('/profile-history', function (request, response) {
   response.render('auth/profile-history', {
