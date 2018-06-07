@@ -156,11 +156,9 @@
 										<h2>
 											<span class="widget-header__title">Service history</span>
 											<span class="widget-actions floated">
-
-												<button class="uikit-btn small widget-btn " onclick="window.location.href = '/service-period-1'">Add period</button>
+												<button id="add-period" class="uikit-btn small widget-btn">Add period</button>
 											</span>
 										</h2>
-
 									</div>
 									<div class="row widget-content widget--justclaims">
 										<div class="col-md-12">
@@ -171,34 +169,7 @@
 														<th class="widget-actions">Actions</th>
 													</tr>
 												</thead>
-												<tr>
-													<td>
-														<p class="status-icon status-incomplete">
-															Airforce 22/12/1981 – 17/6/1990
-															<br />
-															<span>Unconfirmed</span>
-														</p>
-													</td>
-													<td class="widget-actions">
-														<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = ''">View</button>
-														<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/service-period-1'">Edit</button>
-														<button class="uikit-btn small uikit-btn--tertiary">Delete</button>
-													</td>
-												</tr>
-												<tr>
-													<td>
-														<p class="status-icon status-incomplete">
-															Airforce 22/12/1981 – 17/6/1990
-															<br />
-															<span>Unconfirmed</span>
-														</p>
-													</td>
-													<td class="widget-actions">
-														<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = ''">View</button>
-														<button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/service-period-1'">Edit</button>
-														<button class="uikit-btn small uikit-btn--tertiary">Delete</button>
-													</td>
-												</tr>
+												<tbody id="period-history"></tbody>
 											</table>
 										</div>
 									</div>
@@ -218,6 +189,97 @@
 
 
 			<% include ../global/partials/footer.ejs %>
+
+				<div id="templates">
+					<div id="period-template">
+						<tr>
+							<td>
+								<p class="status-icon status-incomplete">
+									<span class="branch"></span>
+									<span class="range"></span>
+									<br />
+									<span class="status"></span>
+								</p>
+							</td>
+							<td class="widget-actions">
+								<button class="uikit-btn small uikit-btn--tertiary view">View</button>
+								<button class="uikit-btn small uikit-btn--tertiary edit">Edit</button>
+								<button class="uikit-btn small uikit-btn--tertiary delete">Delete</button>
+							</td>
+						</tr>
+					</div>
+				</div>
+
+				<script>
+					var SERVICE_HISTORY = 'serviceHistory';
+
+					function urlParameter(pUrl, pName) {
+						var name = pName.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+						var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+						var results = regex.exec(pUrl);
+						return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+					};
+
+					function deleteWarning(pIndex) {
+
+					}
+					debugger
+					if (!urlParameter(window.location.search, 'continue')) {
+						localStorage.removeItem(SERVICE_HISTORY);
+					}
+
+					var serviceHistoryDefault = {
+						periods: []
+					};
+
+					var serviceHistory = localStorage.getItem(SERVICE_HISTORY);
+					if (serviceHistory) {
+						serviceHistory = JSON.parse(serviceHistory);
+					} else {
+						serviceHistory = serviceHistoryDefault;
+					}
+
+					var periodTemplate = document.getElementById('period-template');
+					var periodHistoryTarget = document.getElementById('period-history');
+					serviceHistory.periods.forEach(function (pPeriod, pIndex) {
+						var periodElement = periodTemplate.firstElementChild.cloneNode(true);
+
+						periodElement.getElementsByClassName('branch')[0].innerHTML = pPeriod.branch;
+						periodElement.getElementsByClassName('status')[0].innerHTML = pPeriod.status;
+						periodElement.getElementsByClassName('range')[0].innerHTML = pPeriod.start + ' - ' + pPeriod.end;
+						periodElement.getElementsByClassName('view')[0].onclick = function () {
+							window.location.href = '/service-period-overview?period=' + pIndex;
+						};
+						periodElement.getElementsByClassName('edit')[0].onclick = function () {
+							window.location.href = '/service-period-1?period=' + pIndex;
+						};
+						periodElement.getElementsByClassName('delete')[0].onclick = function () {
+							deleteWarning(pIndex);
+						};
+
+						periodHistoryTarget.appendChild(periodElement);
+					});
+
+					var periodDefault = {
+						branch: null,
+						startDay: null,
+						startMonth: null,
+						startYear: null,
+						endDay: null,
+						endMonth: null,
+						endYear: null,
+						operations: [],
+						documents: [],
+						details: null
+					};
+					document.getElementById('add-period').onclick = function () {
+						var nextIndex = serviceHistory.periods.length
+						serviceHistory[nextIndex] = periodDefault;
+						localStorage.setItem(SERVICE_HISTORY, JSON.stringify(serviceHistory));
+						window.location.href = '/service-period-1?period=' + nextIndex;
+					}
+
+				</script>
 </body>
 
 </html>
