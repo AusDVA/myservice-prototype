@@ -216,7 +216,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('veteranReceivesFTB', true);
 
         if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showFTBIsBest").show();
 
 
@@ -260,7 +260,7 @@ jQuery(document).ready(function ($) {
 
         // if student 16 or 17 ask for TFN
         if (!("claimantFlow" in localStorage)) {
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showIfStudentBetween16and18").show();
           } else {
             $(".pt-showIfStudentBetween16and18").hide();
@@ -369,7 +369,7 @@ jQuery(document).ready(function ($) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").show();
               // $(".pt-showIfStudentUnder18").hide();
-            } else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') < 18)) {
+            } else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') <= 18)) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").hide();
               $(".pt-claimantShowIfStudentOver16").show();
