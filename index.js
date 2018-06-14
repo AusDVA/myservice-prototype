@@ -39,6 +39,9 @@ app.get('/email-claim-submitted', function (request, response) {
 app.get('/email-verification-code', function (request, response) {
   response.render('email/pages/email-verification-code');
 });
+app.get('/email-lsq-pilot', function (request, response) {
+  response.render('email/pages/email-lsq-pilot');
+});
 
 /**
 Unauthenticated space
@@ -474,6 +477,9 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
+app.get('/pi-lsq-pilot', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-pilot');
+});
 app.get('/pi-lsq-start', function (request, response) {
   response.render('auth/claim/pages/pi-lsq-start');
 });
