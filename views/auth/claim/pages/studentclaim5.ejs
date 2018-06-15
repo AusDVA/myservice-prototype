@@ -128,7 +128,12 @@
                 <th>Account number</th>
                 <td>1234567809</td>
               </tr>
+              <tr id="documentsUploaded-TFD">
+                <th>Tax File Number declaration form</th>
+                <td>C:\\documents\\TFN_declaration_form_N3092.pdf</td>
+              </tr>
             </table>
+
             <p>By clicking
               <strong>submit claim</strong> you confirm this information is correct.</p>
             <div class="pagination pagination--ss-reverse-order">
@@ -153,27 +158,43 @@
 
               // Progress percentage
               // document.getElementById("percentage").style.width = "87.5%";
+              $(document).ready(function () {
+                $("#btnAddNominee").click(function () {
+                  $(".nominee-details-container").show("fast");
+                  $("#btnAddNominee").hide();
+                  $("#btnCancelNominee").show("fast");
+                  $("#nominee-name").focus();
+                });
+                $("#btnCancelNominee").click(function () {
+                  $(".nominee-details-container").hide("fast");
+                  $("#btnCancelNominee").hide();
+                  $("#btnAddNominee").show();
+                });
+                $(".nominee-save").click(function () {
+                  $(".nominee-details").hide();
+                  $(".toast-saved").show("fast");
+                  $(".nominee-intro").hide("fast");
+                });
+                $(".message-close").click(function () {
+                  $(".nominee-details-container").hide("fast");
+                });
+                // Modify Document Uploads that is normally pushed to the right to sit at bottom on content as view-only
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-5').removeClass('col-sm-5').addClass('col-sm-12');
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').removeClass('display-none');
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').removeAttr("style")
+                $('.pt-showIfDocumentUploadShoppingCart.col-sm-12').show();
 
-              $("#btnAddNominee").click(function () {
-                $(".nominee-details-container").show("fast");
-                $("#btnAddNominee").hide();
-                $("#btnCancelNominee").show("fast");
-                $("#nominee-name").focus();
-              });
-              $("#btnCancelNominee").click(function () {
-                $(".nominee-details-container").hide("fast");
-                $("#btnCancelNominee").hide();
-                $("#btnAddNominee").show();
-              });
-              $(".nominee-save").click(function () {
-                $(".nominee-details").hide();
-                $(".toast-saved").show("fast");
-                $(".nominee-intro").hide("fast");
-              });
-              $(".message-close").click(function () {
-                $(".nominee-details-container").hide("fast");
-              });
+                $('h2.heading-highlight:contains("Document uploads")').text('Documents uploaded');
 
+                let age = localStorage.getItem('studentAge');
+                let tfn = localStorage.getItem('tfn');
+                console.debug('in studentclaim5 - age: ', age);
+                if (tfn && age && age >= 18) {
+                  $("#documentsUploaded-TFD").show();
+                } else {
+                  $("#documentsUploaded-TFD").hide();
+                }
+              });
             </script>
 
 </body>

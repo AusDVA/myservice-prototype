@@ -216,14 +216,14 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('veteranReceivesFTB', true);
 
         if (("veteranFlow" in localStorage) || ("claimantFlow" in localStorage)) {
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showFTBIsBest").show();
 
 
           }
         }
         if (("veteranFlow" in localStorage)) {
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
 
             $(".pt-vetStudentEngagedInFullTimeEmployment").show();
 
@@ -231,7 +231,7 @@ jQuery(document).ready(function ($) {
         }
         if (!("claimantFlow" in localStorage)) {
           // if student 16 or 17 ask for TFN
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showIfStudentBetween16and18").show();
 
           } else {
@@ -260,7 +260,7 @@ jQuery(document).ready(function ($) {
 
         // if student 16 or 17 ask for TFN
         if (!("claimantFlow" in localStorage)) {
-          if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+          if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
             $(".pt-showIfStudentBetween16and18").show();
           } else {
             $(".pt-showIfStudentBetween16and18").hide();
@@ -303,10 +303,10 @@ jQuery(document).ready(function ($) {
 
 
 
-        if (dobDay.longth === 1) {
+        if (dobDay.length === 1) {
           dobDay = "0" + dobDay;
         }
-        if (dobMonth.longth === 1) {
+        if (dobMonth.length === 1) {
           dobMonth = "0" + dobMonth;
         }
         var dob = dobYear + '-' + dobMonth + '-' + dobDay;
@@ -317,6 +317,7 @@ jQuery(document).ready(function ($) {
 
         localStorage.removeItem('studentAge');
         localStorage.setItem('studentAge', age);
+        console.debug('student age: ', age);
 
         // validation:: older than 5
         if (localStorage.getItem('studentAge') < 5) {
@@ -368,7 +369,7 @@ jQuery(document).ready(function ($) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").show();
               // $(".pt-showIfStudentUnder18").hide();
-            } else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') < 18)) {
+            } else if ((localStorage.getItem('studentAge') > 15) && (localStorage.getItem('studentAge') <= 18)) {
               init();
               $(".pt-showIfStudentShouldClaimThemselves").hide();
               $(".pt-claimantShowIfStudentOver16").show();
@@ -541,6 +542,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentHasTFN', true);
       } else {
         localStorage.removeItem('studentHasTFN');
+        localStorage.removeItem('tfn');
       }
     });
 
@@ -1066,7 +1068,7 @@ jQuery(document).ready(function ($) {
         $(".pagination").find('button').prop('disabled', false);
 
       }
-      else if (selected_option === 'secondary') {
+      else if (selected_option.startsWith('secondary')) {
 
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfTertiary").hide();
@@ -1079,7 +1081,7 @@ jQuery(document).ready(function ($) {
 
         $(".pagination").find('button').prop('disabled', false);
       }
-      else if ((selected_option === 'tertiary') || (selected_option === 'apprenticeship')) {
+      else if ((selected_option.startsWith('tertiary')) || (selected_option === 'apprenticeship')) {
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfPrimary").hide();
         $(".pt-showIfSecondary").hide();
@@ -1164,7 +1166,7 @@ jQuery(document).ready(function ($) {
 
     // if student 16 or 17 ask for TFN
     if (("claimantFlow" in localStorage) || ("veteranFlow" in localStorage)) {
-      if ((localStorage.getItem('studentAge') < 18) && (localStorage.getItem('studentAge') > 15)) {
+      if ((localStorage.getItem('studentAge') <= 18) && (localStorage.getItem('studentAge') > 15)) {
         $(".pt-showIfStudentBetween16and18").show();
 
       } else {
@@ -1224,6 +1226,7 @@ jQuery(document).ready(function ($) {
         $(".pt-showIfStudentTFN").show();
       } else {
         localStorage.setItem('studentTFN', false);
+        localStorage.removeItem('tfn');
         $(".pt-showIfNoStudentTFN").show('fast');
         $(".pt-showIfStudentTFN").hide();
       }
@@ -1457,4 +1460,12 @@ jQuery(document).ready(function ($) {
 
   });
 
+  $('input[name=tax-file-number]').change(function () {
+    if (this.value) {
+      console.log('TFN set to: ', this.value);
+      localStorage.setItem('tfn', this.value);
+    } else {
+      localStorage.removeItem('tfn');
+    }
+  });
 });

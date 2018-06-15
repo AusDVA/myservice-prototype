@@ -39,6 +39,9 @@ app.get('/email-claim-submitted', function (request, response) {
 app.get('/email-verification-code', function (request, response) {
   response.render('email/pages/email-verification-code');
 });
+app.get('/email-lsq-pilot', function (request, response) {
+  response.render('email/pages/email-lsq-pilot');
+});
 
 /**
 Unauthenticated space
@@ -76,13 +79,25 @@ app.get('/change-password', function (request, response) {
 /**
 Onboarding page
 */
-
-app.get('/onboarding', function (request, response) {
-  response.render('auth/onboarding');
-});
 app.get('/mygov-login', function (request, response) {
   response.render('auth/mygov-login');
 });
+app.get('/mygov-linking', function (request, response) {
+  response.render('auth/mygov-linking');
+});
+app.get('/mygov-linked', function (request, response) {
+  response.render('auth/mygov-linked');
+});
+app.get('/onboarding', function (request, response) {
+  response.render('auth/onboarding');
+});
+app.get('/user-testing-stop', function (request, response) {
+  response.render('global/user-testing-stop');
+});
+app.get('/user-testing-mygov-reg', function (request, response) {
+  response.render('global/user-testing-mygov-reg');
+});
+
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {
@@ -208,17 +223,30 @@ app.get('/profile-contact', function (request, response) {
   });
 });
 
+app.get('/profile-contact-2', function (request, response) {
+  response.render('auth/profile-contact-2', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/222', function (request, response) {
   response.render('auth/profile-contact', {
     main_nav_active: 'my-profile'
   });
 });
 
+
 app.get('/profile-history', function (request, response) {
   response.render('auth/profile-history', {
     main_nav_active: 'profile'
   });
 });
+app.get('/profile-history-2', function (request, response) {
+  response.render('auth/profile-history-2', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/profile-assets', function (request, response) {
   response.render('auth/profile-assets', {
     main_nav_active: 'profile'
@@ -449,6 +477,9 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
+app.get('/pi-lsq-pilot', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-pilot');
+});
 app.get('/pi-lsq-start', function (request, response) {
   response.render('auth/claim/pages/pi-lsq-start');
 });
@@ -476,8 +507,14 @@ app.get('/pi-lsq-claim6b', function (request, response) {
 app.get('/pi-lsq-claim7', function (request, response) {
   response.render('auth/claim/pages/pi-lsq-claim7');
 });
+app.get('/pi-lsq-claim7b', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim7b');
+});
 app.get('/viewPI-LSQ-detail', function (request, response) {
   response.render('auth/claim/pages/viewPI-LSQ-detail');
+});
+app.get('/viewPI-LSQ-detailb', function (request, response) {
+  response.render('auth/claim/pages/viewPI-LSQ-detailb');
 });
 
 
@@ -634,4 +671,10 @@ app.get('/styleguide-tooltip', function (request, response) {
 });
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
+});
+
+
+/* MyAccount */
+app.get('/myaccount', function (request, response) {
+  response.render('myaccount/index');
 });

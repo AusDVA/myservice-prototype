@@ -33,7 +33,7 @@
               <div class="widget-header">
                 <h2>
                   <span class="widget-header__title">
-                    <img src="../../../docs/images/ico-claims.svg" alt="">Claim activity
+                    <img src="../../../docs/images/ico-claims.svg" alt="Claim activity - icon">Claim activity
                   </span>
                   <span class="widget-actions floated">
 
@@ -166,13 +166,12 @@
                       </td>
                       <td class="widget-actions">
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimDetail'">View</button>
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button>
                       </td>
                     </tr>
                     <tr>
                       <td>
                         <p class="status-icon status-approved">
-                          Education assistance for Lee Gall
+                          Education Allowance for Lee Gall
                           <br />
                           <span>Approved
                             <em>&ndash; 3 Jan 2018</em>
@@ -186,7 +185,7 @@
                     <tr>
                       <td>
                         <p class="status-icon status-rejected">
-                          Education assistance for Pi
+                          Education Allowance for Pi
                           <br />
                           <span>Rejected
                             <em>&ndash; 3 Jan 2018</em>
@@ -200,7 +199,7 @@
                     <tr>
                       <td>
                         <p class="status-icon status-withdrawn">
-                          Education assistance for Li
+                          Education Allowance for Li
                           <br />
                           <span>Withdrawn
                             <em>&ndash; 3 Jan 2018</em>
@@ -211,20 +210,38 @@
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
                       </td>
                     </tr>
-                    <tr>
+                    <!-- Show this initially ('show-instance-action-required')
+                      and the one below ('show-instance-withdrawn') after it is withdrawn-->
+                    <tr class="status-action-required show-instance-action-required">
                       <td>
                         <p class="status-icon status-in-progress">
-                          Education assistance for Kim
+                          Education Allowance for Kim
                           <br />
-                          <span>Action Required
-                            <em>&ndash; 3 Jan 2018</em>
+                          <span>In Progress
+                            <em>&ndash; Action Required</em>
                           </span>
                         </p>
                       </td>
                       <td class="widget-actions">
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'updateClaimInProgress'">Update</button>
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                      </td>
+                    </tr>
+                    <!-- Show the one above initially ('show-instance-action-required')
+                        and this one ('show-instance-withdrawn') after it is withdrawn-->
+                    <tr class="show-instance-withdrawn">
+                      <td>
+                        <p class="status-icon status-withdrawn">
+                          Education Allowance for Kim
+                          <br />
+                          <span>Withdrawn
+                            <em>&ndash; 3 Jan 2018</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
                       </td>
                     </tr>
                   </table>
@@ -283,38 +300,55 @@
 
       </main>
       <% include ../auth/partials/modal-deleteclaim.ejs %>
-        <% include ../global/partials/footer.ejs %>
-          <script>
-            function makeToast(pType, pMessage) {
-              var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
-              $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
-                '<span class="sr">' +
-                pType + '</span>');
-              $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
-              return $('<div class="toast-container"></div>').append($element);
-            }
-
-            if (localStorage.getItem('updateClaimInProgress')) {
-              var settings = JSON.parse(localStorage.getItem('updateClaimInProgress'));
-
-              var submitted = settings.actions.some(pAction => {
-                return pAction.status === 'submitted'
-              })
-
-              if (submitted) {
-                $('#main-content').append(makeToast('success', 'Documents successfully submitted'))
-
+        <% include ../auth/partials/modal-withdrawclaim.ejs %>
+          <% include ../global/partials/footer.ejs %>
+            <script>
+              function makeToast(pType, pMessage) {
+                var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
+                $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
+                  '<span class="sr">' +
+                  pType + '</span>');
+                $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
+                return $('<div class="toast-container"></div>').append($element);
               }
 
-              settings.actions.forEach(pAction => {
-                if (pAction.status === 'submitted') {
-                  pAction.status = 'complete'
-                }
-              })
+              if (localStorage.getItem('updateClaimInProgress')) {
+                var settings = JSON.parse(localStorage.getItem('updateClaimInProgress'));
 
-              localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
-            }
-          </script>
+                var submitted = settings.actions.some(pAction => {
+                  return pAction.status === 'submitted'
+                })
+
+                if (submitted) {
+                  $('#main-content').append(makeToast('success', 'Documents successfully submitted'))
+
+                }
+
+                settings.actions.forEach(pAction => {
+                  if (pAction.status === 'submitted') {
+                    pAction.status = 'complete'
+                  }
+                })
+
+                localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
+              }
+              $(document).ready(function () {
+                var claimWithdrawn = localStorage.getItem('claim-withdrawn');
+                if (claimWithdrawn) {
+                  $(".show-instance-action-required").hide();
+                  $(".show-instance-withdrawn").show();
+                } else {
+                  $(".show-instance-action-required").show();
+                  $(".show-instance-withdrawn").hide();
+                }
+                $("#button-withdrawclaimmodal").click(function () {
+                  localStorage.setItem('claim-withdrawn', true);
+                  $(".show-instance-action-required").hide();
+                  $(".show-instance-withdrawn").show();
+                  window.location.href = '#open-withdrawclaimmodal';
+                });
+              });
+            </script>
 </body>
 
 </html>

@@ -51,8 +51,7 @@
                     <!-- Account name -->
                     <div class="form-group">
                       <label class="uikit-text-input__label" for="account-name" id="question_id29"> </label>
-                      <input class="uikit-text-input" name="account-name" id="account-name" type="text" value="" required="" aria-required="true"
-                        style="max-width: 22em;">
+                      <input class="uikit-text-input" name="account-name" id="account-name" type="text" value="" required="" aria-required="true" style="max-width: 22em;">
                     </div>
 
                     <!-- BSB -->
@@ -72,28 +71,30 @@
                     <!-- Account number -->
                     <div class="form-group margin-below--none">
                       <label class="uikit-text-input__label" for="account-number" id="question_id31"> </label>
-                      <input class="uikit-text-input" name="account-number" id="account-number" type="number" value="" required="" aria-required="true"
-                        style="max-width: 22em;">
+                      <input class="uikit-text-input" name="account-number" id="account-number" type="number" value="" required="" aria-required="true" style="max-width: 22em;">
                     </div>
+
 
                 </div>
 
                 <div class="pt-flow--student pt-flow--claimant pt-flow--veteran pt-showIfStudentBetween16and18">
+                  <!--   -->
                   <div class="form-group">
+                    <fieldset>
+                      <h3 class="margin-below margin-below--mid" id="question_id52"></h3>
 
-                    <h3 class="margin-below margin-below--mid" id="question_id52"></h3>
-
-                    <legend class="legend-label" id="question_id55"></legend>
-                    <div class="radio-toggle">
-                      <label class="on label-left ">
-                        <input type="radio" name="doesStudentHaveTFN" value="yes">
-                        <span>Yes</span>
-                      </label>
-                      <label class="off label-right ">
-                        <input type="radio" name="doesStudentHaveTFN" value="no">
-                        <span>No</span>
-                      </label>
-                    </div>
+                      <legend class="legend-label" id="question_id55"></legend>
+                      <div class="radio-toggle">
+                        <label class="on label-left ">
+                          <input type="radio" name="doesStudentHaveTFN" value="yes">
+                          <span>Yes</span>
+                        </label>
+                        <label class="off label-right ">
+                          <input type="radio" name="doesStudentHaveTFN" value="no">
+                          <span>No</span>
+                        </label>
+                      </div>
+                    </fieldset>
                   </div>
 
                   <div class="form-group uikit-page-alerts uikit-page-alerts--alert pt-showIfNoStudentTFN" id="question_message16">
@@ -107,7 +108,7 @@
                       <label class="uikit-text-input__label" for="tfn" id="question_id55a">
 
                       </label>
-                      <input class="uikit-text-input input-half" name="account-number" id="account-number" type="number" value="" required="" aria-required="true">
+                      <input class="uikit-text-input input-half" name="tax-file-number" id="tax-file-number" type="number" value="" required="" aria-required="true">
                     </div>
 
                     <div class="form-group uikit-page-alerts uikit-page-alerts--alert" id="question_message17">
@@ -117,17 +118,19 @@
 
 
                     <div class="form-group pt-educationAllowanceTaxed">
-                      <legend class="legend-label" id="question_id53"> </legend>
-                      <div class="radio-toggle">
-                        <label class="on label-left">
-                          <input type="radio" name="educationAllowanceTaxed" value="yes">
-                          <span>Yes</span>
-                        </label>
-                        <label class="off label-right">
-                          <input type="radio" name="educationAllowanceTaxed" value="no">
-                          <span>No</span>
-                        </label>
-                      </div>
+                      <fieldset>
+                        <legend class="legend-label" id="question_id53"> </legend>
+                        <div class="radio-toggle">
+                          <label class="on label-left">
+                            <input type="radio" name="educationAllowanceTaxed" value="yes">
+                            <span>Yes</span>
+                          </label>
+                          <label class="off label-right">
+                            <input type="radio" name="educationAllowanceTaxed" value="no">
+                            <span>No</span>
+                          </label>
+                        </div>
+                      </fieldset>
                     </div>
 
                     <div class="form-group pt-showIfEducationAllowanceTaxed">
@@ -168,13 +171,21 @@
 
         <% include ../../../global/partials/footer.ejs %>
           <script src="/docs/js/students.js "></script>
+          <script>
+            $(document).ready(function () {
+              let age = localStorage.getItem('studentAge');
+              console.debug('in studentclaim4 - age: ', age);
+              if (age && age >= 18) {
+                $(".pt-tfnClaimantStudent").show();
+                $(".pt-tfnClaimantStudent").removeClass('display-none');
+                $(".tfn-group").removeClass('display-none');
+              }
+            });
+          </script>
           <% include ../partials/panel-help.ejs %>
 
-            <script>
 
-              // Progress percentage
-              // document.getElementById("percentage ").style.width ="75% ";
-              // document.getElementById("percentage ").style.width = "80% ";
+            // Progress percentage // document.getElementById("percentage ").style.width ="75% "; // document.getElementById("percentage").style.width = "80% ";
 
 
 
