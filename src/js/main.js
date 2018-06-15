@@ -141,95 +141,130 @@ jQuery(document).ready(function ($) {
 
 
 
+	// matches pollyfill
+	if (!Element.prototype.matches) {
+		Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
+	}
+
+	//closest pollyfill
+	if (!Element.prototype.closest) {
+		Element.prototype.closest = function (s) {
+			var el = this
+			if (!document.documentElement.contains(el)) return null
+			do {
+				if (el.matches(s)) return el
+				el = el.parentElement || el.parentNode
+			} while (el !== null && el.nodeType === 1)
+			return null
+		}
+	}
+
 	// Tooltip
+	function getOffsetDocumentTop(pElement) {
+		return document.documentElement.scrollTop + pElement.getBoundingClientRect().top
+	}
 
-	// open the dialog
+	function registerTooltip(pElement) {
 
-	$(".tooltip__trigger").click(function (ev) {
-		ev.preventDefault();
+		const ROOT_ELEMENT_CLASS = 'tooltip'
+		const TAB_CLASS = `${ROOT_ELEMENT_CLASS}__tab`
 
-		// let trigger = this.name;
+		const ARIA_HIDDEN_ATTR = 'aria-hidden'
+		const ARIA_EXPANDED_ATTR = 'aria-expanded'
 
+		const control = pElement
+		const rootElement = control.closest(`.${ROOT_ELEMENT_CLASS}`)
+		const content = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__content`)[0]
+		const tab = rootElement.getElementsByClassName(TAB_CLASS)[0]
+		const message = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__message`)[0]
+		const close = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__close`)[0]
 
-		let tooltipContainer = $(this).closest(".tooltip-container");
-		let tooltip = $(tooltipContainer).find('.tooltip');
-		let tooltipMarker = $(tooltipContainer).find('.tooltip__trigger-marker');
-		$(tooltip).add(tooltipMarker).toggleClass("hidden");
+		const tabOriginalClassName = tab.className
 
-		// hide show is handled via aria-hidden
-		if ($(tooltip).attr('aria-hidden') === 'true') {
-			$(tooltip).attr('aria-hidden', 'false');
-		} else {
-			$(tooltip).attr('aria-hidden', 'true');
+		function showTooltip() {
+			const cloak = document.createElement('div')
+			cloak.style.cssText = 'height: 0; overflow: hidden; position: relative;'
+			content.parentNode.insertBefore(cloak, content)
+			cloak.appendChild(content)
+
+			content.setAttribute(ARIA_HIDDEN_ATTR, false)
+
+			document.removeEventListener('click', clickOutHandler)
+
+			setTimeout(() => {
+				cloak.parentNode.appendChild(content)
+				cloak.remove()
+
+				control.setAttribute(ARIA_EXPANDED_ATTR, true)
+
+				const className = `${tabOriginalClassName} ${TAB_CLASS}--active`
+				if (content.clientHeight > getOffsetDocumentTop(tab)) {
+					tab.className = `${className} ${TAB_CLASS}--bottom`
+					content.style.top = `${tab.offsetTop + tab.offsetHeight}px`
+				} else {
+					tab.className = `${className} ${TAB_CLASS}--top`
+					content.style.top = `${tab.offsetTop - content.clientHeight}px`
+				}
+
+				document.addEventListener('keyup', escapeHandler)
+				document.addEventListener('click', clickOutHandler)
+
+				content.focus()
+			}, 0)
 		}
 
-	});
+		function hideTooltip() {
+			content.setAttribute(ARIA_HIDDEN_ATTR, true)
+			control.setAttribute(ARIA_EXPANDED_ATTR, false)
 
-	$(".tooltip-container a").keypress(function (ev) {
-		if (ev.which == 13) {
-			$(this).click();
+			tab.className = tabOriginalClassName;
+
+			document.removeEventListener('keyup', escapeHandler)
+			document.removeEventListener('click', clickOutHandler)
 		}
-	});
 
-	// TODO:: refactor modal
-	$(".tooltip-container .modal-close").click(function (ev) {
-		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-		var ttName = tt.prop("name");
-		$("#" + ttName).attr("aria-hidden", "true");
-		$("#" + ttName).addClass("hidden");
-		$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-		$(tt).find(".tooltip__trigger-marker").addClass("hidden");
-		$(tt).focus();
-		ev.preventDefault();
-
-	});
-
-	$(".modal-close").keydown(function (ev) {
-		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-		var ttName = tt.prop("name");
-		switch (ev.which) {
-			case 27:
-				$("#" + ttName).attr("aria-hidden", "true");
-				$("#" + ttName).addClass("hidden");
-				$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-				$(tt).find(".tooltip__trigger-marker").addClass("hidden");
-				$(tt).focus();
-				ev.preventDefault();
-				return false;
-				break;
-
-			case 117:
-				$(tt).focus();
-				ev.preventDefault();
-				return false;
-				break;
-
+		function closeTooltip() {
+			hideTooltip()
+			control.focus()
 		}
-	});
 
-	$(".modal-close").keypress(function (ev) {
-		var tt = $(this).closest(".tooltip-container").find(".tooltip__trigger");
-		var ttName = tt.prop("name");
-		switch (ev.which) {
-			case 13:
-				$("#" + ttName).attr("aria-hidden", "true");
-				$("#" + ttName).addClass("hidden");
-				$(tt).find(".tooltip__trigger-marker").attr("aria-hidden", "true");
-				$(tt).find(".tooltip__trigger-marker").addClass("hidden");
-				$(tt).focus();
-				ev.preventDefault();
-				return false;
-				break;
+		function escapeHandler(pEvent) {
+			if (event.key !== 'Escape') {
+				return
+			}
 
-			default:
-
-				$("a#closebtn1").focus();
-				ev.preventDefault();
-				return false;
-				break;
-
+			if (content.contains(pEvent.target)) {
+				closeTooltip()
+			} else {
+				hideTooltip()
+			}
 		}
-	});
+
+		function clickOutHandler(pEvent) {
+			if (!content.contains(pEvent.target)) {
+				hideTooltip()
+			}
+		}
+
+		control.addEventListener('click', showTooltip)
+		control.addEventListener('keypress', (pEvent) => {
+			if (event.key === ' ' || event.key === 'Enter') {
+				event.preventDefault()
+				showTooltip()
+			}
+		})
+
+		close.addEventListener('click', closeTooltip)
+		close.addEventListener('keypress', (pEvent) => {
+			if (event.key === ' ' || event.key === 'Enter') {
+				event.preventDefault()
+				closeTooltip()
+			}
+		})
+
+	}
+
+	[].forEach.call(document.getElementsByClassName('tooltip__control'), pElement => registerTooltip(pElement))
 
 	// Three state check boxes 
 	$(".mys-radio__control").click(function (ev) {
