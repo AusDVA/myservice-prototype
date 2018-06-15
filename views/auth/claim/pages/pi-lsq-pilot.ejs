@@ -31,27 +31,55 @@
             <div class="row">
               <div class="col-md-offset-2 col-md-8">
 
+                <!-- Message to appear if you're eligible for the pilot. -->
 
+                <div id="lsq-pilot--eligible">
+                  <h2 class="margin-above--large">You are about to begin the Lifestyle&nbsp;Questionnaire</h2>
 
-                <h2 class="margin-above--large">You are about to begin the new Permanent Impairment Lifestyle Questionnaire</h2>
+                  <div class="margin-below--extra">
+                    <p>You can save your answers and return to complete your questionnaire at any time using&nbsp;MyService.</p>
+                    <p>As part of this pilot, there will also be a short survey. Your feedback will help us improve our online services for veterans and their families.</p>
 
-                <div class="margin-below--extra">
-                  <p>This will take around 25 minutes to complete.</p>
+                    <div class="uikit-page-alerts uikit-page-alerts--info">
+                      <p>The answers you provide as part of this pilot will be used to determine your Permanent&nbsp;Impairment&nbsp;compensation.</p>
+                    </div>
+                  </div>
 
-                  <p>As part of this pilot, there will also be a short survey. Your feedback will help us improve our online services for veterans and their families.</p>
-                  <p>
-                    <b>The answers you provide as part of this pilot will be used to determine your Permanent Impairment claim.</b>
-                  </p>
-                  <p>You can save your answers and return at any time using MyService.</p>
-                </div>
-
-                <div class="margin-below--extra border-top--mild">
-                  <div class="row margin-above--large">
-                    <div class="col-sm-offset-4 col-sm-4">
-                      <a href="/pi-lsq-start" class="uikit-btn--block uikit-btn uikit-btn--tertiary transition-content transition-content--open">Continue</a>
+                  <div class="margin-below--extra border-top--mild">
+                    <div class="row margin-above--large">
+                      <div class="col-sm-offset-4 col-sm-4">
+                        <a href="/pi-lsq-start" class="uikit-btn--block uikit-btn uikit-btn--tertiary transition-content transition-content--open">Continue</a>
+                      </div>
                     </div>
                   </div>
                 </div>
+
+                <!-- Message to appear if you're eligible for the pilot but have already started the LSQ. -->
+
+                <div id="lsq-pilot--already-started">
+                  <div class="uikit-page-alerts uikit-page-alerts--warning margin-above--extra margin-below--extra">
+                    <h2 class="margin-above--large">Lifestyle Questionnaire Pilot</h2>
+                    <p>You have already started a Lifestyle Questionnaire. You can resume your incomplete questionnaire at any time from the Claims page in MyService.</p>
+                  </div>
+
+                  <div class="margin-below--extra border-top--mild">
+                    <div class="row margin-above--large">
+                      <div class="col-sm-offset-2 col-sm-8">
+                        <a href="/pi-lsq-start" class="uikit-btn--block uikit-btn uikit-btn--tertiary transition-content transition-content--open">Resume your Lifestyle Questionnaire</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Message to appear if you're not eligible for the pilot. You may have come to this page via a friend or family member sharing the special link -->
+
+                <div id="lsq-pilot--not-eligible">
+                  <div class="uikit-page-alerts uikit-page-alerts--error margin-above--extra margin-below--extra">
+                    <h2 class="margin-above--large">Lifestyle Questionnaire Pilot</h2>
+                    <p>You are not eligible to complete the pilot at this time.</p>
+                  </div>
+                </div>
+
 
               </div>
             </div>
@@ -66,33 +94,40 @@
 
             <script>
 
+              $(document).ready(function () {
+                localStorage.clear();
 
+                var lsqpilot = getUrlParameter('lsqpilot');
+                if (lsqpilot) {
+                  localStorage.setItem('lsqpilot', lsqpilot);
+                }
 
+                $("#lsq-pilot--eligible").hide();
+                $("#lsq-pilot--already-started").hide();
+                $("#lsq-pilot--not-eligible").hide();
 
-              $(Document).ready(function () {
-                $("#btnNext").click(function () { window.location.href = "/pi-lsq-claim1" });
-
-                $("#getstarted-btn").click(function () {
-                  $(".transition-content").toggleClass("transition-content--open");
-                });
-
-
-                // $("#getstarted-btn").click(function () {
-                //   $(".transition-content--open").toggleClass("");
-                //   $("#getstarted-content").show();
-                // });
-
-                // Dynamic content for LSQ pathway
-                $("#lsq-pathway-tellstory").click(function () {
-                  $("#lsq-pathway-tellstory--info").show();
-                  $("#save-and-next").show();
-                });
-                $("#lsq-pathway-dvadoit").click(function () {
-                  $("#lsq-pathway-tellstory--info").hide();
-                  $("#save-and-next").show();
-                  $("#btnNext").click(function () { window.location.href = "/pi-lsq-claim6b" });
-                });
+                if (localStorage.getItem('lsqpilot') === 'eligible') {
+                  $("#lsq-pilot--eligible").show();
+                  $("#lsq-pilot--already-started").hide();
+                  $("#lsq-pilot--not-eligible").hide();
+                }
+                else if (localStorage.getItem('lsqpilot') === 'alreadystarted') {
+                  $("#lsq-pilot--eligible").hide();
+                  $("#lsq-pilot--already-started").show();
+                  $("#lsq-pilot--not-eligible").hide();
+                }
+                else if (localStorage.getItem('lsqpilot') === 'noteligible') {
+                  $("#lsq-pilot--eligible").hide();
+                  $("#lsq-pilot--already-started").hide();
+                  $("#lsq-pilot--not-eligible").show();
+                }
+                else {
+                  $("#lsq-pilot--eligible").show();
+                  $("#lsq-pilot--already-started").hide();
+                  $("#lsq-pilot--not-eligible").hide();
+                }
               });
+
             </script>
 
 </body>
