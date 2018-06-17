@@ -1,9 +1,10 @@
+'use strict';
 
 var getUrlParameter = function getUrlParameter(sParam) {
 	var sPageURL = decodeURIComponent(window.location.search.substring(1)),
-		sURLVariables = sPageURL.split('&'),
-		sParameterName,
-		i;
+	    sURLVariables = sPageURL.split('&'),
+	    sParameterName,
+	    i;
 
 	for (i = 0; i < sURLVariables.length; i++) {
 		sParameterName = sURLVariables[i].split('=');
@@ -13,7 +14,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
 		}
 	}
 };
-
 
 jQuery(document).ready(function ($) {
 	// open the panel
@@ -68,50 +68,48 @@ jQuery(document).ready(function ($) {
 		}
 	});
 
-
 	// Help slide gesture
-	let panels = $('.panel');
-	panels.map((index, panel) => {
-		let panelContainer = $(panel).find('.panel-container');
-		let panelHeader = $(panel).find('.panel-header');
-		let originX = 0;
-		let lastX = 0;
-		let dragging = false;
-		let uiBunch = panelContainer.add(panelHeader);
-		uiBunch.on('mousedown touchstart', (event) => {
+	var panels = $('.panel');
+	panels.map(function (index, panel) {
+		var panelContainer = $(panel).find('.panel-container');
+		var panelHeader = $(panel).find('.panel-header');
+		var originX = 0;
+		var lastX = 0;
+		var dragging = false;
+		var uiBunch = panelContainer.add(panelHeader);
+		uiBunch.on('mousedown touchstart', function (event) {
 			if (!dragging && !$(event.target).is('.panel-close')) {
 				dragging = true;
 				originX = event.screenX || event.targetTouches[0].screenX;
 				lastX = originX;
 			}
 		});
-		uiBunch.on('mousemove touchmove', (event) => {
+		uiBunch.on('mousemove touchmove', function (event) {
 			if (dragging) {
-				lastX = (event.screenX || event.targetTouches[0].screenX);
-				let newX = lastX - originX;
-				if (newX >= 0)
-					uiBunch.css({ right: -newX + 'px' });
+				lastX = event.screenX || event.targetTouches[0].screenX;
+				var newX = lastX - originX;
+				if (newX >= 0) uiBunch.css({ right: -newX + 'px' });
 			}
 		});
-		uiBunch.on('mouseup touchend', (event) => {
+		uiBunch.on('mouseup touchend', function (event) {
 			if (dragging && !$(event.target).is('.panel-close')) {
 				dragging = false;
-				let newX = (event.screenX || lastX) - originX;
-				if (newX > (panelContainer[0].offsetWidth * 0.25)) {
+				var newX = (event.screenX || lastX) - originX;
+				if (newX > panelContainer[0].offsetWidth * 0.25) {
 					$(panel).removeClass('is-visible').addClass('swipe-closing');
-					window.setTimeout(() => {
+					window.setTimeout(function () {
 						$(panel).removeClass('swipe-closing');
 						uiBunch.css({ right: '' });
 					}, 400);
-				}
-				else {
+				} else {
 					uiBunch.css({ right: '0px', transition: 'right 0.3s' });
-					window.setTimeout(() => { uiBunch.css({ transition: '' }); }, 300);
+					window.setTimeout(function () {
+						uiBunch.css({ transition: '' });
+					}, 300);
 				}
 			}
 		});
 	});
-
 
 	// Toast mockup
 	$(".call-toast").on("click", function () {
@@ -139,154 +137,153 @@ jQuery(document).ready(function ($) {
 		jQuery(this).hide();
 	});
 
-
-
 	// matches pollyfill
 	if (!Element.prototype.matches) {
-		Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector
+		Element.prototype.matches = Element.prototype.msMatchesSelector || Element.prototype.webkitMatchesSelector;
 	}
 
 	//closest pollyfill
 	if (!Element.prototype.closest) {
 		Element.prototype.closest = function (s) {
-			var el = this
-			if (!document.documentElement.contains(el)) return null
+			var el = this;
+			if (!document.documentElement.contains(el)) return null;
 			do {
-				if (el.matches(s)) return el
-				el = el.parentElement || el.parentNode
-			} while (el !== null && el.nodeType === 1)
-			return null
-		}
+				if (el.matches(s)) return el;
+				el = el.parentElement || el.parentNode;
+			} while (el !== null && el.nodeType === 1);
+			return null;
+		};
 	}
 
 	// Tooltip
 	function getOffsetDocumentTop(pElement) {
-		return document.documentElement.scrollTop + pElement.getBoundingClientRect().top
+		return document.documentElement.scrollTop + pElement.getBoundingClientRect().top;
 	}
 
 	function registerTooltip(pElement) {
 
-		const ROOT_ELEMENT_CLASS = 'tooltip'
-		const TAB_CLASS = `${ROOT_ELEMENT_CLASS}__tab`
+		var ROOT_ELEMENT_CLASS = 'tooltip';
+		var TAB_CLASS = ROOT_ELEMENT_CLASS + '__tab';
 
-		const ARIA_HIDDEN_ATTR = 'aria-hidden'
-		const ARIA_EXPANDED_ATTR = 'aria-expanded'
+		var ARIA_HIDDEN_ATTR = 'aria-hidden';
+		var ARIA_EXPANDED_ATTR = 'aria-expanded';
 
-		const control = pElement
-		const rootElement = control.closest(`.${ROOT_ELEMENT_CLASS}`)
-		const content = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__content`)[0]
-		const tab = rootElement.getElementsByClassName(TAB_CLASS)[0]
-		const message = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__message`)[0]
-		const close = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__close`)[0]
+		var control = pElement;
+		var rootElement = control.closest('.' + ROOT_ELEMENT_CLASS);
+		var content = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__content')[0];
+		var tab = rootElement.getElementsByClassName(TAB_CLASS)[0];
+		var message = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__message')[0];
+		var close = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__close')[0];
 
-		const tabOriginalClassName = tab.className
+		var tabOriginalClassName = tab.className;
 
 		function showTooltip() {
-			const cloak = document.createElement('div')
-			cloak.style.cssText = 'height: 0; overflow: hidden; position: relative;'
-			content.parentNode.insertBefore(cloak, content)
-			cloak.appendChild(content)
+			var cloak = document.createElement('div');
+			cloak.style.cssText = 'height: 0; overflow: hidden; position: relative;';
+			content.parentNode.insertBefore(cloak, content);
+			cloak.appendChild(content);
 
-			content.setAttribute(ARIA_HIDDEN_ATTR, false)
+			content.setAttribute(ARIA_HIDDEN_ATTR, false);
 
-			document.removeEventListener('click', clickOutHandler)
+			document.removeEventListener('click', clickOutHandler);
 
-			setTimeout(() => {
-				cloak.parentNode.appendChild(content)
-				cloak.remove()
+			setTimeout(function () {
+				cloak.parentNode.appendChild(content);
+				cloak.remove();
 
-				control.setAttribute(ARIA_EXPANDED_ATTR, true)
+				control.setAttribute(ARIA_EXPANDED_ATTR, true);
 
-				const className = `${tabOriginalClassName} ${TAB_CLASS}--active`
+				var className = tabOriginalClassName + ' ' + TAB_CLASS + '--active';
 				if (content.clientHeight > getOffsetDocumentTop(tab)) {
-					tab.className = `${className} ${TAB_CLASS}--bottom`
-					content.style.top = `${tab.offsetTop + tab.offsetHeight}px`
+					tab.className = className + ' ' + TAB_CLASS + '--bottom';
+					content.style.top = tab.offsetTop + tab.offsetHeight + 'px';
 				} else {
-					tab.className = `${className} ${TAB_CLASS}--top`
-					content.style.top = `${tab.offsetTop - content.clientHeight}px`
+					tab.className = className + ' ' + TAB_CLASS + '--top';
+					content.style.top = tab.offsetTop - content.clientHeight + 'px';
 				}
 
-				document.addEventListener('keyup', escapeHandler)
-				document.addEventListener('click', clickOutHandler)
+				document.addEventListener('keyup', escapeHandler);
+				document.addEventListener('click', clickOutHandler);
 
-				content.focus()
-			}, 0)
+				content.focus();
+			}, 0);
 		}
 
 		function hideTooltip() {
-			content.setAttribute(ARIA_HIDDEN_ATTR, true)
-			control.setAttribute(ARIA_EXPANDED_ATTR, false)
+			content.setAttribute(ARIA_HIDDEN_ATTR, true);
+			control.setAttribute(ARIA_EXPANDED_ATTR, false);
 
 			tab.className = tabOriginalClassName;
 
-			document.removeEventListener('keyup', escapeHandler)
-			document.removeEventListener('click', clickOutHandler)
+			document.removeEventListener('keyup', escapeHandler);
+			document.removeEventListener('click', clickOutHandler);
 		}
 
 		function closeTooltip() {
-			hideTooltip()
-			control.focus()
+			hideTooltip();
+			control.focus();
 		}
 
 		function escapeHandler(pEvent) {
 			if (event.key !== 'Escape') {
-				return
+				return;
 			}
 
 			if (content.contains(pEvent.target)) {
-				closeTooltip()
+				closeTooltip();
 			} else {
-				hideTooltip()
+				hideTooltip();
 			}
 		}
 
 		function clickOutHandler(pEvent) {
 			if (!content.contains(pEvent.target)) {
-				hideTooltip()
+				hideTooltip();
 			}
 		}
 
-		control.addEventListener('click', showTooltip)
-		control.addEventListener('keypress', (pEvent) => {
+		control.addEventListener('click', showTooltip);
+		control.addEventListener('keypress', function (pEvent) {
 			if (event.key === ' ' || event.key === 'Enter') {
-				event.preventDefault()
-				showTooltip()
+				event.preventDefault();
+				showTooltip();
 			}
-		})
+		});
 
-		close.addEventListener('click', closeTooltip)
-		close.addEventListener('keypress', (pEvent) => {
+		close.addEventListener('click', closeTooltip);
+		close.addEventListener('keypress', function (pEvent) {
 			if (event.key === ' ' || event.key === 'Enter') {
-				event.preventDefault()
-				closeTooltip()
+				event.preventDefault();
+				closeTooltip();
 			}
-		})
-
+		});
 	}
 
-	[].forEach.call(document.getElementsByClassName('tooltip__control'), pElement => registerTooltip(pElement))
+	[].forEach.call(document.getElementsByClassName('tooltip__control'), function (pElement) {
+		return registerTooltip(pElement);
+	});
 
 	// Three state check boxes 
 	$(".mys-radio__control").click(function (ev) {
-		let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
-		let thisBox = $(this).next(".mys-radio__box");
+		var siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
+		var thisBox = $(this).next(".mys-radio__box");
 		$(siblings).removeClass('mys-radio__box--not-selected');
 		$(siblings).not(thisBox).addClass('mys-radio__box--not-selected');
 	});
 
 	$(".mys-radio-group").mouseover(function (ev) {
-		let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+		var checkedBox = $(this).find("input:checked").next(".mys-radio__box");
 		if (checkedBox.length !== 0) {
-			let siblings = $(this).find(".mys-radio__box");
-			let checkedBox = $(this).next(".mys-radio__box");
+			var siblings = $(this).find(".mys-radio__box");
+			var _checkedBox = $(this).next(".mys-radio__box");
 			$(siblings).removeClass('mys-radio__box--not-selected');
 		}
 	});
 
 	$(".mys-radio-group").mouseleave(function (ev) {
-		let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+		var checkedBox = $(this).find("input:checked").next(".mys-radio__box");
 		if (checkedBox.length !== 0) {
-			let siblings = $(this).find(".mys-radio__box");
+			var siblings = $(this).find(".mys-radio__box");
 			$(siblings).removeClass('mys-radio__box--not-selected');
 			$(siblings).not(checkedBox).addClass('mys-radio__box--not-selected');
 		}
@@ -319,8 +316,6 @@ jQuery(document).ready(function ($) {
 	// });
 
 
-
-
 	var claimType = getUrlParameter('claimType');
 
 	if (claimType) {
@@ -330,5 +325,4 @@ jQuery(document).ready(function ($) {
 	// 	$(".pt-claim-type--cbd").show();
 	// 	$(".pt-claim-type--normal").hide();
 	// }
-
 });
