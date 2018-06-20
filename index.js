@@ -42,7 +42,9 @@ app.get('/email-verification-code', function (request, response) {
 app.get('/email-lsq-pilot', function (request, response) {
   response.render('email/pages/email-lsq-pilot');
 });
-
+app.get('/email-lsq-pilot-thanks', function (request, response) {
+  response.render('email/pages/email-lsq-pilot-thanks');
+});
 /**
 Unauthenticated space
 */
@@ -262,19 +264,19 @@ app.get('/profile-assets-added', function (request, response) {
   response.render('auth/profile-assets-added');
 });
 app.get('/profile-service-details', function (request, response) {
-	response.render('auth/profile-service-details');
+  response.render('auth/profile-service-details');
 });
 app.get('/service-history', function (request, response) {
-	response.render('auth/service-history');
+  response.render('auth/service-history');
 });
 app.get('/service-period-1', function (request, response) {
-	response.render('auth/service-period-1');
+  response.render('auth/service-period-1');
 });
 app.get('/service-period-2', function (request, response) {
-	response.render('auth/service-period-2');
+  response.render('auth/service-period-2');
 });
 app.get('/service-period-3', function (request, response) {
-	response.render('auth/service-period-3');
+  response.render('auth/service-period-3');
 });
 
 /* Separate healthcard screens */
