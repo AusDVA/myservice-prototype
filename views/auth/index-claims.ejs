@@ -258,9 +258,9 @@
             </center>
           </h2>
 
-          <div class="flex-container flex-container--wrap hover-effect">
+          <div class="flex-container flex-container--wrap hover-container">
 
-            <div class="flex-item flex-item--centred card card--medium">
+            <div class="flex-item flex-item--centred card card--medium hover-element">
               <a href="/needs1">
                 <figure>
                   <img class="card__image" src="../../../docs/images/ico-db-needs.svg" alt="">
@@ -272,7 +272,7 @@
               <p class="card__supporting-text">Has your condition changed? Tell us more about your needs at any time.</p>
             </div>
 
-            <div class="flex-item flex-item--centred card card--medium">
+            <div class="flex-item flex-item--centred card card--medium hover-element">
               <a href="/healthcard-home">
                 <figure>
                   <img class="card__image" src="../../../docs/images/ico-db-card.svg" alt="">
@@ -284,7 +284,7 @@
               <p class="card__supporting-text">See accepted conditions covered by your DVA Health Card.</p>
             </div>
 
-            <div class="flex-item flex-item--centred card card--medium">
+            <div class="flex-item flex-item--centred card card--medium hover-element">
               <a href="/profile">
                 <figure>
                   <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
@@ -303,6 +303,7 @@
         <% include ../auth/partials/modal-withdrawclaim.ejs %>
           <% include ../global/partials/footer.ejs %>
             <script>
+
               function makeToast(pType, pMessage) {
                 var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
                 $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
@@ -332,6 +333,7 @@
 
                 localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
               }
+
               $(document).ready(function () {
                 var claimWithdrawn = localStorage.getItem('claim-withdrawn');
                 if (claimWithdrawn) {
@@ -347,6 +349,31 @@
                   $(".show-instance-withdrawn").show();
                   window.location.href = '#open-withdrawclaimmodal';
                 });
+              });
+
+              $(document).ready(function () {
+                const hoverContainer = document.getElementsByClassName('hover-container')[0]
+                const hoverElements = document.getElementsByClassName('hover-element')
+
+                Array.prototype.forEach.call(hoverElements, hoverElement => {
+                  hoverElement.addEventListener('mouseover', (event) => {
+                    hoverElement.classList.add('hover-element--active')
+                  })
+
+                  hoverElement.addEventListener('mouseout', (event) => {
+                    hoverElement.classList.remove('hover-element--active')
+                  })
+                })
+
+                hoverContainer.addEventListener('mouseover', (event) => {
+                  if (event.target !== hoverContainer) {
+                    hoverContainer.classList.add('hover-container--faded')
+                  }
+                })
+
+                hoverContainer.addEventListener('mouseout', (event) => {
+                  hoverContainer.classList.remove('hover-container--faded')
+                })
               });
             </script>
 </body>
