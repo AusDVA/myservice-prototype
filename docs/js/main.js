@@ -196,10 +196,10 @@ jQuery(document).ready(function ($) {
 				var className = tabOriginalClassName + ' ' + TAB_CLASS + '--active';
 				if (content.clientHeight > getOffsetDocumentTop(tab)) {
 					tab.className = className + ' ' + TAB_CLASS + '--bottom';
-					content.style.top = tab.offsetTop + tab.offsetHeight + 'px';
+					content.style.top = control.offsetTop + tab.offsetTop + tab.offsetHeight + 'px';
 				} else {
 					tab.className = className + ' ' + TAB_CLASS + '--top';
-					content.style.top = tab.offsetTop - content.clientHeight + 'px';
+					content.style.top = control.offsetTop - content.clientHeight + tab.offsetTop + 'px';
 				}
 
 				document.addEventListener('keyup', escapeHandler);
