@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width" name="viewport">
+	<title>Add claim: How did it happen? | MyService</title>
+	<link href="docs/css/main.css" rel="stylesheet">
+	<style>
+		#templates {
+			display: none;
+		}
+
+		#upload-button {
+			margin-top: 1em;
+		}
+	</style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+	<noscript>
+		<p role="alert">This website needs JavaScript to work properly.</p>
+	</noscript>
+	<nav class="uikit-skip-link">
+		<a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+	</nav>
+	<% include ../../../global/partials/header-topbar.ejs %>
+		<% include ../../../global/partials/header-claims.ejs %>
+			<% include ../partials/help-button.ejs %>
+				<main>
+					<div class="container" id="main-content">
+						<div id="progressbar">
+							<div id="percentage">
+								<p id="percentage_value"></p>
+							</div>
+
+						</div>
+						<h1>Service history</h1>
+						<p>Providing your service history relating to this calim, will help us assess your claim more accurately and may result in a faster processing time.</p>
+						<form id="service-history">
+							<h3>Upload service records</h3>
+							<table class="table-responsive table-responsive--no-border">
+								<tr class="accordion accordion--open">
+									<td id="file-status" class="file-status">
+										<span class="sr"></span>
+									</td>
+									<td>
+										<span>
+											<b>Service documents</b>
+										</span>
+										<span class="accordion-title__details">For example, ...</span>
+									</td>
+
+									<td class="right">
+										<div id="file-uploads-container">
+										</div>
+										<input type="file" id="upload" class="file-upload__input">
+										<label class="file-upload__label" for="upload">
+											<span class="file-upload__button">
+												<span id="upload-button" class="uikit-btn small"></span>
+											</span>
+										</label>
+									</td>
+									<td>
+										<a class="accordion__trigger accordion__trigger--closed">
+											<span class="sr">Toggle accordion</span>
+										</a>
+									</td>
+								</tr>
+							</table>
+
+							<h3>Provide your service history</h3>
+							<fieldset>
+								<legend class="legend-label">Would you like to provide your service history?</legend>
+								<div class="radio-toggle">
+									<label class="label-left">
+										<input type="radio" name="history" value="yes">
+										<span>Yes</span>
+									</label>
+									<label class="label-right">
+										<input type="radio" name="history" value="no">
+										<span>No</span>
+									</label>
+								</div>
+							</fieldset>
+
+							<div id="service-details" class="hidden">
+								<div class="form-group">
+									<label class="uikit-text-input__label display-inline" for="branch">Branch/arm</label>
+									<select class="uikit-text-input input-auto display-inline" name="branch" id="branch" type="text" value="">
+										<option selected>-- Select branch/arm --</option>
+										<option value="navy">Navy</option>
+										<option value="army">Army</option>
+										<option value="airforce">Air Force</option>
+									</select>
+								</div>
+
+								<div class="form-group">
+									<label class="uikit-text-input__label display-inline" for="type" id="type">Type of Service</label>
+									<select class="uikit-text-input input-auto display-inline" name="type" id="type" type="text" value="">
+										<option selected>-- Select type --</option>
+										<option value="type1">Type 1</option>
+										<option value="type2">Type 2</option>
+										<option value="type3">Type 3</option>
+									</select>
+								</div>
+
+								<div class="row">
+									<div class="col-md-3">
+										<fieldset>
+											<div class="form-group">
+												<label class="uikit-text-input__label">Start date
+													<span class="hint">(DD / MM / YYYY)</span>
+												</label>
+												<input class="uikit-text-input dd" type="text" name="serviceStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+												<input class="uikit-text-input mm" type="text" name="serviceStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+												<input class="uikit-text-input yyyy" type="text" name="serviceStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-md-3">
+										<fieldset>
+											<div class="form-group">
+												<label class="uikit-text-input__label">End date
+													<span class="hint">(DD / MM / YYYY)</span>
+												</label>
+												<input class="uikit-text-input dd" type="text" name="serviceEndDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+												<input class="uikit-text-input mm" type="text" name="serviceEndMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+												<input class="uikit-text-input yyyy" type="text" name="serviceEndYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+											</div>
+										</fieldset>
+									</div>
+								</div>
+
+								<fieldset>
+									<legend class="legend-label">Do you have operational service?</legend>
+									<div class="radio-toggle">
+										<label class="label-left">
+											<input type="radio" name="operation" value="yes">
+											<span>Yes</span>
+										</label>
+										<label class="label-right">
+											<input type="radio" name="operation" value="no">
+											<span>No</span>
+										</label>
+									</div>
+								</fieldset>
+							</div>
+
+							<div id="operation-details" class="hidden">
+								<div class="uikit-page-alerts uikit-page-alerts--warning">
+									<p>
+										<strong>Do not provide Classified operational service</strong>
+										<br>If you are unsure about the classification of your operation call 1800 555 254</p>
+								</div>
+								<div class="form-group">
+									<label class="uikit-text-input__label" for="operationName">Operation Name</label>
+									<input class="uikit-text-input" name="pperationName" type="text" value="">
+								</div>
+
+								<div class="row">
+									<div class="col-md-3">
+										<fieldset>
+											<div class="form-group">
+												<label class="uikit-text-input__label">Start date
+													<span class="hint">(DD / MM / YYYY)</span>
+												</label>
+												<input class="uikit-text-input dd" type="text" name="operationStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+												<input class="uikit-text-input mm" type="text" name="operationStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+												<input class="uikit-text-input yyyy" type="text" name="operationStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+											</div>
+										</fieldset>
+									</div>
+									<div class="col-md-3">
+										<fieldset>
+											<div class="form-group">
+												<label class="uikit-text-input__label">End date
+													<span class="hint">(DD / MM / YYYY)</span>
+												</label>
+												<input class="uikit-text-input dd" type="text" name="operationEndDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+												<input class="uikit-text-input mm" type="text" name="operationEndMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+												<input class="uikit-text-input yyyy" type="text" name="operationEndYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+											</div>
+										</fieldset>
+									</div>
+								</div>
+
+								<fieldset>
+									<legend class="legend-label">Was this operation within specified area?</legend>
+									<div class="radio-toggle">
+										<label class="label-left">
+											<input type="radio" name="area" value="yes">
+											<span>Yes</span>
+										</label>
+										<label class="label-right">
+											<input type="radio" name="area" value="no">
+											<span>No</span>
+										</label>
+									</div>
+								</fieldset>
+
+							</div>
+
+							<div id="save-next" class="hidden">
+								<p>Click
+									<strong>save and next</strong> to continue.</p>
+							</div>
+						</form>
+
+						<div class="pagination">
+							<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claim2'">Previous</button>
+							<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+							<div class="floated">
+								<button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
+								<button class="uikit-btn btnNext" onclick="window.location.href = '/claim3'">Save and next</button>
+							</div>
+						</div>
+						<% include ../partials/cancel-modal.ejs %>
+							<% include ../partials/removefile-modal.ejs %>
+					</div>
+
+				</main>
+
+				<div id="templates">
+
+					<div id="file-upload-template" class="file-upload accordion-title__details">
+						<span class="file-upload__input"></span>
+						<label class="file-upload__label">
+							<span class="file-upload__document">
+								<a href="#" class="file-upload__file-name"></a>
+							</span>
+							<span class="file-upload__button">
+								<button class="uikit-btn uikit-btn--tertiary small">Remove</button>
+							</span>
+						</label>
+					</div>
+				</div>
+
+				<% include ../../../global/partials/footer.ejs %>
+					<% include ../partials/panel-help.ejs %>
+
+						<script>
+							function updateContainerState(pContainer) {
+								var button = document.getElementById('upload-button');
+								var fileStatus = document.getElementById('file-status');
+								var className = 'file-status--uploaded';
+								var srElement = fileStatus.getElementsByClassName('sr')[0];
+
+								if (!pContainer.getElementsByClassName('file-upload').length) {
+									button.innerText = 'Upload';
+									fileStatus.classList.remove(className);
+									srElement.innerText = '';
+								} else {
+									button.innerText = 'Upload another';
+									fileStatus.classList.add(className);
+									srElement.innerText = 'Success';
+								}
+							}
+
+							function renderLayout() {
+								var fileUploadTemplate = document.getElementById('file-upload-template');
+								var fileUploadsContainer = document.getElementById('file-uploads-container');
+
+								updateContainerState(fileUploadsContainer);
+							}
+
+							function renderFileUpload(pElement, pDestination, pFileName) {
+								var fileUploadElement = pElement.cloneNode(true);
+								fileUploadElement.removeAttribute('id');
+
+								fileUploadElement.getElementsByClassName('file-upload__file-name')[0].innerText = pFileName;
+
+								var button = fileUploadElement.getElementsByClassName('uikit-btn')[0];
+								button.onclick = function () {
+									var fileUploadsContainer = document.getElementById('file-uploads-container');
+									fileUploadElement.parentElement.removeChild(fileUploadElement);
+									updateContainerState(fileUploadsContainer);
+								};
+
+								pDestination.appendChild(fileUploadElement);
+							}
+
+							document.getElementById('upload').onchange = function (pEvent) {
+								var fileName = pEvent.target.value.split('\\').pop()
+
+								var fileUploadTemplate = document.getElementById('file-upload-template');
+								var fileUploadsContainer = document.getElementById('file-uploads-container');
+
+								renderFileUpload(fileUploadTemplate, fileUploadsContainer, fileName);
+								updateContainerState(fileUploadsContainer);
+							}
+
+							var form = document.getElementById('service-history');
+
+							form.addEventListener('change', function (pEvent) {
+								if (pEvent.target.name === 'history') {
+									if (form.history.value === 'yes') {
+										document.getElementById('service-details').classList.remove('hidden');
+									} else {
+										document.getElementById('service-details').classList.add('hidden');
+									}
+								}
+
+								if (pEvent.target.name === 'operation') {
+									if (form.operation.value === 'yes') {
+										document.getElementById('operation-details').classList.remove('hidden');
+									} else {
+										document.getElementById('operation-details').classList.add('hidden');
+									}
+								}
+
+								if (pEvent.target.name === 'area') {
+									document.getElementById('save-next').classList.remove('hidden');
+								}
+							});
+							// Progress percentage
+							// document.getElementById("percentage").style.width = "30%";
+							document.getElementById("percentage").style.width = "25%";
+							document.getElementById("percentage_value").textContent = "25%";
+
+							renderLayout();
+						</script>
+
+</body>
+
+</html>
