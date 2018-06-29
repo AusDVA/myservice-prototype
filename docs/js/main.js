@@ -189,7 +189,7 @@ jQuery(document).ready(function ($) {
 
 			setTimeout(function () {
 				cloak.parentNode.appendChild(content);
-				cloak.remove();
+				cloak.parentNode.removeChild(cloak);
 
 				control.setAttribute(ARIA_EXPANDED_ATTR, true);
 
