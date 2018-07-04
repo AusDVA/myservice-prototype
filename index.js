@@ -565,6 +565,9 @@ app.get('/qs-claimdetail', function (request, response) {
 });
 
 /* Mental health treatment path */
+app.get('/health-card0', function (request, response) {
+  response.render('auth/claim/pages/health-card0');
+});
 app.get('/health-card1', function (request, response) {
   response.render('auth/claim/pages/health-card1');
 });
