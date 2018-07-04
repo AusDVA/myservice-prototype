@@ -95,6 +95,20 @@
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewPI-LSQ-detail'">View</button>
                       </td>
                     </tr>
+                    <tr id="nlhc-claim-approved">
+                      <td>
+                        <p class="status-icon status-approved">
+                          Mental Health Treatment (NLHC)
+                          <br />
+                          <span>Approved
+                            <em>&ndash; 3 May 2018</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewNLHCClaimDetail'">View</button>
+                      </td>
+                    </tr>
                   </table>
 
                 </div>
@@ -103,40 +117,41 @@
           </div>
         </div>
         <div>
-          <div class="container">
-            <center>
-              <h2 class="margin-above margin-below--none">
-                <b>What would you like to do?</b>
-              </h2>
-              <div class="flex-container flex-container--wrap">
+          <div class="container margin-below--extra">
+
+            <h2 class="margin-above margin-below--none ss-align--center">
+              <span class="font-weight-heavy">What would you like to&nbsp;do?</span>
+            </h2>
+            <div class="flex-container flex-container--wrap hover-container">
 
 
-                <div class="flex-item flex-item--centred card card--medium">
-                  <a href="/health-card1">
-                    <figure>
-                      <img class="card__image" src="../../../docs/images/ico-db-treatment.svg" alt="">
-                    </figure>
-                    <h2 class="card__title">
-                      <span>Access free treatment</span>
-                    </h2>
-                  </a>
-                  <p class="card__supporting-text">Get immediate mental health treatment without the need to claim.</p>
-                </div>
-
-                <div class="flex-item flex-item--centred card card--medium">
-                  <a href="/profile">
-                    <figure>
-                      <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
-                    </figure>
-                    <h2 class="card__title">
-                      <span>Review your profile</span>
-                    </h2>
-                  </a>
-                  <p class="card__supporting-text">Keep your profile up to date so we can help you.</p>
-                </div>
-
+              <div class="flex-item flex-item--centred card card--medium hover-element" id="nlhc-access">
+                <a href="/health-card1">
+                  <figure>
+                    <img class="card__image" src="../../../docs/images/ico-db-treatment.svg" alt="">
+                  </figure>
+                  <h2 class="card__title">
+                    <span>Access free treatment</span>
+                  </h2>
+                </a>
+                <p class="card__supporting-text">Get immediate mental health treatment without the need to&nbsp;claim.
+                </p>
               </div>
-            </center>
+
+              <div class="flex-item flex-item--centred card card--medium hover-element">
+                <a href="/profile">
+                  <figure>
+                    <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
+                  </figure>
+                  <h2 class="card__title">
+                    <span>Review your profile</span>
+                  </h2>
+                </a>
+                <p class="card__supporting-text">Keep your profile up to date so we can help&nbsp;you.</p>
+              </div>
+
+            </div>
+
           </div>
       </main>
 
@@ -154,12 +169,14 @@
 
     $("#claims").hide();
     $("#qs-claim").hide();
+    $("#nlhc-claim-approved").hide();
     $("#lsq-claim").hide();
     $("#lsq-claim-submitted").hide();
 
     if (localStorage.getItem('user') === 'QSuser') {
       $("#no-claims").hide();
       $("#claims").show();
+      $("#nlhc-claim-approved").hide();
       $("#lsq-claim").hide();
       $("#lsq-claim-submitted").hide();
       $("#qs-claim").show();
@@ -170,6 +187,7 @@
       $("#no-claims").hide();
       $("#claims").show();
       $("#qs-claim").hide();
+      $("#nlhc-claim-approved").hide();
       $("#lsq-claim-submitted").hide();
       $("#lsq-claim").show();
       $(".widget-content").addClass("widget--justclaims");
@@ -179,8 +197,20 @@
       $("#no-claims").hide();
       $("#claims").show();
       $("#qs-claim").hide();
+      $("#nlhc-claim-approved").hide();
       $("#lsq-claim").hide();
       $("#lsq-claim-submitted").show();
+      $(".widget-content").addClass("widget--justclaims");
+      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
+    }
+    else if (localStorage.getItem('user') === 'NLHCuser-approved') {
+      $("#no-claims").hide();
+      $("#claims").show();
+      $("#qs-claim").hide();
+      $("#lsq-claim").hide();
+      $("#lsq-claim-submitted").hide();
+      $("#nlhc-claim-approved").show();
+      $("#nlhc-access").hide();
       $(".widget-content").addClass("widget--justclaims");
       $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
     }
@@ -189,6 +219,31 @@
       $("#claims").hide();
       $("#qs-claim").hide();
     }
+  });
+
+  $(document).ready(function () {
+    const hoverContainer = document.getElementsByClassName('hover-container')[0]
+    const hoverElements = document.getElementsByClassName('hover-element')
+
+    Array.prototype.forEach.call(hoverElements, hoverElement => {
+      hoverElement.addEventListener('mouseover', (event) => {
+        hoverElement.classList.add('hover-element--active')
+      })
+
+      hoverElement.addEventListener('mouseout', (event) => {
+        hoverElement.classList.remove('hover-element--active')
+      })
+    })
+
+    hoverContainer.addEventListener('mouseover', (event) => {
+      if (event.target !== hoverContainer) {
+        hoverContainer.classList.add('hover-container--faded')
+      }
+    })
+
+    hoverContainer.addEventListener('mouseout', (event) => {
+      hoverContainer.classList.remove('hover-container--faded')
+    })
   });
 
 </script>
