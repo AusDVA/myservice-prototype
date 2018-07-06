@@ -1,6 +1,10 @@
 var express = require('express');
 var app = express();
-var serveIndex = require('serve-index')
+var cookieParser = require('cookie-parser')
+
+app.use(cookieParser())
+
+var serveIndex = require('serve-index');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -9,6 +13,9 @@ app.use(express.static(__dirname));
 // views is directory for all template files
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
+
+
+
 
 /*
 /**
@@ -32,7 +39,12 @@ app.get('/email-claim-submitted', function (request, response) {
 app.get('/email-verification-code', function (request, response) {
   response.render('email/pages/email-verification-code');
 });
-
+app.get('/email-lsq-pilot', function (request, response) {
+  response.render('email/pages/email-lsq-pilot');
+});
+app.get('/email-lsq-pilot-thanks', function (request, response) {
+  response.render('email/pages/email-lsq-pilot-thanks');
+});
 /**
 Unauthenticated space
 */
@@ -69,13 +81,25 @@ app.get('/change-password', function (request, response) {
 /**
 Onboarding page
 */
-
-app.get('/onboarding', function (request, response) {
-  response.render('auth/onboarding');
-});
 app.get('/mygov-login', function (request, response) {
   response.render('auth/mygov-login');
 });
+app.get('/mygov-linking', function (request, response) {
+  response.render('auth/mygov-linking');
+});
+app.get('/mygov-linked', function (request, response) {
+  response.render('auth/mygov-linked');
+});
+app.get('/onboarding', function (request, response) {
+  response.render('auth/onboarding');
+});
+app.get('/user-testing-stop', function (request, response) {
+  response.render('global/user-testing-stop');
+});
+app.get('/user-testing-mygov-reg', function (request, response) {
+  response.render('global/user-testing-mygov-reg');
+});
+
 
 /* Verify displays service history if DVA only */
 app.get('/verify-details', function (request, response) {
@@ -201,17 +225,30 @@ app.get('/profile-contact', function (request, response) {
   });
 });
 
+app.get('/profile-contact-2', function (request, response) {
+  response.render('auth/profile-contact-2', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/222', function (request, response) {
   response.render('auth/profile-contact', {
     main_nav_active: 'my-profile'
   });
 });
 
+
 app.get('/profile-history', function (request, response) {
   response.render('auth/profile-history', {
     main_nav_active: 'profile'
   });
 });
+app.get('/profile-history-2', function (request, response) {
+  response.render('auth/profile-history-2', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/profile-assets', function (request, response) {
   response.render('auth/profile-assets', {
     main_nav_active: 'profile'
@@ -225,6 +262,21 @@ app.get('/profile-financial-other', function (request, response) {
 });
 app.get('/profile-assets-added', function (request, response) {
   response.render('auth/profile-assets-added');
+});
+app.get('/profile-service-details', function (request, response) {
+  response.render('auth/profile-service-details');
+});
+app.get('/service-history', function (request, response) {
+  response.render('auth/service-history');
+});
+app.get('/service-period-1', function (request, response) {
+  response.render('auth/service-period-1');
+});
+app.get('/service-period-2', function (request, response) {
+  response.render('auth/service-period-2');
+});
+app.get('/service-period-3', function (request, response) {
+  response.render('auth/service-period-3');
 });
 
 /* Separate healthcard screens */
@@ -332,6 +384,9 @@ app.get('/claim1', function (request, response) {
 app.get('/claim2', function (request, response) {
   response.render('auth/claim/pages/claim2');
 });
+app.get('/claim2a', function (request, response) {
+  response.render('auth/claim/pages/claim2a');
+});
 app.get('/claim3', function (request, response) {
   response.render('auth/claim/pages/claim3');
 });
@@ -344,15 +399,20 @@ app.get('/claim5', function (request, response) {
 app.get('/claim6', function (request, response) {
   response.render('auth/claim/pages/claim6');
 });
-app.get('/claim7', function (request, response) {
+app.get('/claim7', function (request, response, next) {
   response.render('auth/claim/pages/claim7');
 });
-app.get('/claim8', function (request, response) {
+
+app.get('/claim8', function (request, response, next) {
+
+  var claimTypeCookie = request.cookies.claimType;
+  // Cookies that have not been signed
+  console.log('Cookies: ', request.cookies)
+
+  response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
-app.get('/claim8a', function (request, response) {
-  response.render('auth/claim/pages/claim8a');
-});
+
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {
@@ -388,11 +448,24 @@ app.get('/studentclaimupload', function (request, response) {
 app.get('/viewClaimDetailStudent', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetailStudent');
 });
+app.get('/viewClaimRejected', function (request, response) {
+  response.render('auth/claim/pages/viewClaimRejected');
+});
 app.get('/index-claimsstudent', function (request, response) {
   response.render('auth/index-claimsstudent');
 });
-
-
+app.get('/viewClaimWithdrawn', function (request, response) {
+  response.render('auth/claim/pages/viewClaimWithdrawn');
+});
+app.get('/viewClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/viewClaimInProgress');
+});
+app.get('/updateClaimInProgress', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgress');
+});
+app.get('/updateClaimInProgressSubmitting', function (request, response) {
+  response.render('auth/claim/pages/updateClaimInProgressSubmitting');
+});
 
 /* Student assistance flow */
 app.get('/student-assistance-landing', function (request, response) {
@@ -424,15 +497,46 @@ app.get('/index-claimsstudent', function (request, response) {
 });
 
 /* Permanent impairment */
-app.get('/pi-start', function (request, response) {
-  response.render('auth/claim/pages/pi-start');
+app.get('/pi-lsq-pilot', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-pilot');
 });
-app.get('/pi-claim1', function (request, response) {
-  response.render('auth/claim/pages/pi-claim1');
+app.get('/pi-lsq-start', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-start');
 });
-app.get('/pi-claim2', function (request, response) {
-  response.render('auth/claim/pages/pi-claim2');
+app.get('/pi-lsq-claim1', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim1');
 });
+app.get('/pi-lsq-claim2', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim2');
+});
+app.get('/pi-lsq-claim3', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim3');
+});
+app.get('/pi-lsq-claim4', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim4');
+});
+app.get('/pi-lsq-claim5', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim5');
+});
+app.get('/pi-lsq-claim6', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6');
+});
+app.get('/pi-lsq-claim6b', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6b');
+});
+app.get('/pi-lsq-claim7', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim7');
+});
+app.get('/pi-lsq-claim7b', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim7b');
+});
+app.get('/viewPI-LSQ-detail', function (request, response) {
+  response.render('auth/claim/pages/viewPI-LSQ-detail');
+});
+app.get('/viewPI-LSQ-detailb', function (request, response) {
+  response.render('auth/claim/pages/viewPI-LSQ-detailb');
+});
+
 
 /* Disability pension AFI (application for increase) */
 app.get('/afi-start', function (request, response) {
@@ -455,9 +559,15 @@ app.get('/afi-claimdetail', function (request, response) {
 });
 
 
-
+/* Qualifying Service */
+app.get('/qs-claimdetail', function (request, response) {
+  response.render('auth/claim/pages/viewQSClaimDetail');
+});
 
 /* Mental health treatment path */
+app.get('/health-card0', function (request, response) {
+  response.render('auth/claim/pages/health-card0');
+});
 app.get('/health-card1', function (request, response) {
   response.render('auth/claim/pages/health-card1');
 });
@@ -470,7 +580,9 @@ app.get('/health-card3', function (request, response) {
 app.get('/health-card4', function (request, response) {
   response.render('auth/claim/pages/health-card4');
 });
-
+app.get('/health-card-blocker', function (request, response) {
+  response.render('auth/claim/pages/health-card-blocker');
+});
 
 app.get('/viewClaimDetail', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetail');
@@ -498,6 +610,17 @@ app.get('/healthcard-nlhc', function (request, response) {
 });
 app.get('/healthcard-none', function (request, response) {
   response.render('auth/healthcard/healthcard-none', {
+    main_nav_active: 'healthcard'
+  });
+});
+
+app.get('/healthcard-replacement', function (request, response) {
+  response.render('auth/claim/pages/healthcard-replacement', {
+    main_nav_active: 'healthcard'
+  });
+});
+app.get('/healthcard-replacement-success', function (request, response) {
+  response.render('auth/claim/pages/healthcard-replacement-success', {
     main_nav_active: 'healthcard'
   });
 });
@@ -581,4 +704,13 @@ app.get('/styleguide-document-uploads', function (request, response) {
 });
 app.get('/styleguide-tooltip', function (request, response) {
   response.render('styleguide/pages/tooltip');
+});
+app.get('/styleguide-animations', function (request, response) {
+  response.render('styleguide/pages/animations');
+});
+
+
+/* MyAccount */
+app.get('/myaccount', function (request, response) {
+  response.render('myaccount/index');
 });

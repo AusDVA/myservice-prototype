@@ -16,7 +16,7 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
   <% include ../../../global/partials/header-topbar.ejs %>
-    <% include ../../../global/partials/header-authenticated--claims.ejs %>
+    <% include ../../../global/partials/header-authenticated.ejs %>
       <main>
         <section>
           <div id="main-content" class="section-feature section-feature--bg margin-above--none padding-above--mid padding-below--mid">
@@ -24,19 +24,25 @@
               <h1 class="margin-below--small margin-above--small">
                 <span class="heading">Claims</span>
               </h1>
-              <div class="container claims-accordian simple-accordian margin-below">
-                <div class="row simple-accordian--trigger">
-                  <div class="col-sm-12" id="simple-accordian--trigger">
-                    <h2 class="simple-accordian--heading margin-above--none margin-below--none">
+
+              <div class="skip-link padding-above--none
+              small-handheld-skip">
+                <button class="uikit-btn uikit-btn--tertiary margin-below" id="claim-activity-link">See all claims</button>
+              </div>
+
+              <div class="container claims-accordion simple-accordion simple-accordion--open margin-below">
+                <div class="row simple-accordion__trigger">
+                  <div class="col-sm-12">
+                    <h2 class="simple-accordion__heading margin-above--none margin-below--none">
                       <a class="toggle-arrow">
                         <b>Get the entitlements you deserve</b>
                       </a>
                     </h2>
                   </div>
                 </div>
-                <div class="row simple-accordian-body margin-below--extra">
-                  <div class="col-sm-12 claims-accordian--singleclaim">
-                    <h2 class="simple-accordian--heading">Claim now for service-related
+                <div class="row simple-accordion__body margin-below--extra">
+                  <div class="col-sm-12 claims-accordion--singleclaim">
+                    <h2 class="simple-accordion__heading">Claim now for service-related
                       <br>
                       <b>injuries or illness</b>
                     </h2>
@@ -47,8 +53,8 @@
               </div>
             </div>
           </div>
-          <div class="container margin-above--extra margin-below--extra">
-            <h2 class="simple-accordian--heading">
+          <div class="container margin-above--extra margin-below--extra" id="claim-activity">
+            <h2 class="simple-accordion__heading">
               <center>
                 <b>Manage and track your claims</b>
               </center>
@@ -96,8 +102,20 @@
       <% include ../../../global/partials/footer.ejs %>
 
         <script>
-          $("#simple-accordian--trigger").click(function () {
-            $(".simple-accordian--body").toggle("fast");
+          $(".toggle-arrow").click(function () {
+            $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
+          });
+
+          function goToByScroll(id) {
+            id = id.replace("-link", "");
+            $('html,body').animate({
+              scrollTop: $("#" + id).offset().top
+            },
+              'slow');
+          }
+          $("#claim-activity-link").click(function (e) {
+            e.preventDefault();
+            goToByScroll($(this).attr("id"));
           });
 
 

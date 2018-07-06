@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>NLHC Eligibilty | MyService</title>
+  <link href="docs/css/main.css" rel="stylesheet">
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../global/partials/header-topbar.ejs %>
+    <% include ../../../global/partials/header-claims.ejs %>
+      <% include ../partials/help-button.ejs %>
+        <main>
+          <div class="container" id="main-content">
+            <div id="progressbar">
+              <div id="percentage">
+                <p id="percentage_value"></p>
+              </div>
+
+            </div>
+
+            <h1>Check your eligibilty</h1>
+
+
+            <div class="form-group" id="q1">
+              <fieldset>
+                <legend class="legend-label">What type of service are you claiming for?</legend>
+                <div class="radio-toggle">
+                  <label class="on label-left ">
+                    <input type="radio" name="ServiceType" value="permanent">
+                    <span>Permanent</span>
+                  </label>
+                  <label class="off label-right ">
+                    <input type="radio" name="ServiceType" value="reservist">
+                    <span>Reservist</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group" id="q2">
+              <fieldset>
+                <legend class="legend-label">As a reservist, was your service ever considered continuous full-time service? </legend>
+                <div class="radio-toggle">
+                  <label class="on label-left ">
+                    <input type="radio" name="CTFS" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right ">
+                    <input type="radio" name="CTFS" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group" id="q3">
+              <fieldset>
+                <legend class="legend-label">As a reservist, have you served with a disaster relief service?</legend>
+                <div class="radio-toggle">
+                  <label class="on label-left ">
+                    <input type="radio" name="DisasterRelief" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right ">
+                    <input type="radio" name="DisasterRelief" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group" id="DisasterReliefOperationName">
+              <label class="uikit-text-input__label">Operation name
+                <span class="hint">(if known)</span>
+              </label>
+              <input class="uikit-text-input input-half" type="text" value="" id="DROperation">
+            </div>
+
+            <div class="form-group" id="q4">
+              <fieldset>
+                <legend class="legend-label">As a reservist, have you served with border protection service? </legend>
+                <div class="radio-toggle">
+                  <label class="on label-left ">
+                    <input type="radio" name="BorderProtection" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right ">
+                    <input type="radio" name="BorderProtection" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group" id="BorderProtectionOperationName">
+              <label class="uikit-text-input__label">Operation name
+                <span class="hint">(if known)</span>
+              </label>
+              <input class="uikit-text-input input-half" type="text" value="" id="BPOperation">
+            </div>
+
+            <div class="form-group" id="q5">
+              <fieldset>
+                <legend class="legend-label">As a reservist, have you been involved in a serious training incident? </legend>
+                <div class="radio-toggle">
+                  <label class="on label-left ">
+                    <input type="radio" name="training" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right ">
+                    <input type="radio" name="training" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel request</button>
+              <div class="floated">
+                <button class="uikit-btn" onclick="window.location.href = '/health-card1'">Next</button>
+              </div>
+            </div>
+
+            <% include ../partials/cancel-modal.ejs %>
+
+          </div>
+        </main>
+
+        <% include ../../../global/partials/footer.ejs %>
+          <% include ../partials/panel-help.ejs %>
+
+            <script>
+
+              // Progress percentage
+              document.getElementById("percentage").style.width = "10%";
+              document.getElementById("percentage_value").textContent = "10%";
+
+              $("#q2,#q3,#q4,#q5,#DisasterReliefOperationName,#BorderProtectionOperationName").hide();
+              $("#q1 label").click(function () {
+                if ($("input[name=ServiceType]:checked").val() == "permanent") {
+                  $("#q2,#q3,#q4,#q5,#DisasterReliefOperationName,#BorderProtectionOperationName").hide();
+                  $("input[name=CTFS]:checked").prop("checked", false);
+                  $("input[name=DisasterRelief]:checked").prop("checked", false);
+                  $("input[name=BorderProtection]:checked").prop("checked", false);
+                  $("input[name=training]:checked").prop("checked", false);
+                  $("#DROperation").val("");
+                  $("#BPOperation").val("");
+                } else {
+                  $("#q2,#q3,#q4,#q5").show();
+                }
+              });
+
+              $("#q3 label").click(function () {
+                if ($("input[name=DisasterRelief]:checked").val() == "yes") {
+                  $("#DisasterReliefOperationName").show();
+                } else {
+                  $("#DisasterReliefOperationName").hide();
+                  $("#DROperation").val("");
+                }
+              });
+
+              $("#q4 label").click(function () {
+                if ($("input[name=BorderProtection]:checked").val() == "yes") {
+                  $("#BorderProtectionOperationName").show();
+                } else {
+                  $("#BorderProtectionOperationName").hide();
+                  $("#BPOperation").val("");
+                }
+              });
+
+//	$("#single-no").click(function() {
+//		$( ".single-incident" ).hide();
+//		$( ".over-time" ).show("fast");
+//	});
+//
+//	$( "#doctor-no" ).click(function() {
+//		sessionStorage.setItem('nodiagnosis',true);
+//		$( "#condition" ).show("fast");
+//		$( "#diagnosis" ).hide();
+//	});
+//	$( "#doctor-yes" ).click(function() {
+//		sessionStorage.setItem('yesdiagnosis',true);
+//		$( "#diagnosis" ).show("fast");
+//		$( "#condition" ).hide();
+//	});
+
+            </script>
+
+</body>
+
+</html>
