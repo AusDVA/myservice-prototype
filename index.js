@@ -580,7 +580,9 @@ app.get('/health-card3', function (request, response) {
 app.get('/health-card4', function (request, response) {
   response.render('auth/claim/pages/health-card4');
 });
-
+app.get('/health-card-blocker', function (request, response) {
+  response.render('auth/claim/pages/health-card-blocker');
+});
 
 app.get('/viewClaimDetail', function (request, response) {
   response.render('auth/claim/pages/viewClaimDetail');
