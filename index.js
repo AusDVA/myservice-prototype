@@ -537,6 +537,27 @@ app.get('/viewPI-LSQ-detailb', function (request, response) {
   response.render('auth/claim/pages/viewPI-LSQ-detailb');
 });
 
+/* LSQ Pilot alternative progress bar */
+
+app.get('/pi-lsq-claim1c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim1c');
+});
+app.get('/pi-lsq-claim2c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim2c');
+});
+app.get('/pi-lsq-claim3c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim3c');
+});
+app.get('/pi-lsq-claim4c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim4c');
+});
+app.get('/pi-lsq-claim5c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim5c');
+});
+app.get('/pi-lsq-claim6c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6c');
+});
+
 
 /* Disability pension AFI (application for increase) */
 app.get('/afi-start', function (request, response) {
