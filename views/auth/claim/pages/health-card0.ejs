@@ -108,7 +108,22 @@
 
             <div class="form-group" id="q5">
               <fieldset>
-                <legend class="legend-label">As a reservist, have you been involved in a serious training incident? </legend>
+                <div class="uikit-text-input__label-wrapper--inline-block">
+                  <legend class="legend-label">As a reservist, have you been involved in a serious training incident? </legend>
+                </div>
+                <div class="tooltip">
+                  <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
+                    <div class="tooltip__label tooltip__label--icon-only">
+                      <a>Gender help</a>
+                    </div>
+                    <div class="tooltip__tab"></div>
+                  </div>
+                  <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
+                    <div class="tooltip__message">This includes involvement in a serious accident while undertaking a training exercise where you witness a member of the ADF die or sustain a serious injury, or you
+                      sustain a serious injury . A serious injury would require immediate medical treatment at a hospital. </div>
+                    <div class="tooltip__close" role="button" tabindex="0">Close</div>
+                  </div>
+                </div>
                 <div class="radio-toggle">
                   <label class="on label-left ">
                     <input type="radio" name="training" value="yes">
@@ -120,6 +135,20 @@
                   </label>
                 </div>
               </fieldset>
+            </div>
+            <div class="form-group" id="TrainingLocation">
+              <label class="uikit-text-input__label">Location of serious incident
+                <span class="hint">(if known)</span>
+              </label>
+              <input class="uikit-text-input input-half" type="text" value="" id="locationincident">
+            </div>
+
+            <div class="form-group" id="DateofIncident">
+              <label class="uikit-text-input__label" for="cease-work-date">Approximately when did the serious incident occur?
+                <span class="hint display-block">(MM / YYYY)</span>
+              </label>
+              <input class="uikit-text-input mm" type="text" name="mm-date-finish-studying" id="mm-date-incident" maxlength="2" aria-label="2 digit month"> /
+              <input class="uikit-text-input yyyy" type="text" name="yyyy-date-finish-studying" id="yyyy-date-incident" maxlength="4" aria-label="4 digit year">
             </div>
 
             <div class="pagination">
@@ -163,7 +192,7 @@
               });
 
 
-              $("#q2,#q3,#q4,#q5,#DisasterReliefOperationName,#BorderProtectionOperationName").hide();
+              $("#q2,#q3,#q4,#q5,#DisasterReliefOperationName,#BorderProtectionOperationName, #TrainingLocation, #DateofIncident").hide();
               $("#q1 label").click(function () {
                 if ($("input[name=ServiceType]:checked").val() == "permanent") {
                   $("#q2,#q3,#q4,#q5,#DisasterReliefOperationName,#BorderProtectionOperationName").hide();
@@ -193,6 +222,19 @@
                 } else {
                   $("#BorderProtectionOperationName").hide();
                   $("#BPOperation").val("");
+                }
+              });
+
+              $("#q5 label").click(function () {
+                if ($("input[name=training]:checked").val() == "yes") {
+                  $("#TrainingLocation").show();
+                  $("#DateofIncident").show();
+                } else {
+                  $("#TrainingLocation").hide();
+                  $("#DateofIncident").hide();
+                  $("#locationincident").val("");
+                  $("#mm-date-incident").val("");
+                  $("#yyyy-date-incident").val("");
                 }
               });
 
