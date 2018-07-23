@@ -537,6 +537,27 @@ app.get('/viewPI-LSQ-detailb', function (request, response) {
   response.render('auth/claim/pages/viewPI-LSQ-detailb');
 });
 
+/* LSQ Pilot alternative progress bar */
+
+app.get('/pi-lsq-claim1c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim1c');
+});
+app.get('/pi-lsq-claim2c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim2c');
+});
+app.get('/pi-lsq-claim3c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim3c');
+});
+app.get('/pi-lsq-claim4c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim4c');
+});
+app.get('/pi-lsq-claim5c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim5c');
+});
+app.get('/pi-lsq-claim6c', function (request, response) {
+  response.render('auth/claim/pages/pi-lsq-claim6c');
+});
+
 
 /* Disability pension AFI (application for increase) */
 app.get('/afi-start', function (request, response) {
@@ -556,6 +577,33 @@ app.get('/afi-submitted', function (request, response) {
 });
 app.get('/afi-claimdetail', function (request, response) {
   response.render('auth/claim/pages/viewAFIClaimDetail');
+});
+
+
+/* DHOAS Subsidy certificate */
+app.get('/dhoas-start', function (request, response) {
+  response.render('auth/claim/pages/dhoas-start');
+});
+app.get('/dhoas1', function (request, response) {
+  response.render('auth/claim/pages/dhoas1');
+});
+app.get('/dhoas2', function (request, response) {
+  response.render('auth/claim/pages/dhoas2');
+});
+app.get('/dhoas3', function (request, response) {
+  response.render('auth/claim/pages/dhoas3');
+});
+app.get('/dhoas4', function (request, response) {
+  response.render('auth/claim/pages/dhoas4');
+});
+app.get('/dhoas-review', function (request, response) {
+  response.render('auth/claim/pages/dhoas-review');
+});
+app.get('/dhoas-submitted', function (request, response) {
+  response.render('auth/claim/pages/dhoas-submitted');
+});
+app.get('/viewDhoasDetail', function (request, response) {
+  response.render('auth/claim/pages/viewDhoasDetail');
 });
 
 
