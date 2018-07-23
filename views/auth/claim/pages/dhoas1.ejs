@@ -30,41 +30,41 @@
               <span class="heading">Home loan details</span>
             </h1>
 
-            <div class="form-group">
+            <div class="form-group" id="purpose">
               <label class="uikit-text-input__label" for="radio-buttons">What is the purpose of this loan?</label>
               <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
+                <label class="uikit-control-input" id="op1">
                   <input class="uikit-control-input__input" type="radio" name="radio-purpose">
                   <span class="uikit-control-input__text">Purchase a new home</span>
                 </label>
               </p>
               <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
+                <label class="uikit-control-input" id="op2">
                   <input class="uikit-control-input__input" type="radio" name="radio-purpose">
                   <span class="uikit-control-input__text">Purchase land and/or construct home</span>
                 </label>
               </p>
               <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
+                <label class="uikit-control-input" id="op3">
                   <input class="uikit-control-input__input" type="radio" name="radio-purpose">
                   <span class="uikit-control-input__text">Enlarge, repair, renovate, or create a permanent improvement to a home</span>
                 </label>
               </p>
               <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="radio" name="radio-purpose">
+                <label class="uikit-control-input" id="op4">
+                  <input class="uikit-control-input__input" type="radio" name="radio-purpose" value="refinance">
                   <span class="uikit-control-input__text">Refinance an existing home loan that was used for one or more of the above purposes</span>
                 </label>
               </p>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="refinance-reason">
               <label class="uikit-text-input__label" for="why-refinance">Please detail why you are refinancing your existing home loan, including any non DHOAS purposes</label>
-              <textarea id="why-refinance" name="why-refinance" rows="3"></textarea>
+              <textarea id="why-refinance" name="why-refinance" rows="3" value=""></textarea>
             </div>
 
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="radio-buttons">Which of the following do you currently occupy?</label>
+            <div class="form-group" id="occupancy">
+              <label class="uikit-text-input__label margin-above--large" for="radio-buttons">Which of the following do you currently occupy?</label>
               <p class="uiToolKitCheckBox">
                 <label class="uikit-control-input">
                   <input class="uikit-control-input__input" type="radio" name="radio-occupy">
@@ -91,13 +91,13 @@
               </p>
               <p class="uiToolKitCheckBox">
                 <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="radio" name="radio-occupy">
+                  <input class="uikit-control-input__input" type="radio" name="radio-occupy" value="other">
                   <span class="uikit-control-input__text">Other</span>
                 </label>
               </p>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="specify">
               <label class="uikit-text-input__label" for="specify-occupancy">Please specify
               </label>
               <input class="uikit-text-input" name="specify-occupancy" id="specify-occupancy" type="text" value="" required="" aria-required="true">
@@ -125,7 +125,30 @@
               // Progress percentage
               document.getElementById("percentage").style.width = "40%";
               document.getElementById("percentage_value").textContent = "40%";
+
+              $("#refinance-reason").hide();
+              $("#specify").hide();
+
+              $("#purpose label").click(function () {
+                if ($(this).children('input').val() == "refinance") {
+                  $("#refinance-reason").show();
+                } else {
+                  $("#refinance-reason").hide();
+                  $("#why-refinance").val("");
+                }
+              });
+
+              $("#occupancy label").click(function () {
+                if ($(this).children('input').val() == "other") {
+                  $("#specify").show();
+                } else {
+                  $("#specify").hide();
+                  $("#specify-occupancy").val("");
+                }
+              });
+
             </script>
+
 
 </body>
 
