@@ -27,7 +27,7 @@
 
             </div>
             <h1>
-              <span class="heading">Option of lump sum payment</span>
+              <span class="heading">Lump sum payment option</span>
             </h1>
 
             <div id="lumpSum" class="form-group">
@@ -69,11 +69,11 @@
                   <div class="col-sm-6 col-lg-4 margin-above">
                     <div class="mys-radio-group mys-radio-group--cols-2">
                       <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="landOwnership" value="yes">
+                        <input id="landOwnership-yes" class="mys-radio__control" type="radio" name="landOwnership" value="landOwnership-yes">
                         <span class="mys-radio__box">Yes</span>
                       </label>
                       <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="landOwnership" value="no">
+                        <input id="landOwnership-no" class="mys-radio__control" type="radio" name="landOwnership" value="landOwnership-no">
                         <span class="mys-radio__box">No</span>
                       </label>
                     </div>
@@ -83,16 +83,16 @@
                 <!-- Eligibility question 2 -->
                 <fieldset id="continueService">
                   <div class="col-sm-6 col-lg-8">
-                    <legend class="legend-label legend-label--light">Have you bought a 50% or greater interest in land in Australia where a house was occupied or could have been occupied as a home by any party?</legend>
+                    <legend class="legend-label legend-label--light">Do you expect to continue service in the ADF for the purposes of DHOAS for a period of at least 12 months after payment of subsidy is authorised?</legend>
                   </div>
                   <div class="col-sm-6 col-lg-4">
                     <div class="mys-radio-group mys-radio-group--cols-2">
                       <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="continueService" value="yes">
+                        <input id="continueService-yes" class="mys-radio__control" type="radio" name="continueService" value="continueService-yes">
                         <span class="mys-radio__box">Yes</span>
                       </label>
                       <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="continueService" value="no">
+                        <input id="continueService-no" class="mys-radio__control" type="radio" name="continueService" value="continueService-no">
                         <span class="mys-radio__box">No</span>
                       </label>
                     </div>
@@ -100,8 +100,8 @@
                 </fieldset>
               </div>
 
-              <div class="uikit-page-alerts uikit-page-alerts--success margin-below--extra">You are eligible to receive a lump sum payment.</div>
-              <div class="uikit-page-alerts uikit-page-alerts--error margin-below--extra">You are not eligible to receive a lump sum payment.</div>
+              <div id="eligible__yes" class="uikit-page-alerts uikit-page-alerts--success margin-below--extra" style="display:none;">You are eligible to receive a lump sum payment.</div>
+              <div id="eligible__no" class="uikit-page-alerts uikit-page-alerts--error margin-below--extra" style="display:none;">You are not eligible to receive a lump sum payment.</div>
 
             </div>
 
@@ -159,6 +159,9 @@
               document.getElementById("percentage").style.width = "80%";
               document.getElementById("percentage_value").textContent = "80%";
 
+              var landValue;
+              var continueValue;
+
               $("#lumpSum-no").click(function () {
                 $("#lumpSum__no").show();
                 $("#lumpSum-eligibility").hide();
@@ -168,16 +171,57 @@
                 $("#lumpSum-eligibility").show();
               });
 
-              var buttonon = true;
+              $('#landOwnership').click(function () {
+                if (radiosChecked()) {
+                  if (showEligibility()) {
+                    $("#eligible__yes").show();
+                    $("#lumpSum-amount").show();
+                    $("#eligible__no").hide();
+                  } else {
+                    $("#eligible__no").show();
+                    $("#lumpSum-amount").hide();
+                    $("#eligible__yes").hide();
+                  }
+                }
+              });
+              $('#continueService').click(function () {
+                if (radiosChecked()) {
+                  if (showEligibility()) {
+                    $("#eligible__yes").show();
+                    $("#lumpSum-amount").show();
+                    $("#eligible__no").hide();
+                  } else {
+                    $("#eligible__no").show();
+                    $("#lumpSum-amount").hide();
+                    $("#eligible__yes").hide();
+                  }
+                }
+              });
+
+              $('#continueService-yes').click(function () {
+                continueValue = true
+              });
+              $('#continueService-no').click(function () {
+                continueValue = false
+              });
+              $('#landOwnership-yes').click(function () {
+                landValue = true
+              });
+              $('#landOwnership-no').click(function () {
+                landValue = false
+              });
+
+
+
 
               function radiosChecked() {
-                var landChecked = false
+                var landChecked = false;
                 $('#landOwnership').find('input').each(function () {
                   if (this.checked) {
-                    landChecked = true
+                    landChecked = true;
                   }
                 })
-                var continueChecked = false
+                var continueChecked = false;
                 $('#continueService').find('input').each(function () {
                   if (this.checked) {
                     continueChecked = true
@@ -190,7 +234,16 @@
                 }
               }
 
+              function showEligibility() {
+                if (this.landValue && this.continueValue) {
+                  return true;
+                } else {
+                  return false;
+                }
+              }
 
+
+              var buttonon = true;
 
               $("#next").click(function () {
 
@@ -207,6 +260,7 @@
                 }
                 window.location.href = "/health-card1";
               });
+
 
             </script>
 

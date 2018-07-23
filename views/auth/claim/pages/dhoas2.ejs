@@ -53,25 +53,6 @@
 
             <div class="hidden2">
 
-              <h2>Consent</h2>
-              <div id="consent">
-                <p>
-                  <label class="uikit-control-input">
-                    <input id="agreementOne" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-                    <span class="uikit-control-input__text">I agree that DVA can discuss my application with this person.</span>
-                  </label>
-                </p>
-                <p>
-                  <label class="uikit-control-input">
-                    <input id="agreementTwo" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-                    <span class="uikit-control-input__text">I agree this person can make decisions about my DHOAS entitlement on my behalf.</span>
-                  </label>
-                </p>
-
-                <p class="margin-above--large">
-                  <span class="heading heading--spacer"></span>
-                </p>
-              </div>
 
               <!-- Co-owner/borrower contact details -->
 
@@ -145,9 +126,31 @@
                 </p>
               </div>
 
+              <h2>Consent</h2>
+              <div id="consent">
+                <p>
+                  <label class="uikit-control-input">
+                    <input id="agreementOne" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
+                    <span class="uikit-control-input__text">I agree that DVA can discuss my application with this person.</span>
+                  </label>
+                </p>
+                <p>
+                  <label class="uikit-control-input">
+                    <input id="agreementTwo" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
+                    <span class="uikit-control-input__text">I agree this person can make decisions about my DHOAS entitlement on my behalf.</span>
+                  </label>
+                </p>
+
+                <p class="margin-above--large">
+                  <span class="heading heading--spacer"></span>
+                </p>
+              </div>
+
               <div class="form-group" id="relationship">
                 <label class="uikit-text-input__label" for="sop">What is your relationship to this person?
                   <span class="hint display-block">Select all that apply.</span>
+
+                  <span class="hint display-block">Help text: A co-owner will appear on your property Title. A co-borrow will only appear on mortgage documents.</span>
                 </label>
                 <div class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
@@ -242,16 +245,16 @@
                 <span class="heading heading--spacer"></span>
               </p>
 
-              <div class="form-group" id="AnotherCo-ownerQuestion">
+              <div class="form-group" id="anotherCoOwner">
                 <fieldset>
                   <legend class="legend-label">Is there another co-owner/borrower of the property?</legend>
                   <div class="radio-toggle">
-                    <label class="on label-left ">
-                      <input type="radio" name="anotherco-owner" value="yes">
+                    <label class="on label-left">
+                      <input id="anotherCoOwner-yes" type="radio" name="anotherCoOwner" value="anotherCoOwner-yes">
                       <span>Yes</span>
                     </label>
-                    <label class="off label-right ">
-                      <input type="radio" name="anotherco-owner" value="no">
+                    <label class="off label-right">
+                      <input id="anotherCoOwner-no" type="radio" name="anotherCoOwner" value="anotherCoOwner-no">
                       <span>No</span>
                     </label>
                   </div>
@@ -263,8 +266,8 @@
               <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/dhoas1 ' ">Previous</button>
               <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='#open-modal ' ">Cancel claim</button>
               <div class="floated ">
-                <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/claims ' ">Save and exit</button>
-                <button class="uikit-btn btnNext " id="btnNext " onclick="window.location.href='/dhoas3 ' ">Save and next</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims ' ">Save and exit</button>
+                <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
               </div>
             </div>
 
@@ -329,6 +332,22 @@
                   document.getElementById('InterestInProperty').style.display = 'none'
                 }
               }
+
+              var buttonon = true;
+              $("#btnNext").click(function () {
+                if ($("#anotherCoOwner-yes")[0].checked) {
+                  $(".on > input").each(function () {
+                    if (!$(this)[0].checked) {
+                      buttonon = false;
+                    }
+                  })
+                  if (buttonon) {
+                    window.location.href = "/dhoas2b";
+                    return
+                  }
+                }
+                window.location.href = "/dhoas3";
+              });
 
 
             </script>
