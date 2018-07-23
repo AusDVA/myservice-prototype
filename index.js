@@ -596,6 +596,7 @@ app.get('/dhoas3', function (request, response) {
 app.get('/dhoas4', function (request, response) {
   response.render('auth/claim/pages/dhoas4');
 });
+
 app.get('/dhoas-review', function (request, response) {
   response.render('auth/claim/pages/dhoas-review');
 });
