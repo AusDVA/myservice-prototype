@@ -60,6 +60,7 @@
                           <option value="mentalhealth">Free mental health treatment</option>
                           <option value="afi">Increase your disability pension</option>
                           <option value="education">Education allowance</option>
+                          <option value="dhoas">DHOAS subsidy certificate</option>
                         </select>
                       </div>
                       <div class="action-group__reveal--closed" id="entitlement-mh">
@@ -78,6 +79,12 @@
                         <p class="margin-below--none margin-above--mid">Get help with the cost of education for your family.</p>
                         <button class="uikit-btn small margin-above--mid" onclick="window.location.href='/studentpreeligibility?flow=veteranFlow' ">
                           <b>Make a claim</b>
+                        </button>
+                      </div>
+                      <div class="action-group__reveal--closed" id="entitlement-dhoas-subsidy">
+                        <p class="margin-below--none margin-above--mid">Get a subsidy on the interest of your home loan.</p>
+                        <button class="uikit-btn small margin-above--mid" onclick="window.location.href='/dhoas-start' ">
+                          <b>Start application</b>
                         </button>
                       </div>
                     </div>
@@ -116,6 +123,25 @@
                         <th class="widget-actions">Actions</th>
                       </tr>
                     </thead>
+                    <!-- Show this initially ('show-instance-action-required')
+                  and the one below ('show-instance-withdrawn') after it is withdrawn-->
+                    <tr class="status-action-required show-instance-action-required">
+                      <td>
+                        <p class="status-icon status-in-progress">
+                          Education assistance for Kim
+                          <br />
+                          <span>In Progress
+                            <em>&ndash; Action Required</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'updateClaimInProgress'">Update</button>
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                        <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                      </td>
+                    </tr>
+
                     <tr>
                       <td>
                         <p class="status-icon status-approved">
@@ -143,6 +169,20 @@
                       <td class="widget-actions">
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claimdetail'">View</button>
                         <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="status-icon status-submitted">
+                          DHOAS Subsidy Certificate
+                          <br />
+                          <span>Submitted
+                            <em>&ndash; 25 April 2018</em>
+                          </span>
+                        </p>
+                      </td>
+                      <td class="widget-actions">
+                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewDhoasDetail'">View</button>
                       </td>
                     </tr>
                     <tr>
@@ -238,7 +278,7 @@
                     <tr>
                       <td>
                         <p class="status-icon status-approved">
-                          Education Allowance for Lee Gall
+                          Education assistance for Lee Gall
                           <br />
                           <span>Approved
                             <em>&ndash; 3 Jan 2018</em>
@@ -252,7 +292,7 @@
                     <tr>
                       <td>
                         <p class="status-icon status-rejected">
-                          Education Allowance for Pi
+                          Education assistance for Pi
                           <br />
                           <span>Rejected
                             <em>&ndash; 3 Jan 2018</em>
@@ -266,7 +306,7 @@
                     <tr>
                       <td>
                         <p class="status-icon status-withdrawn">
-                          Education Allowance for Li
+                          Education assistance for Li
                           <br />
                           <span>Withdrawn
                             <em>&ndash; 3 Jan 2018</em>
@@ -277,30 +317,13 @@
                         <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
                       </td>
                     </tr>
-                    <!-- Show this initially ('show-instance-action-required')
-                  and the one below ('show-instance-withdrawn') after it is withdrawn-->
-                    <tr class="status-action-required show-instance-action-required">
-                      <td>
-                        <p class="status-icon status-in-progress">
-                          Education Allowance for Kim
-                          <br />
-                          <span>In Progress
-                            <em>&ndash; Action Required</em>
-                          </span>
-                        </p>
-                      </td>
-                      <td class="widget-actions">
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'updateClaimInProgress'">Update</button>
-                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
-                        <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
-                      </td>
-                    </tr>
+
                     <!-- Show the one above initially ('show-instance-action-required')
                     and this one ('show-instance-withdrawn') after it is withdrawn-->
                     <tr class="show-instance-withdrawn">
                       <td>
                         <p class="status-icon status-withdrawn">
-                          Education Allowance for Kim
+                          Education assistance for Kim
                           <br />
                           <span>Withdrawn
                             <em>&ndash; 3 Jan 2018</em>
@@ -369,6 +392,13 @@
             } else {
               $("#entitlement-afi").removeClass('action-group__reveal--open');
               $("#entitlement-afi").addClass('action-group__reveal--closed');
+            }
+            if ($('#entitlements :selected').val() == "dhoas") {
+              $("#entitlement-dhoas-subsidy").removeClass('action-group__reveal--closed');
+              $("#entitlement-dhoas-subsidy").addClass('action-group__reveal--open');
+            } else {
+              $("#entitlement-dhoas-subsidy").removeClass('action-group__reveal--open');
+              $("#entitlement-dhoas-subsidy").addClass('action-group__reveal--closed');
             }
           });
         </script>
