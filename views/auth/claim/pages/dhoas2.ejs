@@ -59,9 +59,9 @@
 
             <div id="coOwnerDetails" hidden>
 
-              <h2 class="margin-below">
-                <span class="font-weight-heavy">Consent</span>
-              </h2>
+              <legend class="legend-label margin-below" for="agreement">Consent
+                <span class="hint">(optional)</span>
+              </legend>
               <div id="consent">
                 <p class="text-fullwidth">
                   <label class="uikit-control-input">
@@ -131,18 +131,22 @@
                   <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
                 </div>
 
-                <div id="only-if-consent" hidden>
-                  <div class="form-group" id="PartnerEmail">
-                    <label class="uikit-text-input__label" for="Email">Email</label>
-                    <input class="uikit-text-input input-half" name="Email" id="Email" type="text" value="" required aria-required="true">
-                  </div>
 
-                  <div class="form-group" id="PartnerContactNumber">
-                    <label class="uikit-text-input__label" for="ContactNumber">Contact phone number</label>
-                    <input class="uikit-text-input input-half" name="ContactNumber" id="ContactNumber" type="text" value="" required aria-required="true">
-                  </div>
+                <div class="form-group" id="PartnerEmail">
+                  <label class="uikit-text-input__label" for="Email">Email
+                    <span class="hint onlyifconsent">(optional)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="Email" id="Email" type="text" value="" required aria-required="true">
+                </div>
+
+                <div class="form-group" id="PartnerContactNumber">
+                  <label class="uikit-text-input__label" for="ContactNumber">Contact phone number
+                    <span class="hint onlyifconsent">(optional)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="ContactNumber" id="ContactNumber" type="text" value="" required aria-required="true">
                 </div>
               </div>
+
 
               <p class="margin-above--large">
                 <span class="heading heading--spacer"></span>
@@ -271,8 +275,6 @@
                 <p>Choose
                   <b>save and next</b> to continue.</p>
               </div>
-
-
             </div>
 
             <div class="pagination margin-above--large">
@@ -330,9 +332,15 @@
 
               $(document).ready(function () {
                 var checkboxes = $("input[name='agreement']"),
-                  actions = $("#only-if-consent");
+                  actions = $(".onlyifconsent");
                 checkboxes.click(function () {
-                  actions.attr("hidden", !checkboxes.is(":checked"));
+                  if (!checkboxes.is(":checked")) {
+                    actions.hide();
+                  } else if (checkboxes.not(":checked")) {
+                    actions.show();
+                  } else {
+                    actions.hide();
+                  }
                 });
               });
 
