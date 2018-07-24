@@ -31,9 +31,10 @@
               <span class="heading">Your service history</span>
             </h1>
 
-            <!-- <div class="uikit-page-alerts uikit-page-alerts--info margin-below--extra"> -->
-            <p class="margin-below--extra">Your service history is retrieved from PMKeyS and will be used to calculate your entitlements under the Defence Home Ownership Assistance Scheme (DHOAS).
-            </p>
+            <div class="uikit-page-alerts uikit-page-alerts--info margin-below--extra">
+              <p>Your service history is retrieved from PMKeyS and will be used to calculate your DHOAS&nbsp;entitlements.
+              </p>
+            </div>
 
             <h3>Review your service and operational history information</h3>
 
@@ -141,29 +142,21 @@
                   service.</p> -->
 
                 <div class="uikit-page-alerts uikit-page-alerts--info">
-                  <h4>For currently serving members</h4>
-                  <p>If you have missing service history prior to 2002, you can upload evidence of this service as part of this application. For incorrect or missing service history after
-                    2002, we ask that you contact your chain-of-command to have this corrected.</p>
-
-
-                  <h4>For no-longer serving members</h4>
-                  <p>Please call Defence Service Centre on 1800 123 456 to update your service history. In this case, we also suggest you save and exit this claim until your service history
-                    has been updated.
+                  <p>
+                    If you are a
+                    <b>current serving member</b> of the ADF, you can upload evidence of service history before 2002 as part of this application. For corrections to service history after
+                    2002, we ask that you contact your chain-of-command.</p>
+                  <p>
+                    If you are
+                    <b>no-longer serving</b> in the ADF, phone the Defence Service Centre on 1800 123 456 to update your service history. We also suggest you save and exit this claim until
+                    your service history has been updated.
                   </p>
                 </div>
                 <button class="uikit-btn uikit-btn--tertiary">Upload evidence of service history</button>
 
-
-
-
-
-
-
                 <!-- <p>You can provide evidence of your correct service history by uploading a copy of either your Document A or Document B.</p>
                 <p>Alternatively, you can update your service history through Defence by calling 1800&nbsp;123&nbsp;456. If contacting Defence, we suggest you save and exit this claim
                   until your service history has been updated becuase it will be used to calculate your entitlements for DHOAS.</p> -->
-
-
 
               </div>
             </div>
@@ -191,12 +184,10 @@
               </fieldset>
 
               <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display:none;">
-                <h4>Tell us when you had leave without pay
-                  <span class="hint display-block">If currently on leave without pay use today's date.</span>
-                </h4>
-                <table class="mys-table table-responsive border-top__thick--blue">
+                <h4>Tell us when you had leave without pay</h4>
+                <table class="mys-table table-responsive border-all border-top__thick--blue">
                   <tr>
-                    <th>
+                    <th style="border-left:1px solid #cccccc;">
                       <label class="uikit-text-input__label" for="date">Start Date
                         <span class="hint">(dd / mm / yyyy)</span>
                       </label>
@@ -207,6 +198,7 @@
                         <span class="hint">(dd / mm / yyyy)</span>
                       </label>
                     </th>
+                    <th style="border-right:1px solid #cccccc;"></th>
                   </tr>
                   <tr id="date-template">
                     <td>
@@ -219,16 +211,26 @@
                       <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
                       <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
                       <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                      <div class="display-block margin-above--mid">
-                        <label class="uikit-control-input">
+                    </td>
+                    <td>
+                      <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="padding-above--none">
+                      <div class="display-block">
+                        <label class="uikit-control-input margin-above--none">
                           <input class="uikit-control-input__input" type="checkbox" name="agreement">
                           <span class="uikit-control-input__text">Currently on leave</span>
                         </label>
                       </div>
                     </td>
+                    <td></td>
                   </tr>
                   <tr class="padding-above--none">
-                    <td colspan=3 class="padding-above--none ss-align--center">
+                    <td colspan=4 class="padding-above--none ss-align--center">
                       <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
                     </td>
                   </tr>
@@ -298,6 +300,10 @@
                 var newOne = $('#date-template').clone();;
                 newOne.insertAfter($('#date-template'));
               }
+
+              $("#removeDateRow").click(function () {
+                $("#date-template:not(first-child)").remove();
+              });
 
               $("#serviceHistory-no").click(function () {
                 $("#something-missing__yes").show();
