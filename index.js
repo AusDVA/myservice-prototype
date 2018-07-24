@@ -590,12 +590,16 @@ app.get('/dhoas1', function (request, response) {
 app.get('/dhoas2', function (request, response) {
   response.render('auth/claim/pages/dhoas2');
 });
+app.get('/dhoas2b', function (request, response) {
+  response.render('auth/claim/pages/dhoas2b');
+});
 app.get('/dhoas3', function (request, response) {
   response.render('auth/claim/pages/dhoas3');
 });
 app.get('/dhoas4', function (request, response) {
   response.render('auth/claim/pages/dhoas4');
 });
+
 app.get('/dhoas-review', function (request, response) {
   response.render('auth/claim/pages/dhoas-review');
 });
