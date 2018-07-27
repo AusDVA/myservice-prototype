@@ -580,6 +580,37 @@ app.get('/afi-claimdetail', function (request, response) {
 });
 
 
+/* DHOAS Subsidy certificate */
+app.get('/dhoas-start', function (request, response) {
+  response.render('auth/claim/pages/dhoas-start');
+});
+app.get('/dhoas1', function (request, response) {
+  response.render('auth/claim/pages/dhoas1');
+});
+app.get('/dhoas2', function (request, response) {
+  response.render('auth/claim/pages/dhoas2');
+});
+app.get('/dhoas2b', function (request, response) {
+  response.render('auth/claim/pages/dhoas2b');
+});
+app.get('/dhoas3', function (request, response) {
+  response.render('auth/claim/pages/dhoas3');
+});
+app.get('/dhoas4', function (request, response) {
+  response.render('auth/claim/pages/dhoas4');
+});
+
+app.get('/dhoas-review', function (request, response) {
+  response.render('auth/claim/pages/dhoas-review');
+});
+app.get('/dhoas-submitted', function (request, response) {
+  response.render('auth/claim/pages/dhoas-submitted');
+});
+app.get('/viewDhoasDetail', function (request, response) {
+  response.render('auth/claim/pages/viewDhoasDetail');
+});
+
+
 /* Qualifying Service */
 app.get('/qs-claimdetail', function (request, response) {
   response.render('auth/claim/pages/viewQSClaimDetail');
