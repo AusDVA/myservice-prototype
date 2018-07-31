@@ -37,7 +37,7 @@ gulp.task('sass-prod', function () {
 		.pipe(sass({ includePaths: ['src/sass'] }))
 		.pipe(sass().on('error', sass.logError))
 		.pipe(uglifycss())
-		.pipe(autoprefixer(autoprefixerOptions))
+		.pipe(autoprefixer())
 		.pipe(gulp.dest('docs/css'));
 });
 
