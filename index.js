@@ -354,6 +354,11 @@ app.get('/claims-manage', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/claims-make', function (request, response) {
+  response.render('auth/claim/pages/claims-make', {
+    main_nav_active: 'claims'
+  });
+});
 
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
