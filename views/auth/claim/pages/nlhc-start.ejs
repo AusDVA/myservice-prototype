@@ -31,35 +31,42 @@
             <div class="row">
               <div class="col-md-offset-3 col-md-6">
 
-                <h2 class="ss-align--center margin-above" style="font-weight:bold; font-size:2em;">How it works</h2>
+                <h2 class="ss-align--center" style="font-weight:bold; font-size:2em;">How it works</h2>
+
 
                 <div class="instructions">
 
-                  <div class="instructions__nav-wrapper">
-                    <input id="nav1" type="radio" name="instructions" title="slide1" class="instructions__nav" checked="checked" />
-                    <input id="nav2" type="radio" name="instructions" title="slide2" class="instructions__nav" />
-                    <input id="nav3" type="radio" name="instructions" title="slide3" class="instructions__nav" />
-                    <input id="nav4" type="radio" name="instructions" title="slide4" class="instructions__nav" />
+                  <div id="nav-bar" class="instructions__nav-wrapper">
+                    <input id="nav1" type="radio" name="instructions" title="slide1" value="step1" class="instructions__nav" checked="checked" />
+                    <input id="nav2" type="radio" name="instructions" title="slide2" value="step2" class="instructions__nav" />
+                    <input id="nav3" type="radio" name="instructions" title="slide3" value="step3" class="instructions__nav" />
+                    <input id="nav4" type="radio" name="instructions" title="slide4" value="step4" class="instructions__nav" />
                   </div>
+
                   <div class="instructions__inner">
-                    <div id="step1" class="instructions__contents">
+
+                    <div id="step1" class="instructions__contents ss-align--center">
+                      <img src="../../../docs/images/ico-send.svg" height="100" alt="image of paper plane flying through the air">
                       <h2 class="instructions__heading">Step 1 - Submit this claim</h2>
                       <p class="instructions__txt">Mental health treatment is available to you for free under our non-liability health care arrangements. You do not need to establish a link to service to qualify
                         for free mental health treatment.</p>
                       <p class="instructions__txt">All you need to do is submit this claim.</p>
                     </div>
-                    <div id="step2" class="instructions__contents">
-                      <h2 class="instructions__heading">Step 2 - Get a health card</h2>
+                    <div id="step2" class="instructions__contents ss-align--center">
+                      <img src="../../../docs/images/ico-healthcard.svg" height="100" alt="image of a digital health card">
+                      <h2 class="instructions__heading">Step 2 - Receive a health card</h2>
                       <p class="instructions__txt">Once we process your claim, we will send you a DVA Health Card (White card). The accepted condition titled 'Mental Health Treatment (NLHC)' will be listed on&nbsp;your&nbsp;card.</p>
                       <p class="instructions__txt">A digital version of your card will also be available in MyService.</p>
                     </div>
-                    <div id="step3" class="instructions__contents">
+                    <div id="step3" class="instructions__contents ss-align--center">
+                      <img src="../../../docs/images/ico-handshake.svg" height="100" alt="image of shaking hands">
                       <h2 class="instructions__heading">Step 3 - Get treatment</h2>
                       <p class="instructions__txt">Your Health Card works much like a Medicare card. Just show it to your treatment provider and they will bill DVA for the cost of the&nbsp;treatment.</p>
                       <p class="instructions__txt">The digital Health Card is still quite new so check with your health care provider before your appointment to ensure they are happy to accept&nbsp;it.</p>
                       <p class="instructions__txt">If for any reason you end up paying for the cost of mental health treatment, keep your receipts. You can claim for reimbursment using&nbsp;MyAccount.</p>
                     </div>
-                    <div id="step4" class="instructions__contents">
+                    <div id="step4" class="instructions__contents ss-align--center">
+                      <img src="../../../docs/images/ico-umbrella.svg" height="100" alt="image of an umbrella">
                       <h2 class="instructions__heading">Step 4 - Know what you're covered for</h2>
                       <p class="instructions__txt">Treatment for all mental health conditions are covered. This could include treatment from a general practitioner, medical specialist, psychologist, social worker,
                         occupational therapist, psychiatrist, hospital services, specialist PTSD programs, pharmaceuticals, or oncologist services&nbsp;as&nbsp;required.</p>
@@ -75,9 +82,9 @@
             <div class="row">
               <div class="col-md-offset-2 col-md-8">
                 <div class="pagination pagination--ss-reverse-order margin-above--extra">
-                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Back to Claims</button>
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims'">Back to Claims</button>
                   <div class="floated">
-                    <!-- <button class="uikit-btn uikit-btn--borderless">Skip</button> -->
+                    <!-- <button class="uikit-btn uikit-btn--borderless ">Skip</button> -->
                     <button class="uikit-btn btnNext" id="btnNext">Okay, I've got it</button>
                   </div>
                 </div>
@@ -94,13 +101,20 @@
           <% include ../partials/panel-help.ejs %>
 
             <script>
-              $(Document).ready(function () {
+              $(document).ready(function () {
                 $("#btnNext").click(function () { window.location.href = "/pi-lsq-claim1" });
 
+                $("div.instructions__contents").hide();
                 $("#step1").show();
-                // $("#step2").hide();
-                // $("#step3").hide();
-                // $("#step4").hide();
+                $("input[name$='instructions' ]").click(function () {
+                  var test = $(this).val();
+                  $("div.instructions__contents").fadeOut("slow");
+                  $("div.instructions__contents").promise().done(function () {
+                    $("#" + test).fadeIn("slow");
+                  });
+
+                });
+
 
               });
             </script>
