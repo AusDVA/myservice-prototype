@@ -413,17 +413,18 @@ app.get('/claim6', function (request, response) {
 app.get('/claim7', function (request, response, next) {
   response.render('auth/claim/pages/claim7');
 });
-
 app.get('/claim8', function (request, response, next) {
-
   var claimTypeCookie = request.cookies.claimType;
   // Cookies that have not been signed
   console.log('Cookies: ', request.cookies)
-
+  
   response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
 
+app.get('/nlhc-start', function (request, response, next) {
+  response.render('auth/claim/pages/nlhc-start');
+});
 
 /* Student assistance flow */
 app.get('/studentpreeligibility', function (request, response) {
