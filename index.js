@@ -349,6 +349,17 @@ app.get('/claims', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/claims-manage', function (request, response) {
+  response.render('auth/claim/pages/claims-manage', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/claims-make', function (request, response) {
+  response.render('auth/claim/pages/claims-make', {
+    main_nav_active: 'claims'
+  });
+});
+
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
     main_nav_active: 'claims'
@@ -406,7 +417,7 @@ app.get('/claim8', function (request, response, next) {
   var claimTypeCookie = request.cookies.claimType;
   // Cookies that have not been signed
   console.log('Cookies: ', request.cookies)
-
+  
   response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
