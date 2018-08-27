@@ -417,7 +417,7 @@ app.get('/claim8', function (request, response, next) {
   var claimTypeCookie = request.cookies.claimType;
   // Cookies that have not been signed
   console.log('Cookies: ', request.cookies)
-  
+
   response.locals.claimType = claimTypeCookie;
   response.render('auth/claim/pages/claim8');
 });
@@ -611,6 +611,9 @@ app.get('/dhoas3', function (request, response) {
 app.get('/dhoas4', function (request, response) {
   response.render('auth/claim/pages/dhoas4');
 });
+app.get('/dhoas5', function (request, response) {
+  response.render('auth/claim/pages/dhoas5');
+});
 
 app.get('/dhoas-review', function (request, response) {
   response.render('auth/claim/pages/dhoas-review');
@@ -620,6 +623,9 @@ app.get('/dhoas-submitted', function (request, response) {
 });
 app.get('/viewDhoasDetail', function (request, response) {
   response.render('auth/claim/pages/viewDhoasDetail');
+});
+app.get('/dhoas-terms-and-conditions', function (request, response) {
+  response.render('global/pages/dhoas-terms-and-conditions');
 });
 
 
