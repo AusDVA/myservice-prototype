@@ -349,6 +349,17 @@ app.get('/claims', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/claims-manage', function (request, response) {
+  response.render('auth/claim/pages/claims-manage', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/claims-make', function (request, response) {
+  response.render('auth/claim/pages/claims-make', {
+    main_nav_active: 'claims'
+  });
+});
+
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
     main_nav_active: 'claims'
@@ -600,6 +611,9 @@ app.get('/dhoas3', function (request, response) {
 app.get('/dhoas4', function (request, response) {
   response.render('auth/claim/pages/dhoas4');
 });
+app.get('/dhoas5', function (request, response) {
+  response.render('auth/claim/pages/dhoas5');
+});
 
 app.get('/dhoas-review', function (request, response) {
   response.render('auth/claim/pages/dhoas-review');
@@ -609,6 +623,9 @@ app.get('/dhoas-submitted', function (request, response) {
 });
 app.get('/viewDhoasDetail', function (request, response) {
   response.render('auth/claim/pages/viewDhoasDetail');
+});
+app.get('/dhoas-terms-and-conditions', function (request, response) {
+  response.render('global/pages/dhoas-terms-and-conditions');
 });
 
 
