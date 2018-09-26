@@ -16,59 +16,6 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 
 jQuery(document).ready(function ($) {
-	// open the panel
-	$('.panel-btn').on('click', function (event) {
-		event.preventDefault();
-		$('.panel').addClass('is-visible');
-		$("#email").focus();
-	});
-	// close the panel
-	$('.panel').on('click', function (event) {
-		if ($(event.target).is('.panel') || $(event.target).is('.panel-close')) {
-			$('.panel').removeClass('is-visible');
-			event.preventDefault();
-		}
-	});
-	// open help panel on unauth screen
-	$('.panel-help').on('click', function (event) {
-		event.preventDefault();
-		$('.panel-home-help').addClass('is-visible');
-	});
-	// close the help panel
-	$('.panel-home-help').on('click', function (event) {
-		if ($(event.target).is('.panel-home-help') || $(event.target).is('.panel-close')) {
-			$('.panel-home-help').removeClass('is-visible');
-			event.preventDefault();
-		}
-	});
-
-	// open vvcs panel
-	$('.vvcs-panel-btn').on('click', function (event) {
-		event.preventDefault();
-		$('.panel-vvcs').addClass('is-visible');
-	});
-	// close the vvcs panel
-	$('.panel-vvcs').on('click', function (event) {
-		if ($(event.target).is('.panel-vvcs') || $(event.target).is('.panel-close')) {
-			$('.panel-vvcs').removeClass('is-visible');
-			event.preventDefault();
-		}
-	});
-
-	// open feedback panel
-	$('.feedback-panel-btn').on('click', function (event) {
-		event.preventDefault();
-		$('.panel-feedback').addClass('is-visible');
-	});
-	// close the feedback panel
-	$('.panel-feedback').on('click', function (event) {
-		if ($(event.target).is('.panel-feedback') || $(event.target).is('.panel-close')) {
-			$('.panel-feedback').removeClass('is-visible');
-			event.preventDefault();
-		}
-	});
-
-
 	// Help slide gesture
 	let panels = $('.panel');
 	panels.map((index, panel) => {
