@@ -394,6 +394,66 @@ app.get('/incap-start', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/incap-1', function (request, response) {
+  response.render('auth/claim/pages/incap-1', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-2', function (request, response) {
+  response.render('auth/claim/pages/incap-2', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-3', function (request, response) {
+  response.render('auth/claim/pages/incap-3', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-4', function (request, response) {
+  response.render('auth/claim/pages/incap-4', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-5', function (request, response) {
+  response.render('auth/claim/pages/incap-5', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-6', function (request, response) {
+  response.render('auth/claim/pages/incap-6', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-7', function (request, response) {
+  response.render('auth/claim/pages/incap-7', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-8', function (request, response) {
+  response.render('auth/claim/pages/incap-8', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-9', function (request, response) {
+  response.render('auth/claim/pages/incap-9', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-10', function (request, response) {
+  response.render('auth/claim/pages/incap-10', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-11', function (request, response) {
+  response.render('auth/claim/pages/incap-11', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-12', function (request, response) {
+  response.render('auth/claim/pages/incap-12', {
+    main_nav_active: 'claims'
+  });
+});
 
 
 /* Broadened claim flow */
