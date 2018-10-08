@@ -449,11 +449,6 @@ app.get('/incap-11', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-12', function (request, response) {
-  response.render('auth/claim/pages/incap-12', {
-    main_nav_active: 'claims'
-  });
-});
 
 
 /* Broadened claim flow */
