@@ -33,12 +33,12 @@
 
           <div class="margin-above--extra margin-below--extra">
 
-            <div class="form-group">
+            <div id="service-number" class="form-group">
               <label class="uikit-text-input__label" for="nomrep-name">Your service number</label>
               <input class="uikit-text-input input-half" name="nomrep-name" id="nomrep-name" type="text" value="">
             </div>
 
-            <div class="form-group">
+            <div id="enlistment-date" class="form-group">
               <label class="uikit-text-input__label" for="dd-discharge">Enlistment date
                 <span class="hint">(dd / mm / yyyy)</span>
               </label>
@@ -47,16 +47,19 @@
               <input class="uikit-text-input yyyy" type="text" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
 
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-discharge">Date of discharge <span class="hint">(dd / mm / yyyy)</span><span class="hint display-block">If you
-                  transferred to Reserves, provide the date of transfer</span>
+            <div class="reservist-details" class="form-group">
+              <h3>Questions about reservist contract details go here</h3>
+            </div>
+
+            <div id="discharge-date" class="form-group">
+              <label class="uikit-text-input__label" for="dd-discharge">Date of discharge <span class="hint">(dd / mm / yyyy)</span>
               </label>
               <input class="uikit-text-input dd" type="text" name="dd-discharge" id="dd-discharge" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
               <input class="uikit-text-input mm" type="text" name="mm-discharge" id="mm-discharge" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
               <input class="uikit-text-input yyyy" type="text" name="yyyy-discharge" id="yyyy-discharge" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
 
-            <div class="form-group margin-above">
+            <div id="discharge-reason" class="form-group margin-above">
               <label class="uikit-text-input__label" for="discharge-reason">Reason for discharge</label>
               <select class="uikit-text-input input-half" id="discharge-reason" name="discharge-reason">
                 <option>-- Select a type --</option>
@@ -67,7 +70,7 @@
               </select>
             </div>
 
-            <div class="form-group margin-above">
+            <div id="discharge-rank" class="form-group margin-above">
               <label class="uikit-text-input__label" for="rank">Rank at date of discharge</label>
               <select class="uikit-text-input input-half" id="rank" name="rank">
                 <option>-- Select a rank --</option>
@@ -77,7 +80,7 @@
               </select>
             </div>
 
-            <div class="form-group margin-above">
+            <div id="discharge-paygroup" class="form-group margin-above">
               <label class="uikit-text-input__label" for="paygroup">Paygroup and increment at date of discharge</label>
               <select class="uikit-text-input input-half" id="paygroup" name="paygroup">
                 <option>-- Select a pay group --</option>
@@ -87,6 +90,10 @@
               </select>
             </div>
 
+          </div>
+
+          <div class="still-serving" style="display:none;">
+            <h3>Still-serving ADF members who are not transitioning will skip this page. We should be able to get all the information we need from PMKeyS.</h3>
           </div>
 
           <div class="pagination pagination--ss-reverse-order">
@@ -120,15 +127,76 @@
       $("#btnPrev").click(function () { window.location.href = "/incap-2" });
       $("#btnNext").click(function () { window.location.href = "/incap-4" });
 
-      // Show and hide needs list
-      $("#leaving-yes").click(function () {
-        $(".leaving-date").show("fast");
-        $(".save-and-next").hide();
-      });
-      $("#leaving-no").click(function () {
-        $(".leaving-date").hide();
-        $(".save-and-next").show("fast");
-      });
+      if (localStorage.getItem('employmentpage') == 'not-required') {
+        $("#btnNext").click(function () { window.location.href = "/incap-5" });
+        if (localStorage.getItem('doctorpage') == 'not-required') {
+          $("#btnNext").click(function () { window.location.href = "/incap-6" });
+        };
+      };
+
+      if (localStorage.getItem('user') == 'still-serving') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").hide();
+        $("#discharge-rank").hide();
+        $("#discharge-paygroup").hide();
+        $(".still-serving").show();
+        $(".reservist-details").hide();
+      };
+      if (localStorage.getItem('user') == 'still-serving-transitioning') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").show();
+        $("#discharge-rank").show();
+        $("#discharge-paygroup").show();
+        $(".still-serving").hide();
+        $(".reservist-details").hide();
+      };
+      if (localStorage.getItem('user') == 'still-serving-reservist') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").hide();
+        $("#discharge-rank").hide();
+        $("#discharge-paygroup").hide();
+        $(".still-serving").hide();
+        $(".reservist-details").show();
+      };
+      if (localStorage.getItem('user') == 'still-serving-reservist-transitioning') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").show();
+        $("#discharge-rank").show();
+        $("#discharge-paygroup").show();
+        $(".still-serving").hide();
+        $(".reservist-details").show();
+      };
+      if (localStorage.getItem('user') == 'former-serving') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").show();
+        $("#discharge-rank").show();
+        $("#discharge-paygroup").show();
+        $(".still-serving").hide();
+        $(".reservist-details").hide();
+        if (localStorage.getItem('servicehistory') == 'unkown') {
+          $("#discharge-date").show();
+        };
+      };
+      if (localStorage.getItem('user') == 'former-serving-reservist') {
+        $("#discharge-date").hide();
+        $("#discharge-reason").show();
+        $("#discharge-rank").show();
+        $("#discharge-paygroup").show();
+        $(".still-serving").hide();
+        $(".reservist-details").show();
+        if (localStorage.getItem('servicehistory') == 'unkown') {
+          $("#discharge-date").show();
+        };
+      };
+
+      if (localStorage.getItem('servicehistory') == 'known') {
+        $("#service-number").hide();
+        $("#enlistment-date").hide();
+      };
+      if (localStorage.getItem('servicehistory') == 'unkown') {
+        $("#service-number").show();
+        $("#enlistment-date").show();
+      };
 
     });
   </script>
