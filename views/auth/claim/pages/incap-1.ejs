@@ -31,14 +31,63 @@
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
 
-          <div class="margin-above--extra margin-below--extra">
-            <h2 class="ss-align--center">How it works story goes here</h2>
+          <div class="instructions">
+            <!-- the nav -->
+            <div id="nav-bar" class="instructions__nav-wrapper">
+              <input id="nav1" type="radio" name="instructions" title="slide1" value="step1" class="instructions__nav" checked="checked" />
+              <input id="nav2" type="radio" name="instructions" title="slide2" value="step2" class="instructions__nav" />
+              <input id="nav3" type="radio" name="instructions" title="slide3" value="step3" class="instructions__nav" />
+              <input id="nav4" type="radio" name="instructions" title="slide4" value="step4" class="instructions__nav" />
+            </div>
+
+            <!-- the content -->
+            <div class="instructions__inner-wrapper">
+              <ul class="instructions__inner">
+                <li id="step1" class="instructions__contents ss-align--center">
+                  <img src="../../../docs/images/ico-stethascope.svg" height="100" alt="image of paper plane flying through the air">
+                  <h2 class="instructions__heading">Step 1: Visit your doctor</h2>
+                  <p class="instructions__txt">See a doctor or specialist about your service-related condition or injury.<br>
+                    You will need to provide a medical certificate to support your claim for Incapacity Benefits.<br>
+                    During this application you will be asked to provide your doctor’s details.
+                  </p>
+                </li>
+                <li id="step2" class="instructions__contents ss-align--center" style="display:none;">
+                  <img src="../../../docs/images/ico-onlineform.svg" height="100" alt="image of a digital health card">
+                  <h2 class="instructions__heading">Step 2: Complete your claim</h2>
+                  <p class="instructions__txt">Depending on your circumstances you may need to provide the following evidence as part of your claim:
+                    medical evidence, Tax File Declaration form, evidence of medical discharge, proof of loss of earnings – this may be your military allowance or civilian
+                    earnings.
+                    Once you’ve submitted your claim a DVA delegate will contact you to discuss your claim in more detail.
+                  </p>
+                </li>
+                <li id="step3" class="instructions__contents ss-align--center" style="display:none;">
+                  <img src="../../../docs/images/ico-sprout.svg" height="100" alt="image of shaking hands">
+                  <h2 class="instructions__heading">Step 3: Rehabilitation assessment</h2>
+                  <p class="instructions__txt">We want to help you live a healthy and productive life.
+                    To do this we may conduct a rehabilitation assessment to see how we can help you manage, adapt or improve your service-related condition or injury.
+                    Learn more about DVA’s rehabilitation support on the DVA website.</p>
+                </li>
+                <li id="step4" class="instructions__contents ss-align--center" style="display:none;">
+                  <img src="../../../docs/images/ico-change.svg" height="100" alt="image of an umbrella">
+                  <h2 class="instructions__heading">Step 4: Tell us about changes in your circumstances</h2>
+                  <p class="instructions__txt">You may need to tell us if you: return to work, receive any additional income, travel overseas for 6 weeks or longer, get a job or
+                    change jobs, change your address, experience a change in your condition, or discharge from the ADF. Your Incapacity Payments will be reviewed annually. We will
+                    send you a letter or email with an Annual Review form.</p>
+                </li>
+              </ul>
+              <div id="help-pagination" class="instructions__contents instructions__contents--pagination ss-align--center margin-below">
+                <button id="arrow-back" class="uikit-btn uikit-btn--tertiary">&#60;</button>
+                <button id="arrow-next" class="uikit-btn">></button>
+              </div>
+            </div>
           </div>
+
+
+
           <div class="pagination pagination--ss-reverse-order">
             <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Back to Claims</button>
             <div class="floated">
-              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+              <button class="uikit-btn uikit-btn--tertiary btnNext" id="btnNext">Okay, I've got it</button>
             </div>
           </div>
 
@@ -57,24 +106,39 @@
 
 
   <script>
+    $(document).ready(function () {
 
+      function makeToast(pType, pMessage) {
+        var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
+        $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
+          '<span class="sr">' +
+          pType + '</span>');
+        $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
+        return $('<div class="toast-container"></div>').append($element);
+      }
 
-
-
-    $(Document).ready(function () {
-      $("#btnPrev").click(function () { window.location.href = "/incap-start" });
       $("#btnNext").click(function () { window.location.href = "/incap-2" });
+      $("#btnPrev").click(function () { window.location.href = "/incap-start" });
 
-      // Show and hide needs list
-      $("#leaving-yes").click(function () {
-        $(".leaving-date").show("fast");
-        $(".save-and-next").hide();
-      });
-      $("#leaving-no").click(function () {
-        $(".leaving-date").hide();
-        $(".save-and-next").show("fast");
+      $("input[name$='instructions']").attr('disabled', true);
+      $("#arrow-back").hide();
+
+      $("#arrow-next").click(function () {
+        $('ul.instructions__inner li:visible').fadeOut(function () { //select only the visible element
+          var $next = $(this).next(); //get the next element
+          var $target = $next.length ? $next : $('ul.instructions__inner li:first'); //if there is no next then switch the pointer to point to the first one.
+          $target.stop(true, true).fadeIn('slow'); //now fadeIn the target element.
+          $("#arrow-back").fadeIn('slow');
+        });
       });
 
+      $("#arrow-back").click(function () {
+        $('ul.instructions__inner li:visible').fadeOut(function () {
+          var $prev = $(this).prev(); //get the prev element
+          var $target = $prev.length ? $prev : $('ul.instructions__inner li:last');//if there is no next then switch the pointer to point to the last one.
+          $target.stop(true, true).fadeIn('slow');//now fadeIn the target element.
+        });
+      });
     });
   </script>
 
