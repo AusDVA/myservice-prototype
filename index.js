@@ -389,6 +389,11 @@ app.get('/claims2', function (request, response) {
 });
 
 /* Incap Claim Pages */
+app.get('/incap-progress', function (request, response) {
+  response.render('auth/claim/pages/incap-progress', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/incap-a-1', function (request, response) {
   response.render('auth/claim/pages/incap-a-1', {
     main_nav_active: 'claims'
@@ -440,7 +445,7 @@ app.get('/incap-b-8', function (request, response) {
   });
 });
 app.get('/incap-review', function (request, response) {
-  response.render('auth/claim/pages/incap-review, {
+  response.render('auth/claim/pages/incap-review', {
     main_nav_active: 'claims'
   });
 });
