@@ -389,63 +389,88 @@ app.get('/claims2', function (request, response) {
 });
 
 /* Incap Claim Pages */
-app.get('/incap-start', function (request, response) {
-  response.render('auth/claim/pages/incap-start', {
+app.get('/incap-progress', function (request, response) {
+  response.render('auth/claim/pages/incap-progress', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-1', function (request, response) {
-  response.render('auth/claim/pages/incap-1', {
+app.get('/incap-progress-b', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-b', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-2', function (request, response) {
-  response.render('auth/claim/pages/incap-2', {
+app.get('/incap-progress-c', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-c', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-3', function (request, response) {
-  response.render('auth/claim/pages/incap-3', {
+app.get('/incap-progress-d', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-d', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-4', function (request, response) {
-  response.render('auth/claim/pages/incap-4', {
+app.get('/incap-progress-e', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-e', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-5', function (request, response) {
-  response.render('auth/claim/pages/incap-5', {
+app.get('/incap-a-1', function (request, response) {
+  response.render('auth/claim/pages/incap-a-1', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-6', function (request, response) {
-  response.render('auth/claim/pages/incap-6', {
+app.get('/incap-a-2', function (request, response) {
+  response.render('auth/claim/pages/incap-a-2', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-7', function (request, response) {
-  response.render('auth/claim/pages/incap-7', {
+app.get('/incap-b-1', function (request, response) {
+  response.render('auth/claim/pages/incap-b-1', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-8', function (request, response) {
-  response.render('auth/claim/pages/incap-8', {
+app.get('/incap-b-2', function (request, response) {
+  response.render('auth/claim/pages/incap-b-2', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-9', function (request, response) {
-  response.render('auth/claim/pages/incap-9', {
+app.get('/incap-b-3', function (request, response) {
+  response.render('auth/claim/pages/incap-b-3', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-10', function (request, response) {
-  response.render('auth/claim/pages/incap-10', {
+app.get('/incap-b-4', function (request, response) {
+  response.render('auth/claim/pages/incap-b-4', {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-11', function (request, response) {
-  response.render('auth/claim/pages/incap-11', {
+app.get('/incap-b-5', function (request, response) {
+  response.render('auth/claim/pages/incap-b-5', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-b-6', function (request, response) {
+  response.render('auth/claim/pages/incap-b-6', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-b-7', function (request, response) {
+  response.render('auth/claim/pages/incap-b-7', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-c-1', function (request, response) {
+  response.render('auth/claim/pages/incap-c-1', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-review', function (request, response) {
+  response.render('auth/claim/pages/incap-review', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-submitted', function (request, response) {
+  response.render('auth/claim/pages/incap-submitted', {
     main_nav_active: 'claims'
   });
 });
