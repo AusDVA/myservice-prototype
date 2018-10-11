@@ -394,6 +394,16 @@ app.get('/incap-progress', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/incap-progress-b', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-b', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-progress-c', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-c', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/incap-a-1', function (request, response) {
   response.render('auth/claim/pages/incap-a-1', {
     main_nav_active: 'claims'
@@ -439,8 +449,8 @@ app.get('/incap-b-7', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/incap-b-8', function (request, response) {
-  response.render('auth/claim/pages/incap-b-8', {
+app.get('/incap-c-1', function (request, response) {
+  response.render('auth/claim/pages/incap-c-1', {
     main_nav_active: 'claims'
   });
 });
