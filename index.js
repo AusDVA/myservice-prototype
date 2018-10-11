@@ -404,6 +404,16 @@ app.get('/incap-progress-c', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/incap-progress-d', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-d', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/incap-progress-e', function (request, response) {
+  response.render('auth/claim/pages/incap-progress-e', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/incap-a-1', function (request, response) {
   response.render('auth/claim/pages/incap-a-1', {
     main_nav_active: 'claims'
