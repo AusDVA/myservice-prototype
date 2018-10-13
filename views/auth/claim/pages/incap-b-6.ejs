@@ -33,7 +33,7 @@
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Service history</p>
               </li>
-              <li class="progress-step progress-step--done">
+              <li class="progress-step progress-step--done employed">
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Employment</p>
               </li>
@@ -183,6 +183,14 @@
     $(Document).ready(function () {
       $("#btnPrev").click(function () { window.location.href = "/incap-b-5" });
       $("#btnNext").click(function () { window.location.href = "/incap-b-7" });
+
+      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
+      } else {
+        $(".employed").show();
+      };
+
 
       $("#compensation-damages-action-rep").hide();
       $("#representative").hide();

@@ -34,7 +34,7 @@
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Service history</p>
               </li>
-              <li class="progress-step progress-step--done">
+              <li class="progress-step progress-step--done employed">
                 <a href="incap-b-3">
                   <span class="progress-step__icon"></span>
                   <p class="progress-step-label">Employment</p>
@@ -76,19 +76,17 @@
 
             <div class="form-group">
 
-              <h4>Please provide details of any treating medical practioners who could assist with claim. <span class="hint display-block">For example GPs,
-                  specialists,
-                  psychologists,
-                  audiologists. </span></h4>
+              <h4>Please provide details of any treating medical practioners who could assist with claim. <span class="hint display-block">For example GPs, psychiatrist,
+                  orthopedic specialist, cardiologist</span></h4>
 
               <div class="form-group margin-above--extra">
                 <label class="uikit-text-input__label" for="practitioner-type">Type of practitioner</label>
                 <select class="uikit-text-input input-half" id="practitioner-type" name="practitioner-type">
                   <option>-- Select a type --</option>
                   <option>GP</option>
-                  <option>Specialist</option>
-                  <option>Psychologist</option>
-                  <option>Audiologist</option>
+                  <option>Psychiatrist</option>
+                  <option>Orthopedic specialist</option>
+                  <option>Cardiologist</option>
                   <option>Other</option>
                 </select>
               </div>
@@ -118,23 +116,51 @@
               </div>
 
               <div class="form-group">
-                <label class="uikit-text-input__label" for="dd-consultation">Date of last consultation
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="text" name="dd-consultation" id="dd-consultation" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="mm-consultation" id="mm-consultation" maxlength="2" required aria-required="true" aria-label="2 digit month">
-                /
-                <input class="uikit-text-input yyyy" type="text" name="yyyy-consultation" id="yyyy-consultation" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                <legend class="legend-label">Have you seen this practitioner in the last 6 months?</legend>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="doctor-visitedrecently-yes">
+                    <input id="doctor-visitedrecently-yes" type="radio" name="doctor-visitedrecently">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="doctor-visitedrecently-no">
+                    <input id="doctor-visitedrecently-no" type="radio" name="doctor-visitedrecently">
+                    <span>No</span>
+                  </label>
+                </div>
               </div>
 
-              <div class="form-group">
-                <button class="uikit-btn uikit-btn--tertiary margin-above">Add another practitioner</button>
+              <div id="addanotherdoctor" class="form-group" style="display:none;">
+                <legend class="legend-label">Would you like to add another doctor?</legend>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="add-another-doctor-yes">
+                    <input id="add-another-doctor-yes" type="radio" name="add-another-doctor">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="add-another-doctor-no">
+                    <input id="add-another-doctor-no" type="radio" name="add-another-doctor">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Prototype end -->
+
+              <div id="prototype" class="form-group" style="display:none;">
+                <p>This is the limit of doctors you can add using this prototype.<br>Choose <b>save and next</b> to continue.</p>
+              </div>
+
+              <!-- Save and next -->
+
+              <div class="form-group save-and-next" style="display:none;">
+                <p>Choose <b>save and next</b> to continue.</p>
               </div>
 
             </div>
 
           </div>
-
+          <div>
+            <p>&nbsp;<br><br></p>
+          </div>
           <div class="pagination pagination--ss-reverse-order">
             <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Back to Claims</button>
@@ -159,8 +185,35 @@
 
   <script>
     $(Document).ready(function () {
-      $("#btnPrev").click(function () { window.location.href = "/incap-b-3" });
-      $("#btnNext").click(function () { window.location.href = "/incap-b-5" });
+
+      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar and should navigate back to 'Service History' page on click of 'Previous' button.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
+        $("#btnPrev").click(function () { window.location.href = "/incap-b-2" });
+        $("#btnNext").click(function () { window.location.href = "/incap-b-5" });
+      } else {
+        $(".employed").show();
+        $("#btnPrev").click(function () { window.location.href = "/incap-b-3" });
+        $("#btnNext").click(function () { window.location.href = "/incap-b-5" });
+      };
+
+      $("#add-another-doctor-yes").click(function () {
+        $("#prototype").show("fast");
+        $(".save-and-next").hide();
+      });
+      $("#add-another-doctor-no").click(function () {
+        $("#prototype").hide();
+        $(".save-and-next").show("fast");
+      });
+
+      $("#doctor-visitedrecently-yes").click(function () {
+        $("#addanotherdoctor").show("fast");
+      });
+      $("#doctor-visitedrecently-no").click(function () {
+        $("#addanotherdoctor").show("fast");
+      });
+
+
     });
   </script>
 

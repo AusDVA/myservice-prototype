@@ -474,6 +474,11 @@ app.get('/incap-submitted', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/incap-docupload', function (request, response) {
+  response.render('auth/claim/pages/incap-docupload', {
+    main_nav_active: 'claims'
+  });
+});
 
 
 /* Broadened claim flow */

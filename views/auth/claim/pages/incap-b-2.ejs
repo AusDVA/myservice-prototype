@@ -26,7 +26,7 @@
         <div class="col-xs-12">
           <nav>
             <ul class="progress-container">
-              <li class="progress-step progress-step--done">
+              <li class="progress-step progress-step--done ongoing-only">
                 <a href="incap-b-1">
                   <span class="progress-step__icon"></span>
                   <p class="progress-step-label">Your conditions</p>
@@ -36,13 +36,13 @@
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Service history</p>
               </li>
-              <li class="progress-step">
+              <li class="progress-step ongoing-only employed">
                 <a href="incap-b-3">
                   <span class="progress-step__icon"></span>
                   <p class="progress-step-label">Employment</p>
                 </a>
               </li>
-              <li class="progress-step">
+              <li class="progress-step ongoing-only">
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Medical practitioners</p>
               </li>
@@ -50,7 +50,7 @@
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Nominated representative</p>
               </li>
-              <li class="progress-step">
+              <li class="progress-step ongoing-only">
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Compensation damages action</p>
               </li>
@@ -122,12 +122,19 @@
             </div>
 
             <div id="discharge-paygroup" class="form-group margin-above">
-              <label class="uikit-text-input__label" for="paygroup">Paygroup and increment at date of discharge</label>
+              <label class="uikit-text-input__label" for="paygroup">Paygroup at date of discharge</label>
               <select class="uikit-text-input input-half" id="paygroup" name="paygroup">
                 <option>-- Select a pay group --</option>
-                <option>One</option>
-                <option>Two</option>
-                <option>Three</option>
+                <option>01</option>
+                <option>02</option>
+                <option>03</option>
+                <option>04</option>
+                <option>05</option>
+                <option>06</option>
+                <option>07</option>
+                <option>08</option>
+                <option>09</option>
+                <option>10</option>
               </select>
             </div>
 
@@ -160,84 +167,25 @@
 
 
   <script>
-
-
-
-
     $(Document).ready(function () {
-      $("#btnPrev").click(function () { window.location.href = "/incap-b-1" });
-      $("#btnNext").click(function () { window.location.href = "/incap-b-3" });
 
-      // if (localStorage.getItem('employmentpage') == 'not-required') {
-      //   $("#btnNext").click(function () { window.location.href = "/incap-5" });
-      //   if (localStorage.getItem('doctorpage') == 'not-required') {
-      //     $("#btnNext").click(function () { window.location.href = "/incap-6" });
-      //   };
-      // };
+      // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and progress to the Nominated Rep page when they click the 'Next' button.
+      if ("flow1" in localStorage) {
+        $(".ongoing-only").hide();
+        $("#btnNext").click(function () { window.location.href = "/incap-b-5" });
+        $("#btnPrev").click(function () { window.location.href = "/incap-progress-b" });
+      }
+      else {
+        $("#btnNext").click(function () { window.location.href = "/incap-b-3" });
+        $("#btnPrev").click(function () { window.location.href = "/incap-b-1" });
+      };
 
-      // if (localStorage.getItem('user') == 'still-serving') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").hide();
-      //   $("#discharge-rank").hide();
-      //   $("#discharge-paygroup").hide();
-      //   $(".still-serving").show();
-      //   $(".reservist-details").hide();
-      // };
-      // if (localStorage.getItem('user') == 'still-serving-transitioning') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").show();
-      //   $("#discharge-rank").show();
-      //   $("#discharge-paygroup").show();
-      //   $(".still-serving").hide();
-      //   $(".reservist-details").hide();
-      // };
-      // if (localStorage.getItem('user') == 'still-serving-reservist') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").hide();
-      //   $("#discharge-rank").hide();
-      //   $("#discharge-paygroup").hide();
-      //   $(".still-serving").hide();
-      //   $(".reservist-details").show();
-      // };
-      // if (localStorage.getItem('user') == 'still-serving-reservist-transitioning') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").show();
-      //   $("#discharge-rank").show();
-      //   $("#discharge-paygroup").show();
-      //   $(".still-serving").hide();
-      //   $(".reservist-details").show();
-      // };
-      // if (localStorage.getItem('user') == 'former-serving') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").show();
-      //   $("#discharge-rank").show();
-      //   $("#discharge-paygroup").show();
-      //   $(".still-serving").hide();
-      //   $(".reservist-details").hide();
-      //   if (localStorage.getItem('servicehistory') == 'unkown') {
-      //     $("#discharge-date").show();
-      //   };
-      // };
-      // if (localStorage.getItem('user') == 'former-serving-reservist') {
-      //   $("#discharge-date").hide();
-      //   $("#discharge-reason").show();
-      //   $("#discharge-rank").show();
-      //   $("#discharge-paygroup").show();
-      //   $(".still-serving").hide();
-      //   $(".reservist-details").show();
-      //   if (localStorage.getItem('servicehistory') == 'unkown') {
-      //     $("#discharge-date").show();
-      //   };
-      // };
-
-      // if (localStorage.getItem('servicehistory') == 'known') {
-      //   $("#service-number").hide();
-      //   $("#enlistment-date").hide();
-      // };
-      // if (localStorage.getItem('servicehistory') == 'unkown') {
-      //   $("#service-number").show();
-      //   $("#enlistment-date").show();
-      // };
+      // Check to see if user is claiming for ongoing payments but not interested in a 'loss of civilian earnings' because this user should not be asked about their employment or see it as a step in the progress bar.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
+        $("#btnNext").click(function () { window.location.href = "/incap-b-4" });
+        $("#btnPrev").click(function () { window.location.href = "/incap-b-1" });
+      }
 
     });
   </script>
