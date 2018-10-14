@@ -67,6 +67,36 @@
                     <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'qs-claimdetail'">View</button>
                   </td>
                 </tr>
+                <tr id="incap-claim" class="status-action-required show-instance-action-required">
+                  <td>
+                    <p class="status-icon status-in-progress">
+                      Incapacity Payments
+                      <br />
+                      <span>In Progress
+                        <em>&ndash; Action Required</em>
+                      </span>
+                    </p>
+                  </td>
+                  <td class="widget-actions">
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-docupload'">Update</button>
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-summary'">View</button>
+                    <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                  </td>
+                </tr>
+                <tr id="incap-claim-submitted">
+                  <td>
+                    <p class="status-icon status-submitted">
+                      Incapacity Payments
+                      <br />
+                      <span>Submitted
+                        <em>&ndash; 15 October 2018</em>
+                      </span>
+                    </p>
+                  </td>
+                  <td class="widget-actions">
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-summary'">View</button>
+                  </td>
+                </tr>
                 <tr id="lsq-claim">
                   <td>
                     <p class="status-icon status-incomplete">
@@ -170,6 +200,8 @@
     $("#claims").hide();
     $("#qs-claim").hide();
     $("#nlhc-claim-approved").hide();
+    $("#incap-claim").hide();
+    $("#incap-claim-submitted").hide();
     $("#lsq-claim").hide();
     $("#lsq-claim-submitted").hide();
 
@@ -177,6 +209,8 @@
       $("#no-claims").hide();
       $("#claims").show();
       $("#nlhc-claim-approved").hide();
+      $("#incap-claim").hide();
+      $("#incap-claim-submitted").hide();
       $("#lsq-claim").hide();
       $("#lsq-claim-submitted").hide();
       $("#qs-claim").show();
@@ -190,6 +224,8 @@
       $("#nlhc-claim-approved").hide();
       $("#lsq-claim-submitted").hide();
       $("#lsq-claim").show();
+      $("#incap-claim").hide();
+      $("#incap-claim-submitted").hide();
       $(".widget-content").addClass("widget--justclaims");
       $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
     }
@@ -198,15 +234,44 @@
       $("#claims").show();
       $("#qs-claim").hide();
       $("#nlhc-claim-approved").hide();
+      $("#incap-claim").hide();
+      $("#incap-claim-submitted").hide();
       $("#lsq-claim").hide();
       $("#lsq-claim-submitted").show();
       $(".widget-content").addClass("widget--justclaims");
       $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
     }
+    else if (localStorage.getItem('user') === 'INCAPuser-incomplete') {
+      $("#no-claims").hide();
+      $("#claims").show();
+      $("#qs-claim").hide();
+      $("#nlhc-claim-approved").hide();
+      $("#incap-claim").show();
+      $("#incap-claim-submitted").hide();
+      $("#lsq-claim").hide();
+      $("#lsq-claim-submitted").hide();
+      $(".widget-content").addClass("widget--justclaims");
+      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
+    }
+    else if (localStorage.getItem('user') === 'INCAPuser-submitted') {
+      $("#no-claims").hide();
+      $("#claims").show();
+      $("#qs-claim").hide();
+      $("#nlhc-claim-approved").hide();
+      $("#incap-claim").hide();
+      $("#incap-claim-submitted").show();
+      $("#lsq-claim").hide();
+      $("#lsq-claim-submitted").hide();
+      $(".widget-content").addClass("widget--justclaims");
+      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
+    }
+
     else if (localStorage.getItem('user') === 'NLHCuser-approved') {
       $("#no-claims").hide();
       $("#claims").show();
       $("#qs-claim").hide();
+      $("#incap-claim").hide();
+      $("#incap-claim-submitted").hide();
       $("#lsq-claim").hide();
       $("#lsq-claim-submitted").hide();
       $("#nlhc-claim-approved").show();
