@@ -395,6 +395,12 @@ app.get('/incap-start', function (request, response) {
   });
 });
 
+app.get('/incap-resume', function (request, response) {
+  response.render('auth/claim/pages/incap-resume', {
+    main_nav_active: 'claims'
+  });
+});
+
 app.get('/incap-progress', function (request, response) {
   response.render('auth/claim/pages/incap-progress', {
     main_nav_active: 'claims'
