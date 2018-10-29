@@ -491,6 +491,12 @@ app.get('/incap-summary', function (request, response) {
   });
 });
 
+/* Service pension claim */
+app.get('/claims', function (request, response) {
+  response.render('auth/claim/pages/sp-start', {
+    main_nav_active: 'claims'
+  });
+});
 
 /* Broadened claim flow */
 app.get('/claim1', function (request, response) {
