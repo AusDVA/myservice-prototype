@@ -498,8 +498,58 @@ app.get('/incap-summary', function (request, response) {
 });
 
 /* Service pension claim */
-app.get('/claims', function (request, response) {
+app.get('/sp-start', function (request, response) {
   response.render('auth/claim/pages/sp-start', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-review', function (request, response) {
+  response.render('auth/claim/pages/sp-review', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-profile', function (request, response) {
+  response.render('auth/claim/pages/sp-profile', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-partner', function (request, response) {
+  response.render('auth/claim/pages/sp-partner', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-dependant', function (request, response) {
+  response.render('auth/claim/pages/sp-dependant', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-other-claims', function (request, response) {
+  response.render('auth/claim/pages/sp-other-claims', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-medical', function (request, response) {
+  response.render('auth/claim/pages/sp-medical', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-tax', function (request, response) {
+  response.render('auth/claim/pages/sp-tax', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-payment-details', function (request, response) {
+  response.render('auth/claim/pages/sp-payment-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-living-arrangments', function (request, response) {
+  response.render('auth/claim/pages/sp-living-arrangments', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-nominated-rep', function (request, response) {
+  response.render('auth/claim/pages/sp-nominated-rep', {
     main_nav_active: 'claims'
   });
 });
