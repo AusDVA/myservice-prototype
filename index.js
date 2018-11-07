@@ -503,13 +503,11 @@ app.get('/sp-documents', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-
 app.get('/sp-residency', function (request, response) {
   response.render('auth/claim/pages/sp-residency', {
     main_nav_active: 'claims'
   });
 });
-
 app.get('/sp-start', function (request, response) {
   response.render('auth/claim/pages/sp-start', {
     main_nav_active: 'claims'
@@ -567,6 +565,21 @@ app.get('/sp-bank-details', function (request, response) {
 });
 app.get('/sp-financial-details', function (request, response) {
   response.render('auth/claim/pages/sp-financial-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-financial-details', function (request, response) {
+  response.render('auth/claim/pages/sp-financial-income', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-financial-details', function (request, response) {
+  response.render('auth/claim/pages/sp-financial-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-required-documents', function (request, response) {
+  response.render('auth/claim/pages/sp-required-documents', {
     main_nav_active: 'claims'
   });
 });
