@@ -518,8 +518,8 @@ app.get('/sp-review', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-profile', function (request, response) {
-  response.render('auth/claim/pages/sp-profile', {
+app.get('/sp-my-details', function (request, response) {
+  response.render('auth/claim/pages/sp-my-details', {
     main_nav_active: 'claims'
   });
 });
