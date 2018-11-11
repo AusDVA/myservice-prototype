@@ -498,6 +498,28 @@ app.get('/incap-summary', function (request, response) {
 });
 
 /* Service pension claim */
+app.get('/sp-progress', function (request, response) {
+  response.render('auth/claim/pages/sp-progress', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-progress-a', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-a', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-b', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-b', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-c', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-c', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-d', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-d', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-documents', function (request, response) {
   response.render('auth/claim/pages/sp-documents', {
     main_nav_active: 'claims'
