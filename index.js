@@ -503,6 +503,11 @@ app.get('/sp-progress', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/sp-representative', function (request, response) {
+  response.render('auth/claim/pages/sp-representative', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-progress-a', function (request, response) {
   response.render('auth/claim/pages/sp-progress-a', {
     main_nav_active: 'claims'
@@ -590,12 +595,12 @@ app.get('/sp-financial-details', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-financial-details', function (request, response) {
+app.get('/sp-financial-income', function (request, response) {
   response.render('auth/claim/pages/sp-financial-income', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-financial-details', function (request, response) {
+app.get('/sp-financial-assets', function (request, response) {
   response.render('auth/claim/pages/sp-financial-assets', {
     main_nav_active: 'claims'
   });
