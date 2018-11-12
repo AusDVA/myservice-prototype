@@ -605,6 +605,26 @@ app.get('/sp-financial-assets', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/sp-personal-assets', function (request, response) {
+  response.render('auth/claim/pages/sp-personal-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-income-payments', function (request, response) {
+  response.render('auth/claim/pages/sp-income-payments', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-other-items', function (request, response) {
+  response.render('auth/claim/pages/sp-other-items', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-super', function (request, response) {
+  response.render('auth/claim/pages/sp-super', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-required-documents', function (request, response) {
   response.render('auth/claim/pages/sp-required-documents', {
     main_nav_active: 'claims'
