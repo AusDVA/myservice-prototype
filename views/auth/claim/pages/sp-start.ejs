@@ -69,6 +69,30 @@
                 </label>
               </div>
             </fieldset>
+            <!-- invalidity-yes -->
+            <fieldset id="invalidity-pension-yes">
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="radio-buttons">On what grounds are you applying for invalidity pension?</label>
+                <p class="uiToolKitCheckBox margin-above">
+                  <label class="uikit-control-input">
+                    <input id="same-solicitor" class="uikit-control-input__input" type="radio" name="radio-ex">
+                    <span class="uikit-control-input__text">TPI/SDRP</span>
+                  </label>
+                </p>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input id="same-solicitor" class="uikit-control-input__input" type="radio" name="radio-ex">
+                    <span class="uikit-control-input__text">Blind</span>
+                  </label>
+                </p>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input id="same-solicitor" class="uikit-control-input__input" type="radio" name="radio-ex">
+                    <span class="uikit-control-input__text">other</span>
+                  </label>
+                </p>
+              </div>
+            </fieldset>
 
             <fieldset>
               <legend class="legend-label">Are you blind or visually impaired?</legend>
@@ -85,39 +109,68 @@
             </fieldset>
 
             <fieldset>
-              <legend class="legend-label">Excluding this claim, are you currently in receipt of, or have you ever previously received, or are you applying for benefits or payments
-                from DVA, Centrelink or other compensation. (Including compensation from Australian Defence Force or other compensation resulting injury, illness or accident.)</legend>
-              <div class="radio-toggle">
-                <label class="on label-left" for="excluding-claim-yes">
-                  <input id="excluding-claim-yes" type="radio" name="excluding-claim">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="excluding-claim-no">
-                  <input id="excluding-claim-no" type="radio" name="excluding-claim">
-                  <span>No</span>
-                </label>
-              </div>
-            </fieldset>
-            <!-- bottom page navigation -->
-            <div class="pagination">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-progress'">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-start'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-progress-b'">Save and next</button>
-              </div>
+              <div class="form-group margin-above" id=""></div>
+              <fieldset>
+                <legend class="legend-label">Excluding this claim, are you currently in receipt of, or have you ever previously received, or are you applying for any of the following
+                  <span class="hint display-block">Please select any that apply</span>
+                </legend>
 
-              <% include ../partials/cancel-modal.ejs %>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="dva">
+                    <span class="uikit-control-input__text">DVA payments</span>
+                  </label>
+                </p>
+
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="centrelink">
+                    <span class="uikit-control-input__text">Centrelink payments</span>
+                  </label>
+                </p>
+
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="adfc">
+                    <span class="uikit-control-input__text">Australian Defence Force Compensation </span>
+                  </label>
+                </p>
+
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="other-comp">
+                    <span class="uikit-control-input__text">Other compensation</span>
+                  </label>
+                </p>
+              </fieldset>
+              <!-- bottom page navigation -->
+              <div class="pagination">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-progress'">Previous</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                <div class="floated">
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-start'">Save and exit</button>
+                  <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-progress-b'">Save and next</button>
+                </div>
+
+                <% include ../partials/cancel-modal.ejs %>
     </main>
 
     <% include ../../../global/partials/footer.ejs %>
 
 
       <script>
-        // Progress percentage
-        document.getElementById("percentage").style.width = "5%";
-        document.getElementById("percentage_value").textContent = "5%";
 
+        $(Document).ready(function () {
+          $("#invalidity-pension-yes").hide();
+
+          // Show and hide needs list
+          $("#invalidity-yes").click(function () {
+            $("#invalidity-pension-yes").show("fast");
+          });
+          $("#invalidity-no").click(function () {
+            $("#invalidity-pension-yes").hide("fast");
+          });
+        });
       </script>
 
 
