@@ -344,9 +344,12 @@ app.get('/terms-and-conditions', function (request, response) {
 
 //feedback page
 
-// app.get('/panel-feedback', function (request, response) {
-//   response.render('auth/claim/pages/panel-feedback');
-// });
+app.get('/panel-feedback', function (request, response) {
+  response.render('auth/claim/pages/panel-feedback');
+});
+app.get('/panel-feedbacksubmitting', function (request, response) {
+  response.render('auth/claim/pages/panel-feedbacksubmitting');
+});
 
 /* Claims Page */
 app.get('/claims', function (request, response) {
