@@ -45,6 +45,9 @@ app.get('/email-lsq-pilot', function (request, response) {
 app.get('/email-lsq-pilot-thanks', function (request, response) {
   response.render('email/pages/email-lsq-pilot-thanks');
 });
+app.get('/email-incap-submitted', function (request, response) {
+  response.render('email/pages/email-incap-submitted');
+});
 /**
 Unauthenticated space
 */
@@ -779,6 +782,32 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
   response.render('auth/claim/pages/viewNLHCClaimDetail');
 });
 
+/* Veteran card */
+app.get('/veteran-card-eligibility', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-eligibility', {
+    main_nav_active: 'healthcard'
+  });
+});
+app.get('/veteran-card-1', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-1', {
+    main_nav_active: 'healthcard'
+  });
+});
+app.get('/veteran-card-2', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-2', {
+    main_nav_active: 'healthcard'
+  });
+});
+app.get('/veteran-card-review', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-review', {
+    main_nav_active: 'healthcard'
+  });
+});
+app.get('/veteran-card-submitted', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-submitted', {
+    main_nav_active: 'healthcard'
+  });
+});
 
 /* Health card */
 app.get('/healthcard-home', function (request, response) {
