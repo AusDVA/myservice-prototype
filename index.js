@@ -524,6 +524,10 @@ app.get('/sp-progress-a', function (request, response) {
   response.render('auth/claim/pages/sp-progress-d', {
     main_nav_active: 'claims'
   });
+}); app.get('/sp-progress-finish', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-finish', {
+    main_nav_active: 'claims'
+  });
 });
 app.get('/sp-documents', function (request, response) {
   response.render('auth/claim/pages/sp-documents', {
