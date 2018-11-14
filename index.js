@@ -19,7 +19,7 @@ app.set('view engine', 'ejs');
 
 /*
 /**
-Emails 
+Emails
 */
 app.get('/email-feedback-received', function (request, response) {
   response.render('email/pages/email-feedback-received');
@@ -284,7 +284,6 @@ app.get('/service-period-2', function (request, response) {
 app.get('/service-period-3', function (request, response) {
   response.render('auth/service-period-3');
 });
-
 /* Separate healthcard screens */
 // app.get('/healthcard-home', function (request, response) {
 //   response.render('auth/healthcard/healthcard-home');
@@ -347,6 +346,15 @@ app.get('/profile-password-updated', function (request, response) {
 });
 app.get('/terms-and-conditions', function (request, response) {
   response.render('global/pages/terms-and-conditions');
+});
+
+//feedback page
+
+app.get('/panel-feedback', function (request, response) {
+  response.render('auth/claim/pages/panel-feedback');
+});
+app.get('/panel-feedbacksubmitting', function (request, response) {
+  response.render('auth/claim/pages/panel-feedbacksubmitting');
 });
 
 /* Claims Page */
