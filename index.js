@@ -21,6 +21,9 @@ app.set('view engine', 'ejs');
 /**
 Emails
 */
+app.get('/email-feedback-received', function (request, response) {
+  response.render('email/pages/email-feedback-received');
+});
 app.get('/email-rego-success', function (request, response) {
   response.render('email/pages/email-rego-success');
 });
