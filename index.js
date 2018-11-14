@@ -45,6 +45,9 @@ app.get('/email-lsq-pilot', function (request, response) {
 app.get('/email-lsq-pilot-thanks', function (request, response) {
   response.render('email/pages/email-lsq-pilot-thanks');
 });
+app.get('/email-incap-submitted', function (request, response) {
+  response.render('email/pages/email-incap-submitted');
+});
 /**
 Unauthenticated space
 */
