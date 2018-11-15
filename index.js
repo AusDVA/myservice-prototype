@@ -15,8 +15,13 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
-
-
+/*
+/**
+Print styles
+*/
+app.get('/print-feedback-received', function (request, response) {
+  response.render('email/pages/print-feedback-received');
+});
 /*
 /**
 Emails
@@ -511,6 +516,153 @@ app.get('/incap-summary', function (request, response) {
   });
 });
 
+/* Service pension claim */
+app.get('/sp-progress', function (request, response) {
+  response.render('auth/claim/pages/sp-progress', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-representative', function (request, response) {
+  response.render('auth/claim/pages/sp-representative', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-progress-a', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-a', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-b', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-b', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-c', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-c', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-d', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-d', {
+    main_nav_active: 'claims'
+  });
+}); app.get('/sp-progress-finish', function (request, response) {
+  response.render('auth/claim/pages/sp-progress-finish', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-documents', function (request, response) {
+  response.render('auth/claim/pages/sp-documents', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-residency', function (request, response) {
+  response.render('auth/claim/pages/sp-residency', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-residency-partner', function (request, response) {
+  response.render('auth/claim/pages/sp-residency-partner', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-start', function (request, response) {
+  response.render('auth/claim/pages/sp-start', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-review', function (request, response) {
+  response.render('auth/claim/pages/sp-review', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-my-details', function (request, response) {
+  response.render('auth/claim/pages/sp-my-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-partner', function (request, response) {
+  response.render('auth/claim/pages/sp-partner', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-dependant', function (request, response) {
+  response.render('auth/claim/pages/sp-dependant', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-la', function (request, response) {
+  response.render('auth/claim/pages/sp-la', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-claim-contact', function (request, response) {
+  response.render('auth/claim/pages/sp-claim-contact', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-other-claims', function (request, response) {
+  response.render('auth/claim/pages/sp-other-claims', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-medical', function (request, response) {
+  response.render('auth/claim/pages/sp-medical', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-payment-details', function (request, response) {
+  response.render('auth/claim/pages/sp-payment-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-bank-details', function (request, response) {
+  response.render('auth/claim/pages/sp-bank-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-financial-details', function (request, response) {
+  response.render('auth/claim/pages/sp-financial-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-financial-income', function (request, response) {
+  response.render('auth/claim/pages/sp-financial-income', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-financial-assets', function (request, response) {
+  response.render('auth/claim/pages/sp-financial-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-personal-assets', function (request, response) {
+  response.render('auth/claim/pages/sp-personal-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-income-payments', function (request, response) {
+  response.render('auth/claim/pages/sp-income-payments', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-other-items', function (request, response) {
+  response.render('auth/claim/pages/sp-other-items', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-super', function (request, response) {
+  response.render('auth/claim/pages/sp-super', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-required-documents', function (request, response) {
+  response.render('auth/claim/pages/sp-required-documents', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-nominated-rep', function (request, response) {
+  response.render('auth/claim/pages/sp-nominated-rep', {
+    main_nav_active: 'claims'
+  });
+});
 
 /* Broadened claim flow */
 app.get('/claim1', function (request, response) {
