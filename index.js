@@ -15,8 +15,13 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
-
-
+/*
+/**
+Print styles
+*/
+app.get('/print-feedback-received', function (request, response) {
+  response.render('email/pages/print-feedback-received');
+});
 /*
 /**
 Emails
