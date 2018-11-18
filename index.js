@@ -1002,6 +1002,20 @@ app.get('/healthcard-replacement-fail', function (request, response) {
   });
 });
 
+// Lump sum advance payment claim
+
+app.get('/lump-sum-advance', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance', {
+    main_nav_active: 'lsa'
+  });
+});
+app.get('/lsa-request', function (request, response) {
+  response.render('auth/claim/pages/lsa-request');
+});
+app.get('/lsa-submitting', function (request, response) {
+  response.render('auth/claim/pages/lsa-submitting');
+});
+
 app.get('/pi-email', function (request, response) {
   response.render('auth/claim/pages/pi-email');
 });
