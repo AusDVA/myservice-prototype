@@ -516,6 +516,12 @@ app.get('/incap-summary', function (request, response) {
   });
 });
 
+app.get('/incap-ineligible', function (request, response) {
+  response.render('auth/claim/pages/incap-ineligible', {
+    main_nav_active: 'claims'
+  });
+});
+
 /* Service pension claim */
 app.get('/sp-progress', function (request, response) {
   response.render('auth/claim/pages/sp-progress', {
