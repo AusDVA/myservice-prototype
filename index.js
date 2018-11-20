@@ -1010,7 +1010,7 @@ app.get('/healthcard-replacement-fail', function (request, response) {
 
 // Lump sum advance payment claim
 
-app.get('/lump-sum-advance', function (request, response) {
+app.get('/payments', function (request, response) {
   response.render('auth/claim/pages/payments', {
     main_nav_active: 'lsa'
   });
