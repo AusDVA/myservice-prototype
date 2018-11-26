@@ -1036,6 +1036,9 @@ app.get('/lump-sum-advance-view', function (request, response) {
 app.get('/lump-sum-advance-history', function (request, response) {
   response.render('auth/claim/pages/lump-sum-advance-history');
 });
+app.get('/lsa-calc-text', function (request, response) {
+  response.render('auth/claim/pages/lsa-calc-text');
+});
 
 app.get('/pi-email', function (request, response) {
   response.render('auth/claim/pages/pi-email');

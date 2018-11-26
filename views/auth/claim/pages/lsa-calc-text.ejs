@@ -2,59 +2,97 @@
 <html class="js" lang="en">
 
 <head>
-	<meta charset="utf-8">
-	<meta content="width=device-width" name="viewport">
-	<title>LSA Calculator</title>
-	<link href="docs/css/main.css" rel="stylesheet">
-    <script type="text/javascript" src="src/js/jautocalc.js"></script>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Manage your Claims | MyService</title>
+  <link href="docs/css/main.css" rel="stylesheet">
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
-	<noscript>
-		<p role="alert">This website needs JavaScript to work properly.</p>
-	</noscript>
-	<nav class="uikit-skip-link">
-		<a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-	</nav>
-	<% include ../../../global/partials/header-topbar.ejs %>
-		<% include ../../../global/partials/header-claims.ejs %>
-			<main is="main-content ">
-				<div class="container margin-below--extra">
-          <div class="row">
-            <div class="col-md-offset-2 col-md-8">
-    					<h1 class="margin-above margin-below">
-    						<span class="heading">LSA Calculator</span>
-    					</h1>
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../global/partials/header-topbar.ejs %>
+    <% include ../../../global/partials/header-authenticated.ejs %>
+      <main>
+        <section>
+
+
+          <div class="section-feature">
+            <div id="main-content" class="container">
+              <h1 class="margin-below--small margin-above--small">
+                <span class="heading">Lump sum advance request</span>
+              </h1>
             </div>
           </div>
-<title> JavaScript Loan Calculator </title>
-<table>
-  <tr><th>Enter Loan Data:</th>
-    <td></td>
-	<!-- <th>Loan Balance, Cumulative Equity, and Interest Payments</th></tr> -->
-	<tr><td>Amount of the loan ($):</td>
-	<td><input id="amount" onchange="calculate();"></td>
-	<!-- <td rowspan=8>
-	  <canvas id="graph" width="400" height="250"></canvas></td> -->
-  </tr>
-	<tr><td>Annual interest (%):</td>
-	  <td><input id="apr" onchange="calculate();"></td></tr>
-	<tr><td>Repayment period (years):</td>
-	  <td><input id="years" onchange="calculate();"></td>
-	<tr>
-    <!-- <td>Zipcode (to find lenders):</td>
-	  <td><input id="zipcode" onchange="calculate();"></td> -->
-	<tr><th>Approximate Payments:</th>
-	  <td><button onclick="calculate();">Calculate</button></td></tr>
-	<tr><td>Monthly payment:</td>
-	  <td>$<span class="output" id="payment"></span></td></tr>
-	<tr><td>Total payment:</td>
-	  <td>$<span class="output" id="total"></span></td></tr>
-	<tr><td>Total interest:</td>
-	  <td>$<span class="output" id="totalinterest"></span></td></tr>
-	
-	</table>
-  </main>
-<% include ../../../global/partials/footer.ejs %>
-  </body>
-  </html>
+
+          <div class="section-feature--separator">
+            <div class="container">
+            </div>
+          </div>
+
+
+          <div class="container margin-above margin-below--extra" id="claim-activity">
+
+            <!-- <div class="ss-align--center">
+              <h2>
+                <span class="font-weight-heavy">Manage and track your claims</span>
+              </h2>
+              <p class="text-fullwidth">If you can't see your claim below it may be in
+                <a href="#open-myaccount-modal">MyAccount</a>
+              </p>
+            </div> -->
+						<p>how much you want?</p>
+						<input class="days" type="text" name="txt"/>
+						<p>You will receive $<span class="hint" id="total"></span> less now</p>
+
+						<p>your current payment is <input class="current" type="text" value="600"></p>
+						<p> your new payment will be $<span class="hint" id="currentTotal"></span></p>
+            <div class="form-group">
+              <!-- <a href="/panel-feedbacksubmitting"><button id="submit" class="uikit-btn btnNext">Submit feedback</button></a> -->
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/lump-sum-advance-request'">Back to lump sum advance request</button>
+            </div>
+
+            <% include ../partials/dhoas-start-modal.ejs %>
+
+          </div>
+
+        </section>
+      </main>
+      <% include ../../../global/partials/footer.ejs %>
+
+        <script>
+								$(".days").each(function() {
+									$(this).keyup(function(){
+										Calculate();
+									});
+								});
+
+								function Calculate() {
+									var total = 0;
+									$(".days").each(function() {
+								// validate
+										if(!isNaN(this.value) && this.value.length!=0) {
+											total += parseFloat(this.value);
+											currentTotal += parseFloat(this.value);
+										}
+									});
+								//decimal
+								var cost = total.toFixed(1) / (13);
+								$("#total").html(cost);
+
+								// var cool = 600;
+								// var newcost = cool - cost;
+								var newcost = $(".current").val() - cost;
+								$("#currentTotal").html(newcost);
+								}
+
+        </script>
+
+</body>
+
+
+</html>
