@@ -1008,6 +1008,38 @@ app.get('/healthcard-replacement-fail', function (request, response) {
   });
 });
 
+// Lump sum advance payment claim
+
+app.get('/payments', function (request, response) {
+  response.render('auth/claim/pages/payments', {
+    main_nav_active: 'lsa'
+  });
+});
+app.get('/lump-sum-advance-request', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-request');
+});
+app.get('/lump-sum-advance-review', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-review');
+});
+app.get('/lump-sum-advance-submitted', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-submitted');
+});
+app.get('/lump-sum-advance-inprogress', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-inprogress');
+});
+app.get('/lump-sum-advance-topup', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-topup');
+});
+app.get('/lump-sum-advance-view', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-view');
+});
+app.get('/lump-sum-advance-history', function (request, response) {
+  response.render('auth/claim/pages/lump-sum-advance-history');
+});
+app.get('/lsa-calc-text', function (request, response) {
+  response.render('auth/claim/pages/lsa-calc-text');
+});
+
 app.get('/pi-email', function (request, response) {
   response.render('auth/claim/pages/pi-email');
 });
