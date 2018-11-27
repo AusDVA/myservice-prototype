@@ -774,28 +774,56 @@ app.get('/viewNLHCClaimDetail', function (request, response) {
 /* Veteran card */
 app.get('/veteran-card-eligibility', function (request, response) {
   response.render('auth/claim/pages/veteran-card-eligibility', {
-    main_nav_active: 'healthcard'
+    main_nav_active: 'claims'
   });
 });
 app.get('/veteran-card-1', function (request, response) {
   response.render('auth/claim/pages/veteran-card-1', {
-    main_nav_active: 'healthcard'
+    main_nav_active: 'claims'
   });
 });
 app.get('/veteran-card-2', function (request, response) {
   response.render('auth/claim/pages/veteran-card-2', {
-    main_nav_active: 'healthcard'
+    main_nav_active: 'claims'
   });
 });
 app.get('/veteran-card-review', function (request, response) {
   response.render('auth/claim/pages/veteran-card-review', {
-    main_nav_active: 'healthcard'
+    main_nav_active: 'claims'
   });
 });
 app.get('/veteran-card-submitted', function (request, response) {
   response.render('auth/claim/pages/veteran-card-submitted', {
-    main_nav_active: 'healthcard'
+    main_nav_active: 'claims'
   });
+});
+app.get('/veteran-card-summary', function (request, response) {
+  response.render('auth/claim/pages/veteran-card-summary');
+});
+
+/* New NLHC */
+app.get('/mental-health-1', function (request, response) {
+  response.render('auth/claim/pages/mental-health-1', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/mental-health-2', function (request, response) {
+  response.render('auth/claim/pages/mental-health-2', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/mental-health-review', function (request, response) {
+  response.render('auth/claim/pages/mental-health-review', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/mental-health-submitted', function (request, response) {
+  response.render('auth/claim/pages/mental-health-submitted', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/mental-health-summary', function (request, response) {
+  response.render('auth/claim/pages/mental-health-summary');
 });
 
 /* Health card */
