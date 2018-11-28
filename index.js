@@ -523,6 +523,11 @@ app.get('/incap-ineligible', function (request, response) {
 });
 
 /* Service pension claim */
+app.get('/sp-before-start', function (request, response) {
+  response.render('auth/claim/pages/sp-before-start', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-progress', function (request, response) {
   response.render('auth/claim/pages/sp-progress', {
     main_nav_active: 'claims'
