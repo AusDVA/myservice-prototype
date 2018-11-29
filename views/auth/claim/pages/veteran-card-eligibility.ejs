@@ -159,6 +159,27 @@
 
             </div>
 
+            <div id="basicdetails" class="margin-above--mid" style="display:none;">
+              <div id="service-number" class="form-group">
+                <label class="uikit-text-input__label" for="nomrep-name">Service number</label>
+                <input class="uikit-text-input input-half" name="nomrep-name" id="nomrep-name" type="text" value="">
+              </div>
+              <div id="enlistment-date" class="form-group">
+                <label class="uikit-text-input__label" for="dd-discharge">Date of enlistment <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="text" name="dd-enlistment" id="dd-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="mm-enlistment" id="mm-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+              <div id="discharge-date" class="form-group">
+                <label class="uikit-text-input__label" for="dd-discharge">Date of discharge <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="text" name="dd-discharge" id="dd-discharge" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="mm-discharge" id="mm-discharge" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="yyyy-discharge" id="yyyy-discharge" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </div>
+
             <div id="document-upload" class="margin-above--large text-fullwidth" style="display:none;">
               <hr>
               <h2>Upload proof of service <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span></h2>
@@ -233,12 +254,6 @@
     $(Document).ready(function () {
       $("#btnNext").click(function () { window.location.href = "/veteran-card-1" });
 
-      $("#permanentYes").click(function () {
-
-        $("#choose-next").show();
-        $("#ReservistHistory").hide();
-
-      });
 
       $("#btnUpload").click(function () {
         $("#UploadedDocs").show();
@@ -251,13 +266,13 @@
       });
 
       $("#cftsNo").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").hide();
         $("#disaster").show();
         $("#accidentDate").hide();
         $("#btnNext").prop('disabled', false);
       });
       $("#cftsYes").click(function () {
-        $("#choose-next").show();
+        $("#basicdetails").show();
         $("#disaster").hide();
         $("#border").hide();
         $("#operationName").hide();
@@ -268,15 +283,16 @@
       });
 
       $("#disasterNo").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").hide();
         $("#border").show();
         $("#operationName").hide();
         $("#accidentDate").hide();
         $("#btnNext").prop('disabled', false);
       });
+
       $("#disasterYes").click(function () {
-        $("#choose-next").hide();
         $("#operationName").show();
+        $("#basicdetails").show();
         $("#border").hide();
         $("#accident").hide();
         $("#accidentDate").hide();
@@ -285,14 +301,14 @@
       });
 
       $("#borderNo").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").hide();
         $("#accident").show();
         $("#operationName").hide();
         $("#accidentDate").hide();
         $("#btnNext").prop('disabled', false);
       });
       $("#borderYes").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").show();
         $("#operationName").show();
         $("#accident").hide();
         $("#NotEligible").hide();
@@ -301,14 +317,14 @@
       });
 
       $("#accidentNo").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").hide();
         $("#NotEligible").show();
         $("#accidentDate").hide();
         $("#operationName").hide();
         $("#btnNext").prop('disabled', true);
       });
       $("#accidentYes").click(function () {
-        $("#choose-next").hide();
+        $("#basicdetails").show();
         $("#operationName").hide();
         $("#NotEligible").hide();
         $("#accidentDate").show();
@@ -324,14 +340,15 @@
       if (this.value === 'yes') {
         iseligibile = true
         $("#q2").hide();
-        $("#choose-next").show();
+        $("#basicdetails").show();
         // $("#document-upload").show();
         $("#NotEligible").hide();
+        $("#ReservistHistory").hide();
         $("#btnNext").prop('disabled', false);
       }
       else if (this.value === 'no') {
         $("#q2").show();
-        $("#choose-next").hide();
+        $("#basicdetails").hide();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
