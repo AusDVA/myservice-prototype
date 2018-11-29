@@ -802,6 +802,11 @@ app.get('/veteran-card-summary', function (request, response) {
 });
 
 /* New NLHC */
+app.get('/mental-health-eligibility', function (request, response) {
+  response.render('auth/claim/pages/mental-health-eligibility', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/mental-health-1', function (request, response) {
   response.render('auth/claim/pages/mental-health-1', {
     main_nav_active: 'claims'
