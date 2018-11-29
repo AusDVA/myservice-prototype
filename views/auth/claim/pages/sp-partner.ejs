@@ -52,7 +52,7 @@
               </li>
               <li class="progress-step">
                 <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Claim contact</p>
+                <p class="progress-step-label">Represnetive</p>
               </li>
               <li class="progress-step progress-step--last">
                 <span class="progress-step__icon"></span>
@@ -324,44 +324,50 @@
                       </label>
                     </div>
 
-                    <label class="uikit-text-input__label margin-above--large" for="tags">What is the Customer Reference Number (CRN) on the card?</label>
-                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                    <!-- [I] CSHC -->
+                    <div id="partner-cshc-details">
+                      <label class="uikit-text-input__label margin-above--large" for="crn">What is the Customer Reference Number (CRN) on the card?</label>
+                      <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+
+                      <legend class="legend-label margin-above--large">Is your partner receiving (or applying for) a payment from Centrelink?
+                      </legend>
+                      <p>This includes for example, age pension, disability support pension, ABSTUDY, payments under the New Enterprise Incentive Scheme (NEIS)</p>
+                      <div class="radio-toggle">
+                        <label class="on label-left" for="partner-centrelink-yes">
+                          <input id="partner-centrelink-yes" type="radio" name="partner-centrelink">
+                          <span>Yes</span>
+                        </label>
+                        <label class="off label-right" for="partner-centrelink-no">
+                          <input id="partner-centrelink-no" type="radio" name="partner-centrelink">
+                          <span>No</span>
+                        </label>
+                      </div>
+                    </div> <!-- end of [I] CSHC -->
+
+                    <!-- [J] Partner payment type -->
+                    <div id="partner-payment-type">
+
+                      <label class="uikit-text-input__label margin-above--large" for="tags">Payment type</label>
+                      <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+
+                      <label class="uikit-text-input__label margin-above--large" for="tags">Amount received per fortnight</label>
+                      <input class="uikit-text-input" name="tags" id="tags" type="text" value="$0.00">
+
+                      <label class="uikit-text-input__label margin-above--large" for="tags">Customer Reference Number (CRN)</label>
+                      <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
 
 
-                    <legend class="legend-label margin-above--large">Is your partner receiving (or applying for) a payment from Centrelink?
-                    </legend>
-                    <p>This includes for example, age pension, disability support pension, ABSTUDY, payments under the New Enterprise Incentive Scheme (NEIS)</p>
-                    <div class="radio-toggle">
-                      <label class="on label-left" for="partner-centrelink-yes">
-                        <input id="partner-centrelink-yes" type="radio" name="partner-centrelink">
-                        <span>Yes</span>
+                      <label class="uikit-text-input__label margin-above--large">When did your partner first arrive in Australia?
+                        <span class="hint">(dd / mm / yyyy)</span>
                       </label>
-                      <label class="off label-right" for="partner-centrelink-no">
-                        <input id="partner-centrelink-no" type="radio" name="partner-centrelink">
-                        <span>No</span>
-                      </label>
-                    </div>
-
-                    <label class="uikit-text-input__label margin-above--large" for="tags">Payment type</label>
-                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-
-                    <label class="uikit-text-input__label margin-above--large" for="tags">Amount received per fortnight</label>
-                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="$0.00">
-
-                    <label class="uikit-text-input__label margin-above--large" for="tags">Customer Reference Number (CRN)</label>
-                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                      <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                      <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                      <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
 
 
-                    <label class="uikit-text-input__label margin-above--large">Date of application
-                      <span class="hint">(dd / mm / yyyy)</span>
-                    </label>
-                    <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                    <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                    <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-
-
-                    <label class="uikit-text-input__label" for="tags">Regional office</label>
-                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                      <label class="uikit-text-input__label" for="tags">Regional office</label>
+                      <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                    </div><!-- end of [J] Partner payment type -->
 
                 </div><!-- end of partner details -->
                 </fieldset>
@@ -469,6 +475,16 @@
       $("#partner-details").hide();
       $("#partner-details-other").hide();
       $("#partners-home-address").hide();
+      $("#partner-payment-type").hide();
+      $("#partner-cshc-details").hide();
+
+      $("#partner-centrelink-yes").click(function () {
+        $("#partner-payment-type").show("fast");
+      });
+
+      $("#partner-csh-yes").click(function () {
+        $("#partner-cshc-details").show("fast");
+      });
 
       $("#single").click(function () {
         $("#date-marriage").hide("fast");
