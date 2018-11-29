@@ -45,6 +45,12 @@ app.get('/email-lsq-pilot', function (request, response) {
 app.get('/email-lsq-pilot-thanks', function (request, response) {
   response.render('email/pages/email-lsq-pilot-thanks');
 });
+app.get('/email-veteran-card-approved', function (request, response) {
+  response.render('email/pages/email-veteran-card-approved');
+});
+app.get('/email-mental-health-approved', function (request, response) {
+  response.render('email/pages/email-mental-health-approved');
+});
 /**
 Unauthenticated space
 */
