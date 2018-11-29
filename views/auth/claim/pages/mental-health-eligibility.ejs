@@ -32,7 +32,7 @@
         <div class="col-md-offset-2 col-md-8">
 
           <div class="margin-above--extra margin-below--extra">
-            <h2 class="margin-below--none">Tell us a bit about your service history</h2>
+            <h2 class="margin-below--none">Tell us about your service history</h2>
 
             <div class="form-group margin-above--large" id="q1">
               <fieldset>
@@ -66,6 +66,98 @@
               </fieldset>
             </div>
 
+            <div id="ReservistHistory" class="margin-above--large" style="display:none;">
+              <hr>
+              <h2>We need to know more about your time in the Reserves</h2>
+
+              <div class="form-group margin-above" id="cfts">
+                <fieldset>
+                  <label class="legend-label">Was your service ever considered Continuous Full-Time Service?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="cftsYes" name="cfts" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="cftsNo" name="cfts" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="disaster" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Did your service include a Disaster Relief operation?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="disasterYes" name="disaster" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="disasterNo" name="disaster" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="border" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Did your service include a Border Protection operation?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="borderYes" name="border" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="borderNo" name="border" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="accident" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Were you ever involved in a serious training accident?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="accidentYes" name="accident" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="accidentNo" name="accident" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div id="operationName" class="form-group" style="display:none;">
+                <label class="uikit-text-input__label">Operation name
+                  <span class="hint">(if known)</span>
+                </label>
+                <input class="uikit-text-input input-half" type="text" value="" id="operation">
+              </div>
+
+
+              <div id="accidentDate" style="display:none;">
+                <div class="form-group margin-above">
+                  <label class="uikit-text-input__label">Location of accident
+                    <span class="hint">(if known)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" type="text" value="" id="locationincident">
+                </div>
+                <div class="form-group margin-above">
+                  <label class="uikit-text-input__label" for="mm-accident">Approximately when did the serious training accident occur? <span class="hint display-block">(mm / yyyy)</span>
+                  </label>
+                  <input class="uikit-text-input mm" type="text" name="mm-accident" id="mm-accident" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-accident" id="yyyy-accident" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                </div>
+              </div>
+
+            </div>
 
             <div id="document-upload" class="margin-above--large text-fullwidth" style="display:none;">
               <hr>
@@ -107,7 +199,7 @@
               <b>next</b> to continue.</p>
 
             <div id="NotEligible" class="margin-above--extra" style="display:none;">
-              <div class="uikit-page-alerts uikit-page-alerts--warning margin-above margin-below">
+              <div class="uikit-page-alerts uikit-page-alerts--error margin-above margin-below">
                 <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on (02) 6289 6015 to discuss your claim. These words need some work.</p>
               </div>
 
@@ -142,7 +234,10 @@
       $("#btnNext").click(function () { window.location.href = "/veteran-card-1" });
 
       $("#permanentYes").click(function () {
-        $("#document-upload").show();
+
+        $("#choose-next").show();
+        $("#ReservistHistory").hide();
+
       });
 
       $("#btnUpload").click(function () {
@@ -155,6 +250,71 @@
         $("#btnUpload").show();
       });
 
+      $("#cftsNo").click(function () {
+        $("#choose-next").hide();
+        $("#disaster").show();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+      $("#cftsYes").click(function () {
+        $("#choose-next").show();
+        $("#disaster").hide();
+        $("#border").hide();
+        $("#operationName").hide();
+        $("#accident").hide();
+        $("#accidentDate").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#disasterNo").click(function () {
+        $("#choose-next").hide();
+        $("#border").show();
+        $("#operationName").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+      $("#disasterYes").click(function () {
+        $("#choose-next").hide();
+        $("#operationName").show();
+        $("#border").hide();
+        $("#accident").hide();
+        $("#accidentDate").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#borderNo").click(function () {
+        $("#choose-next").hide();
+        $("#accident").show();
+        $("#operationName").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+      $("#borderYes").click(function () {
+        $("#choose-next").hide();
+        $("#operationName").show();
+        $("#accident").hide();
+        $("#NotEligible").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#accidentNo").click(function () {
+        $("#choose-next").hide();
+        $("#NotEligible").show();
+        $("#accidentDate").hide();
+        $("#operationName").hide();
+        $("#btnNext").prop('disabled', true);
+      });
+      $("#accidentYes").click(function () {
+        $("#choose-next").hide();
+        $("#operationName").hide();
+        $("#NotEligible").hide();
+        $("#accidentDate").show();
+        $("#btnNext").prop('disabled', false);
+      });
+
     });
 
     $("#q2").hide();
@@ -164,13 +324,14 @@
       if (this.value === 'yes') {
         iseligibile = true
         $("#q2").hide();
-        $("#document-upload").show();
+        $("#choose-next").show();
+        // $("#document-upload").show();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
       else if (this.value === 'no') {
         $("#q2").show();
-        $("#document-upload").hide();
+        $("#choose-next").hide();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
@@ -179,16 +340,19 @@
     $("input[name$='ReserveQuestion']").click(function () {
       if (this.value === 'yes') {
         iseligibile = true
-        $("#document-upload").show();
+        $("#ReservistHistory").show();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
       else if (this.value === 'no') {
-        $("#document-upload").hide();
+        $("#ReservistHistory").hide();
         $("#NotEligible").show();
         $("#btnNext").prop('disabled', true);
       }
     });
+
+
+
 
   </script>
 
