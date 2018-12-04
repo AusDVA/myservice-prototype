@@ -53,6 +53,12 @@ app.get('/email-lsq-pilot', function (request, response) {
 app.get('/email-lsq-pilot-thanks', function (request, response) {
   response.render('email/pages/email-lsq-pilot-thanks');
 });
+app.get('/email-veteran-card-approved', function (request, response) {
+  response.render('email/pages/email-veteran-card-approved');
+});
+app.get('/email-mental-health-approved', function (request, response) {
+  response.render('email/pages/email-mental-health-approved');
+});
 app.get('/email-incap-submitted', function (request, response) {
   response.render('email/pages/email-incap-submitted');
 });
@@ -523,6 +529,11 @@ app.get('/incap-ineligible', function (request, response) {
 });
 
 /* Service pension claim */
+app.get('/sp-before-start', function (request, response) {
+  response.render('auth/claim/pages/sp-before-start', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-progress', function (request, response) {
   response.render('auth/claim/pages/sp-progress', {
     main_nav_active: 'claims'
@@ -974,6 +985,11 @@ app.get('/veteran-card-summary', function (request, response) {
 });
 
 /* New NLHC */
+app.get('/mental-health-eligibility', function (request, response) {
+  response.render('auth/claim/pages/mental-health-eligibility', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/mental-health-1', function (request, response) {
   response.render('auth/claim/pages/mental-health-1', {
     main_nav_active: 'claims'
@@ -1151,7 +1167,9 @@ app.get('/styleguide-tooltip', function (request, response) {
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
 });
-
+app.get('/benny-circle-animation', function (request, response) {
+  response.render('auth/claim/pages/benny-circle-animation');
+});
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
