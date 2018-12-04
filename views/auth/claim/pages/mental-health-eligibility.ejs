@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width" name="viewport">
-  <title>Add claim: Mental health treatment | MyService</title>
+  <title>Add claim: Veteran Card | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
 </head>
 
@@ -184,7 +184,10 @@
               <hr>
               <h2>Upload proof of service <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span></h2>
               <p>For example your Discharge Signal, DM042, MECRB, military payslip or service record.</p>
-              <button id="btnUpload" class="uikit-btn">Upload document</button>
+              <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
+                <p class="margin-below--mid">If you can't provide proof of your service, call us on (02) 6289 6015.</p>
+              </div>
+              <!-- <button id="btnUpload" class="uikit-btn">Upload document</button>
 
               <div id="UploadedDocs" class="mys-file-uploads margin-below--extra" style="display:none;">
                 <div class="mys-file-uploads__items">
@@ -213,15 +216,36 @@
                 <div class="mys-file-uploads__uploads-actions">
                   <button class="uikit-btn small uikit-btn--tertiary">Add another</button>
                 </div>
+              </div> -->
+
+              <div class="upload-list">
+                <table class="document-uploads">
+                  <tr>
+                    <th>Document title</th>
+                    <th class="centred">Actions</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a>
+                    </td>
+                    <td class="centred">
+                      <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
+                    </td>
+                  </tr>
+                </table>
+                <button class="uikit-btn btnUpload">Upload a document</button>
               </div>
+
             </div>
+
+
 
             <p id="choose-next" class="margin-above text-fullwidth">Choose
               <b>next</b> to continue.</p>
 
             <div id="NotEligible" class="margin-above--extra" style="display:none;">
               <div class="uikit-page-alerts uikit-page-alerts--error margin-above margin-below">
-                <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on (02) 6289 6015 to discuss your claim. These words need some work.</p>
+                <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on (02) 6289 6015 to discuss your claim.</p>
               </div>
 
             </div>
@@ -267,12 +291,14 @@
 
       $("#cftsNo").click(function () {
         $("#basicdetails").hide();
+        $("#document-upload").hide();
         $("#disaster").show();
         $("#accidentDate").hide();
         $("#btnNext").prop('disabled', false);
       });
       $("#cftsYes").click(function () {
         $("#basicdetails").show();
+        $("#document-upload").show();
         $("#disaster").hide();
         $("#border").hide();
         $("#operationName").hide();
@@ -284,6 +310,7 @@
 
       $("#disasterNo").click(function () {
         $("#basicdetails").hide();
+        $("#document-upload").hide();
         $("#border").show();
         $("#operationName").hide();
         $("#accidentDate").hide();
@@ -293,6 +320,7 @@
       $("#disasterYes").click(function () {
         $("#operationName").show();
         $("#basicdetails").show();
+        $("#document-upload").show();
         $("#border").hide();
         $("#accident").hide();
         $("#accidentDate").hide();
@@ -302,6 +330,7 @@
 
       $("#borderNo").click(function () {
         $("#basicdetails").hide();
+        $("#document-upload").hide();
         $("#accident").show();
         $("#operationName").hide();
         $("#accidentDate").hide();
@@ -309,6 +338,7 @@
       });
       $("#borderYes").click(function () {
         $("#basicdetails").show();
+        $("#document-upload").show();
         $("#operationName").show();
         $("#accident").hide();
         $("#NotEligible").hide();
@@ -318,6 +348,7 @@
 
       $("#accidentNo").click(function () {
         $("#basicdetails").hide();
+        $("#document-upload").hide();
         $("#NotEligible").show();
         $("#accidentDate").hide();
         $("#operationName").hide();
@@ -325,6 +356,7 @@
       });
       $("#accidentYes").click(function () {
         $("#basicdetails").show();
+        $("#document-upload").show();
         $("#operationName").hide();
         $("#NotEligible").hide();
         $("#accidentDate").show();
@@ -341,7 +373,7 @@
         iseligibile = true
         $("#q2").hide();
         $("#basicdetails").show();
-        // $("#document-upload").show();
+        $("#document-upload").show();
         $("#NotEligible").hide();
         $("#ReservistHistory").hide();
         $("#btnNext").prop('disabled', false);
@@ -349,6 +381,7 @@
       else if (this.value === 'no') {
         $("#q2").show();
         $("#basicdetails").hide();
+        $("#document-upload").hide();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
