@@ -1167,11 +1167,14 @@ app.get('/styleguide-tooltip', function (request, response) {
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
 });
-app.get('/benny-circle-animation', function (request, response) {
-  response.render('auth/claim/pages/benny-circle-animation');
+app.get('/styleguide-currency', function (request, response) {
+  response.render('styleguide/pages/currency');
 });
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
   response.render('myaccount/index');
+});
+app.get('/benny-circle-animation', function (request, response) {
+  response.render('auth/claim/pages/benny-circle-animation');
 });
