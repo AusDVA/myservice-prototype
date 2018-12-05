@@ -111,7 +111,7 @@
                       <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
                       <label class="uikit-text-input__label" for="tax-number">Surname</label>
                       <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                      <label class="uikit-text-input__label" for="toggle-buttons">Is the child at school?</label>
+                      <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is the child at school?</label>
                       <div class="radio-toggle">
                         <label class="on label-left" for="dependent-school-yes">
                           <input id="dependent-school-yes" type="radio" name="dependent-school">
@@ -131,7 +131,6 @@
                         required aria-required="true">
                     </div>
 
-
                     <!------ over 16 and less than 22 ------>
                     <div class="form-group" id="over-16">
                       <label class="uikit-text-input__label" for="toggle-buttons">Is this child in full-time education?</label>
@@ -145,6 +144,7 @@
                           <span>No</span>
                         </label>
                       </div>
+
                       <!-- [C] -->
                       <div class="uikit-page-alerts" role="alert" id="full-time-ed-notification">
                         <p>Only add childern over 16 years if currently in full time education</p>
@@ -156,7 +156,6 @@
                         <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
                         <label class="uikit-text-input__label" for="tax-number">Surname</label>
                         <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-
                         <label class="uikit-text-input__label" for="toggle-buttons">Does this child receive any government payments?</label>
                         <div class="radio-toggle">
                           <label class="on label-left" for="dependent-gov-payments-yes">
@@ -170,7 +169,7 @@
                         </div>
 
                         <!-- [E] -->
-                        <div id="gov-payments">
+                        <div id="gov-payments" class="margin-above--large">
                           <div class="form-group">
                             <label class="uikit-text-input__label" for="Input field">Type of payment</label>
                             <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
@@ -179,8 +178,9 @@
                           <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;"
                             value="0.00" required aria-required="true">
                         </div>
-                      </div>
+                      </div> <!-- end of [e] -->
                     </div><!-- end of over 16 under 22 -->
+
                     <!-- over 22 -->
                     <div id="over-22">
                       <div class="uikit-page-alerts" role="alert">
@@ -189,7 +189,7 @@
                     </div>
 
                     <!-- [Default] -->
-                    <div id="default">
+                    <div id="default" class="margin-above--large">
                       <label class="uikit-text-input__label" for="Input field">Other gross fortnightly income (optional) </label>
                       <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;" value="0.00"
                         required aria-required="true">
@@ -229,7 +229,17 @@
         $("#under-16").hide();
         $("#over-22").hide();
         $("#default").hide();
-        $("#full-time-ed-notification").hide("fast");
+        $("#full-time-ed-notification").hide();
+        $("#full-time-ed-yes").hide();
+        $("#gov-payments").hide(); //if yes show E
+
+        $("#dependent-gov-payments-yes").click(function () {
+          $("#gov-payments").show("fast");
+        });
+
+        $("#dependent-gov-payments-no").click(function () {
+          $("#gov-payments").hide("fast");
+        });
 
         $("#add-child").click(function () {
           $("#sp-dependant-details").show("fast");
@@ -258,6 +268,9 @@
           $("#full-time-ed-notification").hide("fast");
           $("#full-time-ed-yes").show("fast");
         });
+
+
+
       </script>
 
       <script>
@@ -269,6 +282,7 @@
             $("#over-16").show();
             $("#under-16").hide();
             $("#over-22").hide();
+            $("#default").show();
           } else {
             $("#over-16").hide();
             $("#under-16").show();
