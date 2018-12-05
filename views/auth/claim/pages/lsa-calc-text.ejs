@@ -45,12 +45,25 @@
                 <a href="#open-myaccount-modal">MyAccount</a>
               </p>
             </div> -->
-						<p>how much you want?</p>
-						<input class="days" type="text" name="txt"/>
+            <div id="validation" class="field">
+            	<label class="uikit-text-input__label">
+            		how much you want?
+            		<span class="input-error-message">Amount needs to be inbetween Min and Max amount</span>
+            	</label>
+            	<input class="amount uikit-text-input input-half ng-invalid ng-dirty ng-touched" type="text">
+            </div>
+            <br />
+
+            <div class="form-group">
+						<!-- <input class="days" type="text" name="txt"/> -->
 						<p>You will receive $<span class="hint" id="total"></span> less now</p>
 
-						<p>your current payment is <span class="hint">$</span><input class="current" type="text" value="600.00" readonly></p>
+						<p>your current payment is <span class="hint">$</span><input class="current" type="text" value="600.00"></p>
 						<p> your new payment will be $<span class="hint" id="currentTotal"></span></p>
+
+            <p> Min amount is $<span class="hint" id="minTotal">300</span></p>
+            <p> Max amount is $<span class="hint" id="maxTotal">1100</span></p>
+
             <div class="form-group">
               <!-- <a href="/panel-feedbacksubmitting"><button id="submit" class="uikit-btn btnNext">Submit feedback</button></a> -->
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/lump-sum-advance-request'">Back to lump sum advance request</button>
@@ -59,13 +72,14 @@
             <% include ../partials/dhoas-start-modal.ejs %>
 
           </div>
+        </div>
 
         </section>
       </main>
       <% include ../../../global/partials/footer.ejs %>
 
         <script>
-								$(".days").each(function() {
+								$(".amount").each(function() {
 									$(this).keyup(function(){
 										Calculate();
 									});
@@ -73,20 +87,25 @@
 
 								function Calculate() {
 									var total = 0;
-									$(".days").each(function() {
+                  var minTotal = $("#minTotal").html();
+                  var maxTotal = $("#maxTotal").html();
+                  var validation = ("#validation");
+									$(".amount").each(function() {
 								// validate
 										if(!isNaN(this.value) && this.value.length!=0) {
 											total += parseFloat(this.value);
 											currentTotal += parseFloat(this.value);
 										}
+                    if (total < minTotal || total > maxTotal){
+                      $("#validation").addClass("has-error");
+                    } else{
+                      $("#validation").removeClass("has-error");
+                    }
 									});
 								//decimal
-                var cost = total / 13;
-								// $("#total").html(cost);
-                $("#total").html(cost.toFixed(2));
+								var cost = total / 13;
+								$("#total").html(cost.toFixed(2));
 
-								// var cool = 600;
-								// var newcost = cool - cost;
 								var newcost = $(".current").val() - cost.toFixed(2);
 								$("#currentTotal").html(newcost);
 								}
