@@ -32,16 +32,29 @@
         <div class="col-md-offset-2 col-md-8">
 
           <div class="margin-above--extra margin-below--extra">
-            <h2>As part of this claim we will check if you're eligible for the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement" target="_blank" rel="external">veteran&nbsp;supplement</a></h2>
 
-            <h3>Provide your bank details</h3>
-            <p>If you're eligible for the veteran supplement, it will be paid into this account. You will receive a letter from us to confirm your
+            <h2>Provide your bank details and we will check if you are eligible for the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement" target="_blank" rel="external">veteran&nbsp;supplement</a></h2>
+
+
+            <p>If you are, it will will be paid into this account. You will receive a letter from us to confirm your
               first payment.</p>
 
-            <% include ../../../global/partials/bank-account-details.ejs %>
+            <div id="btnAddBank-box" class="margin-below margin-below--extra">
+              <button id="btnAddBank" class="uikit-btn uikit-btn--tertiary">Add bank details</button> &nbsp;&nbsp;(optional)
+            </div>
 
-            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
-              <p class="margin-below--mid">This will also be your nominated bank account for all DVA payments</p>
+            <div class="bank-details-container" style="display:none;">
+              <div class="boxed">
+                <!-- <button id="btnCancelBank" class="uikit-btn uikit-btn--tertiary no-left-margin small floated" style="display: none">Cancel</button> -->
+                <h3 class="margin-above--none">Add bank details <span class="hint">(all fields are required)</span></h3>
+
+                <% include ../../../global/partials/bank-account-details.ejs %>
+                <div class="uikit-page-alerts uikit-page-alerts--info">
+                  <p class="margin-below--mid">This will also be your nominated bank account for all DVA payments</p>
+                </div>
+
+                <button id="btnCancelBank" class="uikit-btn uikit-btn--tertiary small" style="display: none">Cancel</button>
+              </div>
             </div>
 
           </div>
@@ -69,8 +82,29 @@
 
   <script>
     $(Document).ready(function () {
-      $("#btnNext").click(function () { window.location.href = "/veteran-card-review" });
-      $("#btnPrev").click(function () { window.location.href = "/veteran-card-1" });
+      $("#btnNext").click(function () { window.location.href = "/mental-health-review" });
+      $("#btnPrev").click(function () { window.location.href = "/mental-health-1" });
+
+      // bank details button function
+
+      $("#btnAddBank").click(function () {
+        $(".bank-details-container").show("fast");
+        $("#btnAddBank-box").hide();
+        $("#bankoptional").hide();
+        $("#btnCancelBank").show();
+        $("#bank-name").focus();
+      });
+      $("#btnCancelBank").click(function () {
+        $(".bank-details-container").hide("fast");
+        $("#btnCancelBank").hide();
+        $("#bankoptional").show();
+        $("#btnAddBank-box").show();
+      });
+
+      $(".message-close").click(function () {
+        $(".bank-details-container").hide("fast");
+      });
+
     });
   </script>
 
