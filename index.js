@@ -385,6 +385,12 @@ app.get('/claims-make', function (request, response) {
   });
 });
 
+app.get('/travel-home', function (request, response) {
+  response.render('auth/travel/travel-home', {
+    main_nav_active: 'travel'
+  });
+});
+
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
     main_nav_active: 'claims'
@@ -1167,14 +1173,9 @@ app.get('/styleguide-tooltip', function (request, response) {
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
 });
-app.get('/styleguide-currency', function (request, response) {
-  response.render('styleguide/pages/currency');
-});
+
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
   response.render('myaccount/index');
-});
-app.get('/benny-circle-animation', function (request, response) {
-  response.render('auth/claim/pages/benny-circle-animation');
 });
