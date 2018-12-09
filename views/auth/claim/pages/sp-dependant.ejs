@@ -74,55 +74,58 @@
           <div class="col-md-12">
 
             <!-- Page content -->
-
             <div class="margin-above--large">
+              <p>List all dependent children (of you and/or your partner) who meet the following conditions: </p>
+              <ul>
+                <li>Under 16 years old</li>
+                <li>Aged 16-22 and in full time education</li>
+              </ul>
+              <div class="uikit-page-alerts" role="alert">
+                <p>Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your
+                  care.
+                </p>
+              </div>
+              <button class="uikit-btn uikit-btn--tertiary" id="add-child">Add child</button>
 
-              <!--p id="demo"></p-->
-              <div class="margin-above--large">
-                <p>List all dependent children (of you and/or your partner) who meet the following conditions: </p>
-                <ul>
-                  <li>Under 16 years old</li>
-                  <li>Aged 16-22 and in full time education</li>
-                </ul>
-                <div class="uikit-page-alerts" role="alert">
-                  <p>Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your
-                    care.
-                  </p>
-                </div>
-                <button class="uikit-btn uikit-btn--tertiary" id="add-child">Add child</button>
-                <div class="form-group margin-above">
+              <!-- Dependent child details -->
+              <div class="form-group margin-above">
+                <div class="boxed" id="sp-dependant-details">
 
-                  <!-- Dependent child details -->
-                  <div class="boxed" id="sp-dependant-details">
+                  <legend class="legend-label font-weight-heavy" style="font-size:1.3em">Dependent child details</legend>
+                  <div class="form-group">
+                    <label class="uikit-text-input__label margin-above">What is the child’s date of birth?
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <p id="demo"></p>
+                    <input name="birthday" id="DoB" type="text" onkeyup="
+                    var v = this.value;
+                    if (v.match(/^\d{2}$/) !== null) {
+                        this.value = v + '/';
+                    } else if (v.match(/^\d{2}\/\d{2}$/) !== null) {
+                        this.value = v + '/';
+                   }" maxlength="10" required>
+                    <input name="birthday" id="MoB" type="text" required>
+                    <input name="birthday" id="YoB" type="text" required>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()">Submit</button>
+                  </div>
 
-                    <legend class="legend-label font-weight-heavy" style="font-size:1.3em">Dependent child details</legend>
-                    <div class="form-group">
-                      <label class="uikit-text-input__label margin-above">What is the child’s date of birth?
-                        <span class="hint">(dd / mm / yyyy)</span>
+                  <!-- less than 16 -->
+                  <div id="under-16">
+                    <label class="uikit-text-input__label margin-above--mid" for="tax-number">Given name</label>
+                    <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
+                    <label class="uikit-text-input__label" for="tax-number">Surname</label>
+                    <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
+                    <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is the child at school?</label>
+                    <div class="radio-toggle">
+                      <label class="on label-left" for="dependent-school-yes">
+                        <input id="dependent-school-yes" type="radio" name="dependent-school">
+                        <span>Yes</span>
                       </label>
-                      <p id="demo"></p>
-                      <input name="birthday" id="DoB" type="date" required>
-                      <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()">Submit</button>
-                    </div>
-
-                    <!--less than 16 -->
-                    <div id="under-16">
-                      <label class="uikit-text-input__label margin-above--mid" for="tax-number">Given name</label>
-                      <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                      <label class="uikit-text-input__label" for="tax-number">Surname</label>
-                      <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                      <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is the child at school?</label>
-                      <div class="radio-toggle">
-                        <label class="on label-left" for="dependent-school-yes">
-                          <input id="dependent-school-yes" type="radio" name="dependent-school">
-                          <span>Yes</span>
-                        </label>
-                        <label class="off label-right" for="dependent-school-no">
-                          <input id="dependent-school-no" type="radio" name="dependent-school">
-                          <span>No</span>
-                        </label>
-                      </div>
-                    </div>
+                      <label class="off label-right" for="dependent-school-no">
+                        <input id="dependent-school-no" type="radio" name="dependent-school">
+                        <span>No</span>
+                      </label>
+                    </div> <!-- end of less than 16 -->
 
                     <!-- [B] in school -->
                     <div class="form-group" id="child-school">
@@ -130,94 +133,94 @@
                       <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;" value="0.00"
                         required aria-required="true">
                     </div>
+                  </div>
+                  <!------ Over 16 and less than 22 ------>
+                  <div class="form-group" id="over-16">
+                    <label class="uikit-text-input__label" for="toggle-buttons">Is this child in full-time education?</label>
+                    <div class="radio-toggle">
+                      <label class="on label-left" for="fulltime-education-yes">
+                        <input id="fulltime-education-yes" type="radio" name="fulltime-education">
+                        <span>Yes</span>
+                      </label>
+                      <label class="off label-right" for="fulltime-education-no">
+                        <input id="fulltime-education-no" type="radio" name="fulltime-education">
+                        <span>No</span>
+                      </label>
+                    </div>
 
-                    <!------ over 16 and less than 22 ------>
-                    <div class="form-group" id="over-16">
-                      <label class="uikit-text-input__label" for="toggle-buttons">Is this child in full-time education?</label>
+                    <!-- [C] -->
+                    <div class="uikit-page-alerts" role="alert" id="full-time-ed-notification">
+                      <p>Only add childern over 16 years if currently in full time education</p>
+                    </div>
+
+                    <!-- [D] -->
+                    <div id="full-time-ed-yes">
+                      <label class="uikit-text-input__label margin-above--mid" for="tax-number">Given name</label>
+                      <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
+                      <label class="uikit-text-input__label" for="tax-number">Surname</label>
+                      <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
+                      <label class="uikit-text-input__label" for="toggle-buttons">Does this child receive any government payments?</label>
                       <div class="radio-toggle">
-                        <label class="on label-left" for="fulltime-education-yes">
-                          <input id="fulltime-education-yes" type="radio" name="fulltime-education">
+                        <label class="on label-left" for="dependent-gov-payments-yes">
+                          <input id="dependent-gov-payments-yes" type="radio" name="dependent-gov-payments">
                           <span>Yes</span>
                         </label>
-                        <label class="off label-right" for="fulltime-education-no">
-                          <input id="fulltime-education-no" type="radio" name="fulltime-education">
+                        <label class="off label-right" for="dependent-gov-payments-no">
+                          <input id="dependent-gov-payments-no" type="radio" name="dependent-gov-payments">
                           <span>No</span>
                         </label>
                       </div>
-
-                      <!-- [C] -->
-                      <div class="uikit-page-alerts" role="alert" id="full-time-ed-notification">
-                        <p>Only add childern over 16 years if currently in full time education</p>
-                      </div>
-
-                      <!-- [D] -->
-                      <div id="full-time-ed-yes">
-                        <label class="uikit-text-input__label margin-above--mid" for="tax-number">Given name</label>
-                        <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                        <label class="uikit-text-input__label" for="tax-number">Surname</label>
-                        <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                        <label class="uikit-text-input__label" for="toggle-buttons">Does this child receive any government payments?</label>
-                        <div class="radio-toggle">
-                          <label class="on label-left" for="dependent-gov-payments-yes">
-                            <input id="dependent-gov-payments-yes" type="radio" name="dependent-gov-payments">
-                            <span>Yes</span>
-                          </label>
-                          <label class="off label-right" for="dependent-gov-payments-no">
-                            <input id="dependent-gov-payments-no" type="radio" name="dependent-gov-payments">
-                            <span>No</span>
-                          </label>
-                        </div>
-
-                        <!-- [E] -->
-                        <div id="gov-payments" class="margin-above--large">
-                          <div class="form-group">
-                            <label class="uikit-text-input__label" for="Input field">Type of payment</label>
-                            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-                          </div>
-                          <label class="uikit-text-input__label" for="Input field">Gross fortnightly income</label>
-                          <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;"
-                            value="0.00" required aria-required="true">
-                        </div>
-                      </div> <!-- end of [e] -->
-                    </div><!-- end of over 16 under 22 -->
-
-                    <!-- over 22 -->
-                    <div id="over-22">
-                      <div class="uikit-page-alerts" role="alert">
-                        <p>Only add dependant childern under 22 years</p>
-                      </div>
                     </div>
 
-                    <!-- [Default] -->
-                    <div id="default" class="margin-above--large">
-                      <label class="uikit-text-input__label" for="Input field">Other gross fortnightly income (optional) </label>
+                    <!-- [E] -->
+                    <div id="gov-payments" class="margin-above--large">
+                      <div class="form-group">
+                        <label class="uikit-text-input__label" for="Input field">Type of payment</label>
+                        <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+                      </div>
+                      <label class="uikit-text-input__label" for="Input field">Gross fortnightly income</label>
                       <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;" value="0.00"
                         required aria-required="true">
-                      <div class="uikit-page-alerts" role="alert">
-                        <p>You will need to attach a birth certificate for this child in the documents section.</p>
-                      </div>
-                    </div>
+                    </div> <!-- end of [e] -->
+                  </div><!-- end of Over 16 and less than 22 -->
 
+                  <!-- over 22 -->
+                  <div id="over-22">
+                    <div class="uikit-page-alerts" role="alert">
+                      <p>Only add dependant children under 22 years</p>
+                    </div>
                   </div>
 
-                  <!-- bottom page navigation -->
-                  <div class="pagination">
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/sp-partner'">Previous</button>
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel claim</button>
-                    <div class="floated">
-                      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims'">Save and exit</button>
-                      <button class="uikit-btn btnNext" onclick="window.location.href='/sp-residency'">Save and next</button>
+                  <!-- [Default] -->
+                  <div id="default" class="margin-above--large">
+                    <label class="uikit-text-input__label" for="Input field">Other gross fortnightly income (optional) </label>
+                    <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;" value="0.00"
+                      required aria-required="true">
+                    <div class="uikit-page-alerts" role="alert">
+                      <p>You will need to attach a birth certificate for this child in the documents section.</p>
                     </div>
-                  </div><!-- bottom page navigation end -->
-                  <% include ../partials/cancel-modal.ejs %>
-                </div><!-- form-group end -->
-              </div> <!-- col-md-12 end -->
-            </div> <!-- row end -->
-          </div> <!-- container end -->
+                  </div><!-- end of Default -->
+
+                </div>
+              </div> <!-- end of dependent child details -->
+            </div> <!-- end of page content -->
+            <!-- bottom page navigation -->
+            <div class="pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/sp-partner'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel claim</button>
+              <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims'">Save and exit</button>
+                <button class="uikit-btn btnNext" onclick="window.location.href='/sp-residency'">Save and next</button>
+              </div>
+            </div><!-- bottom page navigation end -->
+            <% include ../partials/cancel-modal.ejs %>
+          </div><!-- form-group end -->
+        </div> <!-- col-md-12 end -->
+      </div> <!-- row end -->
+      </div> <!-- container end -->
     </main>
 
     <% include ../../../global/partials/footer.ejs %>
-
 
       <script>
         $("#sp-dependant-details").hide();
@@ -232,6 +235,10 @@
         $("#full-time-ed-notification").hide();
         $("#full-time-ed-yes").hide();
         $("#gov-payments").hide(); //if yes show E
+
+        $("#fulltime-education-no").click(function () {
+          $("#default").hide();
+        });
 
         $("#dependent-gov-payments-yes").click(function () {
           $("#gov-payments").show("fast");
@@ -253,10 +260,12 @@
 
         $("#dependent-school-no").click(function () {
           $("#child-school").show("fast");
+          $("#default").hide();
         });
 
         $("#dependent-school-yes").click(function () {
           $("#child-school").hide("fast");
+          $("#default").show("fast");
         });
 
         $("#fulltime-education-no").click(function () {
@@ -268,8 +277,6 @@
           $("#full-time-ed-notification").hide("fast");
           $("#full-time-ed-yes").show("fast");
         });
-
-
 
       </script>
 
@@ -292,6 +299,7 @@
             $("#over-16").hide();
             $("#under-16").hide();
             $("#over-22").show();
+            $("#default").hide();
           }
         }
       </script>
