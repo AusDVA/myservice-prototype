@@ -37,26 +37,28 @@
   <h3 class="margin-below">
     <span class="font-weight-heavy">This one-off payment is repaid by deductions from your pension over 13 fortnights.</span>
   </h3>
+      <div class="uikit-page-alerts" role="alert">
         <p>Please ensure that you can meet your continuing living expenses on your reduced income during the repayment period.</p>
+      </div>
 
 <hr>
 
   <div id="request1" class="lsa-currency-bg lsa-amount-request border-all border-top__thick--blue uikit-body">
     <div class="row requestBox" id="requestAmountBox">
       <h3 style="margin-top:0;">Amount you can request</h3>
-        <div class="col-md-2 ">
+        <div class="col-md-2 col-sm-3 col-xs-3">
           <span class="hint">Minimum</span>
               $<span class="hint" id="minTotal">456.90</span>
         </div>
-        <div class="col-md-1"><span class="pipe">&#124;</span>
+        <div class="col-md-1 col-sm-2 col-xs-2"><span class="pipe">&#124;</span>
 
         </div>
-        <div class="col-md-2 ">
+        <div class="col-md-2 col-sm-3 col-xs-4">
           <span class="hint">Maximum</span>
               $<span class="hint" id="maxTotal">1256.90</span>
         </div>
-        <div class="col-md-7">
-        </div>
+        <!-- <div class="col-md-7">
+        </div> -->
       </div>
     </div>
 
@@ -93,28 +95,20 @@
   </div>
 </div>
 
-<!-- <input type="text" id="txtName" name="Name" value="Mudassar Khan" /><br /> -->
-<!-- <br />
-Technology:
-<select id="ddlTechnolgy" name="Technology">
-    <option value="ASP.Net">ASP.Net</option>
-    <option value="PHP">PHP</option>
-    <option value="JSP">JSP</option>
-</select> -->
-
-<hr />
-<div class="form-group">
+<div class="pagination">
   <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/payments'">Back to payments</button>
-  <input class="uikit-btn btnNext floated" type="button" style="display:none;" id="btnQueryString" value="Save and review" />
-  <!-- <button id="reviewBtnHide" style="display:none;" class="uikit-btn btnNext floated" onclick="window.location.href = '/lump-sum-advance-review'">Save and review</button> -->
-
+  <div class="floated">
+    <input class="uikit-btn btnNext" type="button"  id="btnQueryString" value="Save and review" disabled="disabled"/>
+    <!-- style="display:none;" -->
+  </div>
 </div>
+
     </main>
       <% include ../../../global/partials/footer.ejs %>
-
+<!-- keyup -->
           <script>
           $(".amount").each(function() {
-            $(this).keyup(function(){
+            $(this).focusout(function(){
               Calculate();
             });
           });
@@ -125,6 +119,7 @@ Technology:
             var maxTotal = $("#maxTotal").html();
             var validation = ("#validation");
             $(".amount").each(function() {
+              $("#btnQueryString").prop('disabled',true);
           // validate
               if(!isNaN(this.value) && this.value.length!=0) {
                 total += parseFloat(this.value);
@@ -133,11 +128,13 @@ Technology:
               if (total < minTotal || total > maxTotal){
                 $("#validation").addClass("has-error");
                 $("#newPensionAmount").hide();
-                $("#btnQueryString").hide();
+                $("#btnQueryString").prop('disabled',true);
+                // $("#btnQueryString").hide();
               } else{
                 $("#validation").removeClass("has-error");
                 $("#newPensionAmount").show();
-                $("#btnQueryString").show();
+                $("#btnQueryString").prop('disabled',false);
+                // $("#btnQueryString").show();
               }
             });
           var cost = total / 13;
