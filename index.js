@@ -1115,6 +1115,9 @@ app.listen(app.get('port'), function () {
 app.get('/styleguide', function (request, response) {
   response.render('styleguide/pages/home');
 });
+app.get('/styleguide-currency', function (request, response) {
+  response.render('styleguide/pages/currency');
+});
 app.get('/styleguide-uikit', function (request, response) {
   response.render('styleguide/pages/uikit');
 });
