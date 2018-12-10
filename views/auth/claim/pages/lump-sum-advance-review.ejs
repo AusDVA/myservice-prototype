@@ -42,7 +42,7 @@
   								<span class="hint">Requested lump sum amount</span>
   							</div>
   							<div class="col-md-9">
-  								<legend class="legend-label">$600.00</legend>
+  								<legend id="lblData2" class="legend-label"></legend>
   							</div>
   						</div>
               <div class="row">
@@ -58,7 +58,7 @@
   								<span class="hint">New pension amount</span>
   							</div>
   							<div class="col-md-9">
-  								<legend class="legend-label">$601.24 / fortnight</legend>
+  								<legend id="lblData" class="legend-label"></legend>
   							</div>
   						</div>
               <div class="row panel-margin">
@@ -77,9 +77,8 @@
                   <!-- <li>Deductions related to this lump sum advance will cease from payday 29 December 2018.</li> -->
                   <li>You can find out more about lump sum advance payments and calculations <a target="_blank" href="https://www.dva.gov.au/factsheet-is115-lump-sum-advance">here</a></li>
                 </ul>
-
               </div>
-
+              <!-- <span id = "lblData"></span> -->
             </section>
             <hr>
             <div class="form-group">
@@ -97,6 +96,32 @@
       <% include ../../../global/partials/footer.ejs %>
 
       <script>
+      var queryString = new Array();
+    $(function () {
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        if (queryString["name"] != null && queryString["technology"] != null) {
+            var newAmount = "";
+            var requestAmount = "";
+              newAmount += queryString["name"];
+              requestAmount += queryString["technology"];
+                $("#lblData").html(newAmount);
+                $("#lblData2").html('$' + requestAmount);
+            if(requestAmount.indexOf('.') != -1){
+              $("#lblData2").html('$' + requestAmount);
+            }else{
+              $("#lblData2").html('$' + requestAmount + '.00');
+            }
+        }
+    });
       </script>
 
 </body>

@@ -1176,6 +1176,9 @@ app.get('/styleguide-tooltip', function (request, response) {
 app.get('/styleguide-animations', function (request, response) {
   response.render('styleguide/pages/animations');
 });
+app.get('/styleguide-currency', function (request, response) {
+  response.render('styleguide/pages/currency');
+});
 
 
 /* MyAccount */
