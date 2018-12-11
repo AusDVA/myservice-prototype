@@ -555,7 +555,13 @@ app.get('/healthcard-home', function (request, response) {
   });
 });
 
+/* TRANSPORT SPACE */
 
+app.get('/transport-home', function (request, response) {
+  response.render('auth/transport/transport-home', {
+    main_nav_active: 'transport'
+  });
+});
 
 /**
   GLOBAL PAGES AND COMPONENT TESTING
