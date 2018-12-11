@@ -365,6 +365,12 @@ app.get('/mental-health-submitted', function (request, response) {
 app.get('/mental-health-summary', function (request, response) {
   response.render('auth/claims/pages/nlhc/mental-health-summary');
 });
+app.get('/mental-health-start', function (request, response) {
+  response.render('auth/claims/pages/nlhc/usability-testing/mental-health-start');
+});
+app.get('/mental-health-task', function (request, response) {
+  response.render('auth/claims/pages/nlhc/usability-testing/mental-health-task');
+});
 
 /* Claims - PI - LA */
 
@@ -505,7 +511,12 @@ app.get('/veteran-card-submitted', function (request, response) {
 app.get('/veteran-card-summary', function (request, response) {
   response.render('auth/claims/pages/veterancard/veteran-card-summary');
 });
-
+app.get('/veteran-card-start', function (request, response) {
+  response.render('auth/claims/pages/veterancard/usability-testing/veteran-card-start');
+});
+app.get('/veteran-card-task', function (request, response) {
+  response.render('auth/claims/pages/veterancard/usability-testing/veteran-card-task');
+});
 
 /* CARD SPACE */
 
