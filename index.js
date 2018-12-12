@@ -157,6 +157,9 @@ app.get('/register-7', function (request, response) {
   response.render('unauth/registration/pages/register-7');
 });
 
+app.get('/profile-history-pmkeys', function (request, response) {
+  response.render('auth/profile-history-pmkeys');
+});
 
 app.get('/contactusscreen', function (request, response) {
   response.render('pages/contactusscreen');
