@@ -34,7 +34,24 @@
           <div class="margin-above--extra margin-below--extra">
             <h2 class="margin-below--none">Tell us about your service history</h2>
 
-            <div class="form-group margin-above--large" id="q1">
+            <div class="form-group margin-above--large" id="stillserving">
+              <fieldset>
+                <label class="legend-label">Are you still serving?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input type="radio" id="stillservingYes" name="StillServingQuestion" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input type="radio" id="stillservingNo" name="StillServingQuestion" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+
+            <div class="form-group margin-above--large" id="q2">
               <fieldset>
                 <label class="legend-label">Have you ever been a member of the Permanent Forces?</label>
                 <div class="radio-toggle">
@@ -50,7 +67,7 @@
               </fieldset>
             </div>
 
-            <div class="form-group margin-above" id="q2">
+            <div class="form-group margin-above" id="q3">
               <fieldset>
                 <label class="legend-label">Have you ever been a member of the Reserves?</label>
                 <div class="radio-toggle">
@@ -159,10 +176,14 @@
 
             </div>
 
-            <div id="basicdetails" class="margin-above--mid" style="display:none;">
+            <div id="basicdetails" class="margin-above" style="display:none;">
+              <div id="pmkeys-number" class="form-group">
+                <label class="uikit-text-input__label" for="pomkeysnumber">PMKeyS number</label>
+                <input class="uikit-text-input input-half" name="pomkeysnumber" id="pomkeysnumber" type="text" value="">
+              </div>
               <div id="service-number" class="form-group">
-                <label class="uikit-text-input__label" for="nomrep-name">Service number</label>
-                <input class="uikit-text-input input-half" name="nomrep-name" id="nomrep-name" type="text" value="">
+                <label class="uikit-text-input__label" for="servicenumber">PMKeyS or Service number</label>
+                <input class="uikit-text-input input-half" name="servicenumber" id="servicenumber" type="text" value="">
               </div>
               <div id="enlistment-date" class="form-group">
                 <label class="uikit-text-input__label" for="dd-discharge">Date of enlistment <span class="hint">(dd / mm / yyyy)</span>
@@ -183,7 +204,7 @@
             <div id="document-upload" class="margin-above--large text-fullwidth" style="display:none;">
               <hr>
               <h2>Upload proof of service <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span></h2>
-              <p>For example your Discharge Signal, DM042, MECRB, military payslip or service record.</p>
+              <p>For example your military payslip, Discharge Signal, DM042, MECRB or service record.</p>
               <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
                 <p class="margin-below--mid">If you can't provide proof of your service, call us on 1800 555 254</p>
               </div>
@@ -298,6 +319,7 @@
       });
       $("#cftsYes").click(function () {
         $("#basicdetails").show();
+        $("#pmkeys-number").hide();
         $("#document-upload").show();
         $("#disaster").hide();
         $("#border").hide();
@@ -320,6 +342,7 @@
       $("#disasterYes").click(function () {
         $("#operationName").show();
         $("#basicdetails").show();
+        $("#pmkeys-number").hide();
         $("#document-upload").show();
         $("#border").hide();
         $("#accident").hide();
@@ -338,6 +361,7 @@
       });
       $("#borderYes").click(function () {
         $("#basicdetails").show();
+        $("#pmkeys-number").hide();
         $("#document-upload").show();
         $("#operationName").show();
         $("#accident").hide();
@@ -356,6 +380,7 @@
       });
       $("#accidentYes").click(function () {
         $("#basicdetails").show();
+        $("#pmkeys-number").hide();
         $("#document-upload").show();
         $("#operationName").hide();
         $("#NotEligible").hide();
@@ -366,20 +391,46 @@
     });
 
     $("#q2").hide();
+    $("#q3").hide();
     $("#choose-next").hide();
+
+    $("input[name$='StillServingQuestion']").click(function () {
+      if (this.value === 'yes') {
+        iseligibile = true
+        $("#q2").hide();
+        $("#q3").hide();
+        $("#basicdetails").show();
+        $("#service-number").hide();
+        $("#discharge-date").hide();
+        $("#document-upload").show();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+      else if (this.value === 'no') {
+        $("#q2").show();
+        $("#q3").hide();
+        $("#basicdetails").hide();
+        $("#service-number").show();
+        $("#discharge-date").show();
+        $("#document-upload").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+    });
 
     $("input[name$='PermanentQuestion']").click(function () {
       if (this.value === 'yes') {
         iseligibile = true
-        $("#q2").hide();
+        $("#q3").hide();
         $("#basicdetails").show();
+        $("#pmkeys-number").hide();
         $("#document-upload").show();
         $("#NotEligible").hide();
         $("#ReservistHistory").hide();
         $("#btnNext").prop('disabled', false);
       }
       else if (this.value === 'no') {
-        $("#q2").show();
+        $("#q3").show();
         $("#basicdetails").hide();
         $("#document-upload").hide();
         $("#NotEligible").hide();
