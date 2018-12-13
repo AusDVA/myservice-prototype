@@ -50,7 +50,6 @@
               </fieldset>
             </div>
 
-
             <div class="form-group margin-above--large" id="q2">
               <fieldset>
                 <label class="legend-label">Have you ever been a member of the Permanent Forces?</label>
@@ -82,6 +81,40 @@
                 </div>
               </fieldset>
             </div>
+
+            <div class="form-group margin-above--large" id="q4">
+              <fieldset>
+                <label class="legend-label">Are you a member of the Permanent Forces?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input type="radio" id="currentpermanentYes" name="CurrentPermanentQuestion" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input type="radio" id="currentpermanentNo" name="CurrentPermanentQuestion" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group margin-above" id="q5">
+              <fieldset>
+                <label class="legend-label">Are you a member of the Reserves?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input type="radio" id="currentreservistYes" name="CurrentReserveQuestion" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input type="radio" id="currentreservistNo" name="CurrentReserveQuestion" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+
 
             <div id="ReservistHistory" class="margin-above--large" style="display:none;">
               <hr>
@@ -319,7 +352,7 @@
       });
       $("#cftsYes").click(function () {
         $("#basicdetails").show();
-        $("#pmkeys-number").hide();
+        $("#pmkeys-number").show();
         $("#document-upload").show();
         $("#disaster").hide();
         $("#border").hide();
@@ -342,7 +375,7 @@
       $("#disasterYes").click(function () {
         $("#operationName").show();
         $("#basicdetails").show();
-        $("#pmkeys-number").hide();
+        $("#pmkeys-number").show();
         $("#document-upload").show();
         $("#border").hide();
         $("#accident").hide();
@@ -361,7 +394,7 @@
       });
       $("#borderYes").click(function () {
         $("#basicdetails").show();
-        $("#pmkeys-number").hide();
+        $("#pmkeys-number").show();
         $("#document-upload").show();
         $("#operationName").show();
         $("#accident").hide();
@@ -380,7 +413,7 @@
       });
       $("#accidentYes").click(function () {
         $("#basicdetails").show();
-        $("#pmkeys-number").hide();
+        $("#pmkeys-number").show();
         $("#document-upload").show();
         $("#operationName").hide();
         $("#NotEligible").hide();
@@ -392,6 +425,8 @@
 
     $("#q2").hide();
     $("#q3").hide();
+    $("#q4").hide();
+    $("#q5").hide();
     $("#choose-next").hide();
 
     $("input[name$='StillServingQuestion']").click(function () {
@@ -399,19 +434,23 @@
         iseligibile = true
         $("#q2").hide();
         $("#q3").hide();
-        $("#basicdetails").show();
+        $("#q4").show();
+        $("#q5").hide();
+        $("#basicdetails").hide();
         $("#service-number").hide();
         $("#discharge-date").hide();
-        $("#document-upload").show();
+        $("#document-upload").hide();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
       }
       else if (this.value === 'no') {
         $("#q2").show();
         $("#q3").hide();
+        $("#q4").hide();
+        $("#q5").hide();
         $("#basicdetails").hide();
-        $("#service-number").show();
-        $("#discharge-date").show();
+        $("#service-number").hide();
+        $("#discharge-date").hide();
         $("#document-upload").hide();
         $("#NotEligible").hide();
         $("#btnNext").prop('disabled', false);
@@ -424,6 +463,8 @@
         $("#q3").hide();
         $("#basicdetails").show();
         $("#pmkeys-number").hide();
+        $("#service-number").show();
+        $("#discharge-date").show();
         $("#document-upload").show();
         $("#NotEligible").hide();
         $("#ReservistHistory").hide();
@@ -452,7 +493,46 @@
       }
     });
 
+    $("input[name$='CurrentPermanentQuestion']").click(function () {
+      if (this.value === 'yes') {
+        iseligibile = true
+        $("#q2").hide();
+        $("#q3").hide();
+        $("#q5").hide();
+        $("#basicdetails").show();
+        $("#pmkeys-number").show();
+        $("#discharge-date").hide();
+        $("#service-number").hide();
+        $("#document-upload").show();
+        $("#NotEligible").hide();
+        $("#ReservistHistory").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+      else if (this.value === 'no') {
+        $("#q2").hide();
+        $("#q3").hide();
+        $("#q5").show();
+        $("#basicdetails").hide();
+        $("#discharge-date").hide();
+        $("#document-upload").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+    });
 
+    $("input[name$='CurrentReserveQuestion']").click(function () {
+      if (this.value === 'yes') {
+        iseligibile = true
+        $("#ReservistHistory").show();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+      else if (this.value === 'no') {
+        $("#ReservistHistory").hide();
+        $("#NotEligible").show();
+        $("#btnNext").prop('disabled', true);
+      }
+    });
 
 
   </script>
