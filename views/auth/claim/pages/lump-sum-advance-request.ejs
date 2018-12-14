@@ -35,7 +35,7 @@
 
 <div class="container margin-above margin-below--extra" id="claim-activity">
   <h3 class="margin-below">
-    <span class="font-weight-heavy">This one-off payment is repaid by deductions from your pension over 13 fortnights.</span>
+    <span class="font-weight-heavy">Tell us how much of your pension you would like to receive as a <a target="_blank" href="https://www.dva.gov.au/factsheet-is115-lump-sum-advance">lump sum advance</a></span>
   </h3>
       <!-- <div class="uikit-page-alerts" role="alert">
         <p>Please ensure that you can meet your continuing living expenses on your reduced income during the repayment period.</p>
@@ -46,7 +46,7 @@
   <div id="request1" class="lsa-currency-bg lsa-amount-request border-all border-top__thick--blue uikit-body">
     <div class="row requestBox" id="requestAmountBox">
       <h3 style="margin-top:0;">Amount you can request</h3>
-        <div class="col-md-2 col-sm-3 col-xs-3">
+        <div class="col-md-3 col-sm-3 col-xs-3">
           <span class="hint">Minimum</span>
               $<span class="hint" id="minTotal">456.90</span>
         </div>
@@ -68,47 +68,50 @@
       How much do you want to request as a lump sum?
       <span class="input-error-message">Amount needs to be inbetween Min and Max amount</span>
     </label>
-    <input id="ddlTechnolgy" name="Technology" class="amount uikit-text-input input-half ng-invalid ng-dirty ng-touched" type="text">
+    <span style="margin-right:5px;">$</span><input id="ddlTechnolgy" name="Technology" class="amount uikit-text-input input-half ng-invalid ng-dirty ng-touched" type="text">
   </div>
 </div>
-<div class="container margin-above margin-below--extra" id="claim-activity">
+<div class=" margin-above margin-below--extra" id="claim-activity">
   <section>
 
     <div class="form-group">
     <p style="display:none;">You will receive $<span class="hint" id="total"></span> less now</p>
 
 </section>
+<div style="display:none;" class="newPensionAmountBox" id="newPensionAmount">
 <div class="row">
-  <div class="col-md-3">
+  <div class="col-md-4">
     <span class="hint">Current pension amount</span>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-8">
     <legend class="legend-label">$<input class="current" type="hidden" value="640.45" readonly>640.45 / fortnight</legend>
   </div>
 </div>
-<div style="display:none;" class="row" id="newPensionAmount">
-  <div class="col-md-3">
+
+<div class="row" style="margin-top:10px;">
+  <div class="col-md-4">
     <span class="hint">New pension amount</span>
   </div>
-  <div class="col-md-9">
+  <div class="col-md-8">
     <legend class="legend-label" id="txtName" name="Name"></legend>
   </div>
 </div>
-
+</div>
+</div>
 <div class="pagination">
   <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/payments'">Back to payments</button>
   <div class="floated">
-    <input class="uikit-btn btnNext" type="button"  id="btnQueryString" value="Save and review" disabled="disabled"/>
+    <input class="uikit-btn btnNext" type="button"  id="btnQueryString" value="Save and review" />
     <!-- style="display:none;" -->
   </div>
 </div>
 
     </main>
       <% include ../../../global/partials/footer.ejs %>
-<!-- keyup -->
+<!-- focusout -->
           <script>
           $(".amount").each(function() {
-            $(this).focusout(function(){
+            $(this).keyup(function(){
               Calculate();
             });
           });
@@ -119,21 +122,21 @@
             var maxTotal = $("#maxTotal").html();
             var validation = ("#validation");
             $(".amount").each(function() {
-              $("#btnQueryString").prop('disabled',true);
+              // $("#btnQueryString").prop('disabled',true);
           // validate
               if(!isNaN(this.value) && this.value.length!=0) {
                 total += parseFloat(this.value);
                 txtName += parseFloat(this.value);
               }
-              if (total < minTotal || total > maxTotal){
-                $("#validation").addClass("has-error");
+              if (total < minTotal || total > maxTotal || total == ""){
+                // $("#validation").addClass("has-error");
                 $("#newPensionAmount").hide();
-                $("#btnQueryString").prop('disabled',true);
+                // $("#btnQueryString").prop('disabled',true);
                 // $("#btnQueryString").hide();
               } else{
-                $("#validation").removeClass("has-error");
+                // $("#validation").removeClass("has-error");
                 $("#newPensionAmount").show();
-                $("#btnQueryString").prop('disabled',false);
+                // $("#btnQueryString").prop('disabled',false);
                 // $("#btnQueryString").show();
               }
             });
