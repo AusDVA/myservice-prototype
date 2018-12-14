@@ -130,8 +130,18 @@
                     <label class="uikit-text-input__label margin-above">What is the child’s date of birth?
                       <span class="hint">(dd / mm / yyyy)</span>
                     </label>
-                    <input name="birthday" id="DoB" type="date" maxlength="10" style="max-width: 15em;" required>
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()" id="checkAgedep">Submit</button>
+
+
+                    <div class="form-group pt-flow--veteran pt-flow--claimant pt-dependent-dob">
+                      <label class="uikit-text-input__label" for="date" id="question_id4"></label>
+                      <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" aria-label="2 digit day"> /
+                      <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" aria-label="2 digit month"> /
+                      <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year">
+                    </div>
+
+
+                    <!--input name="birthday" id="DoB" type="date" onchange="checkAge()" maxlength="10" style="max-width: 15em;" required>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()" id="checkAgedep">Submit</button-->
                   </div>
 
                   <!-- less than 16 -->
@@ -339,20 +349,90 @@
             $("#default").hide();
           }
         }
+
+        $(".pt-dependent-dob > :input").keyup(function () {
+          var dobDay = $("#dd-date").val();
+          var dobMonth = $("#mm-date").val();
+          var dobYear = $("#yyyy-date").val();
+
+          // if a valid date
+          if (dobDay && dobMonth && dobYear.length === 4) {
+
+            if (dobDay.length === 1) {
+              dobDay = "0" + dobDay;
+            }
+            if (dobMonth.length === 1) {
+              dobMonth = "0" + dobMonth;
+            }
+            var dob = dobYear + '-' + dobMonth + '-' + dobDay;
+
+            dob = new Date(dob);
+            var today = new Date();
+            var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+
+            localStorage.removeItem('studentAge');
+            localStorage.setItem('studentAge', age);
+            console.debug('student age: ', age);
+
+            // validation:: older than 5
+            if (localStorage.getItem('studentAge') < 5) {
+              init();
+              resetForm($('#pt-form'));
+              //  $(".pt-showIfStudentUnder0").show();
+              $("#over-16").show();
+              $("#under-16").hide();
+              $("#over-22").hide();
+              $("#default").show();
+            } else {
+              $("#over-16").show();
+              $("#under-16").hide();
+              $("#over-22").hide();
+              $("#default").show();
+
+              // veteran and claimant flow only
+
+
+              // if over 18, suggest student claims on their own 
+              if (localStorage.getItem('studentAge') > 24) {
+                init();
+                $("#over-16").show();
+                $("#under-16").hide();
+                $("#over-22").hide();
+                $("#default").show();
+              } else if (localStorage.getItem('studentAge') > 17) {
+
+                init();
+                // resetForm($('#pt-form'));
+                $("#over-16").show();
+                $("#under-16").hide();
+                $("#over-22").hide();
+                $("#default").show();
+                // $(".pt-showIfStudentUnder18").hide();
+              } else {
+                init();
+                $("#over-16").show();
+                $("#under-16").hide();
+                $("#over-22").hide();
+                $("#default").show();
+                // $(".pt-claimantShowIfStudentOver16").show();
+              }
+            }
+          }
+        }
       </script>
 
       <script>
         // dependant card show and hide functionality
         $('#saveDetails1').click(function () {
-          $('body,html').animate({
-            scrollTop: 500 // set to half way down the screen 
-          }, 700);
-          // hack to reset focus to top of page
-          document.body.setAttribute('tabindex', '0');
-          document.body.focus();
-          document.body.removeAttribute('tabindex');
-          $(".plain-text-info").show("fast");
-        });
+            $('body,html').animate({
+              scrollTop: 500 // set to half way down the screen 
+            }, 700);
+            // hack to reset focus to top of page
+            document.body.setAttribute('tabindex', '0');
+            document.body.focus();
+            document.body.removeAttribute('tabindex');
+            $(".plain-text-info").show("fast");
+          });
 
         $('#saveDetails1').click(function () {
           $("#add-child").hide("fast");
