@@ -393,7 +393,12 @@ app.get('/travel-home', function (request, response) {
     main_nav_active: 'travel'
   });
 });
-
+app.get('/travel-expense-start', function (request, response) {
+  response.render('auth/travel/pages/travel-expense-start');
+});
+app.get('/travel-expense1', function (request, response) {
+  response.render('auth/travel/pages/travel-expense1');
+});
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
     main_nav_active: 'claims'
