@@ -71,7 +71,7 @@
 
       <div class="container">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
 
             <!-- Page content -->
             <div class="margin-above--extra margin-below--extra">
@@ -85,6 +85,40 @@
                   care.
                 </p>
               </div>
+              <div class="plain-text-info" style="display:none;">
+                <div class="review__wrapper">
+                  <div class="review__content--item boxed row">
+                    <div class="review__content--label col-sm-10">
+                      <h3 class="margin-above--none margin-below--mid">Joe Smith</h3>
+                      <p class="margin-below--none">Date if birth: 05/08/2006</p>
+                      <p class="margin-below--none">Full time education: Yes</p>
+                      <p class="margin-below--none">Income: No</p>
+                      <p class="margin-below--none">Government payments: No</p>
+                    </div>
+                    <div class="col-sm-2"><button class="uikit-btn uikit-btn--tertiary" id="">&nbsp;Edit &nbsp;</button><br><button class="uikit-btn uikit-btn--tertiary small margin-above--mid"
+                        id="">Remove</button></div>
+                  </div>
+                  <div class="review__content--item boxed row margin-above--mid">
+                    <div class="review__content--label col-sm-10">
+                      <h3 class="margin-above--none margin-below--mid">Mark Smith</h3>
+                      <p class="margin-below--none">Date if birth: 05/08/2006</p>
+                      <p class="margin-below--none">Full time education: Yes</p>
+                      <p class="margin-below--none">Income: No</p>
+                      <p class="margin-below--none">Government payments: No</p>
+                    </div>
+
+                    <div class="col-sm-2"><button class="uikit-btn uikit-btn--tertiary" id="">&nbsp;Edit &nbsp;</button><br><button class="uikit-btn uikit-btn--tertiary small margin-above--mid"
+                        id="">Remove</button></div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12 margin-above ss-align--center">
+                      <button class="uikit-btn uikit-btn--tertiary" id="addAnother">Add another dependant</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
               <button class="uikit-btn uikit-btn--tertiary" id="add-child">Add child</button>
 
               <!-- Dependent child details -->
@@ -97,7 +131,7 @@
                       <span class="hint">(dd / mm / yyyy)</span>
                     </label>
                     <input name="birthday" id="DoB" type="date" maxlength="10" style="max-width: 15em;" required>
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()">Submit</button>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()" id="checkAgedep">Submit</button>
                   </div>
 
                   <!-- less than 16 -->
@@ -191,9 +225,17 @@
                       <p>You will need to attach a birth certificate for this child in the documents section.</p>
                     </div>
                   </div><!-- end of Default -->
-
+                  <div id="buttonset1" class="form-group margin-above--extra">
+                    <button class="uikit-btn" id="saveDetails1">&nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;</button>
+                  </div>
+                </div>
+                <div id="no-dob">
+                  <div class="uikit-page-alerts" role="alert">
+                    <p>Message body informaion. </p>
+                  </div>
                 </div>
               </div> <!-- end of dependent child details -->
+
             </div> <!-- end of page content -->
             <!-- bottom page navigation -->
             <div class="pagination">
@@ -226,6 +268,7 @@
         $("#default").hide();
         $("#full-time-ed-notification").hide();
         $("#full-time-ed-yes").hide();
+        $("#no-dob").hide();
         $("#gov-payments").hide(); //if yes show E
         $("#gross-fortnightly").hide(); //if yes show E
 
@@ -296,7 +339,39 @@
             $("#default").hide();
           }
         }
+      </script>
 
+      <script>
+        // dependant card show and hide functionality
+        $('#saveDetails1').click(function () {
+          $('body,html').animate({
+            scrollTop: 500 // set to half way down the screen 
+          }, 700);
+          // hack to reset focus to top of page
+          document.body.setAttribute('tabindex', '0');
+          document.body.focus();
+          document.body.removeAttribute('tabindex');
+          $(".plain-text-info").show("fast");
+        });
+
+        $('#saveDetails1').click(function () {
+          $("#add-child").hide("fast");
+          $("#sp-dependant-details").hide("fast");
+        });
+
+        $('#addAnother').click(function () {
+          $("#sp-dependant-details").show("fast");
+          $("#saveDetails1").hide();
+          $("#under-16").hide();
+        });
+
+        $('#add-child').click(function () {
+          $("#saveDetails1").hide();
+        });
+
+        $('#checkAgedep').click(function () {
+          $("#saveDetails1").show();
+        });
       </script>
 
 </body>
