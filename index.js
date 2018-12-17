@@ -664,8 +664,14 @@ app.get('/sp-c1-financial-assets', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+
 app.get('/sp-c2-personal-assets', function (request, response) {
   response.render('auth/claim/pages/sp-c2-personal-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c2-vehicle-1', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-vehicle-1', {
     main_nav_active: 'claims'
   });
 });
