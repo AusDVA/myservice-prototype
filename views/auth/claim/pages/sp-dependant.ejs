@@ -146,6 +146,7 @@
 
                   <!-- less than 16 -->
                   <div id="under-16">
+                    <h2>under 16</h2>
                     <label class="uikit-text-input__label margin-above" for="tax-number">Given name</label>
                     <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
                     <label class="uikit-text-input__label margin-above" for="tax-number">Surname</label>
@@ -170,7 +171,9 @@
                     </div>
                   </div>
                   <!------ Over 16 and less than 22 ------>
+
                   <div class="form-group" id="over-16">
+                    <h2>Over 16 less 22</h2>
                     <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is this child in full-time education?</label>
                     <div class="radio-toggle">
                       <label class="on label-left" for="fulltime-education-yes">
@@ -221,8 +224,17 @@
 
                   <!-- over 22 -->
                   <div id="over-22">
+                    <h2>over 22</h2>
                     <div class="uikit-page-alerts" role="alert">
                       <p>Only add dependant children under 22 years</p>
+                    </div>
+                  </div>
+
+                  <!-- under 4 -->
+                  <div id="under-4">
+                    <h2>under 4</h2>
+                    <div class="uikit-page-alerts" role="alert">
+                      <p>infant</p>
                     </div>
                   </div>
 
@@ -266,13 +278,13 @@
     <% include ../../../global/partials/footer.ejs %>
 
       <script>
-
         $("#sp-dependant-details").hide();
         $("#sp-dependant-details-2nd").hide();
         $("#child-birth-cert").hide();
         $("#child-birth-cert-2nd").hide();
         $("#child-school").hide();
         $("#over-16").hide();
+        $("#under-4").hide();
         $("#under-16").hide();
         $("#over-22").hide();
         $("#default").hide();
@@ -324,32 +336,6 @@
           $("#full-time-ed-yes").show("fast");
         });
 
-      </script>
-
-      <script>
-        function checkAge() {
-          var birthDate = new Date(document.getElementById("DoB").value);
-          var today = new Date();
-
-          if (today >= new Date(birthDate.getFullYear() + 16, birthDate.getMonth(), birthDate.getDate())) {
-            $("#over-16").show();
-            $("#under-16").hide();
-            $("#over-22").hide();
-            $("#default").show();
-          } else {
-            $("#over-16").hide();
-            $("#over-22").hide();
-            $("#under-16").show();
-            $("#default").show();
-          }
-          if (today >= new Date(birthDate.getFullYear() + 22, birthDate.getMonth(), birthDate.getDate())) {
-            $("#over-16").hide();
-            $("#under-16").hide();
-            $("#over-22").show();
-            $("#default").hide();
-          }
-        }
-
         $(".pt-dependent-dob > :input").keyup(function () {
           var dobDay = $("#dd-date").val();
           var dobMonth = $("#mm-date").val();
@@ -357,7 +343,6 @@
 
           // if a valid date
           if (dobDay && dobMonth && dobYear.length === 4) {
-
             if (dobDay.length === 1) {
               dobDay = "0" + dobDay;
             }
@@ -370,69 +355,45 @@
             var today = new Date();
             var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
 
-          localStorage.removeItem('studentAge');
-          localStorage.setItem('studentAge', age);
-           console.debug('student age: ', age);
+            localStorage.removeItem('studentAge');
+            localStorage.setItem('studentAge', age);
+            console.debug('student age: ', age);
 
-            // validation:: older than 5
-            if (localStorage.getItem('studentAge') < 5) {
-              init();
-              resetForm($('#pt-form'));
-              //  $(".pt-showIfStudentUnder0").show();
+            if (localStorage.getItem('studentAge') < 16) {
+              $("#over-16").hide();
+              $("#under-16").show();
+              $("#over-22").hide();
+              $("#default").show();
+              $("#under-4").hide();
+              $("#saveDetails1").show();
+            } if (localStorage.getItem('studentAge') > 16 && (localStorage.getItem('studentAge') < 22)) {
               $("#over-16").show();
               $("#under-16").hide();
               $("#over-22").hide();
               $("#default").show();
-            } else {
-              $("#over-16").show();
+              $("#under-4").hide();
+              $("#saveDetails1").show();
+            } else if (localStorage.getItem('studentAge') > 22) {
+              $("#over-16").hide();
               $("#under-16").hide();
-              $("#over-22").hide();
-              $("#default").show();
-
-              // veteran and claimant flow only
-
-
-              // if over 18, suggest student claims on their own 
-              if (localStorage.getItem('studentAge') > 24) {
-                init();
-                $("#over-16").show();
-                $("#under-16").hide();
-                $("#over-22").hide();
-                $("#default").show();
-              } else if (localStorage.getItem('studentAge') > 17) {
-
-                init();
-                // resetForm($('#pt-form'));
-                $("#over-16").show();
-                $("#under-16").hide();
-                $("#over-22").hide();
-                $("#default").show();
-                // $(".pt-showIfStudentUnder18").hide();
-              } else {
-                init();
-                $("#over-16").show();
-                $("#under-16").hide();
-                $("#over-22").hide();
-                $("#default").show();
-                // $(".pt-claimantShowIfStudentOver16").show();
-              }
+              $("#over-22").show();
+              $("#default").hide();
+              $("#under-4").hide();
             }
           }
-        }
-      </script>
+        });
 
-      <script>
         // dependant card show and hide functionality
         $('#saveDetails1').click(function () {
-            $('body,html').animate({
-              scrollTop: 500 // set to half way down the screen 
-            }, 700);
-            // hack to reset focus to top of page
-            document.body.setAttribute('tabindex', '0');
-            document.body.focus();
-            document.body.removeAttribute('tabindex');
-            $(".plain-text-info").show("fast");
-          });
+          $('body,html').animate({
+            scrollTop: 500 // set to half way down the screen 
+          }, 700);
+          // hack to reset focus to top of page
+          document.body.setAttribute('tabindex', '0');
+          document.body.focus();
+          document.body.removeAttribute('tabindex');
+          $(".plain-text-info").show("fast");
+        });
 
         $('#saveDetails1').click(function () {
           $("#add-child").hide("fast");
