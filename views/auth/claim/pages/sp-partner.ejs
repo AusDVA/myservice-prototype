@@ -42,20 +42,28 @@
                 </a>
                         </li>
                         <li class="progress-step">
+                            <a href="sp-residency">
                             <span class="progress-step__icon"></span>
                             <p class="progress-step-label">Residency</p>
+                            </a>
                         </li>
                         <li class="progress-step">
+                            <a href="sp-la">
                             <span class="progress-step__icon"></span>
                             <p class="progress-step-label">Living arrangements</p>
+                            </a>
                         </li>
                         <li class="progress-step">
+                            <a href="sp-claim-contact">
                             <span class="progress-step__icon"></span>
                             <p class="progress-step-label">Claim Representative</p>
+                            </a>
                         </li>
                         <li class="progress-step progress-step--last">
+                            <a href="sp-payment-details">
                             <span class="progress-step__icon"></span>
                             <p class="progress-step-label">Payment details</p>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -84,19 +92,25 @@
                             <p class="uiToolKitCheckBox">
                                 <label class="uikit-control-input">
                                     <input id="married" class="uikit-control-input__input" type="radio" name="radio-ex">
-                                    <span class="uikit-control-input__text">Married and currently living together</span>
+                                    <span class="uikit-control-input__text">Married</span>
                                 </label>
                             </p>
                             <p class="uiToolKitCheckBox">
                                 <label class="uikit-control-input">
                                     <input id="defacto" class="uikit-control-input__input" type="radio" name="radio-ex">
-                                    <span class="uikit-control-input__text">In a de facto relationship and currently living together</span>
+                                    <span class="uikit-control-input__text">De facto</span>
                                 </label>
                             </p>
-                            <p class="uiToolKitCheckBox">
+                            <!--  <p class="uiToolKitCheckBox">
                                 <label class="uikit-control-input">
                                     <input id="partner-not-living" class="uikit-control-input__input" type="radio" name="radio-ex">
                                     <span class="uikit-control-input__text">Have a partner, but unable to live together because of ill health or infirmity</span>
+                                </label>
+                            </p> -->
+                            <p class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input id="married-separated" class="uikit-control-input__input" type="radio" name="radio-ex">
+                                    <span class="uikit-control-input__text">Separated</span>
                                 </label>
                             </p>
                             <p class="uiToolKitCheckBox">
@@ -109,12 +123,6 @@
                                 <label class="uikit-control-input">
                                     <input id="widowed" class="uikit-control-input__input" type="radio" name="radio-ex">
                                     <span class="uikit-control-input__text">Widowed</span>
-                                </label>
-                            </p>
-                            <p class="uiToolKitCheckBox">
-                                <label class="uikit-control-input">
-                                    <input id="married-separated" class="uikit-control-input__input" type="radio" name="radio-ex">
-                                    <span class="uikit-control-input__text">Separated</span>
                                 </label>
                             </p>
                         </div>
@@ -273,7 +281,7 @@
                             </div>
                         </fieldset>
                         <!-- <fieldset> -->
-                        <label class="legend-label">Is your partner’s home address the same as your own?</label>
+                        <!-- <label class="legend-label">Is your partner’s home address the same as your own?</label>
                         <div class="radio-toggle">
                             <label class="on label-left" for="sp-partner-homeAddress-yes">
                                 <input id="sp-partner-homeAddress-yes" type="radio" name="sp-partner-homeAddress">
@@ -300,7 +308,7 @@
                                 <input id="sp-partner-postalAddress-no" type="radio" name="sp-partner-postalAddress">
                                 <span>No</span>
                             </label>
-                        </div>
+                        </div> -->
                         <div class="form-group margin-above--large margin-below--none" id="partners-postal-address">
                             <h3>Your partner's postal address</h3>
                             <fieldset class="margin-below--none">
@@ -360,6 +368,10 @@
                             </div>
                         </div>
                     </div>
+                    <div id="save-and-next" class="margin-above" style="display: none">
+                        <p>Choose
+                            <b>save and next</b> to continue.</p>
+                    </div>
                 </div>
                 <!-- bottom page navigation -->
                 <div class="row">
@@ -383,23 +395,11 @@
 <script>
 $(Document).ready(function() {
 
-    $("#date-marriage").hide();
-    $("#date-living-together").hide();
-    $("#date-not-together").hide();
-    $("#deceased-partner").hide();
-    $("#date-separation").hide();
-    $("#partner-details").hide();
-    $("#partner-details-other").hide();
-    $("#partners-home-address").hide();
-    $("#partner-payment-type").hide();
-    $("#partner-cshc-details").hide();
-    $("#divorced-date").hide();
-
+    hideAll();
 
     $("#partner-centrelink-yes").click(function() {
         $("#partner-payment-type").show("fast");
     });
-
     $("#partner-csh-yes").click(function() {
         $("#partner-cshc-details").show("fast");
     });
@@ -420,6 +420,7 @@ $(Document).ready(function() {
         $("#partner-details").hide("fast");
         $("#partner-details-other").hide("fast");
         $("#divorced-date").hide("fast");
+        $("#save-and-next").show("fast");
     });
 
     $("#married").click(function() {
@@ -458,7 +459,6 @@ $(Document).ready(function() {
         $("#divorced-date").hide("fast");
     });
 
-
     $("#divorced").click(function() {
         hideAll();
         partnerStatus = "none";
@@ -467,15 +467,16 @@ $(Document).ready(function() {
         $("#date-living-together").hide("fast");
         $("#date-not-together").hide("fast");
         $("#date-separation").hide("fast");
-        $("#divorced-date").show("fast");
+        $("#divorced-date").hide("fast");
         $("#partner-details").hide("fast");
         $("#partner-details-other").hide("fast");
+        $("#save-and-next").show("fast");
     });
 
     $("#widowed").click(function() {
         hideAll();
         partnerStatus = "none";
-        $("#deceased-partner").show("fast");
+        $("#deceased-partner").hide("fast");
         $("#date-marriage").hide("fast");
         $("#date-living-together").hide("fast");
         $("#date-not-together").hide("fast");
@@ -483,6 +484,7 @@ $(Document).ready(function() {
         $("#partner-details").hide("fast");
         $("#partner-details-other").hide("fast");
         $("#divorced-date").hide("fast");
+        $("#save-and-next").show("fast");
     });
 
     $("#married-separated").click(function() {
@@ -497,7 +499,6 @@ $(Document).ready(function() {
         $("#partner-details-other").hide("fast");
         $("#divorced-date").hide("fast");
     });
-
 
     $("#sp-partner-homeAddress-no").click(function() {
         $("#partners-home-address").show("fast");
@@ -514,7 +515,6 @@ $(Document).ready(function() {
     $("#sp-partner-postalAddress-yes").click(function() {
         $("#partners-postal-address").hide("fast");
     });
-    hideAll();
 
     $("#other-names-yes").click(function() {
         $("#sp-partner-formerName").show("fast");
@@ -530,32 +530,43 @@ $(Document).ready(function() {
         $("#partner-payment-type").hide("fast");
     });
 
-    var partner = false;
-    $(document).keypress(function(e) {
-        switch (e.which) {
-            case 49:
-                partner = false;
-                $("#sp-partner-applying").hide();
-                $("#partner-centrelink-details").hide("fast");
-                break;
-            case 50:
-                if (partnerStatus == "partnered") {
-                    partner = true;
-                    $("#sp-partner-applying").show();
-                    $("#partner-centrelink-details").show("fast");
-                }
-                break;
-            default:
-        }
-    });
+    // var partner = false;
+    // $(document).keypress(function(e) {
+    //     switch (e.which) {
+    //         case 49:
+    //             partner = false;
+    //             $("#sp-partner-applying").hide();
+    //             $("#partner-centrelink-details").hide("fast");
+    //             break;
+    //         case 50:
+    //             if (partnerStatus == "partnered") {
+    //                 partner = true;
+    //                 $("#sp-partner-applying").show();
+    //                 $("#partner-centrelink-details").show("fast");
+    //             }
+    //             break;
+    //         default:
+    //     }
+    // });
 
     function hideAll() {
+        $("#date-marriage").hide();
+        $("#date-living-together").hide();
+        $("#date-not-together").hide();
+        $("#deceased-partner").hide();
+        $("#date-separation").hide();
+        $("#partner-details").hide();
+        $("#partner-details-other").hide();
+        $("#partners-home-address").hide();
+        $("#partner-payment-type").hide();
+        $("#partner-cshc-details").hide();
+        $("#divorced-date").hide();
         $("#sp-partner-formerName").hide("fast");
         $("#partner-details").hide("fast");
         $("#partners-postal-address").hide("fast");
-        $("#sp-partner-applying").hide("fast");
-        $("#partner-cshc-details").hide("fast");
-        $("#partner-centrelink-details").hide("fast");
+        // $("#sp-partner-applying").hide("fast");
+        // $("#partner-cshc-details").hide("fast");
+        // $("#partner-centrelink-details").hide("fast");
         $("#partner-payment-type").hide("fast");
     }
 });
