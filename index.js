@@ -659,19 +659,14 @@ app.get('/sp-bank-details', function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
-app.get('/sp-c1-financial-assets', function (request, response) {
-  response.render('auth/claim/pages/sp-c1-financial-assets', {
+app.get('/sp-c1', function (request, response) {
+  response.render('auth/claim/pages/sp-c1', {
     main_nav_active: 'claims'
   });
 });
 
-app.get('/sp-c2-personal-assets', function (request, response) {
-  response.render('auth/claim/pages/sp-c2-personal-assets', {
-    main_nav_active: 'claims'
-  });
-});
-app.get('/sp-c2-personal-assets-modal', function (request, response) {
-  response.render('auth/claim/pages/sp-c2-personal-assets-modal', {
+app.get('/sp-c2', function (request, response) {
+  response.render('auth/claim/pages/sp-c2', {
     main_nav_active: 'claims'
   });
 });
@@ -680,28 +675,38 @@ app.get('/sp-c2-vehicle-1', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c3-real-estate', function (request, response) {
-  response.render('auth/claim/pages/sp-c3-real-estate', {
+app.get('/sp-c2-modal', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-modal', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c4-income', function (request, response) {
-  response.render('auth/claim/pages/sp-c4-income', {
+app.get('/sp-c2', function (request, response) {
+  response.render('auth/claim/pages/sp-c2', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c5-payments', function (request, response) {
-  response.render('auth/claim/pages/sp-c5-payments', {
+app.get('/sp-c3', function (request, response) {
+  response.render('auth/claim/pages/sp-c3', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c6-superannuation', function (request, response) {
-  response.render('auth/claim/pages/sp-c6-superannuation', {
+app.get('/sp-c4', function (request, response) {
+  response.render('auth/claim/pages/sp-c4', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c7-other-items', function (request, response) {
-  response.render('auth/claim/pages/sp-c7-other-items', {
+app.get('/sp-c5', function (request, response) {
+  response.render('auth/claim/pages/sp-c5', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c6', function (request, response) {
+  response.render('auth/claim/pages/sp-c6', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c7', function (request, response) {
+  response.render('auth/claim/pages/sp-c7', {
     main_nav_active: 'claims'
   });
 });
