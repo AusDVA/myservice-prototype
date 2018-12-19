@@ -207,6 +207,15 @@ app.get('/index-claims', function (request, response) {
     main_nav_active: 'home'
   });
 });
+
+/* temporary only */
+app.get('/index-claims-alt-icons', function (request, response) {
+  response.render('auth/index-claims-alt-icons', {
+    main_nav_active: 'home'
+  });
+});
+/* end temporary only */
+
 app.get('/index-preloader', function (request, response) {
   response.render('auth/index-preloader');
 });
