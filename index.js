@@ -399,6 +399,9 @@ app.get('/travel-expense-start', function (request, response) {
 app.get('/travel-expense1', function (request, response) {
   response.render('auth/travel/pages/travel-expense1');
 });
+app.get('/test-addanother', function (request, response) {
+  response.render('auth/travel/pages/test-addanother');
+});
 app.get('/claims-neverserved', function (request, response) {
   response.render('auth/claim/pages/claims-neverserved', {
     main_nav_active: 'claims'
