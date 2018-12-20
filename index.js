@@ -673,9 +673,18 @@ app.get('/sp-c1', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-
+app.get('/sp-c1-alt', function (request, response) {
+  response.render('auth/claim/pages/sp-c1-alt', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-c2', function (request, response) {
   response.render('auth/claim/pages/sp-c2', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c2-alt', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-alt', {
     main_nav_active: 'claims'
   });
 });
