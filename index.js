@@ -207,6 +207,15 @@ app.get('/index-claims', function (request, response) {
     main_nav_active: 'home'
   });
 });
+
+/* temporary only */
+app.get('/index-claims-alt-icons', function (request, response) {
+  response.render('auth/index-claims-alt-icons', {
+    main_nav_active: 'home'
+  });
+});
+/* end temporary only */
+
 app.get('/index-preloader', function (request, response) {
   response.render('auth/index-preloader');
 });
@@ -662,38 +671,63 @@ app.get('/sp-bank-details', function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
-app.get('/sp-c1-financial-assets', function (request, response) {
-  response.render('auth/claim/pages/sp-c1-financial-assets', {
+app.get('/sp-c1', function (request, response) {
+  response.render('auth/claim/pages/sp-c1', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c2-personal-assets', function (request, response) {
-  response.render('auth/claim/pages/sp-c2-personal-assets', {
+app.get('/sp-c1-alt', function (request, response) {
+  response.render('auth/claim/pages/sp-c1-alt', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c3-real-estate', function (request, response) {
-  response.render('auth/claim/pages/sp-c3-real-estate', {
+app.get('/sp-c2', function (request, response) {
+  response.render('auth/claim/pages/sp-c2', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c4-income', function (request, response) {
-  response.render('auth/claim/pages/sp-c4-income', {
+app.get('/sp-c2-alt', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-alt', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c5-payments', function (request, response) {
-  response.render('auth/claim/pages/sp-c5-payments', {
+app.get('/sp-c2-vehicle-1', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-vehicle-1', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c6-superannuation', function (request, response) {
-  response.render('auth/claim/pages/sp-c6-superannuation', {
+app.get('/sp-c2-modal', function (request, response) {
+  response.render('auth/claim/pages/sp-c2-modal', {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-c7-other-items', function (request, response) {
-  response.render('auth/claim/pages/sp-c7-other-items', {
+app.get('/sp-c2', function (request, response) {
+  response.render('auth/claim/pages/sp-c2', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c3', function (request, response) {
+  response.render('auth/claim/pages/sp-c3', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c4', function (request, response) {
+  response.render('auth/claim/pages/sp-c4', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c5', function (request, response) {
+  response.render('auth/claim/pages/sp-c5', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c6', function (request, response) {
+  response.render('auth/claim/pages/sp-c6', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-c7', function (request, response) {
+  response.render('auth/claim/pages/sp-c7', {
     main_nav_active: 'claims'
   });
 });
