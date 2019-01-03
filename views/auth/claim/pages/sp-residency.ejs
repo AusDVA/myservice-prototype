@@ -798,7 +798,6 @@
                                     <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 8em;">Years &nbsp;&nbsp;<input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 8em;">Months
                                 </fieldset>
                             </div> <!-- end of [C] Partners country of birth -->
-                            
                             <div class="form-group margin-above--large" id="partner-moved-returned">
                                 <fieldset>
                                     <legend class="legend-label">Has your partner moved to or returned to in Australia in the last 12 months?</legend>
@@ -930,27 +929,40 @@
             $("#save-and-next").show("fast");
         });
 
-        var partner = false;
         $(document).keypress(function(e) {
             switch (e.which) {
                 case 49:
-                    partner = false;
-                    $("#sp-res-veteranTitle").hide();
-                    $("#sp-res-partnerDetails").hide();
-                    $("#intro-copy-no-partner").show();
+                    hidePartner();
                     break;
                 case 50:
-                    partner = true;
-                    $("#sp-res-veteranTitle").show();
-                    $("#sp-res-partnerDetails").show();
-                    $("#intro-copy-no-partner").hide();
+                    showPartner();
                     break;
                 default:
             }
         });
 
+        if (sessionStorage.getItem('partnerApply') == 'true') {
+            showPartner();
+        } else {
+            hidePartner();
+        };
+
+        function showPartner() {
+            sessionStorage.setItem('partnerApply', 'true') 
+            $("#sp-res-veteranTitle").show();
+            $("#sp-res-partnerDetails").show();
+            $("#intro-copy-no-partner").hide();
+        }
+
+        function hidePartner() {
+            sessionStorage.setItem('partnerApply', 'false')
+            $("#sp-res-veteranTitle").hide();
+            $("#sp-res-partnerDetails").hide();
+            $("#intro-copy-no-partner").show();
+        }
+
         function hideAll() {
-            if (!partner) {
+            if ( sessionStorage.getItem('partnerApply') != 'true' ) {
                 $("#sp-res-veteranTitle").hide();
                 $("#sp-res-partnerDetails").hide();
             };
