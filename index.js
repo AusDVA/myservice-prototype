@@ -611,6 +611,11 @@ app.get('/sp-start', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/sp-qs', function (request, response) {
+  response.render('auth/claim/pages/sp-qs', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-review', function (request, response) {
   response.render('auth/claim/pages/sp-review', {
     main_nav_active: 'claims'

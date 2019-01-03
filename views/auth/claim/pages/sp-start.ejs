@@ -120,6 +120,37 @@
                             </div>
                         </div>
 
+                        <div  id="benefits" style="display:none;">
+                        <div class="form-group margin-above--large">
+                          <label class="uikit-text-input__label" for="sop">Do you have any of the following benefits?<span class="hint"> (optional)</span>
+                            <span class="hint display-block">Select all that apply.</span>
+                          </label>
+                          <div class="uiToolKitCheckBox">
+                            <label class="uikit-control-input">
+                              <input class="uikit-control-input__input check_box" type="checkbox" data-ptag="op1-cl" id="op1-cl" name="checkbox">
+                              <span class="uikit-control-input__text">Commonwealth Seniors Health Card</span>
+                            </label>
+                          </div>
+                          <div class="uiToolKitCheckBox">
+                            <label class="uikit-control-input">
+                              <input class="uikit-control-input__input check_box" type="checkbox" data-ptag="op2-cl" id="op2-cl" name="checkbox">
+                              <span class="uikit-control-input__text">Receiving or applied for a Centrelink payment</span>
+                            </label>
+                          </div>
+                        </div>
+
+
+                        <!-- CRN text box -->
+                        <div style="display:none;" class="form-group margin-above" id="crn">
+                          <label class="uikit-text-input__label" for="tags">What is the your Customer Reference Number (CRN)?</label>
+                          <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
+                          <!-- <p>Choose <b>save and next</b> to continue.</p> -->
+                        </div>
+
+                    </div>
+                  </div> <!-- col-md-12 end -->
+
+
                     </div>
 
                     <div class="pagination">
@@ -127,7 +158,7 @@
                         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
                         <div class="floated">
                             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-start'">Save and exit</button>
-                            <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-progress-b'">Save and next</button>
+                            <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-qs'">Save and next</button>
                         </div>
                     </div>
 
@@ -175,9 +206,28 @@
         });
         $("#pensionWho-single").click(function() {
             $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
         });
         $("#pensionWho-double").click(function() {
             $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
+        });
+
+        $("#pensionType-invalidity").click(function(){
+          $("#benefits").hide();
+        });
+
+
+        $('.check_box').change(function(){
+            if($('.check_box:checked').length==0){
+                $('#crn').hide();
+            }else{
+                $('#crn').show("fast");
+                $('.check_box:checked').each(function(){
+                    $('#'+$(this).attr('data-ptag')).hide();
+                });
+            }
+
         });
 
         function hideAll() {
