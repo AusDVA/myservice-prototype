@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <title>Service Pension - Getting started | MyService</title>
+    <link href="docs/css/main.css" rel="stylesheet">
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+    <noscript>
+        <p role="alert">This website needs JavaScript to work properly.</p>
+    </noscript>
+    <nav class="uikit-skip-link">
+        <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+    </nav>
+    <% include ../../../global/partials/header-topbar-new.ejs %>
+    <main>
+        <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+            <!-- Page heading -->
+            <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Qualifying service</span>
+        </h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="margin-above--extra margin-below--extra">
+                        <!-- Page content -->
+                    </div>
+                    <div class="pagination">
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-start'">Previous</button>
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                        <div class="floated">
+                            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-qs'">Save and exit</button>
+                            <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-progress-b'">Save and next</button>
+                        </div>
+                    </div>
+                </div> <!-- col-md-12 end -->
+            </div> <!-- row end -->
+        </div> <!-- container end -->
+    </main>
+    <% include ../partials/cancel-modal.ejs %>
+    <% include ../../../global/partials/footer.ejs %>
+    <script>
+    $(Document).ready(function() {
+
+        hideAll();
+
+        $("#pensionType-invalidity").click(function() {
+            hideAll();
+            switch (ageMode) {
+                case "younger":
+                    $("#sp-start-whatGrounds").show("fast");
+                    $("#sp-start-pbs").show("fast");
+                    console.log("gfdgdfg");
+                    break;
+                case "close":
+                    $("#close").show("fast");
+                    break;
+                case "older":
+                    $("#older").show("fast");
+                    break;
+            }
+        });
+
+        $("#pensionType-age").click(function() {
+            hideAll();
+            switch (ageMode) {
+                case "younger":
+                    $("#younger").show("fast");
+                    break;
+                case "close":
+                    $("#sp-start-who").show("fast");
+                    break;
+                case "older":
+                    $("#sp-start-who").show("fast");
+                    break;
+            }
+        });
+        $("#pensionWho-single").click(function() {
+            $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
+        });
+        $("#pensionWho-double").click(function() {
+            $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
+        });
+
+        $("#pensionType-invalidity").click(function() {
+            $("#benefits").hide();
+        });
+
+
+        $('.check_box').change(function() {
+            if ($('.check_box:checked').length == 0) {
+                $('#crn').hide();
+            } else {
+                $('#crn').show("fast");
+                $('.check_box:checked').each(function() {
+                    $('#' + $(this).attr('data-ptag')).hide();
+                });
+            }
+
+        });
+
+        function hideAll() {
+            $("#younger").hide();
+            $("#close").hide();
+            $("#older").hide();
+            $("#sp-start-who").hide();
+            $("#sp-start-pbs").hide();
+            $("#sp-start-whatGrounds").hide();
+        }
+        var ageMode = "close";
+        $(document).keypress(function(e) {
+            switch (e.which) {
+                case 49:
+                    ageMode = "younger"
+                    break;
+                case 50:
+                    ageMode = "close"
+                    break;
+                case 51:
+                    ageMode = "older"
+                    break;
+                default:
+
+            }
+        });
+    });
+    </script>
+</body>
+
+</html>
