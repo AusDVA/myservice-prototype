@@ -616,6 +616,21 @@ app.get('/sp-qs', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/sp-qs-1', function (request, response) {
+  response.render('auth/claim/pages/sp-qs-1', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-qs-2', function (request, response) {
+  response.render('auth/claim/pages/sp-qs-2', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-qs-3', function (request, response) {
+  response.render('auth/claim/pages/sp-qs-3', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-review', function (request, response) {
   response.render('auth/claim/pages/sp-review', {
     main_nav_active: 'claims'
