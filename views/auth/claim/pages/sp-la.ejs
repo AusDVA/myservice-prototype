@@ -59,8 +59,10 @@
                   </a>
                             </li>
                             <li class="progress-step progress-step--last">
+                                 <a href="sp-payment-details">
                                 <span class="progress-step__icon"></span>
                                 <p class="progress-step-label">Payment details</p>
+                            </a>
                             </li>
                         </ul>
                     </nav>
@@ -79,11 +81,9 @@
                         <div class="col-lrg-12">
                             <div class="margin-above--extra">
                                 <!-- <h2>Your living arrangements are a factor used in determining your Service Pension</h2> -->
-                                <!-- current relationship status questions -->
-                                <!-- what are you applying for -->
-                                <a id="toggle-accordion-sp" href="#"><h2 id="sp-res-veteranTitle"><span class="font-weight-heavy">Your living arrangements</span></h2></a>
+                                <h2 id="sp-res-veteranTitle" class="margin-above--none" style="float; left; width: 400px; display: inline-block; display: none; cursor: pointer;" ><icon class="fal fa-minus-circle" style="font-size: 1.3em; vertical-align: -15%;"></icon>&nbsp;<span class="font-weight-heavy">Your living arrangements</span></h2>
                                 <div class="accordion-group">
-                                    <div class="form-group margin-above">
+                                    <div class="form-group margin-above--large">
                                         <legend class="legend-label">Which of the following best describes where you live?</legend>
                                         <div class="radio-tile--group">
                                             <label class="radio-tile">
@@ -100,7 +100,7 @@
                                             </label>
                                             <label class="radio-tile">
                                                 <input id="sp-la-d" class="sr" type="radio" name="la-top" value="sp-la-d">
-                                                <span><icon class="fal fa-ellipsis-h fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Other arrangements</span>
+                                                <span><icon class="fal fa-ellipsis-h-alt fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Other arrangements</span>
                                             </label>
                                         </div>
                                         <fieldset id="living-arrangements-a">
@@ -524,26 +524,10 @@
                                             <textarea name="test">
                                     </textarea>
                                         </div>
-                                        <!-- <div id="sp-la-partner">
-                                            <h2><span class="margin-above--large font-weight-heavy">Partner living arrangements</span></h2>
-                                            <fieldset>
-                                                <legend class="legend-label">Does your partner live at a different address because of age or ill health?</legend>
-                                                <div class="radio-toggle">
-                                                    <label class="on label-left" for="sp-la-partnerAddress-yes">
-                                                        <input id="sp-la-partnerAddress-yes" type="radio" name="sp-la-partnerAddress">
-                                                        <span>Yes</span>
-                                                    </label>
-                                                    <label class="off label-right" for="sp-la-partnerAddress-no">
-                                                        <input id="sp-la-partnerAddress-no" type="radio" name="sp-la-partnerAddress">
-                                                        <span>No</span>
-                                                    </label>
-                                                </div>
-                                            </fieldset>
-                                        </div> -->
                                     </div>
                                 </div>
-                                <div class="form-group margin-above" id="sp-la-partner-la">
-                                    <a id="toggle-accordion-sp1" href="#"><h2 id="sp-res-veteranTitle"><span class="font-weight-heavy">Partner living arrangements</span></h2></a>
+                                <div class="form-group margin-above" id="sp-la-partner-la" style="display: none;">
+                                    <h2 id="sp-res-partnerTitle" class="margin-above--none" style="float; left; width: 400px; display: inline-block; cursor: pointer;" ><icon class="fal fa-minus-circle" style="font-size: 1.3em; vertical-align: -15%;"></icon>&nbsp;<span class="font-weight-heavy">Partner living arrangements</span></h2>
                                     <div class="accordion-group1">
                                         <fieldset class="margin-above">
                                             <legend class="legend-label">Does your partner live at a different address because of age or ill health?</legend>
@@ -585,7 +569,28 @@
     <% include ../../../global/partials/footer.ejs %>
     <script>
     $(Document).ready(function() {
+
         hideAll();
+
+        if (sessionStorage.getItem('partnerStatus') == 'partnered') {
+            showPartner();
+        } else {
+            hidePartner();
+        };
+
+        function showPartner() {
+            sessionStorage.setItem('partnerApply', 'true')
+            $("#sp-res-veteranTitle").show();
+            $("#sp-la-partner-la").show();
+            $("#intro-copy-no-partner").hide();
+        }
+
+        function hidePartner() {
+            sessionStorage.setItem('partnerApply', 'false')
+            $("#sp-res-veteranTitle").hide();
+            $("#sp-la-partner-la").hide();
+            $("#intro-copy-no-partner").show();
+        }
 
         /* top level selection */
         $("#sp-la-a").click(function(e) {
@@ -718,24 +723,33 @@
             $("#op14-la-content").show("fast");
             $("#living-arrangements-d").show();
         });
-        $("#toggle-accordion-sp").click(function() {
+
+        // accordions
+
+        $("#sp-res-veteranTitle").click(function() {
             $(".accordion-group").toggle("fast");
-            // $(".sp-la-accordion").toggleClass("rotate-arrow");
+            $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
         });
-        $("#toggle-accordion-sp1").click(function() {
+
+        $("#sp-res-partnerTitle").click(function() {
             $(".accordion-group1").toggle("fast");
-            // $(".sp-la-accordion1").toggleClass("rotate-arrow1");
+            $("#sp-res-partnerTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
         });
+
+        //
+
         $("#sp-la-op6-paySum-yes1").click(function() {
-            $(".accordion-group").hide("fast");
-            // $(".sp-la-accordion").addClass("rotate-arrow");
-            $("#show-partner-questions").show("fast");
+            if ($(".accordion-group").is(":visible")) {
+                $(".accordion-group").hide("fast");
+                $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
+                $("#show-partner-questions").show("fast");
+            }
         })
-        $("#sp-la-op6-paySum-no1").click(function() {
-            $(".accordion-group").show("fast");
-            // $(".sp-la-accordion").addClass("rotate-arrow");
-            $("#show-partner-questions").hide("fast");
-        })
+        // $("#sp-la-op6-paySum-no1").click(function() {
+        //     $(".accordion-group").show("fast");
+        //     $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
+        //     $("#show-partner-questions").hide("fast");
+        // })
 
         var partner = false;
         $(document).keypress(function(e) {
@@ -747,7 +761,7 @@
                     break;
                 case 50:
                     partner = true;
-                     $("#sp-la-partner-la").show();
+                    $("#sp-la-partner-la").show();
                     $("#toggle-accordion-sp").show();
                     break;
                 default:
@@ -765,26 +779,6 @@
                 default:
             }
         });
-
-        if (sessionStorage.getItem('partnerStatus') == 'partnered') {
-            showPartner();
-        } else {
-            hidePartner();
-        };
-
-        function showPartner() {
-            sessionStorage.setItem('partnerApply', 'true')
-            $("#sp-res-veteranTitle").show();
-            $("#sp-res-partnerDetails").show();
-            $("#intro-copy-no-partner").hide();
-        }
-
-        function hidePartner() {
-            sessionStorage.setItem('partnerApply', 'false')
-            $("#sp-res-veteranTitle").hide();
-            $("#sp-res-partnerDetails").hide();
-            $("#intro-copy-no-partner").show();
-        }
 
         function hideAll() {
             $("#living-arrangements-a").hide();
