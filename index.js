@@ -411,6 +411,12 @@ app.get('/travel-expense1', function (request, response) {
 app.get('/travel-expense2', function (request, response) {
   response.render('auth/travel/pages/travel-expense2');
 });
+app.get('/travel-expense3', function (request, response) {
+  response.render('auth/travel/pages/travel-expense3');
+});
+app.get('/travel-expense-medical', function (request, response) {
+  response.render('auth/travel/pages/travel-expense-medical');
+});
 app.get('/test-addanother', function (request, response) {
   response.render('auth/travel/pages/test-addanother');
 });
