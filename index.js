@@ -62,6 +62,9 @@ app.get('/email-mental-health-approved', function (request, response) {
 app.get('/email-incap-submitted', function (request, response) {
   response.render('email/pages/email-incap-submitted');
 });
+app.get('/email-dva-expire-claim', function (request, response) {
+  response.render('email/pages/email-dva-expire-claim');
+});
 /**
 Unauthenticated space
 */
@@ -407,6 +410,9 @@ app.get('/travel-expense-start', function (request, response) {
 });
 app.get('/travel-expense1', function (request, response) {
   response.render('auth/travel/pages/travel-expense1');
+});
+app.get('/travel-expense2', function (request, response) {
+  response.render('auth/travel/pages/travel-expense2');
 });
 app.get('/test-addanother', function (request, response) {
   response.render('auth/travel/pages/test-addanother');
