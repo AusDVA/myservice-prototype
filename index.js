@@ -408,6 +408,9 @@ app.get('/travel-expense-start', function (request, response) {
 app.get('/travel-expense1', function (request, response) {
   response.render('auth/travel/pages/travel-expense1');
 });
+app.get('/travel-expense2', function (request, response) {
+  response.render('auth/travel/pages/travel-expense2');
+});
 app.get('/test-addanother', function (request, response) {
   response.render('auth/travel/pages/test-addanother');
 });
