@@ -648,6 +648,11 @@ app.get('/sp-review', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/sp-review-income-assets', function (request, response) {
+  response.render('auth/claim/pages/sp-review-income-assets', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-my-details', function (request, response) {
   response.render('auth/claim/pages/sp-my-details', {
     main_nav_active: 'claims'
