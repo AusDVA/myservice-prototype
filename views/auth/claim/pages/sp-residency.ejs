@@ -24,12 +24,6 @@
                     <nav>
                         <ul class="progress-container">
                             <li class="progress-step progress-step--done">
-                                <a href="sp-my-details">
-                    <span class="progress-step__icon"></span>
-                    <p class="progress-step-label">My details</p>
-                  </a>
-                            </li>
-                            <li class="progress-step progress-step--done">
                                 <a href="sp-partner">
                     <span class="progress-step__icon"></span>
                     <p class="progress-step-label">Partner</p>
@@ -47,20 +41,24 @@
                     <p class="progress-step-label">Residency</p>
                   </a>
                             </li>
+                            </li>
                             <li class="progress-step">
                                 <a href="sp-la">
-                    <span class="progress-step__icon"></span>
-                    <p class="progress-step-label">Living arrangements</p>
-                  </a>
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Living arrangements</p>
+                </a>
                             </li>
-                            <li class="progress-step ongoing-only">
-                                <span class="progress-step__icon"></span>
-                                <p class="progress-step-label">Claim representative</p>
+                            <li class="progress-step">
+                                <a href="sp-claim-contact">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Claim Representative</p>
+                </a>
                             </li>
                             <li class="progress-step progress-step--last">
-                                <span class="progress-step__icon"></span>
-                                <p class="progress-step-label">Payment details</p>
-                            </li>
+                                <a href="sp-payment-details">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Payment details</p>
+                </a>
                         </ul>
                     </nav>
                 </div>
@@ -75,8 +73,8 @@
                 <div class="col-md-12">
                     <div class="margin-above--extra margin-below--extra">
                         <!-- Page content -->
-                        <h2>Tell us about your residency</h2>
-                        <h2 class="margin-above--large" id="sp-res-veteranTitle"><span class="font-weight-heavy">Your residency</span></h2>
+                        <h2 id="intro-copy-no-partner" class="margin-below">Tell us about your residency</h2>
+                        <h2 class="margin-above--large margin-below" id="sp-res-veteranTitle"><span class="font-weight-heavy">Your residency</span></h2>
                         <div class="form-group margin-above" id="aus-citizen">
                             <fieldset>
                                 <legend class="legend-label">Are you an Australian citizen?</legend>
@@ -156,7 +154,7 @@
                             </fieldset>
                         </div>
                         <!-- [C] Country born and when -->
-                        <div id="country-born" class="margin-above">
+                        <div id="country-born" class="margin-above--large">
                             <legend class="legend-label">What is your country of birth?</legend>
                             <select>
                                 <option selected="">-- Select option --</option>
@@ -457,7 +455,7 @@
                         <!----- Partner residency ----->
                         <div id="sp-res-partnerDetails">
                             <div id="partner-visa">
-                                <h2 class="margin-above--large" >
+                                <h2 class="margin-above--large margin-below" >
                 <span class="font-weight-heavy">Partner residency</span>
               </h2>
                                 <div class="form-group margin-above" id="aus-citizen">
@@ -533,7 +531,7 @@
                                 </fieldset>
                             </div>
                             <!-- [C] Partners country of birth -->
-                            <div id="partner-country-birth" class="margin-above">
+                            <div id="partner-country-birth" class="margin-above--large">
                                 <legend class="legend-label">What is your partner’s country of birth?</legend>
                                 <select>
                                     <option selected="">-- Select option --</option>
@@ -787,7 +785,7 @@
                                     <option value="ZM">Zambia</option>
                                     <option value="ZW">Zimbabwe</option>
                                 </select>
-                                <label class="uikit-text-input__label margin-above">When did your partner first arrive in Australia?
+                                <label class="uikit-text-input__label margin-above--large">When did your partner first arrive in Australia?
                                     <span class="hint">(dd / mm / yyyy)</span>
                                 </label>
                                 <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
@@ -798,24 +796,7 @@
                                     <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 8em;">Years &nbsp;&nbsp;<input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 8em;">Months
                                 </fieldset>
                             </div> <!-- end of [C] Partners country of birth -->
-                            <!-- [D] Partner lived overseas -->
-                            <div class="form-group margin-above" id="partner-lived-overseas">
-                                <fieldset>
-                                    <legend class="legend-label">Has your partner ever lived overseas?</legend>
-                                    <div class="radio-toggle">
-                                        <label class="on label-left" for="partner-lived-overseas-yes">
-                                            <input id="partner-lived-overseas-yes" type="radio" name="partner-lived-overseas">
-                                            <span>Yes</span>
-                                        </label>
-                                        <label class="off label-right" for="partner-lived-overseas-no">
-                                            <input id="partner-lived-overseas-no" type="radio" name="partner-lived-overseas">
-                                            <span>No</span>
-                                        </label>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <!-- end of [D] Partner lived overseas -->
-                            <div class="form-group margin-above--large">
+                            <div class="form-group margin-above--large" id="partner-moved-returned">
                                 <fieldset>
                                     <legend class="legend-label">Has your partner moved to or returned to in Australia in the last 12 months?</legend>
                                     <div class="radio-toggle">
@@ -852,25 +833,12 @@
                 <% include ../partials/cancel-modal.ejs %>
             </div> <!-- row end -->
         </div> <!-- container end -->
-        </div>
     </main>
     <% include ../../../global/partials/footer.ejs %>
     <script>
     $(Document).ready(function() {
 
         hideAll();
-
-        $("#visa-a").hide();
-        $("#visa-b").hide();
-        $("#country-born").hide();
-        $("#lived-overseas").hide();
-        $("#partner-auz-citizen-document").hide();
-        $("#partner-visa-perm").hide();
-        $("#born-aus-no-partner").hide();
-        $("#partner-country-birth").hide();
-        $("#partner-lived-overseas").hide();
-        $("#visa-b-partner").hide();
-        $("#moved-returned-aus").hide();
 
         $("#aus-citizen-no").click(function() {
             $("#visa-a").show("fast");
@@ -909,6 +877,7 @@
         $("#born-aus-no").click(function() {
             $("#country-born").show("fast");
             $("#lived-overseas").hide("fast");
+            $("#save-and-next").hide();
         });
 
         $("#born-aus-no").click(function() {
@@ -930,14 +899,6 @@
             $("#save-and-next").show("fast");
         });
 
-
-
-
-        // $("#moved-returned-aus-yes").click(function() {
-        //     $("#country-born").hide("fast");
-        //     $("#lived-overseas").show("fast");
-        // });
-
         $("#partner-auz-citizen-no").click(function() {
             $("#partner-visa-perm").show("fast");
         });
@@ -946,53 +907,76 @@
             $("#partner-visa-perm").hide();
         });
 
-
         $("#born-aus-no-partner").click(function() {
             $("#partner-country-birth").show("fast");
-            $("#partner-lived-overseas").hide("fast");
+            $("#partner-moved-returned").hide();
+            $("#save-and-next").hide();
         });
 
         $("#born-aus-yes-partner").click(function() {
             $("#partner-country-birth").hide();
-            $("#partner-lived-overseas").show("fast");
+            $("#partner-moved-returned").show("fast");
         });
 
-        $("#lived-overseas-yes").click(function() {
-            $("#moved-returned-aus").show("fast");
+        $("#partner-moved-returned-yes").click(function() {
             $("#save-and-next").show("fast");
         });
 
-        $("#lived-overseas-no").click(function() {
-            $("#moved-returned-aus").hide("fast");
+        $("#partner-moved-returned-no").click(function() {
             $("#save-and-next").show("fast");
         });
 
-
-        var partner = false;
         $(document).keypress(function(e) {
             switch (e.which) {
                 case 49:
-                    partner = false;
-                    $("#sp-res-veteranTitle").hide();
-                    $("#sp-res-partnerDetails").hide();
+                    hidePartner();
                     break;
                 case 50:
-                    partner = true;
-                    $("#sp-res-veteranTitle").show();
-                    $("#sp-res-partnerDetails").show();
+                    showPartner();
                     break;
                 default:
             }
         });
 
+        if (sessionStorage.getItem('partnerApply') == 'true') {
+            showPartner();
+        } else {
+            hidePartner();
+        };
+
+        function showPartner() {
+            sessionStorage.setItem('partnerApply', 'true')
+            $("#sp-res-veteranTitle").show();
+            $("#sp-res-partnerDetails").show();
+            $("#intro-copy-no-partner").hide();
+        }
+
+        function hidePartner() {
+            sessionStorage.setItem('partnerApply', 'false')
+            $("#sp-res-veteranTitle").hide();
+            $("#sp-res-partnerDetails").hide();
+            $("#intro-copy-no-partner").show();
+        }
+
         function hideAll() {
-            if (!partner) {
+            if (sessionStorage.getItem('partnerApply') != 'true') {
                 $("#sp-res-veteranTitle").hide();
                 $("#sp-res-partnerDetails").hide();
             };
+            $("#visa-a").hide();
+            $("#visa-b").hide();
+            $("#country-born").hide();
+            $("#lived-overseas").hide();
+            $("#moved-returned-aus").hide();
+            $("#partner-auz-citizen-document").hide();
+            $("#partner-visa-perm").hide();
+            $("#born-aus-no-partner").hide();
+            $("#partner-country-birth").hide();
+            $("#partner-lived-overseas").hide();
+            $("#visa-b-partner").hide();
+            $("#partner-moved-returned").hide();
         }
     });
-    </script>
     </script>
 </body>
 

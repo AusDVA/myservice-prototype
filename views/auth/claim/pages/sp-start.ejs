@@ -6,6 +6,7 @@
     <meta content="width=device-width" name="viewport">
     <title>Service Pension - Getting started | MyService</title>
     <link href="docs/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-NJXGk7R+8gWGBdutmr+/d6XDokLwQhF1U3VA7FhvBDlOq7cNdI69z7NQdnXxcF7k" crossorigin="anonymous">
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -27,45 +28,33 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="margin-above--extra margin-below--extra">
-
                         <!-- Page content -->
-
                         <!-- what are you applying for -->
-                        <div class="form-group margin-above--extra">
+                        <div class="form-group margin-above--extra" id="sp-start-pension-type">
                             <legend class="legend-label">What are you applying for?</legend>
                             <div class="radio-tile--group">
                                 <label class="radio-tile">
                                     <input id="pensionType-invalidity" class="sr" type="radio" name="pensionType" value="invaliditiy">
-                                    <span><img src="../../../../docs/images/ico-user-nonserving.svg" alt="non-serving icon">Invalidity service pension</span>
+                                    <span><icon class="fal fa-user fa-3x"></icon><BR/>Invalidity service pension</span>
                                 </label>
                                 <label class="radio-tile">
                                     <input id="pensionType-age" class="sr" type="radio" name="pensionType" value="age">
-                                    <span><img src="../../../../docs/images/ico-user-nonserving.svg" alt="non-serving icon">Age service pension</span>
+                                    <span><icon class="fal fa-user fa-3x"></icon><BR/>
+                                    Age service pension</span>
                                 </label>
                             </div>
                         </div>
-
                         <!-- [A] Show if <58 -->
-                        <div id="younger">
+                        <div id="inval-only">
                             <div class="uikit-page-alerts" role="alert">
-                                <p>You are too young to apply for Age service pension.</p>
+                                <p>You must be at least 59 years and 9 months old to apply for age service pension</p>
                             </div>
                         </div>
-
-                        <!-- [B] Show if >58 && <60 -->
-                        <div id="close">
-                            <div class="uikit-page-alerts" role="alert">
-                                <p>Age pension is available at 60 and does not require medical evidence.</p>
-                                <p>Call VAN for advice on the best option for you.</p>
-                            </div>
-                        </div>
-
                         <!-- [C] Show if 60+ -->
-                        <div class="uikit-page-alerts" role="alert" id="older">
-                            <p>You cannot apply for Invalidity service pension if you are over 60 years of age.</p>
-                            <p>Apply for Age service pension instead</p>
+                        <div class="uikit-page-alerts" role="alert" id="age-only">
+                            <p>You cannot apply for invalidity service pension if you are over 65 years of age.</p>
+                            <p>Apply for age service pension instead</p>
                         </div>
-
                         <!-- Invalidity -->
                         <div class="form-group margin-above--large" id="sp-start-whatGrounds">
                             <label class="uikit-text-input__label" for="radio-buttons">On what grounds are you applying for Invalidity Pension?</label>
@@ -89,48 +78,86 @@
                                 </label>
                             </p>
                         </div>
-
                         <!-- who are you applying for? -->
                         <div class="form-group margin-above--large" id="sp-start-who">
                             <legend class="legend-label">Who are you applying for?</legend>
                             <div class="radio-tile--group">
                                 <label class="radio-tile">
                                     <input id="pensionWho-single" class="sr" type="radio" name="pensionWho" value="single">
-                                    <span><img src="../../../../docs/images/ico-user-nonserving.svg" alt="non-serving icon">Myself</span>
+                                    <span><icon class="fal fa-user fa-3x"></icon><BR/>Myself</span>
                                 </label>
                                 <label class="radio-tile">
                                     <input id="pensionWho-double" class="sr" type="radio" name="pensionWho" value="double">
-                                    <span><img src="../../../../docs/images/ico-user-nonserving.svg" alt="non-serving icon">Me and my partner</span>
+                                    <span><icon class="fal fa-user-friends fa-3x"></icon><BR/>Me and my partner</span>
                                 </label>
                             </div>
                         </div>
-
                         <!-- PBS -->
-                        <div class="form-group margin-above" id="sp-start-pbs">
-                            <legend class="legend-label ">Are you a registered member of the Pension Bonus Scheme? <span class="hint">(optional)</span></legend>
+                        <div class="form-group margin-above--large" id="sp-start-pbs">
+                            <legend class="legend-label ">Are you a registered member of the Pension Bonus Scheme?</legend>
                             <div class="radio-toggle">
-                                <label class="on label-left" for="cshc-yes">
-                                    <input id="cshc-yes" type="radio" name="cshc">
+                                <label class="on label-left" for="pbs-yes">
+                                    <input id="pbs-yes" type="radio" name="pbs">
                                     <span>Yes</span>
                                 </label>
-                                <label class="off label-right" for="cshc-no">
-                                    <input id="cshc-no" type="radio" name="cshc">
+                                <label class="off label-right" for="pbs-no">
+                                    <input id="pbs-no" type="radio" name="pbs">
                                     <span>No</span>
                                 </label>
                             </div>
+                            <div class="uikit-page-alerts" role="alert" id="pbs-explainer" style="display: none;">
+                                <p>A delegate will contact you for more information relating to your pension bonus scheme.</p>
+                            </div>
                         </div>
-
+                        <div id="benefits" style="display:none;">
+                            <!-- <div class="form-group margin-above--large">
+                                <label class="uikit-text-input__label" for="sop">Do you have any of the following benefits?
+                                    <span class="hint display-block">Select all that apply.</span>
+                                </label>
+                                <div class="uiToolKitCheckBox">
+                                    <label class="uikit-control-input">
+                                        <input class="uikit-control-input__input check_box" type="checkbox" data-ptag="op1-cl" id="op1-cl" name="checkbox">
+                                        <span class="uikit-control-input__text">Commonwealth Seniors Health Card</span>
+                                    </label>
+                                </div>
+                                <div class="uiToolKitCheckBox">
+                                    <label class="uikit-control-input">
+                                        <input class="uikit-control-input__input check_box" type="checkbox" data-ptag="op2-cl" id="op2-cl" name="checkbox">
+                                        <span class="uikit-control-input__text">Receiving or applied for a Centrelink payment</span>
+                                    </label>
+                                </div>
+                            </div> -->
+                            <div class="form-group margin-above--large" id="sp-start-pbs">
+                                <legend class="legend-label ">Are you currently receiving, or applying for, any Centrelink payments?</legend>
+                                <div class="radio-toggle">
+                                    <label class="on label-left" for="centrelink-yes">
+                                        <input id="centrelink-yes" type="radio" name="centrelink">
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="off label-right" for="centrelink-no">
+                                        <input id="centrelink-no" type="radio" name="centrelink">
+                                        <span>No</span>
+                                    </label>
+                                </div>
+                                <!-- CRN text box -->
+                                <div style="display:none;" class="form-group margin-above--large" id="crn">
+                                    <label class="uikit-text-input__label" for="tags">What is your Customer Reference Number (CRN)?</label>
+                                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
+                                </div>
+                            </div>
+                             <div id="save-and-next" class="margin-above--extra" style="display: none">
+                                    <p>Choose <b>save and next</b> to continue.</p>
+                                </div>
+                        </div> <!-- col-md-12 end -->
                     </div>
-
                     <div class="pagination">
                         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-progress-a'">Previous</button>
                         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
                         <div class="floated">
                             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/sp-start'">Save and exit</button>
-                            <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-progress-b'">Save and next</button>
+                            <button class="uikit-btn btnNext" onclick="window.location.href = '/sp-qs'">Save and next</button>
                         </div>
                     </div>
-
                 </div> <!-- col-md-12 end -->
             </div> <!-- row end -->
         </div> <!-- container end -->
@@ -140,70 +167,127 @@
     <script>
     $(Document).ready(function() {
 
-        hideAll();
+        // select type
 
         $("#pensionType-invalidity").click(function() {
             hideAll();
-            switch (ageMode) {
-                case "younger":
-                    $("#sp-start-whatGrounds").show("fast");
-                    $("#sp-start-pbs").show("fast");
-                    console.log("gfdgdfg");
-                    break;
-                case "close":
-                    $("#close").show("fast");
-                    break;
-                case "older":
-                    $("#older").show("fast");
-                    break;
-            }
+            $("#sp-start-whatGrounds").show("fast");
+            $("#sp-start-pbs").show("fast");
         });
 
         $("#pensionType-age").click(function() {
-            hideAll();
-            switch (ageMode) {
-                case "younger":
-                    $("#younger").show("fast");
-                    break;
-                case "close":
-                    $("#sp-start-who").show("fast");
-                    break;
-                case "older":
-                    $("#sp-start-who").show("fast");
-                    break;
+            if (ageMode == "inval-only") {
+                hideAll();
+                $("#inval-only").show("fast");
+                return;
             }
-        });
-        $("#pensionWho-single").click(function() {
-            $("#sp-start-pbs").show("fast");
-        });
-        $("#pensionWho-double").click(function() {
-            $("#sp-start-pbs").show("fast");
+            hideAll();
+            $("#sp-start-who").show("fast");
         });
 
+        // age pension
+
+        $("#pensionWho-single").click(function() {
+            $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
+            sessionStorage.setItem('partnerApply', 'false');
+        });
+
+        $("#pensionWho-double").click(function() {
+            $("#sp-start-pbs").show("fast");
+            $("#benefits").show("fast");
+            sessionStorage.setItem('partnerApply', 'true');
+        });
+
+        // $('.check_box').change(function() {
+        //     if ($('.check_box:checked').length == 0) {
+        //         $('#crn').hide();
+        //     } else {
+        //         $('#crn').show("fast");
+        //         $('.check_box:checked').each(function() {
+        //             $('#' + $(this).attr('data-ptag')).hide();
+        //         });
+        //     }
+        // });
+
+        // pbs
+
+        $("#pbs-yes").click(function() {
+            $("#pbs-explainer").show("fast");
+        });
+        $("#pbs-no").click(function() {
+            $("#pbs-explainer").hide("fast");
+        });
+
+        // centrelink
+
+        $("#centrelink-yes").click(function() {
+            $("#crn").show("fast");
+        });
+        $("#centrelink-no").click(function() {
+            $("#crn").hide("fast");
+            $("#save-and-next").show("fast");
+        });
+
+        //
+
         function hideAll() {
-            $("#younger").hide();
+            $("#inval-only").hide();
             $("#close").hide();
-            $("#older").hide();
+            $("#age-only").hide();
             $("#sp-start-who").hide();
             $("#sp-start-pbs").hide();
             $("#sp-start-whatGrounds").hide();
+            $("#benefits").hide();
         }
-        var ageMode = "close";
+
+        // age mode
+
+        var ageMode = "either-pension";
+
+        function setUpAgeMode() {
+            hideAll();
+            $("#sp-start-pension-type").hide();
+            switch (ageMode) {
+                case "inval-only": // > 59.75 
+                    $("#sp-start-pension-type").show();
+                    break;
+                case "either-pension": // >= 59.75 && < 65
+                    $("#sp-start-pension-type").show();
+                    break;
+                case "age-only": // >= 65
+                    console.log("age only")
+                    $("#sp-start-who").show();
+                    break;
+                default:
+
+            }
+
+        }
+
         $(document).keypress(function(e) {
             switch (e.which) {
-                case 49:
-                    ageMode = "younger"
+                case 49: // > 59.75 
+                    ageMode = "inval-only"
+                    setUpAgeMode();
                     break;
-                case 50:
-                    ageMode = "close"
+                case 50: // >= 59.75 && < 65
+                    ageMode = "either-pension"
+                    setUpAgeMode();
                     break;
-                case 51:
-                    ageMode = "older"
+                case 51: // >= 65
+                    ageMode = "age-only"
+                    setUpAgeMode();
                     break;
                 default:
 
             }
         });
+
+        //
+
+        setUpAgeMode();
+
     });
     </script>
 </body>
