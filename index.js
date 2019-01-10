@@ -663,6 +663,11 @@ app.get('/sp-my-details', function (request, response) {
     main_nav_active: 'claims'
   });
 });
+app.get('/viewServicePensionDetail', function (request, response) {
+  response.render('auth/claim/pages/viewServicePensionDetail', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-partner', function (request, response) {
   response.render('auth/claim/pages/sp-partner', {
     main_nav_active: 'claims'
