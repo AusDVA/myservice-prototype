@@ -624,7 +624,9 @@ app.get('/email-veteran-card-approved', function (request, response) {
 app.get('/email-mental-health-approved', function (request, response) {
   response.render('email/pages/email-mental-health-approved');
 });
-
+app.get('/email-incap-submitted', function (request, response) {
+  response.render('email/pages/email-incap-submitted');
+});
 
 /**
   STYLE GUIDE
