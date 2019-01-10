@@ -30,7 +30,7 @@
                     <div class="margin-above--extra margin-below--extra">
                         <!-- Page content -->
                         <!-- what are you applying for -->
-                        <div class="form-group margin-above--extra">
+                        <div class="form-group margin-above--extra" id="sp-start-pension-type">
                             <legend class="legend-label">What are you applying for?</legend>
                             <div class="radio-tile--group">
                                 <label class="radio-tile">
@@ -45,22 +45,15 @@
                             </div>
                         </div>
                         <!-- [A] Show if <58 -->
-                        <div id="younger">
+                        <div id="inval-only">
                             <div class="uikit-page-alerts" role="alert">
-                                <p>You are too young to apply for Age service pension.</p>
-                            </div>
-                        </div>
-                        <!-- [B] Show if >58 && <60 -->
-                        <div id="close">
-                            <div class="uikit-page-alerts" role="alert">
-                                <p>Age pension is available at 60 and does not require medical evidence.</p>
-                                <p>Call VAN for advice on the best option for you.</p>
+                                <p>You must be at least 59 years and 9 months old to apply for age service pension</p>
                             </div>
                         </div>
                         <!-- [C] Show if 60+ -->
-                        <div class="uikit-page-alerts" role="alert" id="older">
-                            <p>You cannot apply for Invalidity service pension if you are over 60 years of age.</p>
-                            <p>Apply for Age service pension instead</p>
+                        <div class="uikit-page-alerts" role="alert" id="age-only">
+                            <p>You cannot apply for invalidity service pension if you are over 65 years of age.</p>
+                            <p>Apply for age service pension instead</p>
                         </div>
                         <!-- Invalidity -->
                         <div class="form-group margin-above--large" id="sp-start-whatGrounds">
@@ -101,7 +94,7 @@
                         </div>
                         <!-- PBS -->
                         <div class="form-group margin-above" id="sp-start-pbs">
-                            <legend class="legend-label ">Are you a registered member of the Pension Bonus Scheme? <span class="hint">(optional)</span></legend>
+                            <legend class="legend-label ">Are you a registered member of the Pension Bonus Scheme?</legend>
                             <div class="radio-toggle">
                                 <label class="on label-left" for="cshc-yes">
                                     <input id="cshc-yes" type="radio" name="cshc">
@@ -115,7 +108,7 @@
                         </div>
                         <div id="benefits" style="display:none;">
                             <div class="form-group margin-above--large">
-                                <label class="uikit-text-input__label" for="sop">Do you have any of the following benefits?<span class="hint"> (optional)</span>
+                                <label class="uikit-text-input__label" for="sop">Do you have any of the following benefits?
                                     <span class="hint display-block">Select all that apply.</span>
                                 </label>
                                 <div class="uiToolKitCheckBox">
@@ -157,58 +150,39 @@
     <script>
     $(Document).ready(function() {
 
-        window.partnerApply;
-
-        hideAll();
+        // select type
 
         $("#pensionType-invalidity").click(function() {
             hideAll();
-            switch (ageMode) {
-                case "younger":
-                    $("#sp-start-whatGrounds").show("fast");
-                    $("#sp-start-pbs").show("fast");
-                    console.log("gfdgdfg");
-                    break;
-                case "close":
-                    $("#close").show("fast");
-                    break;
-                case "older":
-                    $("#older").show("fast");
-                    break;
-            }
+            $("#sp-start-whatGrounds").show("fast");
+            $("#sp-start-pbs").show("fast");
         });
 
         $("#pensionType-age").click(function() {
-            hideAll();
-            switch (ageMode) {
-                case "younger":
-                    $("#younger").show("fast");
-                    break;
-                case "close":
-                    $("#sp-start-who").show("fast");
-                    break;
-                case "older":
-                    $("#sp-start-who").show("fast");
-                    break;
+            if (ageMode == "inval-only") {
+                hideAll();
+                $("#inval-only").show("fast");
+                return;
             }
+            hideAll();
+            $("#sp-start-who").show("fast");
         });
+
+        // age pension
+
         $("#pensionWho-single").click(function() {
             $("#sp-start-pbs").show("fast");
             $("#benefits").show("fast");
-             sessionStorage.setItem('partnerApply', 'false');
+            sessionStorage.setItem('partnerApply', 'false');
         });
+
         $("#pensionWho-double").click(function() {
             $("#sp-start-pbs").show("fast");
             $("#benefits").show("fast");
             sessionStorage.setItem('partnerApply', 'true');
         });
 
-        $("#pensionType-invalidity").click(function() {
-            $("#benefits").hide();
-        });
-
-
-        $('.check_box').change(function() {
+         $('.check_box').change(function() {
             if ($('.check_box:checked').length == 0) {
                 $('#crn').hide();
             } else {
@@ -217,33 +191,67 @@
                     $('#' + $(this).attr('data-ptag')).hide();
                 });
             }
-
         });
 
+        //
+
         function hideAll() {
-            $("#younger").hide();
+            $("#inval-only").hide();
             $("#close").hide();
-            $("#older").hide();
+            $("#age-only").hide();
             $("#sp-start-who").hide();
             $("#sp-start-pbs").hide();
             $("#sp-start-whatGrounds").hide();
+            $("#benefits").hide();
         }
-        var ageMode = "close";
+
+        // age mode
+
+        var ageMode = "either-pension";
+
+        function setUpAgeMode() {
+            hideAll();
+            $("#sp-start-pension-type").hide();
+            switch (ageMode) {
+                case "inval-only": // > 59.75 
+                    $("#sp-start-pension-type").show();
+                    break;
+                case "either-pension": // >= 59.75 && < 65
+                    $("#sp-start-pension-type").show();
+                    break;
+                case "age-only": // >= 65
+                    console.log("age only")
+                    $("#sp-start-who").show();
+                    break;
+                default:
+
+            }
+
+        }
+
         $(document).keypress(function(e) {
             switch (e.which) {
-                case 49:
-                    ageMode = "younger"
+                case 49: // > 59.75 
+                    ageMode = "inval-only"
+                    setUpAgeMode();
                     break;
-                case 50:
-                    ageMode = "close"
+                case 50: // >= 59.75 && < 65
+                    ageMode = "either-pension"
+                    setUpAgeMode();
                     break;
-                case 51:
-                    ageMode = "older"
+                case 51: // >= 65
+                    ageMode = "age-only"
+                    setUpAgeMode();
                     break;
                 default:
 
             }
         });
+
+        //
+
+        setUpAgeMode();
+
     });
     </script>
 </body>
