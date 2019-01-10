@@ -62,6 +62,9 @@ app.get('/email-mental-health-approved', function (request, response) {
 app.get('/email-incap-submitted', function (request, response) {
   response.render('email/pages/email-incap-submitted');
 });
+app.get('/email-dva-expire-claim', function (request, response) {
+  response.render('email/pages/email-dva-expire-claim');
+});
 /**
 Unauthenticated space
 */
