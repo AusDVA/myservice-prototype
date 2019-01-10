@@ -414,6 +414,12 @@ app.get('/travel-expense1', function (request, response) {
 app.get('/travel-expense2', function (request, response) {
   response.render('auth/travel/pages/travel-expense2');
 });
+app.get('/travel-expense3', function (request, response) {
+  response.render('auth/travel/pages/travel-expense3');
+});
+app.get('/travel-expense-medical', function (request, response) {
+  response.render('auth/travel/pages/travel-expense-medical');
+});
 app.get('/test-addanother', function (request, response) {
   response.render('auth/travel/pages/test-addanother');
 });
@@ -639,6 +645,16 @@ app.get('/sp-qs-3', function (request, response) {
 });
 app.get('/sp-review', function (request, response) {
   response.render('auth/claim/pages/sp-review', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-review-income-assets', function (request, response) {
+  response.render('auth/claim/pages/sp-review-income-assets', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/sp-submitted', function (request, response) {
+  response.render('auth/claim/pages/sp-submitted', {
     main_nav_active: 'claims'
   });
 });
