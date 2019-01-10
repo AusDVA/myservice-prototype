@@ -75,13 +75,14 @@
                         <p><strong>Add any dependent children <span class="if-partnered" style="display: none;">(of you and/or your partner)</span> who are:</strong></p>
                         <ul>
                             <li>Under 16 years of age, or</li>
-                            <li>16-22 years or age and in full time education</li>
+                            <li>16-22 years of age and in full time education</li>
                         </ul>
                         <div class="uikit-page-alerts" role="alert">
                             <p>Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your
                                 care.
                             </p>
                         </div>
+                        <!-- summary cards -->
                         <div class="plain-text-info" style="display:none;">
                             <div class="review__wrapper">
                                 <div class="review__content--item boxed row">
@@ -112,13 +113,13 @@
                             </div>
                         </div>
                         <button class="uikit-btn uikit-btn--tertiary" id="add-child">Add child</button>
-                        <!-- Dependent child details -->
+                        <!-- open card -->
                         <div class="form-group margin-above">
                             <div class="boxed" id="sp-dependant-details">
                                 <legend class="legend-label font-weight-heavy" style="font-size:1.3em">Dependent child details</legend>
                                 <div class="form-group">
-                                    <label class="uikit-text-input__label margin-above">What is the child’s date of birth?
-                                        <span class="hint">(dd / mm / yyyy)</span>
+                                    <label class="uikit-text-input__label margin-above">Child’s date of birth?
+                                        <span class="hint">(DD / MM / YYYY)</span>
                                     </label>
                                     <div class="form-group pt-flow--veteran pt-flow--claimant pt-dependent-dob">
                                         <label class="uikit-text-input__label" for="date" id="question_id4"></label>
@@ -135,7 +136,7 @@
                                     <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
                                     <label class="uikit-text-input__label margin-above" for="tax-number">Surname</label>
                                     <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="">
-                                    <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is the child at school?</label>
+                                    <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is this child at school?</label>
                                     <div class="radio-toggle">
                                         <label class="on label-left" for="dependent-school-yes">
                                             <input id="dependent-school-yes" type="radio" name="dependent-school">
@@ -145,13 +146,25 @@
                                             <input id="dependent-school-no" type="radio" name="dependent-school">
                                             <span>No</span>
                                         </label>
-                                    </div> <!-- end of less than 16 -->
+                                    </div>
+                                    <label class="uikit-text-input__label margin-above--large" for="toggle-buttons">Does this child earn any income?</label>
+                                    <div class="radio-toggle">
+                                        <label class="on label-left" for="income-yes">
+                                            <input id="income-yes" type="radio" name="income">
+                                            <span>Yes</span>
+                                        </label>
+                                        <label class="off label-right" for="income-no">
+                                            <input id="income-no" type="radio" name="income">
+                                            <span>No</span>
+                                        </label>
+                                    </div>
                                     <!-- [B] in school -->
                                     <div class="form-group" id="child-school">
-                                        <label class="uikit-text-input__label margin-above" for="Input field">What is the child's gross fortnightly income</label>
+                                        <label class="uikit-text-input__label margin-above--large" for="Input field">What is their gross fortnightly income</label>
                                         <span style="font-size: 1.4em">$</span> <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" style="max-width: 100px;" value="0.00" required aria-required="true">
                                     </div>
                                 </div>
+                                <!-- end of less than 16 -->
                                 <!------ Over 16 and less than 22 ------>
                                 <div class="form-group" id="over-16">
                                     <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is this child in full-time education?</label>
@@ -213,19 +226,20 @@
                                 <div id="gross-fortnightly" class="form-group margin-above--large">
                                     <label class="uikit-text-input__label" for="Input field">Other gross fortnightly income (optional) </label>
                                     <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
-                                    <div class="uikit-page-alerts" role="alert">
-                                        <p>You will need to attach a birth certificate for this child in the documents section.</p>
-                                    </div>
                                 </div><!-- end of Default -->
+                                <div class="uikit-page-alerts margin-above--large" id="child-birth-cert">
+                                    <p>You will need to attach a copy of your child's birth certificate in the documents section.</p>
+                                </div>
                                 <div id="buttonset1" class="form-group margin-above--extra">
                                     <button class="uikit-btn" id="saveDetails1">&nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;</button>
                                 </div>
+   
                             </div>
-                            <div id="no-dob">
+                            <!-- <div id="no-dob">
                                 <div class="uikit-page-alerts" role="alert">
                                     <p>Message body informaion. </p>
                                 </div>
-                            </div>
+                            </div> -->
                         </div> <!-- end of dependent child details -->
                     </div> <!-- end of page content -->
                 </div>
@@ -248,150 +262,157 @@
     </main>
     <% include ../../../global/partials/footer.ejs %>
     <script>
-    $("#sp-dependant-details").hide();
-    $("#sp-dependant-details-2nd").hide();
-    $("#child-birth-cert").hide();
-    $("#child-birth-cert-2nd").hide();
-    $("#child-school").hide();
-    $("#over-16").hide();
-    $("#under-4").hide();
-    $("#under-16").hide();
-    $("#over-22").hide();
-    $("#default").hide();
-    $("#full-time-ed-notification").hide();
-    $("#full-time-ed-yes").hide();
-    $("#no-dob").hide();
-    $("#gov-payments").hide(); //if yes show E
-    $("#gross-fortnightly").hide(); //if yes show E
+    $(Document).ready(function() {
 
-    $("#fulltime-education-no").click(function() {
-        $("#default").hide();
-    });
+        hideAll();
 
-    $("#dependent-gov-payments-yes").click(function() {
-        $("#gov-payments").show("fast");
-    });
+        // initiate add
 
-    $("#dependent-gov-payments-no").click(function() {
-        $("#gov-payments").hide("fast");
-    });
+        $("#add-child").click(function() {
+            $("#sp-dependant-details").show("fast");
+        });
 
-    $("#add-child").click(function() {
-        $("#sp-dependant-details").show("fast");
-        $("#child-birth-cert").show("fast");
-    });
+        // questions
 
-    $("#add-child").click(function() {
-        $("#sp-dependant-details").show("fast");
-        $("#child-birth-cert").show("fast");
-    });
+        $(".pt-dependent-dob > :input").keyup(function() {
+            var dobDay = $("#dd-date").val();
+            var dobMonth = $("#mm-date").val();
+            var dobYear = $("#yyyy-date").val();
 
-    $("#dependent-school-no").click(function() {
-        $("#child-school").show("fast");
-        $("#default").hide();
-    });
+            // if a valid date
+            if (dobDay && dobMonth && dobYear.length === 4) {
+                if (dobDay.length === 1) {
+                    dobDay = "0" + dobDay;
+                }
+                if (dobMonth.length === 1) {
+                    dobMonth = "0" + dobMonth;
+                }
+                var dob = dobYear + '-' + dobMonth + '-' + dobDay;
 
-    $("#dependent-school-yes").click(function() {
-        $("#child-school").hide("fast");
-        $("#default").show("fast");
-    });
+                dob = new Date(dob);
+                var today = new Date();
+                var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
 
-    $("#fulltime-education-no").click(function() {
-        $("#full-time-ed-notification").show("fast");
-        $("#full-time-ed-yes").hide("fast");
-    });
+                localStorage.removeItem('studentAge');
+                localStorage.setItem('studentAge', age);
+                console.debug('student age: ', age);
 
-    $("#fulltime-education-yes").click(function() {
-        $("#full-time-ed-notification").hide("fast");
-        $("#full-time-ed-yes").show("fast");
-    });
-
-    $(".pt-dependent-dob > :input").keyup(function() {
-        var dobDay = $("#dd-date").val();
-        var dobMonth = $("#mm-date").val();
-        var dobYear = $("#yyyy-date").val();
-
-        // if a valid date
-        if (dobDay && dobMonth && dobYear.length === 4) {
-            if (dobDay.length === 1) {
-                dobDay = "0" + dobDay;
+                if (localStorage.getItem('studentAge') < 16) {
+                    $("#over-16").hide();
+                    $("#under-16").show();
+                    $("#over-22").hide();
+                    $("#default").show();
+                    $("#under-4").hide();
+                    $("#saveDetails1").show();
+                    $("#child-birth-cert").show("fast");
+                }
+                if (localStorage.getItem('studentAge') > 16 && (localStorage.getItem('studentAge') < 22)) {
+                    $("#over-16").show();
+                    $("#under-16").hide();
+                    $("#over-22").hide();
+                    $("#default").show();
+                    $("#under-4").hide();
+                    $("#saveDetails1").show();
+                    $("#child-birth-cert").show("fast");
+                } else if (localStorage.getItem('studentAge') > 22) {
+                    $("#over-16").hide();
+                    $("#under-16").hide();
+                    $("#over-22").show();
+                    $("#default").hide();
+                    $("#under-4").hide();
+                }
             }
-            if (dobMonth.length === 1) {
-                dobMonth = "0" + dobMonth;
-            }
-            var dob = dobYear + '-' + dobMonth + '-' + dobDay;
+        });
 
-            dob = new Date(dob);
-            var today = new Date();
-            var age = Math.floor((today - dob) / (365.25 * 24 * 60 * 60 * 1000));
+        $("#fulltime-education-no").click(function() {
+            $("#default").hide();
+        });
 
-            localStorage.removeItem('studentAge');
-            localStorage.setItem('studentAge', age);
-            console.debug('student age: ', age);
+        $("#dependent-gov-payments-yes").click(function() {
+            $("#gov-payments").show("fast");
+        });
 
-            if (localStorage.getItem('studentAge') < 16) {
-                $("#over-16").hide();
-                $("#under-16").show();
-                $("#over-22").hide();
-                $("#default").show();
-                $("#under-4").hide();
-                $("#saveDetails1").show();
-            }
-            if (localStorage.getItem('studentAge') > 16 && (localStorage.getItem('studentAge') < 22)) {
-                $("#over-16").show();
-                $("#under-16").hide();
-                $("#over-22").hide();
-                $("#default").show();
-                $("#under-4").hide();
-                $("#saveDetails1").show();
-            } else if (localStorage.getItem('studentAge') > 22) {
-                $("#over-16").hide();
-                $("#under-16").hide();
-                $("#over-22").show();
-                $("#default").hide();
-                $("#under-4").hide();
+        $("#dependent-gov-payments-no").click(function() {
+            $("#gov-payments").hide("fast");
+        });
+
+        $("#income-yes").click(function() {
+            $("#child-school").show("fast");
+            $("#default").hide();
+        });
+
+        $("#income-no").click(function() {
+            $("#child-school").hide("fast");
+            $("#default").show("fast");
+        });
+
+        $("#fulltime-education-no").click(function() {
+            $("#full-time-ed-notification").show("fast");
+            $("#full-time-ed-yes").hide("fast");
+        });
+
+        $("#fulltime-education-yes").click(function() {
+            $("#full-time-ed-notification").hide("fast");
+            $("#full-time-ed-yes").show("fast");
+        });
+
+        // dependant card show and hide functionality
+        $('#saveDetails1').click(function() {
+            $('body,html').animate({
+                scrollTop: 500 // set to half way down the screen
+            }, 700);
+            // hack to reset focus to top of page
+            document.body.setAttribute('tabindex', '0');
+            document.body.focus();
+            document.body.removeAttribute('tabindex');
+            $(".plain-text-info").show("fast");
+        });
+
+        $('#saveDetails1').click(function() {
+            $("#add-child").hide("fast");
+            $("#sp-dependant-details").hide("fast");
+        });
+
+        $('#addAnother').click(function() {
+            $("#sp-dependant-details").show("fast");
+            $("#saveDetails1").hide();
+            $("#under-16").hide();
+        });
+
+        $('#add-child').click(function() {
+            $("#saveDetails1").hide();
+        });
+
+        $('#checkAgedep').click(function() {
+            $("#saveDetails1").show();
+        });
+
+        function hideAll() {
+            $("#child-birth-cert").hide();
+            $("#sp-dependant-details").hide();
+            $("#sp-dependant-details-2nd").hide();
+            $("#child-birth-cert-2nd").hide();
+            $("#child-school").hide();
+            $("#over-16").hide();
+            $("#under-4").hide();
+            $("#under-16").hide();
+            $("#over-22").hide();
+            $("#default").hide();
+            $("#full-time-ed-notification").hide();
+            $("#full-time-ed-yes").hide();
+            $("#no-dob").hide();
+            $("#gov-payments").hide(); //if yes show E
+            $("#gross-fortnightly").hide(); //if yes show E
+        }
+
+        function partnerLanguage() {
+            if (sessionStorage.getItem('partnerStatus') == 'partnered') {
+                $(".if-partnered").show();
             }
         }
+        partnerLanguage();
+
     });
-
-    // dependant card show and hide functionality
-    $('#saveDetails1').click(function() {
-        $('body,html').animate({
-            scrollTop: 500 // set to half way down the screen
-        }, 700);
-        // hack to reset focus to top of page
-        document.body.setAttribute('tabindex', '0');
-        document.body.focus();
-        document.body.removeAttribute('tabindex');
-        $(".plain-text-info").show("fast");
-    });
-
-    $('#saveDetails1').click(function() {
-        $("#add-child").hide("fast");
-        $("#sp-dependant-details").hide("fast");
-    });
-
-    $('#addAnother').click(function() {
-        $("#sp-dependant-details").show("fast");
-        $("#saveDetails1").hide();
-        $("#under-16").hide();
-    });
-
-    $('#add-child').click(function() {
-        $("#saveDetails1").hide();
-    });
-
-    $('#checkAgedep').click(function() {
-        $("#saveDetails1").show();
-    });
-
-    partnerLanguage();
-
-    function partnerLanguage() {
-        if (sessionStorage.getItem('partnerStatus') == 'partnered') {
-            $(".if-partnered").show();
-        }
-    }
     </script>
 </body>
 
