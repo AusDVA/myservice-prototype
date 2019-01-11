@@ -721,6 +721,11 @@ app.get('/sp-bank-details', function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
+app.get('/sp-c0', function (request, response) {
+  response.render('auth/claim/pages/sp-c0', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-c1', function (request, response) {
   response.render('auth/claim/pages/sp-c1', {
     main_nav_active: 'claims'
