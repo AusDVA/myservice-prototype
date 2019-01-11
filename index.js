@@ -408,6 +408,9 @@ app.get('/travel-home', function (request, response) {
 app.get('/travel-expense-start', function (request, response) {
   response.render('auth/travel/pages/travel-expense-start');
 });
+app.get('/travel-expense-old', function (request, response) {
+  response.render('auth/travel/pages/travel-expense-old');
+});
 app.get('/travel-expense1', function (request, response) {
   response.render('auth/travel/pages/travel-expense1');
 });
@@ -660,6 +663,11 @@ app.get('/sp-submitted', function (request, response) {
 });
 app.get('/sp-my-details', function (request, response) {
   response.render('auth/claim/pages/sp-my-details', {
+    main_nav_active: 'claims'
+  });
+});
+app.get('/viewServicePensionDetail', function (request, response) {
+  response.render('auth/claim/pages/viewServicePensionDetail', {
     main_nav_active: 'claims'
   });
 });
