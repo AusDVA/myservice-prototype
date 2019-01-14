@@ -195,6 +195,18 @@ app.get('/timeout', function (request, response) {
 /**
   Authenticated space
 */
+
+/* DEV OF NEW DASHBOARD */
+
+app.get('/auth-concept', function (request, response) {
+  response.render('auth/index-db-concept', {
+    main_nav_active: 'home'
+  });
+});
+
+/* ==================== */
+
+
 app.get('/auth', function (request, response) {
   response.render('auth/index', {
     main_nav_active: 'home'
