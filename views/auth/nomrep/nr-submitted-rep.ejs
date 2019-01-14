@@ -47,13 +47,12 @@
 
                   <div class="margin-below--extra">
                     <h3>Next steps:</h3>
-                    <p class="margin-below--none">An email/message will be sent to {insert name}. Once they have agreed to this application, you will be approved as a Nominated Resentative for their DVA affairs</p>
+                    <p class="margin-below--none">An email/message will be sent to <span id="lblData2"></span>. Once they have agreed to this application, you will be approved as a Nominated Resentative for their DVA affairs</p>
 
                   </div>
 
                   <div class="pagination">
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#'">Update profile</button>
-                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#'">See your claims</button>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/nr-before-start-rep'">Back to home</button>
                   </div>
 
                 </div>
@@ -73,6 +72,34 @@
               $(".pt-claim-animation-start").toggleClass("transition-content--open");
               $(".pt-claim-animation-end").toggleClass("transition-content--open");
             }, timeDelay);
+
+            var queryString = new Array();
+          $(function () {
+              if (queryString.length == 0) {
+                  if (window.location.search.split('?').length > 1) {
+                      var params = window.location.search.split('?')[1].split('&');
+                      for (var i = 0; i < params.length; i++) {
+                          var key = params[i].split('=')[0];
+                          var value = decodeURIComponent(params[i].split('=')[1]);
+                          queryString[key] = value;
+                      }
+                  }
+              }
+              if (queryString["name"] != null && queryString["technology"] != null) {
+                  var newAmount = "";
+                  var requestAmount = "";
+                    newAmount += queryString["name"];
+                    requestAmount += queryString["technology"];
+                      $("#lblData").html(newAmount);
+                      $("#lblData2").html(requestAmount);
+                  if(requestAmount.indexOf('.') != -1){
+                    $("#lblData2").html(requestAmount);
+                  }else{
+                    $("#lblData2").html(requestAmount);
+                  }
+              }
+          });
+
         </script>
 
 </body>
