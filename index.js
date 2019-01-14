@@ -1321,6 +1321,9 @@ app.get('/nr-review-client', function (request, response) {
 app.get('/nr-submitted-client', function (request, response) {
   response.render('auth/nomrep/nr-submitted-client');
 });
+app.get('/nr-upload-client', function (request, response) {
+  response.render('auth/nomrep/nr-upload-client');
+});
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
