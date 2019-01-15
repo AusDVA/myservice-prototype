@@ -1297,6 +1297,9 @@ app.get('/nr-before-start-rep', function (request, response) {
 app.get('/nr-veteran-details', function (request, response) {
   response.render('auth/nomrep/nr-veteran-details');
 });
+app.get('/nr-veteran-details2', function (request, response) {
+  response.render('auth/nomrep/nr-veteran-details2');
+});
 app.get('/nr-role-rep', function (request, response) {
   response.render('auth/nomrep/nr-role-rep');
 });
