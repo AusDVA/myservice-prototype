@@ -29,10 +29,8 @@
 
     <div class="container">
       <div class="form-group">
-              <h2>Select the role that best suits the needs of {name} you would like as a representative</h2>
-              <hr>
+              <h2>What type of representative would you like to be appointed as?</h2>
 
-              <legend class="legend-label">Which of the following best describes</legend>
               <div class="radio-tile--group">
                   <label class="radio-tile">
                       <input id="enquire" class="sr" type="radio" name="la-top" value="sp-la-a">
@@ -60,7 +58,7 @@
                   </div>
                 </div>
 
-                <div id="receiveMoney" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
+                <div id="endDate" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
                   <label class="uikit-text-input__label" for="Input field">Will you be representing <span id="lblData5"></span> indefinitely with no end date?</label>
                     <fieldset>
                       <legend class="legend-label" id="question_id21c">
@@ -77,18 +75,18 @@
                       </div>
                     </fieldset>
                 </div>
-                <div id="repDates" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
+                <div id="endDate2" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
                   <label class="uikit-text-input__label" for="Input field">Will you be representing <span id="lblData5"></span> indefinitely with no end date?</label>
                     <fieldset>
                       <legend class="legend-label" id="question_id21c">
                       </legend>
                       <div class="radio-toggle">
                         <label class="on label-left">
-                          <input id="dateYes" type="radio" name="indefinitely" value="yes">
+                          <input id="indefinitelyYes2" type="radio" name="indefinitely" value="yes">
                           <span>Yes</span>
                         </label>
                         <label class="off label-right">
-                          <input id="dateNo" type="radio" name="indefinitely" value="no">
+                          <input id="indefinitelyNo2" type="radio" name="indefinitely" value="no">
                           <span>No</span>
                         </label>
                       </div>
@@ -96,8 +94,7 @@
                 </div>
 
               </div>
-            <div id="hideAllQuestions" style="display:none;">
-              <div id="receiveMoney" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" >
+              <div id="describes" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
                 <legend class="legend-label">Which of the following best describes</legend>
                 <div class="radio-tile--group">
                     <label class="radio-tile">
@@ -163,6 +160,16 @@
                 </div>
               </div>
               </div>
+              <div id="bankDetails" style="display:none;">
+                <h2 class="margin-above--large margin-below" id="sp-payment-veteranTitle"><span class="font-weight-heavy">Provide payment details</span></h2>
+                <div class="uikit-page-alerts" role="alert">
+                    <p>This will be your nominated bank account for all DVA payments</p>
+                </div>
+                <!--  <h3 class="margin-above--large">Your account</h3> -->
+                <div class="bank-details-container">
+                    <% include ../../global/partials/bank-account-details.ejs %>
+              </div>
+            </div>
 
           <div class="pagination pagination--ss-reverse-order">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/nr-veteran-details'">Previous</button>
@@ -173,7 +180,6 @@
             </div>
           </div>
 
-      </div>
 
   </main>
 
@@ -183,30 +189,41 @@
   <script>
   $('#enquire').click(function(){
     $('#enquireAlert').show("fast");
-    $('#receiveMoney').show("fast");
-    $('#hideAllQuestions').hide();
+    $('#endDate').show("fast");
     $('#permittedAlert').hide();
+    $('#describes').hide();
+    $('#bankDetails').hide();
   });
   $('#permitted').click(function(){
     $('#enquireAlert').hide();
     $('#permittedAlert').show("fast");
-    $('#hideAllQuestions').show("fast");
+    $('#describes').show("fast");
     $('#hideDate').hide();
-    $('#receiveMoney').hide();
+    $('#endDate').hide();
+    $('#bankDetails').hide();
   });
-
+  $('#paymentOnly').click(function(){
+    $('#hideDate').hide();
+    $('#endDate').show("fast");
+    $('#permittedAlert').hide();
+    $('#describes').hide();
+    $('#enquireAlert').hide();
+  });
   $('#indefinitelyNo').click(function(){
     $('#hideDate').show("fast");
   });
   $('#indefinitelyYes').click(function(){
     $('#hideDate').hide();
+    $('#bankDetails').show("fast");
   });
-$('#paymentOnly').click(function(){
-  $('#repDates').show("fast");
-});
-$('#dateNo').click(function(){
-  $('#hideDate').show("fast");
-});
+  $('#indefinitelyNo2').click(function(){
+    $('#hideDate').show("fast");
+    $('#bankDetails').hide();
+  });
+  $('#indefinitelyYes2').click(function(){
+    $('#hideDate').hide();
+    $('#bankDetails').show("fast");
+  });
   var queryString = new Array();
 $(function () {
     if (queryString.length == 0) {
