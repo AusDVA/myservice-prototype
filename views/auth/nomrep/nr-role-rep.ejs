@@ -6,8 +6,7 @@
   <meta content="width=device-width" name="viewport">
   <title>Claim for travel expenses | MyService</title>
   <link href="docs/css/main.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-NJXGk7R+8gWGBdutmr+/d6XDokLwQhF1U3VA7FhvBDlOq7cNdI69z7NQdnXxcF7k" crossorigin="anonymous">
-</head>
+  <link rel="stylesheet" href="/src/font/fontawesome/css/all.css">
 
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript>
@@ -37,12 +36,18 @@
               <div class="radio-tile--group">
                   <label class="radio-tile">
                       <input id="enquire" class="sr" type="radio" name="la-top" value="sp-la-a">
-                      <span><icon class="fas fa-home fa-3x" style="padding: 15px 0 15px 0;"></icon>&nbsp;&nbsp;<icon class="fal fa-city fa-3x"></icon><BR/>Enquire only</span>
+                      <span><icon class="fas fa-phone-volume fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Enquire only</span>
 
                   </label>
                   <label class="radio-tile">
                       <input id="permitted" class="sr" type="radio" name="la-top" value="sp-la-b">
-                      <span><icon class="fas fa-hotel fa-3x" style="padding: 15px 0 15px 0;"></icon>&nbsp;&nbsp;<icon class="fal fa-rv fa-3x"></icon><BR/>Permitted to act</span>
+                      <span><icon class="fas fa-hands-helping fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Act on behalf</span>
+
+                  </label>
+
+                  <label class="radio-tile">
+                      <input id="paymentOnly" class="sr" type="radio" name="la-top" value="sp-la-b">
+                      <span><icon class="fas fa-hand-holding-usd fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Receive payment only</span>
 
                   </label>
 
@@ -72,35 +77,44 @@
                       </div>
                     </fieldset>
                 </div>
+                <div id="repDates" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" style="display:none;">
+                  <label class="uikit-text-input__label" for="Input field">Will you be representing <span id="lblData5"></span> indefinitely with no end date?</label>
+                    <fieldset>
+                      <legend class="legend-label" id="question_id21c">
+                      </legend>
+                      <div class="radio-toggle">
+                        <label class="on label-left">
+                          <input id="dateYes" type="radio" name="indefinitely" value="yes">
+                          <span>Yes</span>
+                        </label>
+                        <label class="off label-right">
+                          <input id="dateNo" type="radio" name="indefinitely" value="no">
+                          <span>No</span>
+                        </label>
+                      </div>
+                    </fieldset>
+                </div>
 
               </div>
             <div id="hideAllQuestions" style="display:none;">
               <div id="receiveMoney" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary" >
-                <label class="uikit-text-input__label" for="Input field">Which area of DVA would you like to act on?</label>
-                  <fieldset>
-                    <legend class="legend-label" id="question_id21">
-                    </legend>
-                    <div class="radio-toggle">
-                      <label class="on label-left">
-                        <input id="paymentYes" type="radio" name="payment" value="yes">
-                        <span>All matters - medical and financial</span>
-                      </label>
-                      <label class="off label-right">
-                        <input id="paymentNo" type="radio" name="payment" value="no">
-                        <span>Medical only matters</span>
-                      </label>
-                    </div>
-                  </fieldset>
+                <legend class="legend-label">Which of the following best describes</legend>
+                <div class="radio-tile--group">
+                    <label class="radio-tile">
+                        <input id="allMatters" class="sr" type="radio" name="allMatters" value="sp-la-a">
+                        <span><icon class="fas fa-clipboard-list fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>All matters - medical and financial</span>
+
+                    </label>
+                    <label class="radio-tile">
+                        <input id="financialOnly" class="sr" type="radio" name="allMatters" value="sp-la-b">
+                        <span><icon class="fas fa-notes-medical fa-3x" style="padding: 15px 0 15px 0;"></icon><BR/>Medical only matters</span>
+
+                    </label>
               </div>
             </div>
 
                 <div class="form-group">
-                    <!-- <legend id="lblData" class="legend-label"></legend> -->
-
-                  </label>
-
-
-                      <div class="form-group margin-above--large" id="hideDate" style="display:none;">
+                    <div class="form-group margin-above--large" id="hideDate" style="display:none;">
 
                         <label class="uikit-text-input__label">Specify the dates you would like represent for <span id="lblData8"></span></label>
                         <label class="uikit-text-input__label">From</label>
@@ -180,13 +194,19 @@
     $('#hideDate').hide();
     $('#receiveMoney').hide();
   });
-  $('#indefinitelyYes').click(function(){
-    $('#hideDate').hide();
-  });
+
   $('#indefinitelyNo').click(function(){
     $('#hideDate').show("fast");
   });
-
+  $('#indefinitelyYes').click(function(){
+    $('#hideDate').hide();
+  });
+$('#paymentOnly').click(function(){
+  $('#repDates').show("fast");
+});
+$('#dateNo').click(function(){
+  $('#hideDate').show("fast");
+});
   var queryString = new Array();
 $(function () {
     if (queryString.length == 0) {
