@@ -62,9 +62,6 @@ app.get('/email-mental-health-approved', function (request, response) {
 app.get('/email-incap-submitted', function (request, response) {
   response.render('email/pages/email-incap-submitted');
 });
-app.get('/email-dva-expire-claim', function (request, response) {
-  response.render('email/pages/email-dva-expire-claim');
-});
 /**
 Unauthenticated space
 */
@@ -195,18 +192,6 @@ app.get('/timeout', function (request, response) {
 /**
   Authenticated space
 */
-
-/* DEV OF NEW DASHBOARD */
-
-app.get('/auth-concept', function (request, response) {
-  response.render('auth/index-db-concept', {
-    main_nav_active: 'home'
-  });
-});
-
-/* ==================== */
-
-
 app.get('/auth', function (request, response) {
   response.render('auth/index', {
     main_nav_active: 'home'
@@ -420,20 +405,8 @@ app.get('/travel-home', function (request, response) {
 app.get('/travel-expense-start', function (request, response) {
   response.render('auth/travel/pages/travel-expense-start');
 });
-app.get('/travel-expense-old', function (request, response) {
-  response.render('auth/travel/pages/travel-expense-old');
-});
 app.get('/travel-expense1', function (request, response) {
   response.render('auth/travel/pages/travel-expense1');
-});
-app.get('/travel-expense2', function (request, response) {
-  response.render('auth/travel/pages/travel-expense2');
-});
-app.get('/travel-expense3', function (request, response) {
-  response.render('auth/travel/pages/travel-expense3');
-});
-app.get('/travel-expense-medical', function (request, response) {
-  response.render('auth/travel/pages/travel-expense-medical');
 });
 app.get('/test-addanother', function (request, response) {
   response.render('auth/travel/pages/test-addanother');
@@ -663,23 +636,8 @@ app.get('/sp-review', function (request, response) {
     main_nav_active: 'claims'
   });
 });
-app.get('/sp-review-income-assets', function (request, response) {
-  response.render('auth/claim/pages/sp-review-income-assets', {
-    main_nav_active: 'claims'
-  });
-});
-app.get('/sp-submitted', function (request, response) {
-  response.render('auth/claim/pages/sp-submitted', {
-    main_nav_active: 'claims'
-  });
-});
 app.get('/sp-my-details', function (request, response) {
   response.render('auth/claim/pages/sp-my-details', {
-    main_nav_active: 'claims'
-  });
-});
-app.get('/viewServicePensionDetail', function (request, response) {
-  response.render('auth/claim/pages/viewServicePensionDetail', {
     main_nav_active: 'claims'
   });
 });
@@ -733,11 +691,6 @@ app.get('/sp-bank-details', function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
-app.get('/sp-c0', function (request, response) {
-  response.render('auth/claim/pages/sp-c0', {
-    main_nav_active: 'claims'
-  });
-});
 app.get('/sp-c1', function (request, response) {
   response.render('auth/claim/pages/sp-c1', {
     main_nav_active: 'claims'
@@ -1302,40 +1255,6 @@ app.get('/styleguide-currency', function (request, response) {
   response.render('styleguide/pages/currency');
 });
 
-/* Nom Rep */
-app.get('/nr-before-start-rep', function (request, response) {
-  response.render('auth/nomrep/nr-before-start-rep');
-});
-app.get('/nr-veteran-details', function (request, response) {
-  response.render('auth/nomrep/nr-veteran-details');
-});
-app.get('/nr-role-rep', function (request, response) {
-  response.render('auth/nomrep/nr-role-rep');
-});
-app.get('/nr-review-rep', function (request, response) {
-  response.render('auth/nomrep/nr-review-rep');
-});
-app.get('/nr-submitted-rep', function (request, response) {
-  response.render('auth/nomrep/nr-submitted-rep');
-});
-app.get('/nr-before-start-client', function (request, response) {
-  response.render('auth/nomrep/nr-before-start-client');
-});
-app.get('/nr-rep-details', function (request, response) {
-  response.render('auth/nomrep/nr-rep-details');
-});
-app.get('/nr-role-client', function (request, response) {
-  response.render('auth/nomrep/nr-role-client');
-});
-app.get('/nr-review-client', function (request, response) {
-  response.render('auth/nomrep/nr-review-client');
-});
-app.get('/nr-submitted-client', function (request, response) {
-  response.render('auth/nomrep/nr-submitted-client');
-});
-app.get('/nr-upload-client', function (request, response) {
-  response.render('auth/nomrep/nr-upload-client');
-});
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
