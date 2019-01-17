@@ -6,6 +6,7 @@
     <meta content="width=device-width" name="viewport">
     <title>Service Pension - Payment details | MyService</title>
     <link href="docs/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/font/fontawesome/css/all.css">
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -74,7 +75,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-offset-2 col-md-8">
                     <div class="margin-above--extra margin-below--extra">
                         <!-- Page content -->
                         <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
@@ -124,11 +125,11 @@
                                             <span>No</span>
                                         </label>
                                     </div>
+                                      <div class="uikit-page-alerts" role="alert" id="partner-payment-explainer" style="display: none;">
+                                        Your partner will be able to nominate their account details at a later stage in the application process.
+                                    </div>
                                 </fieldset>
                                 <div id="partner-account-details">
-                                    <div class="bank-details-container">
-                                        <% include ../../../global/partials/bank-account-details.ejs %>
-                                    </div>
                                     <fieldset>
                                         <legend class="legend-label">Does your partner have a tax file number?</legend>
                                         <div class="radio-toggle">
@@ -151,6 +152,9 @@
                                     <p>Your partner will need to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a> to avoid payment being taxed at a higher rate</p>
                                 </div>
                             </div>
+                             <div id="save-and-next" class="margin-above--large" style="display: none;">
+                            <p>Choose <b>save and next</b> to continue.</p>
+                        </div>
                         </div>
                     </div>
                 </div>
@@ -243,11 +247,13 @@ $(Document).ready(function() {
     });
 
     $("#partner-account-yes").click(function() {
-        $("#partner-account-details").show("fast");
+        $("#partner-payment-explainer").hide("fast");
+        $("#save-and-next").show("fast");
     });
 
     $("#partner-account-no").click(function() {
-        $("#partner-account-details").hide("fast");
+        $("#partner-payment-explainer").show("fast");
+        $("#save-and-next").show("fast");
     });
 });
 </script>

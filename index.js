@@ -733,6 +733,11 @@ app.get('/sp-bank-details', function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
+app.get('/sp-c0', function (request, response) {
+  response.render('auth/claim/pages/sp-c0', {
+    main_nav_active: 'claims'
+  });
+});
 app.get('/sp-c1', function (request, response) {
   response.render('auth/claim/pages/sp-c1', {
     main_nav_active: 'claims'
@@ -1297,6 +1302,40 @@ app.get('/styleguide-currency', function (request, response) {
   response.render('styleguide/pages/currency');
 });
 
+/* Nom Rep */
+app.get('/nr-before-start-rep', function (request, response) {
+  response.render('auth/nomrep/nr-before-start-rep');
+});
+app.get('/nr-veteran-details', function (request, response) {
+  response.render('auth/nomrep/nr-veteran-details');
+});
+app.get('/nr-role-rep', function (request, response) {
+  response.render('auth/nomrep/nr-role-rep');
+});
+app.get('/nr-review-rep', function (request, response) {
+  response.render('auth/nomrep/nr-review-rep');
+});
+app.get('/nr-submitted-rep', function (request, response) {
+  response.render('auth/nomrep/nr-submitted-rep');
+});
+app.get('/nr-before-start-client', function (request, response) {
+  response.render('auth/nomrep/nr-before-start-client');
+});
+app.get('/nr-rep-details', function (request, response) {
+  response.render('auth/nomrep/nr-rep-details');
+});
+app.get('/nr-role-client', function (request, response) {
+  response.render('auth/nomrep/nr-role-client');
+});
+app.get('/nr-review-client', function (request, response) {
+  response.render('auth/nomrep/nr-review-client');
+});
+app.get('/nr-submitted-client', function (request, response) {
+  response.render('auth/nomrep/nr-submitted-client');
+});
+app.get('/nr-upload-client', function (request, response) {
+  response.render('auth/nomrep/nr-upload-client');
+});
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
