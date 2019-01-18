@@ -1327,6 +1327,9 @@ app.get('/nr-submitted-client', function (request, response) {
 app.get('/nr-upload-client', function (request, response) {
   response.render('auth/nomrep/nr-upload-client');
 });
+app.get('/blue-team-test', function (request, response) {
+  response.render('auth/nomrep/blue-team-test');
+});
 
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
