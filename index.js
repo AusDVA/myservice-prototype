@@ -89,6 +89,11 @@ app.get('/index-claims', function (request, response) {
     main_nav_active: 'home'
   });
 });
+app.get('/future', function (request, response) {
+  response.render('auth/dashboard/index-future', {
+    main_nav_active: 'home'
+  });
+});
 app.get('/index-timeout', function (request, response) {
   response.render('auth/dashboard/index-timeout', {
     main_nav_active: 'home'
