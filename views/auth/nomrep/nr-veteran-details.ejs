@@ -45,33 +45,13 @@
                       </div>
                   <!-- <input id="ddlTechnolgy" name="Technology" class="amount uikit-text-input input-half ng-invalid ng-dirty ng-touched" type="text"> -->
 
-                  <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                    <label class="uikit-text-input__label" for="Input field">Do you have the client's DVA file number?</label>
-                      <fieldset>
-                        <legend class="legend-label" id="question_id21c">
-                        </legend>
-                        <div class="radio-toggle">
-                          <label class="on label-left">
-                            <input id="fileNumberYes" type="radio" name="fileNumber" value="yes">
-                            <span>Yes</span>
-                          </label>
-                          <label class="off label-right">
-                            <input id="fileNumberNo" type="radio" name="fileNumber" value="no">
-                            <span>No</span>
-                          </label>
-                        </div>
-                      </fieldset>
+
+                  <div class="form-group" id="fileNumbergroup">
+                    <label class="uikit-text-input__label" for="Input field">DVA file number <span class="hint">(if applicable)</span></label>
+                      <input class="uikit-text-input input-half" name="Input field" id="fileNumber" type="text" value="" aria-required="true">
                   </div>
 
-                  <div class="form-group" id="yesFileNumberChecked">
-                    <label class="uikit-text-input__label" for="Input field">Client's DVA file number</label>
-                      <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" aria-required="true">
-                  </div>
-
-
-
-
-                <div id="hideAllForm" style="display:none;">
+                  <div id="hideAllForm" style="display:none;">
                 <div class="form-group">
 
 
@@ -140,34 +120,14 @@
       $('#hideAllForm').show("fast");
     });
 
-    // $(function () {
-    //         $("#btnQueryString").bind("click", function () {
-    //             var url = "nr-role-rep?name=" + "&technology=" + encodeURIComponent($("#firstName").val() + " " + encodeURIComponent($("#lastName").val()));
-    //             window.location.href = url;
-    //         });
-    //     });
+    $('#btnNext').click(function(){
+       if($.trim($('#fileNumber').val()) == ''){
+          window.location.href = '/nr-veteran-details2';
+       } else {
+         window.location.href= '/nr-role-rep';
+       }
+    });
 
-    var fileYesClicked = false;
-    var fileNoClicked = false;
-    $('#fileNumberYes').click(function()
-    {
-        fileYesClicked = true;
-    });
-    $('#fileNumberNo').click(function()
-    {
-      fileNoClicked = true;
-    });
-    $('#btnNext').click(function()
-    {
-        if (fileNoClicked)
-        {
-            window.location.href = '/nr-veteran-details2';
-        }
-        else if (fileYesClicked)
-        {
-            window.location.href= '/nr-role-rep';
-        }
-    });
 
   </script>
 
