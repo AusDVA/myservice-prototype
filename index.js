@@ -383,6 +383,22 @@ app.get('/panel-feedbacksubmitting', function (request, response) {
   response.render('auth/claim/pages/panel-feedbacksubmitting');
 });
 
+
+
+
+
+
+/* Representative Agreements */
+app.get('/rep-agreements', function (request, response) {
+  response.render('auth/claim/pages/rep-agreements', {
+    main_nav_active: 'claims'
+  });
+});
+
+
+
+
+
 /* Claims Page */
 app.get('/claims', function (request, response) {
   response.render('auth/claim/pages/claims', {
