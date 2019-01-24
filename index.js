@@ -1330,7 +1330,9 @@ app.get('/nr-upload-client', function (request, response) {
 app.get('/blue-team-test', function (request, response) {
   response.render('auth/nomrep/blue-team-test');
 });
-
+app.get('/nr-client-consent', function (request, response) {
+  response.render('auth/nomrep/nr-client-consent');
+});
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
   response.render('myaccount/index');
