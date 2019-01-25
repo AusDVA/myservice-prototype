@@ -211,6 +211,15 @@ app.get('/index-claims', function (request, response) {
   });
 });
 
+
+app.get('/rep_agreements', function (request, response) {
+  response.render('auth/rep_agreements', {
+    main_nav_active: 'home'
+  });
+});
+
+
+
 /* temporary only */
 app.get('/index-claims-alt-icons', function (request, response) {
   response.render('auth/index-claims-alt-icons', {
