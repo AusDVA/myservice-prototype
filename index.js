@@ -212,8 +212,8 @@ app.get('/index-claims', function (request, response) {
 });
 
 
-app.get('/rep_agreements', function (request, response) {
-  response.render('auth/rep_agreements', {
+app.get('/rep-agreements', function (request, response) {
+  response.render('auth/rep-agreements', {
     main_nav_active: 'home'
   });
 });
