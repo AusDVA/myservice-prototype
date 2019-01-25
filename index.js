@@ -108,6 +108,11 @@ app.get('/verify-details', function (request, response) {
   response.render('auth/dashboard/verify-details');
 });
 
+app.get('/rep-agreements', function (request, response) {
+  response.render('auth/dashboard/rep-agreements', {
+    main_nav_active: 'home'
+  });
+});
 
 /* Needs Assessment */
 
