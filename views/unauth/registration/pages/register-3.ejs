@@ -227,26 +227,36 @@
             </fieldset>
 
             <!-- Immigration card -->
-            <fieldset class="id-types id-immigration" style="display: none">
+            <fieldset class="id-immigration" style="display: none;">
               <legend>Immigration card</legend>
-
-              <div id="immigration-card-sample" class="immigration-card-sample">
-                <img src="docs/images/card-sample-immi.jpg" alt="Sample immigration card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px;  height: auto; max-width: 345px;" />
-              </div>
-
-              <!-- <div class="form-group">
-                <div id="given-name-input">
-                  <label class="uikit-text-input__label margin-above" for="given-name">Given Name(s)</label>
-                  <input class="uikit-text-input" name="given-name" id="given-name" type="text" value="" maxlength="49" style="max-width: 22em;">
-                </div>
-              </div>
-
               <div class="form-group">
-                <div id="family-name-input">
-                  <label class="uikit-text-input__label margin-above" for="family-name">Family Name</label>
-                  <input class="uikit-text-input" name="family-name" id="family-name" type="text" value="" maxlength="49" style="max-width: 22em;">
+                <label class="uikit-text-input__label" for="immi-type">What type of immigration card do you have?</label>
+                <select class="uikit-text-input input-half" name="immi-type" id="immi-type" type="text" value="">
+                  <option selected value="none">-- Select immigration card --</option>
+                  <option value="evidence-of-immigration-status-card">Evidence of Immigration Status</option>
+                  <option value="evidence-of-permanent-resident-card">Permanent Resident Evidence</option>
+                  <option value="residence-determination-card">Residence Determination</option>
+                  <option value="australian-migration-status-card">Australian Migration Status</option>
+                </select>
+              </div>
+
+              <div class="immi-card-sample-images" style="display: none">
+                <div id="evidence-of-immigration-status-card-sample" class="evidence-of-immigration-status-card-sample">
+                  <img src="docs/images/evidence-of-immigration-status-card.jpg" alt="Sample immigration card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px;  height: auto; max-width: 345px;" />
                 </div>
-              </div> -->
+
+                <div id="evidence-of-permanent-resident-sample" class="evidence-of-permanent-resident-card-sample">
+                  <img src="docs/images/evidence-of-permanent-resident-card.jpg" alt="Sample immigration card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px;  height: auto; max-width: 345px;" />
+                </div>
+
+                <div id="residence-determination-card-sample" class="residence-determination-card-sample">
+                  <img src="docs/images/residence-determination-card.jpg" alt="Sample immigration card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px;  height: auto; max-width: 345px;" />
+                </div>
+
+                <div id="australian-migration-status-card-sample" class="australian-migration-status-card-sample">
+                  <img src="docs/images/australian-migration-status-card.jpg" alt="Sample immigration card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px;  height: auto; max-width: 345px;" />
+                </div>
+              </div>
 
               <div class="form-group">
                 <div id="immiCard-number-input">
@@ -265,20 +275,6 @@
                 <img src="docs/images/card-sample-visa.jpg" alt="Sample visa card" class="float-image-left" style="margin-right: 0; padding-bottom: 51px; height: auto; max-width: 345px;" />
               </div>
 
-              <!-- <div class="form-group">
-                <div id="given-name-input">
-                  <label class="uikit-text-input__label margin-above" for="crn">Given Name(s)</label>
-                  <input class="uikit-text-input" name="given-name" id="given-name" type="text" value="" maxlength="49" style="max-width: 22em;">
-                </div>
-              </div>
-
-              <div class="form-group">
-                <div id="family-name-input">
-                  <label class="uikit-text-input__label margin-above" for="crn">Family Name</label>
-                  <input class="uikit-text-input" name="given-name" id="given-name" type="text" value="" maxlength="49" style="max-width: 22em;">
-                </div>
-              </div> -->
-
               <div class="form-group">
                 <div id="passport-number-input">
                   <label class="uikit-text-input__label margin-above" for="crn">Passport Number</label>
@@ -286,12 +282,7 @@
                 </div>
               </div>
 
-              <!-- <div class="form-group">
-                <div id="country-of-issue-input">
-                  <label class="uikit-text-input__label margin-above" for="country-of-issue">Country of issue</label>
-                  <input class="uikit-text-input" name="immiCard-number" id="country-of-issue" type="text" value="" style="max-width: 22em;">
-                </div>
-              </div> -->
+
 
             </fieldset>
 
@@ -475,9 +466,7 @@
       var card_choice = $(this).children("option:selected").val();
 
       $('.concession-card-images').show();
-      console.log('a');
       $('.concession-card-images img').hide();
-      console.log('b');
 
       if (card_choice == 'pensioner-card') {
         $('.concession-card-images img').hide();
@@ -493,6 +482,33 @@
       }
       if (card_choice == 'none') {
         $('.concession-card-images, .concession-card-images img').hide();
+      }
+
+    });
+
+    // Choose immi card type image to display
+    $('#immi-type').change(function () {
+
+      var card_choice = $(this).children("option:selected").val();
+
+      if (card_choice == 'evidence-of-immigration-status-card') {
+        $('.immi-card-sample-images img').hide();
+        $('.immi-card-sample-images, .evidence-of-immigration-status-card-sample, .evidence-of-immigration-status-card-sample img').show();
+      }
+      if (card_choice == 'evidence-of-permanent-resident-card') {
+        $('.immi-card-sample-images img').hide();
+        $('.immi-card-sample-images, .evidence-of-permanent-resident-card-sample, .evidence-of-permanent-resident-card-sample img').show();
+      }
+      if (card_choice == 'residence-determination-card') {
+        $('.immi-card-sample-images img').hide();
+        $('.immi-card-sample-images, .residence-determination-card-sample, .residence-determination-card-sample img').show();
+      }
+      if (card_choice == 'australian-migration-status-card') {
+        $('.immi-card-sample-images img').hide();
+        $('.immi-card-sample-images, .australian-migration-status-card-sample, .australian-migration-status-card-sample img').show();
+      }
+      if (card_choice == 'none') {
+        $('.immi-card-sample-images, .immi-card-sample-images img').hide();
       }
 
     });
