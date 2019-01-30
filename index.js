@@ -109,7 +109,19 @@ app.get('/verify-details', function (request, response) {
 });
 
 app.get('/rep-agreements', function (request, response) {
-  response.render('auth/dashboard/rep-agreements', {
+  response.render('auth/dashboard/rep-agreements-all-statuses', {
+    main_nav_active: 'home'
+  });
+});
+
+app.get('/rep-agreements-clean', function (request, response) {
+  response.render('auth/dashboard/rep-agreements-cleanskin', {
+    main_nav_active: 'home'
+  });
+});
+
+app.get('/rep-agreements-realistic', function (request, response) {
+  response.render('auth/dashboard/rep-agreements-realistic', {
     main_nav_active: 'home'
   });
 });
