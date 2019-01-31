@@ -575,6 +575,19 @@ app.get("/incap-ineligible", function(request, response) {
   });
 });
 
+/* incap ongoing */
+app.get('/incap-annual-part-a', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-b', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-b', {
+    main_nav_active: 'claims'
+  });
+});
+
 /* Service pension claim */
 app.get("/sp-before-start", function(request, response) {
   response.render("auth/claim/pages/sp-before-start", {
