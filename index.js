@@ -281,6 +281,12 @@ app.get('/profile-history-2', function (request, response) {
   });
 });
 
+app.get('/profile-relationships', function (request, response) {
+  response.render('auth/profile-relationships', {
+    main_nav_active: 'profile'
+  });
+});
+
 app.get('/profile-assets', function (request, response) {
   response.render('auth/profile-assets', {
     main_nav_active: 'profile'
