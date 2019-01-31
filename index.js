@@ -1373,6 +1373,15 @@ app.get('/nr-manage-rep', function (request, response) {
 app.get('/nr-manage-client', function (request, response) {
   response.render('auth/nomrep/nr-manage-client');
 });
+app.get('/nr-agreements-realistic', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-realistic');
+});
+app.get('/nr-agreements-clean', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-clean');
+});
+app.get('/nr-agreements', function (request, response) {
+  response.render('auth/nomrep/nr-agreements');
+});
 /* MyAccount */
 app.get("/myaccount", function(request, response) {
   response.render("myaccount/index");
