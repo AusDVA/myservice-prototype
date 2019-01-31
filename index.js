@@ -1297,6 +1297,15 @@ app.get('/nr-before-start-rep', function (request, response) {
 app.get('/nr-veteran-details', function (request, response) {
   response.render('auth/nomrep/nr-veteran-details');
 });
+app.get('/nr-client-details', function (request, response) {
+  response.render('auth/nomrep/nr-client-details');
+});
+app.get('/nr-client-details2', function (request, response) {
+  response.render('auth/nomrep/nr-client-details2');
+});
+app.get('/nr-rep-details2', function (request, response) {
+  response.render('auth/nomrep/nr-rep-details2');
+});
 app.get('/nr-veteran-details2', function (request, response) {
   response.render('auth/nomrep/nr-veteran-details2');
 });
@@ -1332,6 +1341,30 @@ app.get('/blue-team-test', function (request, response) {
 });
 app.get('/nr-client-consent', function (request, response) {
   response.render('auth/nomrep/nr-client-consent');
+});
+app.get('/nr-rep-consent', function (request, response) {
+  response.render('auth/nomrep/nr-rep-consent');
+});
+app.get('/nr-consent-approval', function (request, response) {
+  response.render('auth/nomrep/nr-consent-approval');
+});
+app.get('/nr-consent-rejected', function (request, response) {
+  response.render('auth/nomrep/nr-consent-rejected');
+});
+app.get('/nr-view-rep', function (request, response) {
+  response.render('auth/nomrep/nr-view-rep');
+});
+app.get('/nr-view-client', function (request, response) {
+  response.render('auth/nomrep/nr-view-client');
+});
+app.get('/nr-upload-rep', function (request, response) {
+  response.render('auth/nomrep/nr-upload-rep');
+});
+app.get('/nr-manage-rep', function (request, response) {
+  response.render('auth/nomrep/nr-manage-rep');
+});
+app.get('/nr-manage-client', function (request, response) {
+  response.render('auth/nomrep/nr-manage-client');
 });
 /* MyAccount */
 app.get('/myaccount', function (request, response) {
