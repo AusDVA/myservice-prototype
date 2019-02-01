@@ -1395,6 +1395,12 @@ app.get('/nr-agreements-clean', function (request, response) {
 app.get('/nr-agreements', function (request, response) {
   response.render('auth/nomrep/nr-agreements');
 });
+app.get('/nr-edit-rep', function (request, response) {
+  response.render('auth/nomrep/nr-edit-rep');
+});
+app.get('/nr-edit-client', function (request, response) {
+  response.render('auth/nomrep/nr-edit-client');
+});
 /* MyAccount */
 app.get("/myaccount", function(request, response) {
   response.render("myaccount/index");
