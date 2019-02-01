@@ -286,6 +286,11 @@ app.get("/profile-relationships", function(request, response) {
     main_nav_active: "profile"
   });
 });
+app.get("/profile-relationships-none", function(request, response) {
+  response.render("auth/profile-relationships-none", {
+    main_nav_active: "profile"
+  });
+});
 
 app.get("/profile-assets", function(request, response) {
   response.render("auth/profile-assets", {
