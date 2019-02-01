@@ -104,13 +104,13 @@
                 <tbody>
 
 
-                  <tr>
+                  <tr id="hideMe">
                     <td>
                       <p class="status-icon status-in-progress">Liz Mills <ul class="roles">
                           <li class="enquire">Enquire</li>
 
                         </ul>
-                        <p class="details">In progress <em> 10 January 2019</em></span></p>
+                        <p class="details">In progress <em> 10 January 2019</em></p>
                     </td>
 
                     <td class="widget-actions">
@@ -128,40 +128,12 @@
                           <li class="act">Act</li>
                           <li class="receive-payment">Receive Payment</li>
                         </ul>
-                        <p class="details">Approved <em> 20 July 2017</em></span></p>
+                        <p class="details">Approved <em> 20 July 2017</em></p>
                     </td>
 
                     <td class="widget-actions"><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'nr-manage-rep'">Manage</button>
                     </td>
                   </tr>
-
-
-                  <!-- <tr>
-                    <td>
-                      <p class="status-icon status-incomplete">Jane Benson <ul class="roles">
-                          <li class="enquire">Enquire</li>
-                          <li class="act">Act</li>
-                          <li class="act-health-only">Act (health only)</li>
-                          <li class="receive-payment">Receive Payment</li>
-                        </ul>
-                        <p class="details">Incomplete <em> 10 January 2019</em></span></p>
-                    </td>
-
-                    <td class="widget-actions"><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claim1'">Resume</button> <button class="uikit-btn small uikit-btn--tertiary"
-                        onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button></td>
-                  </tr> -->
-
-                  <!-- <tr class="show-instance-withdrawn">
-                    <td>
-                      <p class="status-icon status-withdrawn">Harold Townsend <ul class="roles">
-                          <li class="enquire">Enquire</li>
-                        </ul>
-                        <p class="details">Withdrawn <em> 10 January 2019</em></span></p>
-                    </td>
-
-                    <td class="widget-actions"><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
-                    </td>
-                  </tr> -->
                 </tbody>
               </table>
               <!-- end who represents me table -->
@@ -190,7 +162,7 @@
                       <p class="status-icon status-approved">Molly Sampson <ul class="roles">
                           <li class="enquire">Enquire</li>
                         </ul>
-                        <p class="details">Approved <em> 15 March 2018</em></span></p>
+                        <p class="details">Approved <em> 15 March 2018</em></p>
                     </td>
 
                     <td class="widget-actions"><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'nr-manage-client'">Manage</button>
@@ -214,7 +186,7 @@
               <p>Are you sure you want to withdraw this application?</p>
               <div class="modal-buttons">
                 <!-- <button class="uikit-btn" onclick="window.location.href = '#modal-close'" id="deleteFile">Delete file</button> -->
-                <button class="uikit-btn" onclick="window.location.href = '/nr-agreements-realistic'" id="">Yes, withdraw representation</button>
+                <button class="uikit-btn" onclick="window.location.href = '#yesHide'" id="yesHide">Yes, withdraw representation</button>
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
               </div>
             </div>
@@ -231,92 +203,10 @@
 <script>
 
   $(document).ready(function () {
-    localStorage.clear();
-
-    var user = getUrlParameter('user');
-    if (user) {
-      localStorage.setItem('user', user);
-    }
-
-    $("#claims").hide();
-    $("#qs-claim").hide();
-    $("#nlhc-claim-approved").hide();
-    $("#lsq-claim").hide();
-    $("#lsq-claim-submitted").hide();
-
-    if (localStorage.getItem('user') === 'QSuser') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#nlhc-claim-approved").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#qs-claim").show();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'LSQuser') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#lsq-claim").show();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'LSQuser-submitted') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").show();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'NLHCuser-approved') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#nlhc-claim-approved").show();
-      $("#nlhc-access").hide();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else {
-      $("#no-claims").show();
-      $("#claims").hide();
-      $("#qs-claim").hide();
-    }
+    $('#yesHide').click(function(){
+      $('#hideMe').hide("fast");
+    });
   });
-
-  $(document).ready(function () {
-    const hoverContainer = document.getElementsByClassName('hover-container')[0]
-    const hoverElements = document.getElementsByClassName('hover-element')
-
-    Array.prototype.forEach.call(hoverElements, hoverElement => {
-      hoverElement.addEventListener('mouseover', (event) => {
-        hoverElement.classList.add('hover-element--active')
-      })
-
-      hoverElement.addEventListener('mouseout', (event) => {
-        hoverElement.classList.remove('hover-element--active')
-      })
-    })
-
-    hoverContainer.addEventListener('mouseover', (event) => {
-      if (event.target !== hoverContainer) {
-        hoverContainer.classList.add('hover-container--faded')
-      }
-    })
-
-    hoverContainer.addEventListener('mouseout', (event) => {
-      hoverContainer.classList.remove('hover-container--faded')
-    })
-  });
-
 </script>
 
 </html>
