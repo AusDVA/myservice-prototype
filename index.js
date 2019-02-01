@@ -588,11 +588,23 @@ app.get('/incap-annual-part-a-3', function (request, response) {
   });
 });
 
-// app.get('/incap-annual-part-b', function (request, response) {
-//   response.render('auth/claim/pages/incap-annual-review-part-b', {
-//     main_nav_active: 'claims'
-//   });
-// });
+app.get('/incap-annual-part-a-4', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-4', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-5', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-5', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-6', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-6', {
+    main_nav_active: 'claims'
+  });
+});
 
 /* Service pension claim */
 app.get('/sp-before-start', function (request, response) {
