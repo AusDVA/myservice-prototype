@@ -582,7 +582,11 @@ app.get('/incap-annual-part-a-2', function (request, response) {
   });
 });
 
-
+app.get('/incap-annual-part-a-3', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-3', {
+    main_nav_active: 'claims'
+  });
+});
 
 // app.get('/incap-annual-part-b', function (request, response) {
 //   response.render('auth/claim/pages/incap-annual-review-part-b', {
