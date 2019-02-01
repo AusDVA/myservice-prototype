@@ -575,6 +575,19 @@ app.get("/incap-ineligible", function(request, response) {
   });
 });
 
+/* incap ongoing */
+app.get('/incap-annual-part-a', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-b', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-b', {
+    main_nav_active: 'claims'
+  });
+});
+
 /* Service pension claim */
 app.get("/sp-before-start", function(request, response) {
   response.render("auth/claim/pages/sp-before-start", {
@@ -1304,8 +1317,17 @@ app.get("/nr-before-start-rep", function(request, response) {
 app.get("/nr-veteran-details", function(request, response) {
   response.render("auth/nomrep/nr-veteran-details");
 });
-app.get("/nr-veteran-details2", function(request, response) {
-  response.render("auth/nomrep/nr-veteran-details2");
+app.get('/nr-client-details', function (request, response) {
+  response.render('auth/nomrep/nr-client-details');
+});
+app.get('/nr-client-details2', function (request, response) {
+  response.render('auth/nomrep/nr-client-details2');
+});
+app.get('/nr-rep-details2', function (request, response) {
+  response.render('auth/nomrep/nr-rep-details2');
+});
+app.get('/nr-veteran-details2', function (request, response) {
+  response.render('auth/nomrep/nr-veteran-details2');
 });
 app.get("/nr-role-rep", function(request, response) {
   response.render("auth/nomrep/nr-role-rep");
@@ -1339,6 +1361,39 @@ app.get("/blue-team-test", function(request, response) {
 });
 app.get("/nr-client-consent", function(request, response) {
   response.render("auth/nomrep/nr-client-consent");
+});
+app.get('/nr-rep-consent', function (request, response) {
+  response.render('auth/nomrep/nr-rep-consent');
+});
+app.get('/nr-consent-approval', function (request, response) {
+  response.render('auth/nomrep/nr-consent-approval');
+});
+app.get('/nr-consent-rejected', function (request, response) {
+  response.render('auth/nomrep/nr-consent-rejected');
+});
+app.get('/nr-view-rep', function (request, response) {
+  response.render('auth/nomrep/nr-view-rep');
+});
+app.get('/nr-view-client', function (request, response) {
+  response.render('auth/nomrep/nr-view-client');
+});
+app.get('/nr-upload-rep', function (request, response) {
+  response.render('auth/nomrep/nr-upload-rep');
+});
+app.get('/nr-manage-rep', function (request, response) {
+  response.render('auth/nomrep/nr-manage-rep');
+});
+app.get('/nr-manage-client', function (request, response) {
+  response.render('auth/nomrep/nr-manage-client');
+});
+app.get('/nr-agreements-realistic', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-realistic');
+});
+app.get('/nr-agreements-clean', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-clean');
+});
+app.get('/nr-agreements', function (request, response) {
+  response.render('auth/nomrep/nr-agreements');
 });
 /* MyAccount */
 app.get("/myaccount", function(request, response) {
