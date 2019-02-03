@@ -129,8 +129,8 @@
                       <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" aria-label="2 digit day" /> / <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" aria-label="2 digit month" /> / <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year"/>
                     </div>
                     <hr />
-                    <div id="buttonset2" class="form-group margin-above--none">
-                      <button class="uikit-btn" id="dependent-add">&nbsp;&nbsp;&nbsp; Add &nbsp;&nbsp;&nbsp;</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary" id="dependent-cancel">&nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;</button>
+                    <div id="dependent-add-cancel" class="form-group margin-above--none">
+                      <button class="uikit-btn" id="dependent-add" disabled>&nbsp;&nbsp;&nbsp; Add &nbsp;&nbsp;&nbsp;</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary"  id="dependent-cancel">&nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;</button>
                     </div>
                     <!--input name="birthday" id="DoB" type="date" onchange="checkAge()" maxlength="10" style="max-width: 15em;" required>
                     <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()" id="checkAgedep">Submit</button-->
@@ -223,11 +223,14 @@
                   <div class="uikit-page-alerts margin-above--large" id="child-birth-cert">
                     <p>You will need to attach a copy of your child's birth certificate in the documents section.</p>
                   </div>
-                  <div id="buttonset1" class="form-group margin-above--extra">
+                  <div id="buttonset1" class="form-group margin-above--none">
+                      <button class="uikit-btn" id="saveDetails1">&nbsp;&nbsp;&nbsp; Add &nbsp;&nbsp;&nbsp;</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary"  id="cancelDetails1">&nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                  <!-- <div id="buttonset1" class="form-group margin-above--extra">
                     <button class="uikit-btn" id="saveDetails1">
                       &nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;
                     </button>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- <div id="no-dob">
                   <div class="uikit-page-alerts" role="alert">
@@ -265,6 +268,27 @@
       $(Document).ready(function() {
         hideAll();
 
+        //cancel
+        $('#cancelDetails1').click(function() {
+        $('html, body').animate({
+            scrollTop: $("#main-content").offset().top
+        }, 1000);
+        resetDates();
+        hideAll();
+        $("#add-child").show();
+        $("#dependent-explainer").show();
+    });
+
+    $('#dependent-cancel').click(function() {
+        $('html, body').animate({
+            scrollTop: $("#main-content").offset().top
+        }, 1000);
+        hideAll();
+        resetDates();
+        $("#add-child").show();
+        $("#dependent-explainer").show();
+      });
+
         // initiate add
 
         $("#add-child").click(function() {
@@ -272,6 +296,7 @@
           resetDates();
           $("#sp-dependant-details").show("fast");
           $("#saveDetails1").hide();
+          $("#cancelDetails1").hide();   
           $("#dependent-explainer").hide();
           $("#add-child").hide();
         });
@@ -280,7 +305,9 @@
           hideAll();
           resetDates();
           $("#sp-dependant-details").show("fast");
-          $("#saveDetails1").hide();
+          $("#saveDetails1").hide();   
+          $("#cancelDetails1").hide();    
+          $("#dependent-add-cancel").show("fast");
         });
 
         // questions
@@ -317,7 +344,9 @@
               $("#default").show();
               $("#under-4").hide();
               $("#saveDetails1").show();
+              $("#cancelDetails1").show();
               $("#child-birth-cert").show("fast");
+              $("#dependent-add-cancel").hide();
             }
             if (
               localStorage.getItem("studentAge") > 16 &&
@@ -329,13 +358,16 @@
               $("#default").show();
               $("#under-4").hide();
               $("#saveDetails1").show();
+              $("#cancelDetails1").show();
               $("#child-birth-cert").show("fast");
+              $("#dependent-add-cancel").hide();
             } else if (localStorage.getItem("studentAge") > 22) {
               $("#over-16").hide();
               $("#under-16").hide();
               $("#over-22").show();
               $("#default").hide();
               $("#under-4").hide();
+              $("#dependent-add-cancel").hide();
             }
           }
         });
@@ -403,6 +435,7 @@
         // $('#checkAgedep').click(function() {
         //     $("#saveDetails1").show();
         // });
+        
 
         function hideAll() {
           $("#add-another").hide();
