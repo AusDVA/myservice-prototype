@@ -570,8 +570,8 @@ app.get('/incap-ineligible', function (request, response) {
 });
 
 /* incap annual review ongoing */
-app.get('/incap-annual-part-a', function (request, response) {
-  response.render('auth/claim/pages/incap-annual-review-part-a', {
+app.get('/incap-annual-part-a-1', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-1', {
     main_nav_active: 'claims'
   });
 });
