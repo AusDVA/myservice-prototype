@@ -39,26 +39,28 @@
   /* Clicks on "delete" on full card */
 
   function removeSummary(cardType) {
+      captureUserList();
       hideAll();
       myDiv = "#" + cardType + "-summary";
       $(myDiv).hide();
       $('html, body').animate({
           scrollTop: $("#user-list").offset().top
       }, 1000);
-      captureUserList();
+
       updateUserList();
   };
 
   /* Clicks on "cancel" on full card */
 
-  // function cancelCard(cardType) {
-  //     // captureUserList();
-  //     // hideAll();
-  //     // $('html, body').animate({
-  //     //     scrollTop: $("#user-list").offset().top
-  //     // }, 1000);
-  //     // updateUserList();
-  // }
+  function cancelCard(cardType) {
+      console.log(cardType)
+      // captureUserList();
+      // hideAll();
+      // $('html, body').animate({
+      //     scrollTop: $("#user-list").offset().top
+      // }, 1000);
+      // updateUserList();
+  }
 
   /* Update list after interaction */
 
@@ -80,7 +82,6 @@
           $("#add-anchor-link-return").hide();
       }
       $("#add-options").show();
-      console.log("dfgdfgfdgdfg")
   }
 
   /* Generic hide all */
