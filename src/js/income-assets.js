@@ -93,6 +93,14 @@ function hideAll() {
     $("#cash-held-summary").hide();
     $("#cash-held-edit").hide();
 
+    $("#money-loaned-start").hide();
+    $("#money-loaned-summary").hide();
+    $("#money-loaned-edit").hide();
+
+    $("#bonds-and-debentures-start").hide();
+    $("#bonds-and-debentures-summary").hide();
+    $("#bonds-and-debentures-edit").hide();
+
     $("#add-options").hide();
     $("#add-anchor-link-start").hide();
     $("#add-anchor-link-return").hide();
