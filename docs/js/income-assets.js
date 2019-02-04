@@ -13,7 +13,12 @@ function scrollToAdd() {
 function showNewCard(cardType) {
     captureUserList();
     hideAll();
-    myDiv = "#" + cardType + "-start";
+    myDiv = "#" + cardType + "-card";
+    myForm = myDiv + " #myForm";
+    myDelete = myDiv + " #deleteButton";
+    console.log(myDelete);
+    $(myDelete).hide();
+    $(myForm).trigger("reset");
     $(myDiv).show();
 }
 
@@ -34,7 +39,9 @@ function addSummary(cardType) {
 function editCard(cardType) {
     captureUserList();
     hideAll();
-    myDiv = "#" + cardType + "-edit";
+    myDiv = "#" + cardType + "-card";
+    myDelete = myDiv + " #deleteButton";
+    $(myDelete).show();
     $(myDiv).show();
 }
 
@@ -86,22 +93,18 @@ function displayUserList() {
 
 function hideAll() {
 
-    $("#bank-accounts-start").hide();
+    $("#bank-accounts-card").hide();
     $("#bank-accounts-summary").hide();
-    $("#bank-accounts-edit").hide();
     $("#church-account-ref").hide();
 
-    $("#cash-held-start").hide();
+    $("#cash-held-card").hide();
     $("#cash-held-summary").hide();
-    $("#cash-held-edit").hide();
 
-    $("#money-loaned-start").hide();
+    $("#money-loaned-card").hide();
     $("#money-loaned-summary").hide();
-    $("#money-loaned-edit").hide();
 
-    $("#bonds-and-debentures-start").hide();
+    $("#bonds-and-debentures-card").hide();
     $("#bonds-and-debentures-summary").hide();
-    $("#bonds-and-debentures-edit").hide();
 
     $("#add-options").hide();
     $("#add-anchor-link-start").hide();
