@@ -1,7 +1,7 @@
   /* On page scrolling */
 
-  function scrollToAdd() {
-      $('html, body').animate({
+  function scrollToAdd(){
+    $('html, body').animate({
           scrollTop: $("#add-options").offset().top
       }, 1000);
   }
@@ -23,8 +23,8 @@
       $('html, body').animate({
           scrollTop: $("#user-list").offset().top
       }, 1000);
-      // captureUserList();
-      // updateUserList()
+      captureUserList();
+      updateUserList() 
   };
 
   /* Clicks on "edit" on Summary Card */
@@ -45,20 +45,18 @@
       $('html, body').animate({
           scrollTop: $("#user-list").offset().top
       }, 1000);
-      captureUserList();
-      updateUserList();
+      $("#add-options").show();
   };
 
   /* Clicks on "cancel" on full card */
 
-  // function cancelCard(cardType) {
-  //     // captureUserList();
-  //     // hideAll();
-  //     // $('html, body').animate({
-  //     //     scrollTop: $("#user-list").offset().top
-  //     // }, 1000);
-  //     // updateUserList();
-  // }
+  function cancelCard(cardType) {
+      hideAll();
+      $('html, body').animate({
+          scrollTop: $("#user-list").offset().top
+      }, 1000);
+      updateUserList();
+  }
 
   /* Update list after interaction */
 
@@ -80,30 +78,16 @@
           $("#add-anchor-link-return").hide();
       }
       $("#add-options").show();
-      console.log("dfgdfgfdgdfg")
   }
 
   /* Generic hide all */
 
   function hideAll() {
-
-      /* Bank accounts */
-
       $("#bank-accounts-start").hide();
       $("#bank-accounts-summary").hide();
       $("#bank-accounts-edit").hide();
       $("#church-account-ref").hide();
-
-      /* Cash held */
-
-      $("#cash-held-start").hide();
-      $("#cash-held-summary").hide();
-      $("#cash-held-edit").hide();
-
-      /* General UI */
-
       $("#add-options").hide();
       $("#add-anchor-link-start").hide();
       $("#add-anchor-link-return").hide();
-
   }
