@@ -16,10 +16,12 @@ function showNewCard(cardType) {
     myDiv = "#" + cardType + "-card";
     myForm = myDiv + " #myForm";
     myDelete = myDiv + " #deleteButton";
-    console.log(myDelete);
     $(myDelete).hide();
     $(myForm).trigger("reset");
     $(myDiv).show();
+    $('html, body').animate({
+        scrollTop: $("#user-list").offset().top
+    }, 1000);
 }
 
 /* Clicks on "add" on full card */
@@ -105,6 +107,9 @@ function hideAll() {
 
     $("#bonds-and-debentures-card").hide();
     $("#bonds-and-debentures-summary").hide();
+
+    $("#other-payments-card").hide();
+    $("#other-payments-summary").hide();
 
     $("#add-options").hide();
     $("#add-anchor-link-start").hide();
