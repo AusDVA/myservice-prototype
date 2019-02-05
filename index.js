@@ -575,15 +575,39 @@ app.get("/incap-ineligible", function(request, response) {
   });
 });
 
-/* incap ongoing */
-app.get('/incap-annual-part-a', function (request, response) {
-  response.render('auth/claim/pages/incap-annual-review-part-a', {
+/* incap annual review ongoing */
+app.get('/incap-annual-part-a-1', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-1', {
     main_nav_active: 'claims'
   });
 });
 
-app.get('/incap-annual-part-b', function (request, response) {
-  response.render('auth/claim/pages/incap-annual-review-part-b', {
+app.get('/incap-annual-part-a-2', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-2', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-3', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-3', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-4', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-4', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-5', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-5', {
+    main_nav_active: 'claims'
+  });
+});
+
+app.get('/incap-annual-part-a-6', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-a-6', {
     main_nav_active: 'claims'
   });
 });
