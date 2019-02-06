@@ -580,16 +580,45 @@ app.get("/incap-ineligible", function (request, response) {
   });
 });
 
-/* incap annual review ongoing */
 
-// Checkboxes
+
+
+/* Start of Incap Annual Review Ongoing */
+
+// Start/Progress pages
+// Note: First page is "a"
+app.get('/incap-annual-progress', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-progress', {
+    main_nav_active: 'claims'
+  });
+});
+
+// app.get("/incap-annual-progress-a", function (request, response) {
+//   response.render("auth/claim/pages/incap-annual-progress-a", {
+//     main_nav_active: "claims"
+//   });
+// });
+
+app.get("/incap-annual-progress-b", function (request, response) {
+  response.render("auth/claim/pages/incap-annual-progress-b", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/incap-annual-progress-c", function (request, response) {
+  response.render("auth/claim/pages/incap-annual-progress-b", {
+    main_nav_active: "claims"
+  });
+});
+
+
+// Checkboxes page
 app.get('/incap-annual-part-a', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-a', {
     main_nav_active: 'claims'
   });
 });
 
-// Flow
+// Flow pages
 app.get('/incap-annual-part-b-1', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-1', {
     main_nav_active: 'claims'
@@ -626,12 +655,19 @@ app.get('/incap-annual-part-b-6', function (request, response) {
   });
 });
 
-// Uploads
+// Uploads page
 app.get('/incap-annual-part-c', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-c', {
     main_nav_active: 'claims'
   });
 });
+
+
+/* End of Incap Annual Review Ongoing */
+
+
+
+
 
 
 /* Service pension claim */
