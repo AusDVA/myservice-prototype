@@ -586,18 +586,17 @@ app.get("/incap-ineligible", function (request, response) {
 /* Start of Incap Annual Review Ongoing */
 
 // Start/Progress pages
-// Note: First page is "a"
 app.get('/incap-annual-progress', function (request, response) {
   response.render('auth/claim/pages/incap-annual-progress', {
     main_nav_active: 'claims'
   });
 });
 
-// app.get("/incap-annual-progress-a", function (request, response) {
-//   response.render("auth/claim/pages/incap-annual-progress-a", {
-//     main_nav_active: "claims"
-//   });
-// });
+app.get("/incap-annual-progress-a", function (request, response) {
+  response.render("auth/claim/pages/incap-annual-progress-a", {
+    main_nav_active: "claims"
+  });
+});
 
 app.get("/incap-annual-progress-b", function (request, response) {
   response.render("auth/claim/pages/incap-annual-progress-b", {
