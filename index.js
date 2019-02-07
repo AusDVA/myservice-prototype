@@ -400,6 +400,11 @@ app.get("/claims", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/claims-alt-1", function (request, response) {
+  response.render("auth/claim/pages/claims-alt-1", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/claims-manage", function (request, response) {
   response.render("auth/claim/pages/claims-manage", {
     main_nav_active: "claims"
