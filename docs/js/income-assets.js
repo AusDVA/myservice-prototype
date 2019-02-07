@@ -19,6 +19,7 @@ function showNewCard(cardType) {
     $(myDelete).hide();
     $(myForm).trigger("reset");
     $(myDiv).show();
+    $("#footer-buttons-mask").show();
     $('html, body').animate({
         scrollTop: $("#user-list").offset().top
     }, 1000);
@@ -114,4 +115,5 @@ function hideAll() {
     $("#add-options").hide();
     $("#add-anchor-link-start").hide();
     $("#add-anchor-link-return").hide();
+    $("#footer-buttons-mask").hide();
 }
