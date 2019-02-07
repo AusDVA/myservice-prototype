@@ -586,81 +586,101 @@ app.get("/incap-ineligible", function (request, response) {
 /* Start of Incap Annual Review Ongoing */
 
 // Start/Progress pages
-app.get('/incap-annual-progress', function (request, response) {
-  response.render('auth/claim/pages/incap-annual-progress', {
+app.get('/incap-annual-progress-a', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-progress-a', {
     main_nav_active: 'claims'
   });
 });
-
-app.get("/incap-annual-progress-a", function (request, response) {
-  response.render("auth/claim/pages/incap-annual-progress-a", {
-    main_nav_active: "claims"
-  });
-});
-
 app.get("/incap-annual-progress-b", function (request, response) {
   response.render("auth/claim/pages/incap-annual-progress-b", {
     main_nav_active: "claims"
   });
 });
 app.get("/incap-annual-progress-c", function (request, response) {
-  response.render("auth/claim/pages/incap-annual-progress-b", {
+  response.render("auth/claim/pages/incap-annual-progress-c", {
     main_nav_active: "claims"
   });
 });
+// End of Start/Progress pages
 
-
-// Checkboxes page
+// Checkboxes page (part a)
 app.get('/incap-annual-part-a', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-a', {
     main_nav_active: 'claims'
   });
 });
 
-// Flow pages
+// Flow pages (part b)
+//    Employment
 app.get('/incap-annual-part-b-1', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-1', {
     main_nav_active: 'claims'
   });
 });
 
+//    Medical Practitioners
 app.get('/incap-annual-part-b-2', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-2', {
     main_nav_active: 'claims'
   });
 });
 
+//    Rehabilitation
 app.get('/incap-annual-part-b-3', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-3', {
     main_nav_active: 'claims'
   });
 });
 
+//    Other Benefits
 app.get('/incap-annual-part-b-4', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-4', {
     main_nav_active: 'claims'
   });
 });
 
+// Nominated Representative
 app.get('/incap-annual-part-b-5', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-5', {
     main_nav_active: 'claims'
   });
 });
 
+//    Bank Details
 app.get('/incap-annual-part-b-6', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-b-6', {
     main_nav_active: 'claims'
   });
 });
 
-// Uploads page
+//    Compensation Damages Action
+app.get('/incap-annual-part-b-7', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-b-7', {
+    main_nav_active: 'claims'
+  });
+});
+// End of Flow pages (part b)
+
+// Uploads page (part c)
 app.get('/incap-annual-part-c', function (request, response) {
   response.render('auth/claim/pages/incap-annual-review-part-c', {
     main_nav_active: 'claims'
   });
 });
 
+// Summary page
+app.get('/incap-annual-part-c', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-c', {
+    main_nav_active: 'claims'
+  });
+});
+
+// Submitted page
+app.get('/incap-annual-part-c', function (request, response) {
+  response.render('auth/claim/pages/incap-annual-review-part-c', {
+    main_nav_active: 'claims'
+  });
+});
 
 /* End of Incap Annual Review Ongoing */
 
