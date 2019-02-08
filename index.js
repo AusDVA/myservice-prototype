@@ -1513,6 +1513,9 @@ app.get('/nr-edit-rep', function (request, response) {
 app.get('/nr-edit-client', function (request, response) {
   response.render('auth/nomrep/nr-edit-client');
 });
+app.get('/nr-accounts', function (request, response) {
+  response.render('auth/nomrep/nr-accounts');
+});
 /* MyAccount */
 app.get("/myaccount", function (request, response) {
   response.render("myaccount/index");
