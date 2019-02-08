@@ -128,6 +128,15 @@ function hideAll() {
   $("#foreign-income-and-assets-card").hide();
   $("#foreign-income-and-assets-summary").hide();
 
+  $("#real-estate-card").hide();
+  $("#real-estate-summary").hide();
+
+  $("#farm-card").hide();
+  $("#farm-summary").hide();
+
+  $("#businesses-card").hide();
+  $("#businesses-summary").hide();
+
   $("#add-options").hide();
   $("#add-anchor-link-start").hide();
   $("#add-anchor-link-return").hide();
