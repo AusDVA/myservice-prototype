@@ -1493,13 +1493,19 @@ app.get('/nr-manage-client', function (request, response) {
   response.render('auth/nomrep/nr-manage-client');
 });
 app.get('/nr-agreements-realistic', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-realistic');
+  response.render('auth/nomrep/nr-agreements-realistic', {
+  main_nav_active: "profile"
+  });
 });
 app.get('/nr-agreements-clean', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-clean');
+  response.render('auth/nomrep/nr-agreements-clean', {
+  main_nav_active: "profile"
+  });
 });
 app.get('/nr-agreements', function (request, response) {
-  response.render('auth/nomrep/nr-agreements');
+  response.render('auth/nomrep/nr-agreements', {
+  main_nav_active: "profile"
+  });
 });
 app.get('/nr-edit-rep', function (request, response) {
   response.render('auth/nomrep/nr-edit-rep');
