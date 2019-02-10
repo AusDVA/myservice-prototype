@@ -6,16 +6,86 @@
     <meta content="width=device-width" name="viewport">
     <title>Claims | MyService</title>
     <link href="docs/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" href="/src/font/fontawesome/css/all.css">
     <style>
-    #claims-table {
-        display: table;
+    .mask {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+1,1+82 */
+        background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+        /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+        /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 1%, rgba(255, 255, 255, 1) 82%, rgba(255, 255, 255, 1) 100%);
+        /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00ffffff', endColorstr='#ffffff', GradientType=0);
+        /* IE6-9 */
+        bottom: 0;
+        position: absolute;
+        width: 100%;
+        height: 155px;
+        border-bottom: 1px solid #d4d4d4;
+        border-left: 1px solid #d4d4d4;
+        border-right: 1px solid #d4d4d4;
     }
-    .row {
-        display: table-row;
-        /*background-color: grey;*/
+
+    .inactive {
+        position: relative;
+        background: none;
+        height: 60px;
     }
-    .cell {
-        display: table-cell;
+
+    table {
+        margin-bottom: 0;
+        border: 1px solid #d4d4d4 !important;
+    }
+
+    .claim-submitted {
+        font-style: normal !important;
+        color: #777 !important;
+        font-size: .9rem !important;
+    }
+
+    .claim-title {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+        color: #313131 !important;
+        box-sizing: border-box;
+    }
+
+    .flag {
+        border-left: .25em solid red;
+        padding-left: 1.5em !important;
+    }
+
+    .claim-status {
+        font-size: .9rem !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+        color: #313131 !important;
+        color: #777 !important;
+    }
+
+    .claim-action-required {
+        font-size: .9rem !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif !important;
+        color: #313131 !important;
+        color: #777 !important;
+    }
+    .flag-text {
+        color: red;
+        font-weight: bold;
+    }
+    a.flag-text {
+        color: red;
+        border-bottom: solid 1px red;
+    }
+    .claim-actions {
+        text-align: right;
+    }
+
+    .widget .widget--justclaims table.table-claims th {
+        color: #777;
+        font-weight: normal;
+        font-size: 0.9em;
+        padding: 1em 2em 1em 2em;
+        border-bottom: 2px solid #d4d4d4;
     }
     </style>
 </head>
@@ -36,327 +106,151 @@
             </div>
             <div class="container margin-above--extra margin-below" id="claim-activity">
                 <div class="margin-below">
-                    <h2 style="display: inline-block; margin: 0;"><b>Manage and track your claims</b></h2>
-                    <button id="scroll-to-claim" class="uikit-btn uikit-btn--primary small floated" onclick="scrollToAdd();">&nbsp;New claim&nbsp;</button>
+                    <h2 style="display: inline-block; margin: 10px 0 0 0;"><b>Manage and track your claims</b></h2>
+                    <button id="scroll-to-claim" class="uikit-btn uikit-btn--primary floated" onclick="scrollToAdd();">&nbsp;Make a claim&nbsp;</button>
                 </div>
-                <section class="grid">
-                    <div class="container margin-above margin-below--extra" id="claims-tiles">
-                        <div id="claims-table">
-                            <div class="row">
-                                <span class="cell">sdasd</span>
-                                <span class="cell">asdsad</span>
-                                <span class="cell">asdsad</span>
-                            </div>
-                            <div class="row">
-                                <span class="cell">asdasd</span>
-                                <span class="cell">asdsad</span>
-                                <span class="cell">asdasd</span>
-                            </div>
-                            <div class="row">
-                                <span class="cell">asdasd</span>
-                                <span class="cell">asdasd</span>
-                                <span class="cell">asdasd</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section class="widget" style="display: none;">
-                    <div class="row widget-content widget--justclaims">
-                        <div class="col-md-12">
-                            <table class="table-claims table-responsive">
-                                <thead>
-                                    <tr>
-                                        <th class="widget-activity">Most recent claims</th>
-                                        <th class="widget-actions">Actions</th>
-                                    </tr>
-                                </thead>
-                                <!-- Show this initially ('show-instance-action-required')
-                  and the one below ('show-instance-withdrawn') after it is withdrawn-->
-                                <tr class="status-action-required show-instance-action-required">
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-submitted">
-                                            Service Pension
-                                            <br />
-                                            <span>Submitted
-                              <em>&ndash; 10 January 2019</em>
-                            </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/viewServicePensionDetail'">View</button>
-                                    </td>
+                <section class="widget" style="border: 0;">
+                    <!-- <div class="row widget-content widget--justclaims"> -->
+                    <div class="col-md-12 margin-below--none widget--justclaims" style="padding: 0;">
+                        <table class="table-claims table-responsive" style="position: relative;">
+                            <thead>
+                                <tr class="border-bottom;">
+                                    <th class="widget-activity">Claim</th>
+                                    <th class="widget-activity">Status &nbsp;<icon class="far fa-angle-down" style="font-size: 1.2em; vertical-align: -15%;"></icon></th>
+                                    <th class="widget-activity">Submitted</th>
+                                    <th class="widget-activity"></th>
                                 </tr>
-                                <td>
-                                    <p class="status-icon status-in-progress">
-                                        Education assistance for Kim
-                                        <br />
-                                        <span>In Progress
-                            <em>&ndash; Action Required</em>
-                          </span>
-                                    </p>
-                                </td>
-                                <td class="widget-actions">
-                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'updateClaimInProgress'">Update</button>
-                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                            </thead>
+                            <tr id="line-1">
+                                <td class="claim-title flag">Education assistance for Kim</td>
+                                <td class="claim-status"><a class="flag-text">Action required</a></td>
+                                <td class="claim-submitted">3 May 2018</td>
+                                <td class="claim-actions">
+                                    <!-- <button class="uikit-btn small uikit-btn--primary" onclick="window.location.href = 'updateClaimInProgress'">Update</button> -->
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">Open</button>
                                     <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
                                 </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-approved">
-                                            Qualifying Service
-                                            <br />
-                                            <span>Approved
-                            <em>&ndash; 3 May 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'qs-claimdetail'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-submitted">
-                                            Increase to Disability Pension
-                                            <br />
-                                            <span>Submitted
-                            <em>&ndash; 27 April 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claimdetail'">View</button>
-                                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-submitted">
-                                            DHOAS Subsidy Certificate
-                                            <br />
-                                            <span>Submitted
-                            <em>&ndash; 25 April 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewDhoasDetail'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-incomplete">
-                                            Increase to Disability Pension
-                                            <br />
-                                            <span>Incomplete
-                            <em>&ndash; 27 April 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claim1'">Resume</button>
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Delete</button>
-                                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-incomplete">
-                                            Permanent Impairment Lifestyle Questionnaire
-                                            <br />
-                                            <span>Incomplete
-                            <em>&ndash; 24 days remaining</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/pi-lsq-start'">Resume</button>
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Delete</button>
-                                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-submitted">
-                                            Permanent Impairment Lifestyle Questionnaire
-                                            <br />
-                                            <span>Submitted
-                            <em>&ndash; 8 May 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/viewPI-LSQ-detail'">View</button>
-                                        <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Withdraw</button> -->
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-incomplete">
-                                            Subacromial Bursitis of the Shoulder
-                                            <br />
-                                            <span>Incomplete
-                            <em>&ndash; 24 days remaining</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary">Resume</button>
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Delete</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-approved">
-                                            Mental Health Treatment (NLHC)
-                                            <br />
-                                            <span>Approved
-                            <em>&ndash; 4 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewNLHCClaimDetail'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-submitted">
-                                            Internal derangement of the knee
-                                            <br />
-                                            <span>Submitted
-                            <em>&ndash; 3 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimDetail'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-approved">
-                                            Education assistance for Lee Gall
-                                            <br />
-                                            <span>Approved
-                            <em>&ndash; 3 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimDetailStudent'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-rejected">
-                                            Education assistance for Pi
-                                            <br />
-                                            <span>Rejected
-                            <em>&ndash; 3 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimRejected'">View</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <p class="status-icon status-withdrawn">
-                                            Education assistance for Li
-                                            <br />
-                                            <span>Withdrawn
-                            <em>&ndash; 3 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
-                                    </td>
-                                </tr>
-                                <!-- Show the one above initially ('show-instance-action-required')
-                    and this one ('show-instance-withdrawn') after it is withdrawn-->
-                                <tr class="show-instance-withdrawn">
-                                    <td>
-                                        <p class="status-icon status-withdrawn">
-                                            Education assistance for Kim
-                                            <br />
-                                            <span>Withdrawn
-                            <em>&ndash; 3 Jan 2018</em>
-                          </span>
-                                        </p>
-                                    </td>
-                                    <td class="widget-actions">
-                                        <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimWithdrawn'">View</button>
-                                    </td>
-                                </tr>
-                            </table>
+                            </tr>
+                            <tr id="line-2">
+                                <td class="claim-title">Qualifying Service</td>
+                                <td class="claim-status">In Progress</td>
+                                <td class="claim-submitted">3 May 2018</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">Open</button>
+                                    <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                                </td>
+                            </tr>
+                            <tr id="line-5">
+                                <td class="claim-title">Permanent Impairment Lifestyle...</td>
+                                <td class="claim-status">Not submitted &ndash; expires in 8 days</td>
+                                <td class="claim-submitted">--</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">Open</button>
+                                    <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                                </td>
+                            </tr>
+                            <tr id="line-6">
+                                <td class="claim-title">Subacromial Bursitis of th...</td>
+                                <td class="claim-status">Not submitted &ndash; expires in 24 days</td>
+                                <td class="claim-submitted">--</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">Open</button>
+                                    <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button>
+                                </td>
+                            </tr>
+                            <tr id="line-3">
+                                <td class="claim-title">Increase to Disability Pension</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">27 Apr 2018</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                            <tr id="line-4">
+                                <td class="claim-title">DHOAS Subsidy Certificate</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">25 Apr 2018</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                            
+                            <tr id="line-7">
+                                <td class="claim-title">Mental Health Treatment (NLHC)</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">4 Jan 2018</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                            <tr id="line-8" style="display: none;">
+                                <td class="claim-title">Internal derangement of the knee</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">3 Jan 2018</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                            <tr id="line-9" style="display: none;">
+                                <td class="claim-title">Education assistance for Lee Pi</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">12 Dec 2017</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                            <tr id="line-10" style="display: none;">
+                                <td class="claim-title">Education assistance for Lee Gall</td>
+                                <td class="claim-status">Complete</td>
+                                <td class="claim-submitted">8 Dec 2017</td>
+                                <td class="claim-actions">
+                                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewClaimInProgress'">View</button>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="show-toggle-mask" class="mask">
+                            <button id="show-more-button" class="uikit-btn uikit-btn--tertiary small" style="position: absolute; left: 10px; bottom: 10px;" onclick="showToggle();">Show more</button>
                         </div>
+                    </div>
+                    <!-- </div> -->
                 </section>
             </div>
             <section>
                 <div class="container margin-above margin-below--extra" id="claims-tiles">
-                    <div class="row" style="width: 100%">
-                        <h2 class="ss-align--center margin-below"><span class="font-weight-heavy">Make a claim to access treatment and support</span></h2>
-                        <div class="flex-container flex-container--wrap hover-container">
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a class="card-container" href="claim1">
-                  <h2 class="card__title">
-                    <span class="font-weight-heavy">Initial Liability</span>
-                  </h2>
-                  <p class="card__supporting-text text-fullwidth">
-                    Your first step towards treatment and support for a
-                    service-related injury&nbsp;or&nbsp;condition.
-                  </p>
-                  <div class="card__button">
-                    <button class="uikit-btn uikit-btn--tertiary small">
-                      Get started
-                    </button>
-                  </div>
-                </a>
+                    <!-- <div class="row" style="width: 100%; padding: 0;"> -->
+                    <h2 class="ss-align--center margin-above"><span class="font-weight-heavy">Make a claim to access treatment and support</span></h2>
+                    <div class="flex-container flex-container--wrap hover-container">
+                        <!-- <div class="col-md-12 margin-below--none" style="padding: 0;"> -->
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="claim1">
+                            <h2 class="card__title"><span class="font-weight-heavy">Initial Liability</span></h2>
+                            <p class="card__supporting-text text-fullwidth">Your first step towards treatment and support for a service-related injury&nbsp;or&nbsp;condition.</p>
+                            <div class="card__button">
+                                <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
                             </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a class="card-container" href="health-card0">
-                                    <h2 class="card__title">
-                    <span class="font-weight-heavy">Mental health treatment</span>
-                  </h2>
-                  <p class="card__supporting-text text-fullwidth">
-                    Access free mental health treatment.
-                  </p>
-                  <div class="card__button">
-                    <button class="uikit-btn uikit-btn--tertiary small">
-                      Get started
-                    </button>
-                  </div>
-                </a>
+                        </a>
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="health-card0">
+                            <h2 class="card__title"><span class="font-weight-heavy">Mental health treatment</span></h2>
+                            <p class="card__supporting-text text-fullwidth">Access free mental health treatment.</p>
+                            <div class="card__button">
+                                <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
                             </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <!-- <div class="card__notifications">This option might be of benefit to you.</div> -->
-                                <a class="card-container" href="incap-progress">
-                  <h2 class="card__title">
-                    <span class="font-weight-heavy">Incapacity Payments</span>
-                  </h2>
-                  <p class="card__supporting-text text-fullwidth">
-                    Get compensated for your inability or reduced ability to
-                    work because of a service injury or condition.
-                  </p>
-                  <div class="card__button">
-                    <button class="uikit-btn uikit-btn--tertiary small">
-                      Get started
-                    </button>
-                  </div>
-                </a>
+                        </a>
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="incap-progress">
+                            <h2 class="card__title"><span class="font-weight-heavy">Incapacity Payments</span></h2>
+                            <p class="card__supporting-text text-fullwidth">Get compensated for your inability or reduced ability to work because of a service injury or condition.</p>
+                            <div class="card__button">
+                                <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
                             </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a
-                  class="card-container"
-                  href="studentpreeligibility?flow=veteranFlow"
-                >
-                  <h2 class="card__title">
-                    <span class="font-weight-heavy">Education assistance</span>
+                        </a>
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="studentpreeligibility?flow=veteranFlow">
+                        <h2 class="card__title"><span class="font-weight-heavy">Education assistance</span>
                   </h2>
                   <p class="card__supporting-text text-fullwidth">
                     Get help with the cost of education for your family.
@@ -367,9 +261,9 @@
                     </button>
                   </div>
                 </a>
-                            </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a class="card-container" href="afi-start">
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="afi-start">
                   <h2 class="card__title">
                     <span class="font-weight-heavy"
                       >Increase your disability&nbsp;pension (AFI)</span
@@ -384,9 +278,9 @@
                     </button>
                   </div>
                 </a>
-                            </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a class="card-container" href="dhoas-start">
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="dhoas-start">
                   <h2 class="card__title">
                     <span class="font-weight-heavy"
                       >DHOAS subsidy certificate</span
@@ -401,9 +295,9 @@
                     </button>
                   </div>
                 </a>
-                            </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a
                   class="card-container"
                   href="http://www.dsh.gov.au/insurance">
                   <h2 class="card__title">
@@ -420,9 +314,9 @@
                     </button>
                   </div>
                 </a>
-                            </div>
-                            <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-                                <a class="card-container" href="/sp-before-start">
+                        </div>
+                        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                            <a class="card-container" href="/sp-before-start">
                   <h2 class="card__title">
                     <span class="font-weight-heavy">Service Pension</span>
                   </h2>
@@ -435,10 +329,10 @@
                     </button>
                   </div>
                 </a>
-                            </div>
                         </div>
                     </div>
                 </div>
+                <!-- </div> -->
             </section>
             <% include ../partials/dhoas-start-modal.ejs %>
         </section>
@@ -475,6 +369,23 @@
                 break;
             default:
                 break
+        }
+    }
+
+    function showToggle() {
+        console.log($("#show-more-button").html())
+        if ($("#show-more-button").html() == "Show more") {
+            $("#show-more-button").html('Show less');
+            $("#line-8").show();
+            $("#line-9").show();
+            $("#line-10").show();
+            $("#show-toggle-mask").addClass("inactive");
+        } else {
+            $("#show-more-button").html('Show more');
+            $("#line-8").hide();
+            $("#line-9").hide();
+            $("#line-10").hide();
+            $("#show-toggle-mask").removeClass("inactive");
         }
     }
 
