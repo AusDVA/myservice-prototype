@@ -139,6 +139,18 @@ function hideAll() {
   $("#businesses-card").hide();
   $("#businesses-summary").hide();
 
+  $("#home-contents-card").hide();
+  $("#home-contents-summary").hide();
+
+  $("#vehicles-card").hide();
+  $("#vehicles-summary").hide();
+
+  $("#other-personal-assets-card").hide();
+  $("#other-personal-assets-summary").hide();
+
+  $("#life-insurance-card").hide();
+  $("#life-insurance-summary").hide();
+
   $("#add-options").hide();
   $("#add-anchor-link-start").hide();
   $("#add-anchor-link-return").hide();
