@@ -41,7 +41,7 @@
                                   <input id="enquire" class="sr" type="radio" name="la-top" value="sp-la-a">
                                     <span>
                                       <icon class="fal fa-comments-alt fa-3x" style="padding: 0 1em 0 0;"></icon>
-                              </div>
+                                </div>
                                     <div class="col-md-8">
                                         <h2>Enquire on behalf</h2><br />
                                         <span class="hint"><em>
@@ -58,7 +58,7 @@
                         </div>
                     <div class="form-group">
                         <div class="margin-above--large">
-                          <div class="account-one">
+                          <div class="account-two">
                             <label class="radio-tile">
                               <div class="row">
                                 <div class="col-md-2">
@@ -81,12 +81,12 @@
 
                     <div class="form-group">
                         <div class="margin-above--large">
-                          <div class="account-one">
+                          <div class="account-three">
                             <label class="radio-tile">
                               <div class="row">
                                 <div class="col-md-2">
                                   <input id="paymentOnly" class="sr" type="radio" name="la-top" value="sp-la-a">
-                                    <span>
+
                                       <icon class="fal fa-hand-holding-usd fa-3x style="padding: 0 1em 0 0;"></icon>
                                 </div>
                                     <div class="col-md-8">
@@ -143,7 +143,7 @@
 
               </div>
               <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                <label class="uikit-text-input__label" for="Input field">Would you like your representative to view information on your behalf via (MyService/MyAccount)?</label>
+                <label class="uikit-text-input__label" for="Input field">Would you like your representative to view information online on your behalf</label>
                   <fieldset>
                     <legend class="legend-label" id="question_id21c">
                     </legend>
@@ -170,6 +170,10 @@
                     <p>Allows your representative to source information, make decisions and update information in relation to DVA matters</p>
                   </div> -->
 
+                <div class="form-group">
+                  Which areas of DVA would you like to act on?
+                </div>
+
             <div class="form-group margin-above--large">
               <p class="uiToolKitCheckBox">
   							<label class="uikit-control-input">
@@ -186,11 +190,7 @@
             </div>
 
               <div id="hideThreeQs" style="display:none;">
-                <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-                  <!-- <h3>Protect yourself against phone scams</h3> -->
-                  <p>You are only permitted one (1) person to act on your behalf at a time.</p>
-                  <p>By continuing to add a new representation you will be replacing John Smith as the person acting on your behalf.</p>
-                </div>
+
                 <div id="actDate" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
                   <label class="uikit-text-input__label" for="Input field">Are there any date restrictions on this arrangement?</label>
                     <fieldset>
@@ -274,11 +274,10 @@
               <!-- <div id="paymentAlert" class="uikit-page-alerts" role="alert">
                 <p>Allows your representative to receive payments on behalf of the client</p>
               </div> -->
-              <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-                <!-- <h3>Protect yourself against phone scams</h3> -->
+               <!-- <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
                 <p>You are only permitted one (1) person to act on your behalf at a time.</p>
                 <p>By continuing to add a new representation you will be replacing John Smith as the person acting on your behalf.</p>
-              </div>
+              </div> -->
 
 
               <div id="paymentDate" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
@@ -349,8 +348,14 @@
 
   $('#enquire').click(function(){
     $('#hideAllEnquire').show("fast");
+    $('.account-one').addClass('icon-tick');
     $('#hideAllAct').hide();
     $('#hideAllPayment').hide();
+    $('.account-two').removeClass('icon-tick');
+    $('.account-three').removeClass('icon-tick');
+    $('html, body').animate({
+      scrollTop: $("#hideAllEnquire").offset().top
+    }, 1000)
   });
   $('#enquireIndefYes').click(function(){
     $('#showEnquireDate').show("fast");
@@ -374,11 +379,23 @@
     $('#hideAllEnquire').hide();
     $('#hideAllPayment').hide();
     $('#hideAllAct').show("fast");
+    $('.account-two').addClass('icon-tick');
+    $('.account-one').removeClass('icon-tick');
+    $('.account-three').removeClass('icon-tick');
+    $('html, body').animate({
+      scrollTop: $("#hideAllAct").offset().top
+    }, 1000)
   });
 $('#paymentOnly').click(function(){
   $('#hideAllPayment').show("fast");
   $('#hideAllAct').hide();
   $('#hideAllEnquire').hide();
+  $('.account-three').addClass('icon-tick');
+  $('.account-one').removeClass('icon-tick');
+  $('.account-two').removeClass('icon-tick');
+  $('html, body').animate({
+    scrollTop: $("#hideAllPayment").offset().top
+  }, 1000)
 });
 
   $('#actAllMatters').click(function(){
@@ -455,6 +472,7 @@ $('#btnNext').click(function(){
        window.location.href= '/nr-upload-client';
      }
    });
+
   </script>
 
 </body>
