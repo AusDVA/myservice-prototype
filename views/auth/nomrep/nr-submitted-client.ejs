@@ -29,7 +29,7 @@
                     <img src="../../../docs/images/ico-tick-green-outline.svg" alt="Success tick icon">
                   </div>
                   <div class="margin-above submitted-animation">
-                    <% include ../../global/partials/animation-inprogress.ejs %>
+                    <% include ../../global/partials/animation-inProgress.ejs %>
                   </div>
                   <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
                     <h1>We're submitting your application </h1>
@@ -65,14 +65,42 @@
       <% include ../../global/partials/footer.ejs %>
 
 
-        <script>
-          var timeDelay = 3000;
-          setTimeout(
-            function () {
-              $(".pt-claim-animation-start").toggleClass("transition-content--open");
-              $(".pt-claim-animation-end").toggleClass("transition-content--open");
-            }, timeDelay);
-        </script>
+      <script>
+        var timeDelay = 3000;
+        setTimeout(
+          function () {
+            $(".pt-claim-animation-start").toggleClass("transition-content--open");
+            $(".pt-claim-animation-end").toggleClass("transition-content--open");
+          }, timeDelay);
+
+          var queryString = new Array();
+        $(function () {
+            if (queryString.length == 0) {
+                if (window.location.search.split('?').length > 1) {
+                    var params = window.location.search.split('?')[1].split('&');
+                    for (var i = 0; i < params.length; i++) {
+                        var key = params[i].split('=')[0];
+                        var value = decodeURIComponent(params[i].split('=')[1]);
+                        queryString[key] = value;
+                    }
+                }
+            }
+            if (queryString["name"] != null && queryString["technology"] != null) {
+                var newAmount = "";
+                var requestAmount = "";
+                  newAmount += queryString["name"];
+                  requestAmount += queryString["technology"];
+                    $("#lblData").html(newAmount);
+                    $("#lblData2").html(requestAmount);
+                if(requestAmount.indexOf('.') != -1){
+                  $("#lblData2").html(requestAmount);
+                }else{
+                  $("#lblData2").html(requestAmount);
+                }
+            }
+        });
+
+      </script>
 
 </body>
 

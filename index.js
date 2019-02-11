@@ -1512,6 +1512,16 @@ app.get('/nr-agreements-clean-new', function (request, response) {
   main_nav_active: "profile"
   });
 });
+app.get('/nr-agreements-new', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-new', {
+  main_nav_active: "profile"
+  });
+});
+app.get('/nr-agreements-realistic-new', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-realistic-new', {
+  main_nav_active: "profile"
+  });
+});
 app.get('/nr-edit-rep', function (request, response) {
   response.render('auth/nomrep/nr-edit-rep');
 });
