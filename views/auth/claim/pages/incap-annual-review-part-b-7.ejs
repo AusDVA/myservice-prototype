@@ -62,88 +62,78 @@
         </div>
 
         <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Bank details</span>
+          <span class="heading">Compensation damages action</span>
         </h1>
-      </div>
-    </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
 
-          <div class="margin-above--extra margin-below--extra">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-offset-2 col-md-8">
 
-            <p class="text-fullwidth">Provide your bank details. If your claim is approved your Incapacity Payments will go into this&nbsp;account.</p>
+              <div class="margin-above--extra margin-below--extra">
 
-            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
-              <p class="margin-below--mid">This will be your nominated bank account for all DVA payments</p>
+                <h3 class="margin-below--mid">Have you or your legal representative commenced, intend to commence, or finalised a common law (Third Party) or State Workers
+                  Compensation damages action?</h3>
+
+                <!-- start compensation damges action -->
+                <div class="compensation-damages">
+                  <!-- radio button/switch Yes/No  -->
+                  <div class="form-group">
+                    <div class="radio-toggle">
+                      <label class="on label-left" for="compensation-damages-yes">
+                        <input id="compensation-damages-yes" type="radio" name="compensation-damages">
+                        <span>Yes</span>
+                      </label>
+                      <label class="off label-right" for="compensation-damages-no">
+                        <input id="compensation-damages-no" type="radio" name="compensation-damages">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <!-- Yes flow -->
+                  <div class="form-group compensation-damages-group" style="display:none;">
+                    <label class="uikit-text-input__label" for="compensation-damages-details" style="font-weight: 500;">Provide details</label>
+                    <textarea id="compensation-damages-details" name="compensation-damages-details" rows="4"></textarea>
+                  </div>
+
+                </div>
+                <!-- end compensation damges action -->
+
+                <div class="pagination pagination--ss-reverse-order">
+                  <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev" onclick="window.location.href = '/incap-annual-part-b-6'">Previous</button>
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#'">Cancel claim</button>
+                  <div class="floated">
+                    <button class="uikit-btn uikit-btn--tertiary">Save and exit</button>
+                    <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '#'">Save and next</button>
+                  </div>
+                </div>
+
+              </div>
+
             </div>
-
-
-            <% include ../../../global/partials/bank-account-details.ejs %>
-
           </div>
 
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth?user=INCAPuser-incomplete'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-            </div>
-          </div>
-
+          <% include ../partials/cancel-modal.ejs %>
         </div>
-
-
-      </div>
-    </div>
-
-    <% include ../partials/cancel-modal.ejs %>
-    </div>
 
   </main>
 
   <% include ../../../global/partials/footer.ejs %>
 
-
   <script>
-
-
-
-
-    $(Document).ready(function () {
-
-      // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and go to the 'Nominated Rep' page when they click the 'Previous' button.
-      if ("flow1" in localStorage) {
-        $(".ongoing-only").hide();
-        $("#btnNext").click(function () { window.location.href = "/incap-progress-c" });
-        $("#btnPrev").click(function () { window.location.href = "/incap-b-5" });
-      }
-      else {
-        $(".ongoing-only").show();
-        $(".employed").show();
-        $("#btnNext").click(function () { window.location.href = "/incap-progress-c" });
-        $("#btnPrev").click(function () { window.location.href = "/incap-b-6" });
-      };
-
-      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar and should navigate to 'Nominated Rep' page on click of 'Previous' button.
-      if ("flow2" in localStorage) {
-        $(".employed").hide();
-      };
-
-
-      // Show and hide needs list
-      $("#leaving-yes").click(function () {
-        $(".leaving-date").show("fast");
-        $(".save-and-next").hide();
+    $(function () {
+      // compensation damages functionality
+      $(document).on('click', '#compensation-damages-yes, #compensation-damages-yes > span', function () {
+        $(".compensation-damages-group").show("fast");
       });
-      $("#leaving-no").click(function () {
-        $(".leaving-date").hide();
-        $(".save-and-next").show("fast");
+
+      $(document).on('click', '#compensation-damages-no, #compensation-damages-no > span', function () {
+        $(".compensation-damages-group").hide("fast");
       });
 
     });
+
   </script>
 
 </body>
