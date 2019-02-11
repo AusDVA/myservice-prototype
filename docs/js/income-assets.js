@@ -151,6 +151,15 @@ function hideAll() {
   $("#life-insurance-card").hide();
   $("#life-insurance-summary").hide();
 
+  $("#gifts-card").hide();
+  $("#gifts-summary").hide();
+
+  $("#maintenance-paid-to-former-partner-card").hide();
+  $("#maintenance-paid-to-former-partner-summary").hide();
+
+  $("#addtional-other-personal-assets-card").hide();
+  $("#addtional-other-personal-assets-summary").hide();
+
   $("#add-options").hide();
   $("#add-anchor-link-start").hide();
   $("#add-anchor-link-return").hide();
