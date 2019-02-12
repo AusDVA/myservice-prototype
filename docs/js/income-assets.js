@@ -16,6 +16,8 @@ function showNewCard(cardType) {
   myDiv = "#" + cardType + "-card";
   myForm = myDiv + " #myForm";
   myDelete = myDiv + " #deleteButton";
+  myAdd = myDiv + " #addButton";
+  $(myAdd).html("Add");
   $(myDelete).hide();
   $(myForm).trigger("reset");
   $(myDiv).show();
@@ -44,6 +46,8 @@ function editCard(cardType) {
   hideAll();
   myDiv = "#" + cardType + "-card";
   myDelete = myDiv + " #deleteButton";
+  myAdd = myDiv + " #addButton";
+  $(myAdd).html("Update");
   $(myDelete).show();
   $(myDiv).show();
 }

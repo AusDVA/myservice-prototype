@@ -400,8 +400,8 @@ app.get("/claims", function (request, response) {
     main_nav_active: "claims"
   });
 });
-app.get("/claims-alt-1", function (request, response) {
-  response.render("auth/claim/pages/claims-alt-1", {
+app.get("/claims-old", function (request, response) {
+  response.render("auth/claim/pages/claims-old", {
     main_nav_active: "claims"
   });
 });
@@ -757,21 +757,6 @@ app.get("/sp-start", function (request, response) {
 });
 app.get("/sp-qs", function (request, response) {
   response.render("auth/claim/pages/sp-qs", {
-    main_nav_active: "claims"
-  });
-});
-app.get("/sp-qs-1", function (request, response) {
-  response.render("auth/claim/pages/sp-qs-1", {
-    main_nav_active: "claims"
-  });
-});
-app.get("/sp-qs-2", function (request, response) {
-  response.render("auth/claim/pages/sp-qs-2", {
-    main_nav_active: "claims"
-  });
-});
-app.get("/sp-qs-3", function (request, response) {
-  response.render("auth/claim/pages/sp-qs-3", {
     main_nav_active: "claims"
   });
 });
