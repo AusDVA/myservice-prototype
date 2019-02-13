@@ -1507,6 +1507,11 @@ app.get('/nr-agreements-realistic-new', function (request, response) {
   main_nav_active: "profile"
   });
 });
+app.get('/nr-agreements-concept', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-concept', {
+  main_nav_active: "profile"
+  });
+});
 app.get('/nr-edit-rep', function (request, response) {
   response.render('auth/nomrep/nr-edit-rep');
 });
