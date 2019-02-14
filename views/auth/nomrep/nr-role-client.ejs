@@ -105,7 +105,7 @@
                       <p>Allows your representative to source information in relation to DVA matters</p>
                     </div> -->
                     <div class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                      <label class="uikit-text-input__label" for="Input field">Would you like to specify any date restrictions on this arrangement?</label>
+                      <label class="uikit-text-input__label" for="Input field">Is this arrangement for a fixed period?</label>
                         <fieldset>
                           <div class="radio-toggle">
                             <label class="on label-left">
@@ -185,7 +185,7 @@
               <div id="hideThreeQs" style="display:none;">
 
                 <div id="actDate" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                  <label class="uikit-text-input__label" for="Input field">Would you like to specify any date restrictions on this arrangement?</label>
+                  <label class="uikit-text-input__label" for="Input field">Is this arrangement for a fixed period?</label>
                     <fieldset>
                       <div class="radio-toggle">
                         <label class="on label-left">
@@ -245,6 +245,35 @@
                   </div>
                 </fieldset>
             </div>
+            <div id="receivePayment" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
+              <label class="uikit-text-input__label" for="Input field">Would you like your representative to receive payments on your behalf?</label>
+
+              <fieldset>
+                <legend class="legend-label" id="question_id21c">
+                </legend>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input id="paymentBehalfYes" type="radio" name="paymentBehalf" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input id="paymentBehalfNo" type="radio" name="paymentBehalf" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+
+          </div>
+
+          <div id="showBank2" class="bank-details-container" style="display:none;">
+            <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
+            <div class="uikit-page-alerts" role="alert">
+              <p>This will be the nominated bank account for all of the client's DVA payments</p>
+            </div>
+            <% include ../../global/partials/bank-account-details.ejs %>
+
+
+          </div>
 
           </div>
         </div>
@@ -267,7 +296,7 @@
 
 
               <div id="paymentDate" class="form-group margin-above--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                <label class="uikit-text-input__label" for="Input field">Would you like to specify any date restrictions on this arrangement?</label>
+                <label class="uikit-text-input__label" for="Input field">Is this arrangement for a fixed period?</label>
                   <fieldset>
                     <div class="radio-toggle">
                       <label class="on label-left">
@@ -299,24 +328,16 @@
             </div>
 
             </div>
-            <div id="receivePayment" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-              <label class="uikit-text-input__label" for="Input field">Would you like to receive payment for this client?</label>
-                <fieldset>
-                  <legend class="legend-label" id="question_id21c">
-                  </legend>
-                  <div class="radio-toggle">
-                    <label class="on label-left">
-                      <input id="paymentBehalfYes" type="radio" name="paymentBehalf" value="yes">
-                      <span>Yes</span>
-                    </label>
-                    <label class="off label-right">
-                      <input id="paymentBehalfNo" type="radio" name="paymentBehalf" value="no">
-                      <span>No</span>
-                    </label>
-                  </div>
-                </fieldset>
+            <div id="showBank1" class="bank-details-container">
+              <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
+              <div class="uikit-page-alerts" role="alert">
+                  <p>This will be the nominated bank account for all of the client's DVA payments</p>
+              </div>
+                <% include ../../global/partials/bank-account-details.ejs %>
             </div>
+
           </div>
+
 
           <div class="pagination pagination--ss-reverse-order margin-above--large">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/nr-rep-details'">Previous</button>
@@ -334,7 +355,7 @@
               <p>Are you sure you want to cancel this application?</p>
               <div class="modal-buttons">
                 <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-agreements-realistic-new'">Leave page</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-agreements-clean-new'">Leave page</button>
               </div>
             </div>
           </div>
@@ -410,10 +431,10 @@ $('#paymentOnly').click(function(){
     $('#trustee').hide();
   });
   $('#paymentBehalfYes').click(function(){
-    $('#trustee').show("fast");
+    $('#showBank2').show("fast");
   });
   $('#paymentBehalfNo').click(function(){
-    $('#trustee').hide();
+    $('#showBank2').hide();
   });
 
       var d = new Date();
@@ -467,7 +488,7 @@ $(function () {
 
 $('#btnNext').click(function(){
      if($('#enquire').is(':checked')){
-        window.location.href = '/nr-review-client';
+        window.location.href = '/nr-review-rep';
      } else {
        window.location.href= '/nr-upload-client';
      }
