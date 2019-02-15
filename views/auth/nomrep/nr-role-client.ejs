@@ -245,14 +245,35 @@
                   </div>
                 </fieldset>
             </div>
+            <div id="receivePayment" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
+              <label class="uikit-text-input__label" for="Input field">Would you like your representative to receive payments on your behalf?</label>
 
-            <div id="receivePayment" class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-              <label class="uikit-text-input__label" for="Input field">Provide payment details</label>
-              <div id="actAlert" class="uikit-page-alerts" role="alert">
-                <p>This will be the nominated bank account for all of the client's DVA payments.</p>
-              </div>
-                <% include ../../global/partials/bank-account-details.ejs %>
+              <fieldset>
+                <legend class="legend-label" id="question_id21c">
+                </legend>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input id="paymentBehalfYes" type="radio" name="paymentBehalf" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input id="paymentBehalfNo" type="radio" name="paymentBehalf" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+
+          </div>
+
+          <div id="showBank2" class="bank-details-container" style="display:none;">
+            <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
+            <div class="uikit-page-alerts" role="alert">
+              <p>This will be the nominated bank account for all of the client's DVA payments</p>
             </div>
+            <% include ../../global/partials/bank-account-details.ejs %>
+
+
+          </div>
 
           </div>
         </div>
@@ -317,6 +338,7 @@
 
           </div>
 
+
           <div class="pagination pagination--ss-reverse-order margin-above--large">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/nr-rep-details'">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
@@ -333,7 +355,7 @@
               <p>Are you sure you want to cancel this application?</p>
               <div class="modal-buttons">
                 <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-agreements-realistic-new'">Leave page</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-agreements-clean-new'">Leave page</button>
               </div>
             </div>
           </div>
@@ -409,10 +431,10 @@ $('#paymentOnly').click(function(){
     $('#trustee').hide();
   });
   $('#paymentBehalfYes').click(function(){
-    $('#trustee').show("fast");
+    $('#showBank2').show("fast");
   });
   $('#paymentBehalfNo').click(function(){
-    $('#trustee').hide();
+    $('#showBank2').hide();
   });
 
       var d = new Date();
@@ -466,7 +488,7 @@ $(function () {
 
 $('#btnNext').click(function(){
      if($('#enquire').is(':checked')){
-        window.location.href = '/nr-review-client';
+        window.location.href = '/nr-review-rep';
      } else {
        window.location.href= '/nr-upload-client';
      }
