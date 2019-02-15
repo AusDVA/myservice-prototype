@@ -105,6 +105,18 @@ function hideAll() {
   $("#cash-held-card").hide();
   $("#cash-held-summary").hide();
 
+  $("#superannuation-card").hide();
+  $("#superannuation-summary").hide();
+
+  $("#shares-card").hide();
+  $("#shares-summary").hide();
+
+  $("#managed-investments-card").hide();
+  $("#managed-investments-summary").hide();
+
+  $("#other-investments-card").hide();
+  $("#other-investments-summary").hide();
+
   $("#money-loaned-card").hide();
   $("#money-loaned-summary").hide();
 
