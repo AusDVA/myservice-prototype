@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>Home | MyService</title>
+  <!-- <link href="docs/css/main.css" rel="stylesheet"> -->
+
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
+  <!-- Muuri Drag n Drop JQuery plugin -->
+
+  <!-- styles -->
+  <link rel="stylesheet" href="styles/main.css?v=5">
+  <link rel="stylesheet" href="styles/demo-grid.css?v=5">
+  <link rel="stylesheet" href="styles/demo-kanban.css?v=5">
+
+  <!-- scripts -->
+  <link rel="stylesheet" href="styles/main.css?v=5">
+  <link rel="stylesheet" href="styles/demo-grid.css?v=5">
+  <link rel="stylesheet" href="styles/demo-kanban.css?v=5">
+  <script src="https://unpkg.com/web-animations-js@2.3.1/web-animations.min.js"></script>
+  <script src="https://unpkg.com/hammerjs@2.0.8/hammer.min.js"></script>
+  <script src="https://unpkg.com/muuri@0.7.1/dist/muuri.min.js"></script>
+
+  <style>
+    /* Muuri */
+    .grid {
+      position: relative;
+    }
+
+    .grid.muuri {
+      .item {
+        display: block;
+        position: absolute;
+        width: 100px;
+        height: 100px;
+        margin: 5px;
+        z-index: 1;
+        background: #000;
+        color: #fff;
+        border: 1px dotted blue;
+      }
+
+      .item.muuri-item-dragging {
+        z-index: 3;
+      }
+
+      .item.muuri-item-releasing {
+        z-index: 2;
+      }
+
+      .item.muuri-item-hidden {
+        z-index: 0;
+      }
+
+      .item-content {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="grid">
+
+    <div class="item h2 w2">
+      <div class="item-content">
+        <!-- Safe zone, enter your custom markup -->
+        1
+        <!-- Safe zone ends -->
+      </div>
+    </div>
+    <div class="item h3 w3">
+      <div class="item-content">
+        <!-- Safe zone, enter your custom markup -->
+        2
+        <!-- Safe zone ends -->
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-content">
+        <!-- Safe zone, enter your custom markup -->
+        <div class="my-custom-content">
+          3
+        </div>
+        <!-- Safe zone ends -->
+      </div>
+    </div>
+    <div class="item h1 w3">
+      <div class="item-content">
+        <!-- Safe zone, enter your custom markup -->
+        4
+        <!-- Safe zone ends -->
+      </div>
+    </div>
+
+  </div>
+
+
+
+
+  <!--
+  <section class="grid-demo">
+    <div class="grid muuri" style="height: 720px;">
+      <div class="item h2 w1 green muuri-item muuri-item-shown" data-id="1" data-title="fn">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              1
+            </div>
+            <div class="card-title">
+              fn
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w2 green muuri-item muuri-item-shown" data-id="2" data-title="mh">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              2
+            </div>
+            <div class="card-title">
+              mh
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w2 blue muuri-item muuri-item-shown" data-color="blue" data-id="3" data-title="do">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              3
+            </div>
+            <div class="card-title">
+              do
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w2 red muuri-item muuri-item-shown" data-color="red" data-id="4" data-title="zr">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              4
+            </div>
+            <div class="card-title">
+              zr
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w1 blue muuri-item muuri-item-shown" data-color="blue" data-id="5" data-title="sj">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              5
+            </div>
+            <div class="card-title">
+              sj
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w2 blue muuri-item muuri-item-shown" data-color="blue" data-id="6" data-title="gp">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              6
+            </div>
+            <div class="card-title">
+              gp
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w1 green muuri-item muuri-item-shown" data-id="7" data-title="ko">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              7
+            </div>
+            <div class="card-title">
+              ko
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w2 blue muuri-item muuri-item-shown" data-color="blue" data-id="8" data-title="lf">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              8
+            </div>
+            <div class="card-title">
+              lf
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w1 red muuri-item muuri-item-shown" data-color="red" data-id="9" data-title="nw">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              9
+            </div>
+            <div class="card-title">
+              nw
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w1 blue muuri-item muuri-item-shown" data-color="blue" data-id="10" data-title="lf">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              10
+            </div>
+            <div class="card-title">
+              lf
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w1 green muuri-item muuri-item-shown" data-id="11" data-title="tg">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              11
+            </div>
+            <div class="card-title">
+              tg
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w2 green muuri-item muuri-item-shown" data-id="12" data-title="vr">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              12
+            </div>
+            <div class="card-title">
+              vr
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w1 red muuri-item muuri-item-shown" data-color="red" data-id="13" data-title="vp">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              13
+            </div>
+            <div class="card-title">
+              vp
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w1 green muuri-item muuri-item-shown" data-id="14" data-title="jf">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              14
+            </div>
+            <div class="card-title">
+              jf
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w1 blue muuri-item muuri-item-shown" data-color="blue" data-id="15" data-title="ma">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              15
+            </div>
+            <div class="card-title">
+              ma
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h2 w1 blue muuri-item muuri-item-shown" data-color="blue" data-id="16" data-title="jy">
+        <div class="item-content" style="opacity: 1; transform: scale(1);">
+          <div class="card">
+            <div class="card-id">
+              16
+            </div>
+            <div class="card-title">
+              jy
+            </div>
+            <div class="card-remove">
+              <i class="material-icons">aaa</i>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="item h1 w1 green muuri-item muuri-item-shown" data-id="17" data-title="ig" ">
+        <div class=" item-content" style="opacity: 1; transform: scale(1);">
+        <div class="card">
+          <div class="card-id">
+            17
+          </div>
+          <div class="card-title">
+            ig
+          </div>
+          <div class="card-remove">
+            <i class="material-icons">aaa</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item h1 w2 green muuri-item muuri-item-shown" data-id="18" data-title="fr">
+      <div class="item-content" style="opacity: 1; transform: scale(1);">
+        <div class="card">
+          <div class="card-id">
+            18
+          </div>
+          <div class="card-title">
+            fr
+          </div>
+          <div class="card-remove">
+            <i class="material-icons">aaa</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="item h1 w2 red muuri-item muuri-item-shown" data-color="red" data-id="19" data-title="pc" ">
+        <div class=" item-content" style="opacity: 1; transform: scale(1);">
+      <div class="card">
+        <div class="card-id">
+          19
+        </div>
+        <div class="card-title">
+          pc
+        </div>
+        <div class="card-remove">
+          <i class="material-icons">aaa</i>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div class="item h1 w1 red muuri-item muuri-item-shown" data-color="red" data-id="20" data-title="iw">
+      <div class="item-content" style="opacity: 1; transform: scale(1);">
+        <div class="card">
+          <div class="card-id">
+            20
+          </div>
+          <div class="card-title">
+            iw
+          </div>
+          <div class="card-remove">
+            <i class="material-icons">aaa</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section> -->
+
+
+
+
+
+
+
+
+  <!-- <div class="grid">
+    <div class="item">
+      <div class="item-content">Recent<br />Activity</div>
+    </div>
+    <div class="item">
+      <div class="item-content">Request<br />Veteran<br />Card</div>
+    </div>
+    <div class="item">
+      <div class="item-content">Transport</div>
+    </div>
+    <div class="item">
+      <div class="item-content">Access<br />Mental<br />Health</div>
+    </div>
+    <div class="item">
+      <div class="item-content">Payments</div>
+    </div>
+    <div class="item">
+      <div class="item-content">Review<br />Your<br />Profile</div>
+    </div>
+  </div> -->
+
+
+
+  <!-- <body class="uikit-body uikit-grid uikit-refactor future">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav> -->
+
+  <!-- <% include ../../global/partials/provisional-banner.ejs %> -->
+
+
+
+
+
+
+
+
+
+
+  <!-- <div class="speakerbox">
+    <div class="container">
+      <div class="col-sm-12">
+        <p>Hi Millie,</p>
+        <p>We need you to tell us a little more about yourself, so that we can provide the services that are right for you.</p>
+        <button class="uikit-btn uikit-btn--gold">Update my profile</button>
+      </div>
+    </div>
+  </div>
+
+  <main>
+
+      <div>
+        <div>
+          <h2>Recent activity</h2> -->
+  <!-- <table class="table-claims table-responsive margin-below--none">
+            <tr>
+              <td>
+                <p class="status-icon status-approved">Your application for a Veteran Card was approved <span><em>&ndash; 12 Dec 2018</em>
+                  </span>
+                </p>
+              </td>
+              <td class="widget-actions">
+                <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'veteran-card-summary'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="status-icon status-approved">
+                  Your claim for Mental health treatment (NLHC) was approved <span><em>&ndash; 12 Dec 2018</em></span>
+                </p>
+              </td>
+              <td class="widget-actions">
+                <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'mental-health-summary'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <p class="status-icon status-submitted">
+                  Your Initial Liability claim for <b>Lumbar Spondylosis</b> was submitted <span><em>&ndash; 27 April 2018</em></span>
+                </p>
+              </td>
+              <td class="widget-actions">
+                <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claimdetail'">View</button>
+              </td>
+            </tr>
+          </table> -->
+
+  <!-- <button class="uikit-btn uikit-btn--tertiary small margin-above margin-below--large">See my claims</button> -->
+
+  <!-- </div>
+      </div> -->
+
+
+
+
+  <!-- <div class="authenticated-home section-feature section-feature--bg padding-above--extra padding-below--extra">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-7">
+
+            </div>
+            <div class="col-md-5 widget-mini">
+              <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                <div class="row">
+                  <div class="col-xs-12 col-sm-6 col-md-12">
+                    <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                      <div class="row">
+                        <div class="col-xs-2 col-sm-3 col-md-2">
+                          <img src="../../../docs/images/ico-transport-blue.svg" class="margin-above--mid">
+                        </div>
+                        <div class="col-xs-10 col-sm-9 col-md-10">
+                          <h2>Transport</h2>
+                          <button class="uikit-btn uikit-btn--tertiary small margin-below--large">Seek reimbursement</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-xs-12 col-sm-6 col-md-12 widget-mini--stacked">
+                    <div class="container-fluid" style="padding-left:0px; padding-right:0px;">
+                      <div class="row">
+                        <div class="col-xs-2 col-sm-3 col-md-2">
+                          <img src="../../../docs/images/ico-payment-blue.svg" class="margin-above--mid">
+                        </div>
+                        <div class="col-xs-10 col-sm-9 col-md-10">
+                          <h2>Payments</h2>
+                          <p class="margin-below--mid">Your next payment amount of <b>$638.64</b> will be paid on Tuesday 22
+                            January, 2019</p>
+                          <button class="uikit-btn uikit-btn--tertiary small margin-below">Manage my payments</button>
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+  <!-- </div> end first grid section -->
+
+  <!-- <div>
+        <div class="container margin-below--extra">
+
+          <h2 class="margin-above--extra margin-below--none ss-align--center">
+            <span class="font-weight-heavy">What would you like to&nbsp;do?</span>
+          </h2>
+          <div class="flex-container flex-container--wrap hover-container">
+
+
+            <div class="flex-item flex-item--centred card card--medium hover-element" id="nlhc-access">
+              <a href="/veteran-card-eligibility">
+                <h3 class="card__title margin-above">
+                  <span>Request a Veteran Card</span>
+                </h3>
+              </a>
+              <p class="card__supporting-text">The Veteran Card makes it easier to recognise and respect the unique contribution you have made to Australia.</p>
+            </div>
+
+            <div class="flex-item flex-item--centred card card--medium hover-element" id="nlhc-access">
+              <a href="/mental-health-eligibility">
+                <h3 class="card__title margin-above">
+                  <span>Access mental health treatment</span>
+                </h3>
+              </a>
+              <p class="card__supporting-text">Get immediate mental health treatment without the need to&nbsp;claim.</p>
+            </div>
+
+            <div class="flex-item flex-item--centred card card--medium hover-element">
+              <a href="/profile">
+                <h3 class="card__title margin-above">
+                  <span>Review your profile</span>
+                </h3>
+              </a>
+              <p class="card__supporting-text">Keep your profile up to date so we can help&nbsp;you.</p>
+            </div>
+
+          </div>
+
+        </div> -->
+  <!-- </main> -->
+
+
+</body>
+<script>
+
+
+  jQuery(document).ready(function () {
+
+    var grid = new Muuri('.grid', {
+      dragEnabled: true
+    });
+
+  });
+
+</script>
+
+</html>
