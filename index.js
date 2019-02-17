@@ -196,6 +196,11 @@ app.get("/auth", function (request, response) {
     main_nav_active: "home"
   });
 });
+app.get("/dragdrop", function (request, response) {
+  response.render("auth/index-dragdrop", {
+    main_nav_active: "home"
+  });
+});
 app.get("/dashboard", function (request, response) {
   response.render("auth/index-dashboard", {
     main_nav_active: "home"
@@ -1479,42 +1484,42 @@ app.get('/nr-manage-client', function (request, response) {
 });
 app.get('/nr-agreements-realistic', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-clean', function (request, response) {
   response.render('auth/nomrep/nr-agreements-clean', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements', function (request, response) {
   response.render('auth/nomrep/nr-agreements', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-clean-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-clean-new', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-new', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-realistic-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-new', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-concept', function (request, response) {
   response.render('auth/nomrep/nr-agreements-concept', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-agreements-realistic-concept', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-concept', {
-  main_nav_active: "profile"
+    main_nav_active: "profile"
   });
 });
 app.get('/nr-edit-rep', function (request, response) {
