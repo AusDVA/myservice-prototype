@@ -89,6 +89,11 @@ app.get('/index-claims', function (request, response) {
     main_nav_active: 'home'
   });
 });
+app.get('/dragdrop', function (request, response) {
+  response.render('auth/dashboard/index-dragdrop', {
+    main_nav_active: 'home'
+  });
+});
 app.get('/future', function (request, response) {
   response.render('auth/dashboard/index-future', {
     main_nav_active: 'home'
@@ -596,7 +601,7 @@ app.listen(app.get('port'), function () {
 
 
 /**
-EMAILS 
+EMAILS
 **/
 
 app.get('/email-rego-success', function (request, response) {
@@ -713,4 +718,3 @@ app.get('/myaccount', function (request, response) {
 app.get('/staff', function (request, response) {
   response.render('staff/index');
 });
-
