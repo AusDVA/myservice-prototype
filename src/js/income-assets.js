@@ -150,6 +150,9 @@ function hideAll() {
   $("#farm-card").hide();
   $("#farm-summary").hide();
 
+  $("#self-managed-super-card").hide();
+  $("#self-managed-super-summary").hide();
+
   $("#businesses-card").hide();
   $("#businesses-summary").hide();
 
