@@ -1482,6 +1482,18 @@ app.get('/nr-manage-rep', function (request, response) {
 app.get('/nr-manage-client', function (request, response) {
   response.render('auth/nomrep/nr-manage-client');
 });
+app.get('/nr-edit-review-rep', function (request, response) {
+  response.render('auth/nomrep/nr-edit-review-rep');
+});
+app.get('/nr-edit-upload-rep', function (request, response) {
+  response.render('auth/nomrep/nr-edit-upload-rep');
+});
+app.get('/nr-edit-review-client', function (request, response) {
+  response.render('auth/nomrep/nr-edit-review-client');
+});
+app.get('/nr-edit-upload-client', function (request, response) {
+  response.render('auth/nomrep/nr-edit-upload-client');
+});
 app.get('/nr-agreements-realistic', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic', {
     main_nav_active: "profile"
