@@ -1494,6 +1494,9 @@ app.get('/nr-edit-review-client', function (request, response) {
 app.get('/nr-edit-upload-client', function (request, response) {
   response.render('auth/nomrep/nr-edit-upload-client');
 });
+app.get('/nr-update-claimInProgress', function (request, response) {
+  response.render('auth/nomrep/nr-update-claimInProgress');
+});
 app.get('/nr-agreements-realistic', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic', {
     main_nav_active: "profile"
