@@ -76,7 +76,7 @@
               <div id="user-list">
                 <hr class="margin-below--none">
                 <h2 class="margin-above--none heading-width">
-                  <span class="fal fa-list-alt fa-icons"></span>My savings
+                  <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> savings
                 </h2>
                 <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="scrollToAdd();">
                   <p style="margin-top: 10px;">
@@ -93,16 +93,18 @@
               <% include ../../partials/income-assets--bank-accounts.ejs %>
                 <% include ../../partials/income-assets--cash-held.ejs %>
                   <% include ../../partials/income-assets--bonds-and-debentures.ejs %>
+                  <% include ../../partials/income-assets--money-loaned.ejs %>
                     <!-- Tiles intro -->
                     <div id="add-options">
                       <hr>
                       <h2 id="add-options" class="margin-above--none margin-below--none ss-align--center"><span class="font-weight-heavy">Savings</span></h2>
-                      <span class="hint display-block ss-align--center">Add all your savings, and your partner's savings, so we can calculate your payments.</span>
+                       <span class="hint display-block ss-align--center">Add all of your <span class="partner">(and/or your partner's)</span> savings, so we can calculate your payments.</span>
                       <div class="flex-container flex-container--wrap hover-container">
                         <!-- Tiles -->
                         <% include ../../partials/income-assets--tile--bank-accounts.ejs %>
                           <% include ../../partials/income-assets--tile--cash-held.ejs %>
                             <% include ../../partials/income-assets--tile--bonds-and-debentures.ejs %>
+                            <% include ../../partials/income-assets--tile--money-loaned.ejs %>
                       </div>
                     </div>
             </div>
@@ -125,6 +127,33 @@
       </section>
     </main>
     <% include ../../../global/partials/footer.ejs %>
+    <script>
+        $(Document).ready(function () {
+
+          $(document).keypress(function (e) {
+            switch (e.which) {
+              case 49:
+                hidePartner();
+                break;
+              case 50:
+                showPartner();
+                break;
+              default:
+            }
+          });
+
+          function showPartner() {
+            $(".partner").show();
+            $(".partner-label").text("Our");
+          }
+
+          function hidePartner() {
+            $(".partner").hide();
+            $(".partner-label").text("My");
+          }
+
+        });
+      </script>
 </body>
 
 </html>
