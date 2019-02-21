@@ -98,6 +98,8 @@ function displayUserList() {
 
 function hideAll() {
 
+  $(".hide-on-load").hide();
+
   $("#bank-accounts-card").hide();
   $("#bank-accounts-summary").hide();
   $("#church-account-ref").hide();
