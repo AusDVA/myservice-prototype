@@ -421,6 +421,13 @@ app.get("/claims-make", function (request, response) {
   });
 });
 
+/* Payments */
+app.get("/payments", function (request, response) {
+  response.render("auth/payments/pages/payments", {
+    main_nav_active: "payments"
+  });
+});
+
 app.get("/travel-home", function (request, response) {
   response.render("auth/travel/travel-home", {
     main_nav_active: "travel"
