@@ -25,6 +25,7 @@ app.get("/print-feedback-received", function (request, response) {
 /**
 Emails
 */
+
 app.get("/email-feedback-received", function (request, response) {
   response.render("email/pages/email-feedback-received");
 });
@@ -402,6 +403,11 @@ app.get("/panel-feedbacksubmitting", function (request, response) {
 /* Claims Page */
 app.get("/claims", function (request, response) {
   response.render("auth/claim/pages/claims", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/fluid-div-example", function (request, response) {
+  response.render("auth/claim/pages/fluid-div-example", {
     main_nav_active: "claims"
   });
 });
