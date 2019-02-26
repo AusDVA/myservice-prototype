@@ -241,6 +241,84 @@ app.get("/needs-success", function (request, response) {
   response.render("auth/needs-success");
 });
 
+
+/* New Veteran Pack Flows */
+
+/** Existing Card Holders **/
+
+// app.get("/auth", function (request, response) {
+//   response.render("auth/index", {
+//     main_nav_active: "home"
+//   });
+// });
+
+// app.get("/auth", function (request, response) {
+//   response.render("auth/index", {
+//     main_nav_active: "home"
+//   });
+// });
+
+
+/** Non-Existing Card Holders **/
+
+/* perm_reserve_ns_cfts flow */
+
+app.get("/veteran-card", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/veteran-card", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/perm_reserve_ns_cfts", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/index", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/the-covenant-explained", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/the-covenant-explained", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/request-vet-recognition-package", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/request-vet-recognition-package", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/what-youll-get", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/what-youll-get", {
+    main_nav_active: "home"
+  });
+});
+
+// (optional)
+app.get("/vet-bank-details", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/bank-details", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/review-and-submit", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/review-and-submit", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/approval", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/approval", {
+    main_nav_active: "home"
+  });
+});
+
+/* end perm_reserve_ns_cfts flow */
+
+
+
+
+
+
 /* Separate profile screens */
 app.get("/profile-account", function (request, response) {
   response.render("auth/profile-account", {
