@@ -430,7 +430,7 @@ app.get("/review-and-submit-non_card_pmkeys", function (request, response) {
 });
 
 app.get("/approval-non_card_pmkeys", function (request, response) {
-  response.render("auth/claim/pages/perm_reserve_ns_cfts/approval", {
+  response.render("auth/claim/pages/non_card_pmkeys/approval", {
     main_nav_active: "home"
   });
 });
