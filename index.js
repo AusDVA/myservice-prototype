@@ -244,21 +244,6 @@ app.get("/needs-success", function (request, response) {
 
 /* New Veteran Pack Flows */
 
-/** Existing Card Holders **/
-
-// app.get("/auth", function (request, response) {
-//   response.render("auth/index", {
-//     main_nav_active: "home"
-//   });
-// });
-
-// app.get("/auth", function (request, response) {
-//   response.render("auth/index", {
-//     main_nav_active: "home"
-//   });
-// });
-
-
 /** Non-Existing Card Holders **/
 
 /* perm_reserve_ns_cfts flow */
@@ -308,7 +293,7 @@ app.get("/approval", function (request, response) {
 
 /* no card page */
 app.get("/healthcard-none-vet-pack", function (request, response) {
-  response.render("auth/healthcard/healthcard-none-vet-pack", {
+  response.render("auth/healthcard/healthcard-no-card", {
     main_nav_active: "healthcard"
   });
 });
@@ -333,17 +318,6 @@ app.get("/the-covenant-explained-card", function (request, response) {
     main_nav_active: "home"
   });
 });
-// app.get("/request-vet-recognition-package-card", function (request, response) {
-//   response.render("auth/claim/pages/vet_card_holder/request-vet-recognition-package", {
-//     main_nav_active: "home"
-//   });
-// });
-
-// app.get("/vet-bank-details-card", function (request, response) {
-//   response.render("auth/claim/pages/perm_reserve_ns_cfts/bank-details", {
-//     main_nav_active: "home"
-//   });
-// });
 
 app.get("/review-and-submit-card", function (request, response) {
   response.render("auth/claim/pages/vet_card_holder/review-and-submit", {
@@ -357,9 +331,9 @@ app.get("/approval-card", function (request, response) {
   });
 });
 
-/* no card page */
+/* card page */
 app.get("/healthcard-card-holder", function (request, response) {
-  response.render("auth/healthcard/healthcard-none-vet-pack", {
+  response.render("auth/healthcard/healthcard-has-card", {
     main_nav_active: "healthcard"
   });
 });
