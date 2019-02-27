@@ -346,19 +346,19 @@ app.get("/the-covenant-explained-card", function (request, response) {
 // });
 
 app.get("/review-and-submit-card", function (request, response) {
-  response.render("auth/claim/pages/perm_reserve_ns_cfts/review-and-submit", {
+  response.render("auth/claim/pages/vet_card_holder/review-and-submit", {
     main_nav_active: "home"
   });
 });
 
 app.get("/approval-card", function (request, response) {
-  response.render("auth/claim/pages/perm_reserve_ns_cfts/approval", {
+  response.render("auth/claim/pages/vet_card_holder/approval", {
     main_nav_active: "home"
   });
 });
 
 /* no card page */
-app.get("/healthcard-none-vet-pack-card", function (request, response) {
+app.get("/healthcard-card-holder", function (request, response) {
   response.render("auth/healthcard/healthcard-none-vet-pack", {
     main_nav_active: "healthcard"
   });
