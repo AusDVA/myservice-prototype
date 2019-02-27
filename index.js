@@ -1733,6 +1733,11 @@ app.get('/nr-agreements-clean', function (request, response) {
     main_nav_active: "profile"
   });
 });
+app.get('/rep-landing', function (request, response) {
+  response.render('auth/nomrep/rep-landing', {
+    main_nav_active: "profile"
+  });
+});
 app.get('/nr-agreements', function (request, response) {
   response.render('auth/nomrep/nr-agreements', {
     main_nav_active: "profile"
