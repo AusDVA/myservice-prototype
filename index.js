@@ -262,38 +262,32 @@ app.get("/needs-success", function (request, response) {
 /** Non-Existing Card Holders **/
 
 /* perm_reserve_ns_cfts flow */
-
 app.get("/veteran-card", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/veteran-card", {
     main_nav_active: "home"
   });
 });
-
 app.get("/perm_reserve_ns_cfts", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/index", {
     main_nav_active: "home"
   });
 });
-
 app.get("/the-covenant-explained", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/the-covenant-explained", {
     main_nav_active: "home"
   });
 });
-
 app.get("/request-vet-recognition-package", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/request-vet-recognition-package", {
     main_nav_active: "home"
   });
 });
-
 app.get("/what-youll-get", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/what-youll-get", {
     main_nav_active: "home"
   });
 });
 
-// (optional)
 app.get("/vet-bank-details", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/bank-details", {
     main_nav_active: "home"
@@ -312,7 +306,72 @@ app.get("/approval", function (request, response) {
   });
 });
 
-/* end perm_reserve_ns_cfts flow */
+/* no card page */
+app.get("/healthcard-none-vet-pack", function (request, response) {
+  response.render("auth/healthcard/healthcard-none-vet-pack", {
+    main_nav_active: "healthcard"
+  });
+});
+
+
+
+
+
+
+
+
+
+/* vet_card_holder flow */
+
+app.get("/vet_card_holder", function (request, response) {
+  response.render("auth/claim/pages/vet_card_holder/index", {
+    main_nav_active: "home"
+  });
+});
+app.get("/the-covenant-explained-card", function (request, response) {
+  response.render("auth/claim/pages/vet_card_holder/the-covenant-explained", {
+    main_nav_active: "home"
+  });
+});
+// app.get("/request-vet-recognition-package-card", function (request, response) {
+//   response.render("auth/claim/pages/vet_card_holder/request-vet-recognition-package", {
+//     main_nav_active: "home"
+//   });
+// });
+
+// app.get("/vet-bank-details-card", function (request, response) {
+//   response.render("auth/claim/pages/perm_reserve_ns_cfts/bank-details", {
+//     main_nav_active: "home"
+//   });
+// });
+
+app.get("/review-and-submit-card", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/review-and-submit", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/approval-card", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/approval", {
+    main_nav_active: "home"
+  });
+});
+
+/* no card page */
+app.get("/healthcard-none-vet-pack-card", function (request, response) {
+  response.render("auth/healthcard/healthcard-none-vet-pack", {
+    main_nav_active: "healthcard"
+  });
+});
+
+/* end vet_card_holder flow */
+
+
+
+
+
+
+
 
 
 
