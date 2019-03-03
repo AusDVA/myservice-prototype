@@ -647,6 +647,12 @@ app.get("/payments", function (request, response) {
   });
 });
 
+app.get("/payments-1", function (request, response) {
+  response.render("auth/payments/pages/payments-1", {
+    main_nav_active: "payments"
+  });
+});
+
 app.get("/travel-home", function (request, response) {
   response.render("auth/travel/travel-home", {
     main_nav_active: "travel"
