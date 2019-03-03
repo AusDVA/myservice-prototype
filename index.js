@@ -245,9 +245,7 @@ app.get("/needs-success", function (request, response) {
 
 /* New Veteran Pack Flows */
 
-/** Non-Existing Card Holders **/
-
-/* perm_reserve_ns_cfts flow */
+/* non-card holder flow */
 app.get("/veteran-card", function (request, response) {
   response.render("auth/claim/pages/perm_reserve_ns_cfts/veteran-card", {
     main_nav_active: "home"
@@ -299,14 +297,6 @@ app.get("/healthcard-none-vet-pack", function (request, response) {
   });
 });
 
-
-
-
-
-
-
-
-
 /* vet_card_holder flow */
 
 app.get("/vet_card_holder", function (request, response) {
@@ -342,6 +332,118 @@ app.get("/healthcard-card-holder", function (request, response) {
 /* end vet_card_holder flow */
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* reservist flow */
+app.get("/veteran-card-reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/veteran-card", {
+    main_nav_active: "home"
+  });
+});
+app.get("/reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/index", {
+    main_nav_active: "home"
+  });
+});
+app.get("/the-covenant-explained-reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/the-covenant-explained", {
+    main_nav_active: "home"
+  });
+});
+app.get("/request-vet-recognition-package-reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/request-vet-recognition-package", {
+    main_nav_active: "home"
+  });
+});
+app.get("/what-youll-get-reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/what-youll-get", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/vet-bank-details-reservist", function (request, response) {
+  response.render("auth/claim/pages/reservist/bank-details", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/review-and-submit-reservist", function (request, response) {
+  response.render("auth/claim/pagesreservist/review-and-submit", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/approval-reservist", function (request, response) {
+  response.render("auth/claim/pages/perm_reserve_ns_cfts/approval", {
+    main_nav_active: "home"
+  });
+});
+
+/* no card page */
+app.get("/healthcard-reservist", function (request, response) {
+  response.render("auth/healthcard/healthcard-reservist", {
+    main_nav_active: "healthcard"
+  });
+});
+
+/* end reservist flow */
+
+
+
+
+
+/* non_card_pmkeys flow */
+app.get("/veteran-card-non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/veteran-card", {
+    main_nav_active: "home"
+  });
+});
+app.get("/non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/index", {
+    main_nav_active: "home"
+  });
+});
+app.get("/the-covenant-explained-non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/the-covenant-explained", {
+    main_nav_active: "home"
+  });
+});
+app.get("/request-vet-recognition-package-non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/request-vet-recognition-package", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/review-and-submit-non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/review-and-submit", {
+    main_nav_active: "home"
+  });
+});
+
+app.get("/approval-non_card_pmkeys", function (request, response) {
+  response.render("auth/claim/pages/non_card_pmkeys/approval", {
+    main_nav_active: "home"
+  });
+});
+
+/* no card page */
+app.get("/healthcard-non_card_pmkeys", function (request, response) {
+  response.render("auth/healthcard/healthcard-non_card_pmkeys", {
+    main_nav_active: "healthcard"
+  });
+});
+
+/* end non_card_pmkeys flow */
 
 
 
@@ -1628,6 +1730,11 @@ app.get('/nr-agreements-realistic', function (request, response) {
 });
 app.get('/nr-agreements-clean', function (request, response) {
   response.render('auth/nomrep/nr-agreements-clean', {
+    main_nav_active: "profile"
+  });
+});
+app.get('/rep-landing', function (request, response) {
+  response.render('auth/nomrep/rep-landing', {
     main_nav_active: "profile"
   });
 });

@@ -7,6 +7,33 @@
     <title>Service Pension - Partner | MyService</title>
     <link href="docs/css/main.css" rel="stylesheet">
     <link rel="stylesheet" href="/src/font/fontawesome/css/all.css">
+    <style type="text/css">
+    div.table {
+        border: 0;
+        display: table;
+    }
+
+    div.tr {
+        border: 0;
+        display: table-row;
+    }
+
+    div.td {
+        border: 0;
+        display: table-cell;
+        padding-right: 15px;
+    }
+
+    hr {
+        margin: 0;
+    }
+
+    .ledger-rule {
+        margin: 15px 0 15px 0;
+        background-color: #ddd;
+        height: 1px;
+    }
+    </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor"></body>
@@ -26,39 +53,39 @@
                     <ul class="progress-container">
                         <li class="progress-step progress-step--active">
                             <a href="sp-partner">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Partner</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Relationship status</p>
+                            </a>
                         </li>
                         <li class="progress-step">
                             <a href="sp-dependant">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Dependent children</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Dependent children</p>
+                            </a>
                         </li>
                         <li class="progress-step">
                             <a href="sp-residency">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Residency</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Residency</p>
+                            </a>
                         </li>
                         <li class="progress-step">
                             <a href="sp-la">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Living arrangements</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Living arrangements</p>
+                            </a>
                         </li>
                         <li class="progress-step">
                             <a href="sp-claim-contact">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Claim Representative</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Claim Representative</p>
+                            </a>
                         </li>
                         <li class="progress-step progress-step--last">
                             <a href="sp-payment-details">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Payment details</p>
-                </a>
+                                <span class="progress-step__icon"></span>
+                                <p class="progress-step-label">Payment details</p>
+                            </a>
                         </li>
                     </ul>
                 </nav>
@@ -66,10 +93,10 @@
         </div>
         <!-- Page heading -->
         <h1 class="margin-above--none ss-align--center">
-        <span class="heading">Partner</span>
-      </h1>
+            <span class="heading">Relationship status</span>
+        </h1>
     </div> <!-- container end -->
-    <div class="container">
+    <div class="container" id="cleanskin">
         <div class="row">
             <div class="col-md-offset-2 col-md-8">
                 <div class="margin-above--extra margin-below--extra">
@@ -248,19 +275,6 @@
                             <label class="uikit-text-input__label" for="tags">What was your partner's former name?</label>
                             <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
                         </div>
-                        <!-- <fieldset class="margin-above">
-                            <legend class=" legend-label">Gender</legend>
-                            <div class="radio-toggle">
-                                <label class="on label-left" for="gender-yes">
-                                    <input id="gender-yes" type="radio" name="gender-names">
-                                    <span>Female</span>
-                                </label>
-                                <label class="off label-right" for="gender-no">
-                                    <input id="gender-no" type="radio" name="gender-names">
-                                    <span>Male</span>
-                                </label>
-                            </div>
-                        </fieldset> -->
                         <fieldset>
                             <div class="form-group margin-above--extra">
                                 <label class="uikit-text-input__label">Partner’s date of birth
@@ -296,29 +310,228 @@
                     <p>Choose <b>save and next</b> to continue.</p>
                 </div>
             </div>
-            <!-- bottom page navigation -->
-            <div class="row">
-                <div class="col-md-offset-2 col-md-8">
-                    <div class="pagination">
-                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/sp-progress-b'">Previous</button>
-                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
-                        <div class="floated">
-                            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims'">Save and exit</button>
-                            <button class="uikit-btn btnNext" onclick="window.location.href='/sp-dependant'">Save and next</button>
+        </div><!-- bottom page navigation end -->
+        <% include ../partials/cancel-modal.ejs %>
+    </div> <!-- container end -->
+    <div class="container" id="partnered-pre-pop" style="display: none;">
+        <div class="row">
+            <div class="col-md-offset-2 col-md-8">
+                <div class="margin-above--extra margin-below--extra">
+                    <div id="partnered-pre-pop--current-partner" class="form-group margin-above--large">
+                        <legend class="legend-label">Is this your current partner?</legend>
+                        <div class="table">
+                            <div class="tr">
+                                <div class="td"><b>Partner name</b></div>
+                                <div class="td">Jan Citizen</div>
+                            </div>
+                            <div class="tr">
+                                <div class="td"><b>Date of birth</b></div>
+                                <div class="td">12/04/1985</div>
+                            </div>
+                            <div class="tr">
+                                <div class="td"><b>Date of marriage</b></div>
+                                <div class="td">12/04/2010</div>
+                            </div>
+                        </div>
+                        <div class="radio-toggle margin-above">
+                            <label class="on label-left" for="partnered-pre-pop--current-partner--yes">
+                                <input id="partnered-pre-pop--current-partner--yes" type="radio" name="partnered-pre-pop--current-partner--question">
+                                <span>Yes</span>
+                            </label>
+                            <label class="off label-right" for="partnered-pre-pop--current-partner--no">
+                                <input id="partnered-pre-pop--current-partner--no" type="radio" name="partnered-pre-pop--current-partner--question">
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div id="partnered-pre-pop--options" class="margin-above--extra" style="display: none">
+                        <div class="ledger-rule"></div>
+                        <div class="">
+                            <h3>Please review the following details and update if necessary</h3>
+                        </div>
+                        <div id="partnered-pre-pop--relationship-status" class="form-group margin-above--large" style="display: block;">
+                            <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
+                            <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                                <option>-- Select one --</option>
+                                <option selected="selected">Married</option>
+                                <option>De facto</option>
+                            </select>
+                        </div>
+                        <div class="form-group margin-above--large" id="sp-start-pbs">
+                            <legend class="legend-label ">Is your partner currently receiving, or applying for, any Centrelink payments?</legend>
+                            <div class="radio-toggle">
+                                <label class="on label-left" for="ppp--centrelink-yes">
+                                    <input id="ppp--centrelink-yes" type="radio" name="ppp--centrelink">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="off label-right" for="ppp--centrelink-no">
+                                    <input id="ppp--centrelink-no" type="radio" name="ppp--centrelink">
+                                    <span>No</span>
+                                </label>
+                            </div>
+                            <div class="form-group margin-above--large" id="ppp--crn" style="display:none;">
+                                <label class="uikit-text-input__label" for="tags">What is your partner's Customer Reference Number (CRN)?</label>
+                                <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
+                            </div>
+                        </div>
+                    </div>
+                    <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
+                        <div class="ledger-rule"></div>
+                        <div class="form-group" id="date-marriage">
+                            <fieldset>
+                                <label class="uikit-text-input__label">When did this relationship end?
+                                    <span class="hint">(DD / MM / YYYY)</span>
+                                </label>
+                                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                            </fieldset>
                         </div>
                     </div>
                 </div>
+                <div id="ppp--save-and-next" class="margin-above" style="display: none">
+                    <p>Choose <b>save and next</b> to continue.</p>
+                </div>
             </div>
-        </div><!-- bottom page navigation end -->
+        </div>
+    </div>
+    <div class="container" id="single-pre-pop" style="display: none;">
+        <div class="row">
+            <form id="myForm">
+                <div class="col-md-offset-2 col-md-8">
+                    <div class="margin-above--extra margin-below--extra">
+                        <div id="single-pre-pop--current-status" class="form-group margin-above--large">
+                            <legend class="legend-label">Is this your CURRENT relationship status?</legend>
+                            <div class="table">
+                                <div class="tr">
+                                    <div class="td"><b>Relationship status</b></div>
+                                    <div class="td">Divorced</div>
+                                </div>
+                            </div>
+                            <div class="radio-toggle margin-above">
+                                <label class="on label-left" for="single-pre-pop--current-status--yes">
+                                    <input id="single-pre-pop--current-status--yes" type="radio" value="yes" name="single-pre-pop--current-status--question">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="off label-right" for="single-pre-pop--current-status--no">
+                                    <input id="single-pre-pop--current-status--no" type="radio" value="no" name="single-pre-pop--current-status--question">
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="spp--save-and-next" class="margin-above" style="display: none">
+                        <p>Choose <b>save and next</b> to continue.</p>
+                    </div>
+                </div>
+            </form>
+        </div>
         <% include ../partials/cancel-modal.ejs %>
-    </div><!-- form-group end -->
     </div> <!-- container end -->
+    <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+            <div class="pagination">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/sp-progress-b'">Previous</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
+                <div class="floated">
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/claims'">Save and exit</button>
+                    <!-- <button class="uikit-btn btnNext" onclick="window.location.href='/sp-dependant'">Save and next</button> -->
+                    <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </main>
 <% include ../../../global/partials/footer.ejs %>
 <script>
 $(Document).ready(function() {
 
     hideAll();
+
+    window.checkSaveAndNext = function() {
+
+        myNav = "/sp-dependant";
+        radioTest = $("#myForm input[type='radio']:checked").val() ;
+
+        if ($("#myForm input[type='radio']:checked").val() == "no") {
+            myNav = "cleanskin";
+        }
+        if ($("#partnered-no-longer").is(":visible")) {
+            myNav = "cleanskin";
+        }
+
+        if (myNav == "cleanskin") {
+            showScenario("cleanskin")
+        } else {
+            window.location.href = '/sp-dependant'
+        }
+
+    }
+
+    /* scenarios */
+
+    $(document).keypress(function(e) {
+        switch (e.which) {
+            case 51: //partnered pre-pop
+                showScenario("partnered-pre-pop");
+                break;
+            case 52: // siungle pre-pop
+                showScenario("single-pre-pop");
+                break;
+            case 53: // siungle pre-pop
+                showScenario("cleanskin");
+                break;
+            default:
+        }
+    });
+
+    function showScenario(scenario) {
+        $("#cleanskin").hide();
+        $("#single-pre-pop").hide();
+        $("#partnered-pre-pop").hide();
+        if (scenario == "partnered-pre-pop") {
+            $("#partnered-pre-pop").show();
+            $("#partnered-pre-pop--options").hide();
+            $("#ppp--crn").hide();
+        } else if (scenario == "single-pre-pop") {
+            $("#single-pre-pop").show();
+            console.log("single-pre-pop")
+        } else {
+            $("#cleanskin").show();
+            console.log("cleanskin")
+        }
+    }
+
+    /* partnered pre pop */
+
+    $("#partnered-pre-pop--current-partner--yes").click(function() {
+        $("#partnered-pre-pop--options").show("fast");
+        $("#partnered-no-longer").hide("fast");
+    });
+    $("#partnered-pre-pop--current-partner--no").click(function() {
+        $("#partnered-pre-pop--options").hide("fast");
+        $("#partnered-no-longer").show("fast");
+    });
+
+    $("#ppp--centrelink-yes").click(function() {
+        $("#ppp--crn").show("fast");
+    });
+    $("#ppp--centrelink-no").click(function() {
+        $("#ppp--crn").hide("fast");
+    });
+
+    /* single pre pop */
+
+    $("#single-pre-pop--current-status--yes").click(function() {
+        $("#spp--save-and-next").show("fast");
+        console.log("gfgfdgfd")
+    });
+    $("#single-pre-pop--current-status--no").click(function() {
+        $("#spp--save-and-next").show("fast");
+    });
+
+
+    /* cleanskin */
 
     $("#partner-centrelink-yes").click(function() {
         $("#partner-payment-type").show("fast");
@@ -441,6 +654,15 @@ $(Document).ready(function() {
     //         $("#crn-partner").show("fast");
     //     }
     // }
+
+
+
+    function hidePartner() {
+        sessionStorage.setItem('partnerApply', 'false')
+        $("#sp-res-veteranTitle").hide();
+        $("#sp-res-partnerDetails").hide();
+        $("#intro-copy-no-partner").show();
+    }
 
     function hideAll() {
         $("#date-marriage").hide();
