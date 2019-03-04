@@ -997,6 +997,16 @@ app.get("/sp-qs", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/sp-qs-about", function (request, response) {
+  response.render("auth/claim/pages/sp-qs-about", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/sp-qs-review", function (request, response) {
+  response.render("auth/claim/pages/sp-qs-review", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/sp-review", function (request, response) {
   response.render("auth/claim/pages/sp-review", {
     main_nav_active: "claims"
