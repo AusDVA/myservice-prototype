@@ -1,26 +1,43 @@
+<style type="text/css">
+div.table {
+    border: 0;
+    display: table;
+}
+
+div.tr {
+    border: 0;
+    display: table-row;
+}
+
+div.td {
+    border: 0;
+    display: table-cell;
+    padding-right: 15px;
+}
+</style>
 <!-- Summary card -->
 <div id="shares-summary" class="plain-text-info" style="display:none;">
     <div class="review__wrapper">
-        <div class="review__content--item boxed row">
-            <div class="review__content--label col-sm-10">
-                <h2 class="margin-above--none">
-                    <span class="fal fa-file-certificate fa-icons"></span>&nbsp;&nbsp;<span class="font-weight-heavy">Shares</span></h2>
-                <div class="key-value-group margin-above">
-                    <div class="key">
-                        <h4>Key</h4>
-                    </div>
-                    <div class="value">Value
-                    </div>
-                </div>
-                <div class="key-value-group margin-above">
-                    <div class="key">
-                        <h4>Key</h4>
-                    </div>
-                    <div class="value">Value
-                    </div>
-                </div>
+        <div class="review__content--item boxed">
+            <div class="review__content--label margin-below">
+                <h2 class="margin-above--none" style="display: inline-block;">
+                    <span class="fal fa-file-certificate fa-icons"></span><span class="font-weight-heavy">Shares</span>
+                </h2>
+                <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('managed-investments');">&nbsp;Edit&nbsp;</button>
             </div>
-            <div class="col-sm-2" style="margin: 0;"><button class="uikit-btn uikit-btn--tertiary" onClick="editCard('shares');">&nbsp;Edit&nbsp;</button>
+            <div class="table">
+                <div class="tr">
+                    <div class="td"><b>Type of share</b></div>
+                    <div class="td">Listed</div>
+                </div>
+                <div class="tr">
+                    <div class="td"><b>Company name</b></div>
+                    <div class="td">AMP</div>
+                </div>
+                <div class="tr">
+                    <div class="td"><b>Market value</b></div>
+                    <div class="td">$23,548.00</div>
+                </div>
             </div>
         </div>
     </div>
@@ -83,12 +100,22 @@
                 <label class="uikit-text-input__label" for="Input field">Company name</label>
                 <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group margin-above--large">
+            <div class="form-group margin-above--large" id="date-marriage">
+                <fieldset>
+                    <label class="uikit-text-input__label">Date acquired
+                        <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                    <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                    <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                </fieldset>
+            </div>  
+            <div class="form-group margin-above--large" id="number-of-shares" style="display: none;">
                 <label class="uikit-text-input__label" for="Input field">Total number of shares</label>
                 <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group margin-above--large" id="currency">
-               <label class="uikit-text-input__label" for="Input field">Currency</label>
+            <div class="form-group margin-above--large" id="currency" style="display: none;">
+                <label class="uikit-text-input__label" for="Input field">Currency</label>
                 <select class="uikit-text-input input-half" style="max-width: 80px;" id="drop-down" name="drop-down">
                     <option>-- Select an item --</option>
                     <option data-symbol="$" data-placeholder="0.00">USD</option>
@@ -98,6 +125,14 @@
                     <option data-symbol="$" data-placeholder="0.00">CAD</option>
                     <option data-symbol="$" data-placeholder="0.00" selected>AUD</option>
                 </select>
+            </div>
+            <div class="form-group margin-above--large" id="country-payment" style="display: none;">
+                <label class="uikit-text-input__label">Country of payment</label>
+                <% include ../partials/select-list-country.ejs %>
+            </div>
+             <div class="form-group margin-above--large" id="market-value" style="display: none;">
+                <label class="uikit-text-input__label" for="Input field">Market value</label>
+                <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
         </form>
         <hr>
@@ -112,17 +147,28 @@ var sharesAU;
 $("#share-type").change(function() {
     if ($('#share-type :selected').val() == "Listed" && sharesAU) {
         $("#share-code").show();
+
     } else {
         $("#share-code").hide();
+
     }
 });
 $("#shares-australia").change(function() {
     if ($("#shares-australia input[type='radio']:checked").val() == "yes") {
         sharesAU = true;
         if ($('#share-type :selected').val() == "Listed") $("#share-code").show();
+        $("#number-of-shares").show();
+        $("#currency").hide();
+        $("#country-payment").hide();
+        $("#market-value").hide();
     } else {
         sharesAU = false;
-        $("#share-code").hide()
+        $("#currency").show();
+        $("#country-payment").show();
+        $("#market-value").show();
+        $("#share-code").hide();
+        $("#number-of-shares").hide();
+        
     }
 });
 </script>
