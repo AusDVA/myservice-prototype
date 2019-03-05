@@ -328,10 +328,10 @@
                                 <div class="td"><b>Date of birth</b></div>
                                 <div class="td">12/04/1985</div>
                             </div>
-                            <div class="tr">
+                            <!-- <div class="tr">
                                 <div class="td"><b>Date of marriage</b></div>
                                 <div class="td">12/04/2010</div>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="radio-toggle margin-above">
                             <label class="on label-left" for="partnered-pre-pop--current-partner--yes">
@@ -351,11 +351,21 @@
                         </div>
                         <div id="partnered-pre-pop--relationship-status" class="form-group margin-above--large" style="display: block;">
                             <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
-                            <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                            <select id="ppp-relationship" class="uikit-text-input input-half" id="drop-down" name="drop-down">
                                 <option>-- Select one --</option>
                                 <option selected="selected">Married</option>
                                 <option>De facto</option>
                             </select>
+                        </div>
+                        <div class="form-group margin-above--large" id="ppp-married-date" style="display: none;">
+                            <fieldset>
+                                <label class="uikit-text-input__label">Date of marriage
+                                    <span class="hint">(dd / mm / yyyy)</span>
+                                </label>
+                                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                            </fieldset>
                         </div>
                         <div class="form-group margin-above--large" id="sp-start-pbs">
                             <legend class="legend-label ">Is your partner currently receiving, or applying for, any Centrelink payments?</legend>
@@ -451,7 +461,7 @@ $(Document).ready(function() {
     window.checkSaveAndNext = function() {
 
         myNav = "/sp-dependant";
-        radioTest = $("#myForm input[type='radio']:checked").val() ;
+        radioTest = $("#myForm input[type='radio']:checked").val();
 
         if ($("#myForm input[type='radio']:checked").val() == "no") {
             myNav = "cleanskin";
@@ -495,10 +505,10 @@ $(Document).ready(function() {
             $("#ppp--crn").hide();
         } else if (scenario == "single-pre-pop") {
             $("#single-pre-pop").show();
-            console.log("single-pre-pop")
+            // console.log("single-pre-pop")
         } else {
             $("#cleanskin").show();
-            console.log("cleanskin")
+            // console.log("cleanskin")
         }
     }
 
@@ -518,6 +528,14 @@ $(Document).ready(function() {
     });
     $("#ppp--centrelink-no").click(function() {
         $("#ppp--crn").hide("fast");
+    });
+
+    $("#ppp-relationship").change(function() {
+        if ($('#ppp-relationship :selected').val() == "Married") {
+            $("#ppp-married-date").show();
+        } else {
+            $("#ppp-married-date").hide();
+        }
     });
 
     /* single pre pop */
