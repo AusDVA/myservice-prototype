@@ -1,4 +1,3 @@
-
 <!-- Summary card -->
 <div id="managed-investments-summary" class="plain-text-info" style="display:none;">
     <div class="review__wrapper">
@@ -47,21 +46,21 @@
         <div class="form-group">
             <label class="uikit-text-input__label" for="drop-down">Managed investment type</span>
             </label>
-            <select class="uikit-text-input input-half" id="investmentType" name="drop-down" onchange="typeSelected()">
+            <select class="uikit-text-input input-half" id="investmentType" name="drop-down">
                 <option>-- Select an item --</option>
-                <option>Managed investment</option>
+                <option>Managed investments</option>
                 <option>Funeral bonds</option>
                 <option>Pre-paid funeral</option>
             </select>
         </div>
         <div id="funeral-bonds" class="hide-on-load" style="display: none;">
             <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="drop-down">Owner of the funeral Bonds</label>
+                <label class="uikit-text-input__label" for="drop-down">Account owner</label>
                 <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
                     <option selected="selected">-- Select one --</option>
                     <option>Myself</option>
                     <option>My partner</option>
-                    <option>Jointly owned with my partner</option>
+                    <option>Jointly with my partner</option>
                 </select>
             </div>
             <div class="form-group margin-above--large">
@@ -96,12 +95,12 @@
         </div>
         <div id="prepaid-funerals" class="hide-on-load" style="display: none;">
             <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="drop-down">Owner of the Pre-paid Funeral</label>
+                <label class="uikit-text-input__label" for="drop-down">Account owner</label>
                 <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
                     <option selected="selected">-- Select one --</option>
                     <option>Myself</option>
                     <option>My partner</option>
-                    <option>Jointly owned with my partner</option>
+                    <option>Jointly with my partner</option>
                 </select>
             </div>
             <div class="form-group margin-above--large">
@@ -112,8 +111,40 @@
                 <label class="uikit-text-input__label" for="Input field">Amount paid for the pre-paid funeral plan</label>
                 <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
-             <div class="uikit-page-alerts margin-above--large" role="alert">
+            <div class="uikit-page-alerts margin-above--large" role="alert">
                 <p>Add documentation requirements message here.</p>
+            </div>
+        </div>
+        <div id="managed-investments" class="hide-on-load" style="display: none;">
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="drop-down">Account owner</label>
+                <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                    <option selected="selected">-- Select one --</option>
+                    <option>Myself</option>
+                    <option>My partner</option>
+                    <option>Jointly with my partner</option>
+                </select>
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="Input field">Name of the institution/find manager
+                    <!-- <BR /><span class="hint">Start typing and then if possible select from the options shown.</span> -->
+                </label>
+                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="Input field">Product</label>
+                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="Input field">Units</label>
+                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="Input field">Amount invested</label>
+                <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
+            </div>
+            <div class="uikit-page-alerts margin-above--large" role="alert">
+                <p>You will need to attach a copy of the latest statement for each fund in the documents section.</p>
             </div>
         </div>
     </form>
@@ -122,26 +153,32 @@
         <button id="addButton" class="uikit-btn" onclick="addSummary('managed-investments'); ">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
     </div>
 </div>
+<script src="/docs/js/jquery-3.2.1.min.js"></script>
 <script>
-function typeSelected(event) {
-    var select = document.getElementById("investmentType");
-    var selectedString = select.options[select.selectedIndex].value;
-    console.log(selectedString)
-    if (selectedString == "Funeral bonds") {
-        hideInvestmentTypes();
-        var selected = document.getElementById("funeral-bonds");
-        selected.style.display = 'block';
-    } else if (selectedString == "Pre-paid funeral") {
-        hideInvestmentTypes();
-        var selected = document.getElementById("prepaid-funerals");
-        selected.style.display = 'block';
+$("#investmentType").change(function() {
+    mySelection = $('#investmentType :selected').val();
+    switch (mySelection) {
+        case "Managed investments":
+            hideInvestmentTypes();
+            $("#managed-investments").show();
+            console.log("dfdsfsdfdsf")
+             break;
+        case "Funeral bonds":
+            hideInvestmentTypes();
+            $("#funeral-bonds").show();
+            break;
+        case "Pre-paid funeral":
+            hideInvestmentTypes();
+            $("#prepaid-funerals").show();
+            break;
+        default:
+            // code block
     }
-}
+});
 
 function hideInvestmentTypes() {
-    var selected = document.getElementById("funeral-bonds");
-    selected.style.display = 'none';
-    var selected = document.getElementById("prepaid-funerals");
-    selected.style.display = 'none';
+    $("#managed-investments").hide();
+    $("#funeral-bonds").hide();
+    $("#prepaid-funerals").hide();
 }
 </script>
