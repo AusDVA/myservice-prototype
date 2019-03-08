@@ -142,6 +142,9 @@ function hideAll() {
   $("#foreign-pension-card").hide();
   $("#foreign-pension-summary").hide();
 
+  $("#boarders-and-lodgers-card").hide();
+  $("#boarders-and-lodgers-summary").hide();
+
   $("#purchased-income-streams-card").hide();
   $("#purchased-income-streams-summary").hide();
 
