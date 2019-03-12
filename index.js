@@ -1455,6 +1455,11 @@ app.get("/veteran-card-service-history", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/veteran-card-submitted", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-submitted", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/veteran-card-1", function (request, response) {
   response.render("auth/claim/pages/veteran-card-1", {
     main_nav_active: "claims"
