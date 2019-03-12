@@ -1439,6 +1439,17 @@ app.get("/veteran-card-start", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/veteran-card-payment", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-payment", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/veteran-card-review-submit", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-review-submit", {
+    main_nav_active: "claims"
+  });
+});
+
 app.get("/veteran-card-service-history", function (request, response) {
   response.render("auth/claim/pages/veterancard/veteran-card-service-history", {
     main_nav_active: "claims"
