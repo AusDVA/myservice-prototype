@@ -17,7 +17,7 @@
                     <div class="td"><b>Account owner</b></div>
                     <div class="td">Jointly with my partner</div>
                 </div>
-                 <div class="tr">
+                <div class="tr">
                     <div class="td"><b>Balance</b></div>
                     <div class="td">$478.88</div>
                 </div>
@@ -32,14 +32,13 @@
             </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeSummary('bank-accounts');">&nbsp;Delete item&nbsp;</button>
     </div>
     <div id="card-details" class="margin-below--large">
-        <h4 class="margin-below--mid margin-above--none">Add all accounts held with institutions such as a banks, building societies or credit unions<span class="partner"> that belong
-                to you (and/or your partner)</span>.</h4>
+        <h4 class="margin-below--mid margin-above--none">Add all accounts held with institutions such as a banks, building societies or credit unions<span class="partner"> that belong to you (and/or your partner)</span>.</h4>
         <p class="margin-below--mid">Include term deposit, joint accounts, accounts you hold under any other name or money held in church or charitable development funds within Australia and overseas.</p>
         <p class="margin-below--mid">Do not include bonds and debentures or any superanuation funds you hold. You will be asked about these elsewhere.</p>
         <hr>
         <form id="myForm">
             <input type="reset" style="display:none">
-            <div class="form-group margin-above--large">
+            <div class="form-group margin-above--large partner">
                 <label class="uikit-text-input__label" for="drop-down">Account owner</label>
                 <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
                     <option selected="selected">-- Select one --</option>
@@ -50,7 +49,7 @@
             </div>
             <div class="form-group margin-above--large">
                 <label class="uikit-text-input__label" for="drop-down">Account type</label>
-                <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                <select class="uikit-text-input input-half" id="accountType" name="drop-down">
                     <option>-- Select an item --</option>
                     <option>Savings account</option>
                     <option>Cheque account</option>
@@ -65,7 +64,15 @@
                 <label class="uikit-text-input__label" for="tags">BSB number</label>
                 <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group margin-above--large">
+            <div class="form-group margin-above--large" id="church-account-name" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Name of church/charity account</label>
+                <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            </div>
+            <div class="form-group margin-above--large" id="foreign-institution-name" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Name of foreign financial insitution</label>
+                <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            </div>
+            <div class="form-group margin-above--large" id="institution-name" style="display: none;">
                 <label class="uikit-text-input__label" for="tags">Name of financial insitution</label>
                 <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
             </div>
@@ -73,23 +80,22 @@
                 <label class="uikit-text-input__label" for="tags">Account number</label>
                 <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
+            <div class="form-group margin-above--large" id="church-reference" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Church/charity account or reference number</label>
+                <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
             <div class="form-group margin-above--large">
                 <label class="uikit-text-input__label" for="Input field">Current balance</label>
                 <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
-           <!--  <div class="form-group">
-                <label class="uikit-text-input__label" for="Input field">Current balance</label>
-                <select class="uikit-text-input input-half" style="max-width: 80px;" id="drop-down" name="drop-down">
-                    <option>-- Select an item --</option>
-                    <option data-symbol="$" data-placeholder="0.00">USD</option>
-                    <option data-symbol="€" data-placeholder="0.00">EUR</option>
-                    <option data-symbol="£" data-placeholder="0.00">GBP</option>
-                    <option data-symbol="¥" data-placeholder="0">JPY</option>
-                    <option data-symbol="$" data-placeholder="0.00">CAD</option>
-                    <option data-symbol="$" data-placeholder="0.00" selected>AUD</option>
-                </select>
-                <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
-            </div> -->
+            <div class="form-group margin-above--large" id="country-payment" style="display: none;">
+                <label class="uikit-text-input__label">Country of payment</label>
+                <% include ../partials/select-list-country.ejs %>
+            </div>
+            <div class="form-group margin-above--large" id="currency" style="display: none;">
+                <label class="uikit-text-input__label">Currency</label>
+                <% include ../partials/select-list-currency.ejs %>
+            </div>
         </form>
     </div>
     <hr>
@@ -98,3 +104,43 @@
     </div>
 </div>
 <!-- card end -->
+<script src="/docs/js/jquery-3.2.1.min.js"></script>
+<script>
+$("#accountType").change(function() {
+    mySelection = $('#accountType :selected').val();
+    console.log(mySelection);
+    switch (mySelection) {
+        case "Savings account":
+        case "Cheque account":
+        case "Term deposit account":
+        case "Cash management account":
+        case "Deeming account":
+            hideTypes();
+            $("#institution-name").show();
+            console.log("1");
+            break;
+        case "Church/charity account":
+            hideTypes();
+            $("#church-account-name").show();
+            $("#church-reference").show();
+            break;
+        case "Overseas account":
+            hideTypes();
+            $("#foreign-institution-name").show();
+            $("#country-payment").show();
+            $("#currency").show();
+            break;
+        default:
+            // code block
+    }
+});
+
+function hideTypes() {
+    $("#church-account-name").hide();
+    $("#foreign-institution-name").hide();
+    $("#institution-name").hide();
+    $("#church-reference").hide();
+    $("#country-payment").hide();
+    $("#currency").hide();
+}
+</script>
