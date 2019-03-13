@@ -213,6 +213,7 @@ app.get("/index-claims", function (request, response) {
   });
 });
 
+
 /* temporary only */
 app.get("/index-claims-alt-icons", function (request, response) {
   response.render("auth/index-claims-alt-icons", {
@@ -617,6 +618,11 @@ app.get("/panel-feedbacksubmitting", function (request, response) {
 app.get("/claims", function (request, response) {
   response.render("auth/claim/pages/claims", {
     main_nav_active: "claims"
+  });
+});
+app.get("/claims-new", function (request, response) {
+  response.render("auth/claim/pages/claims-new", {
+    main_nav_active: "home"
   });
 });
 app.get("/fluid-div-example", function (request, response) {
