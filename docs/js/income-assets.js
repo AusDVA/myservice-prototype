@@ -142,8 +142,11 @@ function hideAll() {
   $("#foreign-pension-card").hide();
   $("#foreign-pension-summary").hide();
 
-  $("#annuities-and-pensions-card").hide();
-  $("#fannuities-and-pensions-summary").hide();
+  $("#boarders-and-lodgers-card").hide();
+  $("#boarders-and-lodgers-summary").hide();
+
+  $("#purchased-income-streams-card").hide();
+  $("#purchased-income-streams-summary").hide();
 
   $("#foreign-income-and-assets-card").hide();
   $("#foreign-income-and-assets-summary").hide();
