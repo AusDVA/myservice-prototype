@@ -396,12 +396,6 @@ app.get("/healthcard-reservist", function (request, response) {
   });
 });
 
-/* end reservist flow */
-
-
-
-
-
 /* non_card_pmkeys flow */
 app.get("/veteran-card-non_card_pmkeys", function (request, response) {
   response.render("auth/claim/pages/non_card_pmkeys/veteran-card", {
@@ -1467,6 +1461,12 @@ app.get("/veteran-card-submitted", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/veteran-card-no-card", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-no-card", {
+    main_nav_active: "healthcard"
+  });
+});
+
 app.get("/veteran-card-1", function (request, response) {
   response.render("auth/claim/pages/veteran-card-1", {
     main_nav_active: "claims"
