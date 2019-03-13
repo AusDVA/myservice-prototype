@@ -1,26 +1,26 @@
 <!-- Summary card -->
 <div id="bank-accounts-summary" class="plain-text-info" style="display:none;">
     <div class="review__wrapper">
-        <div class="review__content--item boxed row">
-            <div class="review__content--label col-sm-10">
-                <h2 class="margin-above--none">
+        <div class="review__content--item boxed">
+            <div class="review__content--label margin-below">
+                <h2 class="margin-above--none" style="display: inline-block;">
                     <span class="fal fa-university fa-icons"></span><span class="font-weight-heavy">Bank account</span></h2>
-                <div class="key-value-group margin-above">
-                    <div class="key">
-                        <h4>Account type</h4>
-                    </div>
-                    <div class="value">Savings account
-                    </div>
-                </div>
-                <div class="key-value-group margin-above">
-                    <div class="key">
-                        <h4>Account owner</h4>
-                    </div>
-                    <div class="value">Jointly owned
-                    </div>
-                </div>
+                </h2>
+                <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('bank-accounts');">&nbsp;Edit&nbsp;</button>
             </div>
-            <div class="col-sm-2" style="margin: 0;"><button class="uikit-btn uikit-btn--tertiary" onClick="editCard('bank-accounts');">&nbsp;Edit&nbsp;</button>
+            <div class="review__table">
+                <div class="tr">
+                    <div class="td"><b>Account type</b></div>
+                    <div class="td">Savings account</div>
+                </div>
+                <div class="tr">
+                    <div class="td"><b>Account owner</b></div>
+                    <div class="td">Jointly with my partner</div>
+                </div>
+                <div class="tr">
+                    <div class="td"><b>Balance</b></div>
+                    <div class="td">$478.88</div>
+                </div>
             </div>
         </div>
     </div>
@@ -33,54 +33,69 @@
     </div>
     <div id="card-details" class="margin-below--large">
         <h4 class="margin-below--mid margin-above--none">Add all accounts held with institutions such as a banks, building societies or credit unions<span class="partner"> that belong to you (and/or your partner)</span>.</h4>
-        <p class="margin-below--mid">Cash holdings includes coins you have in a safety deposit box, or you are holding instead of putting into a bank account, or someone else is looking after for you totalling more than $2000.</p>
-        <p class="margin-below--mid">Do not include cash you have for day-to-day shopping and other day-to-day expenses.</p>
+        <p class="margin-below--mid">Include term deposit, joint accounts, accounts you hold under any other name or money held in church or charitable development funds within Australia and overseas.</p>
+        <p class="margin-below--mid">Do not include bonds and debentures or any superanuation funds you hold. You will be asked about these elsewhere.</p>
         <hr>
         <form id="myForm">
             <input type="reset" style="display:none">
-            <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="drop-down">Payment received by</label>
+            <div class="form-group margin-above--large partner">
+                <label class="uikit-text-input__label" for="drop-down">Account owner</label>
                 <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
-                    <option>-- Select one --</option>
-                    <option>Me</option>
+                    <option selected="selected">-- Select one --</option>
+                    <option>Myself</option>
                     <option>My partner</option>
-                    <option>Both me and my partner</option>
+                    <option>Jointly with my partner</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label class="uikit-text-input__label" for="drop-down">Account type
-                    <br />
-                </label>
-                <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="drop-down">Account type</label>
+                <select class="uikit-text-input input-half" id="accountType" name="drop-down">
                     <option>-- Select an item --</option>
-                    <option>Cash management account</option>
-                    <option>Cheque account</option>
-                    <option id="church-account">Church/Charity account</option>
                     <option>Savings account</option>
-                    <option>Term deposit</option>
+                    <option>Cheque account</option>
+                    <option>Term deposit account</option>
+                    <option>Cash management account</option>
+                    <option>Church/charity account</option>
+                    <option>Deeming account</option>
                     <option>Overseas account</option>
                 </select>
             </div>
-            <!-- <div class="form-group" id="church-account-ref">
-                                    <label class="uikit-text-input__label" for="Input field">Church/Charity Account/Reference No.</label>
-                                    <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-                                </div> -->
-            <div class="bank-details-container">
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="tags">BSB number</label>
+                <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group">
-                <label class="uikit-text-input__label" for="Input field">Current balance </label>
-                <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
+            <div class="form-group margin-above--large" id="church-account-name" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Name of church/charity account</label>
+                <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
             </div>
-            </label>
-            <select class="uikit-text-input input-half" style="max-width: 80px;" id="drop-down" name="drop-down">
-                <option>-- Select an item --</option>
-                <option data-symbol="$" data-placeholder="0.00">USD</option>
-                <option data-symbol="€" data-placeholder="0.00">EUR</option>
-                <option data-symbol="£" data-placeholder="0.00">GBP</option>
-                <option data-symbol="¥" data-placeholder="0">JPY</option>
-                <option data-symbol="$" data-placeholder="0.00">CAD</option>
-                <option data-symbol="$" data-placeholder="0.00" selected>AUD</option>
-            </select>
+            <div class="form-group margin-above--large" id="foreign-institution-name" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Name of foreign financial insitution</label>
+                <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            </div>
+            <div class="form-group margin-above--large" id="institution-name" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Name of financial insitution</label>
+                <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="tags">Account number</label>
+                <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large" id="church-reference" style="display: none;">
+                <label class="uikit-text-input__label" for="tags">Church/charity account or reference number</label>
+                <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="Input field">Current balance</label>
+                <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large" id="country-payment" style="display: none;">
+                <label class="uikit-text-input__label">Country of payment</label>
+                <% include ../partials/select-list-country.ejs %>
+            </div>
+            <div class="form-group margin-above--large" id="currency" style="display: none;">
+                <label class="uikit-text-input__label">Currency</label>
+                <% include ../partials/select-list-currency.ejs %>
+            </div>
         </form>
     </div>
     <hr>
@@ -89,3 +104,41 @@
     </div>
 </div>
 <!-- card end -->
+<script src="/docs/js/jquery-3.2.1.min.js"></script>
+<script>
+$("#accountType").change(function() {
+    mySelection = $('#accountType :selected').val();
+    switch (mySelection) {
+        case "Savings account":
+        case "Cheque account":
+        case "Term deposit account":
+        case "Cash management account":
+        case "Deeming account":
+            hideTypes();
+            $("#institution-name").show();
+            break;
+        case "Church/charity account":
+            hideTypes();
+            $("#church-account-name").show();
+            $("#church-reference").show();
+            break;
+        case "Overseas account":
+            hideTypes();
+            $("#foreign-institution-name").show();
+            $("#country-payment").show();
+            $("#currency").show();
+            break;
+        default:
+            // code block
+    }
+});
+
+function hideTypes() {
+    $("#church-account-name").hide();
+    $("#foreign-institution-name").hide();
+    $("#institution-name").hide();
+    $("#church-reference").hide();
+    $("#country-payment").hide();
+    $("#currency").hide();
+}
+</script>

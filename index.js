@@ -982,6 +982,13 @@ app.get("/sp-residency", function (request, response) {
     main_nav_active: "claims"
   });
 });
+
+app.get("/sp-residency-new", function (request, response) {
+  response.render("auth/claim/pages/sp-residency-new", {
+    main_nav_active: "claims"
+  });
+});
+
 app.get("/sp-residency-partner", function (request, response) {
   response.render("auth/claim/pages/sp-residency-partner", {
     main_nav_active: "claims"
