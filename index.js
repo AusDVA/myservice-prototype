@@ -1097,6 +1097,16 @@ app.get("/service-history-start", function (request, response) {
   });
 });
 
+app.get("/service-history-about", function (request, response) {
+  response.render("auth/claim/pages/service-history-about", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/service-history-content", function (request, response) {
+  response.render("auth/claim/pages/service-history-content", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/service-history-review", function (request, response) {
   response.render("auth/claim/pages/service-history-review", {
     main_nav_active: "claims"
