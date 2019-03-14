@@ -1089,6 +1089,26 @@ app.get("/sp-bank-details", function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
+
+//Service history
+app.get("/service-history-start", function (request, response) {
+  response.render("auth/claim/pages/service-history-start", {
+    main_nav_active: "claims"
+  });
+});
+
+app.get("/service-history-review", function (request, response) {
+  response.render("auth/claim/pages/service-history-review", {
+    main_nav_active: "claims"
+  });
+});
+
+app.get("/service-history-submitted", function (request, response) {
+  response.render("auth/claim/pages/service-history-submitted", {
+    main_nav_active: "claims"
+  });
+});
+
 app.get("/sp-c0", function (request, response) {
   response.render("auth/claim/pages/sp-c0", {
     main_nav_active: "claims"
