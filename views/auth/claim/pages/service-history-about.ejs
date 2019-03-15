@@ -52,20 +52,77 @@
               </div>
             </div>
             <!-- Australian Defence Force veteran -->
+
             <div class="form-group margin-above--large" id="sp-start-whatGrounds">
 
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="toggle-buttons">'Were you known by any other name during your service</label>
+              <div class="form-group" id="name">
+                <label class="uikit-text-input__label" for="toggle-buttons">Were you known by any other name during your service</label>
                 <div class="radio-toggle">
-                  <label class="on label-left" for="yes">
-                    <input id="yes" type="radio" name="toggle-buttons">
+                  <label class="on label-left" for="former_yes">
+                    <input id="former_yes" type="radio" name="toggle-buttons">
                     <span>Yes</span>
                   </label>
-                  <label class="off label-right" for="no">
-                    <input id="no" type="radio" name="toggle-buttons">
+                  <label class="off label-right" for="former_no">
+                    <input id="former_no" type="radio" name="toggle-buttons">
                     <span>No</span>
                   </label>
                 </div>
+              </div>
+
+
+              <div id="former_name">
+                <table class="mys-table table-responsive border-all border-top__thick--blue">
+                  <tbody>
+                    <tr>
+                      <th style="border-left:1px solid #cccccc;">
+                        <label class="uikit-text-input__label" for="date">Start Date
+                          <span class="hint">(dd / mm / yyyy)</span>
+                        </label>
+                      </th>
+                      <th></th>
+                      <th>
+                        <label class="uikit-text-input__label" for="date">End Date
+                          <span class="hint">(dd / mm / yyyy)</span>
+                        </label>
+                      </th>
+                      <th style="border-right:1px solid #cccccc;"></th>
+                    </tr>
+                    <tr id="date-template">
+                      <td>
+                        <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                        <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                        <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                      </td>
+                      <td>—</td>
+                      <td>
+                        <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                        <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                        <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                      </td>
+                      <td>
+                        <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                      <td class="padding-above--none">
+                        <div class="display-block">
+                          <label class="uikit-control-input margin-above--none">
+                            <input class="uikit-control-input__input" type="checkbox" name="agreement">
+                            <span class="uikit-control-input__text">Currently on leave</span>
+                          </label>
+                        </div>
+                      </td>
+                      <td></td>
+                    </tr>
+                    <tr class="padding-above--none">
+                      <td colspan="4" class="padding-above--none ss-align--center">
+                        <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
 
               <div class="form-group">
@@ -176,6 +233,22 @@
         $("#save-and-next").show("fast");
       });
 
+      $("#centrelink-yes").click(function () {
+        $("#crn").show("fast");
+      });
+      $("#centrelink-no").click(function () {
+        $("#crn").hide("fast");
+        $("#save-and-next").show("fast");
+      });
+
+      $("#former_yes").click(function () {
+        $("#former_name").show("fast");
+      });
+      $("#former-no").click(function () {
+        $("#former_name").hide("fast");
+      });
+
+
       //
 
       function hideAll() {
@@ -186,6 +259,9 @@
         $("#sp-start-pbs").hide();
         $("#sp-start-whatGrounds").hide();
         $("#benefits").hide();
+        $("#former_name").hide();
+
+
       }
 
       // age mode
