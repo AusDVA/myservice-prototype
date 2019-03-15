@@ -1466,6 +1466,11 @@ app.get("/viewNLHCClaimDetail", function (request, response) {
 });
 
 /* Veteran card */
+app.get("/healthcard-provisional", function (request, response) {
+  response.render("auth/claim/pages/veterancard/healthcard-provisional", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/veteran-card-eligibility", function (request, response) {
   response.render("auth/claim/pages/veteran-card-eligibility", {
     main_nav_active: "claims"
