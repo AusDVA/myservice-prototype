@@ -17,7 +17,7 @@ Problems with the server? Run:
 killall node
 
 ## Code style and quality
-Before contributing to the codebase, please familirise yourself with [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html). This is the style guide we've decided to adhere to.
+Before contributing to the codebase, please familiarise yourself with [Google HTML/CSS Style Guide](https://google.github.io/styleguide/htmlcssguide.html). This is the style guide we've decided to adhere to.
 
 [BEM](http://getbem.com/introduction/) is the CSS and HTML naming conversion that all new code should adopt.
 
