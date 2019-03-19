@@ -44,10 +44,10 @@
                   <label class="radio-tile">
                     <input id="pensionType-age" class="sr" type="radio" name="pensionType" value="age">
                     <span>
-                      <span class="fal fa-user fa-icon-large">
-                      </span>
+                      <span class="fal fa-user fa-icon-large"></span>
                       <p class="margin-below--none">Commonwealth or allied veteran</p>
                   </label>
+                  </span>
                 </div>
               </div>
             </div>
@@ -75,16 +75,15 @@
                   <tbody>
                     <tr>
                       <th style="border-left:1px solid #cccccc;">
-                        <label class="uikit-text-input__label" for="date">Given name
-                        </label>
+                        <label class="uikit-text-input__label" for="date">Given name</label>
                       </th>
                       <th></th>
                       <th>
-                        <label class="uikit-text-input__label" for="date">Surname
-                        </label>
+                        <label class="uikit-text-input__label" for="date">Surname</label>
                       </th>
                       <th style="border-right:1px solid #cccccc;"></th>
                     </tr>
+
                     <tr id="date-template">
                       <td>
                         <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
@@ -97,13 +96,15 @@
                         <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
                       </td>
                     </tr>
+
                     <tr>
                     </tr>
                     <tr class="padding-above--none">
                       <td colspan="4" class="padding-above--none ss-align">
                         <button id="add-another-service-period" class="icon-link-button">
-                          <icon class="icon far fa-plus-circle"></icon>
-                          <span class="link">Add another name</span>
+                          <span class="icon far fa-plus-circle"></span>
+                          <span class="link" onclick="cloneme()" id="add-another">Add another name</span>
+
                         </button>
                       </td>
                     </tr>
@@ -124,13 +125,10 @@
                   </label>
                 </div>
               </div>
-
               <div class="uikit-page-alerts" role="alert">
                 <p>You will need to complete your application using XXX form. This form can be emailed or mailed to the department. </p>
               </div>
             </div>
-
-
 
             <!-- Commonwealth or allied veteran -->
             <div class="form-group margin-above--large" id="sp-start-who">
@@ -175,9 +173,7 @@
                   </label>
                 </div>
               </div>
-
             </div>
-
 
             <div id="save-and-next" class="margin-above--extra" style="display: none">
               <p>Choose <b>save and next</b> to continue.</p>
@@ -256,16 +252,6 @@
 
       //
 
-      function cloneme() {
-        var newOne = $('#date-template').clone();;
-        newOne.insertAfter($('#date-template'));
-      }
-
-      $("#removeDateRow").click(function () {
-        $("#date-template:not(first-child)").remove();
-      });
-
-
       function hideAll() {
         $("#inval-only").hide();
         $("#close").hide();
@@ -275,8 +261,6 @@
         $("#sp-start-whatGrounds").hide();
         $("#benefits").hide();
         $("#former_name").hide();
-
-
       }
 
       // age mode
@@ -298,9 +282,7 @@
             $("#sp-start-who").show();
             break;
           default:
-
         }
-
       }
 
       $(document).keypress(function (e) {
@@ -326,6 +308,23 @@
 
       setUpAgeMode();
 
+    });
+    //$("#removeDateRow").hide();
+
+    // $("#add-another").click(function () {
+    //   $("#removeDateRow").show();
+    // });
+
+    function cloneme() {
+      var newOne = $('#date-template').clone(true)
+        .find("input:text").val("").end();
+      $("#removeDateRow").show();
+      newOne.insertAfter($('#date-template'));
+    }
+
+    $("#removeDateRow").click(function () {
+      $(this).closest('tr').remove();
+      // $("#date-template:not(first-child)").remove();
     });
   </script>
 </body>
