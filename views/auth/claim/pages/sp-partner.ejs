@@ -108,7 +108,7 @@
                             <p class="uiToolKitCheckBox margin-above">
                                 <label class="uikit-control-input">
                                     <input id="single" class="uikit-control-input__input" type="radio" name="radio-ex">
-                                    <span class="uikit-control-input__text">Single / Divorced / Widowed</span>
+                                    <span class="uikit-control-input__text">Single</span>
                                 </label>
                             </p>
                             <p class="uiToolKitCheckBox">
@@ -127,6 +127,18 @@
                                 <label class="uikit-control-input">
                                     <input id="separated" class="uikit-control-input__input" type="radio" name="radio-ex">
                                     <span class="uikit-control-input__text">Separated</span>
+                                </label>
+                            </p>
+                            <p class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input id="divorced" class="uikit-control-input__input" type="radio" name="radio-ex">
+                                    <span class="uikit-control-input__text">Divorced</span>
+                                </label>
+                            </p>
+                            <p class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input id="widowed" class="uikit-control-input__input" type="radio" name="radio-ex">
+                                    <span class="uikit-control-input__text">Widowed</span>
                                 </label>
                             </p>
                         </div>
@@ -153,34 +165,12 @@
                             <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
                         </fieldset>
                     </div>
-                    <!-- F -->
-                    <fieldset>
-                        <div class="form-group" id="date-separation">
-                            <label class="uikit-text-input__label">Date of separation
-                                <span class="hint">(dd / mm / yyyy)</span>
-                            </label>
-                            <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                            <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                            <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                            <div class="uikit-page-alerts" role="alert">
-                                <p>You will need to attach a <strong>separation from partner form</strong> </p>
-                            </div>
-                        </div>
-                    </fieldset>
                     <!-- G -->
                     <div class="form-group" id="partner-details">
                         <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
                         <div class="form-group margin-above--large">
                             <div class="title-field">Title</div>
-                            <select class="uikit-text-input title-width" name="title" id="title" type="text" value="">
-                                <option>-- Select title --</option>
-                                <option selected="">Not specified</option>
-                                <option>Miss</option>
-                                <option>Mr</option>
-                                <option>Mrs</option>
-                                <option>Ms</option>
-                                <option>Other</option>
-                            </select>
+                            <% include ../../partials/select-list-title.ejs %>
                         </div>
                         <div class="form-group margin-above--large">
                             <label class="uikit-text-input__label" for="tags">Given name (first name)</label>
@@ -225,38 +215,84 @@
                                 </div>
                             </fieldset>
                         </div>
-                        <!-- <div class="form-group" id="sp-start-pbs">
-                            <legend class="legend-label ">Gender</legend>
+                        <div class="form-group">
+                            <div class="uikit-text-input__label-wrapper--inline-block">
+                                <legend class="uikit-text-input__label legend-label" id="question_gender">Gender</legend>
+                            </div>
+                            <div class="tooltip">
+                                <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
+                                    <div class="tooltip__label tooltip__label--icon-only">
+                                        <a>Gender help</a>
+                                    </div>
+                                    <div class="tooltip__tab"></div>
+                                </div>
+                                <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
+                                    <div class="tooltip__message">Currently, our system only allows us to record gender as male or female. If your partner doesn't identify as either, you can inform DVA after your claim is processed.</div>
+                                    <div class="tooltip__close" role="button" tabindex="0">Close</div>
+                                </div>
+                            </div>
                             <div class="radio-toggle">
-                                <label class="on label-left" for="centrelink-yes">
-                                    <input id="centrelink-yes" type="radio" name="centrelink">
-                                    <span>Female</span>
-                                </label>
-                                <label class="off label-right" for="centrelink-no">
-                                    <input id="centrelink-no" type="radio" name="centrelink">
+                                <label class="on label-left" for="gender-male">
+                                    <input id="gender-male" name="gender" type="radio">
                                     <span>Male</span>
                                 </label>
+                                <label class="off label-right" for="gender-female">
+                                    <input id="gender-female" name="gender" type="radio">
+                                    <span>Female</span>
+                                </label>
                             </div>
-                        </div> -->
-                        <div class="form-group margin-above--large" id="sp-start-pbs">
+                        </div>
+                        <div class="form-group margin-above--large" id="cs-centrelink">
                             <label class="uikit-text-input__label" for="sop">Has your partner applied for or do they receive any of the following Centrelink payments?
                                 <span class="hint display-block">Select all that apply.</span>
                             </label>
                             <div class="uiToolKitCheckBox">
                                 <label class="uikit-control-input">
-                                    <input class="uikit-control-input__input" type="checkbox" id="checkbox1" name="checkbox">
-                                    <span class="uikit-control-input__text">Item 1</span>
+                                    <input class="uikit-control-input__input" type="checkbox" id="age-pension" name="age-pension">
+                                    <span class="uikit-control-input__text">Age pension</span>
                                 </label>
                             </div>
                             <div class="uiToolKitCheckBox">
                                 <label class="uikit-control-input">
-                                    <input class="uikit-control-input__input" type="checkbox" id="checkbox2" name="checkbox">
-                                    <span class="uikit-control-input__text">Item 2</span>
+                                    <input class="uikit-control-input__input" type="checkbox" id="disability-support-pension" name="disability-support-pension">
+                                    <span class="uikit-control-input__text">Disability support pension</span>
+                                </label>
+                            </div>
+                            <div class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="checkbox" id="carer-payment" name="carer-payment">
+                                    <span class="uikit-control-input__text">Carer payment</span>
+                                </label>
+                            </div>
+                            <div class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="checkbox" id="newstart-allowance" name="newstart-allowance">
+                                    <span class="uikit-control-input__text">Newstart allowance</span>
+                                </label>
+                            </div>
+                            <div class="uiToolKitCheckBox">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="checkbox" id="other" name="other">
+                                    <span class="uikit-control-input__text">Other (please specify)</span>
                                 </label>
                             </div>
                         </div>
-                        <!-- CRN text box -->
-                        <div style="display:none;" class="form-group margin-above--large" id="crn">
+                        <div class="form-group margin-above--large">
+                            <fieldset>
+                                <legend class="legend-label">Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from DVA or Centrelink?</legend>
+                                <div class="radio-toggle">
+                                    <label class="on label-left" for="cs-cshc-yes">
+                                        <input id="cs-cshc-yes" type="radio" name="cs-cshc" value="yes">
+                                        <span>Yes</span>
+                                    </label>
+                                    <label class="off label-right" for="cs-cshc-no">
+                                        <input id="cs-cshc-no" type="radio" name="cs-cshc" value="no">
+                                        <span>No</span>
+                                    </label>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div style="display: none;" class="form-group margin-above--large" id="cs-crn">
                             <label class="uikit-text-input__label" for="tags">What is your partner's Customer Reference Number (CRN)?</label>
                             <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
                         </div>
@@ -343,7 +379,7 @@
                         <div class="form-group" id="date-marriage">
                             <fieldset>
                                 <label class="uikit-text-input__label">When did this relationship end?
-                                    <span class="hint">(DD / MM / YYYY)</span>
+                                    <span class="hint">(dd / mm / yyyy)</span>
                                 </label>
                                 <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
                                 <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
@@ -534,99 +570,34 @@ $(Document).ready(function() {
         $("#partner-details").show("fast");
     });
 
-    $("#partner-not-living").click(function() {
-        hideAll();
-        sessionStorage.setItem('partnerStatus', 'partnered');
-        $("#date-not-together").show("fast");
-        $("#partner-details").show("fast");
+    /* partnered */
+
+    var centrelink_selected;
+    $("#cs-centrelink").change(function() {
+        centrelink_selected = [];
+        $('#cs-centrelink input:checked').each(function() {
+            centrelink_selected.push($(this).attr('name'));
+        });
+        if (centrelink_selected.length > 0) {
+            $("#cs-crn").show();
+        } else {
+            if (cs_cshc != "yes") {
+                $("#cs-crn").hide();
+            }
+        }
     });
 
-    $("#divorced").click(function() {
-        hideAll();
-        sessionStorage.setItem('partnerStatus', 'none');
-        $("#save-and-next").show("fast");
+    var cs_cshc;
+    $('input[name=cs-cshc]').change(function() {
+        cs_cshc = $('input[name=cs-cshc]:checked').val();
+        if (cs_cshc == "yes") {
+            $("#cs-crn").show();
+        } else {
+            if (centrelink_selected.length == 0) {
+                $("#cs-crn").hide();
+            }
+        }
     });
-
-    $("#widowed").click(function() {
-        hideAll();
-        sessionStorage.setItem('partnerStatus', 'none');
-        $("#save-and-next").show("fast");
-    });
-
-    $("#separated").click(function() {
-        hideAll();
-        sessionStorage.setItem('partnerStatus', 'none');
-        $("#date-separation").show("fast");
-    });
-
-    $("#sp-partner-homeAddress-no").click(function() {
-        $("#partners-home-address").show("fast");
-    });
-
-    $("#sp-partner-homeAddress-yes").click(function() {
-        $("#partners-home-address").hide("fast");
-    });
-
-    $("#sp-partner-postalAddress-no").click(function() {
-        $("#partners-postal-address").show("fast");
-    });
-
-    $("#sp-partner-postalAddress-yes").click(function() {
-        $("#partners-postal-address").hide("fast");
-    });
-
-    $("#other-names-yes").click(function() {
-        $("#sp-partner-formerName").show("fast");
-    });
-    $("#other-names-no").click(function() {
-        $("#sp-partner-formerName").hide("fast");
-    });
-
-    $("#partner-centrelink-yes").click(function() {
-        $("#partner-payment-type").show("fast");
-    });
-    $("#partner-centrelink-no").click(function() {
-        $("#partner-payment-type").hide("fast");
-    });
-
-    // centrelink
-
-    $("#centrelink-yes").click(function() {
-        $("#crn").show("fast");
-        $("#save-and-next").hide("fast");
-    });
-    $("#centrelink-no").click(function() {
-        $("#crn").hide("fast");
-        $("#save-and-next").show("fast");
-    });
-
-    // //partner select items
-    // $("#op1-cl-partner").change(function() {
-    //     updateCRN()
-    // });
-
-    // $("#op2-cl-partner").change(function() {
-    //     updateCRN()
-    // });
-
-    // var hideCRN;
-
-    // function updateCRN() {
-    //     hideCRN = true;
-    //     if ($("#op1-cl-partner").is(':checked')) {
-    //         hideCRN = false;
-    //     }
-    //     if ($("#op2-cl-partner").is(':checked')) {
-    //         hideCRN = false;
-    //     }
-    //     if (hideCRN) {
-    //         $("#crn-partner").hide("fast");
-    //     } else {
-    //         $("#crn-partner").show("fast");
-    //     }
-    // }
-
-
 
     function hidePartner() {
         sessionStorage.setItem('partnerApply', 'false')
