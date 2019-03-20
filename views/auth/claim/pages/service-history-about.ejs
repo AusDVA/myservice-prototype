@@ -44,32 +44,76 @@
                   <label class="radio-tile">
                     <input id="pensionType-age" class="sr" type="radio" name="pensionType" value="age">
                     <span>
-                      <span class="fal fa-user fa-icon-large">
-                      </span>
+                      <span class="fal fa-user fa-icon-large"></span>
                       <p class="margin-below--none">Commonwealth or allied veteran</p>
                   </label>
+                  </span>
                 </div>
               </div>
             </div>
             <!-- Australian Defence Force veteran -->
+
             <div class="form-group margin-above--large" id="sp-start-whatGrounds">
 
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="toggle-buttons">'Were you known by any other name during your service</label>
+              <div class="form-group" id="name">
+                <label class="uikit-text-input__label" for="toggle-buttons">Were you known by any other name during your service</label>
                 <div class="radio-toggle">
-                  <label class="on label-left" for="yes">
-                    <input id="yes" type="radio" name="toggle-buttons">
+                  <label class="on label-left" for="former_yes">
+                    <input id="former_yes" type="radio" name="toggle-buttons">
                     <span>Yes</span>
                   </label>
-                  <label class="off label-right" for="no">
-                    <input id="no" type="radio" name="toggle-buttons">
+                  <label class="off label-right" for="former_no">
+                    <input id="former_no" type="radio" name="toggle-buttons">
                     <span>No</span>
                   </label>
                 </div>
               </div>
 
+
+              <div id="former_name">
+                <table class="mys-table table-responsive border-all border-top__thick--blue">
+                  <tbody>
+                    <tr>
+                      <th style="border-left:1px solid #cccccc;">
+                        <label class="uikit-text-input__label" for="date">Given name</label>
+                      </th>
+                      <th></th>
+                      <th>
+                        <label class="uikit-text-input__label" for="date">Surname</label>
+                      </th>
+                      <th style="border-right:1px solid #cccccc;"></th>
+                    </tr>
+
+                    <tr id="date-template">
+                      <td>
+                        <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                      </td>
+                      <td></td>
+                      <td>
+                        <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                      </td>
+                      <td>
+                        <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                      </td>
+                    </tr>
+
+                    <tr>
+                    </tr>
+                    <tr class="padding-above--none">
+                      <td colspan="4" class="padding-above--none ss-align">
+                        <button id="add-another-service-period" class="icon-link-button">
+                          <span class="icon far fa-plus-circle"></span>
+                          <span class="link" onclick="cloneme()" id="add-another">Add another name</span>
+
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               <div class="form-group">
-                <label class="uikit-text-input__label" for="ww2">Did you serve during World War 2</label>
+                <label class="uikit-text-input__label margin-above--large" for="ww2">Did you serve during World War 2</label>
                 <div class="radio-toggle">
                   <label class="on label-left" for="ww2-yes">
                     <input id="ww2-yes" type="radio" name="ww2">
@@ -81,16 +125,55 @@
                   </label>
                 </div>
               </div>
-
               <div class="uikit-page-alerts" role="alert">
                 <p>You will need to complete your application using XXX form. This form can be emailed or mailed to the department. </p>
               </div>
             </div>
+
             <!-- Commonwealth or allied veteran -->
             <div class="form-group margin-above--large" id="sp-start-who">
-              <p>add content</p>
-            </div>
+              <div class="form-group">
+                <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist, forces of the enermy or a country at war with Australia?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="qs-yes">
+                    <input id="qs-yes" type="radio" name="qs">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="qs-no">
+                    <input id="qs-no" type="radio" name="qs">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
 
+              <div class="form-group">
+                <label class="uikit-text-input__label margin-above--large" for="yugoslavia">Did you serve with forces in Yugoslavia during World War II?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="yugoslavia-yes">
+                    <input id="yugoslavia-yes" type="radio" name="yugoslavia">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="yugoslavia-no">
+                    <input id="yugoslavia-no" type="radio" name="yugoslavia">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="uikit-text-input__label margin-above--large" for="vietnam">Did you serve with the armed forces of the Republic of Vietnam?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="vietnam-yes">
+                    <input id="vietnam-yes" type="radio" name="vietnam">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="vietnam-no">
+                    <input id="vietnam-no" type="radio" name="vietnam">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+            </div>
 
             <div id="save-and-next" class="margin-above--extra" style="display: none">
               <p>Choose <b>save and next</b> to continue.</p>
@@ -157,24 +240,15 @@
       //     }
       // });
 
-      // pbs
+      // Former name
 
-      $("#pbs-yes").click(function () {
-        $("#pbs-explainer").show("fast");
+      $("#former_yes").click(function () {
+        $("#former_name").show("fast");
       });
-      $("#pbs-no").click(function () {
-        $("#pbs-explainer").hide("fast");
+      $("#former-no").click(function () {
+        $("#former_name").hide("fast");
       });
 
-      // centrelink
-
-      $("#centrelink-yes").click(function () {
-        $("#crn").show("fast");
-      });
-      $("#centrelink-no").click(function () {
-        $("#crn").hide("fast");
-        $("#save-and-next").show("fast");
-      });
 
       //
 
@@ -186,6 +260,7 @@
         $("#sp-start-pbs").hide();
         $("#sp-start-whatGrounds").hide();
         $("#benefits").hide();
+        $("#former_name").hide();
       }
 
       // age mode
@@ -207,9 +282,7 @@
             $("#sp-start-who").show();
             break;
           default:
-
         }
-
       }
 
       $(document).keypress(function (e) {
@@ -235,6 +308,23 @@
 
       setUpAgeMode();
 
+    });
+    //$("#removeDateRow").hide();
+
+    // $("#add-another").click(function () {
+    //   $("#removeDateRow").show();
+    // });
+
+    function cloneme() {
+      var newOne = $('#date-template').clone(true)
+        .find("input:text").val("").end();
+      $("#removeDateRow").show();
+      newOne.insertAfter($('#date-template'));
+    }
+
+    $("#removeDateRow").click(function () {
+      $(this).closest('tr').remove();
+      // $("#date-template:not(first-child)").remove();
     });
   </script>
 </body>
