@@ -1823,8 +1823,8 @@ app.get('/nr-agreements-clean', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/rep-landing', function (request, response) {
-  response.render('auth/nomrep/rep-landing', {
+app.get('/nr-landing', function (request, response) {
+  response.render('auth/nomrep/nr-landing', {
     main_nav_active: "profile"
   });
 });
@@ -1833,8 +1833,8 @@ app.get('/nr-agreements', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-agreements-clean-new', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-clean-new', {
+app.get('/nr-landing', function (request, response) {
+  response.render('auth/nomrep/nr-landing', {
     main_nav_active: "profile"
   });
 });
@@ -1843,6 +1843,13 @@ app.get('/nr-agreements-new', function (request, response) {
     main_nav_active: "profile"
   });
 });
+app.get('/nr-agreements-new-only-rep', function (request, response) {
+  response.render('auth/nomrep/nr-agreements-new-only-rep', {
+    main_nav_active: "profile"
+  });
+});
+
+
 app.get('/nr-agreements-realistic-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-new', {
     main_nav_active: "profile"
