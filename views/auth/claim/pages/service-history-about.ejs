@@ -162,10 +162,9 @@
                                     </div>
                                 </div>
                                 <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="yugoslavia-alert">
-                                    <p>You will need to complete the following two forms and send to DVA:</p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service during World War II form (D0506)</a></p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service with Forces in Yugoslavia during the
-                                            Second World War (D0507B)</a></p>
+                                    <p>You will need to complete the following form and send to DVA:</p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the
+                                            Second World War (D0507A)</a></p>
                                 </div>
                                 <div style="display: none;" class="form-group" id="vietnam">
                                     <label class="uikit-text-input__label margin-above--large" for="vietnam">Did you serve with the armed forces of the Republic of Vietnam?</label>
@@ -180,13 +179,11 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="vietname-alert">
-                                    <p>You will need to complete the following two forms and send to DVA:</p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service during World War II form (D0506)</a></p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service with Forces in Yugoslavia during the
-                                            Second World War (D0507B)</a></p>
+                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="vietnam-alert">
+                                    <p>You will need to complete the following form and send to DVA:</p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507A.pdf">Qualifying Service Details - Service with the Armed Forces of the Republic of Vietnam (D0507A)</a></p>
                                 </div>
-                                <div id="save-and-next" class="margin-above--extra" style="display: none">
+                                <div id="save-and-next-commonwealth" class="margin-above--extra" style="display: none">
                                     <p>Choose <b>save and next</b> to continue.</p>
                                 </div>
                             </div>
@@ -215,6 +212,7 @@
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
             $("#adf").show("fast");
+             sessionStorage.setItem('commonwealth-allied', 'no');
         });
 
         $("#veteran-commonwealth-allied").click(function() {
@@ -222,6 +220,7 @@
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
             $("#commonwealth-allied").show("fast");
+            sessionStorage.setItem('commonwealth-allied', 'yes');
         });
 
         // adf
@@ -237,28 +236,49 @@
 
         $("#ww2-yes").click(function() {
             $("#ww2-alert").show("fast");
-            $("#save-and-next-button").html("Back to claims");
             $("#save-and-next").hide();
-            $("#save-and-exit-button").hide();
+            footerNavExit();
         });
         $("#ww2-no").click(function() {
             $("#ww2-alert").hide();
-            $("#save-and-next-button").html("Save and next");
             $("#save-and-next").show("fast");
-            $("#save-and-exit-button").show("fast");
+            footerNavRestore();
         });
 
         // commonwealth allied
 
         $("#enemy-yes").click(function() {
-            $("#enemy-alert").show("fast");
+            hideAlerts();
             $("#yugoslavia").hide();
             $("#vietnam").hide();
+            $("#enemy-alert").show("fast");
         });
         $("#enemy-no").click(function() {
-            $("#enemy-alert").hide("fast");
+            hideAlerts();
             $("#yugoslavia").show("fast");
+        });
+
+        $("#yugoslavia-yes").click(function() {
+            hideAlerts();
+            $("#yugoslavia-alert").show("fast");
+            $("#vietnam").hide();
+            footerNavExit();
+        });
+        $("#yugoslavia-no").click(function() {
+            hideAlerts();
             $("#vietnam").show("fast");
+            footerNavRestore();
+        });
+
+        $("#vietnam-yes").click(function() {
+            hideAlerts();
+            $("#vietnam-alert").show("fast");
+            footerNavExit();
+        });
+        $("#vietnam-no").click(function() {
+            hideAlerts();
+            $("#save-and-next-commonwealth").show("fast");
+            footerNavRestore();
         });
 
         function hideAll() {
@@ -270,11 +290,29 @@
             $("#commonwealth-allied").hide();
         }
 
+        function hideAlerts() {
+            $("#enemy-alert").hide();
+            $("#vietnam-alert").hide();
+            $("#yugoslavia-alert").hide();
+            $("#save-and-next-commonwealth").hide();
+            $("#save-and-next").hide();
+        }
+
         window.checkSaveAndNext = function() {
             myNav = "/service-history-start";
             navTest = $('input[name=ww2]:checked').val();
             if (navTest == "yes") myNav = "/claims";
             window.location.href = myNav;
+        }
+
+        function footerNavExit() {
+            $("#save-and-next-button").html("Back to claims");
+            $("#save-and-exit-button").hide();
+        }
+
+        function footerNavRestore() {
+            $("#save-and-next-button").html("Save and next");
+            $("#save-and-exit-button").show("fast");
         }
 
     });
