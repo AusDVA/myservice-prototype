@@ -1112,7 +1112,11 @@ app.get("/service-history-review", function (request, response) {
     main_nav_active: "claims"
   });
 });
-
+app.get("/service-history-documents", function (request, response) {
+  response.render("auth/claim/pages/service-history-documents", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/service-history-submitted", function (request, response) {
   response.render("auth/claim/pages/service-history-submitted", {
     main_nav_active: "claims"
