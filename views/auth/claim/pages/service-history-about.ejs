@@ -41,12 +41,17 @@
                                         </span>
                                     </label>
                                     <label class="radio-tile">
-                                        <input id="veteran-commonwealth-allied" class="sr" type="radio" name="veteranType" value="veteran-commonwealth-allied">
+                                        <input id="veteran-commonwealth" class="sr" type="radio" name="veteranType" value="veteran-commonwealth">
                                         <span>
                                             <span class="fal fa-user fa-icon-large"></span>
-                                            <p class="margin-below--none">Commonwealth or allied veteran</p>
+                                            <p class="margin-below--none">Commonwealth veteran</p>
                                     </label>
-                                    </span>
+                                    <label class="radio-tile">
+                                        <input id="veteran-allied" class="sr" type="radio" name="veteranType" value="veteran-allied">
+                                        <span>
+                                            <span class="fal fa-user fa-icon-large"></span>
+                                            <p class="margin-below--none">Allied veteran</p>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -54,7 +59,7 @@
                             <input type="reset" style="display:none">
                             <!-- Other name -->
                             <div style="display: none;" class="form-group" id="former_name_question">
-                                <label class="uikit-text-input__label" for="toggle-buttons">Were you known by any other names during your service?</label>
+                                <label class="uikit-text-input__label" for="toggle-buttons">Did you serve under any other names?</label>
                                 <div class="radio-toggle">
                                     <label class="on label-left" for="former_yes">
                                         <input id="former_yes" type="radio" name="toggle-buttons">
@@ -127,8 +132,29 @@
                                     <p>Choose <b>save and next</b> to continue.</p>
                                 </div>
                             </div>
-                            <!-- Commonwealth or allied veteran -->
-                            <div style="display: none;" id="commonwealth-allied">
+                            <!-- Commonwealth -->
+                            <div style="display: none;" id="commonwealth">
+                                <div class="form-group">
+                                    <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
+                                    <div class="radio-toggle">
+                                        <label class="on label-left" for="enemy-yes-comm">
+                                            <input id="enemy-yes-comm" type="radio" name="enemy">
+                                            <span>Yes</span>
+                                        </label>
+                                        <label class="off label-right" for="enemy-no-comm">
+                                            <input id="enemy-no-comm" type="radio" name="enemy">
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert-comm"><p>You do not meet the basic eligibility to apply for this claim.</p>
+                                </div>
+                                <div id="save-and-next-comm" class="margin-above--extra" style="display: none">
+                                    <p>Choose <b>save and next</b> to continue.</p>
+                                </div>
+                            </div>
+                            <!-- Allied -->
+                            <div style="display: none;" id="allied">
                                 <div class="form-group">
                                     <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
                                     <div class="radio-toggle">
@@ -143,7 +169,6 @@
                                     </div>
                                 </div>
                                 <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert">
-                                    <!-- <p>You are unable to submit a qualifying service claim as you are the enemy.</p> -->
                                     <p>You do not meet the basic eligibility to apply for this claim.</p>
                                 </div>
                                 <div style="display: none;" class="form-group" id="yugoslavia">
@@ -161,8 +186,7 @@
                                 </div>
                                 <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="yugoslavia-alert">
                                     <p>You will need to complete the following form and send to DVA:</p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the
-                                            Second World War (D0507A)</a></p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the Second World War (D0507A)</a></p>
                                 </div>
                                 <div style="display: none;" class="form-group" id="vietnam">
                                     <label class="uikit-text-input__label margin-above--large" for="vietnam">Did you serve with the armed forces of the Republic of Vietnam?</label>
@@ -181,7 +205,7 @@
                                     <p>You will need to complete the following form and send to DVA:</p>
                                     <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507A.pdf">Qualifying Service Details - Service with the Armed Forces of the Republic of Vietnam (D0507A)</a></p>
                                 </div>
-                                <div id="save-and-next-commonwealth" class="margin-above--extra" style="display: none">
+                                <div id="save-and-next-allied" class="margin-above--extra" style="display: none">
                                     <p>Choose <b>save and next</b> to continue.</p>
                                 </div>
                             </div>
@@ -215,24 +239,37 @@
             sessionStorage.setItem('commonwealth-allied', 'no');
         });
 
-        $("#veteran-commonwealth-allied").click(function() {
+        $("#veteran-commonwealth").click(function() {
             hideAll();
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
-            $("#commonwealth-allied").show("fast");
+            $("#commonwealth").show("fast");
             sessionStorage.setItem('commonwealth-allied', 'yes');
         });
 
-        // adf
+        $("#veteran-allied").click(function() {
+          console.log("dfgdfgdfgfdg")
+            hideAll();
+            $(myForm).trigger("reset");
+            $("#former_name_question").show("fast");
+            $("#allied").show("fast");
+            sessionStorage.setItem('commonwealth-allied', 'yes');
+        });
+
+        // general
 
         $("#former_yes").click(function() {
+           hideAlerts();
             $("#former_name").show("fast");
             $("#save-and-next").hide();
         });
         $("#former_no").click(function() {
+           hideAlerts();
             $("#former_name").hide("fast");
             $("#save-and-next").hide();
         });
+
+        // adf
 
         $("#ww2-yes").click(function() {
             $("#ww2-alert").show("fast");
@@ -245,7 +282,20 @@
             footerNavRestore();
         });
 
-        // commonwealth allied
+        // commonwealth
+
+        $("#enemy-yes-comm").click(function() {
+            hideAlerts();
+            footerNavExit();
+            $("#enemy-alert-comm").show("fast");
+        });
+        $("#enemy-no-comm").click(function() {
+            hideAlerts();
+            footerNavRestore();
+            $("#save-and-next-comm").show("fast");
+        });
+
+        // allied
 
         $("#enemy-yes").click(function() {
             hideAlerts();
@@ -277,7 +327,7 @@
         });
         $("#vietnam-no").click(function() {
             hideAlerts();
-            $("#save-and-next-commonwealth").show("fast");
+            $("#save-and-next-allied").show("fast");
             footerNavRestore();
         });
 
@@ -287,14 +337,17 @@
             $("#former_name").hide();
             $("#save-and-next").hide();
             $("#ww2-alert").hide();
-            $("#commonwealth-allied").hide();
+            $("#commonwealth").hide();
+            $("#allied").hide();
         }
 
         function hideAlerts() {
             $("#enemy-alert").hide();
+            $("#enemy-alert-comm").hide();
             $("#vietnam-alert").hide();
             $("#yugoslavia-alert").hide();
-            $("#save-and-next-commonwealth").hide();
+            $("#save-and-next-comm").hide();
+            $("#save-and-next-allied").hide();
             $("#save-and-next").hide();
         }
 
@@ -323,7 +376,6 @@
     });
 
     function cloneMe() {
-        console.log("Gfdgdfgfdgdf")
         var newOne = $('#date-template').clone(true)
             .find("input:text").val("").end();
         $("#removeDateRow").show();

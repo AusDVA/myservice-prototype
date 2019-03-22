@@ -136,39 +136,51 @@
                                 <form id="myFormOP">
                                     <input type="reset" style="display:none">
                                     <div class="form-group margin-above--large">
-                                        <label class="uikit-text-input__label" for="drop-down">Operation name
-                                            <br />
-                                            <span class="hint display-block">Select an item from the list.</span>
-                                        </label>
+                                        <label class="uikit-text-input__label" for="drop-down">Region</label>
                                         <input type="reset" style="display:none">
-                                        <select class="uikit-text-input input-half" id="operation-name" name="drop-down" onchange="typeSelected()">
-                                            <option selected="selected">-- Select an operation --</option>
+                                        <select class="uikit-text-input input-half" id="region-select" name="drop-down">
+                                            <option selected="selected">-- Select region --</option>
+                                            <option>Afghanistan</option>
+                                            <option>East Timor/Timor-Leste</option>
+                                            <option>Rwanda</option>
+                                            <option>Iraq</option>
+                                            <option>Iraq and Western Asia</option>
+                                            <option>Sierra Leone</option>
                                             <option>Vietnam</option>
-                                            <option>Submarine special operations</option>
-                                            <option>Eastern/middle/southern africa</option>
-                                            <option>Western asia/persian gulf</option>
-                                            <option>Iraq/kuwait</option>
-                                            <option>Operations jural, provide comfort, bolton, southern watch, northern watch</option>
-                                            <option>Cambodia/laos/thailand</option>
-                                            <option>Yugoslavia</option>
-                                            <option>Operation solace</option>
-                                            <option>Operation damask vi</option>
-                                            <option>Operation tamar</option>
-                                            <option>Operations faber/stabilise/warden/tanager/citadel</option>
-                                            <option>Operation husky</option>
-                                            <option>Operation slipper</option>
-                                            <option>Operation falconer</option>
-                                            <option>Operation palate</option>
-                                            <option>Operation catalyst</option>
-                                            <option>Operation palate ii</option>
-                                            <option>Operation paladin</option>
-                                            <option>Operations riverbank/kruger</option>
-                                            <option>Libya</option>
-                                            <option>Other</option>
+                                            <option>Western Asia, Souhern Asia, Central Asia, Northern Africa and Eatern Africa</option>
+                                            <option>The Land Area, Territorial Waters and Superjacent Airspace of Iraq and Syria</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group margin-above--large" id="operations" style="display:none;">
+                                        <label class="uikit-text-input__label" for="drop-down">Operation name</label>
+                                        <input type="reset" style="display:none">
+                                        <select style="display;none;" class="uikit-text-input input-half" id="select-operation-afghanistan" name="drop-down" onchange="typeSelected()">
+                                            <option selected="selected">-- Select an operation --</option>
+                                            <option>Operation Ariki</option>
+                                            <option>Operation Athena</option>
+                                            <option>Operation Enduring Freedom</option>
+                                            <option>Operation Herrick</option>
+                                            <option>Operation Highroad</option>
+                                            <option>International Security Assist</option>
+                                            <option>Operation Palate</option>
+                                            <option>Operation Palate II</option>
+                                            <option>Operation Slipper</option>
+                                        </select>
+                                        <select style="display:none;" class="uikit-text-input input-half" id="select-operation-east-timor" name="drop-down" onchange="typeSelected()">
+                                            <option selected="selected">-- Select an operation --</option>
+                                            <option>Operation Citadel</option>
+                                            <option>Operation Faber (Unamet)</option>
+                                            <option>Operation Stabilise</option>
+                                            <option>Operation Tanager</option>
+                                            <option>Operation Warden</option>
                                         </select>
                                     </div>
                                     <div class="form-group margin-above--large" id="operation-other" style="display: none;">
                                         <label class="uikit-text-input__label" for="tags">What was the name of the operation?</label>
+                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                                    </div>
+                                    <div class="form-group margin-above--large" id="operation-other">
+                                        <label class="uikit-text-input__label" for="tags">Unit/Ship/Squadron</label>
                                         <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
                                     </div>
                                     <div class="form-group margin-above--large">
@@ -429,6 +441,32 @@ $(Document).ready(function() {
             scrollTop: $("#main-content").offset().top
         }, 1000);
     });
+
+    /* Selects conflict/region in open card */
+    $("#region-select").change(function() {
+        mySelection = $('#region-select :selected').val();
+        hideOperationLists();
+        switch (mySelection) {
+            case "Afghanistan":
+                $("#select-operation-afghanistan").show();
+                $("#operations").show();
+                break;
+            case "East Timor/Timor-Leste":
+                $("#select-operation-east-timor").show();
+                $("#operations").show();
+                break;
+            case "vietnam":
+                $("#operations").hide();
+                break;
+            default:
+                $("#operations").hide();
+        }
+    });
+
+    function hideOperationLists() {
+        $("#select-operation-afghanistan").hide();
+        $("#select-operation-east-timor").hide();
+    }
 
     function hideAll() {
         $("#client-list").hide();
