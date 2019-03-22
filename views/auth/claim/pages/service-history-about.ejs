@@ -26,7 +26,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-offset-2 col-md-8 ">
                     <div class="margin-above--extra margin-below--extra">
                         <!-- What are you applying for -->
                         <div class="form-group margin-above--extra" id="sp-start-pension-type">
@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <form id="myForm">
+                        <form id="myForm" novalidate>
                             <input type="reset" style="display:none">
                             <!-- Other name -->
                             <div style="display: none;" class="form-group" id="former_name_question">
@@ -95,9 +95,9 @@
                                         </tr>
                                         <tr class="padding-above--none">
                                             <td colspan="4" class="padding-above--none ss-align">
-                                                <button id="add-another-service-period" class="icon-link-button">
+                                                <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
                                                     <span class="icon far fa-plus-circle"></span>
-                                                    <span class="link" onclick="cloneme()" id="add-another">Add another name</span>
+                                                    <span class="link">Add another name</span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -187,16 +187,18 @@
                             </div>
                         </form>
                     </div>
-                </div> <!-- col-md-12 end -->
-            </div>
-            <div class="pagination">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Previous</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-                <div class="floated">
-                    <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
-                    <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+                    <!-- col-md-12 end -->
+                    <div class="pagination">
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Previous</button>
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                        <div class="floated">
+                            <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
+                            <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+                        </div>
+                    </div>
                 </div>
             </div>
+        </div>
     </main>
     <% include ../partials/cancel-modal.ejs %>
     <% include ../../../global/partials/footer.ejs %>
@@ -210,7 +212,7 @@
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
             $("#adf").show("fast");
-             sessionStorage.setItem('commonwealth-allied', 'no');
+            sessionStorage.setItem('commonwealth-allied', 'no');
         });
 
         $("#veteran-commonwealth-allied").click(function() {
@@ -313,7 +315,20 @@
             $("#save-and-exit-button").prop('disabled', false);
         }
 
+        $("#removeDateRow").click(function() {
+            $(this).closest('tr').remove();
+            // $("#date-template:not(first-child)").remove();
+        });
+
     });
+
+    function cloneMe() {
+        console.log("Gfdgdfgfdgdf")
+        var newOne = $('#date-template').clone(true)
+            .find("input:text").val("").end();
+        $("#removeDateRow").show();
+        newOne.insertAfter($('#date-template'));
+    }
     </script>
 </body>
 
