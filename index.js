@@ -1843,6 +1843,11 @@ app.get('/nr-list', function (request, response) {
     main_nav_active: "profile"
   });
 });
+app.get('/nr-view-request-summary', function (request, response) {
+  response.render('auth/nomrep/nr-view-request-summary', {
+    main_nav_active: "profile"
+  });
+});
 
 app.get('/nr-agreements-realistic-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-new', {
