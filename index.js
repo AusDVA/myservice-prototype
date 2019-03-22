@@ -1838,17 +1838,11 @@ app.get('/nr-landing', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-agreements-new', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-new', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-agreements-new-only-rep', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-new-only-rep', {
-    main_nav_active: "profile"
-  });
-});
-
 
 app.get('/nr-agreements-realistic-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-new', {
