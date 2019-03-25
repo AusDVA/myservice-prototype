@@ -26,7 +26,7 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-offset-2 col-md-8 ">
                     <div class="margin-above--extra margin-below--extra">
                         <!-- What are you applying for -->
                         <div class="form-group margin-above--extra" id="sp-start-pension-type">
@@ -37,24 +37,29 @@
                                         <input id="veteran-adf" class="sr" type="radio" name="veteranType" value="veteran-adf">
                                         <span>
                                             <span class="fal fa-user fa-icon-large"></span>
-                                            <p class="margin-below--none">Australian Defence Force veteran</p>
+                                            <p class="margin-below--none">Australian Defence<BR />Force veteran</p>
                                         </span>
                                     </label>
                                     <label class="radio-tile">
-                                        <input id="veteran-commonwealth-allied" class="sr" type="radio" name="veteranType" value="veteran-commonwealth-allied">
+                                        <input id="veteran-commonwealth" class="sr" type="radio" name="veteranType" value="veteran-commonwealth">
                                         <span>
                                             <span class="fal fa-user fa-icon-large"></span>
-                                            <p class="margin-below--none">Commonwealth or allied veteran</p>
+                                            <p class="margin-below--none">Commonwealth<BR />veteran</p>
                                     </label>
-                                    </span>
+                                    <label class="radio-tile">
+                                        <input id="veteran-allied" class="sr" type="radio" name="veteranType" value="veteran-allied">
+                                        <span>
+                                            <span class="fal fa-user fa-icon-large"></span>
+                                            <p class="margin-below--none">Allied<BR />veteran</p>
+                                    </label>
                                 </div>
                             </div>
                         </div>
-                        <form id="myForm">
+                        <form id="myForm" novalidate>
                             <input type="reset" style="display:none">
                             <!-- Other name -->
                             <div style="display: none;" class="form-group" id="former_name_question">
-                                <label class="uikit-text-input__label" for="toggle-buttons">Were you known by any other names during your service?</label>
+                                <label class="uikit-text-input__label" for="toggle-buttons">Did you serve under any other names?</label>
                                 <div class="radio-toggle">
                                     <label class="on label-left" for="former_yes">
                                         <input id="former_yes" type="radio" name="toggle-buttons">
@@ -95,9 +100,9 @@
                                         </tr>
                                         <tr class="padding-above--none">
                                             <td colspan="4" class="padding-above--none ss-align">
-                                                <button id="add-another-service-period" class="icon-link-button">
+                                                <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
                                                     <span class="icon far fa-plus-circle"></span>
-                                                    <span class="link" onclick="cloneme()" id="add-another">Add another name</span>
+                                                    <span class="link">Add another name</span>
                                                 </button>
                                             </td>
                                         </tr>
@@ -119,18 +124,38 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="ww2-alert">
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="ww2-alert">
                                     <p>You will need to complete the following two forms and send to DVA:</p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service during World War II form (D0506)</a></p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service with Forces in Yugoslavia during the
-                                            Second World War (D0507B)</a></p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service during World War 2 form (D0506A)</a></p>
                                 </div>
                                 <div id="save-and-next" class="margin-above--extra" style="display: none">
                                     <p>Choose <b>save and next</b> to continue.</p>
                                 </div>
                             </div>
-                            <!-- Commonwealth or allied veteran -->
-                            <div style="display: none;" id="commonwealth-allied">
+                            <!-- Commonwealth -->
+                            <div style="display: none;" id="commonwealth">
+                                <div class="form-group">
+                                    <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
+                                    <div class="radio-toggle">
+                                        <label class="on label-left" for="enemy-yes-comm">
+                                            <input id="enemy-yes-comm" type="radio" name="enemy">
+                                            <span>Yes</span>
+                                        </label>
+                                        <label class="off label-right" for="enemy-no-comm">
+                                            <input id="enemy-no-comm" type="radio" name="enemy">
+                                            <span>No</span>
+                                        </label>
+                                    </div>
+                                </div>
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert-comm">
+                                    <p>You do not meet the basic eligibility to apply for this claim.</p>
+                                </div>
+                                <div id="save-and-next-comm" class="margin-above--extra" style="display: none">
+                                    <p>Choose <b>save and next</b> to continue.</p>
+                                </div>
+                            </div>
+                            <!-- Allied -->
+                            <div style="display: none;" id="allied">
                                 <div class="form-group">
                                     <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
                                     <div class="radio-toggle">
@@ -144,12 +169,11 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="enemy-alert">
-                                    <!-- <p>You are unable to submit a qualifying service claim as you are the enemy.</p> -->
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert">
                                     <p>You do not meet the basic eligibility to apply for this claim.</p>
                                 </div>
                                 <div style="display: none;" class="form-group" id="yugoslavia">
-                                    <label class="uikit-text-input__label margin-above--large" for="yugoslavia">Did you serve with forces in Yugoslavia during World War II?</label>
+                                    <label class="uikit-text-input__label margin-above--large" for="yugoslavia">Did you serve with forces in Yugoslavia during World War 2?</label>
                                     <div class="radio-toggle">
                                         <label class="on label-left" for="yugoslavia-yes">
                                             <input id="yugoslavia-yes" type="radio" name="yugoslavia">
@@ -161,10 +185,10 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="yugoslavia-alert">
-                                    <p>You will need to complete the following form and send to DVA:</p>
-                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the
-                                            Second World War (D0507A)</a></p>
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="yugoslavia-alert">
+                                    <p>You will need to complete the following forms and send to DVA:</p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the Second World War (D0507A)</a></p>
+                                    <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507.pdf">Claim to Determine Qualifying Serviceby a Commonwealth or Allied Veteran (D0507)</a></p>
                                 </div>
                                 <div style="display: none;" class="form-group" id="vietnam">
                                     <label class="uikit-text-input__label margin-above--large" for="vietnam">Did you serve with the armed forces of the Republic of Vietnam?</label>
@@ -179,26 +203,29 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div style="display: none;" class="uikit-page-alerts margin-above--large" role="alert" id="vietnam-alert">
-                                    <p>You will need to complete the following form and send to DVA:</p>
+                                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="vietnam-alert">
+                                    <p>You will need to complete the following forms and send to DVA:</p>
                                     <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507A.pdf">Qualifying Service Details - Service with the Armed Forces of the Republic of Vietnam (D0507A)</a></p>
+                                     <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507.pdf">Claim to Determine Qualifying Serviceby a Commonwealth or Allied Veteran (D0507)</a></p>
                                 </div>
-                                <div id="save-and-next-commonwealth" class="margin-above--extra" style="display: none">
+                                <div id="save-and-next-allied" class="margin-above--extra" style="display: none">
                                     <p>Choose <b>save and next</b> to continue.</p>
                                 </div>
                             </div>
                         </form>
                     </div>
-                </div> <!-- col-md-12 end -->
-            </div>
-            <div class="pagination">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Previous</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-                <div class="floated">
-                    <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
-                    <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+                </div>
+                <!-- col-md-12 end -->
+                <div class="pagination">
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Previous</button>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                    <div class="floated">
+                        <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
+                        <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+                    </div>
                 </div>
             </div>
+        </div>
     </main>
     <% include ../partials/cancel-modal.ejs %>
     <% include ../../../global/partials/footer.ejs %>
@@ -212,27 +239,40 @@
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
             $("#adf").show("fast");
-             sessionStorage.setItem('commonwealth-allied', 'no');
+            sessionStorage.setItem('commonwealth-allied', 'no');
         });
 
-        $("#veteran-commonwealth-allied").click(function() {
+        $("#veteran-commonwealth").click(function() {
             hideAll();
             $(myForm).trigger("reset");
             $("#former_name_question").show("fast");
-            $("#commonwealth-allied").show("fast");
+            $("#commonwealth").show("fast");
             sessionStorage.setItem('commonwealth-allied', 'yes');
         });
 
-        // adf
+        $("#veteran-allied").click(function() {
+            console.log("dfgdfgdfgfdg")
+            hideAll();
+            $(myForm).trigger("reset");
+            $("#former_name_question").show("fast");
+            $("#allied").show("fast");
+            sessionStorage.setItem('commonwealth-allied', 'yes');
+        });
+
+        // general
 
         $("#former_yes").click(function() {
+            hideAlerts();
             $("#former_name").show("fast");
             $("#save-and-next").hide();
         });
         $("#former_no").click(function() {
+            hideAlerts();
             $("#former_name").hide("fast");
             $("#save-and-next").hide();
         });
+
+        // adf
 
         $("#ww2-yes").click(function() {
             $("#ww2-alert").show("fast");
@@ -245,7 +285,20 @@
             footerNavRestore();
         });
 
-        // commonwealth allied
+        // commonwealth
+
+        $("#enemy-yes-comm").click(function() {
+            hideAlerts();
+            footerNavExit();
+            $("#enemy-alert-comm").show("fast");
+        });
+        $("#enemy-no-comm").click(function() {
+            hideAlerts();
+            footerNavRestore();
+            $("#save-and-next-comm").show("fast");
+        });
+
+        // allied
 
         $("#enemy-yes").click(function() {
             hideAlerts();
@@ -277,7 +330,7 @@
         });
         $("#vietnam-no").click(function() {
             hideAlerts();
-            $("#save-and-next-commonwealth").show("fast");
+            $("#save-and-next-allied").show("fast");
             footerNavRestore();
         });
 
@@ -287,14 +340,17 @@
             $("#former_name").hide();
             $("#save-and-next").hide();
             $("#ww2-alert").hide();
-            $("#commonwealth-allied").hide();
+            $("#commonwealth").hide();
+            $("#allied").hide();
         }
 
         function hideAlerts() {
             $("#enemy-alert").hide();
+            $("#enemy-alert-comm").hide();
             $("#vietnam-alert").hide();
             $("#yugoslavia-alert").hide();
-            $("#save-and-next-commonwealth").hide();
+            $("#save-and-next-comm").hide();
+            $("#save-and-next-allied").hide();
             $("#save-and-next").hide();
         }
 
@@ -306,16 +362,28 @@
         }
 
         function footerNavExit() {
-            $("#save-and-next-button").html("Back to claims");
-            $("#save-and-exit-button").hide();
+            $("#save-and-next-button").prop('disabled', true);
+            $("#save-and-exit-button").prop('disabled', true);
         }
 
         function footerNavRestore() {
-            $("#save-and-next-button").html("Save and next");
-            $("#save-and-exit-button").show("fast");
+            $("#save-and-next-button").prop('disabled', false);
+            $("#save-and-exit-button").prop('disabled', false);
         }
 
+        $("#removeDateRow").click(function() {
+            $(this).closest('tr').remove();
+            // $("#date-template:not(first-child)").remove();
+        });
+
     });
+
+    function cloneMe() {
+        var newOne = $('#date-template').clone(true)
+            .find("input:text").val("").end();
+        $("#removeDateRow").show();
+        newOne.insertAfter($('#date-template'));
+    }
     </script>
 </body>
 
