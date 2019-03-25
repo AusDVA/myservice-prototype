@@ -40,22 +40,25 @@
             payment.</span>
         </h3>
 
+        <!-- All classes that start with pt-*** can be ignored/removed. These styles are only for the prototype.   -->
         <div class="pt-max-amount-reached">
+
+          <!-- Only show this message if the maximum limit has been reached.  -->
           <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
             <h3>You have reached the maximum lump sum amount.</h3>
             <p>Some text here.</p>
           </div>
+          <!-- End, Only show this message if the maximum limit has been reached.  -->
+
         </div>
 
+
         <div class="pt-max-amount-not-reached">
+          <!-- Only show this section if the maximum limit has NOT been reached.  -->
           <div class="currency-box currency-box--top margin-below--extra">
             <p>Minimum amount : <strong>$432.50 </strong> <br>
               Maximum amount : <strong>$1250.50</strong></p>
           </div>
-
-
-
-
 
           <div class="form-group">
             <div id="validation" class="field">
@@ -64,64 +67,64 @@
                 <span class="input-error-message">Amount needs to be inbetween Min and Max amount</span>
               </label>
               <span class="input-support-text">$</span>
-              <input id="ddlTechnolgy" name="Technology" class="amount uikit-text-input input-half ng-invalid ng-dirty ng-touched" type="text">
+              <input id="lumpAmount" name="lumpAmount" class="pt-amount uikit-text-input input-half" type="text">
               <button class="uikit-btn uikit-btn--tertiary" id="enter-max">Enter maximum</button>
             </div>
           </div>
           <div class=" margin-above margin-below--extra" id="claim-activity">
-            <section>
 
-              <div class="form-group">
-                <p style="display:none;">You will receive $<span class="hint" id="total"></span> less now</p>
-              </div>
-            </section>
+            <!-- Show this section on keyup of lumpSum amount -->
             <div style="display:none;" class="currency-box currency-box--bottom" id="newPensionAmount">
-
-
               <div class="row">
-                <div class="col-md-7">
+                <div class="col-sm-7">
                   <span class="hint">Current pension per fortnight</span> </div>
-                <div class="col-md-5">
+                <div class="col-sm-5">
                   <legend class="legend-label">
                     <input class="current" type="hidden" value="640.45" readonly>
-                    <strong>
-                      $640.45</strong>
+                    <strong>$640.45</strong>
                   </legend>
                 </div>
               </div>
 
-              <div class="row" style="margin-top:10px;">
-                <div class="col-md-7">
+              <div class="row ">
+                <div class="col-sm-7">
                   <span class="hint">New pension per fortnight</span> </div>
-                <div class="col-md-5">
+                <div class="col-sm-5">
                   <legend class="legend-label" id="newAmount" name="new-amount"></legend>
                 </div>
               </div>
 
-              <div class="row" style="margin-top:10px;">
-                <div class="col-md-7">
+              <div class="row ">
+                <div class="col-sm-7">
                   <span class="hint">Difference per fortnight</span> </div>
-                <div class="col-md-5">
+                <div class="col-sm-5">
                   <legend class="legend-label" id="differenceAmount" name="difference-amount"></legend>
                 </div>
               </div>
             </div>
           </div>
+          <!-- End, Only show this section if the maximum limit has NOT been reached.  -->
         </div>
-        <div class="pagination">
+
+
+        <div class="pagination pagination--ss-reverse-order">
           <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/payments'">Back to payments</button>
-          <div class="pt-max-amount-not-reached">
-            <div class="floated">
-              <input class="uikit-btn btnNext" type="button" id="btnQueryString" value="Save and review" />
-            </div>
+
+          <!-- Only show this message if the maximum limit has been reached.  -->
+          <div class="pt-max-amount-not-reached floated">
+            <button class="uikit-btn" id="btnQueryString" value="">Save and review</button>
           </div>
+          <!-- End, Only show this message if the maximum limit has been reached.  -->
+
         </div>
 
   </main>
   <% include ../../../global/partials/footer.ejs %>
-  <!-- focusout -->
+
+
+  <!-- prototype functions -->
   <script>
-    $(".amount").each(function () {
+    $(".pt-amount").each(function () {
       $(this).keyup(function () {
         Calculate();
       });
@@ -132,7 +135,7 @@
       var minTotal = $("#minTotal").html();
       var maxTotal = $("#maxTotal").html();
       var validation = ("#validation");
-      $(".amount").each(function () {
+      $(".pt-amount").each(function () {
 
         // validate
         if (!isNaN(this.value) && this.value.length != 0) {
@@ -159,18 +162,14 @@
 
     $(function () {
       $("#btnQueryString").bind("click", function () {
-        var url = "lump-sum-advance-review?name=" + encodeURIComponent($("#newAmount").html()) + "&technology=" + encodeURIComponent($("#ddlTechnolgy").val());
+        var url = "lump-sum-advance-review?name=" + encodeURIComponent($("#newAmount").html()) + "&technology=" + encodeURIComponent($("#lumpAmount").val());
         window.location.href = url;
       });
 
       $("#enter-max").click(function () {
-        $("#ddlTechnolgy").val('1250.50');
+        $("#lumpAmount").val('1250.50');
         Calculate();
       });
-
-
-
-
 
       function initLumpSum() {
 
@@ -197,11 +196,6 @@
       }
 
       initLumpSum();
-
-
-
-
-
     });
   </script>
 </body>
