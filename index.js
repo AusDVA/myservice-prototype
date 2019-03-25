@@ -1091,6 +1091,7 @@ app.get("/sp-bank-details", function (request, response) {
 // });
 
 //Service history
+
 app.get("/service-history-start", function (request, response) {
   response.render("auth/claim/pages/service-history-start", {
     main_nav_active: "claims"
@@ -1122,6 +1123,16 @@ app.get("/service-history-submitted", function (request, response) {
     main_nav_active: "claims"
   });
 });
+
+/* Civilian qs */
+
+app.get("/civilian-qs-1", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-1", {
+    main_nav_active: "claims"
+  });
+});
+
+/* -- */
 
 app.get("/sp-c0", function (request, response) {
   response.render("auth/claim/pages/sp-c0", {
