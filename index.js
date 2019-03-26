@@ -1136,6 +1136,16 @@ app.get("/civilian-qs-1", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/civilian-qs-review", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-review", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-submit", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-submit", {
+    main_nav_active: "claims"
+  });
+});
 
 /* -- */
 
