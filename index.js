@@ -1123,6 +1123,11 @@ app.get("/service-history-submitted", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/viewQSDetails", function (request, response) {
+  response.render("auth/claim/pages/viewQSDetails", {
+    main_nav_active: "claims"
+  });
+});
 
 /* Civilian qs */
 
