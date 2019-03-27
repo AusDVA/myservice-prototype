@@ -535,19 +535,6 @@ app.get("/service-period-2", function (request, response) {
 app.get("/service-period-3", function (request, response) {
   response.render("auth/service-period-3");
 });
-/* Separate healthcard screens */
-// app.get('/healthcard-home', function (request, response) {
-//   response.render('auth/healthcard/healthcard-home');
-// });
-// app.get('/healthcard-gold', function (request, response) {
-//   response.render('auth/healthcard/healthcard-gold');
-// });
-// app.get('/healthcard-nlhc', function (request, response) {
-//   response.render('auth/healthcard/healthcard-nlhc');
-// });
-// app.get('/healthcard-none', function (request, response) {
-//   response.render('auth/healthcard/healthcard-none');
-// });
 
 /* Change email flow */
 app.get("/change-email-poi", function (request, response) {
@@ -1853,8 +1840,8 @@ app.get('/nr-agreements-clean', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-landing', function (request, response) {
-  response.render('auth/nomrep/nr-landing', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
@@ -1863,8 +1850,8 @@ app.get('/nr-agreements', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-landing', function (request, response) {
-  response.render('auth/nomrep/nr-landing', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
