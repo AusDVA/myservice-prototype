@@ -1163,7 +1163,8 @@ jQuery(document).ready(function ($) {
       var tmp = new Date();
       tmp.setDate(tmp.getDate() + counter++);
       switch (tmp.getDay()) {
-        case 0:case 6:
+        case 0:
+        case 6:
           break; // sunday & saturday
         default:
           businessDays--;
@@ -1316,7 +1317,8 @@ jQuery(document).ready(function ($) {
   // PoC file upload for prototype
   // TODO:: handle cancel 
   // TODO:: add additional items 
-  ;(function (document, window, index) {
+  ;
+  (function (document, window, index) {
     var inputs = document.querySelectorAll('.file-upload__input');
     Array.prototype.forEach.call(inputs, function (input) {
       var label = input.nextElementSibling,
