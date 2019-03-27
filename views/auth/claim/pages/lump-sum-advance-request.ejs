@@ -36,7 +36,7 @@
       <div class="container margin-above margin-below--extra" id="claim-activity">
         <h3 class="margin-below">
           <span class="font-weight-heavy">
-            Receive part of your pension paid in advance through a <a target="_blank" href="https://www.dva.gov.au/factsheet-is115-lump-sum-advance">lump sum advance</a>
+            Receive part of your payment paid in advance through a <a target="_blank" href="https://www.dva.gov.au/factsheet-is115-lump-sum-advance">lump sum advance</a>
             payment.</span>
         </h3>
 
@@ -76,10 +76,10 @@
           <div class=" margin-above margin-below--extra" id="claim-activity">
 
             <!-- Show this section on keyup of lumpSum amount -->
-            <div style="display:none;" class="currency-box currency-box--bottom" id="newPensionAmount">
+            <div style="display:none;" class="currency-box currency-box--bottom" id="newpaymentAmount">
               <div class="row">
                 <div class="col-sm-7">
-                  <span class="hint">Current pension per fortnight</span> </div>
+                  <span class="hint">Current payment per fortnight</span> </div>
                 <div class="col-sm-5">
                   <legend class="legend-label">
                     <input class="current" type="hidden" value="640.45" readonly>
@@ -90,7 +90,7 @@
 
               <div class="row ">
                 <div class="col-sm-7">
-                  <span class="hint">New pension per fortnight</span> </div>
+                  <span class="hint">New payment per fortnight</span> </div>
                 <div class="col-sm-5">
                   <legend class="legend-label" id="newAmount" name="new-amount"></legend>
                 </div>
@@ -133,10 +133,11 @@
     });
 
     var maxTotal = 1250;
+    var minTotal = 432;
 
     function Calculate() {
       var total = 0;
-      var minTotal = $("#minTotal").html();
+
 
       var validation = ("#validation");
       $(".pt-amount").each(function () {
@@ -146,6 +147,7 @@
           total += parseFloat(this.value);
           newAmount += parseFloat(this.value);
 
+          // if (total > maxTotal || total < minTotal) {
           if (total > maxTotal) {
             $(this)
               .closest(".field")
@@ -159,9 +161,9 @@
         }
 
         if (total < minTotal || total > maxTotal || total == "") {
-          $("#newPensionAmount").hide();
+          $("#newpaymentAmount").hide();
         } else {
-          $("#newPensionAmount").show();
+          $("#newpaymentAmount").show();
         }
       });
 
