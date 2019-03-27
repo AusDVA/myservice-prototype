@@ -1840,8 +1840,8 @@ app.get('/nr-agreements-clean', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-landing', function (request, response) {
-  response.render('auth/nomrep/nr-landing', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
@@ -1850,8 +1850,8 @@ app.get('/nr-agreements', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-landing', function (request, response) {
-  response.render('auth/nomrep/nr-landing', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
