@@ -266,33 +266,34 @@ jQuery(document).ready(function ($) {
     }
 
     if (localStorage.getItem('repFlow') == 'both') {
-      $(".pt-first-time").hide();
-      $(".pt-rep-flow-representing-no").hide();
-      $(".pt-rep-flow-represented-no").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-representing").show();
-      $(".pt-rep-flow-represented").show();
+      // alert('asdf');
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing-no").hide();
+      jQuery(".pt-rep-flow-represented-no").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-representing").show();
+      jQuery(".pt-rep-flow-represented").show();
     } else if (localStorage.getItem('repFlow') == 'none') {
-      $(".pt-first-time").hide();
-      $(".pt-rep-flow-representing").hide();
-      $(".pt-rep-flow-represented").hide();
-      $(".pt-rep-flow-none-no").hide();
-      $(".pt-rep-flow-none").show();
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing").hide();
+      jQuery(".pt-rep-flow-represented").hide();
+      jQuery(".pt-rep-flow-none-no").hide();
+      jQuery(".pt-rep-flow-none").show();
     } else if (localStorage.getItem('repFlow') == 'representing') {
-      $(".pt-first-time").hide();
-      $(".pt-rep-flow-represented").hide();
-      $(".pt-rep-flow-representing-no").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-representing").show();
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-represented").hide();
+      jQuery(".pt-rep-flow-representing-no").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-representing").show();
     } else if (localStorage.getItem('repFlow') == 'represented') {
-      $(".pt-first-time").hide();
-      $(".pt-rep-flow-representing").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-represented").show();
-      $(".pt-rep-flow-represented-no").hide();
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-represented").show();
+      jQuery(".pt-rep-flow-represented-no").hide();
     } else if (localStorage.getItem('repFlow') == 'newbie') {
-      $(".pt-first-time-no").hide();
-      $(".pt-first-time").show();
+      jQuery(".pt-first-time-no").hide();
+      jQuery(".pt-first-time").show();
     }
   }
 
