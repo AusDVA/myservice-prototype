@@ -213,6 +213,7 @@ app.get("/index-claims", function (request, response) {
   });
 });
 
+
 /* temporary only */
 app.get("/index-claims-alt-icons", function (request, response) {
   response.render("auth/index-claims-alt-icons", {
@@ -395,12 +396,6 @@ app.get("/healthcard-reservist", function (request, response) {
     main_nav_active: "healthcard"
   });
 });
-
-/* end reservist flow */
-
-
-
-
 
 /* non_card_pmkeys flow */
 app.get("/veteran-card-non_card_pmkeys", function (request, response) {
@@ -617,6 +612,11 @@ app.get("/panel-feedbacksubmitting", function (request, response) {
 app.get("/claims", function (request, response) {
   response.render("auth/claim/pages/claims", {
     main_nav_active: "claims"
+  });
+});
+app.get("/claims-new", function (request, response) {
+  response.render("auth/claim/pages/claims-new", {
+    main_nav_active: "home"
   });
 });
 app.get("/fluid-div-example", function (request, response) {
@@ -982,6 +982,13 @@ app.get("/sp-residency", function (request, response) {
     main_nav_active: "claims"
   });
 });
+
+app.get("/sp-residency-new", function (request, response) {
+  response.render("auth/claim/pages/sp-residency-new", {
+    main_nav_active: "claims"
+  });
+});
+
 app.get("/sp-residency-partner", function (request, response) {
   response.render("auth/claim/pages/sp-residency-partner", {
     main_nav_active: "claims"
@@ -1082,6 +1089,66 @@ app.get("/sp-bank-details", function (request, response) {
 //     main_nav_active: 'claims'
 //   });
 // });
+
+//Service history
+
+app.get("/service-history-start", function (request, response) {
+  response.render("auth/claim/pages/service-history-start", {
+    main_nav_active: "claims"
+  });
+});
+
+app.get("/service-history-about", function (request, response) {
+  response.render("auth/claim/pages/service-history-about", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/service-history-content", function (request, response) {
+  response.render("auth/claim/pages/service-history-content", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/service-history-review", function (request, response) {
+  response.render("auth/claim/pages/service-history-review", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/service-history-documents", function (request, response) {
+  response.render("auth/claim/pages/service-history-documents", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/service-history-submitted", function (request, response) {
+  response.render("auth/claim/pages/service-history-submitted", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/viewQSDetails", function (request, response) {
+  response.render("auth/claim/pages/viewQSDetails", {
+    main_nav_active: "claims"
+  });
+});
+
+/* Civilian qs */
+
+app.get("/civilian-qs-1", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-1", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-review", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-review", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-submit", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-submit", {
+    main_nav_active: "claims"
+  });
+});
+
+/* -- */
+
 app.get("/sp-c0", function (request, response) {
   response.render("auth/claim/pages/sp-c0", {
     main_nav_active: "claims"
@@ -1429,6 +1496,11 @@ app.get("/viewNLHCClaimDetail", function (request, response) {
 });
 
 /* Veteran card */
+app.get("/healthcard-provisional", function (request, response) {
+  response.render("auth/claim/pages/veterancard/healthcard-provisional", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/veteran-card-eligibility", function (request, response) {
   response.render("auth/claim/pages/veteran-card-eligibility", {
     main_nav_active: "claims"
@@ -1439,11 +1511,33 @@ app.get("/veteran-card-start", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/veteran-card-payment", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-payment", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/veteran-card-review-submit", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-review-submit", {
+    main_nav_active: "claims"
+  });
+});
+
 app.get("/veteran-card-service-history", function (request, response) {
   response.render("auth/claim/pages/veterancard/veteran-card-service-history", {
     main_nav_active: "claims"
   });
 });
+app.get("/veteran-card-submitted", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-submitted", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/veteran-card-no-card", function (request, response) {
+  response.render("auth/claim/pages/veterancard/veteran-card-no-card", {
+    main_nav_active: "healthcard"
+  });
+});
+
 app.get("/veteran-card-1", function (request, response) {
   response.render("auth/claim/pages/veteran-card-1", {
     main_nav_active: "claims"
@@ -1759,8 +1853,8 @@ app.get('/nr-agreements-clean', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/rep-landing', function (request, response) {
-  response.render('auth/nomrep/rep-landing', {
+app.get('/nr-landing', function (request, response) {
+  response.render('auth/nomrep/nr-landing', {
     main_nav_active: "profile"
   });
 });
@@ -1769,16 +1863,22 @@ app.get('/nr-agreements', function (request, response) {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-agreements-clean-new', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-clean-new', {
+app.get('/nr-landing', function (request, response) {
+  response.render('auth/nomrep/nr-landing', {
     main_nav_active: "profile"
   });
 });
-app.get('/nr-agreements-new', function (request, response) {
-  response.render('auth/nomrep/nr-agreements-new', {
+app.get('/nr-list', function (request, response) {
+  response.render('auth/nomrep/nr-list', {
     main_nav_active: "profile"
   });
 });
+app.get('/nr-view-request-summary', function (request, response) {
+  response.render('auth/nomrep/nr-view-request-summary', {
+    main_nav_active: "profile"
+  });
+});
+
 app.get('/nr-agreements-realistic-new', function (request, response) {
   response.render('auth/nomrep/nr-agreements-realistic-new', {
     main_nav_active: "profile"

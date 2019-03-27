@@ -1,4 +1,3 @@
-
 <!-- Summary card -->
 <div id="shares-summary" class="plain-text-info" style="display:none;">
     <div class="review__wrapper">
@@ -55,12 +54,17 @@
             </div>
             <div class="form-group margin-above--large">
                 <label class="uikit-text-input__label" for="drop-down">Owner of shares</label>
-                <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                <select class="uikit-text-input input-half" id="ownerType" name="drop-down">
                     <option selected="selected">-- Select an item --</option>
                     <option>Myself</option>
-                    <option>My partner</option>
-                    <option>Jointly owned with any other party</option>
+                    <option class="partner">My partner</option>
+                    <option class="partner">Jointly with my partner</option>
+                    <option>Jointly with any other party</option>
                 </select>
+            </div>
+            <div class="form-group margin-above--large" id="other-party-owner" style="display: none;">
+                <label class="uikit-text-input__label" for="Input field">Name of other party</label>
+                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
             <div class="form-group margin-above--large">
                 <label class="uikit-text-input__label" for="drop-down">Type of share</label>
@@ -93,7 +97,7 @@
                     <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                     <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
                 </fieldset>
-            </div>  
+            </div>
             <div class="form-group margin-above--large" id="number-of-shares" style="display: none;">
                 <label class="uikit-text-input__label" for="Input field">Total number of shares</label>
                 <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
@@ -114,7 +118,7 @@
                 <label class="uikit-text-input__label">Country of payment</label>
                 <% include ../partials/select-list-country.ejs %>
             </div>
-             <div class="form-group margin-above--large" id="market-value" style="display: none;">
+            <div class="form-group margin-above--large" id="market-value" style="display: none;">
                 <label class="uikit-text-input__label" for="Input field">Market value</label>
                 <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
@@ -152,7 +156,17 @@ $("#shares-australia").change(function() {
         $("#market-value").show();
         $("#share-code").hide();
         $("#number-of-shares").hide();
-        
+
+    }
+});
+$("#ownerType").change(function() {
+    mySelection = $('#ownerType :selected').val();
+    switch (mySelection) {
+        case "Jointly with any other party":
+            $("#other-party-owner").show();
+            break;
+        default:
+            $("#other-party-owner").hide();
     }
 });
 </script>
