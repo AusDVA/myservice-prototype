@@ -325,20 +325,33 @@ jQuery(document).ready(function ($) {
   // Swap text on top panel accordion button
   var open = false;
   var initialButtonText = $(".accordion-toppanel-btn").html();
-  $(".uikit-accordion__title").click(function () {
+  $(".accordion-toppanel-btn").click(function () {
 
     // change the button text
-    open = !open;
-    if (open) {
-      $(".accordion-toppanel-btn").html("Close");
-    } else {
-      $(".accordion-toppanel-btn").html(initialButtonText);
-    }
+    // open = !open;
+    // if (open) {
+    //   $(".accordion-toppanel-btn").html("Close");
+    // } else {
+    //   $(".accordion-toppanel-btn").html(initialButtonText);
+    // }
 
     $(this).closest('.uikit-accordion').toggleClass("accordion-closed");
+    // $(this).find('.uikit-accordion__body').toggleClass("accordion-open");
+
+
 
     // $(".uikit-accordion").toggleClass("accordion-open");
     // $(".uikit-accordion").toggleClass("accordion-closed");
+  });
+
+  // swap-box-un-hide
+  $(".switch-account-button").click(function (ev) {
+    // let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
+    // let thisBox = $(this).next(".mys-radio__box");
+    // $(siblings).removeClass('mys-radio__box--not-selected');
+    $(this).closest('.container').find(".switch-account-box").toggleClass("switch-account-box--hide");
+    // $(siblings).not(thisBox).addClass('mys-radio__box--not-selected');
+    // console.log($(this).next(".switch-account-box"));
   });
 
 });
