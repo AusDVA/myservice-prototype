@@ -350,6 +350,8 @@ jQuery(document).ready(function ($) {
     // let thisBox = $(this).next(".mys-radio__box");
     // $(siblings).removeClass('mys-radio__box--not-selected');
     $(this).closest('.container').find(".switch-account-box").toggleClass("switch-account-box--hide");
+    $(this).toggleClass("switch-account-button--open");
+
     // $(siblings).not(thisBox).addClass('mys-radio__box--not-selected');
     // console.log($(this).next(".switch-account-box"));
   });

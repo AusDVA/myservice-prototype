@@ -1,7 +1,7 @@
-/**********************************
-  The sliding panel top animates from the top of the screen when triggered by the 24hr support link located in the header.
+//
+//  The sliding panel top animates from the top of the screen when triggered by the 24hr support link
+//  located in the header.
 
-**********************************/
 // Content:
 // - top panel full-width styling
 // - top panel accordion body styling
@@ -213,15 +213,22 @@
   }
 
   .switch-account-button {
-    background: $blue-super-light;
+
+    background: $top-panel-bg;
     border: 0;
+    box-sizing: border-box;
+    cursor: pointer;
     display: inline-block;
+    font-size: 0.8rem;
+    font-weight: bold;
     height: 3.2em;
+    line-height: .8;
     margin: 0;
-    padding: 1em;
+    padding: uikit-space(0.75) uikit-space(2.5) uikit-space(0.75) uikit-space(0.75);
     position: relative;
-    text-align: center;
-    width: 12em;
+    text-decoration: none;
+    vertical-align: top;
+    width: auto;
 
     &:hover,
     &:focus,
@@ -233,15 +240,36 @@
       text-decoration: none;
     }
 
+    &::after {
+      background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">'+ '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>'+ '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/>'+ '</svg>');
+
+      background-position: center;
+      background-repeat: no-repeat;
+      bottom: 0;
+      content: ' ';
+      position: absolute;
+
+      right: uikit-space(1);
+      top: 0;
+      transform: rotateZ(180deg);
+      transition: transform 0.25s ease-in;
+      width: uikit-space(0.75);
+      z-index: 0;
+
+    }
+
     .switch-account-button__text {
       border: 0;
-      color: $black;
-      font-weight: 600;
       left: 0;
       margin: auto;
       padding: .77em 0;
-      position: absolute;
       right: 0;
+    }
+  }
+
+  .switch-account-button--open {
+    &::after {
+      transform: rotateZ(0deg);
     }
   }
 }
@@ -279,7 +307,7 @@
   }
 
   .switch-account-box__link {
-    border-bottom: 2px solid #CFCFCF;
+    border-bottom: 2px solid #cfcfcf;
     color: $black;
     display: block;
     margin-bottom: 0;
