@@ -438,26 +438,14 @@ app.get("/healthcard-non_card_pmkeys", function (request, response) {
   });
 });
 
-/* end non_card_pmkeys flow */
-
-
-
-
-
-
-
-
-
-
-
 /* Separate profile screens */
 app.get("/profile-account", function (request, response) {
   response.render("auth/profile-account", {
     main_nav_active: "profile"
   });
 });
-app.get("/profile-bank", function (request, response) {
-  response.render("auth/profile-bank", {
+app.get("/profile-payment", function (request, response) {
+  response.render("auth/profile-payment", {
     main_nav_active: "profile"
   });
 });
