@@ -586,6 +586,11 @@ app.get("/terms-and-conditions", function (request, response) {
   response.render("global/pages/terms-and-conditions");
 });
 
+app.get("/index-password-updated", function (request, response) {
+  response.render("auth/index-password-updated");
+});
+
+
 //feedback page
 
 app.get("/panel-feedback", function (request, response) {
