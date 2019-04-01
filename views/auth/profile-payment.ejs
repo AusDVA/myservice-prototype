@@ -68,6 +68,13 @@
               <div id="bank-accounts-summary" class="plain-text-info col-sm-8 margin-above--none">
                 <div class=" review__wrapper">
                   <div class="review__content--item boxed">
+                    <!-- <div id="container">
+                      <div class="change-to-primary">blah1</div>
+                      <div class="change-to-primary">blah2</div>
+                      <div class="change-to-primary">blah3</div>
+                      <div class="change-to-primary">blah4</div>
+                      <div class="change-to-primary">blah5</div>
+                    </div> -->
                     <div>
                       <button class="uikit-btn uikit-btn--tertiary small floated" id="editCard">&nbsp;Edit&nbsp;</button>
                     </div>
@@ -91,6 +98,11 @@
                     </div>
                   </div>
                 </div>
+                <div class="uikit-page-alerts uikit-page-alerts--warning" id="alert-payment-1" role="alert">
+                  <p>Changes to your payment destination will not take effect immediately. Do not close any accounts until you have received a payment to the new account.</p>
+                </div>
+                <hr class="margin-below--none">
+                <p>To redirect payments to an overseas account please complete the appropriate form.</p>
               </div>
               <!-- Open card -->
               <div id="bank-accounts-card" class="boxed margin-above--large margin-below--large col-sm-8" style="display: none;">
@@ -121,7 +133,7 @@
                   <label class="uikit-text-input__label" for="Input field">Account number</label>
                   <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="1289 12345" required aria-required="true">
                 </div>
-                <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
+                <div class="uikit-page-alerts uikit-page-alerts--warning" id="alert-payment" role="alert">
                   <p>Changes to your payment destination will not take effect immediately. Do not close any accounts until you have received a payment to the new account.</p>
                 </div>
                 <hr>
@@ -171,6 +183,7 @@
           $("#saveCard").click(function () {
             $("#bank-accounts-card").hide();
             $("#bank-accounts-summary").show("fast");
+            $("#alert-payment-1").show("fast");
           });
 
           $("#cancelCard").click(function () {
@@ -179,6 +192,7 @@
           });
           $("#spinner").hide();
           $("#financial-institution-none").hide();
+          $("#alert-payment-1").hide();
 
           //Automatic tab feature for BSB 
           $(".bsb").keyup(function () {
@@ -194,6 +208,7 @@
               $("#spinner").show();
 
               setTimeout(function () {
+                $("#financial-institution-none").hide();
                 $('#spinner').fadeOut(180);
               }, 1800);
 
@@ -207,6 +222,7 @@
               $("#spinner").show();
               setTimeout(function () {
                 $('#spinner').fadeOut(180);
+                $("#financial-institution-amp").hide();
               }, 1800);
 
               setTimeout(function () {
@@ -215,7 +231,14 @@
               }, 2005);
             }
           });
+
+          $(".change-to-primary").click(function () {
+            $(this).parent().prepend($(this));
+          });
+
         </script>
+
+
 </body>
 
 </html>
