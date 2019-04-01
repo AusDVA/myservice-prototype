@@ -1899,3 +1899,7 @@ app.get('/nr-accounts', function (request, response) {
 app.get("/myaccount", function (request, response) {
   response.render("myaccount/index");
 });
+
+app.get("/banners", function (request, response) {
+  response.render("auth/banners");
+});

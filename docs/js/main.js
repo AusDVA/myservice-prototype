@@ -299,6 +299,35 @@ jQuery(document).ready(function ($) {
 
   initNomRep();
 
+  // Nom rep pages
+  function initBanners() {
+
+    var bannerFlow = getUrlParameter('bannerFlow');
+
+    if (bannerFlow) {
+
+      localStorage.setItem('bannerFlow', bannerFlow);
+    } else if ("bannerFlow" in localStorage) {} else {
+      localStorage.setItem('bannerFlow', 'none');
+    }
+
+    if (localStorage.getItem('bannerFlow') == 'all') {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").show();
+    } else if (localStorage.getItem('bannerFlow') == 'none') {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if (localStorage.getItem('bannerFlow') == 'service') {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if (localStorage.getItem('bannerFlow') == 'nr-rep') {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").show();
+    }
+  }
+
+  initBanners();
+
   // Swap text on top panel accordion button
   var open = false;
   var initialButtonText = $(".accordion-toppanel-btn").html();
