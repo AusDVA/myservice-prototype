@@ -46,6 +46,8 @@ gulp.task('copy', function () {
 });
 
 gulp.task('sass-prod', function () {
+  gulp.src('src/font/fontawesome/**')
+    .pipe(gulp.dest('docs/css/fontawesome'));
   return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
     .pipe(sourcemaps.init())
     .pipe(sass({
@@ -56,6 +58,7 @@ gulp.task('sass-prod', function () {
     .pipe(autoprefixer())
     .pipe(header(headerComment))
     .pipe(gulp.dest('docs/css'));
+
 });
 
 gulp.task('ejs', function () {
