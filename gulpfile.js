@@ -9,6 +9,7 @@ var livereload = require('gulp-livereload');
 var util = require('gulp-util');
 var babel = require("gulp-babel");
 var header = require('gulp-header'),
+
   d = new Date(),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
 
@@ -37,6 +38,11 @@ gulp.task('sass', function () {
     .pipe(header(headerComment))
     .pipe(gulp.dest('docs/css'))
     .pipe(livereload());
+});
+
+gulp.task('copy', function () {
+  gulp.src('src/font/fontawesome/**')
+    .pipe(gulp.dest('docs/css/fontawesome'));
 });
 
 gulp.task('sass-prod', function () {
@@ -71,4 +77,4 @@ gulp.task('server', function () {
   });
 });
 
-gulp.task('serve', ['server', 'sass', 'js', 'watch']);
+gulp.task('serve', ['server', 'sass', 'js', 'watch', 'copy']);
