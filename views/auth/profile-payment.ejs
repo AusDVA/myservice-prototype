@@ -65,7 +65,7 @@
                 <h1 class="margin-above--none margin-below--small">Payment destination</h1>
               </div>
               <!-- Summary card -->
-              <div class="plain-text-info col-sm-8 margin-above--none">
+              <div class="plain-text-info col-sm-8 margin-above--mid margin-below--mid">
                 <div id="bank-accounts-summary">
                   <h3 class="margin-above--none margin-below--small" id="primaryAccountheading">Primary account</h3>
                   <div class=" review__wrapper">
@@ -102,7 +102,7 @@
                   </div>
                 </div>
 
-                <div id="bank-accounts-summary-incap" class="plain-text-info margin-above--none">
+                <div id="bank-accounts-summary-incap" class="plain-text-info margin-above--mid margin-below--mid">
                   <h3 class="margin-above--none margin-below--small" id="incapPaymentsheading">Incapacity payments</h3>
                   <div class=" review__wrapper">
                     <div class="review__content--item boxed">
@@ -130,7 +130,7 @@
                   </div>
                 </div>
 
-                <div id="bank-accounts-summary-reimbursements" class="plain-text-info margin-above--none">
+                <div id="bank-accounts-summary-reimbursements" class="plain-text-info margin-above--large margin-below--mid">
                   <h3 class="margin-above--none margin-below--small" id="incapPaymentsheading">Reimbursements</h3>
                   <div class=" review__wrapper">
                     <div class="review__content--item boxed">
@@ -157,7 +157,7 @@
                   </div>
                 </div>
 
-                <div id="instructions" class="plain-text-info margin-above--none">
+                <div id="instructions" class="plain-text-info margin-above--large margin-below--mid">
                   <h3 class="margin-above--none margin-below--small" id="incapPaymentsheading">Instructions</h3>
                   <div class=" review__wrapper">
                     <div class="review__content--item boxed">
@@ -199,7 +199,7 @@
                   </div>
                   <hr>
                   <div id="buttonset2" class="form-group margin-above--none">
-                    <button class="uikit-btn" id="saveCard">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" id="cancelCard">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+                    <button class="uikit-btn call-toast" id="saveCard">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" id="cancelCard">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
                   </div>
                 </div>
                 <!-- Open card --end -->
@@ -211,11 +211,11 @@
           <div id="open-example-modal" class="modal-window">
             <div>
               <a href="#modal-close" title="Close" class="modal-close">Close</a>
-              <h5>MODAL EXAMPLE</h5>
-              <h2>This will delete the file permanently.</h2>
-              <p>Are you sure you want to remove the selected file?</p>
+              <h2>Your incapacity payments will be redirected to your primary account</h2>
+              <p>This change will be permanent. Do you wish to proceed?
+              </p>
               <div class="modal-buttons">
-                <button class="uikit-btn" id="makePrimary" onclick="window.location.href = '#modal-close'">Change to Primary account</button>
+                <button class="uikit-btn call-toast" id="makePrimary-incap" onclick="window.location.href = '#modal-close'">Change to primary account</button>
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
               </div>
             </div>
@@ -225,15 +225,26 @@
           <div id="open-example-modal1" class="modal-window">
             <div>
               <a href="#modal-close" title="Close" class="modal-close">Close</a>
-              <h5>makePrimary1</h5>
-              <h2>This will delete the file permanently.</h2>
-              <p>Are you sure you want to remove the selected file?</p>
+              <h2>Your Reimbursements payments will be redirected to your primary account</h2>
+              <p>This change will be permanent. Do you wish to proceed? </p>
               <div class="modal-buttons">
-                <button class="uikit-btn" id="makePrimary1" onclick="window.location.href = '#modal-close'">Change to Primary account</button>
+                <button class="uikit-btn call-toast" id="makePrimary-reim" onclick="window.location.href = '#modal-close'">Change to primary account</button>
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
               </div>
             </div>
           </div>
+          <!-- Toast -->
+          <button class="uikit-btn toast" role="alert" type="button">
+            <div class="toast__type toast__type--success">
+              <span class="sr">Success</span>
+            </div>
+            <div class="toast__message">
+              <p>Your payment destination has been updated</p>
+            </div>
+          </button>
+          <!-- Toast container; 1 per page -->
+       
+          <div class="toast-container"></div>
         </section>
       </main>
       <% include ../global/partials/footer.ejs %>
@@ -315,13 +326,16 @@
             }
 
             //change to primary
-            $("#makePrimary1").click(function () {
+            $("#makePrimary-reim").click(function () {
               $("#bank-accounts-summary-reimbursements").hide("slow");
+              $("#alert-payment-1").show("fast");
             });
 
-            $("#makePrimary").click(function () {
+            $("#makePrimary-incap").click(function () {
               $("#bank-accounts-summary-incap").hide("slow");
+              $("#alert-payment-1").show("fast");
             });
+
             $("#spinner").hide();
             $("#financial-institution-none").hide();
             $("#alert-payment-1").hide();
@@ -366,6 +380,21 @@
             $(".change-to-primary").click(function () {
               $(this).parent().prepend($(this));
             });
+          });
+
+          $('.call-toast').click(function () {
+            $('body,html').animate({
+              scrollTop: 0
+            }, 100);
+            // hack to reset focus to top of page
+            document.body.setAttribute('tabindex', '0');
+            document.body.focus();
+            document.body.removeAttribute('tabindex');
+            $("#toast__message").show("slow");
+          });
+
+          $("#toast__message").click(function () {
+            $("#toast__message").hide("slow");
           });
         </script>
 
