@@ -352,15 +352,20 @@ jQuery(document).ready(function ($) {
       // localStorage.setItem('switchFlow', 'none');
     }
     if ((localStorage.getItem('switchFlow') == 'active')) {
-      jQuery('.switch-account-button').addClass("switch-account-button--current");
+      // jQuery('.switch-account-button').addClass("switch-account-button--current");
+      jQuery('.pt-managing-user ').show();
 
     } else {
-      jQuery('.switch-account-button').removeClass("switch-account-button--current");
+      // jQuery('.switch-account-button').removeClass("switch-account-button--current");
     }
   }
 
   initSwitch();
 
+  $("#returnProfile").click(function () {
+    jQuery('.pt-managing-user ').hide();
+    localStorage.setItem('switchFlow', 'none');
+  });
 
   // Swap text on top panel accordion button
   var open = false;
