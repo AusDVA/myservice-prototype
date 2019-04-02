@@ -309,7 +309,7 @@ jQuery(document).ready(function ($) {
 
 
 
-  // Nom rep pages
+  // banners
   function initBanners() {
 
     var bannerFlow = getUrlParameter('bannerFlow');
@@ -337,10 +337,30 @@ jQuery(document).ready(function ($) {
       jQuery(".pt-banner-service").hide();
       jQuery(".pt-banner-nr-rep").show();
     }
-
   }
 
   initBanners();
+
+  // Switch account
+  function initSwitch() {
+
+    var switchFlow = getUrlParameter('switchFlow');
+
+    if (switchFlow) {
+      localStorage.setItem('switchFlow', switchFlow);
+    } else {
+      // localStorage.setItem('switchFlow', 'none');
+    }
+    if ((localStorage.getItem('switchFlow') == 'active')) {
+      jQuery('.switch-account-button').addClass("switch-account-button--current");
+
+    } else {
+      jQuery('.switch-account-button').removeClass("switch-account-button--current");
+    }
+  }
+
+  initSwitch();
+
 
   // Swap text on top panel accordion button
   var open = false;
