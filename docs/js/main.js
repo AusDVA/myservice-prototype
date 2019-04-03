@@ -335,9 +335,11 @@ jQuery(document).ready(function ($) {
 
     if (switchFlow) {
       localStorage.setItem('switchFlow', switchFlow);
+      jQuery('.pt-managing-user ').slideDown('fast');
     } else {
       // localStorage.setItem('switchFlow', 'none');
     }
+
     if (localStorage.getItem('switchFlow') == 'active') {
       // jQuery('.switch-account-button').addClass("switch-account-button--current");
       jQuery('.pt-managing-user ').show();
@@ -349,7 +351,7 @@ jQuery(document).ready(function ($) {
   initSwitch();
 
   $("#returnProfile").click(function () {
-    jQuery('.pt-managing-user ').hide();
+    jQuery('.pt-managing-user ').slideUp('fast');
     localStorage.setItem('switchFlow', 'none');
   });
 
