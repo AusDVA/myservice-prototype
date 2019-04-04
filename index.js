@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var cookieParser = require("cookie-parser");
+myServiceRoot = __dirname;
 
 app.use(cookieParser());
 
@@ -11,9 +12,18 @@ app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname));
 
 // views is directory for all template files
+
+
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
+
+console.log('i am here');
+console.log(__dirname);
+
+
+console.log('i am there');
 /*
 /**
 Print styles
@@ -438,26 +448,14 @@ app.get("/healthcard-non_card_pmkeys", function (request, response) {
   });
 });
 
-/* end non_card_pmkeys flow */
-
-
-
-
-
-
-
-
-
-
-
 /* Separate profile screens */
 app.get("/profile-account", function (request, response) {
   response.render("auth/profile-account", {
     main_nav_active: "profile"
   });
 });
-app.get("/profile-bank", function (request, response) {
-  response.render("auth/profile-bank", {
+app.get("/profile-payment", function (request, response) {
+  response.render("auth/profile-payment", {
     main_nav_active: "profile"
   });
 });
@@ -585,6 +583,11 @@ app.get("/profile-password-updated", function (request, response) {
 app.get("/terms-and-conditions", function (request, response) {
   response.render("global/pages/terms-and-conditions");
 });
+
+app.get("/index-password-updated", function (request, response) {
+  response.render("auth/index-password-updated");
+});
+
 
 //feedback page
 
@@ -1903,4 +1906,8 @@ app.get('/nr-accounts', function (request, response) {
 /* MyAccount */
 app.get("/myaccount", function (request, response) {
   response.render("myaccount/index");
+});
+
+app.get("/banners", function (request, response) {
+  response.render("auth/banners");
 });

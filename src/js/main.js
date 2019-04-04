@@ -306,4 +306,101 @@ jQuery(document).ready(function ($) {
 
   initNomRep();
 
+
+
+
+  // banners
+  function initBanners() {
+
+    var bannerFlow = getUrlParameter('bannerFlow');
+
+    if (bannerFlow) {
+
+      localStorage.setItem('bannerFlow', bannerFlow);
+
+    } else if ("bannerFlow" in localStorage) {
+
+    } else {
+      localStorage.setItem('bannerFlow', 'none');
+    }
+
+    if ((localStorage.getItem('bannerFlow') == 'all')) {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").show();
+    } else if ((localStorage.getItem('bannerFlow') == 'none')) {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if ((localStorage.getItem('bannerFlow') == 'service')) {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if ((localStorage.getItem('bannerFlow') == 'nr-rep')) {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").show();
+    }
+  }
+
+  initBanners();
+
+  // Switch account
+  function initSwitch() {
+
+    var switchFlow = getUrlParameter('switchFlow');
+
+    if (switchFlow) {
+      localStorage.setItem('switchFlow', switchFlow);
+      jQuery('.pt-managing-user ').slideDown('fast');
+    } else {
+      // localStorage.setItem('switchFlow', 'none');
+    }
+
+    if ((localStorage.getItem('switchFlow') == 'active')) {
+      // jQuery('.switch-account-button').addClass("switch-account-button--current");
+      jQuery('.pt-managing-user ').show();
+
+    } else {
+      // jQuery('.switch-account-button').removeClass("switch-account-button--current");
+    }
+  }
+
+  initSwitch();
+
+  $("#returnProfile").click(function () {
+    jQuery('.pt-managing-user ').slideUp('fast');
+    localStorage.setItem('switchFlow', 'none');
+  });
+
+  // Swap text on top panel accordion button
+  var open = false;
+  var initialButtonText = $(".accordion-toppanel-btn").html();
+  $(".accordion-toppanel-btn").click(function () {
+
+    // I don't think this is a good idea
+    // change the button text
+    // open = !open;
+    // if (open) {
+    //   $(".accordion-toppanel-btn").html("Close");
+    // } else {
+    //   $(".accordion-toppanel-btn").html(initialButtonText);
+    // }
+
+    $(this).closest('.uikit-accordion').toggleClass("accordion-closed");
+    // hide the switch account box
+    $(this).closest('.container').find(".switch-account-box").addClass("switch-account-box--hide");
+  });
+
+  // swap-box-un-hide
+  $(".switch-account-button").click(function (ev) {
+    $(this).closest('.container').find(".switch-account-box").toggleClass("switch-account-box--hide");
+    $(this).toggleClass("switch-account-button--open");
+    event.stopPropagation();
+  });
+
+  $(".switch-account-box__link").click(function (ev) {
+    event.stopPropagation();
+  });
+});
+
+
+$(document).on("click", function () {
+  $(".switch-account-box").addClass("switch-account-box--hide");
 });
