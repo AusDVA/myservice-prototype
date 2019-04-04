@@ -16,7 +16,9 @@
   <nav class="uikit-skip-link">
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
-  <% include ../../../global/partials/header-topbar-new.ejs %>
+  
+   <% include ../../../global/partials/header-topbar.ejs %>
+    <% include ../../../global/partials/header-nom-rep.ejs %>
     <main>
       <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
         <!-- Page heading -->
@@ -29,6 +31,9 @@
           <div class="col-md-offset-2 col-md-8 ">
             <div class="margin-above--extra margin-below--extra">
               <!-- <form id="myForm" novalidate> -->
+                 <div id="alert-no-conflict" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
+              <span class="uikit-display-1">You need to add at least one conflict to proceed with your claim.</span>
+            </div>
              
               
               <!-- start conflict -->
@@ -134,7 +139,7 @@
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
             <div class="floated">
               <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
-              <button id="save-and-next-button" class="uikit-btn btnNext" onclick="window.location.href = '/civilian-qs-review'">Save and next</button>
+              <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
             </div>
           </div>
         </div>
@@ -227,7 +232,7 @@
 
     // clicks save incident
 
-    var incidentsAdded = 0;
+    var conflictsAdded = 0;
     $("#danger-period-save").click(function () {
       $("body,html").animate({
         scrollTop: 0
@@ -236,7 +241,7 @@
       );
       hideAll();
       $("#addAnotherIncidentWrapper").show("fast");
-      incidentsAdded++;
+      conflictsAdded++;
       restoreBaseUI();
     });
 
@@ -262,6 +267,8 @@
       $("#conflict-summary-1").hide();
       $("#conflict-summary-2").hide();
       $("#conflict-details").hide();
+
+      $("#alert-no-conflict").hide();
 
     }
 
@@ -300,19 +307,19 @@
 
     }
 
-    // window.checkSaveAndNext = function() {
-    //     if (incidentsAdded == 0) {
-    //         $("#alert-no-danger").show("fast");
-    //         $("body,html").animate({
-    //                 scrollTop: 0
-    //             },
-    //             700
-    //         );
-    //         return;
-    //     }
-    //     myNav = "/service-history-documents";
-    //     window.location.href = myNav;
-    // }
+    window.checkSaveAndNext = function() {
+        if (conflictsAdded == 0) {
+            $("#alert-no-conflict").show("fast");
+            $("body,html").animate({
+                    scrollTop: 0
+                },
+                700
+            );
+            return;
+        }
+        myNav = "/civilian-qs-3";
+        window.location.href = myNav;
+    }
   });
 </script>
 
