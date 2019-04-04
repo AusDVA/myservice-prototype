@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var cookieParser = require("cookie-parser");
+myServiceRoot = __dirname;
 
 app.use(cookieParser());
 
@@ -11,9 +12,18 @@ app.set("port", process.env.PORT || 5000);
 app.use(express.static(__dirname));
 
 // views is directory for all template files
+
+
+
 app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
+
+console.log('i am here');
+console.log(__dirname);
+
+
+console.log('i am there');
 /*
 /**
 Print styles
@@ -1113,6 +1123,16 @@ app.get("/viewQSDetails", function (request, response) {
 
 app.get("/civilian-qs-1", function (request, response) {
   response.render("auth/claim/pages/civilian-qs-1", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-2", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-2", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-3", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-3", {
     main_nav_active: "claims"
   });
 });
