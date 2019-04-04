@@ -378,5 +378,14 @@ jQuery(document).ready(function ($) {
   $(".switch-account-button").click(function (ev) {
     $(this).closest('.container').find(".switch-account-box").toggleClass("switch-account-box--hide");
     $(this).toggleClass("switch-account-button--open");
+    event.stopPropagation();
   });
+
+  $(".switch-account-box__link").click(function (ev) {
+    event.stopPropagation();
+  });
+});
+
+$(document).on("click", function () {
+  $(".switch-account-box").addClass("switch-account-box--hide");
 });
