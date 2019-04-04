@@ -238,6 +238,12 @@
 
               </div>
 
+              <div id="receivePaymentMessageWarning" style="display:none;">
+                <div class="uikit-page-alerts uikit-page-alerts--warning">
+                  <p>TODO:: Write content 3. Something about receive payments.</p>
+                </div>
+              </div>
+
 
             </div>
           </div>
@@ -285,14 +291,7 @@
             </div>
 
           </div>
-          <div class="bank-details-container">
-            <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
-            <div class="uikit-page-alerts" role="alert">
-              <p>This will be the nominated bank account for all of the client's DVA payments</p>
-            </div>
-            <% include ../../global/partials/bank-account-details.ejs %>
 
-          </div>
         </div>
 
         <div class="pagination pagination--ss-reverse-order margin-above--large">
@@ -424,10 +423,22 @@
     });
     $('#paymentBehalfYes').click(function () {
       $('#showBank1').show("fast");
+      $('#receivePaymentMessageWarning').show("fast");
+    });
+    $('#paymentBehalfNo').click(function () {
+      $('#showBank1').hide("fast");
+      $('#receivePaymentMessageWarning').hide("fast");
     });
     $('#paymentBehalfNo').click(function () {
       $('#showBank1').hide();
     });
+
+
+    // if ($("#receivePayment").is(":checked")) {
+    //   $('#receivePaymentMessage').show("fast");
+
+    // }
+
 
     var d = new Date();
 
@@ -494,9 +505,9 @@
         event.stopImmediatePropagation();
         window.location.href = '#open-example-modal'
       } else if ($('#enquire').is(':checked')) {
-        window.location.href = '/nr-edit-review-client';
+        window.location.href = '/nr-edit-review-rep'; // not sure
       } else {
-        window.location.href = '/nr-edit-upload-client';
+        window.location.href = '/nr-edit-upload-rep';
       }
     });
 
