@@ -634,8 +634,7 @@ jQuery(document).ready(function ($) {
     $('input[name=gender]').change(function () {
       if (localStorage.getItem('studentAge') > 15) {
         $(".pt-partneredRelationship").show();
-      }
-      else {
+      } else {
         $(".pt-showLivingLocation").show();
       }
     });
@@ -819,8 +818,7 @@ jQuery(document).ready(function ($) {
     $('input[name=gender]').change(function () {
       if (localStorage.getItem('studentAge') > 15) {
         $(".pt-partneredRelationship").show();
-      }
-      else {
+      } else {
         $(".pt-showLivingLocation").show();
       }
     });
@@ -952,9 +950,9 @@ jQuery(document).ready(function ($) {
     $(".pt-showIfOther").hide();
 
 
-    if ((localStorage.getItem('studentLivingLocation') === 'at-home')
-      || (localStorage.getItem('studentLivingWithPartner') === 'yes')
-      || (localStorage.getItem('studentAge') < 16)) {
+    if ((localStorage.getItem('studentLivingLocation') === 'at-home') ||
+      (localStorage.getItem('studentLivingWithPartner') === 'yes') ||
+      (localStorage.getItem('studentAge') < 16)) {
       $(".pt-showIfLivingAway").hide();
     } else {
       $(".pt-showIfLivingAway").show();
@@ -1067,8 +1065,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentLevelOfStudy', 'primary');
         $(".pagination").find('button').prop('disabled', false);
 
-      }
-      else if (selected_option.startsWith('secondary')) {
+      } else if (selected_option.startsWith('secondary')) {
 
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfTertiary").hide();
@@ -1080,8 +1077,7 @@ jQuery(document).ready(function ($) {
         localStorage.setItem('studentLevelOfStudy', 'secondary');
 
         $(".pagination").find('button').prop('disabled', false);
-      }
-      else if ((selected_option.startsWith('tertiary')) || (selected_option === 'apprenticeship')) {
+      } else if ((selected_option.startsWith('tertiary')) || (selected_option === 'apprenticeship')) {
         $(".pt-noLongerEligible").hide();
         $(".pt-showIfPrimary").hide();
         $(".pt-showIfSecondary").hide();
@@ -1249,12 +1245,15 @@ jQuery(document).ready(function ($) {
       $(".pt-showIfNoStudentTFN").show();
     }
 
-    var businessDays = 5, counter = 1; // set to 1 to count from next business day
+    var businessDays = 5,
+      counter = 1; // set to 1 to count from next business day
     while (businessDays > 0) {
       var tmp = new Date();
       tmp.setDate(tmp.getDate() + counter++);
       switch (tmp.getDay()) {
-        case 0: case 6: break;// sunday & saturday
+        case 0:
+        case 6:
+          break; // sunday & saturday
         default:
           businessDays--;
       };
@@ -1411,7 +1410,8 @@ jQuery(document).ready(function ($) {
   // PoC file upload for prototype
   // TODO:: handle cancel 
   // TODO:: add additional items 
-  ; (function (document, window, index) {
+  ;
+  (function (document, window, index) {
     var inputs = document.querySelectorAll('.file-upload__input');
     Array.prototype.forEach.call(inputs, function (input) {
       var label = input.nextElementSibling,

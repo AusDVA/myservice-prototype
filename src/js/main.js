@@ -249,44 +249,11 @@ jQuery(document).ready(function ($) {
     }
   });
 
-  // Large icon-based check boxes 
-  // $(".mys-radio__control").click(function (ev) {
-  // 	let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
-  // 	let thisBox = $(this).next(".mys-radio__box");
-  // 	$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
-  // 	$(siblings).not(thisBox).addClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
-  // });
-
-  // $(".mys-radio-group").mouseover(function (ev) {
-  // 	let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
-  // 	if (checkedBox.length !== 0) {
-  // 		let siblings = $(this).find(".mys-radio__box");
-  // 		let checkedBox = $(this).next(".mys-radio__box");
-  // 		$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
-  // 	}
-  // });
-
-  // $(".mys-radio-group").mouseleave(function (ev) {
-  // 	let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
-  // 	if (checkedBox.length !== 0) {
-  // 		let siblings = $(this).find(".mys-radio__box");
-  // 		$(siblings).removeClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
-  // 		$(siblings).not(checkedBox).addClass('mys-radio__box--not-selected mys-radio__box--large-not-selected');
-  // 	}
-  // });
-
-
-
-
   var claimType = getUrlParameter('claimType');
 
   if (claimType) {
     localStorage.setItem('claimType', claimType);
   }
-  // if (localStorage.getItem('claimType') === 'cbd') {
-  // 	$(".pt-claim-type--cbd").show();
-  // 	$(".pt-claim-type--normal").hide();
-  // }
 
 
   // Nom rep pages
@@ -301,38 +268,139 @@ jQuery(document).ready(function ($) {
     } else if ("repFlow" in localStorage) {
 
     } else {
-      localStorage.setItem('repFlow', 'both');
+      localStorage.setItem('repFlow', 'none');
     }
 
     if ((localStorage.getItem('repFlow') == 'both')) {
-      $(".pt-rep-flow-representing-no").hide();
-      $(".pt-rep-flow-represented-no").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-representing").show();
-      $(".pt-rep-flow-represented").show();
-
-      // alert('both');
+      // alert('asdf');
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing-no").hide();
+      jQuery(".pt-rep-flow-represented-no").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-representing").show();
+      jQuery(".pt-rep-flow-represented").show();
     } else if ((localStorage.getItem('repFlow') == 'none')) {
-      $(".pt-rep-flow-representing").hide();
-      $(".pt-rep-flow-represented").hide();
-      $(".pt-rep-flow-none-no").hide();
-      $(".pt-rep-flow-none").show();
-      // alert('none');
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing").hide();
+      jQuery(".pt-rep-flow-represented").hide();
+      jQuery(".pt-rep-flow-none-no").hide();
+      jQuery(".pt-rep-flow-none").show();
     } else if ((localStorage.getItem('repFlow') == 'representing')) {
-      $(".pt-rep-flow-represented").hide();
-      $(".pt-rep-flow-representing-no").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-representing").show();
-      // alert('representing');
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-represented").hide();
+      jQuery(".pt-rep-flow-representing-no").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-representing").show();
     } else if ((localStorage.getItem('repFlow') == 'represented')) {
-      $(".pt-rep-flow-representing").hide();
-      $(".pt-rep-flow-none").hide();
-      $(".pt-rep-flow-represented").show();
-      $(".pt-rep-flow-represented-no").hide();
-      // alert('represented');
+      jQuery(".pt-first-time").hide();
+      jQuery(".pt-rep-flow-representing").hide();
+      jQuery(".pt-rep-flow-none").hide();
+      jQuery(".pt-rep-flow-represented").show();
+      jQuery(".pt-rep-flow-represented-no").hide();
+    } else if ((localStorage.getItem('repFlow') == 'newbie')) {
+      jQuery(".pt-first-time-no").hide();
+      jQuery(".pt-first-time").show();
     }
+
   }
 
   initNomRep();
 
+
+
+
+  // banners
+  function initBanners() {
+
+    var bannerFlow = getUrlParameter('bannerFlow');
+
+    if (bannerFlow) {
+
+      localStorage.setItem('bannerFlow', bannerFlow);
+
+    } else if ("bannerFlow" in localStorage) {
+
+    } else {
+      localStorage.setItem('bannerFlow', 'none');
+    }
+
+    if ((localStorage.getItem('bannerFlow') == 'all')) {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").show();
+    } else if ((localStorage.getItem('bannerFlow') == 'none')) {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if ((localStorage.getItem('bannerFlow') == 'service')) {
+      jQuery(".pt-banner-service").show();
+      jQuery(".pt-banner-nr-rep").hide();
+    } else if ((localStorage.getItem('bannerFlow') == 'nr-rep')) {
+      jQuery(".pt-banner-service").hide();
+      jQuery(".pt-banner-nr-rep").show();
+    }
+  }
+
+  initBanners();
+
+  // Switch account
+  function initSwitch() {
+
+    var switchFlow = getUrlParameter('switchFlow');
+
+    if (switchFlow) {
+      localStorage.setItem('switchFlow', switchFlow);
+      jQuery('.pt-managing-user ').slideDown('fast');
+    } else {
+      // localStorage.setItem('switchFlow', 'none');
+    }
+
+    if ((localStorage.getItem('switchFlow') == 'active')) {
+      // jQuery('.switch-account-button').addClass("switch-account-button--current");
+      jQuery('.pt-managing-user ').show();
+
+    } else {
+      // jQuery('.switch-account-button').removeClass("switch-account-button--current");
+    }
+  }
+
+  initSwitch();
+
+  $("#returnProfile").click(function () {
+    jQuery('.pt-managing-user ').slideUp('fast');
+    localStorage.setItem('switchFlow', 'none');
+  });
+
+  // Swap text on top panel accordion button
+  var open = false;
+  var initialButtonText = $(".accordion-toppanel-btn").html();
+  $(".accordion-toppanel-btn").click(function () {
+
+    // I don't think this is a good idea
+    // change the button text
+    // open = !open;
+    // if (open) {
+    //   $(".accordion-toppanel-btn").html("Close");
+    // } else {
+    //   $(".accordion-toppanel-btn").html(initialButtonText);
+    // }
+
+    $(this).closest('.uikit-accordion').toggleClass("accordion-closed");
+    // hide the switch account box
+    $(this).closest('.container').find(".switch-account-box").addClass("switch-account-box--hide");
+  });
+
+  // swap-box-un-hide
+  $(".switch-account-button").click(function (ev) {
+    $(this).closest('.container').find(".switch-account-box").toggleClass("switch-account-box--hide");
+    $(this).toggleClass("switch-account-button--open");
+    event.stopPropagation();
+  });
+
+  $(".switch-account-box__link").click(function (ev) {
+    event.stopPropagation();
+  });
+});
+
+
+$(document).on("click", function () {
+  $(".switch-account-box").addClass("switch-account-box--hide");
 });
