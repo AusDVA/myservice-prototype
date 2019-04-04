@@ -16,7 +16,7 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
   <% include ../../global/partials/header-topbar.ejs %>
-<% include ../../global/partials/header-nom-rep.ejs %>
+  <% include ../../global/partials/header-nom-rep.ejs %>
   <main>
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
       <div class="container margin-above--none">
@@ -28,7 +28,7 @@
 
     <div class="nr-accounts">
       <div class="container">
-        <h2>View and edit how David represents you.</h2>
+        <h2>Tell us how you would like David to represent you</h2>
 
         <div class="form-group">
           <div class="radio-tile--group radio-tile-group--equal-width-height radio-tile-group--four">
@@ -58,6 +58,15 @@
                 <p>DVA can make payments to your representative's bank account. For example, to a trustee or nursing home</p>
               </span>
             </label>
+
+            <!-- <label class="radio-tile ">
+              <input id="healthMatters" class="sr" type="radio" name="repRole" value="healthMatters">
+              <span>
+                <icon class="radio_tile__icon fal fa-heartbeat fa-3x"></icon>
+                <strong>Health Matters</strong><br />
+                <p>asldkjfa;lskdjf </p>
+              </span>
+            </label> -->
 
             <label class="radio-tile pt-cease-rep">
               <input id="cease" class="sr" type="radio" name="repRole" value="cease">
@@ -108,7 +117,7 @@
 
             </div>
             <div class="form-group pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-              <label class="uikit-text-input__label" for="Input field">Would you like your representative to your information online?</label>
+              <label class="uikit-text-input__label" for="Input field">Would you like your representative to view your information online?</label>
               <fieldset>
                 <div class="radio-toggle">
                   <label class="on label-left">
@@ -152,6 +161,18 @@
           <div id="hideThreeQs" style="display:none;">
 
             <div id="actDate" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
+              <div id="receivePaymentMessage" style="display:none;">
+                <div class="uikit-page-alerts uikit-page-alerts--info">
+                  <p>TODO:: Write content 1. his Wikipedia is written in English. Started in 2001 (2001), it currently contains 5,836,474 articles.
+                    Many other Wikipedias are available; some of the largest are listed below.</p>
+                </div>
+              </div>
+
+              <div id="hideThreeQsMessage" style="display:none;">
+                <div class="uikit-page-alerts uikit-page-alerts--info">
+                  <p>TODO:: Write content 2. Something about all health matters.</p>
+                </div>
+              </div>
               <label class="uikit-text-input__label" for="Input field">Is this arrangement for a fixed period?</label>
               <fieldset>
                 <div class="radio-toggle">
@@ -198,7 +219,7 @@
               </div>
 
               <div id="receivePayment" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                <label class="uikit-text-input__label" for="Input field">Would you like to receive payment for this client?</label>
+                <label class="uikit-text-input__label" for="Input field">Would you like your representative to receive payments on your behalf?</label>
 
                 <fieldset>
                   <legend class="legend-label" id="question_id21c">
@@ -217,15 +238,6 @@
 
               </div>
 
-              <div id="showBank1" class="bank-details-container" style="display:none;">
-                <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
-                <div class="uikit-page-alerts" role="alert">
-                  <p>This will be the nominated bank account for all of the client's DVA payments</p>
-                </div>
-                <% include ../../global/partials/bank-account-details.ejs %>
-
-
-              </div>
 
             </div>
           </div>
@@ -284,7 +296,7 @@
         </div>
 
         <div class="pagination pagination--ss-reverse-order margin-above--large">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/nr-manage-rep'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
           <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
           <div class="floated">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-list'">Save and exit</button>
@@ -299,7 +311,7 @@
             <p>Are you sure you want to cancel this application?</p>
             <div class="modal-buttons">
               <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-agreements-clean-new'">Leave page</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'nr-list'">Leave page</button>
 
             </div>
           </div>
@@ -399,12 +411,16 @@
       $('#hideThreeQs').show("fast");
       $('#receivePayment').show("fast");
       $('#orgABN').show("fast");
+      $('#receivePaymentMessage').show("fast");
+      $('#hideThreeQsMessage').hide("fast");
     });
     $('#actFinancialOnly').click(function () {
       $('#hideThreeQs').show("fast");
+      $('#hideThreeQsMessage').show("fast");
       $('#receivePayment').hide();
       $('#orgABN').hide();
       $('#trustee').hide();
+      $('#receivePaymentMessage').hide("fast");
     });
     $('#paymentBehalfYes').click(function () {
       $('#showBank1').show("fast");
