@@ -45,7 +45,7 @@
   .uikit-accordion {
     border: 0;
     color: $white;
-    margin: 0 4px;
+    // margin: 0 4px;
     margin-bottom: 0;
     padding-bottom: 0;
 
@@ -57,7 +57,7 @@
       border: 0;
       display: inline-block;
       line-height: .8;
-      margin-right: -4px;
+      // margin-right: -4px;
       padding: 1.2em 3.25em .8em 0.5em;
       vertical-align: top;
       width: auto;
@@ -99,8 +99,8 @@
 
     &:hover,
     &:focus {
-      background-color: $uikit-colour-Link !important;
-      color: $uikit-colour-Text !important;
+      background-color: $uikit-colour-Link;
+      color: $uikit-colour-Text;
       text-decoration: none;
     }
   }
@@ -134,8 +134,31 @@
 }
 
 .topbar-controls {
-  float: right;
+  // float: right;
   line-height: 0;
+
+  // a {
+  //   float: right;
+
+  // }
+}
+
+.topbar-controls__left {
+  @media screen and (min-width: $small-handheld) {
+    margin-left: 12px;
+  }
+
+  float: left;
+}
+
+.topbar-controls__right {
+  @media screen and (min-width: $small-handheld) {
+    margin-right: 12px;
+  }
+
+  display: flex;
+  float: right;
+  // margin-right: 12px;
 }
 
 .uikit-body {
@@ -145,7 +168,7 @@
     border: 0;
     display: inline-block;
     height: 3.2em;
-    margin-right: -4px; // for the inline gap
+    // margin-right: -4px; // for the inline gap
     padding: 1em;
     position: relative;
     width: 6em;
@@ -200,7 +223,7 @@
     display: inline-block;
     font-weight: bold;
     line-height: .8;
-    margin-right: -4px;
+    // margin-right: -4px;
     padding: uikit-space(0.75);
     vertical-align: top;
     width: auto;
@@ -208,7 +231,12 @@
 
   .switch-account-button {
 
-    background: $top-panel-bg;
+    @include uikit-media(xs) {
+      padding: 1.2em 1.2em 1.2em .4em;
+    }
+
+
+    background-color: $blue-mid-alt;
     border: 0;
     box-sizing: border-box;
     cursor: pointer;
@@ -217,55 +245,55 @@
     font-weight: bold;
     height: 3.2em;
     line-height: .8;
+    padding: 1.2em .4em;
     position: relative;
     text-decoration: none;
     vertical-align: top;
     width: auto;
 
-    span {
-
-      @include uikit-media(xs) {
-        padding: uikit-space(.75) uikit-space(.75) uikit-space(.75) uikit-space(.35);
-      }
-
-      padding: uikit-space(.75) uikit-space(.3);
-
+    &:hover,
+    &:focus {
+      background-color: lighten($blue-mid-alt, 10);
+      border: 0;
+      outline: none;
     }
 
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: $uikit-colour-Link;
-      border: 0;
-      color: $uikit-colour-Text;
-      outline: 0;
-      text-decoration: none;
+    span {
+
+      &:hover,
+      &:focus {
+        background-color: lighten($blue-mid-alt, 10);
+        border: 0;
+        outline: none;
+      }
     }
 
     .fal {
-      @include uikit-media(xs) {
-        padding-left: uikit-space(0.55);
-        width: 41px; //adding width to stop font-awesome flicker 
-      }
 
-      color: $white;
+      // @include uikit-media(xs) {}
+
       font-size: 1.5em;
-      padding-left: uikit-space(.4);
+      line-height: 0;
+      padding-left: 10px;
+      width: 41px; //adding width to stop font-awesome flicker
 
       &::before {
         position: relative;
-        top: 3px;
-
+        top: 2px;
       }
     }
 
-    .switch-account-button__text {
-      border: 0;
-      left: 0;
-      margin: auto;
-      padding: .77em 0;
-      right: 0;
-    }
+    // .switch-account-button__text {
+    //   border: 0;
+    //   left: 0;
+    //   margin: auto;
+    //   padding: .77em 0;
+    //   right: 0;
+    // }
+  }
+
+  .switch-account-button--current {
+    // background-color: $orange;
   }
 
   .switch-account-button--open {
@@ -282,6 +310,7 @@
     margin-top: -4px;
   }
 
+  // TODO: put a bottom radius on this
   .switch-account-box__list {
     margin-bottom: 0;
     padding: 0;
@@ -295,13 +324,14 @@
   a {
     &.switch-account-box__link {
 
-      border-bottom: 2px solid $gray-mild;
+      border-bottom: 1px solid $gray-mild;
       color: $black;
       display: block;
       margin-bottom: 0;
-      padding: 1em;
+      padding: 1.2em;
 
-      &:hover {
+      &:hover,
+      &:focus {
         background-color: $blue-super-light;
       }
 
@@ -313,22 +343,21 @@
 
 .switch-account-box {
   @media screen and (min-width: $small-handheld) {
-    max-width: 400px;
+    left: 12px;
+    max-width: 300px;
     min-width: 300px;
-    width: 400px;
+    width: 300px;
   }
 
-  background-color: $gray-light;
-  border: 1px solid $gray-mild;
+  background-color: $gray-super-super-light;
+  border-radius: 0 0 $uikit-border-radius $uikit-border-radius;
   border-top: 0;
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.2);
+  box-shadow: 1px 2px 3px 0 $rgba-black-20;
   display: table;
-  // float: right;
   height: 60px; // any arbitrary height but best at the minimum initial height
   overflow: hidden;
   padding: 0;
   position: absolute;
-  right: 4px;
   top: 41px;
   transition: 0.5s ease;
   width: 100%;
