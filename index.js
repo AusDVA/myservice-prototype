@@ -1123,6 +1123,16 @@ app.get("/civilian-qs-1", function (request, response) {
     main_nav_active: "claims"
   });
 });
+app.get("/civilian-qs-2", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-2", {
+    main_nav_active: "claims"
+  });
+});
+app.get("/civilian-qs-3", function (request, response) {
+  response.render("auth/claim/pages/civilian-qs-3", {
+    main_nav_active: "claims"
+  });
+});
 app.get("/civilian-qs-review", function (request, response) {
   response.render("auth/claim/pages/civilian-qs-review", {
     main_nav_active: "claims"
