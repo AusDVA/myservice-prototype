@@ -120,6 +120,8 @@ app.get('/auth/:id', function (request, response) {
 app.get('/auth/:id1/:id2', function (request, response) {
   // response.render('auth/index-claims');
   response.render('auth/' + request.params.id1 + "/" + request.params.id2, {
+    main_nav_active: request.params.id1,
+    secondary_nav_active: request.params.id2
 
   });
 });
