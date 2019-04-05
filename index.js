@@ -101,9 +101,9 @@ passport.deserializeUser(function (id, cb) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/', function (req, res) {
+app.get('/:id', function (req, res) {
 
-  res.render('auth/index-claims', {
+  res.render('auth/' + id, {
     layout: 'home',
     user: req.user
   });
