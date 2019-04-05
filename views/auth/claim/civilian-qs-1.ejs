@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width" name="viewport">
+    <title>Service history - about your claim | MyService</title>
+    <link href="docs/css/main.css" rel="stylesheet">
+    <link href="docs/css/fontawesome/css/all.css" rel="stylesheet">
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+    <noscript>
+        <p role="alert">This website needs JavaScript to work properly.</p>
+    </noscript>
+    <nav class="uikit-skip-link">
+        <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+    </nav>
+    <% include ../../../global/partials/header-topbar.ejs %>
+    <% include ../../../global/partials/header-nom-rep.ejs %>
+    <main>
+        <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+            <!-- Page heading -->
+            <h1 class="margin-above--none ss-align--center">
+                <span class="heading">About your claim</span>
+            </h1>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-offset-2 col-md-8 ">
+                    <div class="margin-above--extra margin-below--extra">
+                        <!-- <form id="myForm" novalidate> -->
+                        <!-- <input type="reset" style="display:none"> -->
+                        <!-- Other name -->
+                        <div class="form-group" id="former_name_question">
+                            <label class="uikit-text-input__label" for="toggle-buttons">Do you have any former names?</label>
+                            <div class="radio-toggle">
+                                <label class="on label-left" for="former_yes">
+                                    <input id="former_yes" type="radio" name="toggle-buttons">
+                                    <span>Yes</span>
+                                </label>
+                                <label class="off label-right" for="former_no">
+                                    <input id="former_no" type="radio" name="toggle-buttons">
+                                    <span>No</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div id="former_name" style="display: none;">
+                            <table class="mys-table table-responsive border-all border-top__thick--blue">
+                                <tbody>
+                                    <tr>
+                                        <th style="border-left:1px solid #cccccc;">
+                                            <label class="uikit-text-input__label" for="date">Given name</label>
+                                        </th>
+                                        <th></th>
+                                        <th>
+                                            <label class="uikit-text-input__label" for="date">Surname</label>
+                                        </th>
+                                        <th style="border-right:1px solid #cccccc;"></th>
+                                    </tr>
+                                    <tr id="date-template">
+                                        <td>
+                                            <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                                        </td>
+                                        <td>
+                                            <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    </tr>
+                                    <tr class="padding-above--none">
+                                        <td colspan="4" class="padding-above--none ss-align">
+                                            <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
+                                                <span class="icon far fa-plus-circle"></span>
+                                                <span class="link">Add another name</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="save-and-next" class="margin-above" style="display: none">
+                            <p>Choose <b>save and next</b> to continue.</p>
+                        </div>
+                    </div>
+                    <!-- col-md-12 end -->
+                    <div class="pagination">
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Previous</button>
+                        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                        <div class="floated">
+                            <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/claims'">Save and exit</button>
+                            <button id="save-and-next-button" class="uikit-btn btnNext" onclick="window.location.href = '/civilian-qs-2'">Save and next</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <% include ../partials/claims-cancel-modal.ejs %>
+    <% include ../../../global/partials/footer.ejs %>
+</body>
+<script>
+$(Document).ready(function() {
+
+    // former name
+
+    var formerNames = false;
+    $("#former_yes").click(function() {
+        $("#former_name").show("fast");
+        $("#save-and-next").hide();
+        formerNames = true;
+    });
+    $("#former_no").click(function() {
+        $("#former_name").hide("fast");
+        $("#save-and-next").show();
+    });
+    $("#removeDateRow").click(function() {
+        $(this).closest('tr').remove();
+    });
+
+    function cloneMe() {
+        var newOne = $('#date-template').clone(true)
+            .find("input:text").val("").end();
+        $("#removeDateRow").show();
+        newOne.insertAfter($('#date-template'));
+    }
+
+    /* Conflicts */
+
+    // clicks add conflict
+
+    $("#addConflict").click(function() {
+        hideAll();
+        $("#conflict-details").show("fast");
+        $("#addConflict").hide();
+    });
+
+    // clicks add another incident
+
+    $("#addAnotherConflict").click(function() {
+        hideAll();
+        $("#conflict-details").show("fast");
+    });
+
+    // clicks save incident
+
+    var conflictsAdded = 0;
+    $("#conflict-save").click(function() {
+        $("body,html").animate({
+                scrollTop: 0
+            },
+            700
+        );
+        hideAll();
+        $("#addAnotherConflictWrapper").show("fast");
+        if (conflictsAdded == 0) {
+            $("#conflict-summary-1").show("fast");
+        }
+        if (conflictsAdded == 1) {
+            $("#conflict-summary-1").show("fast");
+            $("#conflict-summary-2").show("fast");
+        }
+        conflictsAdded++;
+        restoreBaseUI();
+    });
+
+    /* Incurred danger */
+
+    // clicks add incident
+
+    $("#addIncident").click(function() {
+        hideAll();
+        $("#incident-details").show("fast");
+        $("#addIncident").hide();
+    });
+
+    // clicks add another incident
+
+    $("#addAnotherIncident").click(function() {
+        hideAll();
+        $("#incident-details").show("fast");
+    });
+
+    // clicks save incident
+
+    var incidentsAdded = 0;
+    $("#danger-period-save").click(function() {
+        $("body,html").animate({
+                scrollTop: 0
+            },
+            700
+        );
+        hideAll();
+        $("#addAnotherIncidentWrapper").show("fast");
+        incidentsAdded++;
+        restoreBaseUI();
+    });
+
+    function hideAll() {
+
+        // names
+
+        $("#former_name").hide();
+        $("#former_name_question").hide();
+
+        // incurrend danger
+        $("#incident-message").hide();
+        $("#addIncident").hide();
+        $("#addAnotherIncidentWrapper").hide();
+        $("#summary-1").hide();
+        $("#summary-2").hide();
+        $("#incident-details").hide();
+
+        // conflict
+        $("#conflict-message").hide();
+        $("#addConflict").hide();
+        $("#addAnotherConflictWrapper").hide();
+        $("#conflict-summary-1").hide();
+        $("#conflict-summary-2").hide();
+        $("#conflict-details").hide();
+
+    }
+
+    function restoreBaseUI() {
+
+        if (formerNames) $("#former_name").show();
+        $("#former_name_question").show();
+
+        $("#conflict-message").show();
+        if (conflictsAdded == 0) {
+            $("#addConflict").show();
+        }
+        if (conflictsAdded == 1) {
+            $("#conflict-summary-1").show("fast");
+            $("#addAnotherConflictWrapper").show();
+        }
+        if (conflictsAdded >= 2) {
+            $("#conflict-summary-1").show("fast");
+            $("#conflict-summary-2").show("fast");
+            $("#addAnotherConflictWrapper").show();
+        }
+
+        $("#incident-message").show();
+        if (incidentsAdded == 0) {
+            $("#addIncident").show();
+        }
+        if (incidentsAdded == 1) {
+            $("#summary-1").show("fast");
+            $("#addAnotherIncidentWrapper").show();
+        }
+        if (incidentsAdded >= 2) {
+            $("#summary-1").show("fast");
+            $("#summary-2").show("fast");
+            $("#addAnotherIncidentWrapper").show();
+        }
+
+    }
+
+    // window.checkSaveAndNext = function() {
+    //     if (incidentsAdded == 0) {
+    //         $("#alert-no-danger").show("fast");
+    //         $("body,html").animate({
+    //                 scrollTop: 0
+    //             },
+    //             700
+    //         );
+    //         return;
+    //     }
+    //     myNav = "/service-history-documents";
+    //     window.location.href = myNav;
+    // }
+});
+</script>
+
+<body>
+
+</html>

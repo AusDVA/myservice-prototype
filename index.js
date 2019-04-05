@@ -119,6 +119,15 @@ app.get('/auth/:id', function (request, response) {
   response.render('auth/' + request.params.id);
 });
 
+app.get('/',
+
+  function (req, res) {
+    res.render('auth/mygov-login', {
+      layout: 'login',
+      user: req.user
+    });
+  });
+
 app.get('/mygov-login',
 
   function (req, res) {
