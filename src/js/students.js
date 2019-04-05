@@ -1,6 +1,8 @@
 // Student claim pages
 jQuery(document).ready(function ($) {
 
+  // alert('window.location.pathname' + window.location.pathname);
+
   function initStudents() {
 
     var studentNameFirst = localStorage.getItem('studentNameFirst');
@@ -31,7 +33,7 @@ jQuery(document).ready(function ($) {
 
     // Pull in the json content 
     $.ajax({
-      url: './docs/data/student-claim-content.json',
+      url: '/docs/data/student-claim-content.json',
       async: false,
       dataType: 'json',
     }).done(function (data) {
@@ -100,7 +102,7 @@ jQuery(document).ready(function ($) {
   }
 
   // TODO:: handle reset if change of age after other flows
-  if (window.location.pathname === "/studentpreeligibility") {
+  if (window.location.pathname === "/auth/claim/studentpreeligibility") {
 
     localStorage.clear();
 
@@ -126,6 +128,7 @@ jQuery(document).ready(function ($) {
     var act = getUrlParameter('act');
 
 
+    console.log('flow = ' + flow);
 
     if (flow) {
       localStorage.setItem(flow, true);
@@ -155,6 +158,9 @@ jQuery(document).ready(function ($) {
 
 
     if ("veteranFlow" in localStorage) {
+
+      // alert('im vet');
+
       $(".pt-flow--veteran").show();
     }
 
@@ -552,7 +558,7 @@ jQuery(document).ready(function ($) {
   }
 
   // Page 1
-  if (window.location.pathname === "/studentclaim1") {
+  if (window.location.pathname === "/auth/claim/studentclaim1") {
 
     initStudents();
     initFlow();
@@ -786,7 +792,7 @@ jQuery(document).ready(function ($) {
   }
 
   // Page 1a
-  if (window.location.pathname === "/studentclaim1a") {
+  if (window.location.pathname === "/auth/claim/studentclaim1a") {
     initStudents();
     initFlow();
 
@@ -934,7 +940,7 @@ jQuery(document).ready(function ($) {
   }
 
 
-  if (window.location.pathname === "/studentclaim2") {
+  if (window.location.pathname === "/auth/claim/studentclaim2") {
     // Page 2 
     initStudents();
     initFlow();
@@ -1018,7 +1024,7 @@ jQuery(document).ready(function ($) {
 
   }
 
-  if (window.location.pathname === "/studentclaim3") {
+  if (window.location.pathname === "/auth/claim/studentclaim3") {
     // page 3
     initStudents();
     initFlow();
@@ -1141,11 +1147,11 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  if (window.location.pathname === "/studentclaimupload") {
+  if (window.location.pathname === "/auth/claim/studentclaimupload") {
     initStudents();
   }
 
-  if (window.location.pathname === "/studentclaim4") {
+  if (window.location.pathname === "/auth/claim/studentclaim4") {
     // Page 4
     initStudents();
     initFlow();
@@ -1231,12 +1237,12 @@ jQuery(document).ready(function ($) {
   }
 
 
-  if (window.location.pathname === "/studentclaim4a") {
+  if (window.location.pathname === "/auth/claim/studentclaim4a") {
     initStudents();
     initFlow();
   }
 
-  if (window.location.pathname === "/studentclaim6") {
+  if (window.location.pathname === "/auth/claim/studentclaim6") {
     initStudents();
 
     $(".pt-showIfNoStudentTFN").hide();
