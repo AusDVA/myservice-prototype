@@ -650,7 +650,7 @@ app.get("/payments-1", function (request, response) {
   });
 });
 
-app.get("/travel-home", function (request, response) {
+app.get("/auth/travel", function (request, response) {
   response.render("auth/travel/travel-home", {
     main_nav_active: "travel"
   });

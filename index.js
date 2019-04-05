@@ -110,14 +110,25 @@ app.use(passport.session());
 
 // });
 
-// app.get("/index-preloader", function (request, response) {
-//   response.render("auth/index-preloader");
-// });
-
 app.get('/auth/:id', function (request, response) {
   // response.render('auth/index-claims');
-  response.render('auth/' + request.params.id);
+  response.render('auth/' + request.params.id, {
+    main_nav_active: request.params.id
+  });
 });
+
+app.get('/auth/:id1/:id2', function (request, response) {
+  // response.render('auth/index-claims');
+  response.render('auth/' + request.params.id1 + "/" + request.params.id2, {
+
+  });
+});
+
+// app.get("/claims", function (request, response) {
+//   response.render("auth/claim/pages/claims", {
+//     main_nav_active: "claims"
+//   });
+// });
 
 app.get('/',
 
