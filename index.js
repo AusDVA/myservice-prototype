@@ -110,6 +110,14 @@ app.use(passport.session());
 
 // });
 
+// folder level renders 
+app.get('/auth/', function (request, response) {
+  // response.render('auth/index-claims');
+  response.render('auth/', {
+    main_nav_active: 'home'
+  });
+});
+
 app.get('/auth/:id', function (request, response) {
   // response.render('auth/index-claims');
   response.render('auth/' + request.params.id, {
@@ -122,7 +130,14 @@ app.get('/auth/:id1/:id2', function (request, response) {
   response.render('auth/' + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,
     secondary_nav_active: request.params.id2
+  });
+});
 
+app.get('/auth/:id1/:id2/:id3', function (request, response) {
+  // response.render('auth/index-claims');
+  response.render('auth/' + request.params.id1 + "/" + request.params.id2 + "/" + request.params.id3, {
+    main_nav_active: request.params.id1,
+    secondary_nav_active: request.params.id2
   });
 });
 
