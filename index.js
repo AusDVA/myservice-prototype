@@ -101,13 +101,22 @@ passport.deserializeUser(function (id, cb) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/:id', function (req, res) {
+// app.get('/:id', function (req, res) {
 
-  res.render('auth/' + id, {
-    layout: 'home',
-    user: req.user
-  });
+//   res.render(req.params.id, {
+//     layout: 'home',
+//     user: req.user
+//   });
 
+// });
+
+// app.get("/index-preloader", function (request, response) {
+//   response.render("auth/index-preloader");
+// });
+
+app.get('/auth/:id', function (request, response) {
+  // response.render('auth/index-claims');
+  response.render('auth/' + request.params.id);
 });
 
 app.get('/mygov-login',
