@@ -1,4 +1,7 @@
-// yes this is an express.js app
+// TODO:: read this https://dustinpfister.github.io/2018/05/31/express-passport/ 
+// and get users mocked out and in to the prototype so we can start introducing the concept 
+// of a user and get rid of all the hard coded names in the prototype
+
 let express = require('express'),
 
   cookieParser = require("cookie-parser"),
