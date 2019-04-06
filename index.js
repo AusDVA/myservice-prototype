@@ -1,6 +1,8 @@
 // yes this is an express.js app
 let express = require('express'),
 
+  cookieParser = require("cookie-parser"),
+
   // I will be using passport, and the local strategy
   passport = require('passport'),
   Strategy = require('passport-local').Strategy,
@@ -24,6 +26,7 @@ let express = require('express'),
 
 // using ejs for rendering
 app.use(express.static(__dirname));
+app.use(cookieParser());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
@@ -128,9 +131,14 @@ app.get('/:id0/:id1', function (request, response) {
 });
 
 app.get('/:id0/:id1/:id2', function (request, response) {
+
+  // TODO:: might be good to rewrite this cookies to use express sessions 
+  console.log("Cookies: ", request.cookies.claimType);
+
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,
-    secondary_nav_active: request.params.id2
+    secondary_nav_active: request.params.id2,
+    claimType: request.cookies.claimType
   });
 });
 
