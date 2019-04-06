@@ -591,7 +591,7 @@ jQuery(document).ready(function ($) {
     if ("studentFlow" in localStorage || "claimantFlow" in localStorage) {
       $('.btnNext').prop('onclick', null);
       $('.btnNext').click(function () {
-        window.location.href = 'studentclaim1a';
+        window.location.href = '/auth/claim/studentclaim1a';
       });
     }
 
@@ -636,7 +636,7 @@ jQuery(document).ready(function ($) {
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
           // event.stopPropagation();
-          window.location.href = 'studentclaim3';
+          window.location.href = '/auth/claim/studentclaim3';
         });
       } else {
 
@@ -806,25 +806,25 @@ jQuery(document).ready(function ($) {
         // skip the living arrangement details 
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
-          window.location.href = 'studentclaim3';
+          window.location.href = '/auth/claim/studentclaim3';
         });
       } else if ($('input[name=studentLivingLocation]:checked').val() === 'at-home') {
         if ("studentFlow" in localStorage) {
           // skip the living arrangement details 
           $('.btnNext').prop('onclick', null);
           $('.btnNext').click(function () {
-            window.location.href = 'studentclaim3';
+            window.location.href = '/auth/claim/studentclaim3';
           });
         } else {
           $('.btnNext').prop('onclick', null);
           $('.btnNext').click(function () {
-            window.location.href = 'studentclaim2';
+            window.location.href = '/auth/claim/studentclaim2';
           });
         }
       } else {
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
-          window.location.href = 'studentclaim2';
+          window.location.href = '/auth/claim/studentclaim2';
         });
       }
     });

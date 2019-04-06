@@ -123,7 +123,7 @@ app.get('/:id0', function (request, response) {
 
 app.get('/:id0/:id1', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1, {
-    main_nav_active: 'home'
+    main_nav_active: request.params.id1
   });
 });
 
@@ -141,16 +141,10 @@ app.get('/:id0/:id1/:id2/:id3', function (request, response) {
   });
 });
 
-// app.get("/claims", function (request, response) {
-//   response.render("auth/claim/pages/claims", {
-//     main_nav_active: "claims"
-//   });
-// });
-
 app.get('/',
-
   function (req, res) {
-    res.render('auth/mygov-login', {
+    res.render('unauth/', {
+      // res.render('auth/mygov-login', {
       layout: 'login',
       user: req.user
     });
