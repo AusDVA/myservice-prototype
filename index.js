@@ -116,10 +116,9 @@ app.use(passport.session());
 
 // });
 
+
+
 // folder level renders 
-
-
-
 app.get('/:id0', function (request, response) {
   // response.render('auth/index-claims');
   response.render(request.params.id0, {
@@ -155,7 +154,6 @@ app.get('/:id0/:id1/:id2/:id3', function (request, response) {
 app.get('/',
   function (req, res) {
     res.render('unauth/', {
-      // res.render('auth/mygov-login', {
       layout: 'login',
       user: req.user
     });
