@@ -1,153 +1,296 @@
-/**********************************
-  Primary for styling form elements (buttons, fields, legends, radio buttons and checkboxes).
-  Also contains classes for specific styling such as the width of DD MM YYYY input fields. 
-
-**********************************/
-
+///
+/// Primary for styling form elements (buttons, fields, legends, radio buttons and checkboxes).
+/// Also contains classes for specific styling such as the width of DD MM YYYY input fields.
+///
 
 // Button styling
+.uikit-body {
+  background: $white !important;
 
-.uikit-btn {
+  .uikit-btn {
     background-color: $blue;
     border: 1px solid $blue;
+    color: $white;
+
+    // Not sure the idea here. It causes alignment issues in http://localhost:5000/index-claims.
+    // Probably not a good idea to do this to every button
+    // margin-top: .5rem;
+    span {
+      border-bottom: 0;
+    }
+
     &:focus,
     &:hover {
       background-color: $blue-dark;
     }
-}
 
-.uikit-btn:disabled {
-  background-color: #EAEAEA !important;
-  color: $gray;
-  border: 1px solid #999999;    
-  &:focus,
-  &:hover {
-    background-color: #EAEAEA;
-    cursor:not-allowed;
+    &:disabled {
+      background-color: $gray-light !important;
+      border: 1px solid $gray-mid;
+      color: $gray;
+
+      &:focus,
+      &:hover {
+        background-color: $gray-light;
+        cursor: not-allowed;
+      }
+    }
+
+    &.show-password,
+    &.send-code {
+      border: 0;
+      border-bottom: solid 1px $uikit-colour-Primary;
+      border-radius: 0;
+      display: block;
+      font-weight: normal;
+      line-height: 1;
+      padding: 2px;
+
+      &:focus,
+      &:hover {
+        background-color: $uikit-colour-Link;
+        border-color: transparent;
+        color: $uikit-colour-Text;
+      }
+    }
   }
-}
-.small {
-  padding: 0.5em 0.8em;
-  font-size: 1rem;
-  font-weight: normal;
-}
-.uikit-btn--tertiary {
-    background-color: #fff;
+
+  .uikit-btn__middle-image {
+    padding-left: 3px;
+    width: 16px;
+    border: 0;
+  }
+
+  .uikit-btn__highlight-text {
+    color: $blue;
+  }
+
+  .uikit-btn--tertiary {
+    background-color: $white;
     border: 1px solid $blue;
-    color: #313131;
+    color: $uikit-colour-Text;
+
     &:focus,
     &:hover {
-      color: white;
+      color: $white;
+
+      .uikit-btn__highlight-text {
+        color: $white;
+      }
+
+      span {
+        color: $white;
+      }
     }
-}
-.uikit-btn--secondary {
+
+    span {
+      margin: 0;
+    }
+  }
+
+  .reversed {
+    background-color: $blue;
+    color: $white;
+    border: 1px solid $white;
+  }
+
+  .uikit-btn--secondary {
     background-color: $green;
     border: 1px solid $green;
+
     &:focus,
     &:hover {
       background-color: $green-dark;
     }
+  }
+
+  .uikit-btn--mygov {
+    background-color: $green-mygov;
+    border: 1px solid $green-mygov;
+
+    &:focus,
+    &:hover {
+      background-color: $green-mygov--hover;
+    }
+  }
+
+  .uikit-btn--full-on-small {
+    @media screen and (min-width: $AU-media-sm) {
+      // display: inline-block;
+      width: auto;
+    }
+
+    width: 100%;
+
+
+  }
+
+  // Styling for Borderless button eg. Cancel button used across Add Cover pages
+  .uikit-btn--borderless {
+    background-color: $white;
+    border: 0;
+    border-bottom: solid 1px $uikit-colour-Primary;
+    border-radius: 0;
+    color: $uikit-colour-Text;
+    font-weight: normal;
+    padding: 0;
+
+    &:focus,
+    &:hover {
+      background-color: $uikit-colour-Link;
+    }
+  }
+
+  hr {
+    border-top-color: $gray-mild;
+  }
+
+  .panel-margin {
+    margin-bottom: 2em;
+  }
 }
-  
+
+.small {
+  font-size: 1rem;
+  font-weight: normal;
+  padding: 0.5em 0.8em;
+}
+
+.warning {
+  color: red !important;
+  border-color: red !important;
+
+  &:focus,
+  &:hover {
+    background-color: red !important;
+    color: $white !important;
+    border-color: red !important;
+  }
+}
 
 // Container for navigation buttons at bottom of screen
 
 .pagination {
-  border-top: 1px solid $gray-light !important;
+  border-top: 1px solid $gray-mild;
   clear: both;
   margin: 2em 0;
   padding-top: 2em;
+  text-align: left;
+
+  // Remove bolding from selected radios
+  // a) this doesn't work, b) it's a bad idea. 
+  // label {
+  //   font-weight: normal !important;
+  // }
+
   @media only screen and (min-width: $small-handheld) {
     .uikit-btn {
-      padding: .8em 0.6em !important;
+      padding: 0.8em 0.6em !important;
+    }
+
+    .uikit-btn--borderless {
+      padding: 0em !important;
     }
   }
+
   @media only screen and (min-width: $medium-handheld) {
     .uikit-btn {
-        padding: .8em 1.2em !important;
+      padding: 0.8em 1.2em !important;
+    }
+
+    .uikit-btn--borderless {
+      padding: 0em !important;
+    }
+  }
+}
+
+// sorry for the max-width here, but this is really only for mobile.
+@media only screen and (max-width: $uikit-media-sm) {
+  .pagination {
+    .uikit-btn {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .pagination--ss-reverse-order {
+    display: flex;
+    flex-flow: column-reverse;
+
+    .floated {
+      &:not(button) {
+        display: flex;
+        flex-flow: column-reverse;
+      }
     }
   }
 }
 
 #optional-fields-message {
-  margin:-1.5em 0 2em 0;
-}
+  margin: -1.5em 0 2em;
 
-// Styling for Borderless button eg. Cancel button used across Add Cover pages
-.uikit-btn--borderless {
-  background-color: #fff;
-  color: $uikit-colour-Text;
-  font-weight: normal;
-  border: 0px;
-  border-radius: 0px;
-  border-bottom: solid 1px $uikit-colour-Primary;
-  padding:0px;
-  &:focus,
-  &:hover {
-    background-color: $uikit-colour-Link;
+  +p.sub-fields-message {
+    margin-bottom: 0;
   }
 }
+
+.sub-fields-message {
+  font-style: italic;
+  margin-top: 0;
+  padding-top: 0;
+}
+
 .no-left-margin {
   margin-left: 0 !important;
 }
 
-  
 // Styling for waiting buttons - e.g. to disable navigation buttons in the cover screens when waiting for a server response
 @keyframes spintranslate {
   from {
     transform: translate(-50%, -50%) rotate(0deg);
   }
+
   to {
     transform: translate(-50%, -50%) rotate(360deg);
   }
 }
+
 .uikit-btn--waiting {
   position: relative;
+
   &.uikit-btn--borderless {
     border-bottom: 0;
   }
+
   span {
     visibility: hidden;
   }
+
   img {
-    position: absolute;
-    height: 1.5em;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     animation: spintranslate linear 1s infinite;
+    height: 1.5em;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
   }
 }
 
 .hint {
-    font-size:1rem;
-    margin:2px 0 15px 0;
-  }
-
-// For embedding the show password button within password field
-.show-password,
-.send-code {
-  display: block;
-  padding: 2px;
-  border: none;
-  border-radius: 0;
-  line-height: 1;
+  font-size: 1rem;
   font-weight: normal;
-  border-bottom: solid 1px #1b7991;
-  &:focus,
-  &:hover {
-    background-color: #5bcbe3;
-    color: #313131;
-    border-color: transparent;
-  }
+  margin: 2px 0 15px;
 }
 
+// For embedding the show password button within password field
+
 @media only screen and (min-width: $small-handheld) {
+
   .show-password,
   .send-code {
     display: inline-block !important;
     margin-left: -5em;
   }
+
   .send-code {
     margin-left: -7em;
   }
@@ -155,298 +298,652 @@
 
 // Gap between each label and input pair
 .form-group {
-  margin: 0.5em 0 1em 0;
   clear: both;
+  margin: 0.5em 0 1em;
   position: relative;
+}
+
+.form-group--secondary {
+  margin-left: 2.5em;
 }
 
 // Input styling
 
-input, select, textarea {
+input,
+select,
+textarea {
+  font-size: 1.1rem;
   line-height: 1.5;
   padding: 0.5em 0.4em;
-  font-size: 1.1rem;
+
   &:hover,
   &:focus {
-  box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 8px 1px $rgba-black-20;
   }
 }
-input[type=text],
-input[type=name],
-input[type=date],
-input[type=tel],
-input[type=email],
-input[type=number],
-input[type=phone],
-input[type=password],
-input[type=url],
-input[type=search],
+
+input[type="text"],
+input[type="name"],
+input[type="date"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+input[type="phone"],
+input[type="password"],
+input[type="url"],
+input[type="search"],
 textarea,
 select,
 .typeahead {
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  color: #666666;
-  border: 1px solid #BBBBBB !important;
-  margin: 0.4em 1em 0.4em 0;
+  border: 1px solid $gray-mild !important; // codesmell; why is this important?
+  border-radius: $uikit-border-radius;
+  color: $gray;
+  margin: 0 1em 0.4em 0; // now zero top margin to come in line with DTA
+  max-width: 42em;
   padding: 0.6em 0.4em;
   width: 90%;
-  max-width: 42em;
+
   &:focus,
   &:hover {
-    background-color: white !important;
+    background-color: $white !important;
     border: 1px solid $gray !important;
     outline: none !important;
   }
+
   &:disabled {
-    cursor: not-allowed;
-    background-color: #EAEAEA !important;
+    background-color: $gray-light !important;
+    border: 1px solid $gray-mid;
     color: $gray;
-    border: 1px solid #999999 !important;    
+    cursor: not-allowed;
+
     &:focus,
     &:hover {
-      border: 1px solid #999999 !important;
+      border: 1px solid $gray-light !important;
       box-shadow: none;
     }
   }
 }
 
+.input-support-text {
+  font-size: 1.4em;
+  position: relative;
+  top: 0.1em;
+}
 
+.input-support-text--middle {
+  font-size: initial;
+  padding-left: 1em;
+  padding-right: 1em;
+}
 
-// start jquery override
+.input-support-text--after {
+  margin-left: -0.6em;
+}
+
+// start jQuery override
 // Controls typeahead text filter. Remove later.
 .custom-combobox {
-  position: relative;
   display: inline;
+  position: relative;
 }
+
 .custom-combobox-toggle {
   margin-left: -1px;
   padding: 0;
 }
+
 .custom-combobox-input {
-  margin: 0;
+  margin: $margin-zero;
   padding: 5px 10px;
 }
-.tooltip {
-  position: relative;
-}
+
 .ui-tooltip {
-  padding: 0.75em 1.5em;
-  margin: 0;
   display: inline-block;
+  margin: $margin-zero;
+  padding: 0.75em 1.5em;
 }
+
 .ui-state-highlight {
-  background-color: #ffff99 !important;
+  // TODO:: Remove. It's not used in the repo
+  background-color: $orange-light;
 }
+
 .ui-helper-hidden-accessible {
+  // TODO:: Remove. It's not used in the repo
   display: none;
 }
 
-// end jquery override
+// end jQuery override
 
+@include uikit-media(xs) {
 
-input[type=phone],
-input.input-half,
-select.input-half {
-  width: 45%;
-  max-width: 22em;
+  input,
+  select,
+  textarea {
+
+    &.input-half,
+    &[type="phone"] {
+      max-width: 22em;
+      width: 45%;
+    }
+
+    &.input-auto {
+      width: auto;
+    }
+  }
+
+  input {
+    &.input-small {
+      max-width: 10em;
+      width: 25%;
+    }
+
+    &[type='search'] {
+      // Ensure input type=search has consistent sizing with input type=text
+      appearance: searchfield;
+      box-sizing: content-box;
+    }
+
+    // Remove the up/down arrows on HTML5 number fields
+    &[type='number']::-webkit-inner-spin-button,
+    &[type='number']::-webkit-outer-spin-button {
+      appearance: none;
+      margin: $margin-zero;
+    }
+
+    &[type="number"] {
+      appearance: textfield;
+    }
+  }
 }
-input.input-small {
-  width: 25%;
-  max-width: 10em;
+
+input,
+select,
+textarea {
+
+  &.input-half,
+  &[type='phone'] {
+    width: 90%;
+  }
 }
+
+input {
+  &.input-small {
+    width: 50%;
+  }
+}
+
 fieldset {
   border: 0;
   clear: both;
-  margin: 0 0 1em 0;
+  margin: 0 0 1em;
   padding: 0;
 }
+
 legend,
 caption {
   border: 0;
-  padding: 0 0 0.5em 0;
-  text-align: left;
-  line-height: 1.4em;
   font-size: 1.5rem;
   font-weight: normal;
+  line-height: 1.4em;
   max-width: $uikit-maxwidth;
+  padding: 0;
+  text-align: left;
 }
-
 
 label {
   font-weight: bold;
-  &.uikit-text-input__label {
-    margin-bottom: 10px;
-  }
 }
-.hint {
-  font-weight: normal;
-}
-
 
 // Style legends to appear like labels
 .legend-label {
-  font-weight: bold;
   font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.8em;
+  width: 100%;
+  display: inline-block;
+}
+
+.legend-h3 {
+  font-size: 1.17rem;
+  font-weight: bold;
+  margin-bottom: 0.8em;
+}
+
+.legend-label--light {
+  font-size: 1rem;
+  font-weight: normal;
+  margin-bottom: 0.8em;
+
+  .hint {
+    color: $gray-mid;
+    font-size: 0.9em;
+  }
 }
 
 .display-block {
   display: block;
 }
 
+.display-inline {
+  display: inline;
+}
+
+.display-inline-block {
+  display: inline-block;
+}
 
 .breakout {
-  padding: 2.5em 2em 2em 2em;
   background: $gray-light;
-  margin: 0 0 30px 0;
+  margin: 0 0 30px;
+  padding: 2.5em 2em 1em 2em;
+
+  &::after {
+    content: '';
+    visibility: hidden;
+    display: block;
+    height: 0;
+    clear: both;
+  }
+
   .hint {
-    display:block;
-    font-size:0.7em;
-    margin:10px 0 0 0;
+    display: block;
+    font-size: 0.7em;
+    margin: 10px 0 0;
+
     a {
-      white-space:nowrap;
+      white-space: nowrap;
     }
   }
 }
 
-
-
-input[type='checkbox'] + span,
-input[type='radio'] + span {
-  display:inline-block;
-  font-weight: normal !important;
-}
-
-input[type='search'] {
-  // Ensure input type=search has consistent sizing with input type=text
-  box-sizing: content-box;
-  -moz-appearance: searchfield;
-}
-
-// Remove the up/down arrows on HTML5 number fields
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-input[type=number] {
-  -moz-appearance:textfield;
-}
-
-
-// Remove bolding from selected radios
-.pagination label {
-    font-weight: normal !important;
-}
-
-
-// Space between label and input
-.uikit-text-input__label {
-    margin-bottom: .2em;
+.uikit-text-input__label-wrapper--inline-block {
+  display: inline-block;
 }
 
 // Space between radio buttons
 .uikit-control-input__radio {
-    margin: 0.75em 0;
+  margin: 0.75em 0;
 }
 
 // Size of radio and checkbox span labels
 .uikit-control-input__text {
-    font-size: 1rem;
+  font-size: 1rem;
+  font-weight: normal;
+  margin: 0;
+  padding: 0 0.5rem 0.5rem 2.5rem;
+  display: block;
 }
 
-// Width of select boxes for dropdowns that appear within a sentence eg. Add cover - Diagnosis
+// Width of select boxes for drop downs that appear within a sentence eg. Add cover - Diagnosis
 .uikit-text-input__dropdowns {
+
+  // TODO:: Remove. It's not used in the repo
   select {
-    width:210px;
-    display:block;
+    display: block;
+    width: 210px;
   }
 }
 
 .breakout-compact {
-  padding: 2em 2em 0.1em 2em;
   background: $gray-light;
-  margin: 0 0 30px 0;
+  margin: 0 0 30px;
   max-width: $uikit-maxwidth;
+  padding: 2em 2em 0.1em;
+
   .hint {
-    display:block;
-    font-size:0.7em;
-    margin:10px 0 0 0;
+    display: block;
+    font-size: 0.7em;
+    margin: 10px 0 0;
+
     a {
-      white-space:nowrap;
+      white-space: nowrap;
     }
   }
 }
 
-@media only screen and (min-width: $medium-handheld) {
-  .uikit-text-input__dropdowns {
-  select {
-    width:210px;
-    display:inline;
-  }
-}
-
-
-}
-
-.id-marriage, .id-changename {
+.id-marriage,
+.id-changename {
   margin-top: 2em;
 }
 
 // input widths
-.dd, .mm, .yyyy {
+.dd,
+.mm,
+.yyyy,
+.bsb {
   display: inline;
-  width: 2em !important;
   margin-right: 0 !important;
+  width: 2em !important;
 }
+
 .yyyy {
   width: 4em !important;
 }
 
-
+.bsb {
+  width: 3em !important;
+}
 
 // Autocomplete styling
 
 .ui-widget-content {
-    border: 1px solid #dddddd;
-    background: #ffffff;
-    color: #333333;
-}
-.ui-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: block;
-    outline: 0;
-}
-.ui-autocomplete {
-    position: absolute;
-    top: 0;
-    left: 0;
-    cursor: default;
-}
-.ui-menu-item {
-  &:hover {
-      background-color: $blue;
-      color: white;
-    }
-}
-.ui-front {
-    z-index: 100;
+  background: $white;
+  border: 1px solid $gray-mild;
+  color: $uikit-colour-Text;
 }
 
+.ui-menu {
+  display: block;
+  list-style: none;
+  margin: $margin-zero;
+  outline: 0;
+  padding: 0;
+}
+
+.ui-autocomplete {
+  cursor: default;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.ui-menu-item {
+  &:hover {
+    background-color: $blue;
+    color: $white;
+  }
+}
+
+.ui-front {
+  z-index: 100;
+}
 
 // A form call out reverses the colour contrast to ensure important functionality is highlighted
 
 .form-callout {
   background-color: $blue-light;
+  color: $black;
   padding: 0.5em 1em;
-  color: black;
+
   button {
-    border: 1px solid white;
+    border: 1px solid $white;
   }
 }
 
 .display-none {
- display: none;
+  display: none !important; // used as brute force so only removal of class can override
+}
+
+@media only screen and (min-width: $medium-handheld) {
+  .uikit-text-input__dropdowns {
+
+    // TODO:: Remove. It's not used in the repo
+    select {
+      display: inline;
+
+      // width: 210px; // width doesn't work for inline elements
+    }
+  }
+}
+
+.flex-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+
+// Radio button tiles
+.radio-tile--group {
+  display: flex;
+  //margin: 1em 0 0;
+
+  label {
+
+
+    display: block;
+    margin: 0 1em 1em 0;
+    min-width: 170px;
+    position: relative;
+    text-align: center;
+
+    &:hover {
+      background-color: $gray-light;
+      cursor: pointer;
+    }
+
+    img {
+      display: block;
+      height: 60px;
+      margin-left: auto;
+      margin-right: auto;
+      width: 60px;
+    }
+  }
+
+
+  span {
+    border: 1px solid $gray-mild;
+    border-radius: $uikit-border-radius;
+    display: block;
+    height: 100%;
+    padding: 1em;
+  }
+
+
+  input {
+    &[type='radio'] {
+
+      &:checked+span,
+      &:focus+span {
+        background: $gray-light url("../images/ico-tick-blue-solid.svg") no-repeat;
+        background-position: right 10px top 10px;
+        background-size: 30px 30px;
+        border: 1px solid $green;
+        border-radius: $uikit-border-radius;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.radio-tile {
+
+  // I know this isn't BEM but the angular devs couldn't get .radio-tile__icon to work with this component 
+  .radio_tile__icon {
+    display: block;
+    padding: .4em;
+  }
+}
+
+
+
+.radio-tile-group--four {
+  &.radio-tile--group {
+    display: block;
+    //margin: 0 0 1em 0;
+  }
+}
+
+@include uikit-media(md) {
+  .radio-tile-group--four {
+    &.radio-tile--group {
+      display: flex;
+
+      label {
+        flex: 1;
+        //margin: 0 1em 1em 0;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+
+
+.radio-tile-group--equal-width-height {
+  .radio-tile {
+    icon {
+      // display: block;
+      // padding: .4em;
+    }
+
+    span {
+      min-width: 220px;
+      // max-width: 320px;
+    }
+
+    p {
+      font-weight: normal;
+    }
+
+  }
+}
+
+.radio-tile--medium {
+  span {
+    max-width: 320px;
+  }
+}
+
+
+.file-upload__input {
+  display: none;
+  height: 0.1px;
+  overflow: hidden;
+  position: absolute;
+  width: 0.1px;
+  z-index: -1;
+}
+
+.file-upload__input+label {
+  cursor: pointer;
+  font-weight: normal;
+  line-height: normal;
+  white-space: nowrap;
+
+  // overflow: hidden;
+}
+
+.file-upload__label {
+  .uikit-btn--tertiary {
+    margin-left: uikit-space(0.75);
+  }
+}
+
+.uikit-body {
+  .uiToolKitCheckBox {
+    margin-bottom: 1em;
+    margin-right: 1em;
+  }
+}
+
+
+.select-container {
+  display: inline;
+  position: relative;
+
+  label {
+    font-weight: normal;
+  }
+
+  select {
+    appearance: none;
+    background: $white;
+    border: 0;
+    border-radius: $uikit-border-radius;
+    font-size: 1em;
+    font-weight: bold;
+    padding: 0.8em 1.2em;
+    width: 100%;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  &::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid $black;
+    content: ' ';
+    height: 0;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    right: 2em;
+    top: 0.3em;
+    width: 0;
+  }
+}
+
+
+.mys-dropdown {
+  position: relative;
+
+  &::after {
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 8px solid $black;
+    content: ' ';
+    height: 0;
+    opacity: 0.5;
+    pointer-events: none;
+    position: absolute;
+    right: 1.7em;
+    top: 0.3em;
+    width: 0;
+  }
+}
+
+.mys-dropdown__select {
+  appearance: none;
+  background: $white;
+  border: 0;
+  border-radius: $uikit-border-radius;
+  font-size: 1em;
+  font-weight: bold;
+  padding: 0.5em 3em 0.5em 0.8em;
+  width: auto;
+
+  &::-ms-expand {
+    display: none;
+  }
+}
+
+// natural language form elements
+
+.mys-label-nl {
+  font-size: 1.3em;
+  font-weight: normal;
+}
+
+.mys-dropdown-nl {
+  &::after {
+    right: 2.2em;
+  }
+
+  .mys-dropdown__select {
+    color: $blue;
+    font-size: 1.3em;
+    font-weight: normal;
+  }
+}
+
+//margin between buttons/formgroup
+.feedback-margin {
+  padding-bottom: 20px;
+}
+
+.sign-dollar {
+  font-size: 1.2em;
+}
+
+
+
+.pipe {
+  margin-left: 15px;
 }
