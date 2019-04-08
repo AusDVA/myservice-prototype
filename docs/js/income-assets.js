@@ -1,5 +1,3 @@
-"use strict";
-
 /* On page scrolling */
 
 function scrollToAdd() {

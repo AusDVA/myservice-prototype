@@ -1,7 +1,7 @@
-'use strict';
-
 // Student claim pages
 jQuery(document).ready(function ($) {
+
+  // alert('window.location.pathname' + window.location.pathname);
 
   function initStudents() {
 
@@ -31,7 +31,7 @@ jQuery(document).ready(function ($) {
 
     // Pull in the json content 
     $.ajax({
-      url: './docs/data/student-claim-content.json',
+      url: '/docs/data/student-claim-content.json',
       async: false,
       dataType: 'json'
     }).done(function (data) {
@@ -98,42 +98,7 @@ jQuery(document).ready(function ($) {
   }
 
   // TODO:: handle reset if change of age after other flows
-  if (window.location.pathname === "/studentpreeligibility") {
-    var init = function init() {
-      console.log('loading init');
-
-      $(".pt-showIfStudentShouldClaimThemselves").hide();
-      $(".pt-showIfStudentUnder18").hide();
-      $(".pt-showIfCentrelinkCustomer").hide();
-      $(".pt-showIfYourFTB").hide();
-      $(".pt-showIfSomeoneElseFTB").hide();
-      $(".pt-showIfNoFTB").hide();
-      $(".pt-showIfStudentBetween16and18").hide();
-      $(".pt-showIfStudentUnder0").hide();
-      $(".pt-showIfNoTFN").hide();
-      $(".pt-showFTBIsBest").hide();
-      $('.pt-showIfMRCA').hide();
-      $(".pt-showIfStudentFullTimeAndMRCA").hide();
-      $(".pt-vetShowIfStudentFullTimeAndMRCA").hide();
-      $(".pt-showIfStudentConfirmed").hide();
-      $('.pt-showIfEngagedInFullTimeEmployment').hide();
-      $(".pt-showIfStudentDependantOnVeteran").hide();
-      $('.pt-showIfRelationshipValid').hide();
-      $('.pt-studentFullTime').hide();
-      $('.pt-showIfStudentCantClaim').hide();
-      $('.pt-showIfStudentNotDependant').hide();
-      $('.pt-aboutYou').hide();
-      $('.pt-studentOver25').hide();
-      $('.pt-studentTooyoung').hide();
-      $('.pt-VeteranRelationshipToStudent').hide();
-      $(".pt-StudentRelationshipToVeteran").hide();
-      $(".pt-StudentRelationshipToClaimant").hide();
-    };
-
-    var resetForm = function resetForm($form) {
-
-      $('input[type=radio]:checked').not('input[type=radio][name=confirmStudentOrClaimant]').prop('checked', false);
-    };
+  if (window.location.pathname === "/auth/claim/studentpreeligibility") {
 
     localStorage.clear();
 
@@ -157,6 +122,8 @@ jQuery(document).ready(function ($) {
     var age = getUrlParameter('studentAge');
     var docUploads = getUrlParameter('docUploads');
     var act = getUrlParameter('act');
+
+    console.log('flow = ' + flow);
 
     if (flow) {
       localStorage.setItem(flow, true);
@@ -187,6 +154,9 @@ jQuery(document).ready(function ($) {
     initStudents();
 
     if ("veteranFlow" in localStorage) {
+
+      // alert('im vet');
+
       $(".pt-flow--veteran").show();
     }
 
@@ -196,6 +166,42 @@ jQuery(document).ready(function ($) {
 
     if ("claimantFlow" in localStorage) {
       $(".pt-flow--claimant").show();
+    }
+
+    function init() {
+      console.log('loading init');
+
+      $(".pt-showIfStudentShouldClaimThemselves").hide();
+      $(".pt-showIfStudentUnder18").hide();
+      $(".pt-showIfCentrelinkCustomer").hide();
+      $(".pt-showIfYourFTB").hide();
+      $(".pt-showIfSomeoneElseFTB").hide();
+      $(".pt-showIfNoFTB").hide();
+      $(".pt-showIfStudentBetween16and18").hide();
+      $(".pt-showIfStudentUnder0").hide();
+      $(".pt-showIfNoTFN").hide();
+      $(".pt-showFTBIsBest").hide();
+      $('.pt-showIfMRCA').hide();
+      $(".pt-showIfStudentFullTimeAndMRCA").hide();
+      $(".pt-vetShowIfStudentFullTimeAndMRCA").hide();
+      $(".pt-showIfStudentConfirmed").hide();
+      $('.pt-showIfEngagedInFullTimeEmployment').hide();
+      $(".pt-showIfStudentDependantOnVeteran").hide();
+      $('.pt-showIfRelationshipValid').hide();
+      $('.pt-studentFullTime').hide();
+      $('.pt-showIfStudentCantClaim').hide();
+      $('.pt-showIfStudentNotDependant').hide();
+      $('.pt-aboutYou').hide();
+      $('.pt-studentOver25').hide();
+      $('.pt-studentTooyoung').hide();
+      $('.pt-VeteranRelationshipToStudent').hide();
+      $(".pt-StudentRelationshipToVeteran").hide();
+      $(".pt-StudentRelationshipToClaimant").hide();
+    }
+
+    function resetForm($form) {
+
+      $('input[type=radio]:checked').not('input[type=radio][name=confirmStudentOrClaimant]').prop('checked', false);
     }
 
     init();
@@ -514,7 +520,7 @@ jQuery(document).ready(function ($) {
   }
 
   // Page 1
-  if (window.location.pathname === "/studentclaim1") {
+  if (window.location.pathname === "/auth/claim/studentclaim1") {
 
     initStudents();
     initFlow();
@@ -584,7 +590,7 @@ jQuery(document).ready(function ($) {
     if ("studentFlow" in localStorage || "claimantFlow" in localStorage) {
       $('.btnNext').prop('onclick', null);
       $('.btnNext').click(function () {
-        window.location.href = 'studentclaim1a';
+        window.location.href = '/auth/claim/studentclaim1a';
       });
     }
 
@@ -629,7 +635,7 @@ jQuery(document).ready(function ($) {
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
           // event.stopPropagation();
-          window.location.href = 'studentclaim3';
+          window.location.href = '/auth/claim/studentclaim3';
         });
       } else {
 
@@ -730,7 +736,7 @@ jQuery(document).ready(function ($) {
   }
 
   // Page 1a
-  if (window.location.pathname === "/studentclaim1a") {
+  if (window.location.pathname === "/auth/claim/studentclaim1a") {
     initStudents();
     initFlow();
 
@@ -799,25 +805,25 @@ jQuery(document).ready(function ($) {
         // skip the living arrangement details 
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
-          window.location.href = 'studentclaim3';
+          window.location.href = '/auth/claim/studentclaim3';
         });
       } else if ($('input[name=studentLivingLocation]:checked').val() === 'at-home') {
         if ("studentFlow" in localStorage) {
           // skip the living arrangement details 
           $('.btnNext').prop('onclick', null);
           $('.btnNext').click(function () {
-            window.location.href = 'studentclaim3';
+            window.location.href = '/auth/claim/studentclaim3';
           });
         } else {
           $('.btnNext').prop('onclick', null);
           $('.btnNext').click(function () {
-            window.location.href = 'studentclaim2';
+            window.location.href = '/auth/claim/studentclaim2';
           });
         }
       } else {
         $('.btnNext').prop('onclick', null);
         $('.btnNext').click(function () {
-          window.location.href = 'studentclaim2';
+          window.location.href = '/auth/claim/studentclaim2';
         });
       }
     });
@@ -871,7 +877,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  if (window.location.pathname === "/studentclaim2") {
+  if (window.location.pathname === "/auth/claim/studentclaim2") {
     // Page 2 
     initStudents();
     initFlow();
@@ -946,7 +952,7 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  if (window.location.pathname === "/studentclaim3") {
+  if (window.location.pathname === "/auth/claim/studentclaim3") {
     // page 3
     initStudents();
     initFlow();
@@ -1063,11 +1069,11 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  if (window.location.pathname === "/studentclaimupload") {
+  if (window.location.pathname === "/auth/claim/studentclaimupload") {
     initStudents();
   }
 
-  if (window.location.pathname === "/studentclaim4") {
+  if (window.location.pathname === "/auth/claim/studentclaim4") {
     // Page 4
     initStudents();
     initFlow();
@@ -1143,12 +1149,12 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  if (window.location.pathname === "/studentclaim4a") {
+  if (window.location.pathname === "/auth/claim/studentclaim4a") {
     initStudents();
     initFlow();
   }
 
-  if (window.location.pathname === "/studentclaim6") {
+  if (window.location.pathname === "/auth/claim/studentclaim6") {
     initStudents();
 
     $(".pt-showIfNoStudentTFN").hide();

@@ -1,5 +1,3 @@
-'use strict';
-
 var getUrlParameter = function getUrlParameter(sParam) {
   var sPageURL = decodeURIComponent(window.location.search.substring(1)),
       sURLVariables = sPageURL.split('&'),
@@ -17,37 +15,37 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 jQuery(document).ready(function ($) {
   // Help slide gesture
-  var panels = $('.panel');
-  panels.map(function (index, panel) {
-    var panelContainer = $(panel).find('.panel-container');
-    var panelHeader = $(panel).find('.panel-header');
-    var originX = 0;
-    var lastX = 0;
-    var dragging = false;
-    var uiBunch = panelContainer.add(panelHeader);
-    uiBunch.on('mousedown touchstart', function (event) {
+  let panels = $('.panel');
+  panels.map((index, panel) => {
+    let panelContainer = $(panel).find('.panel-container');
+    let panelHeader = $(panel).find('.panel-header');
+    let originX = 0;
+    let lastX = 0;
+    let dragging = false;
+    let uiBunch = panelContainer.add(panelHeader);
+    uiBunch.on('mousedown touchstart', event => {
       if (!dragging && !$(event.target).is('.panel-close')) {
         dragging = true;
         originX = event.screenX || event.targetTouches[0].screenX;
         lastX = originX;
       }
     });
-    uiBunch.on('mousemove touchmove', function (event) {
+    uiBunch.on('mousemove touchmove', event => {
       if (dragging) {
         lastX = event.screenX || event.targetTouches[0].screenX;
-        var newX = lastX - originX;
+        let newX = lastX - originX;
         if (newX >= 0) uiBunch.css({
           right: -newX + 'px'
         });
       }
     });
-    uiBunch.on('mouseup touchend', function (event) {
+    uiBunch.on('mouseup touchend', event => {
       if (dragging && !$(event.target).is('.panel-close')) {
         dragging = false;
-        var newX = (event.screenX || lastX) - originX;
+        let newX = (event.screenX || lastX) - originX;
         if (newX > panelContainer[0].offsetWidth * 0.25) {
           $(panel).removeClass('is-visible').addClass('swipe-closing');
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             $(panel).removeClass('swipe-closing');
             uiBunch.css({
               right: ''
@@ -58,7 +56,7 @@ jQuery(document).ready(function ($) {
             right: '0px',
             transition: 'right 0.3s'
           });
-          window.setTimeout(function () {
+          window.setTimeout(() => {
             uiBunch.css({
               transition: ''
             });
@@ -120,23 +118,23 @@ jQuery(document).ready(function ($) {
 
   function registerTooltip(pElement) {
 
-    var ROOT_ELEMENT_CLASS = 'tooltip';
-    var TAB_CLASS = ROOT_ELEMENT_CLASS + '__tab';
+    const ROOT_ELEMENT_CLASS = 'tooltip';
+    const TAB_CLASS = `${ROOT_ELEMENT_CLASS}__tab`;
 
-    var ARIA_HIDDEN_ATTR = 'aria-hidden';
-    var ARIA_EXPANDED_ATTR = 'aria-expanded';
+    const ARIA_HIDDEN_ATTR = 'aria-hidden';
+    const ARIA_EXPANDED_ATTR = 'aria-expanded';
 
-    var control = pElement;
-    var rootElement = control.closest('.' + ROOT_ELEMENT_CLASS);
-    var content = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__content')[0];
-    var tab = rootElement.getElementsByClassName(TAB_CLASS)[0];
-    var message = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__message')[0];
-    var close = rootElement.getElementsByClassName(ROOT_ELEMENT_CLASS + '__close')[0];
+    const control = pElement;
+    const rootElement = control.closest(`.${ROOT_ELEMENT_CLASS}`);
+    const content = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__content`)[0];
+    const tab = rootElement.getElementsByClassName(TAB_CLASS)[0];
+    const message = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__message`)[0];
+    const close = rootElement.getElementsByClassName(`${ROOT_ELEMENT_CLASS}__close`)[0];
 
-    var tabOriginalClassName = tab.className;
+    const tabOriginalClassName = tab.className;
 
     function showTooltip() {
-      var cloak = document.createElement('div');
+      const cloak = document.createElement('div');
       cloak.style.cssText = 'height: 0; overflow: hidden; position: relative;';
       content.parentNode.insertBefore(cloak, content);
       cloak.appendChild(content);
@@ -145,19 +143,19 @@ jQuery(document).ready(function ($) {
 
       document.removeEventListener('click', clickOutHandler);
 
-      setTimeout(function () {
+      setTimeout(() => {
         cloak.parentNode.appendChild(content);
         cloak.parentNode.removeChild(cloak);
 
         control.setAttribute(ARIA_EXPANDED_ATTR, true);
 
-        var className = tabOriginalClassName + ' ' + TAB_CLASS + '--active';
+        const className = `${tabOriginalClassName} ${TAB_CLASS}--active`;
         if (content.clientHeight > getOffsetDocumentTop(tab)) {
-          tab.className = className + ' ' + TAB_CLASS + '--bottom';
-          content.style.top = control.offsetTop + tab.offsetTop + tab.offsetHeight + 'px';
+          tab.className = `${className} ${TAB_CLASS}--bottom`;
+          content.style.top = `${control.offsetTop + tab.offsetTop + tab.offsetHeight}px`;
         } else {
-          tab.className = className + ' ' + TAB_CLASS + '--top';
-          content.style.top = control.offsetTop - content.clientHeight + tab.offsetTop + 'px';
+          tab.className = `${className} ${TAB_CLASS}--top`;
+          content.style.top = `${control.offsetTop - content.clientHeight + tab.offsetTop}px`;
         }
 
         document.addEventListener('keyup', escapeHandler);
@@ -201,7 +199,7 @@ jQuery(document).ready(function ($) {
     }
 
     control.addEventListener('click', showTooltip);
-    control.addEventListener('keypress', function (pEvent) {
+    control.addEventListener('keypress', pEvent => {
       if (event.key === ' ' || event.key === 'Enter') {
         event.preventDefault();
         showTooltip();
@@ -209,7 +207,7 @@ jQuery(document).ready(function ($) {
     });
 
     close.addEventListener('click', closeTooltip);
-    close.addEventListener('keypress', function (pEvent) {
+    close.addEventListener('keypress', pEvent => {
       if (event.key === ' ' || event.key === 'Enter') {
         event.preventDefault();
         closeTooltip();
@@ -217,31 +215,29 @@ jQuery(document).ready(function ($) {
     });
   }
 
-  [].forEach.call(document.getElementsByClassName('tooltip__control'), function (pElement) {
-    return registerTooltip(pElement);
-  });
+  [].forEach.call(document.getElementsByClassName('tooltip__control'), pElement => registerTooltip(pElement));
 
   // Three state check boxes 
   $(".mys-radio__control").click(function (ev) {
-    var siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
-    var thisBox = $(this).next(".mys-radio__box");
+    let siblings = $(this).closest(".mys-radio-group").find(".mys-radio__box");
+    let thisBox = $(this).next(".mys-radio__box");
     $(siblings).removeClass('mys-radio__box--not-selected');
     $(siblings).not(thisBox).addClass('mys-radio__box--not-selected');
   });
 
   $(".mys-radio-group").mouseover(function (ev) {
-    var checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+    let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
     if (checkedBox.length !== 0) {
-      var siblings = $(this).find(".mys-radio__box");
-      var _checkedBox = $(this).next(".mys-radio__box");
+      let siblings = $(this).find(".mys-radio__box");
+      let checkedBox = $(this).next(".mys-radio__box");
       $(siblings).removeClass('mys-radio__box--not-selected');
     }
   });
 
   $(".mys-radio-group").mouseleave(function (ev) {
-    var checkedBox = $(this).find("input:checked").next(".mys-radio__box");
+    let checkedBox = $(this).find("input:checked").next(".mys-radio__box");
     if (checkedBox.length !== 0) {
-      var siblings = $(this).find(".mys-radio__box");
+      let siblings = $(this).find(".mys-radio__box");
       $(siblings).removeClass('mys-radio__box--not-selected');
       $(siblings).not(checkedBox).addClass('mys-radio__box--not-selected');
     }
