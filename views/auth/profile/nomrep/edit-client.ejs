@@ -38,7 +38,7 @@
               <span>
                 <icon class="radio_tile__icon fal fa-comments-alt fa-3x"></icon>
                 <strong>Enquire on behalf</strong><br />
-                <p>Your representative can access information in relation to your DVA matters</p>
+                <p>Your representative can access information in relation to your DVA matters.</p>
               </span>
             </label>
 
@@ -47,7 +47,7 @@
               <span>
                 <icon class="radio_tile__icon fal fa-hands-helping fa-3x"></icon>
                 <strong>Act on behalf </strong><br />
-                <p>Your representative can access information, make decisions and provide information in relation to your DVA matters</p>
+                <p>Your representative can access information, make decisions and provide information in relation to your DVA matters.</p>
               </span>
             </label>
 
@@ -56,7 +56,7 @@
               <span>
                 <icon class="radio_tile__icon fal fa-hand-holding-usd fa-3x"></icon>
                 <strong>Receive payments</strong><br />
-                <p>DVA can make payments to your representative's bank account. For example, to a trustee or nursing home</p>
+                <p>DVA can make payments to your representative's bank account. For example, to a trustee or nursing home.</p>
               </span>
             </label>
             <label class="radio-tile pt-cease-rep">
@@ -130,10 +130,6 @@
         <!-- start of Act on behalf q's -->
         <div id="hideAllAct" style="display:none;">
 
-          <!-- <div id="actAlert" class="uikit-page-alerts" role="alert">
-                    <p>Allows your representative to source information, make decisions and update information in relation to DVA matters</p>
-                  </div> -->
-
           <div class="form-group">
             <label class="uikit-text-input__label" for="Input field">Which areas of DVA would you like your representative to act on?</label>
           </div>
@@ -142,7 +138,7 @@
             <p class="uiToolKitCheckBox">
               <label class="uikit-control-input">
                 <input id="actAllMatters" class="uikit-control-input__input" type="radio" name="operation-radios" value="">
-                <span class="uikit-control-input__text">All DVA Matters</span>
+                <span class="uikit-control-input__text">All DVA matters</span>
               </label>
             </p>
             <p class="uiToolKitCheckBox">
@@ -221,11 +217,13 @@
               </div>
 
               <div id="showBank2" class="bank-details-container" style="display:none;">
-                <h2 id="intro-copy-no-partner" class="margin-below">Provide payment details</h2>
                 <div class="uikit-page-alerts" role="alert">
-                  <p>This will be the nominated bank account for all of the client's DVA payments</p>
+                  Allows you to receive payments to a nominated bank account.
+
+
+
                 </div>
-                <% include ../../../../partials/bank-account-details.ejs %>
+
               </div>
 
             </div>
@@ -238,6 +236,21 @@
         <!-- start of receive payment q's -->
 
         <div id="hideAllPayment" style="display:none;">
+
+          <div id="receivePaymentMessage">
+            <div class="uikit-page-alerts uikit-page-alerts--info">
+
+              <p>Choosing this option will enable your representative to receive payments on your behalf.
+              </p>
+              <p>
+                Your representative’s nominated bank account will receive your payments. This is usually an account where both you and your representative are co-signatories.
+                Payments are made to your nominated bank account on behalf of you.
+
+
+                They must manage your payments according to your wishes.</p>
+
+            </div>
+          </div>
           <div id="paymentDate" class="form-group margin-above--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
             <label class="uikit-text-input__label" for="Input field">Is this arrangement for a fixed period?</label>
             <fieldset>
@@ -252,6 +265,8 @@
                 </label>
               </div>
             </fieldset>
+
+
           </div>
 
           <div class="form-group">
@@ -340,6 +355,23 @@
       //   scrollTop: $("#hideAllEnquire").offset().top
       // }, 1000)
     });
+
+
+    $('#act').click(function () {
+      $('#hideAllEnquire').hide();
+      $('#hideAllPayment').hide();
+      $('#hideAllAct').show("fast");
+      $('.account-two').addClass('icon-tick');
+      $('.account-one').removeClass('icon-tick');
+      $('.account-three').removeClass('icon-tick');
+
+      if ($(window).width() < 990) {
+        $('html, body').animate({
+          scrollTop: $("#hideAllAct").offset().top
+        }, 1000)
+      }
+    });
+
     $('#enquireIndefYes').click(function () {
       $('#showEnquireDate').show("fast");
     });
