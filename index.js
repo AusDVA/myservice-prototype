@@ -135,7 +135,7 @@ app.get('/:id0/:id1', function (request, response) {
 app.get('/:id0/:id1/:id2', function (request, response) {
 
   // TODO:: might be good to rewrite this cookies to use express sessions 
-  console.log("Cookies: ", request.cookies.claimType);
+  // console.log("Cookies: ", request.cookies.claimType);
 
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,

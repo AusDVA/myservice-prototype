@@ -47,26 +47,48 @@
                 <input class="uikit-text-input mm" type="text" name="mm-enlistment" id="mm-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                 <input class="uikit-text-input yyyy" type="text" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
               </div>
+
+              <div class="form-group">
+                <div class="row col-xs-12 col-md-8 col-lg-7 margin-below">
+                  <legend class="legend-label">Arm</legend>
+                  <div class="mys-radio-group mys-radio-group--cols-4">
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="navy">
+                      <span class="mys-radio__box">Navy</span>
+                    </label>
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="army">
+                      <span class="mys-radio__box">Army</span>
+                    </label>
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="airforce">
+                      <span class="mys-radio__box">Air Force</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label class="uikit-text-input__label" for="highest-rank" id="rank">Highest rank achieved</label>
                 <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
-                  <option>
-                    -- Select rank --
-                  </option>
                   <option selected>
-                    Wing Commander
+                    -- Select highest rank --
                   </option>
-                  <option>
-                    ...
-                  </option>
-                  <option>
-                    ...
-                  </option>
+
                 </select>
               </div>
             </fieldset>
-            <br>
-            <br>
+
+
+            <div class="uikit-page-alerts uikit-page-alerts--info" role="alert">
+              <!-- <h3 class="uikit-display-1">Accessibility reading</h3> -->
+              <p>Your rank of *Trooper* will be displayed in MyService however
+                while we update our systems all correspondence will be
+                sent as the rank *Private*.</p>
+
+            </div>
+
+
           </div>
 
 
@@ -661,6 +683,72 @@
         location.href = '/unauth/registration/register-7';
       } else {
         location.href = '/unauth/registration/register-3';
+      }
+    });
+
+    // $('#highest-rank').click(function () {
+    //   $("#rank-info").show();
+    // });
+
+
+    // Pull in the json content 
+    $.ajax({
+      url: '/docs/data/rank.json',
+      async: false,
+      dataType: 'json'
+    }).done(function (data) {
+
+      console.log('Content data back');
+
+      var contentSet = [];
+      var contentArmy = [];
+      var contentNavy = [];
+      var contentAirforce = [];
+
+      $.each(data.contents, function (index, element) {
+
+
+        if (element.army) {
+          contentArmy = element.army;
+        }
+        if (element.navy) {
+          contentNavy = element.navy;
+        }
+        if (element.airforce) {
+          contentAirforce = element.airforce;
+        }
+
+        console.log(contentArmy);
+
+      });
+
+      $select = $('#highest-rank');
+
+      $('input[type=radio][name=arm]').change(function () {
+        // alert(this.value);
+        $select.empty();
+        if (this.value === 'army') {
+          contentSet = contentArmy;
+        }
+        if (this.value === 'navy') {
+          contentSet = contentNavy;
+        }
+        if (this.value === 'airforce') {
+          contentSet = contentAirforce;
+        }
+
+        $.each(contentSet, function (key, value) {
+          $select.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+      });
+
+
+
+      for (var key in contentSet) {
+        var content = contentSet[key].replace(/{{studentNameFirstApostrophed}}/g, studentNameFirstApostrophed);
+        content = content.replace(/{{studentNameFirst}}/g, studentNameFirst);
+        $("#question_" + key).html(content);
       }
     });
   </script>
