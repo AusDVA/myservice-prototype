@@ -7,6 +7,8 @@
   <title>Register: Personal details | MyService</title>
   <link href="/docs/css/main.css" rel="stylesheet">
   <link href="/docs/css/fontawesome/css/all.css" rel="stylesheet">
+
+
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -47,26 +49,50 @@
                 <input class="uikit-text-input mm" type="text" name="mm-enlistment" id="mm-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                 <input class="uikit-text-input yyyy" type="text" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
               </div>
+
+              <div class="form-group">
+                <div class="row col-xs-12 col-md-8 col-lg-7 margin-below">
+                  <legend class="legend-label">Arm</legend>
+                  <div class="mys-radio-group mys-radio-group--cols-4">
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="navy">
+                      <span class="mys-radio__box">Navy</span>
+                    </label>
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="army">
+                      <span class="mys-radio__box">Army</span>
+                    </label>
+                    <label class="mys-radio">
+                      <input class="mys-radio__control" type="radio" name="arm" value="airforce">
+                      <span class="mys-radio__box">Air Force</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
               <div class="form-group">
                 <label class="uikit-text-input__label" for="highest-rank" id="rank">Highest rank achieved</label>
                 <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
-                  <option>
-                    -- Select rank --
-                  </option>
                   <option selected>
-                    Wing Commander
+                    -- Select highest rank --
                   </option>
-                  <option>
-                    ...
-                  </option>
-                  <option>
-                    ...
-                  </option>
+                  <option value=""> --- please select an arm above --- </option>
+
                 </select>
               </div>
+              <div class="uikit-page-alerts uikit-page-alerts--info" role="alert" id="rank-info" style="display:none;">
+                <!-- <h3 class="uikit-display-1">Accessibility reading</h3> -->
+                <p>Your rank of <strong><span id="rank-info-chosen"></span></strong> will be displayed in MyService however
+                  while we update our systems all correspondence will be
+                  sent as the rank <strong>Private</strong>.</p>
+
+              </div>
             </fieldset>
-            <br>
-            <br>
+
+
+
+
+
           </div>
 
 
@@ -582,7 +608,7 @@
           </div>
 
           <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'register'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel registration</button>
             <button class="uikit-btn floated btnNext">Next</button>
           </div>
@@ -662,6 +688,93 @@
       } else {
         location.href = '/unauth/registration/register-3';
       }
+    });
+
+    // $('#highest-rank').click(function () {
+    //   $("#rank-info").show();
+    // });
+
+
+    // Pull in the json content 
+    $.ajax({
+      url: '/docs/data/rank.json',
+      async: false,
+      dataType: 'json'
+    }).done(function (data) {
+
+      console.log('Content data back');
+
+      var amrSet = [];
+      var armArmy = [];
+      var armNavy = [];
+      var armAirforce = [];
+
+      $.each(data.arm, function (index, element) {
+
+
+        if (element.army) {
+          armArmy = element.army;
+        }
+        if (element.navy) {
+          armNavy = element.navy;
+        }
+        if (element.airforce) {
+          armAirforce = element.airforce;
+        }
+
+        console.log(armArmy);
+
+      });
+
+      $select = $('#highest-rank');
+
+      $('input[type=radio][name=arm]').change(function () {
+        // alert(this.value);
+        $select.empty();
+        if (this.value === 'army') {
+          amrSet = armArmy;
+        }
+        if (this.value === 'navy') {
+          amrSet = armNavy;
+        }
+        if (this.value === 'airforce') {
+          amrSet = armAirforce;
+        }
+
+        $.each(amrSet, function (key, value) {
+          $select.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+      });
+
+
+
+      $("#highest-rank").change(function () {
+        // if (500 < windowsize && windowsize < 600) {
+
+        if (22 < this.value && this.value < 30) {
+          console.log(this);
+          // console.log($(this.text()));
+
+          console.log($("#highest-rank option:selected").text());
+          // $("#highest-rank option:selected").text();
+          var content = $("#highest-rank option:selected").text();;
+
+
+          $("#rank-info-chosen").html(content);
+
+          $("#rank-info").show();
+        } else {
+          $("#rank-info").hide();
+        }
+      });
+
+
+      // for (var key in amrSet) {
+      //   var content = amrSet[key].replace(/{{studentNameFirstApostrophed}}/g, studentNameFirstApostrophed);
+      //   content = content.replace(/{{studentNameFirst}}/g, studentNameFirst);
+      //   $("#question_" + key).html(content);
+      // }
     });
   </script>
 </body>
