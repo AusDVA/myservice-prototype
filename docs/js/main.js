@@ -267,26 +267,26 @@ jQuery(document).ready(function ($) {
 
     if (localStorage.getItem('repFlow') == 'both') {
       // alert('asdf');
-      jQuery(".pt-first-time").hide();
+      jQuery(".pt-first-time-no").show();
       jQuery(".pt-rep-flow-representing-no").hide();
       jQuery(".pt-rep-flow-represented-no").hide();
       jQuery(".pt-rep-flow-none").hide();
       jQuery(".pt-rep-flow-representing").show();
       jQuery(".pt-rep-flow-represented").show();
     } else if (localStorage.getItem('repFlow') == 'none') {
-      jQuery(".pt-first-time").hide();
+      jQuery(".pt-first-time-no").show();
       jQuery(".pt-rep-flow-representing").hide();
       jQuery(".pt-rep-flow-represented").hide();
       jQuery(".pt-rep-flow-none-no").hide();
       jQuery(".pt-rep-flow-none").show();
     } else if (localStorage.getItem('repFlow') == 'representing') {
-      jQuery(".pt-first-time").hide();
+      jQuery(".pt-first-time-no").show();
       jQuery(".pt-rep-flow-represented").hide();
       jQuery(".pt-rep-flow-representing-no").hide();
       jQuery(".pt-rep-flow-none").hide();
       jQuery(".pt-rep-flow-representing").show();
     } else if (localStorage.getItem('repFlow') == 'represented') {
-      jQuery(".pt-first-time").hide();
+      jQuery(".pt-first-time-no").show();
       jQuery(".pt-rep-flow-representing").hide();
       jQuery(".pt-rep-flow-none").hide();
       jQuery(".pt-rep-flow-represented").show();

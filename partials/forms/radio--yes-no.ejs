@@ -1,20 +1,36 @@
 <% if (locals.radioId) { 
   var id = locals.radioId;
 } else {
-  var id = locals.radioLabel.replace(/ +/g, ''); 
+  if (locals.radioLabel) { 
+    var id = locals.radioLabel.replace(/ +/g, ''); 
+  } else {
+    var id = Math.floor((Math.random() * 1000) + 1);
+  }
+}
+if (locals.radioLabel) { 
+  var radioLabel = locals.radioLabel;
+} else {
+  var radioLabel = ''; 
+}
+if (locals.groupID) { 
+  var groupID = locals.groupID;
+} else {
+  var groupID = ''; 
 }
 %>
 
-<div id="<%= locals.groupID %>">
-  <legend class="legend-label"><%= locals.radioLabel %></legend>
-  <div class="radio-toggle">
-    <label class="on label-left" for="<%= id %>-yes">
-      <input id="<%= id %>-yes" type="radio" name="<%= id %>">
-      <span>Yes</span>
-    </label>
-    <label class="off label-right" for="<%= id %>-no">
-      <input id="<%= id %>-no" type="radio" name="<%= id %>">
-      <span>No</span>
-    </label>
-  </div>
+<div class="form-group" id="<%= groupID %>">
+  <fieldset>
+    <legend class="legend-label"><%= radioLabel %></legend>
+    <div class="radio-toggle">
+      <label class="on label-left" for="<%= id %>-yes">
+        <input id="<%= id %>-yes" type="radio" name="<%= id %>">
+        <span>Yes</span>
+      </label>
+      <label class="off label-right" for="<%= id %>-no">
+        <input id="<%= id %>-no" type="radio" name="<%= id %>">
+        <span>No</span>
+      </label>
+    </div>
+  </fieldset>
 </div>
