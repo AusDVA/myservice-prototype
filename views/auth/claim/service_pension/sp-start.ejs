@@ -41,7 +41,7 @@
                         locals.optionalHide = true;
                         %>
                         <%- include ../../../../partials/forms/notice.ejs %>
-                        <!-- Show if 60+ -->
+                        <!-- Show if 65+ -->
                         <% 
                         locals.message = 'You cannot apply for invalidity service pension if you are over 65 years of age. Apply for age service pension instead.'
                         locals.optionalID = 'age_only';
@@ -105,7 +105,7 @@
                         <% include ../../../../partials/forms/checkbox.ejs %>
                         <!-- CSHC -->
                         <% 
-                        locals.question = 'Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from DVA or Centrelink?'; 
+                        locals.question = 'Have you applied for or do you currently hold a Commonwealth seniors health card (CSHC) from DVA or Centrelink?'; 
                         locals.optionalID = 'cs_cshc'; 
                         locals.optionalHide = true;
                         %>
@@ -114,6 +114,14 @@
                             <label class="uikit-text-input__label" for="tags">What is your Customer Reference Number (CRN)?</label>
                             <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
                         </div>
+                        <!-- visual impairment -->
+                        <% 
+                        locals.question = 'Are you applying as a person who is blind or visually impaired?'; 
+                        locals.hint = '(ie regarded as permanently blind in both eyes)'; 
+                        locals.optionalID = 'visual_impairment'; 
+                        locals.optionalHide = true;
+                        %>
+                        <% include ../../../../partials/forms/radio--yes-no.ejs %>
                         <div id="save_and_next" class="margin-above--extra" style="display: none">
                             <p>Choose <b>save and next</b> to continue.</p>
                         </div>
@@ -129,6 +137,7 @@
                 </div>
                 </fieldset>
             </div>
+        </div>
     </main>
     <% include ../../../../partials/claims-cancel-modal.ejs %>
     <% include ../../../../partials/footer.ejs %>
@@ -297,6 +306,15 @@
             }
         }
 
+        /* visual impairment question */
+
+        $('input[name=visual_impairment]').change(function() {
+            mySelection = $('input[name=visual_impairment]:checked').val();
+            if (mySelection == "yes") {
+                // do something
+            }
+        });
+
         /* Utilities */
 
         function hideAll() {
@@ -312,12 +330,13 @@
             $("#cs_centrelink").hide();
             $("#cs_cshc").hide();
             $("#cs_crn").hide();
+            $("#visual_impairment").hide();
             $("#save_and_next").hide();
         }
 
         function setUpAgeMode() {
-            hideAll();
-            $("#pension_type").hide();
+            // hideAll();
+            // $("#pension_type").hide();
             switch (sessionStorage.getItem('sp-age')) {
                 case "under-59.75":
                     $("#pension_type").show();
