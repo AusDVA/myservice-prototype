@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width" name="viewport">
+  <title>My profile | MyService</title>
+  <link href="/docs/css/main.css" rel="stylesheet">
+  <link href="/docs/css/fontawesome/css/all.css" rel="stylesheet">
+  <style>
+    #templates {
+      display: none;
+    }
+  </style>
+  <style>
+    #templates {
+      display: none;
+    }
+
+    #state-switcher {
+      background-color: white;
+      padding: 20px;
+      border: 1px solid grey;
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      z-index: 100;
+      border-radius: 5px;
+      box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, .2);
+      display: none;
+    }
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../partials/header-topbar.ejs %>
+  <% include ../../../partials/header-authenticated.ejs %>
+  <% include ../../../partials/header-nom-rep.ejs %>
+  <main>
+    <section>
+      <div class="container" id="main-content">
+        <div class="row margin-above margin-below--extra">
+          <div class="col-sm-3">
+            <% include ../../../partials/profile-side-nav.ejs %>
+          </div>
+
+          <div class="col-sm-9">
+            <h1 class="margin-above--none">Service history</h1>
+            <p>This is required to help us assess whether you have the required qualifying service.</p>
+
+            <% include ../../../partials/service-history.ejs %>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <div class="toast-container"></div>
+    <div id="state-switcher">
+      <h3>State Switcher</h3>
+      <div class="form-group">
+        <label class="uikit-text-input__label" for="toggle-buttons">User status:</label>
+        <div class="radio-toggle">
+          <label class="on label-left" for="user-status--cleanskin">
+            <input id="user-status--cleanskin" type="radio" name="user-status">
+            <span>Cleanskin</span>
+          </label>
+          <label class="off label-right" for="user-status--prepopulated">
+            <input id="user-status--prepopulated" type="radio" name="user-status">
+            <span>Pre-populated</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </main>
+  </div>
+  <% include ../../../partials/footer.ejs %>
+
+  <script>
+    $(Document).ready(function () {
+      /* state-switcher */
+      var userStatus = "cleanskin";
+      if (userStatus == "cleanskin") {
+        $("#user-status--cleanskin").click();
+      }
+      $(document).keypress(function (e) {
+        // alert(e.which);
+        switch (e.which) {
+          case 96: //tilda
+            $('#state-switcher').toggle();
+            break;
+          default:
+        }
+      });
+      $("#user-status--cleanskin").click(function (e) {
+        location.reload();
+      });
+      $("#user-status--prepopulated").click(function (e) {
+        $("#service-period-add").click();
+        $('#operation-add').click();
+        $('#operation-add').click();
+        $('#add-another-service-period').click();
+        $("#service-period-add").click();
+
+      });
+    });
+  </script>
+</body>
+
+</html>
