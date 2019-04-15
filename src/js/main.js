@@ -407,6 +407,150 @@ $(document).on("click", function () {
 
 
 
+// local storage a user 
+if (typeof (Storage) !== "undefined") {
+
+  // Pull in the json content 
+  $.ajax({
+    url: '/docs/data/user.json',
+    async: false,
+    dataType: 'json'
+  }).done(function (data) {
+
+    console.log('User data back');
+
+    var amrSet = [];
+    var armArmy = [];
+    var armNavy = [];
+    var armAirforce = [];
+
+    $.each(data, function (index, element) {
+
+
+      // if (element.army) {
+      //   armArmy = element.army;
+      // }
+      // if (element.navy) {
+      //   armNavy = element.navy;
+      // }
+      // if (element.airforce) {
+      //   armAirforce = element.airforce;
+      // }
+
+      // console.log(element);
+
+    });
+
+
+
+    // localStorage.setItem('person', JSON.stringify(data[0]));
+    localStorage.setItem('person', JSON.stringify(data[0]));
+    // var user = localStorage.getItem('person');
+
+
+
+
+    const user = JSON.parse(localStorage.getItem('person'))
+    // console.log(data);
+    // console.log(user);
+
+    var $userSelect = $('#user-drop-down');
+    $userSelect.empty();
+    $.each(data, function (key, value) {
+      // console.log(value._id);
+      // console.log(value.name);
+
+      $userSelect.append('<option value=' + value._id + '>' + value.name + '</option>');
+    });
+
+    $('input[type=radio][name=arm]').change(function () {
+      // alert(this.value);
+
+      // if (this.value === 'army') {
+      //   amrSet = armArmy;
+      // }
+      // if (this.value === 'navy') {
+      //   amrSet = armNavy;
+      // }
+      // if (this.value === 'airforce') {
+      //   amrSet = armAirforce;
+      // }
+
+
+
+    });
+
+
+
+    //   $("#highest-rank").change(function () {
+    //     if (22 < this.value && this.value < 30) {
+    //       console.log(this);
+    //       console.log($("#highest-rank option:selected").text());
+    //       var content = $("#highest-rank option:selected").text();;
+
+
+    //       $("#rank-info-chosen").html(content);
+
+    //       $("#rank-info").show();
+    //     } else {
+    //       $("#rank-info").hide();
+    //     }
+    //   });
+    // });
+
+
+
+    // $.each(user, function (index, element) {
+
+    // if (element.army) {
+    //   armArmy = element.army;
+    // }
+    // if (element.navy) {
+    //   armNavy = element.navy;
+    // }
+    // if (element.airforce) {
+    //   armAirforce = element.airforce;
+    // }
+
+    // console.log(element);
+
+    // });
+
+
+
+    var userHtml = '';
+
+    $.each(user, function (key, value) {
+      userHtml += '<div class="dcell">';
+      userHtml += key;
+      userHtml += ' - ' + value;
+      userHtml += '</div>';
+    });
+
+    $('#userContainerId').html(userHtml);
+    $('.pt-current-user-name').html(user.name);
+
+
+
+
+  });
+} else {
+  alert("Sorry, your browser does not support web storage...");
+}
+
+$(document).keypress(function (e) {
+  switch (e.which) {
+    case 96: //tilda
+      $('.pt-choose-user').toggle();
+      break;
+    default:
+  }
+
+  // alert(e.which);
+});
+
+
+
 
 
 /*! @gov.au/animate v1.0.12 */
