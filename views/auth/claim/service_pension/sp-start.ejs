@@ -2,8 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Service Pension - Getting started | MyService</title>
-<% include ../../../../partials/head.ejs %>
+    <title>Service Pension - Getting started | MyService</title>
+    <% include ../../../../partials/head.ejs %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -48,27 +48,36 @@
                             <p>Apply for age service pension instead</p>
                         </div>
                         <!-- Invalidity -->
-                        <div class="form-group margin-above--large" id="sp-start-whatGrounds">
+                        <div class="form-group margin-above--large" id="invalidity-what-grounds">
                             <label class="uikit-text-input__label" for="radio-buttons">On what grounds are you applying for Invalidity Pension?</label>
                             <p class="uiToolKitCheckBox">
-                                <label class="uikit-control-input" id="op1">
-                                    <input class="uikit-control-input__input" type="radio" name="radio-contact">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="tpi">
                                     <span class="uikit-control-input__text">Totally and Permanently Incapacitated (TPI) or Special Rate Disability Pension (SRDP)</span>
                                     <span class="help-field">Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension)</span>
                                 </label>
                             </p>
                             <p class="uiToolKitCheckBox">
-                                <label class="uikit-control-input" id="op2">
-                                    <input class="uikit-control-input__input" type="radio" name="radio-contact">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="blind">
                                     <span class="uikit-control-input__text">Blind</span>
                                 </label>
                             </p>
                             <p class="uiToolKitCheckBox">
-                                <label class="uikit-control-input" id="op3">
-                                    <input class="uikit-control-input__input" type="radio" name="radio-contact">
+                                <label class="uikit-control-input">
+                                    <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="neither">
                                     <span class="uikit-control-input__text">Neither</span>
                                 </label>
                             </p>
+                        </div>
+                        <!-- [C] Show if 60+ -->
+                        <div class="uikit-page-alerts" role="alert" id="invalidity-neither-notice" style="display: none;">
+                            <p>You will need to provide the following forms:</p>
+                            <p>
+                                <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf">Invalidity Details form (D569)</a><BR />
+                                <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0570.pdf">Work Test Questionnaire (D570)</a>
+                            </p>
+                            <p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>
                         </div>
                         <!-- Who are you applying for? -->
                         <% 
@@ -255,6 +264,27 @@
             hideAll();
             $("#sp-start-who").show("fast");
         });
+
+        // invalidity
+
+        $("#invalidity-what-grounds").change(function() {
+            var mySelection = $('input[name=invalidity-what-grounds]:checked').val();
+            switch (mySelection) {
+                case "tpi":
+                    $("#invalidity-neither-notice").hide();
+                    break;
+                case "blind":
+                    $("#invalidity-neither-notice").hide();
+                    break;
+                case "neither":
+                    $("#invalidity-neither-notice").show("fast");
+                    console.log("fdgfgfgfg");
+                    break;
+                default:
+            }
+        });
+
+        /// selects "neither"
 
         // age pension
 
