@@ -408,6 +408,9 @@ $(document).on("click", function () {
 
 
 // local storage a user 
+// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
+// and paste in the generated users in to /docs/data/user.json
+
 if (typeof (Storage) !== "undefined") {
 
   // Pull in the json content 
@@ -443,9 +446,11 @@ if (typeof (Storage) !== "undefined") {
 
 
 
+
     // localStorage.setItem('person', JSON.stringify(data[0]));
     localStorage.setItem('person', JSON.stringify(data[0]));
     // var user = localStorage.getItem('person');
+
 
 
 
@@ -463,9 +468,10 @@ if (typeof (Storage) !== "undefined") {
       $userSelect.append('<option value=' + value._id + '>' + value.name + '</option>');
     });
 
-    $('input[type=radio][name=arm]').change(function () {
-      // alert(this.value);
+    $userSelect.change(function () {
+      alert(this.value);
 
+      // if
       // if (this.value === 'army') {
       //   amrSet = armArmy;
       // }
