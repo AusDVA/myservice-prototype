@@ -422,23 +422,8 @@ if (typeof (Storage) !== "undefined") {
 
     console.log('User data back');
 
-    var amrSet = [];
-    var armArmy = [];
-    var armNavy = [];
-    var armAirforce = [];
 
     $.each(data, function (index, element) {
-
-
-      // if (element.army) {
-      //   armArmy = element.army;
-      // }
-      // if (element.navy) {
-      //   armNavy = element.navy;
-      // }
-      // if (element.airforce) {
-      //   armAirforce = element.airforce;
-      // }
 
       // console.log(element);
 
@@ -446,42 +431,64 @@ if (typeof (Storage) !== "undefined") {
 
 
 
+    // Switch account
+    function writeUser() {
+      const user = JSON.parse(localStorage.getItem('person'));
+      console.log('writing user');
+      var userHtml = '';
 
-    // localStorage.setItem('person', JSON.stringify(data[0]));
-    localStorage.setItem('person', JSON.stringify(data[0]));
-    // var user = localStorage.getItem('person');
+      console.log(user);
+
+      ;
+
+
+      $.each(user, function (key, value) {
+        // userHtml += '<div class="dcell">';
+        // userHtml += key;
+        // userHtml += ' - ' + value;
+        // userHtml += '</div>';
+      });
+
+      var start = '<div class="pt-flex-grid"><div class="pt-col">';
+      var end = '</div></div>'
+      userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
+      userHtml += start + 'DOB </div><div class="pt-col">' + moment(user.dob).format('YYYY-MM-DD') + end;
+      userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
+      userHtml += start + 'Is a representative </div><div class="pt-col">' + user.rep + end;
+
+
+      user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
+
+      $('#userContainerId').html(userHtml);
+      $('.pt-current-user-name-picture').html(user.picture);
+      $('.pt-current-user-name-first').html(user.name.first);
+      $('.pt-current-user-name-full').html(user.nameFull);
+    }
+
+    writeUser();
 
 
 
-
-
-    const user = JSON.parse(localStorage.getItem('person'))
-    // console.log(data);
-    // console.log(user);
 
     var $userSelect = $('#user-drop-down');
     $userSelect.empty();
     $.each(data, function (key, value) {
-      // console.log(value._id);
-      // console.log(value.name);
-
-      $userSelect.append('<option value=' + value._id + '>' + value.name + '</option>');
+      $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
     });
 
     $userSelect.change(function () {
-      alert(this.value);
 
-      // if
-      // if (this.value === 'army') {
-      //   amrSet = armArmy;
-      // }
-      // if (this.value === 'navy') {
-      //   amrSet = armNavy;
-      // }
-      // if (this.value === 'airforce') {
-      //   amrSet = armAirforce;
-      // }
+      var selectedId = this.value;
 
+      $.each(data, function (index, element) {
+
+        if (element._id === selectedId) {
+          console.log('index = ' + index);
+          localStorage.setItem('person', JSON.stringify(data[index]));
+          writeUser();
+        }
+
+      });
 
 
     });
@@ -524,17 +531,6 @@ if (typeof (Storage) !== "undefined") {
 
 
 
-    var userHtml = '';
-
-    $.each(user, function (key, value) {
-      userHtml += '<div class="dcell">';
-      userHtml += key;
-      userHtml += ' - ' + value;
-      userHtml += '</div>';
-    });
-
-    $('#userContainerId').html(userHtml);
-    $('.pt-current-user-name').html(user.name);
 
 
 

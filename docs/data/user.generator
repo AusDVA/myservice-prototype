@@ -1,31 +1,52 @@
 [
-  '{{repeat(3, 7)}}',
   {
-    _id: '{{objectId()}}',
-    username: '{{firstName()}}',
-    password: 'one',
-    age: '{{integer(20, 70)}}',
-   
-    name: '{{firstName()}} {{surname()}}',
-    gender: '{{gender()}}',
-   
-    categories: [
-      'veteran',
-      'client'
-    ],
-    reps: [
-      '{{repeat(3)}}',
-      {
-        id: '{{index()}}',
-        name: '{{firstName()}} {{surname()}}'
-      }
-    ],
-    clients: [
-      '{{repeat(3)}}',
-      {
-        id: '{{index()}}',
-        name: '{{firstName()}} {{surname()}}'
-      }
-    ]
+    'repeat(5, 12)': {
+      _id: '{{objectId()}}',
+      index: '{{index()}}',
+       authed: '{{bool()}}',
+      guid: '{{guid()}}',
+      lastPayment: '{{floating(100, 3000, 2, "$0,0.00")}}',
+      picture (tags) {
+        return `http://i.pravatar.cc/150?u=${this.guid}`;
+      },
+      dob: '{{date(new Date(1930, 0, 1), new Date(2002, 0, 1),"YYYY-MM-dd")}}',
+      name: {
+        first: '{{firstName()}}',
+        last: '{{surname()}}'
+      },
+      nameFull(tags) {
+        return `${this.name.first} ${this.name.last}`;
+      },
+      email(tags) {
+        return `${this.name.first}.${this.name.last}@somedomain${tags.domainZone()}`.toLowerCase();
+      },
+      phone: '+61 {{phone()}}',
+      veteran: '{{bool()}}',
+      rep: '{{bool()}}',
+      reps: [
+        {
+          'repeat(0, 1)': {
+          	id: '{{index()}}',
+        	name: '{{firstName()}} {{surname()}}'
+          }
+        }
+      ],
+      clients: [
+        {
+          'repeat(0, 4)': {
+          	id: '{{index()}}',
+        	name: '{{firstName()}} {{surname()}}'
+          }
+        }
+      ],
+ 
+
+      registered: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}',
+
+      greeting(tags) {
+        return `Hello, ${this.name.first}! Welcome back to MyService.`;
+      },
+
+    }
   }
 ]
