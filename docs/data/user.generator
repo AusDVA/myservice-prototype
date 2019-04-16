@@ -3,7 +3,7 @@
     'repeat(5, 12)': {
       _id: '{{objectId()}}',
       index: '{{index()}}',
-       authed: '{{bool()}}',
+      authed: '{{bool()}}',
       guid: '{{guid()}}',
       lastPayment: '{{floating(100, 3000, 2, "$0,0.00")}}',
       picture (tags) {
@@ -17,17 +17,20 @@
       nameFull(tags) {
         return `${this.name.first} ${this.name.last}`;
       },
+      title: '',
+      highestRank: '',
+      pMKeyS: '{{floating(10000000, 90000000, 2, "0000")}}',
+      dVAClientNumber: '{{floating(10000000, 90000000, 2, "0000")}}',
       email(tags) {
         return `${this.name.first}.${this.name.last}@somedomain${tags.domainZone()}`.toLowerCase();
       },
       phone: '+61 {{phone()}}',
       veteran: '{{bool()}}',
-      rep: '{{bool()}}',
       reps: [
         {
           'repeat(0, 1)': {
           	id: '{{index()}}',
-        	name: '{{firstName()}} {{surname()}}'
+        	nameFull: '{{firstName()}} {{surname()}}'
           }
         }
       ],
@@ -35,17 +38,20 @@
         {
           'repeat(0, 4)': {
           	id: '{{index()}}',
-        	name: '{{firstName()}} {{surname()}}'
+        	nameFull: '{{firstName()}} {{surname()}}',
+            role(tags) {
+              const roles = ['enquiring on behalf', 'acting on behalf', 'receiving payments on behalf'];
+              return roles[tags.integer(0, roles.length - 1)];
+            }
           }
         }
       ],
  
-
       registered: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}',
 
       greeting(tags) {
         return `Hello, ${this.name.first}! Welcome back to MyService.`;
-      },
+      }
 
     }
   }

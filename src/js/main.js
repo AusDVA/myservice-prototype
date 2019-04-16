@@ -345,13 +345,15 @@ jQuery(document).ready(function ($) {
   function initSwitch() {
 
     var switchFlow = getUrlParameter('switchFlow');
+    var switchId = getUrlParameter('switchId');
 
     if (switchFlow) {
       localStorage.setItem('switchFlow', switchFlow);
+      localStorage.setItem('switchId', switchId);
       jQuery('.pt-managing-user ').slideDown('fast');
-    } else {
-      // localStorage.setItem('switchFlow', 'none');
     }
+
+
 
     if ((localStorage.getItem('switchFlow') == 'active')) {
       // jQuery('.switch-account-button').addClass("switch-account-button--current");
@@ -437,24 +439,29 @@ if (typeof (Storage) !== "undefined") {
       console.log('writing user');
       var userHtml = '';
 
-      console.log(user);
+      // localStorage.setItem('switchId');
+      // localStorage.removeItem('switchId');
+      // localStorage.setItem('switchFlow', 'none');
+      // console.log(user);
 
-      ;
 
-
-      $.each(user, function (key, value) {
-        // userHtml += '<div class="dcell">';
-        // userHtml += key;
-        // userHtml += ' - ' + value;
-        // userHtml += '</div>';
-      });
+      if (user.reps.length > 0) {
+        user.numberOfClients = user.clients.length;
+        $('.pt-switch-account').show();
+      } else {
+        user.numberOfClients = 'none';
+        $('.pt-switch-account').hide();
+      }
 
       var start = '<div class="pt-flex-grid"><div class="pt-col">';
       var end = '</div></div>'
       userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
-      userHtml += start + 'DOB </div><div class="pt-col">' + moment(user.dob).format('YYYY-MM-DD') + end;
+      // userHtml += start + 'DOB </div><div class="pt-col">' + moment(user.dob).format('YYYY-MM-DD') + end;
+      // userHtml += start + 'DVA Number </div><div class="pt-col">' + user.dVAClientNumber + end;
       userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
-      userHtml += start + 'Is a representative </div><div class="pt-col">' + user.rep + end;
+      userHtml += start + 'Number of clients </div><div class="pt-col">' + user.numberOfClients + end;
+      // userHtml += start + 'Last payment</div><div class="pt-col">' + user.lastPayment + end;
+
 
 
       user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
@@ -463,6 +470,28 @@ if (typeof (Storage) !== "undefined") {
       $('.pt-current-user-name-picture').html(user.picture);
       $('.pt-current-user-name-first').html(user.name.first);
       $('.pt-current-user-name-full').html(user.nameFull);
+
+      var clientListHtml = '';
+
+      $.each(user.clients, function (key, client) {
+
+        clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
+        clientListHtml += client.nameFull + '</strong>';
+        clientListHtml += ' (' + client.role + ')</a></li>';
+      });
+
+      if ((user.reps.length > 0) && (localStorage.getItem('switchFlow') == 'active')) {
+        $('.pt-current-user-name-first').html(user.clients[localStorage.getItem('switchId')].nameFull);
+        $('.pt-current-user-name-full').html(user.clients[localStorage.getItem('switchId')].nameFull);
+      }
+
+
+
+      console.log('user - CHANGE');
+
+
+      $('.pt-current-user-client-list').html(clientListHtml);
+
     }
 
     writeUser();
