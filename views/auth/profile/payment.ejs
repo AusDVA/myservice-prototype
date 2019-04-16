@@ -10,6 +10,10 @@
         display: none;
       }
 
+      #state-switcher {
+        min-height: 350px;
+      }
+
     </style>
 </head>
 
@@ -36,6 +40,7 @@
               <div class="plain-text-info col-sm-8 margin-above margin-below--mid">
                 <div id="bank-accounts-summary">
                   <h3 class="margin-above--none margin-below--small" id="primaryAccountheading">Primary account</h3>
+                  <h3 class="margin-above--none margin-below--small" id="single-cheque-Account-heading">Cheque account</h3>
                   <div class="review__wrapper margin-above--mid">
                     <div class="review__content--item boxed">
                       <div>
@@ -271,17 +276,37 @@
         <div id="state-switcher">
           <h3>State Switcher</h3>
           <div class="form-group">
-            <label class="uikit-text-input__label" for="toggle-buttons">User status:</label>
-            <div class="radio-toggle">
-              <label class="on label-left" for="user-status--single-account">
-                <input id="user-status--single-account" type="radio" name="user-status">
-                <span>Single account</span>
+            <label class="uikit-text-input__label" for="radio-buttons">User status:</label>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="user-status--single-account">
+                <input class="uikit-control-input__input" id="user-status--single-account" type="radio" name="user-status">
+                <span class="uikit-control-input__text">Single account</span>
               </label>
-              <label class="off label-right" for="user-status--multiple-accounts">
-                <input id="user-status--multiple-accounts" type="radio" name="user-status">
-                <span>Multiple accounts</span>
+            </p>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="user-status--multiple-accounts">
+                <input class="uikit-control-input__input" type="radio" id="user-status--multiple-accounts" name="user-status">
+                <span class="uikit-control-input__text">Multiple accounts</span>
               </label>
-            </div>
+            </p>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="user-status--single-cheque">
+                <input class="uikit-control-input__input" type="radio" id="user-status--single-cheque" name="user-status">
+                <span class="uikit-control-input__text">Single cheque account</span>
+              </label>
+            </p>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="user-status--reimbursement-cheque">
+                <input class="uikit-control-input__input" type="radio" id="user-status--reimbursement-cheque" name="user-status">
+                <span class="uikit-control-input__text">Multiple accounts / Reimbursements as cheque</span>
+              </label>
+            </p>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="user-status--primary-cheque">
+                <input class="uikit-control-input__input" type="radio" id="user-status--primary-cheque" name="user-status">
+                <span class="uikit-control-input__text">Primary as cheque</span>
+              </label>
+            </p>
           </div>
         </div>
       </main>
@@ -307,12 +332,20 @@
             });
 
             $("#user-status--single-account").click(function (e) {
-              showMin();
+              showSingle();
             });
             $("#user-status--multiple-accounts").click(function (e) {
-              showMax();
+              showMultiple();
             });
-
+            $("#user-status--single-cheque").click(function (e) {
+              showSingleCheque();
+            });
+            $("#user-status--reimbursement-cheque").click(function (e) {
+              showReimbursementCheque();
+            });
+            $("#user-status--primary-cheque").click(function (e) {
+              showPrimaryCheque();
+            });
             /* End state switcher */
 
 
@@ -328,34 +361,16 @@
               }
             });
 
-            $("#primaryAccountheading").hide();
-            $("#bank-accounts-summary-incap").hide();
-            $("#bank-accounts-summary-reimbursements").hide();
-            $("#instructions").hide();
-
-            $("#editCard").click(function () {
-              $("#bank-accounts-card").show("fast");
-              $("#bank-accounts-summary").hide();
-            });
-
-            $("#saveCard").click(function () {
-              $("#bank-accounts-card").hide();
-              $("#bank-accounts-summary").show("fast");
-              $("#alert-payment-1").show("fast");
+            function showSingle() {
+              $("#primaryAccountheading").hide();
               $("#bank-accounts-summary-incap").hide();
               $("#bank-accounts-summary-reimbursements").hide();
               $("#instructions").hide();
-            });
+              $("#overseas-multiple").hide();
+              $("#overseas").show();
+            }
 
-            $("#cancelCard").click(function () {
-              $("#bank-accounts-card").hide();
-              $("#bank-accounts-summary").show("fast");
-              $("#bank-accounts-summary-incap").hide();
-              $("#bank-accounts-summary-reimbursements").hide();
-              $("#instructions").hide();
-            });
-
-            function showMax() {
+            function showMultiple() {
               $("#primaryAccountheading").show();
               $("#bank-accounts-summary-incap").show();
               $("#bank-accounts-summary-reimbursements").show();
@@ -389,15 +404,40 @@
               });
             }
 
-            function showMin() {
+            function showSingleCheque() { }
+            function showReimbursementCheque() { }
+            function showPrimaryCheque() { }
 
-              $("#primaryAccountheading").hide();
+            //pre hide
+            $("#primaryAccountheading").hide();
+            $("#single-cheque-Account-heading").hide();
+            $("#bank-accounts-summary-incap").hide();
+            $("#bank-accounts-summary-reimbursements").hide();
+            $("#instructions").hide();
+
+
+            // card functionality
+            $("#editCard").click(function () {
+              $("#bank-accounts-card").show("fast");
+              $("#bank-accounts-summary").hide();
+            });
+
+            $("#saveCard").click(function () {
+              $("#bank-accounts-card").hide();
+              $("#bank-accounts-summary").show("fast");
+              $("#alert-payment-1").show("fast");
               $("#bank-accounts-summary-incap").hide();
               $("#bank-accounts-summary-reimbursements").hide();
               $("#instructions").hide();
-              $("#overseas-multiple").hide();
-              $("#overseas").show();
-            }
+            });
+
+            $("#cancelCard").click(function () {
+              $("#bank-accounts-card").hide();
+              $("#bank-accounts-summary").show("fast");
+              $("#bank-accounts-summary-incap").hide();
+              $("#bank-accounts-summary-reimbursements").hide();
+              $("#instructions").hide();
+            });
 
             //change to primary
             $("#makePrimary-reim").click(function () {
