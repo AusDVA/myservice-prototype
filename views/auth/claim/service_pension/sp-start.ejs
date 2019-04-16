@@ -24,51 +24,40 @@
     </div>
     <div class="container">
       <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8 col-offset-2">
           <div class="margin-above--extra margin-below--extra">
             <!-- What are you applying for? -->
             <% 
-                        locals.radioLabel = 'What are you applying for?';
-                        locals.groupID = 'sp-start-pension-type';
-                        locals.myLabels = ["Invalidity service pension","Age service pension"];
-                        locals.myID = ["pensionType-invalidity","pensionType-age"];
-                        locals.myIcons = ["fa-user","fa-user"] 
+                        locals.question = 'What are you applying for?';
+                        locals.items = ["Invalidity service pension","Age service pension"];
+                        locals.icons = ["fa-user","fa-user"];
+                        locals.optionalID = 'pension_type';
                         %>
             <%- include ../../../../partials/forms/radio-with-icon.ejs %>
             <!-- Show if <58 -->
-            <div class="uikit-page-alerts" role="alert" id="inval-only" style="display: none;">
-              <p>You must be at least 59 years and 9 months old to apply for age service pension</p>
-            </div>
-            <!-- Show if 60+ -->
-            <div class="uikit-page-alerts" role="alert" id="age-only" style="display: none;">
-              <p>You cannot apply for invalidity service pension if you are over 65 years of age.</p>
-              <p>Apply for age service pension instead</p>
-            </div>
+            <% 
+                        locals.message = 'You must be at least 59 years and 9 months old to apply for age service pension.'
+                        locals.optionalID = 'inval_only';
+                        locals.optionalHide = true;
+                        %>
+            <%- include ../../../../partials/forms/notice.ejs %>
+            <!-- Show if 65+ -->
+            <% 
+                        locals.message = 'You cannot apply for invalidity service pension if you are over 65 years of age. Apply for age service pension instead.'
+                        locals.optionalID = 'age_only';
+                        locals.optionalHide = true;
+                        %>
+            <%- include ../../../../partials/forms/notice.ejs %>
             <!-- Invalidity -->
-            <div class="form-group margin-above--large" id="invalidity-what-grounds" style="display: none;">
-              <label class="uikit-text-input__label" for="radio-buttons">On what grounds are you applying for Invalidity Pension?</label>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="tpi">
-                  <span class="uikit-control-input__text">Totally and Permanently Incapacitated (TPI) or Special Rate Disability Pension (SRDP)</span>
-                  <span class="help-field">Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension)</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="blind">
-                  <span class="uikit-control-input__text">Blind</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="radio" name="invalidity-what-grounds" value="neither">
-                  <span class="uikit-control-input__text">Neither</span>
-                </label>
-              </p>
-            </div>
+            <% 
+                        locals.question = 'On what grounds are you applying for Invalidity Pension?';
+                        locals.items = ["Totally and permanently incapacitated (TPI) or special rate disability pension (SRDP)","Blind","Neither"];
+                        locals.optionalID = 'invalidity_what_grounds';
+                        locals.optionalHide = true;
+                        %>
+            <%- include ../../../../partials/forms/radio.ejs %>
             <!-- If "neither" -->
-            <div class="uikit-page-alerts" role="alert" id="invalidity-neither-notice" style="display: none;">
+            <div class="uikit-page-alerts" role="alert" id="invalidity_neither_notice" style="display: none;">
               <p>You will need to provide the following forms:</p>
               <p>
                 <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf">Invalidity Details form (D569)</a><BR />
@@ -77,27 +66,28 @@
               <p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>
             </div>
             <!-- If "blind" -->
-            <div class="uikit-page-alerts" role="alert" id="invalidity-blind-notice" style="display: none;">
+            <div class="uikit-page-alerts" role="alert" id="invalidity_blind_notice" style="display: none;">
               <p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p>
               <p>You can attach this report at the end of your claim.</p>
             </div>
             <!-- Who are you applying for? -->
             <% 
-                        locals.radioLabel = 'Who are you applying for?';
-                        locals.groupID = "sp-start-who";
-                        locals.myLabels = ["Myself","Both myself and my partner"];
-                        locals.myID = ["pensionWho-single","pensionWho-double"];
-                        locals.myIcons = ["fa-user","fa-user-friends"] 
+                        locals.question = 'Who are you applying for?';
+                        locals.items = ["Myself","Both myself and my partner"];
+                        locals.icons = ["fa-user","fa-user-friends"];
+                        locals.optionalID = 'pension_who';
+                        locals.optionalHide = true;
                         %>
             <%- include ../../../../partials/forms/radio-with-icon.ejs %>
             <!-- PBS -->
             <% 
-                        locals.radioLabel = 'Are you a registered member of the Pension Bonus Scheme?'; 
-                        locals.radioId = 'pbs'; 
+                        locals.question = 'Are you a registered member of the Pension Bonus Scheme?'; 
+                        locals.optionalID = 'pbs'; 
+                        locals.optionalHide = true;
                         %>
             <% include ../../../../partials/forms/radio--yes-no.ejs %>
             <!-- If "yes" -->
-            <div class="uikit-page-alerts" role="alert" id="pbs-notice" style="display: none;">
+            <div class="uikit-page-alerts" role="alert" id="pbs_notice" style="display: none;">
               <p>You will need to complete the following form:</p>
               <p>
                 <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf">Claim for Pension Bonus form (D559)</a><BR />
@@ -106,24 +96,33 @@
             </div>
             <!-- Centrelink -->
             <% 
-              locals.question = 'Have you applied for or do you receive any of the following Centrelink payments?'; 
-              locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
-              locals.optionalHint = 'Select all that apply.'; 
-              locals.optionalID = "cs-centrelink";  
-              locals.optionalHide = true;           
-            %>
+                        locals.question = 'Have you applied for or do you receive any of the following Centrelink payments?'; 
+                        locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
+                        locals.optionalHint = 'Select all that apply.'; 
+                        locals.optionalID = "cs_centrelink";  
+                        locals.optionalHide = true;           
+                        %>
             <% include ../../../../partials/forms/checkbox.ejs %>
             <!-- CSHC -->
             <% 
-                        locals.radioLabel = 'Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from DVA or Centrelink?'; 
-                        locals.radioId = 'cs-cshc'; 
+                        locals.question = 'Have you applied for or do you currently hold a Commonwealth seniors health card (CSHC) from DVA or Centrelink?'; 
+                        locals.optionalID = 'cs_cshc'; 
+                        locals.optionalHide = true;
                         %>
             <% include ../../../../partials/forms/radio--yes-no.ejs %>
-            <div style="display: none;" class="form-group margin-above--large" id="cs-crn">
+            <div style="display: none;" class="form-group margin-above--large" id="cs_crn">
               <label class="uikit-text-input__label" for="tags">What is your Customer Reference Number (CRN)?</label>
               <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
             </div>
-            <div id="save-and-next" class="margin-above--extra" style="display: none">
+            <!-- visual impairment -->
+            <% 
+                        locals.question = 'Are you applying as a person who is blind or visually impaired?'; 
+                        locals.hint = '(ie regarded as permanently blind in both eyes)'; 
+                        locals.optionalID = 'visual_impairment'; 
+                        locals.optionalHide = true;
+                        %>
+            <% include ../../../../partials/forms/radio--yes-no.ejs %>
+            <div id="save_and_next" class="margin-above--extra" style="display: none">
               <p>Choose <b>save and next</b> to continue.</p>
             </div>
           </div> <!-- col-md-12 end -->
@@ -138,26 +137,7 @@
         </div>
         </fieldset>
       </div>
-      <div style="display: none;" class="form-group margin-above--large" id="cs-crn">
-        <label class="uikit-text-input__label" for="tags">What is your Customer Reference Number (CRN)?</label>
-        <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
-      </div>
-      <div id="save-and-next" class="margin-above--extra" style="display: none">
-        <p>Choose <b>save and next</b> to continue.</p>
-      </div>
-    </div> <!-- col-md-12 end -->
     </div>
-    <div class="pagination">
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-a'">Previous</button>
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-      <div class="floated">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-start'">Save and exit</button>
-        <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/service_pension/sp-qs'">Save and next</button>
-      </div>
-    </div>
-    </div> <!-- col-md-12 end -->
-    </div> <!-- row end -->
-    </div> <!-- container end -->
   </main>
   <% include ../../../../partials/claims-cancel-modal.ejs %>
   <% include ../../../../partials/footer.ejs %>
@@ -205,12 +185,9 @@
             break;
           default:
         }
-
-        alert(e.which);
       });
 
       $('input[type=radio][name=ss-age]').change(function () {
-        console.log("1")
         sessionStorage.setItem('sp-age', this.value);
         switch (this.value) {
           case "under-59.75":
@@ -229,32 +206,38 @@
 
       /* Select pension type */
 
-      $("#pensionType-age").click(function () {
-        if (sessionStorage.getItem('sp-age') == "inval-only") {
-          hideAll();
-          $("#inval-only").show("fast");
-          return;
-        }
+      $("#pension_type").change(function () {
+        var mySelection = $('input[name=pension_type]:checked').val();
         hideAll();
-        $("#sp-start-who").show("fast");
+        switch (mySelection) {
+          case "invalidity_service_pension":
+            $("#invalidity_what_grounds").show("fast");
+            break;
+          case "age_service_pension":
+            $("#pension_who").show("fast");
+            $("#pbs").show("fast");
+            $("#cs_centrelink").show("fast");
+            $("#cs_cshc").show("fast");
+            break;
+          default:
+            break;
+        }
       });
-
-      // invalidity
 
       /* If selected invalidity ask about grounds */
 
-      $("#invalidity-what-grounds").change(function () {
-        var mySelection = $('input[name=invalidity-what-grounds]:checked').val();
-        $("#invalidity-blind-notice").hide();
-        $("#invalidity-neither-notice").hide();
+      $("#invalidity_what_grounds").change(function () {
+        var mySelection = $('input[name=invalidity_what_grounds]:checked').val();
+        $("#invalidity_blind_notice").hide();
+        $("#invalidity_neither_notice").hide();
         switch (mySelection) {
           case "tpi":
             break;
           case "blind":
-            $("#invalidity-blind-notice").show("fast");
+            $("#invalidity_blind_notice").show("fast");
             break;
           case "neither":
-            $("#invalidity-neither-notice").show("fast");
+            $("#invalidity_neither_notice").show("fast");
             break;
           default:
         }
@@ -262,41 +245,42 @@
 
       /* If selected age pension ask about dual application */
 
-      $("#pensionWho-single").click(function () {
-        $("#sp-start-pbs").show("fast");
-        $("#cs-centrelink").show("fast");
-        $("#cs-cshc").show("fast");
-        sessionStorage.setItem('partnerApply', 'false');
-      });
-
-      $("#pensionWho-double").click(function () {
-        $("#sp-start-pbs").show("fast");
-        $("#benefits").show("fast");
-        sessionStorage.setItem('partnerApply', 'true');
+      $("#pension_who").change(function () {
+        var mySelection = $('input[name=pension_who]:checked').val();
+        switch (mySelection) {
+          case "myself":
+            sessionStorage.setItem('partnerApply', 'false');
+            break;
+          case "both_myself_and_my_partner":
+            sessionStorage.setItem('partnerApply', 'true');
+            break;
+          default:
+            break;
+        }
       });
 
       /* Pension bonus scheme */
 
       $("#pbs-yes").click(function () {
-        $("#pbs-notice").show("fast");
+        $("#pbs_notice").show("fast");
       });
       $("#pbs-no").click(function () {
-        $("#pbs-notice").hide("fast");
+        $("#pbs_notice").hide("fast");
       });
 
       /* Centrelink questions */
 
       var centrelink_selected = [];
-      $("#cs-centrelink").change(function () {
+      $("#cs_centrelink").change(function () {
         centrelink_selected = [];
-        $('#cs-centrelink input:checked').each(function () {
+        $('#cs_centrelink input:checked').each(function () {
           centrelink_selected.push($(this).attr('name'));
         });
         if (centrelink_selected.length > 0) {
-          $("#cs-crn").show("fast");
+          $("#cs_crn").show("fast");
         } else {
           if (cs_cshc != "yes") {
-            $("#cs-crn").hide();
+            $("#cs_crn").hide();
           }
         }
       });
@@ -304,80 +288,70 @@
       /* CSHC card question */
 
       var cs_cshc;
-      $('input[name=cs-cshc]').change(function () {
-        cs_cshc = $('input[name=cs-cshc]:checked').attr('id');
-        if (cs_cshc == "cs-cshc-yes") {
-          $("#cs-crn").show();
+      $('input[name=cs_cshc]').change(function () {
+        cs_cshc = $('input[name=cs_cshc]:checked').attr('id');
+        if (cs_cshc == "cs_cshc-yes") {
+          $("#cs_crn").show();
         } else {
           if (centrelink_selected.length == 0) {
-            $("#cs-crn").hide();
+            $("#cs_crn").hide();
           }
         }
       });
       if (centrelink_selected.length > 0) {
-        $("#cs-crn").show("fast");
+        $("#cs_crn").show("fast");
       } else {
         if (cs_cshc != "yes") {
-          $("#cs-crn").hide();
+          $("#cs_crn").hide();
         }
       }
-    });
 
-    /* Utilities */
+      /* visual impairment question */
 
-    function hideAll() {
-      // $("#inval-only").hide();
-      // $("#close").hide();
-      // $("#age-only").hide();
-      // $("#sp-start-who").hide();
-      // $("#sp-start-pbs").hide();
-      // $("#sp-start-whatGrounds").hide();
-      // $("#benefits").hide();
-      // $("#cs-centrelink").hide();
-      // $("#other-ps").hide();
-      // $("#cs-crn").hide();
-      // $("#cs-cshc").hide();
-    }
-    // });
+      $('input[name=visual_impairment]').change(function () {
+        mySelection = $('input[name=visual_impairment]:checked').val();
+        if (mySelection == "yes") {
+          // do something
+        }
+      });
 
-    function setUpAgeMode() {
-      hideAll();
-      $("#sp-start-pension-type").hide();
-      switch (sessionStorage.getItem('sp-age')) {
-        case "under-59.75":
-          $("#sp-start-pension-type").show();
-          break;
-        case "between-59.75-and-65":
-          $("#sp-start-pension-type").show();
-          break;
-        case "over-65":
-          $("#sp-start-pension-type").hide();
-          $("#sp-start-who").show();
-          break;
-        default:
+      /* Utilities */
+
+      function hideAll() {
+        // $("#pension_type").hide();
+        $("#inval_only").hide();
+        $("#age_only").hide();
+        $("#invalidity_what_grounds").hide();
+        $("#invalidity_neither_notice").hide();
+        $("#invalidity_blind_notice").hide();
+        $("#pension_who").hide();
+        $("#pbs").hide();
+        $("#pbs_notice").hide();
+        $("#cs_centrelink").hide();
+        $("#cs_cshc").hide();
+        $("#cs_crn").hide();
+        $("#visual_impairment").hide();
+        $("#save_and_next").hide();
       }
-    };
 
-    function setUpAgeMode() {
-      hideAll();
-      $("#sp-start-pension-type").hide();
-      switch (sessionStorage.getItem('sp-age')) {
-        case "under-59.75":
-          $("#sp-start-pension-type").show();
-          break;
-        case "between-59.75-and-65":
-          $("#sp-start-pension-type").show();
-          break;
-        case "over-65":
-          $("#sp-start-pension-type").hide();
-          $("#sp-start-who").show();
-          break;
-        default:
-      }
-      console.log(sessionStorage.getItem('sp-age') + "LLLLLL");
-    };
-
-    hideAll();
+      function setUpAgeMode() {
+        // hideAll();
+        // $("#pension_type").hide();
+        switch (sessionStorage.getItem('sp-age')) {
+          case "under-59.75":
+            $("#pension_type").show();
+            break;
+          case "between-59.75-and-65":
+            $("#pension_type").show();
+            break;
+          case "over-65":
+            $("#pension_type").hide();
+            $("#pension_who").show();
+            break;
+          default:
+            break;
+        }
+      };
 
     });
 
