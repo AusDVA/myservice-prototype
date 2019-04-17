@@ -1,6 +1,6 @@
 [
   {
-    'repeat(5, 12)': {
+    'repeat(4)': {
       _id: '{{objectId()}}',
       index: '{{index()}}',
       authed: '{{bool()}}',
@@ -17,8 +17,14 @@
       nameFull(tags) {
         return `${this.name.first} ${this.name.last}`;
       },
-      title: '',
-      highestRank: '',
+      title(tags) {
+      	const titles = ['Commissioner','Dame','Emeritus Professor','Honourable Mr Justice','Matron','Miss','Monsignor','Mr','Mr Justice','Mrs','Ms','Reverend Mr','Right Reverend Monsignor'];
+      	return titles[tags.integer(0, titles.length - 1)];
+      },
+      highestRank(tags) {
+        const ranks = ['Captain', 'Gunner', 'Warrant Officer of the Navy', 'Sergeant', 'Warrant Officer'];
+     	return ranks[tags.integer(0, ranks.length - 1)];
+      },
       pMKeyS: '{{floating(10000000, 90000000, 2, "0000")}}',
       dVAClientNumber: '{{floating(10000000, 90000000, 2, "0000")}}',
       email(tags) {
@@ -26,11 +32,25 @@
       },
       phone: '+61 {{phone()}}',
       veteran: '{{bool()}}',
+      partner: { 
+          id: '{{index()}}',
+          nameFirst: '{{firstName()}}',
+          nameLast: '{{surname()}}',
+          type(tags) {
+            const types = ['Married', 'De facto', 'Widowed', 'Separated', 'Divorced'];
+            return types[tags.integer(0, types.length - 1)];
+          }
+      },
       reps: [
         {
           'repeat(0, 1)': {
           	id: '{{index()}}',
-        	nameFull: '{{firstName()}} {{surname()}}'
+        	nameFirst: '{{firstName()}}',
+            nameLast: '{{surname()}}',
+            role(tags) {
+              const roles = ['enquiring on behalf', 'acting on behalf', 'receiving payments on behalf'];
+              return roles[tags.integer(0, roles.length - 1)];
+            }
           }
         }
       ],
@@ -38,7 +58,8 @@
         {
           'repeat(0, 4)': {
           	id: '{{index()}}',
-        	nameFull: '{{firstName()}} {{surname()}}',
+        	nameFirst: '{{firstName()}}',
+            nameLast: '{{surname()}}',
             role(tags) {
               const roles = ['enquiring on behalf', 'acting on behalf', 'receiving payments on behalf'];
               return roles[tags.integer(0, roles.length - 1)];
