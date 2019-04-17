@@ -103,7 +103,7 @@
                         </div>
                       </div>
                       <p style="margin: 25px 0 25px 0">You are only able to change this to your primary payment destination.</p>
-                      <button class="uikit-btn uikit-btn--tertiary small" onclick="window.location.href = '#open-example-modal'">Change to primary</button>
+                      <button class="uikit-btn uikit-btn--tertiary small" id="change-button-incap" onclick="window.location.href = '#open-example-modal'">Change to primary</button>
                     </div>
                   </div>
                 </div>
@@ -130,7 +130,7 @@
                         </div>
                       </div>
                       <p style="margin: 25px 0 25px 0">You are only able to change this to your primary payment destination.</p>
-                      <button class="uikit-btn uikit-btn--tertiary small" onclick="window.location.href = '#open-example-modal1'">Change to primary</button>
+                      <button class="uikit-btn uikit-btn--tertiary small" id="change-button-reimbursements" onclick="window.location.href = '#open-example-modal1'">Change to primary</button>
                     </div>
                   </div>
                 </div>
@@ -158,7 +158,8 @@
                         </div>
                       </div>
                       <p style="margin: 25px 0 25px 0">You are only able to change this to your primary payment destination.</p>
-                      <button class="uikit-btn uikit-btn--tertiary small" onclick="window.location.href = '#open-example-modal1'">Change to primary</button>
+                      <button class="uikit-btn uikit-btn--tertiary small" id="change-button-reimbursements-cheque" onclick="window.location.href = '#open-example-modal1'">Change to
+                        primary</button>
                     </div>
                   </div>
                 </div>
@@ -188,7 +189,7 @@
                         </div>
                       </div>
                       <p style="margin: 25px 0 25px 0">You are only able to cease this instruction.</p>
-                      <button class="uikit-btn uikit-btn--tertiary small call-toast-1" onclick="window.location.href = '#open-example-modal2'">Cease instruction</button>
+                      <button class="uikit-btn uikit-btn--tertiary small call-toast-1" id="cease-instructions" onclick="window.location.href = '#open-example-modal2'">Cease instruction</button>
                     </div>
                   </div>
                 </div>
@@ -343,6 +344,13 @@
         <script>
           $(Document).ready(function () {
 
+            //pre hide
+            $("#primaryAccountheading").hide();
+            $("#single-cheque-Account-heading").hide();
+            $("#bank-accounts-summary-incap").hide();
+            $("#bank-accounts-summary-reimbursements").hide();
+            $("#bank-accounts-summary-reimbursements-cheque").hide();
+            $("#instructions").hide();
 
             /* State switcher */
 
@@ -379,6 +387,7 @@
 
             function showSingle() {
               $("#primaryAccountheading").hide();
+              $("#single-cheque-Account-heading").hide();
               $("#bank-accounts-summary-incap").hide();
               $("#bank-accounts-summary-reimbursements").hide();
               $("#instructions").hide();
@@ -388,6 +397,7 @@
 
             function showMultiple() {
               $("#primaryAccountheading").show();
+              $("#single-cheque-Account-heading").hide();
               $("#bank-accounts-summary-incap").show();
               $("#bank-accounts-summary-reimbursements").show();
               $("#instructions").show();
@@ -423,6 +433,12 @@
             function showSingleCheque() {
               $("#single-cheque-Account-heading").show();
               $("#primaryAccountheading").hide();
+              $("#bank-accounts-summary-incap").hide();
+              $("#bank-accounts-summary-reimbursements").hide();
+              $("#bank-accounts-summary-reimbursements-cheque").hide();
+              $("#instructions").hide();
+              $("#overseas-multiple").hide();
+              $("#overseas").show();
             }
 
             function showReimbursementCheque() {
@@ -439,22 +455,17 @@
             function showPrimaryCheque() {
               $("#single-cheque-Account-heading").show();
               $("#primaryAccountheading").hide();
-              $("#bank-accounts-summary-incap").hide();
-              $("#bank-accounts-summary-reimbursements").hide();
+              $("#bank-accounts-summary-incap").show();
+              $("#bank-accounts-summary-reimbursements").show();
               $("#bank-accounts-summary-reimbursements-cheque").hide();
-              $("#instructions").hide();
+              $("#instructions").show();
               $("#overseas-multiple").hide();
               $("#overseas").show();
+              $("#change-button-incap").attr("disabled", true);
+              $("#change-button-reimbursements").attr("disabled", true);
+              $("#change-button-reimbursements-cheque").attr("disabled", true);
+              $("#cease-instructions").attr("disabled", true);
             }
-
-            //pre hide
-            $("#primaryAccountheading").hide();
-            $("#single-cheque-Account-heading").hide();
-            $("#bank-accounts-summary-incap").hide();
-            $("#bank-accounts-summary-reimbursements").hide();
-            $("#bank-accounts-summary-reimbursements-cheque").hide();
-            $("#instructions").hide();
-
 
             // card functionality
             $("#editCard").click(function () {
