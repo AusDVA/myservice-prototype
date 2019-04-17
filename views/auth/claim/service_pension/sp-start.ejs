@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-    <html class="js" lang="en">
+<html class="js" lang="en">
 
 <head>
     <title>Service Pension - Getting started | MyService</title>
@@ -27,21 +27,24 @@
                 <div class="col-md-8 col-md-offset-2">
                     <div class="margin-above--extra margin-below--extra">
                         <!-- What are you applying for? -->
-                        <% 
+                        <form id="myFormQ1">
+                            <input type="reset" style="display: none;">
+                            <% 
                             locals = {};
                             locals.question = 'What are you applying for?';
                             locals.items = ["Invalidity service pension","Age service pension"];
                             locals.icons = ["fa-user","fa-user"];
                             locals.optionalID = 'pension_type';
                             %>
-                        <%- include ../../../../partials/forms/radio-with-icon.ejs %>
+                            <%- include ../../../../partials/forms/radio-with-icon.ejs %>
+                        </form>
                         <form id="myForm">
                             <input type="reset" style="display: none;">
                             <!-- Show if <58 -->
                             <% 
                             locals = {};
                             locals.message = 'You must be at least 59 years and 9 months old to apply for age service pension.'
-                            locals.optionalID = 'inval_only';
+                            locals.optionalID = 'too_young';
                             locals.optionalHide = true;
                             %>
                             <%- include ../../../../partials/forms/notice.ejs %>
@@ -49,7 +52,7 @@
                             <% 
                             locals = {};
                             locals.message = 'You cannot apply for invalidity service pension if you are over 65 years of age. Apply for age service pension instead.'
-                            locals.optionalID = 'age_only';
+                            locals.optionalID = 'too_old_for_invalidity';
                             locals.optionalHide = true;
                             %>
                             <%- include ../../../../partials/forms/notice.ejs %>
@@ -64,6 +67,14 @@
                             locals.optionalHide = true;
                             %>
                             <%- include ../../../../partials/forms/radio.ejs %>
+                            <!-- if has TPI -->
+                            <% 
+                            locals = {};
+                            locals.message = 'As you already have an assessed level of impairment you are able to proceed without providing further documentation.'
+                            locals.optionalID = 'has_tpi_notice';
+                            locals.optionalHide = true;
+                            %>
+                            <%- include ../../../../partials/forms/notice.ejs %>
                             <!-- If "neither" -->
                             <div class="uikit-page-alerts" role="alert" id="invalidity_neither_notice" style="display: none;">
                                 <p>You will need to provide the following forms:</p>
@@ -122,10 +133,15 @@
                             locals.optionalHide = true;
                             %>
                             <% include ../../../../partials/forms/radio--yes-no.ejs %>
-                            <div style="display: none;" class="form-group margin-above--large" id="cs_crn">
-                                <label class="uikit-text-input__label" for="tags">What is your Customer Reference Number (CRN)?</label>
-                                <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
-                            </div>
+                            <!-- CRN number -->
+                            <% 
+                            locals = {};
+                            locals.question = 'What is your Customer Reference Number (CRN)?'; 
+                            locals.optionalID = 'cs_crn';
+                            locals.optionalShort = true; 
+                            locals.optionalHide = true;
+                            %>
+                            <% include ../../../../partials/forms/field.ejs %>
                             <!-- visual impairment -->
                             <% 
                             locals = {};
@@ -161,13 +177,13 @@
                 <div class="td"><b>Page name</b></div>
                 <div class="td">About your claim</div>
             </div>
-             <div class="tr">
+            <div class="tr">
                 <div class="td"><b>Spec revision</b></div>
                 <div class="td">0.13</div>
             </div>
         </div>
-        <h3>Properties</h3>
-         <div class="review__table">
+        <h3>User selected properties</h3>
+        <div class="review__table">
             <div class="tr">
                 <div class="td"><b>Veteran blind</b></div>
                 <div class="td" id="veteran-blind">No</div>
@@ -177,16 +193,21 @@
                 <div class="td" id="dual-application">No</div>
             </div>
         </div>
-        <h3>States</h3>
+        <h3>User profile</h3>
         <% 
            locals = new Object();
-           locals.question = 'User age:';
-           locals.items = ["Under 59.75","Between 59.75 and 65","Over 65"];
+           locals.question = 'Age:';
            locals.optionalID = 'state-switcher--age';
-           locals.optionalHide = false;
-           locals.optionalHint = false;
+           locals.items = ["Under 59.75","Between 59.75 and 65","Over 65"];
+           locals.optionalItemID = ["under_59_75","between_59_75_and_65","over_65"];
         %>
         <%- include ../../../../partials/forms/radio.ejs %>
+        <% 
+           locals = new Object();
+           locals.optionalID = 'state-switcher--tpi';
+           locals.question = 'Has TPI:';
+        %>
+        <%- include ../../../../partials/forms/radio--yes-no.ejs %>
     </div>
     <script>
     $(Document).ready(function() {
@@ -207,41 +228,60 @@
             }
         });
 
+        $("#myFormQ1").trigger("reset");
+
         $('input[type=radio][name=state-switcher--age]').change(function() {
-            sessionStorage.setItem('sp-age', this.value);
-            console.log( this.value )
-            switch (this.value) {
-                case "under-59.75":
-                    break;
-                case "between-59.75-and-65":
-                    break;
-                case "over-65":
-                    break;
-                default:
-            }
+            sessionStorage.setItem('veteran-age', this.value);
             setUpAgeMode();
         });
-        $(":radio[value=over-65]").click();
+        $(':radio[value=between_59_75_and_65]').click();
+
+        $('input[name=state-switcher--tpi]').change(function() {
+            mySelection = $('input[name=state-switcher--tpi]:checked').val();
+            if (mySelection == "yes") {
+                sessionStorage.setItem('veteran-tpi', 'true');
+            } else {
+                sessionStorage.setItem('veteran-tpi', 'false');
+            }
+        });
+        $('input[name=state-switcher--tpi-no]').click();
 
         /* End state switcher */
 
         /* Select pension type */
 
+        $("#myFormQ1").trigger("reset");
         $("#pension_type").change(function() {
             var mySelection = $('input[name=pension_type]:checked').val();
             hideAll();
             $("#myForm").trigger("reset");
+            var veteranAge = sessionStorage.getItem('veteran-age');
+            var veteranTPI = sessionStorage.getItem('veteran-tpi');
             switch (mySelection) {
                 case "invalidity_service_pension":
-                    $("#invalidity_what_grounds").show("fast");
-                    $("#pbs").show("fast");
+                    if (veteranAge == "over_65") {
+                        $("#too_old_for_invalidity").show("fast");
+                    } else {
+                        if (veteranTPI == "true") {
+                            $("#has_tpi_notice").show("fast");
+                            $("#invalidity_what_grounds").hide("fast");
+                        } else {
+                            $("#invalidity_what_grounds").show("fast");
+                            $("#has_tpi_notice").hide("fast");
+                        }
+                        $("#pbs").show("fast");
+                    }
                     break;
                 case "age_service_pension":
-                    $("#pension_who").show("fast");
-                    $("#pbs").show("fast");
-                    $("#cs_centrelink").show("fast");
-                    $("#cs_cshc").show("fast");
-                    $("#visual_impairment").show("fast");
+                    if (veteranAge == "under_59_75") {
+                        $("#too_young").show("fast");
+                    } else {
+                        $("#pension_who").show("fast");
+                        $("#pbs").show("fast");
+                        $("#cs_centrelink").show("fast");
+                        $("#cs_cshc").show("fast");
+                        $("#visual_impairment").show("fast");
+                    }
                     break;
                 default:
                     break;
@@ -294,11 +334,13 @@
 
         /* Pension bonus scheme */
 
-        $("#pbs-yes").click(function() {
-            $("#pbs_notice").show("fast");
-        });
-        $("#pbs-no").click(function() {
-            $("#pbs_notice").hide("fast");
+        $('input[name=pbs]').change(function() {
+            mySelection = $('input[name=pbs]:checked').val();
+            if (mySelection == "yes") {
+                $("#pbs_notice").show("fast");
+            } else {
+                $("#pbs_notice").hide("fast");
+            }
         });
 
         /* Centrelink questions */
@@ -355,9 +397,10 @@
         /* Utilities */
 
         function hideAll() {
-            $("#inval_only").hide();
-            $("#age_only").hide();
+            $("#too_young").hide();
+            $("#too_old_for_invalidity").hide();
             $("#invalidity_what_grounds").hide();
+            $("#has_tpi_notice").hide("fast");
             $("#invalidity_neither_notice").hide();
             $("#invalidity_blind_notice").hide();
             $("#pension_who").hide();
@@ -372,19 +415,22 @@
 
         function setUpAgeMode() {
             hideAll();
-            // $("#pension_type").hide();
-
-            switch (sessionStorage.getItem('sp-age')) {
-                case "under-59.75":
-                    $("#pension_type").show();
-                     console.log("dsfdsfdsfsd")
-                    break;
-                case "between-59.75-and-65":
+            $("#myFormQ1").trigger("reset");
+            switch (sessionStorage.getItem('veteran-age')) {
+                case "under_59_75":
                     $("#pension_type").show();
                     break;
-                case "over-65":
+                case "between_59_75_and_65":
+                    $("#pension_type").show();
+                    break;
+                case "over_65":
                     $("#pension_type").hide();
                     $("#pension_who").show();
+                    $("#pension_who").show("fast");
+                    $("#pbs").show("fast");
+                    $("#cs_centrelink").show("fast");
+                    $("#cs_cshc").show("fast");
+                    $("#visual_impairment").show("fast");
                     break;
                 default:
                     break;
