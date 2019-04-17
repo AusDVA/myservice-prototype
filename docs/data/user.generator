@@ -1,7 +1,8 @@
-[
+{ "person":
+  [
   {
-    'repeat(4)': {
-      _id: '{{objectId()}}',
+    'repeat(4)': { 
+      _id: '{{objectId()}}', 
       index: '{{index()}}',
       authed: '{{bool()}}',
       guid: '{{guid()}}',
@@ -16,6 +17,10 @@
       },
       nameFull(tags) {
         return `${this.name.first} ${this.name.last}`;
+      },
+      gender(tags) {
+        const genders = ['Male', 'Female'];
+     	return genders[tags.integer(0, genders.length - 1)];
       },
       title(tags) {
       	const titles = ['Commissioner','Dame','Emeritus Professor','Honourable Mr Justice','Matron','Miss','Monsignor','Mr','Mr Justice','Mrs','Ms','Reverend Mr','Right Reverend Monsignor'];
@@ -48,7 +53,7 @@
         	nameFirst: '{{firstName()}}',
             nameLast: '{{surname()}}',
             role(tags) {
-              const roles = ['enquiring on behalf', 'acting on behalf', 'receiving payments on behalf'];
+              const roles = ['enquiring', 'acting', 'receiving payments'];
               return roles[tags.integer(0, roles.length - 1)];
             }
           }
@@ -56,7 +61,7 @@
       ],
       clients: [
         {
-          'repeat(0, 4)': {
+          'repeat(0, 3)': {
           	id: '{{index()}}',
         	nameFirst: '{{firstName()}}',
             nameLast: '{{surname()}}',
@@ -77,3 +82,4 @@
     }
   }
 ]
+}

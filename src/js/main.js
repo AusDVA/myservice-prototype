@@ -454,7 +454,8 @@ function writeUser() {
   userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
   userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
-  userHtml += start + 'Number of clients </div><div class="pt-col">' + user.numberOfClients + end;
+  userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
+  userHtml += start + 'Story </div><div class="pt-col">' + user.story + end;
 
 
   user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
@@ -496,77 +497,82 @@ function writeUser() {
 
 // to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
 // and paste in the generated users in to /docs/data/user.json
-if (typeof (Storage) !== "undefined") {
+window.onload = function () {
+  if (typeof (Storage) !== "undefined") {
 
-  // Pull in the json content 
-  $.ajax({
-    url: '/docs/data/user.json',
-    async: false,
-    dataType: 'json'
-  }).done(function (data) {
-
-    console.log('User data back');
-    $.each(data.person, function (index, element) {
-
-      // console.log(element);
-
-    });
+    // Pull in the json content 
+    $.ajax({
+      url: '/docs/data/user.json',
+      async: false,
+      dataType: 'json'
+    }).done(function (data) {
 
 
 
-
-
-    // set the default MyService user if no user exists
-    if (!(localStorage.getItem('person'))) {
-      localStorage.setItem('person', JSON.stringify(data[0]));
-      console.log('setting the default user');
-    }
-
-
-
-    // populate the user dropdown list with users from the json
-    var $userSelect = $('#user-drop-down');
-    $userSelect.empty();
-    $.each(data.person, function (key, value) {
-      $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
-    });
-
-    // switch the user 
-    $userSelect.change(function () {
-
-      var selectedId = this.value;
-
+      console.log('User data back');
       $.each(data.person, function (index, element) {
 
-        if (element._id === selectedId) {
-          console.log('index = ' + index);
-
-
-
-          localStorage.setItem('person', JSON.stringify(data.person[index]));
-          localStorage.setItem('switchId', 'none');
-          jQuery('.pt-managing-user').slideUp('fast');
-          localStorage.setItem('switchFlow', 'none');
-          writeUser();
-        }
+        // console.log(element);
 
       });
 
 
+
+
+
+      // set the default MyService user if no user exists
+      if (!(localStorage.getItem('person'))) {
+        localStorage.setItem('person', JSON.stringify(data.person[0]));
+        console.log('setting the default user');
+      }
+
+
+
+      // populate the user dropdown list with users from the json
+      var $userSelect = $('#user-drop-down');
+      $userSelect.empty();
+      $userSelect.append('<option>-- Select a user --</option>');
+      $.each(data.person, function (key, value) {
+        $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
+      });
+
+      // switch the user 
+      $userSelect.change(function () {
+
+        var selectedId = this.value;
+
+        $.each(data.person, function (index, element) {
+
+          if (element._id === selectedId) {
+            console.log('index = ' + index);
+
+
+
+            localStorage.setItem('person', JSON.stringify(data.person[index]));
+            localStorage.setItem('switchId', 'none');
+            jQuery('.pt-managing-user').slideUp('fast');
+            localStorage.setItem('switchFlow', 'none');
+            writeUser();
+          }
+
+        });
+
+
+      });
+
+      writeUser();
+
+
+
+
+
+
+
+
     });
-
-    writeUser();
-
-
-
-
-
-
-
-
-  });
-} else {
-  console.log("browser does not support web storage...");
+  } else {
+    console.log("browser does not support web storage...");
+  }
 }
 
 $(document).keypress(function (e) {
