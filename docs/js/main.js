@@ -480,7 +480,7 @@ if (typeof Storage !== "undefined") {
   }).done(function (data) {
 
     console.log('User data back');
-    $.each(data, function (index, element) {
+    $.each(data.person, function (index, element) {
 
       // console.log(element);
 
@@ -495,7 +495,7 @@ if (typeof Storage !== "undefined") {
     // populate the user dropdown list with users from the json
     var $userSelect = $('#user-drop-down');
     $userSelect.empty();
-    $.each(data, function (key, value) {
+    $.each(data.person, function (key, value) {
       $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
     });
 
@@ -504,12 +504,12 @@ if (typeof Storage !== "undefined") {
 
       var selectedId = this.value;
 
-      $.each(data, function (index, element) {
+      $.each(data.person, function (index, element) {
 
         if (element._id === selectedId) {
           console.log('index = ' + index);
 
-          localStorage.setItem('person', JSON.stringify(data[index]));
+          localStorage.setItem('person', JSON.stringify(data.person[index]));
           localStorage.setItem('switchId', 'none');
           jQuery('.pt-managing-user').slideUp('fast');
           localStorage.setItem('switchFlow', 'none');
