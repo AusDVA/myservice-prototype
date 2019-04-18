@@ -585,19 +585,16 @@ $(document).keypress(function (e) {
 });
 
 function writeRep(form) {
-  // var name = new Person('Josh', 'Pepper', '25');
-  event.stopPropagation();
-  // sessionStorage.setItem('example', JSON.stringify(name));
 
   console.log('sent form: ' + $(form).serialize());
 
   console.log(form);
 
-  var repObject = {
-    'one': 1,
-    'two': 2,
-    'three': 3
-  };
+  // var repObject = {
+  //   'one': 1,
+  //   'two': 2,
+  //   'three': 3
+  // };
 
   // Put the object into storage
   sessionStorage.setItem('repObject', JSON.stringify(repObject));
