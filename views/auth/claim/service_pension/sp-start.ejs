@@ -204,10 +204,12 @@
         <%- include ../../../../partials/forms/radio.ejs %>
         <% 
            locals = new Object();
-           locals.optionalID = 'state-switcher--tpi';
-           locals.question = 'Has TPI:';
+           locals.question = 'Other properties:';
+           locals.optionalID = 'state-switcher--user-properties';
+           locals.items = ['Has TPI or SDRP'];
+           locals.optionalItemID = ['ss_tpi'];
         %>
-        <%- include ../../../../partials/forms/radio--yes-no.ejs %>
+        <%- include ../../../../partials/forms/checkbox.ejs %>
     </div>
     <script>
     $(Document).ready(function() {
@@ -236,15 +238,14 @@
         });
         $(':radio[value=between_59_75_and_65]').click();
 
-        $('input[name=state-switcher--tpi]').change(function() {
-            mySelection = $('input[name=state-switcher--tpi]:checked').val();
-            if (mySelection == "yes") {
+        $('input[name=ss_tpi]').change(function() {
+            mySelection = $('input[name=ss_tpi]').is(':checked');
+            if (mySelection) {
                 sessionStorage.setItem('veteran-tpi', 'true');
             } else {
                 sessionStorage.setItem('veteran-tpi', 'false');
             }
         });
-        $('input[name=state-switcher--tpi-no]').click();
 
         /* End state switcher */
 
@@ -364,22 +365,15 @@
 
         var cs_cshc;
         $('input[name=cs_cshc]').change(function() {
-            cs_cshc = $('input[name=cs_cshc]:checked').attr('id');
-            if (cs_cshc == "cs_cshc-yes") {
-                $("#cs_crn").show();
+            cs_cshc = $('input[name=cs_cshc]:checked').val();
+            if (cs_cshc == "yes") {
+                $("#cs_crn").show("fast");
             } else {
                 if (centrelink_selected.length == 0) {
                     $("#cs_crn").hide();
                 }
             }
         });
-        if (centrelink_selected.length > 0) {
-            $("#cs_crn").show("fast");
-        } else {
-            if (cs_cshc != "yes") {
-                $("#cs_crn").hide();
-            }
-        }
 
         /* visual impairment question */
 
