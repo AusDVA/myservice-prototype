@@ -542,21 +542,15 @@ $(document).keypress(function (e) {
 
 function writeRep(form) {
 
-  console.log('sent form: ' + $(form).serialize());
+  console.log('sent form: ');
 
   console.log(form);
 
-  // var repObject = {
-  //   'one': 1,
-  //   'two': 2,
-  //   'three': 3
-  // };
-
   // Put the object into storage
-  sessionStorage.setItem('repObject', JSON.stringify(repObject));
+  sessionStorage.setItem('repData', JSON.stringify(form));
 
   // Retrieve the object from storage
-  var retrievedObject = sessionStorage.getItem('repObject');
+  var retrievedObject = sessionStorage.getItem('repData');
 
   console.log('clientRep: ', JSON.parse(retrievedObject));
 }
