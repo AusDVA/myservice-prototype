@@ -546,8 +546,6 @@ window.onload = function () {
           if (element._id === selectedId) {
             console.log('index = ' + index);
 
-
-
             localStorage.setItem('person', JSON.stringify(data.person[index]));
             localStorage.setItem('switchId', 'none');
             jQuery('.pt-managing-user').slideUp('fast');
