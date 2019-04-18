@@ -546,8 +546,6 @@ window.onload = function () {
           if (element._id === selectedId) {
             console.log('index = ' + index);
 
-
-
             localStorage.setItem('person', JSON.stringify(data.person[index]));
             localStorage.setItem('switchId', 'none');
             jQuery('.pt-managing-user').slideUp('fast');
@@ -577,16 +575,32 @@ window.onload = function () {
 
 $(document).keypress(function (e) {
 
-
   switch (e.which) {
     case 126: //tilda + shift
       $('.pt-choose-user').toggle();
       break;
     default:
   }
-
   // alert(e.which);
 });
+
+function writeRep(form) {
+
+  console.log('sent form: ');
+
+  console.log(form);
+
+
+  // Put the object into storage
+  sessionStorage.setItem('repData', JSON.stringify(form));
+
+  // Retrieve the object from storage
+  var retrievedObject = sessionStorage.getItem('repData');
+
+  console.log('clientRep: ', JSON.parse(retrievedObject));
+}
+
+
 
 
 

@@ -537,9 +537,23 @@ $(document).keypress(function (e) {
       break;
     default:
   }
-
   // alert(e.which);
 });
+
+function writeRep(form) {
+
+  console.log('sent form: ');
+
+  console.log(form);
+
+  // Put the object into storage
+  sessionStorage.setItem('repData', JSON.stringify(form));
+
+  // Retrieve the object from storage
+  var retrievedObject = sessionStorage.getItem('repData');
+
+  console.log('clientRep: ', JSON.parse(retrievedObject));
+}
 
 /*! @gov.au/animate v1.0.12 */
 /***************************************************************************************************************************************************************
