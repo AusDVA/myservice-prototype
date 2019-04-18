@@ -540,19 +540,86 @@ $(document).keypress(function (e) {
   // alert(e.which);
 });
 
+function getFormData($form) {
+  var unindexed_array = $form.serializeArray();
+  var indexed_array = {};
+
+  $.map(unindexed_array, function (n, i) {
+    indexed_array[n['name']] = n['value'];
+  });
+
+  return indexed_array;
+}
+
 function writeRep(form) {
-
   console.log('sent form: ');
+  var subForm = [];
+  $.each(form, function (index, element) {
 
-  console.log(form);
+    if (element.name === 'nameFirst') {
+      subForm.push({
+        nameFirst: element.name
+      });
+    }
+    if (element.name === 'nameLast') {
+      subForm.push({
+        nameLast: element.name
+      });
+    }
+  });
 
   // Put the object into storage
-  sessionStorage.setItem('repData', JSON.stringify(form));
+  sessionStorage.setItem('repData', JSON.stringify(subForm));
 
   // Retrieve the object from storage
   var retrievedObject = sessionStorage.getItem('repData');
 
-  console.log('clientRep: ', JSON.parse(retrievedObject));
+  // console.log('clientRep: ', JSON.parse(retrievedObject));
+}
+
+function writeClient(form) {
+
+  // var $form = $("#form_data");
+  var data = getFormData(form);
+
+  console.log('sent form: ');
+  console.log(form);
+  console.log(data);
+  // var subForm = [{}];
+
+  var element = {},
+      subForm = [];
+  // element.id = 'asdf';
+  // element.quantity = 'asdfasdf';
+  // subForm.push(element);
+
+
+  $.each(form, function (index, formElement) {
+
+    // if ((formElement.name === 'nameFirst')) {
+    //   element.nameFirst = formElement.value;
+    // }
+    subForm.push(formElement);
+    // if ((element.name === 'nameLast')) {
+    //   subForm.push({
+    //     nameLast: element.value
+    //   });
+    // }
+  });
+
+  // Put the object into storage
+  sessionStorage.setItem('clientData', JSON.stringify(data));
+  // var parsedJson = JSON.parse(data);
+  // sessionStorage.setItem('clientData', data);
+
+
+  // Retrieve the object from storage
+  var retrievedObject = sessionStorage.getItem('clientData');
+
+  console.log(retrievedObject);
+  // console.log(retrievedObject.nameFirst);
+
+  // console.log('clientData: ', JSON.parse(retrievedObject));
 }
 
 /*! @gov.au/animate v1.0.12 */
