@@ -1,11 +1,5 @@
 'use strict';
 
-// TODO: make someone with no clients see the “newbie” view of
-
-// TODO: populate this data http://localhost:5000/auth/profile/nomrep/review-rep with the real data 
-
-// TODO: populate this page name http://localhost:5000/auth/profile/nomrep/submitted-rep with the form data name
-
 // TODO: Populate the list data http://localhost:5000/auth/profile/nomrep with the user they just created (one only - the second one Authorisation request)
 
 // TODO: Make this page http://localhost:5000/auth/profile/nomrep/edit-client take the client user name
@@ -343,18 +337,13 @@ function writeClient(form) {
         // working!
         // var clientArray = $.extend(true, parsedClients.client[index], formData);
         // sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
-        //
-
-        // console.log(index);
 
         $.extend(true, parsedClients.client[index], formData);
         // sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
       } else {
-          // TODO: this needs to push 
+          // TODO: this needs to push but the arrays don't match
           // $.extend({}, parsedClients.client[index], formData);
           // $.merge(parsedClients.client[index]), formData));
-          // $.extend(true, parsedClients.client, formData);
-
 
         }
     });
