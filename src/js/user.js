@@ -196,16 +196,27 @@ function writeUser() {
   const sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
 
   // count number of clients 
-  if ((user.clients.length > 0) || (sessionClients)) {
+  var sessionClientSubmitted = false;
+  if (sessionClients) {
+    localStorage.setItem('repFlow', 'representing');
+    if (sessionClients.client[0].submittedApplication == "true") {
+      localStorage.setItem('repFlow', 'representing');
+      var sessionClientSubmitted = true;
+    }
+  }
+
+  if ((user.clients.length > 0) || (sessionClientSubmitted === true)) {
+
     if (user.clients.length > 0) {
       user.numberOfClients = user.clients.length;
     } else {
-      user.numberOfClients = sessionClients.length;
+      user.numberOfClients = sessionClients.client.length;
     }
 
     $('.pt-switch-account').show();
     localStorage.setItem('repFlow', 'representing');
-  } else {
+
+  } else if (user.clients.length < 1) {
     user.numberOfClients = 'none';
     $('.pt-switch-account').hide();
     localStorage.setItem('repFlow', 'newbie');
@@ -265,7 +276,7 @@ window.onload = function () {
 
       console.log('User data back');
 
-      console.log(data);
+      // console.log(data);
 
       $.each(data.person, function (index, element) {
 
@@ -301,7 +312,7 @@ window.onload = function () {
         $.each(data.person, function (index, element) {
 
           if (element._id === selectedId) {
-            console.log('index = ' + index);
+            // console.log('index = ' + index);
 
             localStorage.setItem('person', JSON.stringify(data.person[index]));
             localStorage.setItem('switchId', 'none');
@@ -316,12 +327,6 @@ window.onload = function () {
       });
 
       writeUser();
-
-
-
-
-
-
 
 
     });
@@ -350,17 +355,15 @@ function writeRep(form) {
 
   });
 
-
   // Put the object into storage
   sessionStorage.setItem('repData', JSON.stringify(subForm));
 
   // Retrieve the object from storage
   var retrievedObject = sessionStorage.getItem('repData');
 
-  // console.log('clientRep: ', JSON.parse(retrievedObject));
 }
 
-function writeClient(form, userId) {
+function writeClient(form) {
 
   var formData = getFormData(form);
   var clients = sessionStorage.getItem('usersClients');
@@ -372,44 +375,69 @@ function writeClient(form, userId) {
     var sessionGuid = sessionStorage.getItem('sessionGuid');
 
     $.each(parsedClients.client, function (index, element) {
-      // console.log('index = ' + index);
-
-      // console.log(element);
-
-      // console.log(index === 'clientId');
-      // console.log(sessionGuid);
-      // console.log(element.clientId);
-      // console.log(index);
-      console.log(element.clientId);
-
-      // console.log(element.clientId === sessionGuid);
 
       if (element.clientId === sessionGuid) {
-        // if (index === 'clientId') {
         console.log('writing to the user in session');
-        clients = JSON.stringify(parsedClients);
-        var clientArray = $.extend(true, parsedClients.client[index], formData);
 
-        sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
+        clients = JSON.stringify(parsedClients);
+        // working!
+        // var clientArray = $.extend(true, parsedClients.client[index], formData);
+        // sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
+        //
+
+        // console.log(index);
+
+        $.extend(true, parsedClients.client[index], formData);
+        // sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
+
+      } else {
+        // TODO: this needs to push 
+        // $.extend({}, parsedClients.client[index], formData);
+        // $.merge(parsedClients.client[index]), formData));
+        // $.extend(true, parsedClients.client, formData);
+
+
       }
+
 
     });
 
+
+    sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
 
   } else { // no clients 
 
     var clientArray = $.makeArray(formData);
     sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
+  }
+}
+
+function readClient() {
+
+  console.log('Reading client data');
+  var clients = sessionStorage.getItem('usersClients');
+  var parsedClients = JSON.parse(clients);
+
+  // console.log(parsedClients);
+
+  if (parsedClients) {
+
+    $.each(parsedClients.client, function (index, element) {
+
+      $.each(element, function (index, element) {
+        // console.log(index);
+        // console.log(element);
+
+        $('.pt-current-client-' + index).html(element);
+
+      });
+
+    });
 
   }
 
 
-}
-
-function readClient(form) {
-
-  var clients = sessionStorage.getItem('usersClients');
 
 }
 
-readClient();
+// readClient();
