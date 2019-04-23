@@ -24,6 +24,11 @@
       </div>
     </div>
     <form class="pt-submit-form">
+
+
+
+      <input type="hidden" name="clientId" id="clientId" value="">
+
       <div class="container">
         <div class="form-group margin-above--large">
           <div id="pt-gender-fields" class="form-group">
@@ -67,20 +72,9 @@
               <span id="title-group--optional" class="hint" style="display:none;"> Used for correspondence (optional)</span>
             </label>
             <select class="uikit-text-input input-half" id="relationshipTitle" name="relationshipTitle">
-              <option default="">-- Select relationship --</option>
-              <option> Carer </option>
-              <option> Child </option>
-              <option> De facto </option>
-              <option> Friend </option>
-              <option> Grandchild </option>
-              <option> Grandparent </option>
-              <option> Guardian </option>
-              <option> Niece/nephew </option>
-              <option> Parent </option>
-              <option> Sibling </option>
-              <option> Spouse </option>
-              <option> Uncle/aunt </option>
-              <option> Other </option>
+
+              <% include ../../../../partials/forms/relationship-list.ejs %>
+
 
             </select>
           </div>
@@ -151,19 +145,27 @@
       $('#hideAllForm').show("fast");
     });
 
+
+
     $('#btnNext').click(function () {
 
       event.stopImmediatePropagation();
       event.preventDefault();
+
+      // set a new session guid every time this page is called
+      var sessionGuid = (guidGenerator());
+      sessionStorage.setItem('sessionGuid', sessionGuid);
+
+      $('#clientId').val(sessionGuid);
       var data = ($('.pt-submit-form'));
 
       writeClient(data);
 
-      // if ($.trim($('#fileNumber').val()) == '') {
-      //   window.location.href = '/auth/profile/nomrep/client-details2';
-      // } else {
-      //   window.location.href = '/auth/profile/nomrep/role-rep';
-      // }
+      if ($.trim($('#fileNumber').val()) == '') {
+        window.location.href = '/auth/profile/nomrep/client-details2';
+      } else {
+        window.location.href = '/auth/profile/nomrep/role-rep';
+      }
 
     });
 

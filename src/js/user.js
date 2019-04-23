@@ -14,6 +14,8 @@
 
 console.log('init user');
 
+
+
 // returns age from date of birth string 
 function getAge(dateString) {
   var today = new Date();
@@ -25,6 +27,39 @@ function getAge(dateString) {
   }
   return age;
 }
+
+
+function getFormData($form) {
+  var unindexed_array = $form.serializeArray();
+  var indexed_array = {};
+
+  $.map(unindexed_array, function (n, i) {
+    indexed_array[n['name']] = n['value'];
+  });
+
+  return indexed_array;
+}
+
+function guidGenerator() {
+  var S4 = function () {
+    return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+  };
+  return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+}
+
+
+$(document).keypress(function (e) {
+
+  switch (e.which) {
+    case 126: //tilda + shift
+      $('.pt-choose-user').toggle();
+      break;
+    default:
+  }
+  // alert(e.which);
+});
+
+
 
 
 // Nom rep pages
@@ -154,14 +189,20 @@ initSwitch();
 // local storage a user 
 function writeUser() {
 
-  console.log('Writing user from --- ');
+  console.log('Writing user  ');
 
   const user = JSON.parse(localStorage.getItem('person'));
 
+  const sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
 
   // count number of clients 
-  if (user.clients.length > 0) {
-    user.numberOfClients = user.clients.length;
+  if ((user.clients.length > 0) || (sessionClients)) {
+    if (user.clients.length > 0) {
+      user.numberOfClients = user.clients.length;
+    } else {
+      user.numberOfClients = sessionClients.length;
+    }
+
     $('.pt-switch-account').show();
     localStorage.setItem('repFlow', 'representing');
   } else {
@@ -179,9 +220,7 @@ function writeUser() {
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
   userHtml += start + 'Story </div><div class="pt-col">' + user.story + end;
 
-
   user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
-
 
 
   $('#userContainerId').html(userHtml);
@@ -192,21 +231,18 @@ function writeUser() {
   var clientListHtml = '';
 
   $.each(user.clients, function (key, client) {
-    client.nameFull = client.nameFirst + ' ' + client.nameLast;
 
+    client.nameFull = client.nameFirst + ' ' + client.nameLast;
     clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
     clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
     clientListHtml += ' (' + client.role + ')</a></li>';
   });
 
-  // console.log(user.clients);
   if ((user.clients.length > 0) && (localStorage.getItem('switchFlow') == 'active')) {
 
     $('.pt-current-user-name-first').html(user.clients[localStorage.getItem('switchId')].nameFirst);
     $('.pt-current-user-name-full').html(user.clients[localStorage.getItem('switchId')].nameFull);
   }
-
-  // console.log('user - CHANGE');
 
   $('.pt-current-user-client-list').html(clientListHtml);
 
@@ -238,7 +274,7 @@ window.onload = function () {
       });
 
 
-
+      localStorage.setItem('allPersons', JSON.stringify(data.person));
 
 
       // set the default MyService user if no user exists
@@ -294,27 +330,7 @@ window.onload = function () {
   }
 }
 
-$(document).keypress(function (e) {
 
-  switch (e.which) {
-    case 126: //tilda + shift
-      $('.pt-choose-user').toggle();
-      break;
-    default:
-  }
-  // alert(e.which);
-});
-
-function getFormData($form) {
-  var unindexed_array = $form.serializeArray();
-  var indexed_array = {};
-
-  $.map(unindexed_array, function (n, i) {
-    indexed_array[n['name']] = n['value'];
-  });
-
-  return indexed_array;
-}
 
 function writeRep(form) {
   console.log('writeRep sent form: ');
@@ -344,58 +360,56 @@ function writeRep(form) {
   // console.log('clientRep: ', JSON.parse(retrievedObject));
 }
 
-function writeClient(form) {
+function writeClient(form, userId) {
 
-  // var $form = $("#form_data");
-  var data = getFormData(form);
-
-  console.log('writeClient sent form: ');
-  console.log(form);
-  console.log(data);
-  // var subForm = [{}];
-
-  var element = {},
-    subForm = [];
+  var formData = getFormData(form);
+  var clients = sessionStorage.getItem('usersClients');
 
 
-  $.each(form, function (index, formElement) {
+  if (clients) { // clients in session data
 
-    // if ((formElement.name === 'nameFirst')) {
-    //   element.nameFirst = formElement.value;
-    // }
-    subForm.push(formElement);
-    // if ((element.name === 'nameLast')) {
-    //   subForm.push({
-    //     nameLast: element.value
-    //   });
-    // }
+    var parsedClients = JSON.parse(clients);
+    var sessionGuid = sessionStorage.getItem('sessionGuid');
 
-  });
+    $.each(parsedClients.client, function (index, element) {
+      // console.log('index = ' + index);
+
+      // console.log(element);
+
+      // console.log(index === 'clientId');
+      // console.log(sessionGuid);
+      // console.log(element.clientId);
+      // console.log(index);
+      console.log(element.clientId);
+
+      // console.log(element.clientId === sessionGuid);
+
+      if (element.clientId === sessionGuid) {
+        // if (index === 'clientId') {
+        console.log('writing to the user in session');
+        clients = JSON.stringify(parsedClients);
+        var clientArray = $.extend(true, parsedClients.client[index], formData);
+
+        sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
+      }
+
+    });
 
 
+  } else { // no clients 
+
+    var clientArray = $.makeArray(formData);
+    sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
+
+  }
 
 
-  data = data + sessionStorage.getItem('clientData');
-  // Put the object into storage
-  sessionStorage.setItem('clientData', JSON.stringify(data));
-  // var parsedJson = JSON.parse(data);
-  // sessionStorage.setItem('clientData', data);
-
-
-  // Retrieve the object from storage
-  var retrievedObject = sessionStorage.getItem('clientData');
-
-  // console.log(retrievedObject);
-
-
-  // console.log('clientData: ', JSON.parse(retrievedObject));
 }
 
 function readClient(form) {
 
-  var clients = sessionStorage.getItem('clientData');
-  console.log("clients");
-  console.log(clients);
+  var clients = sessionStorage.getItem('usersClients');
+
 }
 
 readClient();
