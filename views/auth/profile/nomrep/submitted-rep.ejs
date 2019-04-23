@@ -36,7 +36,8 @@
 
             <div class="transition-content pt-claim-animation-end margin-below--extra">
               <div class="pt-claim-type--normal">
-                <h1 class="cantered-item">Your application to represent Richard Charlton has been submitted and is now
+                <h1 class="cantered-item">Your application to represent <span class="pt-current-client-nameFirst"></span> <span class="pt-current-client-nameLast"></span> has been
+                  submitted and is now
                   <span class="font-weight-heavy"> in progress</span>
                 </h1>
                 <h2 class="cantered-item"> Application ID is 9218374981</h2>
@@ -50,9 +51,11 @@
                   <div class="col-sm-offset-1 col-sm-8">
                     <ul class="next-steps">
                       <li>You will be able to track the progress of this application on your representation page. </li>
-                      <li> If Richard Charlton has a MyService account they will receive an authorisation
+                      <li> If <span class="pt-current-client-nameFirst"></span> <span class="pt-current-client-nameLast"></span> has a MyService account they will receive an
+                        authorisation
                         request to approve or decline your representation.</li>
-                      <li>If Richard Charlton does not have a MyService account we will contact them to seek approval on your behalf.
+                      <li>If <span class="pt-current-client-nameFirst"></span> <span class="pt-current-client-nameLast"></span> does not have a MyService account we will contact
+                        them to seek approval on your behalf.
                       </li>
                     </ul>
                   </div>
@@ -62,7 +65,7 @@
                 <div class="pagination">
                   <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>
 
-                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep#rep-list'">See representation list</button>
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/#rep-list'">See representation list</button>
 
                 </div>
 
@@ -76,14 +79,27 @@
   </main>
 
   <% include ../../../../partials/footer.ejs %>
+  <form class="pt-submit-form">
 
+
+
+    <input type="hidden" name="submittedApplication" id="submittedApplication" value="true">
+  </form>
 
   <script>
+
+
+    var data = ($('.pt-submit-form'));
+
+    writeClient(data);
+
     var timeDelay = 3000;
     setTimeout(
       function () {
         $(".pt-claim-animation-start").toggleClass("transition-content--open");
         $(".pt-claim-animation-end").toggleClass("transition-content--open");
+
+
       }, timeDelay);
 
     var queryString = new Array();
@@ -119,6 +135,9 @@
         localStorage.setItem('repFlow', 'representing');
       }
     });
+
+
+    readClient();
 
   </script>
 

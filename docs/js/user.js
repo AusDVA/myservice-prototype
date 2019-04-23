@@ -1,11 +1,5 @@
 'use strict';
 
-// TODO: make someone with no clients see the “newbie” view of
-
-// TODO: populate this data http://localhost:5000/auth/profile/nomrep/review-rep with the real data 
-
-// TODO: populate this page name http://localhost:5000/auth/profile/nomrep/submitted-rep with the form data name
-
 // TODO: Populate the list data http://localhost:5000/auth/profile/nomrep with the user they just created (one only - the second one Authorisation request)
 
 // TODO: Make this page http://localhost:5000/auth/profile/nomrep/edit-client take the client user name
@@ -27,6 +21,36 @@ function getAge(dateString) {
   }
   return age;
 }
+
+function getFormData($form) {
+  var unindexed_array = $form.serializeArray();
+  var indexed_array = {};
+
+  $.map(unindexed_array, function (n, i) {
+    indexed_array[n['name']] = n['value'];
+  });
+
+  return indexed_array;
+}
+
+function guidGenerator() {
+  var S4 = function S4() {
+    return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+  };
+  return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
+}
+
+$(document).keypress(function (e) {
+
+  switch (e.which) {
+    case 126:
+      //tilda + shift
+      $('.pt-choose-user').toggle();
+      break;
+    default:
+  }
+  // alert(e.which);
+});
 
 // Nom rep pages
 function initNomRep() {
@@ -138,16 +162,33 @@ initSwitch();
 // local storage a user 
 function writeUser() {
 
-  console.log('Writing user from --- ');
+  console.log('Writing user  ');
 
   var user = JSON.parse(localStorage.getItem('person'));
 
+  var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
+
   // count number of clients 
-  if (user.clients.length > 0) {
-    user.numberOfClients = user.clients.length;
+  var sessionClientSubmitted = false;
+  if (sessionClients) {
+    localStorage.setItem('repFlow', 'representing');
+    if (sessionClients.client[0].submittedApplication == "true") {
+      localStorage.setItem('repFlow', 'representing');
+      var sessionClientSubmitted = true;
+    }
+  }
+
+  if (user.clients.length > 0 || sessionClientSubmitted === true) {
+
+    if (user.clients.length > 0) {
+      user.numberOfClients = user.clients.length;
+    } else {
+      user.numberOfClients = sessionClients.client.length;
+    }
+
     $('.pt-switch-account').show();
     localStorage.setItem('repFlow', 'representing');
-  } else {
+  } else if (user.clients.length < 1) {
     user.numberOfClients = 'none';
     $('.pt-switch-account').hide();
     localStorage.setItem('repFlow', 'newbie');
@@ -172,21 +213,18 @@ function writeUser() {
   var clientListHtml = '';
 
   $.each(user.clients, function (key, client) {
-    client.nameFull = client.nameFirst + ' ' + client.nameLast;
 
+    client.nameFull = client.nameFirst + ' ' + client.nameLast;
     clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
     clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
     clientListHtml += ' (' + client.role + ')</a></li>';
   });
 
-  // console.log(user.clients);
   if (user.clients.length > 0 && localStorage.getItem('switchFlow') == 'active') {
 
     $('.pt-current-user-name-first').html(user.clients[localStorage.getItem('switchId')].nameFirst);
     $('.pt-current-user-name-full').html(user.clients[localStorage.getItem('switchId')].nameFull);
   }
-
-  // console.log('user - CHANGE');
 
   $('.pt-current-user-client-list').html(clientListHtml);
 }
@@ -205,13 +243,15 @@ window.onload = function () {
 
       console.log('User data back');
 
-      console.log(data);
+      // console.log(data);
 
       $.each(data.person, function (index, element) {
 
         // console.log(element);
 
       });
+
+      localStorage.setItem('allPersons', JSON.stringify(data.person));
 
       // set the default MyService user if no user exists
       if (!localStorage.getItem('person')) {
@@ -235,7 +275,7 @@ window.onload = function () {
         $.each(data.person, function (index, element) {
 
           if (element._id === selectedId) {
-            console.log('index = ' + index);
+            // console.log('index = ' + index);
 
             localStorage.setItem('person', JSON.stringify(data.person[index]));
             localStorage.setItem('switchId', 'none');
@@ -252,29 +292,6 @@ window.onload = function () {
     console.log("browser does not support web storage...");
   }
 };
-
-$(document).keypress(function (e) {
-
-  switch (e.which) {
-    case 126:
-      //tilda + shift
-      $('.pt-choose-user').toggle();
-      break;
-    default:
-  }
-  // alert(e.which);
-});
-
-function getFormData($form) {
-  var unindexed_array = $form.serializeArray();
-  var indexed_array = {};
-
-  $.map(unindexed_array, function (n, i) {
-    indexed_array[n['name']] = n['value'];
-  });
-
-  return indexed_array;
-}
 
 function writeRep(form) {
   console.log('writeRep sent form: ');
@@ -298,57 +315,68 @@ function writeRep(form) {
 
   // Retrieve the object from storage
   var retrievedObject = sessionStorage.getItem('repData');
-
-  // console.log('clientRep: ', JSON.parse(retrievedObject));
 }
 
 function writeClient(form) {
 
-  // var $form = $("#form_data");
-  var data = getFormData(form);
+  var formData = getFormData(form);
+  var clients = sessionStorage.getItem('usersClients');
 
-  console.log('writeClient sent form: ');
-  console.log(form);
-  console.log(data);
-  // var subForm = [{}];
+  if (clients) {
+    // clients in session data
 
-  var element = {},
-      subForm = [];
+    var parsedClients = JSON.parse(clients);
+    var sessionGuid = sessionStorage.getItem('sessionGuid');
 
-  $.each(form, function (index, formElement) {
+    $.each(parsedClients.client, function (index, element) {
 
-    // if ((formElement.name === 'nameFirst')) {
-    //   element.nameFirst = formElement.value;
-    // }
-    subForm.push(formElement);
-    // if ((element.name === 'nameLast')) {
-    //   subForm.push({
-    //     nameLast: element.value
-    //   });
-    // }
-  });
+      if (element.clientId === sessionGuid) {
+        console.log('writing to the user in session');
 
-  data = data + sessionStorage.getItem('clientData');
-  // Put the object into storage
-  sessionStorage.setItem('clientData', JSON.stringify(data));
-  // var parsedJson = JSON.parse(data);
-  // sessionStorage.setItem('clientData', data);
+        clients = JSON.stringify(parsedClients);
+        // working!
+        // var clientArray = $.extend(true, parsedClients.client[index], formData);
+        // sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
 
+        $.extend(true, parsedClients.client[index], formData);
+        // sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
+      } else {
+          // TODO: this needs to push but the arrays don't match
+          // $.extend({}, parsedClients.client[index], formData);
+          // $.merge(parsedClients.client[index]), formData));
 
-  // Retrieve the object from storage
-  var retrievedObject = sessionStorage.getItem('clientData');
+        }
+    });
 
-  // console.log(retrievedObject);
+    sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
+  } else {
+    // no clients 
 
-
-  // console.log('clientData: ', JSON.parse(retrievedObject));
+    var clientArray = $.makeArray(formData);
+    sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
+  }
 }
 
-function readClient(form) {
+function readClient() {
 
-  var clients = sessionStorage.getItem('clientData');
-  console.log("clients");
-  console.log(clients);
+  console.log('Reading client data');
+  var clients = sessionStorage.getItem('usersClients');
+  var parsedClients = JSON.parse(clients);
+
+  // console.log(parsedClients);
+
+  if (parsedClients) {
+
+    $.each(parsedClients.client, function (index, element) {
+
+      $.each(element, function (index, element) {
+        // console.log(index);
+        // console.log(element);
+
+        $('.pt-current-client-' + index).html(element);
+      });
+    });
+  }
 }
 
-readClient();
+// readClient();
