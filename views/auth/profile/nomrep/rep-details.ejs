@@ -25,6 +25,7 @@
     </div>
 
     <form class="pt-submit-form">
+      <input type="hidden" name="id" id="repId" value="">
       <div class="container">
         <div class="radio-tile--group margin-above--large">
           <label class="radio-tile">
@@ -204,24 +205,25 @@
     $('#btnNext').click(function (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
-      // console.log($(".pt-submit-form").serialize());
 
-      var data = ($('.pt-submit-form').serializeArray());
+      // set a new session guid every time this page is called
+      var sessionGuid = (guidGenerator());
+      sessionStorage.setItem('sessionGuid', sessionGuid);
 
-      // console.log(data);
+      $('#repId').val(sessionGuid);
+      var data = ($('.pt-submit-form'));
 
-      // console.log(this);
       writeRep(data);
 
-      // if ($('#addNewOrg').is(':checked')) {
-      //   window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
-      // }
+      if ($('#addNewOrg').is(':checked')) {
+        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+      }
 
-      // if ($.trim($('#fileNumber').val()) == '') {
-      //   window.location.href = '/auth/profile/nomrep/rep-details2';
-      // } else {
-      //   window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
-      // }
+      if ($.trim($('#fileNumber').val()) == '') {
+        window.location.href = '/auth/profile/nomrep/rep-details2';
+      } else {
+        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+      }
 
     });
 
@@ -232,45 +234,45 @@
     $(function () {
 
       var availableInstitutions = [{
-        label: "RSL Townsville Sub Branch",
-        category: "abn",
-        abn: '55467834'
-      },
-      {
-        label: "Anglicare Southern Queensland - Help at Home and Disability Services",
-        category: "test",
-        abn: '8834256238'
-      },
-      {
-        label: "ComLink Townsville",
-        category: "abn",
-        abn: '345673467'
-      },
-      {
-        label: "Anlgi care services",
-        category: "abn",
-        abn: '3564734567'
-      },
-      {
-        label: "Blue Care",
-        category: "abn",
-        abn: '234532467'
-      },
-      {
-        label: "Glendale Care - Townsville Aged Care",
-        category: "abn",
-        abn: '456872345'
-      },
-      {
-        label: "Coutts Redington Chartered Accountants",
-        category: "abn",
-        abn: '6973563'
-      },
-      {
-        label: "Slater and Gordon Lawyers",
-        category: "abn",
-        abn: '679457'
-      },
+          label: "RSL Townsville Sub Branch",
+          category: "abn",
+          abn: '55467834'
+        },
+        {
+          label: "Anglicare Southern Queensland - Help at Home and Disability Services",
+          category: "test",
+          abn: '8834256238'
+        },
+        {
+          label: "ComLink Townsville",
+          category: "abn",
+          abn: '345673467'
+        },
+        {
+          label: "Anlgi care services",
+          category: "abn",
+          abn: '3564734567'
+        },
+        {
+          label: "Blue Care",
+          category: "abn",
+          abn: '234532467'
+        },
+        {
+          label: "Glendale Care - Townsville Aged Care",
+          category: "abn",
+          abn: '456872345'
+        },
+        {
+          label: "Coutts Redington Chartered Accountants",
+          category: "abn",
+          abn: '6973563'
+        },
+        {
+          label: "Slater and Gordon Lawyers",
+          category: "abn",
+          abn: '679457'
+        },
       ];
 
       $("#orgName").autocomplete({
