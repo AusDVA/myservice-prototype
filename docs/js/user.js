@@ -175,6 +175,8 @@ function writeUser() {
     if (sessionClients.client[0].submittedApplication == "true") {
       localStorage.setItem('repFlow', 'representing');
       var sessionClientSubmitted = true;
+      // push the client to the user
+      user.clients.push(sessionClients.client[0]);
     }
   }
 
@@ -222,8 +224,15 @@ function writeUser() {
 
   if (user.clients.length > 0 && localStorage.getItem('switchFlow') == 'active') {
 
-    $('.pt-current-user-name-first').html(user.clients[localStorage.getItem('switchId')].nameFirst);
-    $('.pt-current-user-name-full').html(user.clients[localStorage.getItem('switchId')].nameFull);
+    var switchId = localStorage.getItem('switchId');
+    $.each(user.clients, function (key, client) {
+
+      if (client.id == switchId) {
+        this.nameFull = this.nameFirst + ' ' + this.nameLast;
+        $('.pt-current-user-name-first').html(this.nameFirst);
+        $('.pt-current-user-name-full').html(this.nameFull);
+      }
+    });
   }
 
   $('.pt-current-user-client-list').html(clientListHtml);
@@ -330,7 +339,7 @@ function writeClient(form) {
 
     $.each(parsedClients.client, function (index, element) {
 
-      if (element.clientId === sessionGuid) {
+      if (element.id === sessionGuid) {
         console.log('writing to the user in session');
 
         clients = JSON.stringify(parsedClients);
