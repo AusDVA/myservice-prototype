@@ -167,6 +167,11 @@ function writeUser() {
   var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
   var sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
+  var firstTimeUser = true;
+  if (sessionStorage.getItem('sessionGuid')) {
+    firstTimeUser = false;
+  }
+
   // count number of clients 
   var sessionClientSubmitted = false;
   if (sessionClients) {
@@ -176,6 +181,20 @@ function writeUser() {
       var sessionClientSubmitted = true;
       // push the client to the user
       user.clients.push(sessionClients.client[0]);
+    }
+
+    if (sessionClients.client[0].role == "Cease") {
+      // alert('ceased');
+      user.numberOfClients = 0;
+      user.clients.length = 0;
+      sessionClientSubmitted = false;
+      localStorage.setItem('repFlow', 'none');
+      sessionStorage.removeItem('usersClients');
+      if (!window.location.hash) {
+        // alert('reloading clients');
+        window.location = window.location + '#rep-list';
+        window.location.reload();
+      }
     }
   }
 
@@ -188,8 +207,23 @@ function writeUser() {
       // push the rep to the user
       user.reps.push(sessionReps.rep[0]);
     }
+
+    if (sessionReps.rep[0].role == "Cease") {
+      // alert('ceased');
+      user.numberOfReps = 0;
+      user.reps.length = 0;
+      sessionRepSubmitted = false;
+      localStorage.setItem('repFlow', 'none');
+      sessionStorage.removeItem('usersReps');
+      if (!window.location.hash) {
+        // alert('reloading');
+        window.location = window.location + '#rep-list';
+        window.location.reload();
+      }
+    }
   }
 
+  // set
   if (user.clients.length > 0 || sessionClientSubmitted === true) {
 
     if (user.clients.length > 0) {
@@ -197,13 +231,8 @@ function writeUser() {
     } else {
       user.numberOfClients = sessionClients.client.length;
     }
-
-    // $('.pt-switch-account').show();
-    // localStorage.setItem('repFlow', 'representing');
   } else if (user.clients.length < 1) {
     user.numberOfClients = 0;
-    // $('.pt-switch-account').hide();
-    // localStorage.setItem('repFlow', 'newbie');
   }
 
   if (user.reps.length > 0 || sessionRepSubmitted === true) {
@@ -213,31 +242,26 @@ function writeUser() {
     } else {
       user.numberOfReps = sessionClients.rep.length;
     }
-
-    // localStorage.setItem('repFlow', 'represented');
   } else if (user.reps.length < 1) {
     user.numberOfReps = 0;
     // localStorage.setItem('repFlow', 'newbie');
   }
 
-  console.log('sessionRepSubmitted');
-  console.log(sessionRepSubmitted);
-
-  console.log('sessionClientSubmitted');
-  console.log(sessionClientSubmitted);
-
   if (sessionRepSubmitted === true && sessionClientSubmitted === true) {
     localStorage.setItem('repFlow', 'both');
     $('.pt-switch-account').show();
-  } else if (sessionRepSubmitted === true || user.reps.length > 0) {
+  } else if (sessionRepSubmitted === true || user.numberOfReps > 0) {
     localStorage.setItem('repFlow', 'represented');
     $('.pt-switch-account').show();
-  } else if (sessionClientSubmitted === true || user.clients.length > 0) {
+  } else if (sessionClientSubmitted === true || user.numberOfClients > 0) {
     localStorage.setItem('repFlow', 'representing');
     $('.pt-switch-account').show();
   } else {
-    localStorage.setItem('repFlow', 'newbie');
     $('.pt-switch-account').hide();
+  }
+
+  if (firstTimeUser) {
+    localStorage.setItem('repFlow', 'newbie');
   }
 
   var userHtml = '';
@@ -446,9 +470,6 @@ function readRep() {
     $.each(parsedReps.rep, function (index, element) {
 
       $.each(element, function (index, element) {
-
-        console.log('elementelementelement =');
-        console.log(element);
 
         $('.pt-current-rep-' + index).html(element);
       });
