@@ -50,10 +50,7 @@ $(document).keypress(function (e) {
       break;
     default:
   }
-  // alert(e.which);
 });
-
-
 
 
 // Nom rep pages
@@ -186,8 +183,8 @@ function writeUser() {
   console.log('Writing user  ');
 
   const user = JSON.parse(localStorage.getItem('person'));
-
   const sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
+  const sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
   // count number of clients 
   var sessionClientSubmitted = false;
@@ -201,6 +198,16 @@ function writeUser() {
     }
   }
 
+  var sessionRepSubmitted = false;
+  if (sessionReps) {
+    localStorage.setItem('repFlow', 'representing');
+    if (sessionReps.rep[0].submittedApplication == "true") {
+      localStorage.setItem('repFlow', 'representing');
+      var sessionRepSubmitted = true;
+      // push the rep to the user
+      user.reps.push(sessionReps.rep[0]);
+    }
+  }
 
 
   if ((user.clients.length > 0) || (sessionClientSubmitted === true)) {
@@ -211,14 +218,50 @@ function writeUser() {
       user.numberOfClients = sessionClients.client.length;
     }
 
-    $('.pt-switch-account').show();
-    localStorage.setItem('repFlow', 'representing');
+    // $('.pt-switch-account').show();
+    // localStorage.setItem('repFlow', 'representing');
 
   } else if (user.clients.length < 1) {
-    user.numberOfClients = 'none';
-    $('.pt-switch-account').hide();
-    localStorage.setItem('repFlow', 'newbie');
+    user.numberOfClients = 0;
+    // $('.pt-switch-account').hide();
+    // localStorage.setItem('repFlow', 'newbie');
   }
+
+  if ((user.reps.length > 0) || (sessionRepSubmitted === true)) {
+
+    if (user.reps.length > 0) {
+      user.numberOfReps = user.reps.length;
+    } else {
+      user.numberOfReps = sessionClients.rep.length;
+    }
+
+    // localStorage.setItem('repFlow', 'represented');
+
+  } else if (user.reps.length < 1) {
+    user.numberOfReps = 0;
+    // localStorage.setItem('repFlow', 'newbie');
+  }
+
+  console.log('sessionRepSubmitted');
+  console.log(sessionRepSubmitted);
+
+  console.log('sessionClientSubmitted');
+  console.log(sessionClientSubmitted);
+
+  if ((sessionRepSubmitted === true) && (sessionClientSubmitted === true)) {
+    localStorage.setItem('repFlow', 'both');
+    $('.pt-switch-account').show();
+  } else if ((sessionRepSubmitted === true) || (user.reps.length > 0)) {
+    localStorage.setItem('repFlow', 'represented');
+    $('.pt-switch-account').show();
+  } else if ((sessionClientSubmitted === true) || (user.clients.length > 0)) {
+    localStorage.setItem('repFlow', 'representing');
+    $('.pt-switch-account').show();
+  } else {
+    localStorage.setItem('repFlow', 'newbie');
+    $('.pt-switch-account').hide();
+  }
+
 
   var userHtml = '';
   var start = '<div class="pt-flex-grid"><div class="pt-col">';
@@ -227,6 +270,7 @@ function writeUser() {
   userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
+  userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
   userHtml += start + 'Story </div><div class="pt-col">' + user.story + end;
 
   user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
@@ -347,29 +391,42 @@ window.onload = function () {
 
 
 function writeRep(form) {
-  console.log('writeRep sent form: ');
-  var subForm = [];
-  $.each(form, function (index, element) {
 
-    if ((element.name === 'nameFirst')) {
-      subForm.push({
-        nameFirst: element.name
-      });
-    }
-    if ((element.name === 'nameLast')) {
-      subForm.push({
-        nameLast: element.name
-      });
-    }
+  var formData = getFormData(form);
+  var reps = sessionStorage.getItem('usersReps');
 
-  });
 
-  // Put the object into storage
-  sessionStorage.setItem('repData', JSON.stringify(subForm));
+  if (reps) { // reps in session data
 
-  // Retrieve the object from storage
-  var retrievedObject = sessionStorage.getItem('repData');
+    var parsedReps = JSON.parse(reps);
+    var sessionGuid = sessionStorage.getItem('sessionGuid');
 
+    $.each(parsedReps.rep, function (index, element) {
+
+      console.log('parsedReps');
+      console.log(parsedReps);
+
+      if (element.id === sessionGuid) {
+        console.log('writing to the user in session');
+
+        reps = JSON.stringify(parsedReps);
+        $.extend(true, parsedReps.rep[index], formData);
+
+      } else {
+        // TODO: this needs to push but the arrays don't match
+        // $.extend({}, parsedReps.rep[index], formData);
+        // $.merge(parsedReps.rep[index]), formData));
+
+      }
+    });
+
+    sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
+
+  } else { // no reps 
+
+    var repArray = $.makeArray(formData);
+    sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
+  }
 }
 
 function writeClient(form) {
@@ -389,12 +446,7 @@ function writeClient(form) {
         console.log('writing to the user in session');
 
         clients = JSON.stringify(parsedClients);
-        // working!
-        // var clientArray = $.extend(true, parsedClients.client[index], formData);
-        // sessionStorage.setItem('usersClients', '{"client":[' + JSON.stringify(clientArray) + ']}');
-
         $.extend(true, parsedClients.client[index], formData);
-        // sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
 
       } else {
         // TODO: this needs to push but the arrays don't match
@@ -418,27 +470,33 @@ function readClient() {
   console.log('Reading client data');
   var clients = sessionStorage.getItem('usersClients');
   var parsedClients = JSON.parse(clients);
-
-  // console.log(parsedClients);
-
   if (parsedClients) {
 
     $.each(parsedClients.client, function (index, element) {
 
       $.each(element, function (index, element) {
-        // console.log(index);
-        // console.log(element);
-
         $('.pt-current-client-' + index).html(element);
-
       });
-
     });
-
   }
-
-
-
 }
 
-// readClient();
+function readRep() {
+
+  console.log('Reading rep data');
+  var reps = sessionStorage.getItem('usersReps');
+  var parsedReps = JSON.parse(reps);
+  if (parsedReps) {
+
+    $.each(parsedReps.rep, function (index, element) {
+
+      $.each(element, function (index, element) {
+
+        console.log('elementelementelement =');
+        console.log(element);
+
+        $('.pt-current-rep-' + index).html(element);
+      });
+    });
+  }
+}
