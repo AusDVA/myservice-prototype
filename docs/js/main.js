@@ -17,6 +17,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
+// today's date available everywhere 
+var today = moment().format('D MMMM YYYY');
+$(".pt-date-today").html(today);
+
 jQuery(document).ready(function ($) {
   // Help slide gesture
   var panels = $('.panel');

@@ -1,14 +1,7 @@
-// TODO: Populate the list data http://localhost:5000/auth/profile/nomrep with the user they just created (one only - the second one Authorisation request)
-
-// TODO: Make this page http://localhost:5000/auth/profile/nomrep/edit-client take the client user name
-
-// TODO: make ceased work on http: //localhost:5000/auth/profile/nomrep#rep-list
-
-// TODO: Scenario 6 Make sure http://localhost:5000/auth/profile/nomrep represents the dropdown list  
-
-console.log('init user');
 
 
+
+// utility functions 
 
 // returns age from date of birth string 
 function getAge(dateString) {
@@ -22,7 +15,7 @@ function getAge(dateString) {
   return age;
 }
 
-
+// returns serializes form data from a form 
 function getFormData($form) {
   var unindexed_array = $form.serializeArray();
   var indexed_array = {};
@@ -41,6 +34,8 @@ function guidGenerator() {
   return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 }
 
+// end utility functions 
+
 
 $(document).keypress(function (e) {
 
@@ -52,8 +47,6 @@ $(document).keypress(function (e) {
   }
 });
 
-
-// Nom rep pages
 function initNomRep() {
 
   var repFlow = getUrlParameter('repFlow');
@@ -97,12 +90,9 @@ function initNomRep() {
     jQuery(".pt-first-time-no").hide();
     jQuery(".pt-first-time").show();
   }
-
 }
 
 initNomRep();
-
-
 
 
 // banners
@@ -177,7 +167,7 @@ initSwitch();
 
 
 
-// local storage a user 
+// put the user from user.js in to local storage
 function writeUser() {
 
   console.log('Writing user  ');
@@ -193,6 +183,7 @@ function writeUser() {
 
   // count number of clients 
   var sessionClientSubmitted = false;
+
   if (sessionClients) {
     localStorage.setItem('repFlow', 'representing');
     if (sessionClients.client[0].submittedApplication == "true") {
@@ -203,14 +194,12 @@ function writeUser() {
     }
 
     if (sessionClients.client[0].role == "Cease") {
-      // alert('ceased');
       user.numberOfClients = 0
       user.clients.length = 0;
       sessionClientSubmitted = false;
       localStorage.setItem('repFlow', 'none');
       sessionStorage.removeItem('usersClients');
       if (!window.location.hash) {
-        // alert('reloading clients');
         window.location = window.location + '#rep-list';
         window.location.reload();
       }
@@ -218,32 +207,28 @@ function writeUser() {
   }
 
   var sessionRepSubmitted = false;
+
   if (sessionReps) {
     localStorage.setItem('repFlow', 'representing');
     if (sessionReps.rep[0].submittedApplication == "true") {
       localStorage.setItem('repFlow', 'representing');
       var sessionRepSubmitted = true;
-      // push the rep to the user
       user.reps.push(sessionReps.rep[0]);
     }
 
     if (sessionReps.rep[0].role == "Cease") {
-      // alert('ceased');
       user.numberOfReps = 0
       user.reps.length = 0;
       sessionRepSubmitted = false;
       localStorage.setItem('repFlow', 'none');
       sessionStorage.removeItem('usersReps');
       if (!window.location.hash) {
-        // alert('reloading');
         window.location = window.location + '#rep-list';
         window.location.reload();
       }
     }
 
   }
-
-
 
   // set
   if ((user.clients.length > 0) || (sessionClientSubmitted === true)) {
@@ -280,7 +265,7 @@ function writeUser() {
     $('.pt-switch-account').show();
   } else if ((sessionRepSubmitted === true) || (user.numberOfReps > 0)) {
     localStorage.setItem('repFlow', 'represented');
-    $('.pt-switch-account').show();
+    // $('.pt-switch-account').show();
   } else if ((sessionClientSubmitted === true) || (user.numberOfClients > 0)) {
     localStorage.setItem('repFlow', 'representing');
     $('.pt-switch-account').show();
@@ -331,15 +316,10 @@ function writeUser() {
         $('.pt-current-user-name-first').html(this.nameFirst);
         $('.pt-current-user-name-full').html(this.nameFull);
       }
-
-
     });
-
-
   }
 
   $('.pt-current-user-client-list').html(clientListHtml);
-
 }
 
 
@@ -355,11 +335,7 @@ window.onload = function () {
       dataType: 'json'
     }).done(function (data) {
 
-
-
       console.log('User data back');
-
-      // console.log(data);
 
       $.each(data.person, function (index, element) {
 
@@ -370,14 +346,11 @@ window.onload = function () {
 
       localStorage.setItem('allPersons', JSON.stringify(data.person));
 
-
-      // set the default MyService user if no user exists
+      // set the default MyService user if no user has been requested 
       if (!(localStorage.getItem('person'))) {
         localStorage.setItem('person', JSON.stringify(data.person[0]));
         console.log('setting the default user');
       }
-
-
 
       // populate the user dropdown list with users from the json
       var $userSelect = $('#user-drop-down');
@@ -389,29 +362,20 @@ window.onload = function () {
 
       // switch the user 
       $userSelect.change(function () {
-
         var selectedId = this.value;
 
         $.each(data.person, function (index, element) {
 
           if (element._id === selectedId) {
-            // console.log('index = ' + index);
-
             localStorage.setItem('person', JSON.stringify(data.person[index]));
             localStorage.setItem('switchId', 'none');
             jQuery('.pt-managing-user').slideUp('fast');
             localStorage.setItem('switchFlow', 'none');
             writeUser();
           }
-
         });
-
-
       });
-
       writeUser();
-
-
     });
   } else {
     console.log("browser does not support web storage...");

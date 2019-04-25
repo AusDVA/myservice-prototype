@@ -13,6 +13,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
+// today's date available everywhere 
+var today = moment().format('D MMMM YYYY');
+$(".pt-date-today").html(today);
+
 
 jQuery(document).ready(function ($) {
   // Help slide gesture
@@ -448,7 +452,7 @@ var AU = AU || {};
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -546,17 +550,17 @@ var AU = AU || {};
 
     // making a prefunction if none was provided
     if (typeof options.prefunction !== 'function') {
-      options.prefunction = function () {};
+      options.prefunction = function () { };
     }
 
     // making a postfunction if none was provided
     if (typeof options.postfunction !== 'function') {
-      options.postfunction = function () {};
+      options.postfunction = function () { };
     }
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -750,7 +754,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     // making sure we can iterate over just one DOM element
     if (elements.length === undefined) {
@@ -845,7 +849,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -903,7 +907,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
