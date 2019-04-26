@@ -25,7 +25,6 @@
     </div>
 
     <form class="pt-submit-form">
-      <input type="hidden" name="id" id="repId" value="">
       <div class="container">
         <div class="radio-tile--group margin-above--large">
           <label class="radio-tile">
@@ -73,18 +72,31 @@
               <label class="uikit-text-input__label" for="date">Date of birth
                 <span class="hint">(dd / mm / yyyy)</span>
               </label>
-              <input class="uikit-text-input dd" type="text" name="dob-dd" id="dob-dd" maxlength="2" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="dob-mm" id="dob-mm" maxlength="2" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="dob-yyyy" id="dob-yyyy" maxlength="4" aria-label="4 digit year">
+              <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" aria-label="2 digit day"> /
+              <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" aria-label="2 digit month"> /
+              <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year">
             </div>
 
             <div id="title-group" class="form-group">
-              <label class="uikit-text-input__label" for="relationshipType">Relationship to you
+              <label class="uikit-text-input__label" for="title">Relationship to you
                 <br>
                 <span id="title-group--optional" class="hint" style="display:none;"> Used for correspondence (optional)</span>
               </label>
-              <select class="uikit-text-input input-half" id="relationshipType" name="relationshipType">
-                <% include ../../../../partials/forms/relationship-list.ejs %>
+              <select class="uikit-text-input input-half" id="relationshipTitle" name="relationshipTitle">
+                <option default="">-- Select relationship --</option>
+                <option> Carer </option>
+                <option> Child </option>
+                <option> De facto </option>
+                <option> Friend </option>
+                <option> Grandchild </option>
+                <option> Grandparent </option>
+                <option> Guardian </option>
+                <option> Niece/nephew </option>
+                <option> Parent </option>
+                <option> Sibling </option>
+                <option> Spouse </option>
+                <option> Uncle/aunt </option>
+                <option> Other </option>
 
               </select>
             </div>
@@ -205,25 +217,24 @@
     $('#btnNext').click(function (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
+      // console.log($(".pt-submit-form").serialize());
 
-      // set a new session guid every time this page is called
-      var sessionGuid = (guidGenerator());
-      sessionStorage.setItem('sessionGuid', sessionGuid);
+      var data = ($('.pt-submit-form').serializeArray());
 
-      $('#repId').val(sessionGuid);
-      var data = ($('.pt-submit-form'));
+      // console.log(data);
 
+      // console.log(this);
       writeRep(data);
 
-      if ($('#addNewOrg').is(':checked')) {
-        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
-      }
+      // if ($('#addNewOrg').is(':checked')) {
+      //   window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+      // }
 
-      if ($.trim($('#fileNumber').val()) == '') {
-        window.location.href = '/auth/profile/nomrep/rep-details2';
-      } else {
-        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
-      }
+      // if ($.trim($('#fileNumber').val()) == '') {
+      //   window.location.href = '/auth/profile/nomrep/rep-details2';
+      // } else {
+      //   window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+      // }
 
     });
 
