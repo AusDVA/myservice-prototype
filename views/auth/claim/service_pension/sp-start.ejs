@@ -62,7 +62,7 @@
                             locals.question = 'On what grounds are you applying for Invalidity Pension?';
                             locals.items = ["Totally and permanently incapacitated (TPI) or special rate disability pension (SRDP)","Blind","Neither"];
                             locals.optionalItemID = ["tpi","blind","neither"];
-                            locals.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","",""];
+                            locals.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","Blind or visually impaired (ie regarded as permanently blind in both eyes)?",""];
                             locals.optionalID = 'invalidity_what_grounds';
                             locals.optionalHide = true;
                             %>
@@ -153,6 +153,11 @@
                             locals.optionalHide = true;
                             %>
                                                         <% include ../../../../partials/forms/radio--yes-no.ejs %>
+                                                          <!-- if Yes -->
+                                                          <div class="uikit-page-alerts" role="alert" id="invalidity_blind_notice-1" style="display: none;">
+                                                            <p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p>
+                                                            <p>You can attach this report at the end of your claim.</p>
+                                                          </div>
                                                           <div id="save_and_next" class="margin-above--extra" style="display: none">
                                                             <p>Choose <b>save and next</b> to continue.</p>
                                                           </div>
@@ -270,6 +275,8 @@
                         $("#invalidity_what_grounds").hide("fast");
                       } else {
                         $("#invalidity_what_grounds").show("fast");
+                        $("#cs_centrelink").show("fast");
+                        $("#cs_cshc").show("fast");
                         $("#has_tpi_notice").hide("fast");
                       }
                       $("#pbs").show("fast");
@@ -296,6 +303,7 @@
               $("#invalidity_what_grounds").change(function () {
                 var mySelection = $('input[name=invalidity_what_grounds]:checked').val();
                 $("#invalidity_blind_notice").hide();
+                $("#invalidity_blind_notice-1").hide();
                 $("#invalidity_neither_notice").hide();
                 sessionStorage.setItem('veteran-blind', 'false');
                 $("#veteran-blind").html("No");
@@ -335,6 +343,17 @@
                 }
               });
 
+              /* Are you applying as a person who is blind or visually impaired? */
+
+              $('input[name=visual_impairment]').change(function () {
+                mySelection = $('input[name=visual_impairment]:checked').val();
+                if (mySelection == "yes") {
+                  $("#invalidity_blind_notice-1").show("fast");
+                } else {
+                  $("#invalidity_blind_notice-1").hide();
+                }
+              });
+
               /* Pension bonus scheme */
 
               $('input[name=pbs]').change(function () {
@@ -345,7 +364,6 @@
                   $("#pbs_notice").hide("fast");
                 }
               });
-
               /* Centrelink questions */
 
               var centrelink_selected = [];
@@ -399,6 +417,7 @@
                 $("#has_tpi_notice").hide("fast");
                 $("#invalidity_neither_notice").hide();
                 $("#invalidity_blind_notice").hide();
+                $("#invalidity_blind_notice-1").hide();
                 $("#pension_who").hide();
                 $("#pbs").hide();
                 $("#pbs_notice").hide();
