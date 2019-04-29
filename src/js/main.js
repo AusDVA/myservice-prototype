@@ -13,6 +13,10 @@ var getUrlParameter = function getUrlParameter(sParam) {
   }
 };
 
+// today's date available everywhere 
+var today = moment().format('D MMMM YYYY');
+$(".pt-date-today").html(today);
+
 
 jQuery(document).ready(function ($) {
   // Help slide gesture
@@ -256,119 +260,6 @@ jQuery(document).ready(function ($) {
   }
 
 
-  // Nom rep pages
-  function initNomRep() {
-
-    var repFlow = getUrlParameter('repFlow');
-
-    if (repFlow) {
-
-      localStorage.setItem('repFlow', repFlow);
-
-    } else if ("repFlow" in localStorage) {
-
-    } else {
-      localStorage.setItem('repFlow', 'none');
-    }
-
-    if ((localStorage.getItem('repFlow') == 'both')) {
-      // alert('asdf');
-      jQuery(".pt-first-time-no").show();
-      jQuery(".pt-rep-flow-representing-no").hide();
-      jQuery(".pt-rep-flow-represented-no").hide();
-      jQuery(".pt-rep-flow-none").hide();
-      jQuery(".pt-rep-flow-representing").show();
-      jQuery(".pt-rep-flow-represented").show();
-    } else if ((localStorage.getItem('repFlow') == 'none')) {
-      jQuery(".pt-first-time-no").show();
-      jQuery(".pt-rep-flow-representing").hide();
-      jQuery(".pt-rep-flow-represented").hide();
-      jQuery(".pt-rep-flow-none-no").hide();
-      jQuery(".pt-rep-flow-none").show();
-    } else if ((localStorage.getItem('repFlow') == 'representing')) {
-      jQuery(".pt-first-time-no").show();
-      jQuery(".pt-rep-flow-represented").hide();
-      jQuery(".pt-rep-flow-representing-no").hide();
-      jQuery(".pt-rep-flow-none").hide();
-      jQuery(".pt-rep-flow-representing").show();
-    } else if ((localStorage.getItem('repFlow') == 'represented')) {
-      jQuery(".pt-first-time-no").show();
-      jQuery(".pt-rep-flow-representing").hide();
-      jQuery(".pt-rep-flow-none").hide();
-      jQuery(".pt-rep-flow-represented").show();
-      jQuery(".pt-rep-flow-represented-no").hide();
-    } else if ((localStorage.getItem('repFlow') == 'newbie')) {
-      jQuery(".pt-first-time-no").hide();
-      jQuery(".pt-first-time").show();
-    }
-
-  }
-
-  initNomRep();
-
-
-
-
-  // banners
-  function initBanners() {
-
-    var bannerFlow = getUrlParameter('bannerFlow');
-
-    if (bannerFlow) {
-
-      localStorage.setItem('bannerFlow', bannerFlow);
-
-    } else if ("bannerFlow" in localStorage) {
-
-    } else {
-      localStorage.setItem('bannerFlow', 'none');
-    }
-
-    if ((localStorage.getItem('bannerFlow') == 'all')) {
-      jQuery(".pt-banner-service").show();
-      jQuery(".pt-banner-nr-rep").show();
-    } else if ((localStorage.getItem('bannerFlow') == 'none')) {
-      jQuery(".pt-banner-service").hide();
-      jQuery(".pt-banner-nr-rep").hide();
-    } else if ((localStorage.getItem('bannerFlow') == 'service')) {
-      jQuery(".pt-banner-service").show();
-      jQuery(".pt-banner-nr-rep").hide();
-    } else if ((localStorage.getItem('bannerFlow') == 'nr-rep')) {
-      jQuery(".pt-banner-service").hide();
-      jQuery(".pt-banner-nr-rep").show();
-    }
-  }
-
-  initBanners();
-
-  // Switch account
-  function initSwitch() {
-
-    var switchFlow = getUrlParameter('switchFlow');
-
-    if (switchFlow) {
-      localStorage.setItem('switchFlow', switchFlow);
-      jQuery('.pt-managing-user ').slideDown('fast');
-    } else {
-      // localStorage.setItem('switchFlow', 'none');
-    }
-
-    if ((localStorage.getItem('switchFlow') == 'active')) {
-      // jQuery('.switch-account-button').addClass("switch-account-button--current");
-      jQuery('.pt-managing-user ').show();
-
-    } else {
-      // jQuery('.switch-account-button').removeClass("switch-account-button--current");
-    }
-  }
-
-  initSwitch();
-
-  $("#returnProfile").click(function () {
-    jQuery('.pt-managing-user ').slideUp('fast');
-    localStorage.setItem('switchFlow', 'none');
-  });
-
   // Swap text on top panel accordion button
   var open = false;
   var initialButtonText = $(".accordion-toppanel-btn").html();
@@ -400,10 +291,6 @@ jQuery(document).ready(function ($) {
   });
 });
 
-
-$(document).on("click", function () {
-  $(".switch-account-box").addClass("switch-account-box--hide");
-});
 
 
 
@@ -565,7 +452,7 @@ var AU = AU || {};
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -663,17 +550,17 @@ var AU = AU || {};
 
     // making a prefunction if none was provided
     if (typeof options.prefunction !== 'function') {
-      options.prefunction = function () {};
+      options.prefunction = function () { };
     }
 
     // making a postfunction if none was provided
     if (typeof options.postfunction !== 'function') {
-      options.postfunction = function () {};
+      options.postfunction = function () { };
     }
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -867,7 +754,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     // making sure we can iterate over just one DOM element
     if (elements.length === undefined) {
@@ -962,7 +849,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -1020,7 +907,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
