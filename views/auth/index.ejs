@@ -2,8 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Home | MyService</title>
-  <% include ../../partials/head.ejs %>
+  <title>Claims | MyService</title>
+  <% include ../../../partials/head.ejs %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -13,269 +13,475 @@
   <nav class="uikit-skip-link">
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
-  <% include  ../../partials/header-topbar %>
-
-  <% include ../../partials/header-authenticated.ejs %>
-  <% include ../../partials/header-nom-rep.ejs %>
-  <main>
-    <div class="authenticated-home section-feature section-feature--bg">
-      <section>
-        <div class="container" id="main-content">
-          <h1>
-            <span class="heading" style="font-size:20px; border-bottom:2px solid orange;">Welcome
-
-              <span class="pt-current-user-name-full"></span>
-
-            </span>
-          </h1>
-          <br>
-        </div>
-      </section>
-
-      <div class="container">
-        <section class="widget">
-          <div class="widget-header">
-            <h2>
-              <span class="widget-header__title">
-                <img src="../../../docs/images/ico-claims.svg" alt="Claim activity - icon">Claim activity
-              </span>
-              <span class="widget-actions floated">
-
-                <button class="uikit-btn uikit-btn--tertiary small widget-btn " onclick="window.location.href = '/auth/claim'">Manage your claims</button>
-                <button class="uikit-btn small widget-btn " onclick="window.location.href = '/auth/claim'">Make a claim</button>
-              </span>
-            </h2>
-
-          </div>
-          <div class="row widget-content widget--justclaims">
-            <div class="col-md-12">
-              <table class="table-claims table-responsive">
-                <thead>
-                  <tr>
-                    <th class="widget-activity">Most recent claims</th>
-                    <th class="widget-actions">Actions</th>
-                  </tr>
-                </thead>
-                <tr>
-                  <td>
-                    <p class="status-icon status-submitted">
-                      Incapacity Payments
-                      <br />
-                      <span>Submitted
-                        <em>&ndash; 15 October 2018</em>
-                      </span>
+  <% include ../../../partials/header-topbar.ejs %>
+    <% include ../../../partials/header-authenticated.ejs %>
+      <% include ../../../partials/header-nom-rep.ejs %>
+        <main>
+          <section class="claims-page" id="claim-activity">
+            <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+              <h1 class="margin-above--none container">
+                <span class="heading">Claims</span>
+              </h1>
+              <div class="container">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity-top">
+                      <div class="col-md-9 col-sm-12 flex-item-1-top margin-above--large margin-below--large">
+                        <h2 class="claim-heading">Manage and track your claims</h2>
+                      </div>
+                      <div class="col-md-3 col-sml-12 flex-item-2-top margin-above--large" style="padding-right: 0;">
+                        <button id="scroll-to-claim" class="uikit-btn uikit-btn--primary" onclick="scrollToAdd();">&nbsp;Make a claim&nbsp;</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- <div class="row widget-content widget--justclaims"> -->
+                <!-- <div class="col-md-12 margin-below--none widget--justclaims padding-none"> -->
+                <!-- <div class="container-fluid" id="line-1">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status-flag">
+                        <p><a class="flag-text">Documents required</a></p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 flex-item-2 claim-title-status">
+                        <p class="main">Service Pension</p>
+                        <p class="details">Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 claim-actions-status claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '#open-example-modal'">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div> -->
+                <div class="container-fluid" id="line-1">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Incomplete</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 flex-item-2 claim-title-status">
+                        <p class="main">Service Pension</p>
+                        <p class="details">Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 claim-actions-status claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '#open-example-modal'">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-2">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Incomplete</p>
+                        <p class="details">Expires in 85 days</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Qualifying Service</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '#open-example-modal'">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-3">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">In progress</p>
+                        <p class="details">22 March 2019</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Education assistance</p>
+                        <p class="details">Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-4">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Submitted</p>
+                        <p class="details">18 Sep 2018</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Initial liability</p>
+                        <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-5" style="display: none;">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Submitted</p>
+                        <p class="details">18 Sep 2018</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Initial liability</p>
+                        <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-6" style="display: none;">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Submitted</p>
+                        <p class="details">18 Sep 2018</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Initial liability</p>
+                        <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="container-fluid" id="line-7" style="display: none;">
+                  <div class="row">
+                    <div class="col-md-12 uikit-grid" id="claim-activity">
+                      <div class="col-md-3 col-xs-3 flex-item-1 status">
+                        <p class="main">Submitted</p>
+                        <p class="details">18 Sep 2018</p>
+                      </div>
+                      <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
+                        <p class="main">Initial liability</p>
+                        <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
+                      </div>
+                      <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
+                        <button class="uikit-btn small uikit-btn--borderless">Add documents</button>
+                        <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
+                        <button class="uikit-btn small uikit-btn--borderless">View</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button id="show-more-button" class="uikit-btn uikit-btn small margin-above" onclick="showToggle();">Show more</button>
+              </div>
+            </div>
+          </section>
+          <section id="claim-options">
+            <div class="container margin-above margin-below--extra" id="claims-tiles">
+              <!-- <div class="row" style="width: 100%; padding: 0;"> -->
+              <h2 class="ss-align--center margin-above"><span class="font-weight-heavy">Make a claim to access treatment and support</span></h2>
+              <div class="flex-container flex-container--wrap hover-container">
+                <!-- <div class="col-md-12 margin-below--none" style="padding: 0;"> -->
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/claim1">
+                    <h2 class="card__title"><span class="font-weight-heavy">Initial Liability</span></h2>
+                    <p class="card__supporting-text text-fullwidth">Your first step towards treatment and support for a service-related injury&nbsp;or&nbsp;condition.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/health-card0">
+                    <h2 class="card__title"><span class="font-weight-heavy">Mental health treatment</span></h2>
+                    <p class="card__supporting-text text-fullwidth">Access free mental health treatment.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/incap-progress">
+                    <h2 class="card__title"><span class="font-weight-heavy">Incapacity Payments</span></h2>
+                    <p class="card__supporting-text text-fullwidth">Get compensated for your inability or reduced ability to work because of a service injury or condition.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/studentpreeligibility?flow=veteranFlow">
+                    <h2 class="card__title"><span class="font-weight-heavy">Education assistance</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">
+                      Get help with the cost of education for your family.
                     </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/incap-summary'">View</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p class="status-icon status-approved">
-                      Veteran Card
-                      <br />
-                      <span>Approved
-                        <em>&ndash; 27 November 2018</em>
-                      </span>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/afi-start">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Increase your disability&nbsp;pension (AFI)</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">
+                      Apply for a payment increase to your disability pension.
                     </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-card-summary'">View</button>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p class="status-icon status-approved">
-                      Mental Health Treatment (NLHC)
-                      <br />
-                      <span>Approved
-                        <em>&ndash; 27 November 2018</em>
-                      </span>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/dhoas-start">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">DHOAS subsidy certificate</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">
+                      Apply for a subsidy on the interest of your home loan.
                     </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/mental-health-summary'">View</button>
-                  </td>
-                </tr>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="http://www.dsh.gov.au/insurance">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Defence Service Home Insurance Scheme</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">Apply for home, contents and other insurance policies.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small"><span class="external-link hover-none">Defence Service Homes website</span>
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/service_pension/sp-progress-a">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Service Pension</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">Apply for age, invalidity or partner service pension</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/qualifying_service/qs-1">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Qualifying service</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">Submit a claim to determine if you have qualifying service.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/qualifying_service/civilian-qs-1">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Civilian qualifying service</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">Submit a claim to determine if you have qualifying service.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
 
-                <!-- <tr>
-                  <td>
-                    <p class="status-icon status-incomplete">
-                      Increase to Disability Pension
-                      <br />
-                      <span>Incomplete
-                        <em>&ndash; 27 April 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'afi-claim1'">Resume</button>
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-deleteclaimmodal'">Delete</button>
-                  </td>
-                </tr> -->
-              </table>
+                <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
+                  <a class="card-container" href="/auth/claim/lump-sum-advance-request">
+                    <h2 class="card__title">
+                      <span class="font-weight-heavy">Lump sum advance</span>
+                    </h2>
+                    <p class="card__supporting-text text-fullwidth">Request a lump sum advance payment.</p>
+                    <div class="card__button">
+                      <button class="uikit-btn uikit-btn--tertiary small">
+                        Get started
+                      </button>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </main>
+        <!-- Modal code -->
+        <div id="open-example-modal" class="modal-window">
+          <div>
+            <a href="#modal-close" title="Close" class="modal-close">Close</a>
+            <!-- <h5>MODAL EXAMPLE</h5> -->
+            <h2>Your qualifying service claim has been rejected. </h2>
+            <p>Your service pension claim may now be ineligible.</p>
+            <div class="modal-buttons">
+              <button class="uikit-btn" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-d'">Proceed with claim</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel claim</button>
             </div>
           </div>
-        </section>
-      </div>
-    </div>
-
-    <div class="container margin-below--extra">
-      <h2 class="margin-above margin-below--none ss-align--center">
-        <span class="font-weight-heavy">What would you like to&nbsp;do?</span>
-      </h2>
-
-      <div class="flex-container flex-container--wrap hover-container">
-
-        <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/profile/nomrep">
-            <figure>
-              <!-- <icon class="fal fa-hands-helping fa-3x" style="padding: 0 1em 0 0;"></icon> -->
-              <!-- <span class="fa-stack fa-4x">
-                <i class="fal fa-circle fa-stack-2x"></i>
-                <i class="fal fa-hands-helping fa-stack-1x"></i>
-              </span> -->
-              <img class="card__image" src="../../../docs/images/ico-db-rep.svg" alt="">
-            </figure>
-            <h2 class="card__title">
-              <span>Representation</span>
-            </h2>
-          </a>
-          <p class="card__supporting-text">Allows someone to represent you or you can help someone in dealing with DVA matters.</p>
         </div>
 
-        <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/needs1">
-            <figure>
-              <img class="card__image" src="../../../docs/images/ico-db-needs.svg" alt="">
-            </figure>
-            <h2 class="card__title">
-              <span>Get treatment and&nbsp;support</span>
-            </h2>
-          </a>
-          <p class="card__supporting-text">Has your condition changed? Tell us more about your needs at any&nbsp;time.
-          </p>
-        </div>
+        <% include ../../../partials/footer.ejs %>
+          <% include ../../../partials/claims-dhoas-start-modal.ejs %>
+            <script>
+              function scrollToAdd() {
+                g
+                $('html, body').animate({
+                  scrollTop: $("#claims-tiles").offset().top
+                }, 1000);
+              }
 
-        <!-- <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/healthcard"">
-            <figure>
-              <img class="card__image" src="../../../docs/images/ico-db-card.svg" alt="">
-            </figure>
-            <h2 class="card__title">
-              <span>View your Veteran&nbsp;Card</span>
-            </h2>
-          </a>
-          <p class="card__supporting-text">See accepted conditions covered by your Veteran&nbsp;Card.
-          </p>
-        </div> -->
+              $(document).keypress(function (e) {
+                switch (e.which) {
+                  case 49:
+                    showScenario(1);
+                    break;
+                  case 50:
+                    showScenario(2);
+                    break;
+                  case 51:
+                    showScenario(3);
+                    break;
+                  default:
+                }
+                // console.log( e.which );
+              });
 
-        <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/claim/veterancard/veteran-card-start">
-            <figure>
-              <img class="card__image" src="../../../docs/images/ico-db-card.svg" alt="">
-            </figure>
-            <h2 class="card__title">
-              <span>Apply for the Australian Defence Veterans' Covenant</span>
-            </h2>
-          </a>
-          <!-- <p class="card__supporting-text">See accepted conditions covered by your Veteran&nbsp;Card.
-          </p> -->
-        </div>
+              function showScenario(myScenario) {
 
-        <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/profile">
-            <figure>
-              <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
-            </figure>
-            <h2 class="card__title">
-              <span>Review your profile</span>
-            </h2>
-          </a>
-          <p class="card__supporting-text">Keep your profile up to date so we can help&nbsp;you.</p>
-        </div>
-      </div>
-    </div>
+                switch (myScenario) {
+                  case 1:
+                    $("#claim-activity").hide();
+                    // $("#show-toggle-mask").show();
+                    // console.log("dfgdfgdfg")
+                    break;
+                  case 2:
+                    $("#claim-activity").show();
+                    $("#show-more-button").hide();
+                    $("#claim-activity").show();
+                    break;
+                  case 3:
+                    $("#line-6").hide();
+                    $("#line-7").hide();
+                    $("#claim-activity").show();
+                    $("#show-more-button").show();
+                    break;
+                  default:
+                    break
+                }
+              }
 
-  </main>
-  <% include ../../partials/auth-modal-deleteclaim.ejs %>
-  <% include ../../partials/auth-modal-withdrawclaim.ejs %>
-  <% include ../../partials/footer.ejs %>
-  <script>
-    function makeToast(pType, pMessage) {
-      var $element = $('<button class="uikit-btn toast" role="alert" type="button">');
-      $element.append('<div class="toast__type toast__type--' + pType + '">').children().last().append(
-        '<span class="sr">' +
-        pType + '</span>');
-      $element.append('<div class="toast__message">').children().last().append('<p>' + pMessage + '</p>');
-      return $('<div class="toast-container"></div>').append($element);
-    }
+              function showToggle() {
+                console.log($("#show-more-button").html())
+                if ($("#show-more-button").html() == "Show more") {
+                  $("#show-more-button").html('Show less');
+                  $("#line-5").show();
+                  $("#line-6").show();
+                  $("#line-7").show();
+                  $("#show-toggle-mask").addClass("inactive");
+                } else {
+                  $("#show-more-button").html('Show more');
+                  $("#line-5").hide();
+                  $("#line-6").hide();
+                  $("#line-7").hide();
+                  $("#show-toggle-mask").removeClass("inactive");
+                }
+              }
 
-    if (localStorage.getItem('updateClaimInProgress')) {
-      var settings = JSON.parse(localStorage.getItem('updateClaimInProgress'));
+              // $(".toggle-arrow").click(function() {
+              //     $(".simple-accordion").toggleClass('simple-accordion--open simple-accordion--closed');
+              // });
 
-      var submitted = settings.actions.some(pAction => {
-        return pAction.status === 'submitted'
-      })
+              function goToByScroll(id) {
+                id = id.replace("-link", "");
+                $('html,body').animate({
+                  scrollTop: $("#" + id).offset().top
+                },
+                  'slow');
+              }
+              $("#scroll-to-claim").click(function (e) {
+                e.preventDefault();
+                goToByScroll("claim-options");
+              });
 
-      if (submitted) {
-        $('#main-content').append(makeToast('success', 'Documents successfully submitted'))
 
-      }
-
-      settings.actions.forEach(pAction => {
-        if (pAction.status === 'submitted') {
-          pAction.status = 'complete'
-        }
-      })
-
-      localStorage.setItem('updateClaimInProgress', JSON.stringify(settings))
-    }
-
-    $(document).ready(function () {
-      var claimWithdrawn = localStorage.getItem('claim-withdrawn');
-      if (claimWithdrawn) {
-        $(".show-instance-action-required").hide();
-        $(".show-instance-withdrawn").show();
-      } else {
-        $(".show-instance-action-required").show();
-        $(".show-instance-withdrawn").hide();
-      }
-      $("#button-withdrawclaimmodal").click(function () {
-        localStorage.setItem('claim-withdrawn', true);
-        $(".show-instance-action-required").hide();
-        $(".show-instance-withdrawn").show();
-        window.location.href = '#open-withdrawclaimmodal';
-      });
-    });
-
-    $(document).ready(function () {
-      const hoverContainer = document.getElementsByClassName('hover-container')[0]
-      const hoverElements = document.getElementsByClassName('hover-element')
-
-      Array.prototype.forEach.call(hoverElements, hoverElement => {
-        hoverElement.addEventListener('mouseover', (event) => {
-          hoverElement.classList.add('hover-element--active')
-        })
-
-        hoverElement.addEventListener('mouseout', (event) => {
-          hoverElement.classList.remove('hover-element--active')
-        })
-      })
-
-      hoverContainer.addEventListener('mouseover', (event) => {
-        if (event.target !== hoverContainer) {
-          hoverContainer.classList.add('hover-container--faded')
-        }
-      })
-
-      hoverContainer.addEventListener('mouseout', (event) => {
-        hoverContainer.classList.remove('hover-container--faded')
-      })
-    });
-
-  </script>
+    // $("#entitlements").change(function() {
+    //     if ($('#entitlements :selected').val() == "veterancard") {
+    //         $("#entitlement-vc").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-vc").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-vc").removeClass('action-group__reveal--open');
+    //         $("#entitlement-vc").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "mentalhealth") {
+    //         $("#entitlement-mh").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-mh").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-mh").removeClass('action-group__reveal--open');
+    //         $("#entitlement-mh").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "education") {
+    //         $("#entitlement-student").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-student").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-student").removeClass('action-group__reveal--open');
+    //         $("#entitlement-student").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "incap") {
+    //         $("#entitlement-incap").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-incap").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-afi").removeClass('action-group__reveal--open');
+    //         $("#entitlement-afi").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "afi") {
+    //         $("#entitlement-afi").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-afi").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-afi").removeClass('action-group__reveal--open');
+    //         $("#entitlement-afi").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "dhoas") {
+    //         $("#entitlement-dhoas-subsidy").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-dhoas-subsidy").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-dhoas-subsidy").removeClass('action-group__reveal--open');
+    //         $("#entitlement-dhoas-subsidy").addClass('action-group__reveal--closed');
+    //     }
+    //     if ($('#entitlements :selected').val() == "sp") {
+    //         $("#entitlement-sp").removeClass('action-group__reveal--closed');
+    //         $("#entitlement-sp").addClass('action-group__reveal--open');
+    //     } else {
+    //         $("#entitlement-sp").removeClass('action-group__reveal--open');
+    //         $("#entitlement-sp").addClass('action-group__reveal--closed');
+    //     }
+    // });
+            </script>
 </body>
 
 </html>
