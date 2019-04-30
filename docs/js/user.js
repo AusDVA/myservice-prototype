@@ -159,6 +159,31 @@ function writeUser() {
   console.log('Writing user  ');
 
   var user = JSON.parse(localStorage.getItem('person'));
+
+  var allClients = [];
+  $.each(user.clients, function (index, client) {
+
+    // reps = JSON.stringify(parsedReps);
+    // console.log(index);
+    // console.log(client);
+
+    // $.merge(true, client[index], allClients);
+    allClients.push(client);
+
+    // $.extend({}, parsedReps.rep[index], formData);
+    // $.merge(parsedReps.rep[index]), formData));
+  });
+
+  sessionStorage.setItem('usersMultipleClients', JSON.stringify(allClients));
+
+  // const sessionClientsFromJson = JSON.parse(sessionStorage.getItem('usersMultipleClients'));
+
+  // console.log('sessionClientsFromJson');
+  // console.log(sessionClientsFromJson);
+
+  // console.log('allClients');
+  // console.log(allClients);
+
   var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
   var sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
@@ -170,27 +195,27 @@ function writeUser() {
   // count number of clients 
   var sessionClientSubmitted = false;
 
-  if (sessionClients) {
-    localStorage.setItem('repFlow', 'representing');
-    if (sessionClients.client[0].submittedApplication == "true") {
-      localStorage.setItem('repFlow', 'representing');
-      var sessionClientSubmitted = true;
-      // push the client to the user
-      user.clients.push(sessionClients.client[0]);
-    }
+  // if (sessionClients) {
+  //   localStorage.setItem('repFlow', 'representing');
+  //   if (sessionClients.client[0].submittedApplication == "true") {
+  //     localStorage.setItem('repFlow', 'representing');
+  //     var sessionClientSubmitted = true;
+  //     // push the client to the user
+  //     user.clients.push(sessionClients.client[0]);
+  //   }
 
-    if (sessionClients.client[0].role == "Cease") {
-      user.numberOfClients = 0;
-      user.clients.length = 0;
-      sessionClientSubmitted = false;
-      localStorage.setItem('repFlow', 'none');
-      sessionStorage.removeItem('usersClients');
-      if (!window.location.hash) {
-        window.location = window.location + '#rep-list';
-        window.location.reload();
-      }
-    }
-  }
+  //   if (sessionClients.client[0].role == "Cease") {
+  //     user.numberOfClients = 0
+  //     user.clients.length = 0;
+  //     sessionClientSubmitted = false;
+  //     localStorage.setItem('repFlow', 'none');
+  //     sessionStorage.removeItem('usersClients');
+  //     if (!window.location.hash) {
+  //       window.location = window.location + '#rep-list';
+  //       window.location.reload();
+  //     }
+  //   }
+  // }
 
   var sessionRepSubmitted = false;
 
@@ -406,27 +431,38 @@ function writeClient(form) {
     var parsedClients = JSON.parse(clients);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
 
-    $.each(parsedClients.client, function (index, element) {
+    $.each(parsedClients, function (index, element) {
+
+      console.log('element.id');
+      console.log(element.id);
+
+      console.log('sessionGuid');
+      console.log(sessionGuid);
 
       if (element.id === sessionGuid) {
-        console.log('writing to the user in session');
+        console.log('writing to an existing user in session');
 
         clients = JSON.stringify(parsedClients);
-        $.extend(true, parsedClients.client[index], formData);
+        $.extend(true, parsedClients[index], formData);
       } else {
+
+        console.log('writing a new user in session');
+
         // TODO: this needs to push but the arrays don't match
         // $.extend({}, parsedClients.client[index], formData);
         // $.merge(parsedClients.client[index]), formData));
-
       }
     });
 
     sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
   } else {
     // no clients 
+    var allClients = [];
+    // var clientArray = $.makeArray(formData);
+    allClients.push(formData);
 
-    var clientArray = $.makeArray(formData);
-    sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
+    // sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
+    sessionStorage.setItem('usersClients', JSON.stringify(allClients));
   }
 }
 
