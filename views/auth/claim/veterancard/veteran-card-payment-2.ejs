@@ -33,13 +33,25 @@
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
           <div class="margin-above--extra margin-below--extra">
-            <div id="bank-details-text-add">
+            <div id="bank_details_supplement">
               <h2><strong>You may be eligible for the veteran supplement payment</strong></h2>
-              <p>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to you nominated account. You will also receive a
-                letter from us to confirm your first payment.</a>
+              <p>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to your nominated account. You will also receive a letter from us to confirm your first payment.</p>
                 <p>Find out more about the <a href="#">veteran supplement payment</a>.</p>
             </div>
-            <hr>
+            <div id="bank_details_supplement_pre_pop">
+              <h2><strong>You may be eligible for the veteran supplement payment</strong></h2>
+              <p>If eligible, payments will be made to the account shown below (you can update this in your profile). You will also receive a letter from us to confirm your first payment.</p>
+                <p>Find out more about the <a href="#">veteran supplement payment</a>.</p>
+            </div>
+            <div id="mandatory_message">
+              <h2><strong>Provide your bank account details</strong></h2>
+              <p>This will become your payment destination for all DVA payments.</p>
+            </div>
+            <div id="mandatory_read_only_message">
+              <h2><strong>Review your details</strong></h2>
+              <p>Payments will be made to the account shown below. You can update these details in your profile.</p>
+            </div>
+            <hr id="divider">
             <% 
                   locals = {};
                   locals.question = 'Would you like to provide your bank account details?'; 
@@ -48,28 +60,24 @@
             <form id="myForm">
               <input type="reset" style="display: none;">
               <% include ../../../../partials/forms/radio--yes-no.ejs %>
-              <div id="bank-details-text-pre-pop">
-                <h2><strong>You may be entitled to the Veteran supplement payment</strong></h2>
-                <p>If entitled, payments will be made into the account shown below. You can update these details in your profile.</strong></p>
-              </div>
             </form>
 
-            <div class="bank-details-container" style="display:none;">
-              <h3 class="margin-above--none">Add bank details <span class="hint">(all fields are required)</span></h3>
+            <div id="bank_details_empty">
+              <h3 class="margin-above--none">Add bank account details <span class="hint">(all fields are required)</span></h3>
               <form id="myForm2">
                 <% include ../../../../partials/form_groups/bank-account-details.ejs %>
                 <% 
                         locals = {};
                         locals.message = 'This will also be your nominated bank account for all DVA payments.'
                     %>
-                <%- include ../../../../partials/forms/notice.ejs %>
+                <!-- <%- include ../../../../partials/forms/notice.ejs %> -->
               </form>
             </div>
 
-            <div class="review__wrapper" id="bank-account-details">
+            <div class="review__wrapper" id="bank_details_read_only">
               <div class="review__header">
                 <div class="review__header--label">
-                  <h2>Your bank account details</h2>
+                  <h2>Your payment destination</h2>
                 </div>
               </div>
               <div class="review__content">
@@ -92,7 +100,6 @@
                   </div>
                 </div>
               </div>
-              <p>If eligible, you will receive a letter from us to confirm your first payment.</p>
             </div>
           </div>
 
@@ -116,45 +123,91 @@
     <div class="review__table">
       <div class="tr">
         <div class="td"><b>Page name</b></div>
-        <div class="td">About your claim</div>
-      </div>
-      <div class="tr">
-        <div class="td"><b>Spec revision</b></div>
-        <div class="td">0.13</div>
+        <div class="td">Bank details</div>
       </div>
     </div>
-    <h3>User selected properties</h3>
-    <div class="review__table">
-      <div class="tr">
-        <div class="td"><b>Veteran blind</b></div>
-        <div class="td" id="veteran-blind">No</div>
-      </div>
-      <div class="tr">
-        <div class="td"><b>Dual application</b></div>
-        <div class="td" id="dual-application">No</div>
-      </div>
-    </div>
-    <h3>User profile</h3>
+   
+    <h3>Scenarios</h3>
     <% 
    locals = new Object();
-   locals.question = 'Age:';
-   locals.optionalID = 'state-switcher--age';
-   locals.items = ["Under 59.75","Between 59.75 and 65","Over 65"];
-   locals.optionalItemID = ["under_59_75","between_59_75_and_65","over_65"];
-%>
+   locals.question = 'Scenarios:';
+   locals.optionalID = 'ss-scenario';
+   locals.items = ["Optional","Optional pre-pop","Mandatory","Mandatory read only"];
+    %>
     <%- include ../../../../partials/forms/radio.ejs %>
-    <% 
-   locals = new Object();
-   locals.question = 'Other properties:';
-   locals.optionalID = 'state-switcher--user-properties';
-   locals.items = ['Has TPI or SDRP'];
-   locals.optionalItemID = ['ss_tpi'];
-%>
-    <%- include ../../../../partials/forms/checkbox.ejs %>
   </div>
 
   <script>
     $(Document).ready(function () {
+
+             /* State switcher */
+
+              $(document).keypress(function (e) {
+                switch (e.which) {
+                  case 96: //tilda
+                    $('#state-switcher').toggle();
+                    break;
+                  default:
+                }
+              });
+
+              hideAll();
+              var scenario = "optional";
+              if (scenario == "optional") {
+                $("#optional").click();
+              }
+              showOptional();
+
+              $("#ss-scenario").change(function () {
+                var mySelection = $('input[name=ss-scenario]:checked').val();
+                console.log( mySelection )
+                switch (mySelection) {
+                  case "optional":
+                    showOptional();
+                    break;
+                  case "optional_pre-pop":
+                    showOptionalPrepop();
+                    break;
+                  case "mandatory":
+                    showMandatory();
+                    break;
+                  case "mandatory_read_only":
+                    showMandatoryReadOnly();
+                    break;
+                  default:
+                    break;
+                }
+              });
+
+              function showOptional() {
+                hideAll();
+                $("#bank_details_supplement").show();
+                $("#divider").show();
+                $("#bank_details_toggle").show();
+              }
+
+              function showOptionalPrepop() {
+                hideAll();
+                $("#bank_details_supplement_pre_pop").show();
+                $("#divider").show();
+                $("#bank_details_read_only").show();
+              }
+
+              function showMandatory() {
+                hideAll();
+                $("#mandatory_message").show();
+                $("#divider").show();
+                $("#bank_details_empty").show();
+              }
+
+              function showMandatoryReadOnly() {
+                hideAll();
+                $("#mandatory_read_only_message").show();
+                $("#divider").show();
+                $("#bank_details_read_only").show();
+              }
+
+    /* End state switcher */
 
       $("#myForm").trigger("reset");
 
@@ -165,8 +218,6 @@
         window.location.href = "/auth/claim/veterancard/veteran-card-review-submit"
       });
 
-      // bank details button function
-
       /* Yes to add bank details */
 
       var add_bank_details;
@@ -174,62 +225,26 @@
         add_bank_details = $('input[name=bank_details_toggle]:checked').val();
         $("#myForm2").trigger("reset");
         if (add_bank_details == "yes") {
-          $(".bank-details-container").show("fast");
+                  console.log(add_bank_details)
+          $("#bank_details_empty").show("fast");
         } else {
-          $(".bank-details-container").hide("fast");
+          $("#bank_details_empty").hide("fast");
         }
       });
 
-      $(".message-close").click(function () {
-        $(".bank-details-container").hide("fast");
-      });
+      function hideAll(){
+$("#bank_details_supplement").hide();
+$("#bank_details_supplement_pre_pop").hide();
+$("#mandatory_message").hide();
+$("#mandatory_read_only_message").hide();
+$("#divider").hide();
+$("#bank_details_toggle").hide();
+$("#bank_details_empty").hide();
+$("#bank_details_read_only").hide();
 
-    });
-
-
-    /* State switcher */
-
-    $("#bank-account-details").hide();
-    $("#bank-details-text-pre-pop").hide();
-
-    var userStatus = "single-account";
-
-    if (userStatus == "single-account") {
-      $("#user-status--single-account").click();
-    }
-
-    $(document).keypress(function (e) {
-      switch (e.which) {
-        case 96: //tilda
-          $('#state-switcher').toggle();
-          break;
-        default:
       }
+
     });
-
-    $("#user-status--single-account").click(function (e) {
-      showMin();
-    });
-    $("#user-status--multiple-accounts").click(function (e) {
-      showMax();
-    });
-
-    /* End state switcher */
-
-    function showMax() {
-      $("#bank-account-details").show();
-      $("#btnAddBank-box").hide();
-      $("#bank-details-text-add").hide();
-      $("#bank-details-text-pre-pop").show();
-    }
-
-    function showMin() {
-      $("#bank-account-details").hide();
-      $("#btnAddBank-box").show();
-      $("#bank-details-text-add").show();
-      $("#bank-details-text-pre-pop").hide();
-
-    }
 
   </script>
 
