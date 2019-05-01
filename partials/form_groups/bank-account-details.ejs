@@ -19,7 +19,8 @@
     </div>
     <!-- <p id="financial-institution-provide">--</p> -->
     <p id="financial-institution-amp">AMP</p>
-    <p id="financial-institution-none">BSB not found. If you are sure you have entered a valid BSB please call VAN to proceed.</p>
+    <!-- <p id="financial-institution-none">BSB not found. If you are sure you have entered a valid BSB please call VAN to proceed.</p> -->
+    <p id="financial-institution-none">BSB not found.</p>
   </div>
 
   <%
@@ -38,14 +39,13 @@
     $("#spinner").hide();
     $("#financial-institution-none").hide();
     $("#financial-institution-amp").hide();
-    // $("#alert-payment-1").hide();
 
-    //Automatic tab feature for BSB 
-    // $(".bsb").keyup(function () {
-    //   if (this.value.length == this.maxLength) {
-    //     $(this).next('.bsb').focus();
-    //   }
-    // });
+    // Automatic tab feature for BSB 
+    $(".bsb").keyup(function () {
+      if (this.value.length == this.maxLength) {
+        $(this).next('.bsb').focus();
+      }
+    });
 
     //Loading icon feature
     $(".bsb").keyup(function () {
@@ -57,22 +57,24 @@
 
       if (this.value == 333) {
 
-        setTimeout(function () {
+        var showInstitution = window.setTimeout(function () {
           $('#spinner').fadeOut(180);
+          $("#financial-institution-none").fadeIn(200);
         }, 1500);
 
-        setTimeout(function () {
-          $("#financial-institution-none").fadeIn(205);
-        }, 1500);
+        while (showInstitution--) {
+    window.clearTimeout(showInstitution); // will do nothing if no timeout with id is present
+}
 
       } else {
 
-        setTimeout(function () {
-          $('#spinner').fadeOut(180);
-        }, 1500);
+          while (showBSBFail--) {
+    window.clearTimeout(showBSBFail); // will do nothing if no timeout with id is present
+}
 
-        setTimeout(function () {
-          $("#financial-institution-amp").fadeIn(205);
+        var showBSBFail = window.setTimeout(function () {
+          $('#spinner').fadeOut(180);
+          $("#financial-institution-amp").fadeIn(200);
         }, 1500);
 
       }

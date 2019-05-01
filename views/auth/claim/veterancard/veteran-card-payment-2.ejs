@@ -33,10 +33,10 @@
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
           <div class="margin-above--extra margin-below--extra">
-            <% include ../../../../partials/content_groups/bank_account.ejs %>
-
-           
-
+            <% 
+              locals = {};
+              locals.optionalScenario = 'optional'; %>
+              <%-include ../../../../partials/content_groups/bank_account.ejs%>
           <div class="pagination">
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veterancard/veteran-card-service-history'">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
@@ -52,98 +52,10 @@
 
   <% include ../../../../partials/footer.ejs %>
 
-  <div id="state-switcher">
-    <h3>Page info</h3>
-    <div class="review__table">
-      <div class="tr">
-        <div class="td"><b>Page name</b></div>
-        <div class="td">Bank details</div>
-      </div>
-    </div>
-   
-    <h3>Scenarios</h3>
-    <% 
-   locals = new Object();
-   locals.question = 'Scenarios:';
-   locals.optionalID = 'ss-scenario';
-   locals.items = ["Optional","Optional pre-pop","Mandatory","Mandatory read only"];
-    %>
-    <%- include ../../../../partials/forms/radio.ejs %>
-  </div>
+  
 
   <script>
     $(Document).ready(function () {
-
-             /* State switcher */
-
-              $(document).keypress(function (e) {
-                switch (e.which) {
-                  case 96: //tilda
-                    $('#state-switcher').toggle();
-                    break;
-                  default:
-                }
-              });
-
-              hideAll();
-              var scenario = "optional";
-              if (scenario == "optional") {
-                $("#optional").click();
-              }
-              showOptional();
-
-              $("#ss-scenario").change(function () {
-                var mySelection = $('input[name=ss-scenario]:checked').val();
-                console.log( mySelection )
-                switch (mySelection) {
-                  case "optional":
-                    showOptional();
-                    break;
-                  case "optional_pre-pop":
-                    showOptionalPrepop();
-                    break;
-                  case "mandatory":
-                    showMandatory();
-                    break;
-                  case "mandatory_read_only":
-                    showMandatoryReadOnly();
-                    break;
-                  default:
-                    break;
-                }
-              });
-
-              function showOptional() {
-                hideAll();
-                $("#bank_details_supplement").show();
-                $("#divider").show();
-                $("#bank_details_toggle").show();
-              }
-
-              function showOptionalPrepop() {
-                hideAll();
-                $("#bank_details_supplement_pre_pop").show();
-                $("#divider").show();
-                $("#bank_details_read_only").show();
-              }
-
-              function showMandatory() {
-                hideAll();
-                $("#mandatory_message").show();
-                $("#divider").show();
-                $("#bank_details_empty").show();
-              }
-
-              function showMandatoryReadOnly() {
-                hideAll();
-                $("#mandatory_read_only_message").show();
-                $("#divider").show();
-                $("#bank_details_read_only").show();
-              }
-
-    /* End state switcher */
-
-      $("#myForm").trigger("reset");
 
       $("#btnNext").click(function () {
         window.location.href = "/auth/claim/veterancard/veteran-card-review-submit"
@@ -151,32 +63,6 @@
       $("#btnPrev").click(function () {
         window.location.href = "/auth/claim/veterancard/veteran-card-review-submit"
       });
-
-      /* Yes to add bank details */
-
-      var add_bank_details;
-      $('input[name=bank_details_toggle]').change(function () {
-        add_bank_details = $('input[name=bank_details_toggle]:checked').val();
-        $("#myForm2").trigger("reset");
-        if (add_bank_details == "yes") {
-                  console.log(add_bank_details)
-          $("#bank_details_empty").show("fast");
-        } else {
-          $("#bank_details_empty").hide("fast");
-        }
-      });
-
-      function hideAll(){
-$("#bank_details_supplement").hide();
-$("#bank_details_supplement_pre_pop").hide();
-$("#mandatory_message").hide();
-$("#mandatory_read_only_message").hide();
-$("#divider").hide();
-$("#bank_details_toggle").hide();
-$("#bank_details_empty").hide();
-$("#bank_details_read_only").hide();
-
-      }
 
     });
 
