@@ -477,12 +477,24 @@ function writeClient(form) {
 
 function readClient() {
   console.log('Reading client data');
+
+  var urlId = getUrlParameter('id');
+
+  if (urlId) {
+    sessionStorage.setItem('sessionGuid', urlId);
+  }
+
   var clients = sessionStorage.getItem('usersClients');
   var parsedClients = JSON.parse(clients);
+
   var sessionGuid = sessionStorage.getItem('sessionGuid');
   if (parsedClients) {
     var clientListFullHtml = '';
     $.each(parsedClients, function (index, client) {
+
+      console.log('client.id ' + client.id);
+      console.log('sessionGuid ' + sessionGuid);
+      console.log('sessionGuid ' + sessionGuid);
 
       // write the client currently being worked on
       if (client.id === sessionGuid) {
@@ -509,7 +521,8 @@ function readClient() {
         clientListFullHtml += '<p><strong> Online access: </strong>';
         clientListFullHtml += client.enquireOnline + '</p>';
       }
-      clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/edit-client">';
+      clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/edit-client';
+      clientListFullHtml += '?id=' + client.id + '">';
       clientListFullHtml += 'Edit Role</a></p></div></div></div></div></div>';
     });
 
