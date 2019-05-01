@@ -145,27 +145,28 @@
       $('#hideAllForm').show("fast");
     });
 
-
+    // set a new session guid every time this page is called
+    var sessionGuid = (guidGenerator());
+    sessionStorage.setItem('sessionGuid', sessionGuid);
+    $('#clientId').val(sessionGuid);
 
     $('#btnNext').click(function () {
 
       event.stopImmediatePropagation();
       event.preventDefault();
 
-      // set a new session guid every time this page is called
-      var sessionGuid = (guidGenerator());
-      sessionStorage.setItem('sessionGuid', sessionGuid);
 
-      $('#clientId').val(sessionGuid);
+
+
       var data = ($('.pt-submit-form'));
 
       writeClient(data);
 
-      // if ($.trim($('#fileNumber').val()) == '') {
-      //   window.location.href = '/auth/profile/nomrep/client-details2';
-      // } else {
-      //   window.location.href = '/auth/profile/nomrep/role-rep';
-      // }
+      if ($.trim($('#fileNumber').val()) == '') {
+        window.location.href = '/auth/profile/nomrep/form-client-2';
+      } else {
+        window.location.href = '/auth/profile/nomrep/role-rep';
+      }
 
     });
 

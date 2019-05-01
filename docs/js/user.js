@@ -153,39 +153,91 @@ function initSwitch() {
 
 initSwitch();
 
-// put the user from user.js in to local storage
+// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
+// and paste in the generated users in to /docs/data/user.json
+
+// Pull in the json content 
+$.ajax({
+  url: '/docs/data/user.json',
+  async: false,
+  dataType: 'json'
+}).done(function (data) {
+
+  console.log('User data back');
+
+  $.each(data.person, function (index, element) {
+
+    // console.log(element);
+
+  });
+
+  localStorage.setItem('allPersons', JSON.stringify(data.person));
+
+  // set the default MyService user if no user has been requested 
+  if (!localStorage.getItem('person')) {
+    localStorage.setItem('person', JSON.stringify(data.person[0]));
+    console.log('setting the default user');
+  }
+
+  // populate the user dropdown list with users from the json
+  var $userSelect = $('#user-drop-down');
+  $userSelect.empty();
+  $userSelect.append('<option>-- Select a user --</option>');
+  $.each(data.person, function (key, value) {
+    $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
+  });
+
+  // switch the user 
+  $userSelect.change(function () {
+    var selectedId = this.value;
+    sessionStorage.removeItem('usersClients');
+    sessionStorage.removeItem('usersMultipleClients');
+    sessionStorage.removeItem('sessionGuid');
+
+    $.each(data.person, function (index, element) {
+
+      if (element._id === selectedId) {
+        localStorage.setItem('person', JSON.stringify(data.person[index]));
+        localStorage.setItem('switchId', 'none');
+        jQuery('.pt-managing-user').slideUp('fast');
+        localStorage.setItem('switchFlow', 'none');
+        writeUser();
+      }
+    });
+  });
+  writeUser();
+});
+
+// put the user from user.js in to local storage and the users clients in to session storage 
 function writeUser() {
 
   console.log('Writing user  ');
 
   var user = JSON.parse(localStorage.getItem('person'));
+  var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
+  var sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
-  var allClients = [];
-  $.each(user.clients, function (index, client) {
+  window.allClients = [];
 
-    // reps = JSON.stringify(parsedReps);
-    // console.log(index);
-    // console.log(client);
+  if (sessionClients) {
 
-    // $.merge(true, client[index], allClients);
-    allClients.push(client);
+    $.each(sessionClients, function (index, client) {
+      // add new form data to an existing client
+      window.allClients.push(client);
+    });
+  } else {
+    // no client data in session so get it from the user 
+    $.each(user.clients, function (index, client) {
 
-    // $.extend({}, parsedReps.rep[index], formData);
-    // $.merge(parsedReps.rep[index]), formData));
-  });
+      window.allClients.push(client);
+    });
+  }
 
-  sessionStorage.setItem('usersMultipleClients', JSON.stringify(allClients));
+  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
+  sessionStorage.setItem('usersMultipleClients', JSON.stringify(window.allClients));
 
   // const sessionClientsFromJson = JSON.parse(sessionStorage.getItem('usersMultipleClients'));
 
-  // console.log('sessionClientsFromJson');
-  // console.log(sessionClientsFromJson);
-
-  // console.log('allClients');
-  // console.log(allClients);
-
-  var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
-  var sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
   var firstTimeUser = true;
   if (sessionStorage.getItem('sessionGuid')) {
@@ -195,27 +247,42 @@ function writeUser() {
   // count number of clients 
   var sessionClientSubmitted = false;
 
-  // if (sessionClients) {
-  //   localStorage.setItem('repFlow', 'representing');
-  //   if (sessionClients.client[0].submittedApplication == "true") {
-  //     localStorage.setItem('repFlow', 'representing');
-  //     var sessionClientSubmitted = true;
-  //     // push the client to the user
-  //     user.clients.push(sessionClients.client[0]);
-  //   }
+  console.log('window.allClients  ' + window.allClients);
+  console.log(window.allClients.length);
+  // console.log(sessionClients.length);
 
-  //   if (sessionClients.client[0].role == "Cease") {
-  //     user.numberOfClients = 0
-  //     user.clients.length = 0;
-  //     sessionClientSubmitted = false;
-  //     localStorage.setItem('repFlow', 'none');
-  //     sessionStorage.removeItem('usersClients');
-  //     if (!window.location.hash) {
-  //       window.location = window.location + '#rep-list';
-  //       window.location.reload();
-  //     }
-  //   }
-  // }
+  if (window.allClients.length > 0) {
+
+    // if ((sessionClients != null) || (sessionClients != '')) {
+
+    localStorage.setItem('repFlow', 'representing');
+    console.log('why am i here');
+
+    // if client in local storage 
+    if (user.clients) {
+
+      sessionClientSubmitted = true;
+    }
+
+    // if (sessionClients.client[0].submittedApplication == "true") {
+    //   localStorage.setItem('repFlow', 'representing');
+    //   var sessionClientSubmitted = true;
+    //   // push the client to the user
+    //   user.clients.push(sessionClients.client[0]);
+    // }
+
+    // if (sessionClients.client[0].role == "Cease") {
+    //   user.numberOfClients = 0
+    //   user.clients.length = 0;
+    //   sessionClientSubmitted = false;
+    //   localStorage.setItem('repFlow', 'none');
+    //   sessionStorage.removeItem('usersClients');
+    //   if (!window.location.hash) {
+    //     window.location = window.location + '#rep-list';
+    //     window.location.reload();
+    //   }
+    // }
+  }
 
   var sessionRepSubmitted = false;
 
@@ -246,7 +313,7 @@ function writeUser() {
     if (user.clients.length > 0) {
       user.numberOfClients = user.clients.length;
     } else {
-      user.numberOfClients = sessionClients.client.length;
+      user.numberOfClients = window.allClients.length;
     }
   } else if (user.clients.length < 1) {
     user.numberOfClients = 0;
@@ -264,17 +331,24 @@ function writeUser() {
     // localStorage.setItem('repFlow', 'newbie');
   }
 
+  // show hide the switch account buttons
+
+  // console.log('sessionClientSubmitted -> ' + sessionClientSubmitted);
+  // console.log('window.allClients.length -> ' + window.allClients.length);
   if (sessionRepSubmitted === true && sessionClientSubmitted === true) {
     localStorage.setItem('repFlow', 'both');
     $('.pt-switch-account').show();
+    firstTimeUser = false;
   } else if (sessionRepSubmitted === true || user.numberOfReps > 0) {
     localStorage.setItem('repFlow', 'represented');
-    // $('.pt-switch-account').show();
-  } else if (sessionClientSubmitted === true || user.numberOfClients > 0) {
+    firstTimeUser = false;
+  } else if (sessionClientSubmitted === true || window.allClients.length > 0) {
     localStorage.setItem('repFlow', 'representing');
     $('.pt-switch-account').show();
+    firstTimeUser = false;
   } else {
     $('.pt-switch-account').hide();
+    // alert('hiding');
   }
 
   if (firstTimeUser) {
@@ -300,6 +374,7 @@ function writeUser() {
 
   var clientListHtml = '';
 
+  // refactor this in readClient
   $.each(user.clients, function (key, client) {
 
     client.nameFull = client.nameFirst + ' ' + client.nameLast;
@@ -311,6 +386,7 @@ function writeUser() {
   if (user.clients.length > 0 && localStorage.getItem('switchFlow') == 'active') {
 
     var switchId = localStorage.getItem('switchId');
+
     $.each(user.clients, function (key, client) {
 
       if (client.id == switchId) {
@@ -323,64 +399,6 @@ function writeUser() {
 
   $('.pt-current-user-client-list').html(clientListHtml);
 }
-
-// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
-// and paste in the generated users in to /docs/data/user.json
-window.onload = function () {
-  if (typeof Storage !== "undefined") {
-
-    // Pull in the json content 
-    $.ajax({
-      url: '/docs/data/user.json',
-      async: false,
-      dataType: 'json'
-    }).done(function (data) {
-
-      console.log('User data back');
-
-      $.each(data.person, function (index, element) {
-
-        // console.log(element);
-
-      });
-
-      localStorage.setItem('allPersons', JSON.stringify(data.person));
-
-      // set the default MyService user if no user has been requested 
-      if (!localStorage.getItem('person')) {
-        localStorage.setItem('person', JSON.stringify(data.person[0]));
-        console.log('setting the default user');
-      }
-
-      // populate the user dropdown list with users from the json
-      var $userSelect = $('#user-drop-down');
-      $userSelect.empty();
-      $userSelect.append('<option>-- Select a user --</option>');
-      $.each(data.person, function (key, value) {
-        $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
-      });
-
-      // switch the user 
-      $userSelect.change(function () {
-        var selectedId = this.value;
-
-        $.each(data.person, function (index, element) {
-
-          if (element._id === selectedId) {
-            localStorage.setItem('person', JSON.stringify(data.person[index]));
-            localStorage.setItem('switchId', 'none');
-            jQuery('.pt-managing-user').slideUp('fast');
-            localStorage.setItem('switchFlow', 'none');
-            writeUser();
-          }
-        });
-      });
-      writeUser();
-    });
-  } else {
-    console.log("browser does not support web storage...");
-  }
-};
 
 function writeRep(form) {
 
@@ -427,74 +445,90 @@ function writeClient(form) {
 
   if (clients) {
     // clients in session data
-
+    console.log('There are clients in session');
+    var existingClient = false;
     var parsedClients = JSON.parse(clients);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
 
     $.each(parsedClients, function (index, element) {
 
-      console.log('element.id');
-      console.log(element.id);
-
-      console.log('sessionGuid');
-      console.log(sessionGuid);
-
       if (element.id === sessionGuid) {
-        console.log('writing to an existing user in session');
+        console.log('writing to an EXISTING user');
 
-        clients = JSON.stringify(parsedClients);
-        $.extend(true, parsedClients[index], formData);
-      } else {
+        // add new form data to an existing client
+        $.extend(true, window.allClients[index], formData);
 
-        console.log('writing a new user in session');
-
-        // TODO: this needs to push but the arrays don't match
-        // $.extend({}, parsedClients.client[index], formData);
-        // $.merge(parsedClients.client[index]), formData));
+        existingClient = true;
       }
     });
 
-    sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
+    if (existingClient === false) {
+      console.log('writing to a NEW user');
+      window.allClients.push(formData);
+    }
   } else {
     // no clients 
-    var allClients = [];
-    // var clientArray = $.makeArray(formData);
-    allClients.push(formData);
-
-    // sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
-    sessionStorage.setItem('usersClients', JSON.stringify(allClients));
+    console.log('no clients?');
+    window.allClients.push(formData);
   }
+
+  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
 }
 
 function readClient() {
-
   console.log('Reading client data');
   var clients = sessionStorage.getItem('usersClients');
   var parsedClients = JSON.parse(clients);
+  var sessionGuid = sessionStorage.getItem('sessionGuid');
   if (parsedClients) {
+    var clientListFullHtml = '';
+    $.each(parsedClients, function (index, client) {
 
-    $.each(parsedClients.client, function (index, element) {
+      // write the client currently being worked on
+      if (client.id === sessionGuid) {
+        $.each(client, function (index, client) {
+          $('.pt-current-client-' + index).html(client);
+        });
+      }
 
-      $.each(element, function (index, element) {
-        $('.pt-current-client-' + index).html(element);
-      });
+      clientListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
+      clientListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
+      clientListFullHtml += '<span class="fal fa-icon-nr fa-user-edit"></span> </div><div class="flex-item flex-item--large"><p><strong>';
+      clientListFullHtml += client.nameFirst + ' ' + client.nameLast;
+      clientListFullHtml += '</strong></p>  <p><strong> Your current role: </strong>';
+      clientListFullHtml += client.role;
+      clientListFullHtml += '</p><p> <strong> Representation date: </strong>';
+      clientListFullHtml += client.startDateDd + ' / ' + client.startDateMm + ' / ' + client.startDateYyyy;
+      clientListFullHtml += ' to ';
+      if (client.endDateDd) {
+        clientListFullHtml += client.endDateDd + ' / ' + client.endDateMm + ' / ' + client.endDateYyyy;
+      } else {
+        clientListFullHtml += '(no fixed end date)</p>';
+      }
+      if (client.enquireOnline) {
+        clientListFullHtml += '<p><strong> Online access: </strong>';
+        clientListFullHtml += client.enquireOnline + '</p>';
+      }
+      clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/edit-client">';
+      clientListFullHtml += 'Edit Role</a></p></div></div></div></div></div>';
     });
+
+    $('.pt-client-list-full').html(clientListFullHtml);
   }
 }
 
 function readRep() {
-
   console.log('Reading rep data');
   var reps = sessionStorage.getItem('usersReps');
   var parsedReps = JSON.parse(reps);
   if (parsedReps) {
 
-    $.each(parsedReps.rep, function (index, element) {
-
-      $.each(element, function (index, element) {
-
-        $('.pt-current-rep-' + index).html(element);
-      });
+    $.each(parsedReps, function (index, element) {
+      if (element.id === sessionGuid) {
+        $.each(element, function (index, element) {
+          $('.pt-current-rep-' + index).html(element);
+        });
+      }
     });
   }
 }
