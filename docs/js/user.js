@@ -165,11 +165,10 @@ $.ajax({
 
   console.log('User data back');
 
-  $.each(data.person, function (index, element) {
+  // $.each(data.person, function (index, element) {
 
-    // console.log(element);
+  // });
 
-  });
 
   localStorage.setItem('allPersons', JSON.stringify(data.person));
 
@@ -247,8 +246,8 @@ function writeUser() {
   // count number of clients 
   var sessionClientSubmitted = false;
 
-  console.log('window.allClients  ' + window.allClients);
-  console.log(window.allClients.length);
+  // console.log('window.allClients  ' + window.allClients);
+  // console.log(window.allClients.length);
   // console.log(sessionClients.length);
 
   if (window.allClients.length > 0) {
@@ -256,7 +255,7 @@ function writeUser() {
     // if ((sessionClients != null) || (sessionClients != '')) {
 
     localStorage.setItem('repFlow', 'representing');
-    console.log('why am i here');
+    // console.log('why am i here');
 
     // if client in local storage 
     if (user.clients) {
@@ -371,33 +370,6 @@ function writeUser() {
   $('.pt-current-user-name-picture').html(user.picture);
   $('.pt-current-user-name-first').html(user.name.first);
   $('.pt-current-user-name-full').html(user.nameFull);
-
-  var clientListHtml = '';
-
-  // refactor this in readClient
-  $.each(user.clients, function (key, client) {
-
-    client.nameFull = client.nameFirst + ' ' + client.nameLast;
-    clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
-    clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
-    clientListHtml += ' (' + client.role + ')</a></li>';
-  });
-
-  if (user.clients.length > 0 && localStorage.getItem('switchFlow') == 'active') {
-
-    var switchId = localStorage.getItem('switchId');
-
-    $.each(user.clients, function (key, client) {
-
-      if (client.id == switchId) {
-        this.nameFull = this.nameFirst + ' ' + this.nameLast;
-        $('.pt-current-user-name-first').html(this.nameFirst);
-        $('.pt-current-user-name-full').html(this.nameFull);
-      }
-    });
-  }
-
-  $('.pt-current-user-client-list').html(clientListHtml);
 }
 
 function writeRep(form) {
@@ -413,8 +385,8 @@ function writeRep(form) {
 
     $.each(parsedReps.rep, function (index, element) {
 
-      console.log('parsedReps');
-      console.log(parsedReps);
+      // console.log('parsedReps');
+      // console.log(parsedReps);
 
       if (element.id === sessionGuid) {
         console.log('writing to the user in session');
@@ -489,12 +461,15 @@ function readClient() {
 
   var sessionGuid = sessionStorage.getItem('sessionGuid');
   if (parsedClients) {
+    var clientListHtml = '';
     var clientListFullHtml = '';
+    var switchId = localStorage.getItem('switchId');
+
     $.each(parsedClients, function (index, client) {
 
-      console.log('client.id ' + client.id);
-      console.log('sessionGuid ' + sessionGuid);
-      console.log('sessionGuid ' + sessionGuid);
+      // console.log('client.id ' + client.id);
+      // console.log('sessionGuid ' + sessionGuid);
+      // console.log('sessionGuid ' + sessionGuid);
 
       // write the client currently being worked on
       if (client.id === sessionGuid) {
@@ -502,6 +477,17 @@ function readClient() {
           $('.pt-current-client-' + index).html(client);
         });
       }
+
+      if (client.id == switchId) {
+        this.nameFull = this.nameFirst + ' ' + this.nameLast;
+        $('.pt-current-user-name-first').html(this.nameFirst);
+        $('.pt-current-user-name-full').html(this.nameFull);
+      }
+
+      client.nameFull = client.nameFirst + ' ' + client.nameLast;
+      clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
+      clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
+      clientListHtml += ' (' + client.role + ')</a></li>';
 
       clientListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
       clientListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
@@ -521,14 +507,30 @@ function readClient() {
         clientListFullHtml += '<p><strong> Online access: </strong>';
         clientListFullHtml += client.enquireOnline + '</p>';
       }
-      clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/edit-client';
-      clientListFullHtml += '?id=' + client.id + '">';
+      clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/form-client-3';
+      clientListFullHtml += '?state=edit&id=' + client.id + '">';
       clientListFullHtml += 'Edit Role</a></p></div></div></div></div></div>';
     });
 
+    $('.pt-current-user-client-list').html(clientListHtml);
     $('.pt-client-list-full').html(clientListFullHtml);
+
+    if (localStorage.getItem('switchFlow') == 'active') {
+
+      // code smell  
+      // $.each(user.clients, function (key, client) {
+
+      // if (client.id == switchId) {
+      //   this.nameFull = this.nameFirst + ' ' + this.nameLast;
+      //   $('.pt-current-user-name-first').html(this.nameFirst);
+      //   $('.pt-current-user-name-full').html(this.nameFull);
+      // }
+      // });
+    }
   }
 }
+
+readClient();
 
 function readRep() {
   console.log('Reading rep data');
