@@ -204,15 +204,18 @@
       $('#newOrg').show("fast");
       $('#newPerson').hide();
     });
+
+
+    // set a new session guid every time this page is called
+    var sessionGuid = (guidGenerator());
+    sessionStorage.setItem('sessionGuid', sessionGuid);
+    $('#repId').val(sessionGuid);
+
+
     $('#btnNext').click(function (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
 
-      // set a new session guid every time this page is called
-      var sessionGuid = (guidGenerator());
-      sessionStorage.setItem('sessionGuid', sessionGuid);
-
-      $('#repId').val(sessionGuid);
       var data = ($('.pt-submit-form'));
 
       writeRep(data);

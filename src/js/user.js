@@ -492,10 +492,10 @@ function writeRep(form) {
   if (reps) { // reps in session data
     console.log('There are reps in session');
     var existingRep = false;
-    var parsedClients = JSON.parse(reps);
+    var parsedReps = JSON.parse(reps);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
 
-    $.each(parsedClients, function (index, element) {
+    $.each(parsedReps, function (index, element) {
 
       if (element.id === sessionGuid) {
         console.log('writing to an EXISTING client');
@@ -516,7 +516,7 @@ function writeRep(form) {
     window.allReps.push(formData);
   }
 
-  sessionStorage.setItem('usersClients', JSON.stringify(window.allReps));
+  sessionStorage.setItem('usersReps', JSON.stringify(window.allReps));
 }
 
 function readClient() {
