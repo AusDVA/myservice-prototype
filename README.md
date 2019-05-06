@@ -29,7 +29,11 @@ The [liverelod VS code app](https://marketplace.visualstudio.com/items?itemName=
 
 ## Backstop
 
+To run a test:  
+
 Windows: `backstop test`  
 Linux: `./node_modules/backstopjs/cli/index.js test` (or you can run `backstop test` if you run `npm install -g backstopjs@canary`  
 **Note:** the test will fail unless there is reference images  
-**Also note:** The default `backstop.json` file will only test the styleguide. If you add `--config all-pages.backstop.json` to the end of the command, it will test every single page on the site.
+**Also note:** The default `backstop.json` file will only test the styleguide. If you add `--config all-pages.backstop.json` to the end of the command, it will test every single page on the site.  
+  
+To get reference images replace `test` with `reference` 
