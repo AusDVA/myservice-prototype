@@ -240,21 +240,6 @@ function writeUser() {
     });
   }
 
-  console.log('1');
-  console.log(window.allClients);
-  console.log('1');
-  console.log(window.allReps);
-
-  console.log('2');
-  console.log(user.clients);
-  console.log('2');
-  console.log(user.reps);
-
-  console.log('3');
-  console.log(sessionClients);
-  console.log('3');
-  console.log(sessionReps);
-
   sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
   // sessionStorage.setItem('usersMultipleClients', JSON.stringify(window.allClients));
 
@@ -272,6 +257,8 @@ function writeUser() {
   if (window.allClients.length > 0 && window.allReps.length > 0) {
     console.log(' both');
     localStorage.setItem('repFlow', 'both');
+    $('.pt-switch-account').show();
+
     if (user.clients) {
       sessionClientSubmitted = true;
     }
@@ -559,9 +546,8 @@ function readClient() {
     });
 
     // add current user to the list
-    clientListHtml += '<li><a id="returnProfile" href="javascript:void(0);" class="switch-account-box__link switch-account-box__link--self"><strong>';
-    clientListHtml += parsedUser.nameFull + '</strong>';
-    clientListHtml += ' (Return to your MyService)</a></li>';
+    clientListHtml += '<li><a id="returnProfile" href="javascript:void(0);" class="switch-account-box__link switch-account-box__link--self">';
+    clientListHtml += '<i class="far fa-repeat-alt"></i> Back to my own account</a></li>';
 
     $('.pt-current-user-client-list').html(clientListHtml);
     $('.pt-client-list-full').html(clientListFullHtml);
