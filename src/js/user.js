@@ -1,6 +1,3 @@
-
-
-
 // utility functions 
 
 // returns age from date of birth string 
@@ -147,12 +144,7 @@ function initSwitch() {
     // jQuery('.switch-account-button').removeClass("switch-account-button--current");
   }
 
-  // hide the return to profile banner 
-  $("#returnProfile").click(function () {
-    jQuery('.pt-managing-user').slideUp('fast');
-    localStorage.setItem('switchFlow', 'none');
-    writeUser();
-  });
+
 
   // hide switch account overlay when clicking elsewhere on the page
   $(document).on("click", function () {
@@ -166,8 +158,62 @@ initSwitch();
 
 
 
+// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
+// and paste in the generated users in to /docs/data/user.json
 
-// put the user from user.js in to local storage
+// Pull in the json content 
+$.ajax({
+  url: '/docs/data/user.json',
+  async: false,
+  dataType: 'json'
+}).done(function (data) {
+
+  console.log('User data back');
+
+  // $.each(data.person, function (index, element) {
+
+  // });
+
+
+  localStorage.setItem('allPersons', JSON.stringify(data.person));
+
+  // set the default MyService user if no user has been requested 
+  if (!(localStorage.getItem('person'))) {
+    localStorage.setItem('person', JSON.stringify(data.person[0]));
+    console.log('setting the default user');
+  }
+
+  // populate the user dropdown list with users from the json
+  var $userSelect = $('#user-drop-down');
+  $userSelect.empty();
+  $userSelect.append('<option>-- Select a user --</option>');
+  $.each(data.person, function (key, value) {
+    $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
+  });
+
+  // switch the user 
+  $userSelect.change(function () {
+    var selectedId = this.value;
+    sessionStorage.removeItem('usersClients');
+    sessionStorage.removeItem('usersReps');
+    sessionStorage.removeItem('sessionGuid');
+
+    $.each(data.person, function (index, element) {
+
+      if (element._id === selectedId) {
+        localStorage.setItem('person', JSON.stringify(data.person[index]));
+        localStorage.setItem('switchId', 'none');
+        jQuery('.pt-managing-user').slideUp('fast');
+        localStorage.setItem('switchFlow', 'none');
+        writeUser();
+      }
+    });
+  });
+  writeUser();
+});
+
+
+// put the user from user.js in to local storage and the users clients in to session storage 
 function writeUser() {
 
   console.log('Writing user  ');
@@ -176,6 +222,61 @@ function writeUser() {
   const sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
   const sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
 
+  window.allClients = [];
+  window.allReps = [];
+
+  if (sessionClients) {
+
+    $.each(sessionClients, function (index, client) {
+      // add new form data to an existing client
+      window.allClients.push(client);
+    });
+
+  } else { // no client data in session so get it from the user 
+    $.each(user.clients, function (index, client) {
+
+      window.allClients.push(client);
+
+    });
+  }
+
+  if (sessionReps) {
+
+    $.each(sessionReps, function (index, rep) {
+      // add new form data to an existing rep
+      window.allReps.push(rep);
+    });
+
+  } else { // no rep data in session so get it from the user 
+    $.each(user.reps, function (index, rep) {
+
+      window.allReps.push(rep);
+
+    });
+  }
+
+  console.log('1');
+  console.log(window.allClients);
+  console.log('1');
+  console.log(window.allReps);
+
+  console.log('2');
+  console.log(user.clients);
+  console.log('2');
+  console.log(user.reps);
+
+
+  console.log('3');
+  console.log(sessionClients);
+  console.log('3');
+  console.log(sessionReps);
+
+
+  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
+  // sessionStorage.setItem('usersMultipleClients', JSON.stringify(window.allClients));
+
+  sessionStorage.setItem('usersReps', JSON.stringify(window.allReps));
+
   var firstTimeUser = true;
   if (sessionStorage.getItem('sessionGuid')) {
     firstTimeUser = false;
@@ -183,52 +284,53 @@ function writeUser() {
 
   // count number of clients 
   var sessionClientSubmitted = false;
-
-  if (sessionClients) {
-    localStorage.setItem('repFlow', 'representing');
-    if (sessionClients.client[0].submittedApplication == "true") {
-      localStorage.setItem('repFlow', 'representing');
-      var sessionClientSubmitted = true;
-      // push the client to the user
-      user.clients.push(sessionClients.client[0]);
-    }
-
-    if (sessionClients.client[0].role == "Cease") {
-      user.numberOfClients = 0
-      user.clients.length = 0;
-      sessionClientSubmitted = false;
-      localStorage.setItem('repFlow', 'none');
-      sessionStorage.removeItem('usersClients');
-      if (!window.location.hash) {
-        window.location = window.location + '#rep-list';
-        window.location.reload();
-      }
-    }
-  }
-
   var sessionRepSubmitted = false;
 
-  if (sessionReps) {
+
+
+  if ((window.allClients.length > 0) && (window.allReps.length > 0)) {
+    console.log(' both');
+    localStorage.setItem('repFlow', 'both');
+    if (user.clients) {
+      sessionClientSubmitted = true;
+    }
+
+  } else if (window.allClients.length > 0) {
+    console.log(' representing');
     localStorage.setItem('repFlow', 'representing');
-    if (sessionReps.rep[0].submittedApplication == "true") {
-      localStorage.setItem('repFlow', 'representing');
-      var sessionRepSubmitted = true;
-      user.reps.push(sessionReps.rep[0]);
+    if (user.clients) {
+      sessionClientSubmitted = true;
     }
-
-    if (sessionReps.rep[0].role == "Cease") {
-      user.numberOfReps = 0
-      user.reps.length = 0;
-      sessionRepSubmitted = false;
-      localStorage.setItem('repFlow', 'none');
-      sessionStorage.removeItem('usersReps');
-      if (!window.location.hash) {
-        window.location = window.location + '#rep-list';
-        window.location.reload();
-      }
+  } else if (window.allReps.length > 0) {
+    console.log(' represented');
+    localStorage.setItem('repFlow', 'represented');
+    if (user.reps) {
+      sessionRepSubmitted = true;
     }
-
   }
+
+  // if (sessionReps) {
+  //   localStorage.setItem('repFlow', 'representing');
+  //   if (sessionReps.rep[0].submittedApplication == "true") {
+  //     localStorage.setItem('repFlow', 'representing');
+  //     var sessionRepSubmitted = true;
+  //     user.reps.push(sessionReps.rep[0]);
+  //   }
+
+  //   if (sessionReps.rep[0].role == "Cease") {
+  //     user.numberOfReps = 0
+  //     user.reps.length = 0;
+  //     sessionRepSubmitted = false;
+  //     localStorage.setItem('repFlow', 'none');
+  //     sessionStorage.removeItem('usersReps');
+  //     if (!window.location.hash) {
+  //       window.location = window.location + '#rep-list';
+  //       window.location.reload();
+  //     }
+  //   }
+
+  // }
+
 
   // set
   if ((user.clients.length > 0) || (sessionClientSubmitted === true)) {
@@ -236,7 +338,7 @@ function writeUser() {
     if (user.clients.length > 0) {
       user.numberOfClients = user.clients.length;
     } else {
-      user.numberOfClients = sessionClients.client.length;
+      user.numberOfClients = window.allClients.length;
     }
 
   } else if (user.clients.length < 1) {
@@ -248,29 +350,32 @@ function writeUser() {
     if (user.reps.length > 0) {
       user.numberOfReps = user.reps.length;
     } else {
-      user.numberOfReps = sessionClients.rep.length;
+      user.numberOfReps = window.allReps.length;
     }
-
-
-
   } else if (user.reps.length < 1) {
     user.numberOfReps = 0;
     // localStorage.setItem('repFlow', 'newbie');
   }
 
 
+  // show hide the switch account buttons
 
+  // console.log('sessionClientSubmitted -> ' + sessionClientSubmitted);
+  // console.log('window.allClients.length -> ' + window.allClients.length);
   if ((sessionRepSubmitted === true) && (sessionClientSubmitted === true)) {
     localStorage.setItem('repFlow', 'both');
     $('.pt-switch-account').show();
+    firstTimeUser = false;
   } else if ((sessionRepSubmitted === true) || (user.numberOfReps > 0)) {
-    localStorage.setItem('repFlow', 'represented');
-    // $('.pt-switch-account').show();
-  } else if ((sessionClientSubmitted === true) || (user.numberOfClients > 0)) {
-    localStorage.setItem('repFlow', 'representing');
+    // localStorage.setItem('repFlow', 'represented');
+    firstTimeUser = false;
+  } else if ((sessionClientSubmitted === true) || (window.allClients.length > 0)) {
+    // localStorage.setItem('repFlow', 'representing');
     $('.pt-switch-account').show();
+    firstTimeUser = false;
   } else {
     $('.pt-switch-account').hide();
+    // alert('hiding');
   }
 
   if (firstTimeUser) {
@@ -296,92 +401,87 @@ function writeUser() {
   $('.pt-current-user-name-first').html(user.name.first);
   $('.pt-current-user-name-full').html(user.nameFull);
 
-  var clientListHtml = '';
 
-  $.each(user.clients, function (key, client) {
-
-    client.nameFull = client.nameFirst + ' ' + client.nameLast;
-    clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
-    clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
-    clientListHtml += ' (' + client.role + ')</a></li>';
-  });
-
-  if ((user.clients.length > 0) && (localStorage.getItem('switchFlow') == 'active')) {
-
-    var switchId = localStorage.getItem('switchId');
-    $.each(user.clients, function (key, client) {
-
-      if (client.id == switchId) {
-        this.nameFull = this.nameFirst + ' ' + this.nameLast;
-        $('.pt-current-user-name-first').html(this.nameFirst);
-        $('.pt-current-user-name-full').html(this.nameFull);
-      }
-    });
-  }
-
-  $('.pt-current-user-client-list').html(clientListHtml);
 }
 
 
-// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
-// and paste in the generated users in to /docs/data/user.json
-window.onload = function () {
-  if (typeof (Storage) !== "undefined") {
-
-    // Pull in the json content 
-    $.ajax({
-      url: '/docs/data/user.json',
-      async: false,
-      dataType: 'json'
-    }).done(function (data) {
-
-      console.log('User data back');
-
-      $.each(data.person, function (index, element) {
-
-        // console.log(element);
-
-      });
 
 
-      localStorage.setItem('allPersons', JSON.stringify(data.person));
+// TODO: copy from or refactor writeClient
+// function writeRep(form) {
 
-      // set the default MyService user if no user has been requested 
-      if (!(localStorage.getItem('person'))) {
-        localStorage.setItem('person', JSON.stringify(data.person[0]));
-        console.log('setting the default user');
+//   var formData = getFormData(form);
+//   var reps = sessionStorage.getItem('usersReps');
+
+
+//   if (reps) { // reps in session data
+
+//     var parsedReps = JSON.parse(reps);
+//     var sessionGuid = sessionStorage.getItem('sessionGuid');
+
+//     $.each(parsedReps.rep, function (index, element) {
+
+//       // console.log('parsedReps');
+//       // console.log(parsedReps);
+
+//       if (element.id === sessionGuid) {
+//         console.log('writing to the user in session');
+
+//         reps = JSON.stringify(parsedReps);
+//         $.extend(true, parsedReps.rep[index], formData);
+
+//       } else {
+
+//         // $.extend({}, parsedReps.rep[index], formData);
+//         // $.merge(parsedReps.rep[index]), formData));
+
+//       }
+//     });
+
+//     sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
+
+//   } else { // no reps 
+
+//     var repArray = $.makeArray(formData);
+//     sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
+//   }
+// }
+
+
+function writeClient(form) {
+
+  var formData = getFormData(form);
+  var clients = sessionStorage.getItem('usersClients');
+
+  if (clients) { // clients in session data
+    console.log('There are clients in session');
+    var existingClient = false;
+    var parsedClients = JSON.parse(clients);
+    var sessionGuid = sessionStorage.getItem('sessionGuid');
+
+    $.each(parsedClients, function (index, element) {
+
+      if (element.id === sessionGuid) {
+        console.log('writing to an EXISTING client');
+
+        // add new form data to an existing client
+        $.extend(true, window.allClients[index], formData);
+        existingClient = true;
       }
-
-      // populate the user dropdown list with users from the json
-      var $userSelect = $('#user-drop-down');
-      $userSelect.empty();
-      $userSelect.append('<option>-- Select a user --</option>');
-      $.each(data.person, function (key, value) {
-        $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
-      });
-
-      // switch the user 
-      $userSelect.change(function () {
-        var selectedId = this.value;
-
-        $.each(data.person, function (index, element) {
-
-          if (element._id === selectedId) {
-            localStorage.setItem('person', JSON.stringify(data.person[index]));
-            localStorage.setItem('switchId', 'none');
-            jQuery('.pt-managing-user').slideUp('fast');
-            localStorage.setItem('switchFlow', 'none');
-            writeUser();
-          }
-        });
-      });
-      writeUser();
     });
+
+    if (existingClient === false) {
+      console.log('writing to a NEW client');
+      window.allClients.push(formData);
+    }
+
   } else {
-    console.log("browser does not support web storage...");
+    console.log('no clients so writing to a NEW client');
+    window.allClients.push(formData);
   }
-}
 
+  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
+}
 
 
 function writeRep(form) {
@@ -389,106 +489,176 @@ function writeRep(form) {
   var formData = getFormData(form);
   var reps = sessionStorage.getItem('usersReps');
 
-
   if (reps) { // reps in session data
-
-    var parsedReps = JSON.parse(reps);
+    console.log('There are reps in session');
+    var existingRep = false;
+    var parsedClients = JSON.parse(reps);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
 
-    $.each(parsedReps.rep, function (index, element) {
-
-      console.log('parsedReps');
-      console.log(parsedReps);
+    $.each(parsedClients, function (index, element) {
 
       if (element.id === sessionGuid) {
-        console.log('writing to the user in session');
+        console.log('writing to an EXISTING client');
 
-        reps = JSON.stringify(parsedReps);
-        $.extend(true, parsedReps.rep[index], formData);
-
-      } else {
-        // TODO: this needs to push but the arrays don't match
-        // $.extend({}, parsedReps.rep[index], formData);
-        // $.merge(parsedReps.rep[index]), formData));
-
+        // add new form data to an existing client
+        $.extend(true, window.allReps[index], formData);
+        existingRep = true;
       }
     });
 
-    sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
+    if (existingRep === false) {
+      console.log('writing to a NEW client');
+      window.allReps.push(formData);
+    }
 
-  } else { // no reps 
-
-    var repArray = $.makeArray(formData);
-    sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
+  } else {
+    console.log('no reps so writing to a NEW client');
+    window.allReps.push(formData);
   }
-}
 
-function writeClient(form) {
-
-  var formData = getFormData(form);
-  var clients = sessionStorage.getItem('usersClients');
-
-
-  if (clients) { // clients in session data
-
-    var parsedClients = JSON.parse(clients);
-    var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-    $.each(parsedClients.client, function (index, element) {
-
-      if (element.id === sessionGuid) {
-        console.log('writing to the user in session');
-
-        clients = JSON.stringify(parsedClients);
-        $.extend(true, parsedClients.client[index], formData);
-
-      } else {
-        // TODO: this needs to push but the arrays don't match
-        // $.extend({}, parsedClients.client[index], formData);
-        // $.merge(parsedClients.client[index]), formData));
-
-      }
-    });
-
-    sessionStorage.setItem('usersClients', JSON.stringify(parsedClients));
-
-  } else { // no clients 
-
-    var clientArray = $.makeArray(formData);
-    sessionStorage.setItem('usersClients', '{"client":' + JSON.stringify(clientArray) + '}');
-  }
+  sessionStorage.setItem('usersClients', JSON.stringify(window.allReps));
 }
 
 function readClient() {
-
   console.log('Reading client data');
+
+  var urlId = getUrlParameter('id');
+
+  if (urlId) {
+    sessionStorage.setItem('sessionGuid', urlId);
+  }
+
   var clients = sessionStorage.getItem('usersClients');
   var parsedClients = JSON.parse(clients);
+  var user = localStorage.getItem('person');
+  var parsedUser = JSON.parse(user);
+  var sessionGuid = sessionStorage.getItem('sessionGuid');
+
   if (parsedClients) {
+    var clientListHtml = '';
+    var clientListFullHtml = '';
+    var switchId = localStorage.getItem('switchId');
 
-    $.each(parsedClients.client, function (index, element) {
+    $.each(parsedClients, function (index, client) {
 
-      $.each(element, function (index, element) {
-        $('.pt-current-client-' + index).html(element);
-      });
+      // write the client currently being worked on
+      if (client.id === sessionGuid) {
+        $.each(client, function (index, client) {
+          $('.pt-current-client-' + index).html(client);
+        });
+      }
+
+      if (client.id == switchId) {
+        this.nameFull = this.nameFirst + ' ' + this.nameLast;
+        $('.pt-current-user-name-first').html(this.nameFirst);
+        $('.pt-current-user-name-full').html(this.nameFull);
+      }
+
+      if (client.role !== "Cease") {
+
+        client.nameFull = client.nameFirst + ' ' + client.nameLast;
+
+        // switch list
+        clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
+        clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
+        clientListHtml += ' (' + client.role + ')</a></li>';
+
+        // all clients list
+        clientListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
+        clientListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
+        clientListFullHtml += '<span class="fal fa-icon-nr fa-user-edit"></span> </div><div class="flex-item flex-item--large"><p><strong>';
+        clientListFullHtml += client.nameFirst + ' ' + client.nameLast;
+        clientListFullHtml += '</strong></p>  <p><strong> Your current role: </strong>'
+        clientListFullHtml += client.role;
+        clientListFullHtml += '</p><p> <strong> Representation date: </strong>';
+        clientListFullHtml += client.startDateDd + ' / ' + client.startDateMm + ' / ' + client.startDateYyyy;
+        clientListFullHtml += ' to ';
+        if (client.endDateDd) {
+          clientListFullHtml += client.endDateDd + ' / ' + client.endDateMm + ' / ' + client.endDateYyyy;
+        } else {
+          clientListFullHtml += '(no fixed end date)</p>';
+        }
+        if (client.enquireOnline) {
+          clientListFullHtml += '<p><strong> Online access: </strong>';
+          clientListFullHtml += client.enquireOnline + '</p>';
+        }
+        clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/form-client-3';
+        clientListFullHtml += '?state=edit&id=' + client.id + '">';
+        clientListFullHtml += 'Edit Role</a></p></div></div></div></div></div>'
+      }
+
     });
+
+    // add current user to the list
+    clientListHtml += '<li><a id="returnProfile" href="javascript:void(0);" class="switch-account-box__link switch-account-box__link--self"><strong>';
+    clientListHtml += parsedUser.nameFull + '</strong>';
+    clientListHtml += ' (Return to your MyService)</a></li>';
+
+    $('.pt-current-user-client-list').html(clientListHtml);
+    $('.pt-client-list-full').html(clientListFullHtml);
+
+    // hide the return to profile banner 
+    $("#returnProfile").click(function () {
+      jQuery('.pt-managing-user').slideUp('fast');
+      localStorage.setItem('switchFlow', 'none');
+      writeUser();
+      window.reload();
+    });
+
   }
 }
 
-function readRep() {
+readClient();
 
+function readRep() {
   console.log('Reading rep data');
   var reps = sessionStorage.getItem('usersReps');
   var parsedReps = JSON.parse(reps);
+  var sessionGuid = sessionStorage.getItem('sessionGuid');
+
   if (parsedReps) {
 
-    $.each(parsedReps.rep, function (index, element) {
+    var repListFullHtml = '';
+    $.each(parsedReps, function (index, rep) {
 
-      $.each(element, function (index, element) {
+      // write the rep currently being worked on
+      if (rep.id === sessionGuid) {
+        $.each(rep, function (index, rep) {
+          $('.pt-current-rep-' + index).html(rep);
+        });
+      }
 
+      if (rep.role !== "Cease") {
 
-        $('.pt-current-rep-' + index).html(element);
-      });
+        rep.nameFull = rep.nameFirst + ' ' + rep.nameLast;
+
+        // all reps list
+        repListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
+        repListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
+        repListFullHtml += '<span class="fal fa-icon-nr fa-user-edit"></span> </div><div class="flex-item flex-item--large"><p><strong>';
+        repListFullHtml += rep.nameFirst + ' ' + rep.nameLast;
+        repListFullHtml += '</strong></p>  <p><strong> Your current role: </strong>'
+        repListFullHtml += rep.role;
+        repListFullHtml += '</p><p> <strong> Representation date: </strong>';
+        repListFullHtml += rep.startDateDd + ' / ' + rep.startDateMm + ' / ' + rep.startDateYyyy;
+        repListFullHtml += ' to ';
+        if (rep.endDateDd) {
+          repListFullHtml += rep.endDateDd + ' / ' + rep.endDateMm + ' / ' + rep.endDateYyyy;
+        } else {
+          repListFullHtml += '(no fixed end date)</p>';
+        }
+        if (rep.enquireOnline) {
+          repListFullHtml += '<p><strong> Online access: </strong>';
+          repListFullHtml += rep.enquireOnline + '</p>';
+        }
+        repListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/form-rep-3';
+        repListFullHtml += '?state=edit&id=' + rep.id + '">';
+        repListFullHtml += 'Edit Role</a></p></div></div></div></div></div>'
+      }
+
     });
+
+    // $('.pt-current-user-rep-list').html(repListHtml);
+    $('.pt-rep-list-full').html(repListFullHtml);
   }
 }
