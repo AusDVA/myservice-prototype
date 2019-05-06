@@ -27,3 +27,9 @@ Install a sass linter e.g. [Sass Lint](https://marketplace.visualstudio.com/item
 The [liverelod VS code app](https://marketplace.visualstudio.com/items?itemName=ziishaned.livereload) and [chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) is very handy.
 
 
+## Backstop
+
+Windows: `backstop test`
+Linux: `./node_modules/backstopjs/cli/index.js test` (or you can run `backstop test` if you run `npm install -g backstopjs@canary`
+**Note:** the test will fail unless there is reference images
+**Also note:** The default `backstop.json` file will only test the styleguide. If you add `--config all-pages.backstop.json` to the end of the command, it will test every single page on the site.
