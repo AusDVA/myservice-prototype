@@ -568,9 +568,9 @@ function readClient() {
           clientListFullHtml += '<p><strong> Online access: </strong>';
           clientListFullHtml += client.enquireOnline + '</p>';
         }
-        clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/form-client-3';
+        clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><button class="uikit-btn small uikit-btn--tertiary" href="/auth/profile/nomrep/form-client-3';
         clientListFullHtml += '?state=edit&id=' + client.id + '">';
-        clientListFullHtml += 'Edit Role</a></p></div></div></div></div></div>'
+        clientListFullHtml += 'Edit Role</button></p></div></div></div></div></div>'
       }
 
     });
@@ -636,9 +636,9 @@ function readRep() {
           repListFullHtml += '<p><strong> Online access: </strong>';
           repListFullHtml += rep.enquireOnline + '</p>';
         }
-        repListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><a href="/auth/profile/nomrep/form-rep-3';
+        repListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><button class="uikit-btn small uikit-btn--tertiary" href="/auth/profile/nomrep/form-rep-3';
         repListFullHtml += '?state=edit&id=' + rep.id + '">';
-        repListFullHtml += 'Edit Role</a></p></div></div></div></div></div>'
+        repListFullHtml += 'Edit Role</button></p></div></div></div></div></div>'
       }
 
     });
