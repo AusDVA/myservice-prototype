@@ -5,6 +5,15 @@
   <title>Role Rep: Nom Rep | MyService</title>
   <% include ../../../../partials/head.ejs %>
 
+
+  <style>
+    .pt-edit-role,
+    label.pt-edit-role {
+      display: none;
+    }
+
+  </style>
+
 <body class="uikit-body uikit-grid uikit-refactor">
   <noscript>
     <p role="alert">This website needs JavaScript to work properly.</p>
@@ -24,18 +33,20 @@
     </div>
 
     <div class="nr-accounts">
-      <form class="pt-submit-form">
-
-        <div class="container">
-          <h2>Tell us how you would like to represent [your client name]</h2>
-
+      <div class="container">
+        <form class="pt-submit-form">
+          <h2>
+            <span class="pt-create-role">Tell us how you would like to represent</span>
+            <span class="pt-edit-role">View and edit your role as</span>
+            <span class="pt-current-client-nameFirst"></span> <span class="pt-current-client-nameLast"></span><span class="pt-edit-role">'s representative</span>
+          </h2>
 
           <div class="form-group">
             <div class="radio-tile--group radio-tile-group--equal-width-height radio-tile-group--four">
               <label class="radio-tile ">
                 <input id="enquire" class="sr" type="radio" name="role" value="Enquire on behalf">
                 <span>
-                  <icon class="radio_tile__icon fal fa-comments-alt fa-3x"></icon>
+                  <i class="radio_tile__icon fal fa-comments-alt fa-3x"></i>
                   <strong>Enquire on client's behalf</strong><br />
                   <p>Allows you to source information in relation to DVA matters.</p>
                 </span>
@@ -44,7 +55,7 @@
               <label class="radio-tile ">
                 <input id="act" class="sr" type="radio" name="role" value="Act on behalf">
                 <span>
-                  <icon class="radio_tile__icon fal fa-hands-helping fa-3x"></icon>
+                  <i class="radio_tile__icon fal fa-hands-helping fa-3x"></i>
                   <strong>Act on client's behalf </strong><br />
                   <p>Allows you to source information, make decisions and update information in relation to DVA matters.</p>
                 </span>
@@ -53,7 +64,7 @@
               <label class="radio-tile ">
                 <input id="paymentOnly" class="sr" type="radio" name="role" value="Receive payments">
                 <span>
-                  <icon class="radio_tile__icon fal fa-hand-holding-usd fa-3x"></icon>
+                  <i class="radio_tile__icon fal fa-hand-holding-usd fa-3x"></i>
                   <strong>Receive payments only</strong><br />
                   <p>
 
@@ -69,11 +80,18 @@
                 </span>
               </label>
 
+              <label class="radio-tile pt-edit-role">
+                <input id="cease" class="sr" type="radio" name="role" value="Cease">
+                <span>
+                  <i class="radio_tile__icon fal fa-user-minus fa-3x"></i>
+                  <strong>Cease representation</strong><br />
+                  <p>You can stop representing you client if your circumstances change.</p>
+                </span>
+              </label>
+
 
             </div>
           </div>
-
-
 
           <!-- start of hidden q's for enquire only -->
           <div id="hideAllEnquire" style="display:none;">
@@ -97,15 +115,15 @@
               <div class="form-group margin-above--large" id="showEnquireDate" style="display:none;">
 
                 <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
-                <input class="uikit-text-input dd" type="text" name="startEnquire-dd" id="dd-date" maxlength="2" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="startEnquire-mm" id="mm-date" maxlength="2" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="startEnquire-yyyy" id="yyyy-date" maxlength="4" aria-label="4 digit year">
+                <input class="uikit-text-input dd" type="text" name="startDateDd" id="dd-date" maxlength="2" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="startDateMm" id="mm-date" maxlength="2" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="startDateYyyy" id="yyyy-date" maxlength="4" aria-label="4 digit year">
 
 
                 <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
-                <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-end-date" maxlength="2" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-end-date" maxlength="2" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-end-date" maxlength="4" aria-label="4 digit year">
+                <input class="uikit-text-input dd" type="text" name="endDateDd" id="dd-end-date" maxlength="2" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="endDateMm" id="mm-end-date" maxlength="2" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="endDateYyyy" id="yyyy-end-date" maxlength="4" aria-label="4 digit year">
 
 
               </div>
@@ -184,18 +202,18 @@
                 <div class="form-group margin-above--large" id="showActDate" style="display:none;">
 
                   <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
-                  <input class="uikit-text-input dd" type="text" name="startAct-dd" id="act-dd-date" maxlength="2" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="startAct-mm" id="act-mm-date" maxlength="2" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="startAct-yyyy" id="act-yyyy-date" maxlength="4" aria-label="4 digit year">
+                  <input class="uikit-text-input dd" type="text" name="startDateDd" id="act-dd-date" maxlength="2" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="startDateMm" id="act-mm-date" maxlength="2" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="startDateYyyy" id="act-yyyy-date" maxlength="4" aria-label="4 digit year">
                   <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
-                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year">
+                  <input class="uikit-text-input dd" type="text" name="endDateDd" id="dd-date" maxlength="2" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="endDateMm" id="mm-date" maxlength="2" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="endDateYyyy" id="yyyy-date" maxlength="4" aria-label="4 digit year">
 
                 </div>
 
                 <div id="correspondence" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                  <label class="uikit-text-input__label" for="Input field">Do you require to receive correspondence on behalf of your client?</label>
+                  <label class="uikit-text-input__label" for="Input field">Would you like to receive correspondence on your client's behalf?</label>
                   <fieldset>
                     <div class="radio-toggle">
                       <label class="on label-left">
@@ -214,7 +232,7 @@
 
 
                 <div id="receivePayment" class="form-group margin-below--large pt-flow--veteran pt-flow--student pt-flow--claimant pt-showIfTertiary">
-                  <label class="uikit-text-input__label" for="Input field">Do you require to receive payment for this client?</label>
+                  <label class="uikit-text-input__label" for="Input field">Would you like to receive payment on your client's behalf?</label>
 
                   <fieldset>
                     <legend class="legend-label" id="question_id21c">
@@ -234,13 +252,11 @@
                 </div>
                 <div id="receivePaymentMessage" style="display:none;">
                   <div class="uikit-page-alerts uikit-page-alerts--info">
-
-                    <ul><strong>Your nominated bank account will receive your client’s payments.</strong></p>
-                      <ul>
-                        <li>You must manage these payments according to your client’s wishes.</li>
-                        <li>This is usually a bank account where both you and your client are co-signatories.</li>
-                      </ul>
-
+                    <p><strong>Choosing this option will enable you to <a href="https://www.dva.gov.au/factsheet-leg01b-arrangements-other-people-receive-payments-your-behalf"
+                          class="href">receive payments on behalf of your client.</a> </strong></p>
+                    <p>You will need to provide one of the following forms:</p>
+                    <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2693.pdf" class="href">Application for an Appointment of an Agent (D2693)</a><br>
+                    <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2505.pdf" class="href">Application for an Appointment of a Trustee D2505)</a></br>
                   </div>
                 </div>
 
@@ -285,47 +301,86 @@
 
                 <label class="uikit-text-input__label">Specify dates</label>
                 <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
-                <input class="uikit-text-input dd" type="text" name="startPay-dd" id="pay-dd-date" maxlength="2" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="startPay-mm" id="pay-mm-date" maxlength="2" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="startPay-yyyy" id="pay-yyyy-date" maxlength="4" aria-label="4 digit year">
+                <input class="uikit-text-input dd" type="text" name="startDateDd" id="pay-dd-date" maxlength="2" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="startDateMm" id="pay-mm-date" maxlength="2" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="startDateYyyy" id="pay-yyyy-date" maxlength="4" aria-label="4 digit year">
                 <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
-                <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year">
+                <input class="uikit-text-input dd" type="text" name="endDateDd" id="dd-date" maxlength="2" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="endDateMm" id="mm-date" maxlength="2" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="endDateYyyy" id="yyyy-date" maxlength="4" aria-label="4 digit year">
               </div>
             </div>
 
           </div>
-          <div class="pagination pagination--ss-reverse-order margin-above--large">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/client-details'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+        </form>
+        <div class="pagination pagination--ss-reverse-order margin-above--large">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/form-client-1'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
+            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+          </div>
+        </div>
+
+        <div id="warning" class="modal-window">
+          <div>
+            <a href="#modal-close" title="Close" class="modal-close">Close</a>
+            <h2>Your application will be cancelled</h2>
+            <p>Are you sure you want to cancel this application?</p>
+            <div class="modal-buttons">
+              <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
             </div>
           </div>
+        </div>
 
-          <div id="warning" class="modal-window">
-            <div>
-              <a href="#modal-close" title="Close" class="modal-close">Close</a>
-              <h2>Your application will be cancelled</h2>
-              <p>Are you sure you want to cancel this application?</p>
-              <div class="modal-buttons">
-                <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
-              </div>
-            </div>
-          </div>
-
-
-
-      </form>
   </main>
+
+  <div id="open-example-modal" class="modal-window">
+    <div>
+      <a href="#modal-close" title="Close" class="modal-close">Close</a>
+      <h2>Are you sure you want to cease this arrangement?</h2>
+      <p>You will no longer be able to
+
+        <%# {{act/enquire/receive payments}} %> act
+        <%# TODO:: put this wording in properly. Need to create a language component around the role  %>
+
+        on <span class="pt-current-client-nameFirst"></span> <span class="pt-current-client-nameLast"></span>'s behalf.
+      </p>
+
+      <div class="modal-buttons">
+        <button class="uikit-btn" onclick="window.location.href = '/auth/profile/nomrep/'">Yes, cease representation</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
 
   <% include ../../../../partials/footer.ejs %>
 
 
   <script>
+    // readClient();
+
+    var state = getUrlParameter('state');
+    console.log('state ' + state);
+    if ((state) && (state === "edit")) {
+      console.log('state ' + state);
+      sessionStorage.setItem('stateClient', state)
+      $(".pt-edit-role").show();
+      $(".pt-create-role").hide();
+
+    } else {
+      sessionStorage.removeItem('stateClient');
+    }
+
+    // if ((localStorage.getItem('repState') == 'new')) {
+    //   $(".pt-cease-rep").hide();
+    // } else {
+    //   $(".pt-cease-rep").show();
+    // }
+
+
     $('#enquire').click(function () {
       $('#hideAllEnquire').show("fast");
       $('.account-one').addClass('icon-tick');
@@ -493,11 +548,20 @@
 
       writeClient(data);
 
-      if ($('#enquire').is(':checked')) {
-        window.location.href = '/auth/profile/nomrep/upload-rep';
+      // window.location.href = '/auth/profile/nomrep/form-client-4';
+
+      if ($('#cease').is(':checked')) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        window.location.href = '#open-example-modal'
+      } else if ($('#enquire').is(':checked')) {
+        window.location.href = '/auth/profile/nomrep/form-client-5';
       } else {
-        window.location.href = '/auth/profile/nomrep/upload-rep';
+        window.location.href = '/auth/profile/nomrep/form-client-4';
       }
+
+
+
     });
 
   </script>

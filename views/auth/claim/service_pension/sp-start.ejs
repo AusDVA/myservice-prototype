@@ -45,6 +45,7 @@
                             locals = {};
                             locals.message = 'You must be at least 59 years and 9 months old to apply for age service pension.'
                             locals.optionalID = 'too_young';
+                            locals.optionalType = "warning"
                             locals.optionalHide = true;
                             %>
                     <%- include ../../../../partials/forms/notice.ejs %>
@@ -62,34 +63,35 @@
                             locals.question = 'On what grounds are you applying for Invalidity Pension?';
                             locals.items = ["Totally and permanently incapacitated (TPI) or special rate disability pension (SRDP)","Blind","Neither"];
                             locals.optionalItemID = ["tpi","blind","neither"];
-                            locals.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","Blind or visually impaired (ie regarded as permanently blind in both eyes)?",""];
+                            locals.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","Regarded as permanently blind in both eyes. For further information see <a href='https://www.dva.gov.au/factsheet-is147-blind-pensioners' target='blank'><span class='external-link'>Factsheet IS147 - Blind Pensioners</span></a>",""];
                             locals.optionalID = 'invalidity_what_grounds';
                             locals.optionalHide = true;
                             %>
                             <%- include ../../../../partials/forms/radio.ejs %>
                               <!-- if has TPI -->
-                              <% 
+                          <% 
                             locals = {};
                             locals.message = 'As you already have an assessed level of impairment you are able to proceed without providing further documentation.'
                             locals.optionalID = 'has_tpi_notice';
                             locals.optionalHide = true;
                             %>
-                                <%- include ../../../../partials/forms/notice.ejs %>
-                                  <!-- If "neither" -->
-                                  <div class="uikit-page-alerts" role="alert" id="invalidity_neither_notice" style="display: none;">
-                                    <p>You will need to provide the following forms:</p>
-                                    <p>
-                                      <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf">Invalidity Details form (D569)</a>
-                                      <BR />
-                                      <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0570.pdf">Work Test Questionnaire (D570)</a>
-                                    </p>
-                                    <p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>
-                                  </div>
-                                  <!-- If "blind" -->
-                                  <div class="uikit-page-alerts" role="alert" id="invalidity_blind_notice" style="display: none;">
-                                    <p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p>
-                                    <p>You can attach this report at the end of your claim.</p>
-                                  </div>
+                            <%- include ../../../../partials/forms/notice.ejs %>
+                            <!-- If "neither" -->
+                            <% 
+                            locals = {};
+                            locals.message = "<p>You will need to provide the following forms:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf' target='blank'><span class='external-link'>Invalidity Details form (D569)</a></span><BR /><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0570.pdf' target='blank'><span class='external-link'>Work Test Questionnaire (D570)</a></span></p><p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>";
+                            locals.optionalID = "invalidity_neither_notice";
+                            locals.optionalHide = true;
+                            %>
+                            <%- include ../../../../partials/forms/notice.ejs %>
+                            <!-- If "blind" -->
+                            <% 
+                            locals = {};
+                            locals.message = "<p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p><p>You can attach this report at the end of your claim.</p>";
+                            locals.optionalID = "invalidity_blind_notice";
+                            locals.optionalHide = true;
+                            %>
+                            <%- include ../../../../partials/forms/notice.ejs %>
                                   <!-- Who are you applying for? -->
                                   <% 
                             locals = {};
@@ -103,19 +105,20 @@
                                       <!-- PBS -->
                                       <% 
                             locals = {};
-                            locals.question = 'Are you a registered member of the Pension Bonus Scheme?'; 
+                            locals.question = 'Will you be claiming the Pension Bonus?'; 
                             locals.optionalID = 'pbs'; 
+                            locals.optionalHelp = "To claim you must already be a registered member of the Pension Bonus Scheme (closed to new members). For more information see <a href='https://www.dva.gov.au/factsheet-is07-pension-bonus-scheme' target='blank'><span class='external-link'>Factsheet IS07 - Pension Bonus Scheme</span></a>"
                             locals.optionalHide = true;
                             %>
                                         <% include ../../../../partials/forms/radio--yes-no.ejs %>
                                           <!-- If "yes" -->
                                           <div class="uikit-page-alerts" role="alert" id="pbs_notice" style="display: none;">
-                                            <p>You will need to complete the following form:</p>
+                                            <p>To claim the pension bonus you must apply as part of your service pension claim. Complete this form and attach at the end of your claim:</p>
                                             <p>
-                                              <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf">Claim for Pension Bonus form (D559)</a>
+                                              <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf"><span class='external-link'>Claim for Pension Bonus form (D559)</span></a>
                                               <BR />
                                             </p>
-                                            <p>You can attach this form at the end of your claim.</p>
+                                            <!-- <p>You can attach this form at the end of your service pension claim.</p> -->
                                           </div>
                                           <!-- Centrelink -->
                                           <% 
@@ -130,7 +133,7 @@
                                               <!-- CSHC -->
                                               <% 
                             locals = {};
-                            locals.question = 'Have you applied for or do you currently hold a Commonwealth seniors health card (CSHC) from DVA or Centrelink?'; 
+                            locals.question = 'Have you applied for or do you currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
                             locals.optionalID = 'cs_cshc'; 
                             locals.optionalHide = true;
                             %>
@@ -138,7 +141,7 @@
                                                   <!-- CRN number -->
                                                   <% 
                             locals = {};
-                            locals.question = 'What is your Customer Reference Number (CRN)?'; 
+                            locals.question = 'What is your Centrelink Reference Number (CRN)?'; 
                             locals.optionalID = 'cs_crn';
                             locals.optionalShort = true; 
                             locals.optionalHide = true;
@@ -148,7 +151,7 @@
                                                       <% 
                             locals = {};
                             locals.question = 'Are you applying as a person who is blind or visually impaired?'; 
-                            locals.hint = '(ie regarded as permanently blind in both eyes)'; 
+                            // locals.hint = '(ie regarded as permanently blind in both eyes)'; 
                             locals.optionalID = 'visual_impairment'; 
                             locals.optionalHide = true;
                             %>
@@ -168,8 +171,8 @@
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-a'">Previous</button>
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
               <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-start'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-b'">Save and next</button>
+                <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-start'">Save and exit</button>
+                <button id="save-and-next-button" class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-b'">Save and next</button>
               </div>
             </div>
           </div>
@@ -241,6 +244,7 @@
 
               $('input[type=radio][name=state-switcher--age]').change(function () {
                 sessionStorage.setItem('veteran-age', this.value);
+                footerNavRestore();
                 setUpAgeMode();
               });
               $(':radio[value=between_59_75_and_65]').click();
@@ -252,6 +256,7 @@
                 } else {
                   sessionStorage.setItem('veteran-tpi', 'false');
                 }
+                location.reload();
               });
 
               /* End state switcher */
@@ -265,6 +270,7 @@
                 $("#myForm").trigger("reset");
                 var veteranAge = sessionStorage.getItem('veteran-age');
                 var veteranTPI = sessionStorage.getItem('veteran-tpi');
+                footerNavRestore();
                 switch (mySelection) {
                   case "invalidity_service_pension":
                     if (veteranAge == "over_65") {
@@ -275,16 +281,18 @@
                         $("#invalidity_what_grounds").hide("fast");
                       } else {
                         $("#invalidity_what_grounds").show("fast");
-                        $("#cs_centrelink").show("fast");
-                        $("#cs_cshc").show("fast");
                         $("#has_tpi_notice").hide("fast");
                       }
+                      $("#cs_centrelink").show("fast");
+                        $("#cs_cshc").show("fast");
                       $("#pbs").show("fast");
+                      $("#visual_impairment").show("fast");
                     }
                     break;
                   case "age_service_pension":
                     if (veteranAge == "under_59_75") {
                       $("#too_young").show("fast");
+                      footerNavExit();
                     } else {
                       $("#pension_who").show("fast");
                       $("#pbs").show("fast");
@@ -319,7 +327,7 @@
                     break;
                   case "neither":
                     $("#invalidity_neither_notice").show("fast");
-                    $("#visual_impairment").show("fast");
+                     $("#visual_impairment").hide("fast");
                     break;
                   default:
                 }
@@ -451,6 +459,16 @@
                     break;
                 }
               };
+
+              function footerNavExit() {
+                $("#save-and-next-button").prop('disabled', true);
+                $("#save-and-exit-button").prop('disabled', true);
+              }
+
+              function footerNavRestore() {
+                $("#save-and-next-button").prop('disabled', false);
+                $("#save-and-exit-button").prop('disabled', false);
+              }
 
             });
           </script>

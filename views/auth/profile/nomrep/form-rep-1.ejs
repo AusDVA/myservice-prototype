@@ -24,14 +24,15 @@
       </div>
     </div>
 
-    <form class="pt-submit-form">
-      <input type="hidden" name="id" id="repId" value="">
-      <div class="container">
+
+    <div class="container">
+      <form class="pt-submit-form">
+        <input type="hidden" name="id" id="repId" value="">
         <div class="radio-tile--group margin-above--large">
           <label class="radio-tile">
             <input id="addNewPerson" class="sr" type="radio" name="repType" value="person">
             <span>
-              <icon class="radio_tile__icon fal fa-user fa-3x" style="padding: 15px 0 15px 0;"></icon>
+              <i class="radio_tile__icon fal fa-user fa-3x" style="padding: 15px 0 15px 0;"></i>
               <BR />Add person
             </span>
 
@@ -39,7 +40,7 @@
           <label class="radio-tile">
             <input id="addNewOrg" class="sr" type="radio" name="repType" value="organisation">
             <span>
-              <icon class="radio_tile__icon fal fa-users fa-3x" style="padding: 15px 0 15px 0;"></icon>
+              <i class="radio_tile__icon fal fa-users fa-3x" style="padding: 15px 0 15px 0;"></i>
               <BR />Add organisation
             </span>
 
@@ -69,7 +70,15 @@
               <input class="uikit-text-input input-half" name="nameLast" id="nameLast" type="text" value="">
             </div>
             <div id="pt-gender-fieldsx" class="form-group">
-              <% include ../../../../partials/gender-2.ejs %>
+
+              <% 
+                  locals = {};
+                  locals.question = 'Gender'; 
+                  locals.optionalID = 'genderOne';
+                  locals.optionalHelp = "Currently, our system only allows us to record the representative's gender as male or female. If they don't identify as either, you can discuss this with a DVA staff member on <a href='tel:1800-555-254'>1800 555 254</a>."; 
+              %>
+              <% include ../../../../partials/forms/radio--gender.ejs %>
+
             </div>
             <div class="form-group">
               <label class="uikit-text-input__label" for="date">Date of birth
@@ -139,7 +148,13 @@
               <input class="uikit-text-input" name="contactLastName" id="contactLastName" type="text" value="">
             </div>
             <div id="pt-gender-fieldscc" class="form-group">
-              <% include ../../../../partials/gender.ejs %>
+              <% 
+                  locals = {};
+                  locals.question = 'Gender'; 
+                  locals.optionalID = 'genderTwo';
+                  locals.optionalHelp = "Currently, our system only allows us to record the representative's gender as male or female. If they don't identify as either, you can discuss this with a DVA staff member on <a href='tel:1800-555-254'>1800 555 254</a>."; 
+              %>
+              <% include ../../../../partials/forms/radio--gender.ejs %>
             </div>
             <div class="form-group pt-showIfEnrolled">
               <label class="uikit-text-input__label" for="contactPhone" id="question_id16a">Phone number</label>
@@ -152,33 +167,36 @@
           </div>
         </div>
 
-        <div class="pagination pagination--ss-reverse-order">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
-            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-          </div>
+      </form>
 
+
+      <div class="pagination pagination--ss-reverse-order">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
+          <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
         </div>
 
       </div>
 
-      <div id="warning" class="modal-window">
-        <div>
-          <a href="#modal-close" title="Close" class="modal-close">Close</a>
-          <h2>Your application will be cancelled</h2>
-          <p>Are you sure you want to cancel this application?</p>
-          <div class="modal-buttons">
-            <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
-          </div>
-        </div>
+    </div>
 
+    <div id="warning" class="modal-window">
+      <div>
+        <a href="#modal-close" title="Close" class="modal-close">Close</a>
+        <h2>Your application will be cancelled</h2>
+        <p>Are you sure you want to cancel this application?</p>
+        <div class="modal-buttons">
+          <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
+        </div>
       </div>
 
+    </div>
 
-    </form>
+
+
 
 
 
@@ -204,27 +222,30 @@
       $('#newOrg').show("fast");
       $('#newPerson').hide();
     });
+
+
+    // set a new session guid every time this page is called
+    var sessionGuid = (guidGenerator());
+    sessionStorage.setItem('sessionGuid', sessionGuid);
+    $('#repId').val(sessionGuid);
+
+
     $('#btnNext').click(function (event) {
       event.stopImmediatePropagation();
       event.preventDefault();
 
-      // set a new session guid every time this page is called
-      var sessionGuid = (guidGenerator());
-      sessionStorage.setItem('sessionGuid', sessionGuid);
-
-      $('#repId').val(sessionGuid);
       var data = ($('.pt-submit-form'));
 
       writeRep(data);
 
       if ($('#addNewOrg').is(':checked')) {
-        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+        window.location.href = '/auth/profile/nomrep/form-rep-3?repState=new';
       }
 
       if ($.trim($('#fileNumber').val()) == '') {
-        window.location.href = '/auth/profile/nomrep/rep-details2';
+        window.location.href = '/auth/profile/nomrep/form-rep-2';
       } else {
-        window.location.href = '/auth/profile/nomrep/edit-rep?repState=new';
+        window.location.href = '/auth/profile/nomrep/form-rep-3?repState=new';
       }
 
     });
@@ -236,45 +257,45 @@
     $(function () {
 
       var availableInstitutions = [{
-        label: "RSL Townsville Sub Branch",
-        category: "abn",
-        abn: '55467834'
-      },
-      {
-        label: "Anglicare Southern Queensland - Help at Home and Disability Services",
-        category: "test",
-        abn: '8834256238'
-      },
-      {
-        label: "ComLink Townsville",
-        category: "abn",
-        abn: '345673467'
-      },
-      {
-        label: "Anlgi care services",
-        category: "abn",
-        abn: '3564734567'
-      },
-      {
-        label: "Blue Care",
-        category: "abn",
-        abn: '234532467'
-      },
-      {
-        label: "Glendale Care - Townsville Aged Care",
-        category: "abn",
-        abn: '456872345'
-      },
-      {
-        label: "Coutts Redington Chartered Accountants",
-        category: "abn",
-        abn: '6973563'
-      },
-      {
-        label: "Slater and Gordon Lawyers",
-        category: "abn",
-        abn: '679457'
-      },
+          label: "RSL Townsville Sub Branch",
+          category: "abn",
+          abn: '55467834'
+        },
+        {
+          label: "Anglicare Southern Queensland - Help at Home and Disability Services",
+          category: "test",
+          abn: '8834256238'
+        },
+        {
+          label: "ComLink Townsville",
+          category: "abn",
+          abn: '345673467'
+        },
+        {
+          label: "Anlgi care services",
+          category: "abn",
+          abn: '3564734567'
+        },
+        {
+          label: "Blue Care",
+          category: "abn",
+          abn: '234532467'
+        },
+        {
+          label: "Glendale Care - Townsville Aged Care",
+          category: "abn",
+          abn: '456872345'
+        },
+        {
+          label: "Coutts Redington Chartered Accountants",
+          category: "abn",
+          abn: '6973563'
+        },
+        {
+          label: "Slater and Gordon Lawyers",
+          category: "abn",
+          abn: '679457'
+        },
       ];
 
       $("#orgName").autocomplete({

@@ -98,49 +98,16 @@
     <div class="row">
       <div class="col-md-offset-2 col-md-8">
         <div class="margin-above--extra margin-below--extra">
-          <!-- Page content -->
-          <!-- current relationship status questions -->
-          <fieldset id="relationship-status">
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="radio-buttons">What is your CURRENT relationship status?</label>
-              <p class="uiToolKitCheckBox margin-above">
-                <label class="uikit-control-input">
-                  <input id="single" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Single</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="married" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Married <span class="hint"> (Hint message here)</span></span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="defacto" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">De facto</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="separated" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Separated</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="divorced" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Divorced</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="widowed" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Widowed</span>
-                </label>
-              </p>
-            </div>
-          </fieldset>
+        <!-- Page content -->
+        <!-- current relationship status -->
+        <% 
+          locals = new Object();
+          locals.question = 'What is your CURRENT relationship status?';
+          locals.optionalID = 'relationship-status';
+          locals.items = ["Single","Married","De-facto","Separated (while still legally married)","Divorced","Widowed"];
+          locals.optionalItemID = ["single","married","defacto","separated","divorced","widowed"];
+        %>
+        <%- include ../../../../partials/forms/radio.ejs %>
           <!-- A -->
           <div class="form-group" id="date-marriage">
             <fieldset>
@@ -163,9 +130,19 @@
               <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </fieldset>
           </div>
-          <div class="form-group" id="date-separation" display="none;">
+          <div class="form-group" id="date-separation" style="display: none;">
             <fieldset>
               <label class="uikit-text-input__label">Date separated
+                <span class="hint">(dd / mm / yyyy)</span>
+              </label>
+              <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+              <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+              <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+            </fieldset>
+          </div>
+           <div class="form-group" id="date-divorced" style="display: none;">
+            <fieldset>
+              <label class="uikit-text-input__label">Date of divorce
                 <span class="hint">(dd / mm / yyyy)</span>
               </label>
               <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
@@ -177,51 +154,54 @@
           <div class="form-group" id="partner-details">
             <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
             <div class="form-group title">
-              <% include ../../../../partials/global-select-list-title.ejs %>
+              <% include ../../../../partials/forms/title-list-pd.ejs %>
             </div>
             <div class="form-group margin-above--large">
-              <label class="uikit-text-input__label" for="tags">Given name (first name)</label>
+              <label class="uikit-text-input__label" for="tags">Given name <span class="hint">(first name)</span></label>
               <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
             </div>
             <div class="form-group margin-above--large">
-              <label class="uikit-text-input__label" for="tags">Surname (last name)</label>
+              <label class="uikit-text-input__label" for="tags">Surname <span class="hint">(last name)</span></label>
               <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
             </div>
-            <!-- <div>
-                            <div class="form-group margin-above--large">
-                                <label class="uikit-text-input__label legend-label margin-below--none" id="question_gender">Has your partner ever used or been known by other names?
-                                    <span class="hint display-block margin-below--none">For example, name at birth, maiden name, previous married name</span>
-                                </label>
-                            </div>
-                            <div class="radio-toggle">
-                                <label class="on label-left" for="other-names-yes">
-                                    <input id="other-names-yes" name="other-names" type="radio">
-                                    <span>Yes</span>
-                                </label>
-                                <label class="off label-right" for="other-names-no">
-                                    <input id="other-names-no" name="other-names" type="radio">
-                                    <span>No</span>
-                                </label>
-                            </div>
-                        </div> -->
-            <div class="form-group margin-above--large">
-              <label class="uikit-text-input__label" for="Input field">Previous family names
-                <BR /><span class="hint">For example, name at birth, maiden name, previous married name.</span>
-              </label>
-              <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-            </div>
-            <div class="form-group margin-above--large">
+            <!-- Former names -->
+            <%
+            locals = {};
+              locals.question = 'Has your partner ever used or been known by other names?'; 
+              locals.optionalHint = 'For example, name at birth, maiden name, previous married name'; 
+              locals.optionalID = 'other_names'; 
+            %>
+            <% include ../../../../partials/forms/radio--yes-no.ejs %>
+            <%
+              locals = {};
+              locals.optionalHide = true;
+              locals.optionalID = "former_names"
+            %>
+            <% include ../../../../partials/forms/former-names.ejs %>
+            <div class="form-group">
               <fieldset>
-                <div class="form-group">
                   <label class="uikit-text-input__label">Partner’s date of birth
                     <span class="hint">(dd / mm /yyyy)</span>
                   </label>
                   <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
                   <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                   <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
               </fieldset>
             </div>
+            <!-- Partner phone number -->
+            <%
+            locals = {};
+            locals.question = "Partner's phone number";
+            locals.optionalID = 'partner_phone';
+            %>
+            <% include ../../../../partials/forms/field.ejs %>
+            <!-- Partner email address -->
+            <%
+            locals = {};
+            locals.question = "Partner's email address?";
+            locals.optionalID = 'partner_email';
+            %>
+            <% include ../../../../partials/forms/field.ejs %>
             <div class="form-group">
               <div class="uikit-text-input__label-wrapper--inline-block">
                 <legend class="uikit-text-input__label legend-label" id="question_gender">Gender</legend>
@@ -250,65 +230,31 @@
                 </label>
               </div>
             </div>
-            <div class="form-group margin-above--large" id="cs-centrelink">
-              <label class="uikit-text-input__label" for="sop">Has your partner applied for or do they receive any of the following Centrelink payments?
-                <span class="hint display-block">Select all that apply.</span>
-              </label>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" id="age-pension" name="age-pension">
-                  <span class="uikit-control-input__text">Age pension</span>
-                </label>
-              </div>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" id="disability-support-pension" name="disability-support-pension">
-                  <span class="uikit-control-input__text">Disability support pension</span>
-                </label>
-              </div>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" id="carer-payment" name="carer-payment">
-                  <span class="uikit-control-input__text">Carer payment</span>
-                </label>
-              </div>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" id="newstart-allowance" name="newstart-allowance">
-                  <span class="uikit-control-input__text">Newstart allowance</span>
-                </label>
-              </div>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" id="other" name="other">
-                  <span class="uikit-control-input__text">Other</span>
-                </label>
-                <div class="form-group" id="other-ps">
-                  <label class="uikit-text-input__label margin-above--mid" for="Input field">Please specify</label>
-                  <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-                </div>
-              </div>
-            </div>
-            <div class="form-group margin-above--large">
-              <fieldset>
-                <legend class="legend-label">Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from DVA or Centrelink?</legend>
-                <div class="radio-toggle">
-                  <label class="on label-left" for="cs-cshc-yes">
-                    <input id="cs-cshc-yes" type="radio" name="cs-cshc" value="yes">
-                    <span>Yes</span>
-                  </label>
-                  <label class="off label-right" for="cs-cshc-no">
-                    <input id="cs-cshc-no" type="radio" name="cs-cshc" value="no">
-                    <span>No</span>
-                  </label>
-                </div>
-              </fieldset>
-            </div>
-            <div style="display: none;" class="form-group margin-above--large" id="cs-crn">
-              <label class="uikit-text-input__label" for="tags">What is your partner's Customer Reference Number (CRN)?</label>
-              <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
-            </div>
-          </div>
+          <!-- Centrelink -->
+          <% 
+            locals = {};
+            locals.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
+            locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
+            locals.optionalHint = 'Select all that apply.'; 
+            locals.optionalID = "cs_centrelink";            
+            %>
+          <% include ../../../../partials/forms/checkbox.ejs %>
+          <!-- CSHC -->  
+          <%
+            locals = {};
+            locals.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
+            locals.optionalID = 'cs_cshc'; 
+          %>
+          <% include ../../../../partials/forms/radio--yes-no.ejs %>
+          <!-- CRN -->
+          <% 
+            locals = {}
+            locals.question = "What is your partner's Centrelink reference number (CRN)?"; 
+            locals.optionalID = 'cs_crn';
+            locals.optionalShort = true; 
+            // locals.optionalHide = true;
+            %>
+          <% include ../../../../partials/forms/field.ejs %>
         </div>
         <div id="save-and-next" class="margin-above" style="display: none">
           <p>Choose <b>save and next</b> to continue.</p>
@@ -459,6 +405,13 @@
 
     hideAll();
 
+    if ( sessionStorage.getItem('dual-application') == "true" ) {
+      $("#single").parent().hide();
+      $("#separated").parent().hide();
+      $("#divorced").parent().hide();
+      $("#widowed").parent().hide();
+    }
+
     window.checkSaveAndNext = function () {
 
       myNav = "/auth/claim/service_pension/sp-dependant";
@@ -506,10 +459,8 @@
         $("#ppp--crn").hide();
       } else if (scenario == "single-pre-pop") {
         $("#single-pre-pop").show();
-        // console.log("single-pre-pop")
       } else {
         $("#cleanskin").show();
-        // console.log("cleanskin")
       }
     }
 
@@ -561,7 +512,7 @@
     $("#divorced").click(function () {
       hideAll();
       sessionStorage.setItem('partnerStatus', 'none');
-      $("#save-and-next").show("fast");
+      $("#date-divorced").show("fast");
     });
 
     $("#widowed").click(function () {
@@ -592,29 +543,45 @@
 
     /* partnered */
 
-    var centrelink_selected;
-    $("#cs-centrelink").change(function () {
+    /* former names */
+
+    var other_names;
+    $('input[name=other_names]').change(function () {
+      other_names = $('input[name=other_names]:checked').val();
+      console.log( other_names )
+      if (other_names == "yes") {
+        $("#former_names").show("fast");
+      } else {
+        $("#former_names").hide();
+      }
+    });
+
+
+    var centrelink_selected = [];
+    $("#cs_centrelink").change(function () {
       centrelink_selected = [];
-      $('#cs-centrelink input:checked').each(function () {
+      $('#cs_centrelink input:checked').each(function () {
         centrelink_selected.push($(this).attr('name'));
       });
       if (centrelink_selected.length > 0) {
-        $("#cs-crn").show();
+        $("#cs_crn").show("fast");
       } else {
         if (cs_cshc != "yes") {
-          $("#cs-crn").hide();
+          $("#cs_crn").hide();
         }
       }
     });
 
+    /* CSHC card question */
+
     var cs_cshc;
-    $('input[name=cs-cshc]').change(function () {
-      cs_cshc = $('input[name=cs-cshc]:checked').val();
+    $('input[name=cs_cshc]').change(function () {
+      cs_cshc = $('input[name=cs_cshc]:checked').val();
       if (cs_cshc == "yes") {
-        $("#cs-crn").show();
+        $("#cs_crn").show("fast");
       } else {
         if (centrelink_selected.length == 0) {
-          $("#cs-crn").hide();
+          $("#cs_crn").hide();
         }
       }
     });
@@ -630,22 +597,9 @@
       $("#date-marriage").hide();
       $("#date-living-together").hide();
       $("#other-ps").hide();
-      // $("#date-not-together").hide();
-      // $("#deceased-partner").hide();
       $("#date-separation").hide();
+      $("#date-divorced").hide();
       $("#partner-details").hide();
-      // $("#partner-details-other").hide();
-      // $("#partners-home-address").hide();
-      // $("#partner-payment-type").hide();
-      // $("#partner-cshc-details").hide();
-      // $("#divorced-date").hide();
-      // $("#sp-partner-formerName").hide();
-      // $("#partner-details").hide();
-      // $("#partners-postal-address").hide();
-      // $("#sp-partner-applying").hide();
-      // $("#partner-cshc-details").hide();
-      // $("#partner-centrelink-details").hide();
-      // $("#partner-payment-type").hide();
       $("#crn").hide();
       $("#save-and-next").hide();
     }
