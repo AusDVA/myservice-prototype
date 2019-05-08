@@ -56,30 +56,6 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>02/02/2019</td>
-                          <td>Craig Williamson</td>
-                          <td>Change Postal Address</td>
-                          <td>1123456</td>
-                        </tr>
-                        <tr>
-                          <td>02/02/2019</td>
-                          <td>Craig Williamson</td>
-                          <td>Lodged claim</td>
-                          <td>2341521</td>
-                        </tr>
-                        <tr>
-                          <td>02/02/2019</td>
-                          <td>Jenny Fresh</td>
-                          <td>Request Replacement Card</td>
-                          <td>1423768</td>
-                        </tr>
-                        <tr>
-                          <td>02/02/2019</td>
-                          <td>Joe Blogs</td>
-                          <td>Change Mobile Number</td>
-                          <td>4456321</td>
-                        </tr>
                       </tbody>
                     </table>
                   </div>
@@ -106,58 +82,73 @@
 
   </main>
 
+        <% include ../../../../partials/footer.ejs %>
+      </body>
+      <script>
+        if ($(window.location.hash).length > 0) {
+          $('html, body').animate({
+            scrollTop: $(window.location.hash).offset().top - 100
+          }, 2000);
+        }
+        $(document).ready(function () {
+          // don't think we need any of this now.
+          $('#myRepsBtn').click(function () {
+            $('#myReps').show();
+            $('#myReps1').show();
+            $('#myReps2').show();
+            $('#myReps3').show();
+            $('#myReps4').show();
+            $('#myReps5').show();
+            $('#iRep').hide();
+            $('#iRep1').hide();
+            $('#myRepsHead').show();
+            $('#iRepHead').hide();
+            $('#becomeRep').hide();
+            $('#addRep').show();
+            $('#myRepsBtn').removeClass('active-state');
+            $('#iRepresent').addClass('active-state');
+            $('#myRepsBtn').removeClass('on-load-state');
+          });
+          $('#iRepresent').click(function () {
+            $('#iRep').show();
+            $('#iRep1').show();
+            $('#iRepHead').show();
+            $('#myReps').hide();
+            $('#myReps1').hide();
+            $('#myReps2').hide();
+            $('#myReps3').hide();
+            $('#myReps4').hide();
+            $('#myReps5').hide();
+            $('#becomeRep').show();
+            $('#addRep').hide();
+            $('#myReps1').hide();
+            $('#myRepsHead').hide();
+            $('#myRepsBtn').addClass('active-state');
+            $('#iRepresent').removeClass('active-state');
+            $('#iRepresent').removeClass('on-load-state');
+          });
+        });
+        readClient();
+        readRep();
 
-  <% include ../../../../partials/footer.ejs %>
-</body>
-<script>
-  if ($(window.location.hash).length > 0) {
-    $('html, body').animate({
-      scrollTop: $(window.location.hash).offset().top - 100
-    }, 2000);
-  }
+        $(document).ready(function() {
+          $.ajax({
+            url: '/docs/data/user.json',
+            async: false,
+            dataType: 'json'
+          }).done(function(data) {
+            $('.table-responsive tbody').html("");
+            // console.log(data.person);
+            $.each(data.person, function(i, q) {
+              $('.table-responsive tbody').append("<tr>" +
+                "<td>" + q.repTransactions[i].date + "</td>" +
+                "<td>" + q.repTransactions[i].name + "</td>" +
+                "<td>" + q.repTransactions[i].transactionDetails + "</td>" +
+                "<td>" + q.repTransactions[i].transactionId + "</td>" +
+                "</tr>");
+            });
+          });
+        });
 
-  $(document).ready(function () {
-    // don't think we need any of this now.
-    $('#myRepsBtn').click(function () {
-      $('#myReps').show();
-      $('#myReps1').show();
-      $('#myReps2').show();
-      $('#myReps3').show();
-      $('#myReps4').show();
-      $('#myReps5').show();
-      $('#iRep').hide();
-      $('#iRep1').hide();
-      $('#myRepsHead').show();
-      $('#iRepHead').hide();
-      $('#becomeRep').hide();
-      $('#addRep').show();
-      $('#myRepsBtn').removeClass('active-state');
-      $('#iRepresent').addClass('active-state');
-      $('#myRepsBtn').removeClass('on-load-state');
-    });
-    $('#iRepresent').click(function () {
-      $('#iRep').show();
-      $('#iRep1').show();
-      $('#iRepHead').show();
-      $('#myReps').hide();
-      $('#myReps1').hide();
-      $('#myReps2').hide();
-      $('#myReps3').hide();
-      $('#myReps4').hide();
-      $('#myReps5').hide();
-      $('#becomeRep').show();
-      $('#addRep').hide();
-      $('#myReps1').hide();
-      $('#myRepsHead').hide();
-      $('#myRepsBtn').addClass('active-state');
-      $('#iRepresent').removeClass('active-state');
-      $('#iRepresent').removeClass('on-load-state');
-    });
-  });
-
-  readClient();
-  readRep();
-
-</script>
-
+      </script>
 </html>
