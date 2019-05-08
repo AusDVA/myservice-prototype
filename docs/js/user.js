@@ -323,6 +323,12 @@ function writeUser() {
     // localStorage.setItem('repFlow', 'newbie');
   }
 
+  if (user.claims) {
+    user.numberOfClaims = user.claims.length;
+  } else {
+    user.numberOfClaims = 0;
+  }
+
   // show hide the switch account buttons
 
   // console.log('sessionClientSubmitted -> ' + sessionClientSubmitted);
@@ -355,6 +361,8 @@ function writeUser() {
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
   userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
+  userHtml += start + 'Last payment </div><div class="pt-col">' + user.lastPayment + end;
+  userHtml += start + 'Claims </div><div class="pt-col">' + user.numberOfClaims + end;
   userHtml += start + 'Story </div><div class="pt-col">' + user.story + end;
 
   user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
@@ -363,6 +371,8 @@ function writeUser() {
   $('.pt-current-user-name-picture').html(user.picture);
   $('.pt-current-user-name-first').html(user.name.first);
   $('.pt-current-user-name-full').html(user.nameFull);
+  $('.pt-current-user-last-payment').html(user.lastPayment);
+  $('.pt-current-user-number-of-claims').html(user.numberOfClaims);
 }
 
 // TODO: copy from or refactor writeClient
