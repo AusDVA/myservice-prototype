@@ -4,6 +4,17 @@
 <head>
   <title>Add claim: Diagnosis | MyService</title>
   <% include ../../../partials/head.ejs %>
+
+  <style>
+    .pt-required-docs,
+    .pt-no-required-docs,
+    .pt-upload-list {
+      display: none;
+
+    }
+
+  </style>
+
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -16,6 +27,8 @@
   <% include ../../../partials/header-topbar.ejs %>
   <% include ../../../partials/header-claims.ejs %>
   <% include ../../../partials/header-nom-rep.ejs %>
+
+
 
   <main>
     <div class="container" id="main-content">
@@ -57,6 +70,36 @@
             </div>
           </div>
 
+
+          <% locals.question = 'Did the condition occur on a specific date?'; locals.optionalID = 'single'; %>
+          <% include ../../../partials/forms/radio--yes-no.ejs %>
+
+
+          <div class="single-incident" style="display:none;">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="dd-single">When did it happen?
+                  <span class="hint display-block">(DD / MM / YYYY)</span>
+                </label>
+                <input class="uikit-text-input dd" type="text" name="dd-single" id="dd-single" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="mm-single" id="mm-single" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="yyyy-single" id="yyyy-single" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="over-time" style="display:none;">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="dd-over-time">Approximately when did you start noticing symptoms?
+                  <span class="hint display-block">(MM / YYYY)</span>
+                </label>
+                <input class="uikit-text-input mm" type="text" name="mm-over-time" id="mm-over-time" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="yyyy-over-time" id="yyyy-over-time" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </fieldset>
+          </div>
+
           <div class="form-group">
             <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?
               <span class="hint display-block">
@@ -73,46 +116,16 @@
 
         </fieldset>
 
-        <div class="sdf">
-          Something
-          <span class="pt-il-claim-required-docs"></span>
-        </div>
 
 
-        <!-- trying out partial replacement of form elements -->
-        <% locals.question = 'Did the condition occur on a specific date?'; locals.radioId = 'single'; %>
-        <% include ../../../partials/forms/radio--yes-no.ejs %>
-
-
-        <div class="single-incident" style="display:none;">
-          <fieldset>
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-single">When did it happen?
-                <span class="hint display-block">(DD / MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="dd-single" id="dd-single" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="mm-single" id="mm-single" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="yyyy-single" id="yyyy-single" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-          </fieldset>
-        </div>
-
-        <div class="over-time" style="display:none;">
-          <fieldset>
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-over-time">Approximately when did you start noticing symptoms?
-                <span class="hint display-block">(MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input mm" type="text" name="mm-over-time" id="mm-over-time" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="yyyy-over-time" id="yyyy-over-time" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-          </fieldset>
-        </div>
       </div>
 
-      <h2>Upload your GP's or Specialist's medical report. (recommended)</h2>
 
-      <fieldset>
+      <div class="pt-no-required-docs">
+        <h2>Upload your GP's or Specialist's medical report. (recommended)</h2>
+
+
+
         <div class="tip--wrapper">
           <h2>Documents you need to provide</h2>
           <!--            <img alt="Tip icon" class="heading-icon" src="../../../docs/images/ico-tip-blue.svg">-->
@@ -135,66 +148,59 @@
               <li>training programs or itineraries</li>
             </ul>
         </div>
+      </div>
+      <!-- Document list-->
 
-        <!-- Document list-->
-        <%# 
-        <div class="upload-list">
+
+      <div class="pt-required-docs">
+        <div class="form-group">
+          <fieldset>
+            <div class="uikit-text-input__label-wrapper--inline-block">
+              <legend class="legend-label">Do you have any of the following documents?</legend>
+              <span class="pt-il-claim-required-docs"></span>
+            </div>
+            <div class="radio-toggle">
+              <label class="on label-left" for="requiredDocs-yes">
+                <input id="requiredDocs-yes" type="radio" name="requiredDocs" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="off label-right" for="requiredDocs-no">
+                <input id="requiredDocs-no" type="radio" name="requiredDocs" value="no">
+                <span>No</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+
+
+
+
+        <div class="pt-upload-list">
           <h3>Uploads</h3>
           <table class="document-uploads">
-            <tr>
-              <th>Document title</th>
-              <th class="centred">Actions</th>
-            </tr>
-            <tr>
-              <td>
-                <a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a>
-              </td>
-              <td class="centred">
-                <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
-              </td>
-            </tr>
+            <tbody>
+              <tr>
+                <th>Document title</th>
+                <th class="centred">Actions</th>
+              </tr>
+              <tr>
+                <td>
+                  <a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a>
+                </td>
+                <td class="centred">
+                  <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
+                </td>
+              </tr>
+            </tbody>
           </table>
           <button class="uikit-btn btnUpload">Upload a document</button>
-        </div> %>
-
-
-        <h3>We need some documents from you to process your claim <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum
-            file size is 50MB.</span></h3>
-
-        <div class="mys-file-uploads__item">
-          <div class="mys-file-uploads__l-status">
-            <%# <div class="mys-file-uploads__status mys-file-uploads__status--success">
-                <div class="mys-file-uploads__status-icon"></div>
-                <div class="mys-file-uploads__status-sr">Success</div>
-              </div> %>
-          </div>
-          <div class="mys-file-uploads__info">
-            <div class="mys-file-uploads__info-item">
-              <%# <div class="mys-file-uploads__label">Document type</div> %>
-              <div class="mys-file-uploads__value">
-                <select class="uikit-text-input input-half">
-                  <option value="">-- Select type --</option>
-                  <option value="">Proof of residence</option>
-                  <option value="">Part-time study reason</option>
-                  <option value="">Proof of relationship</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="mys-file-uploads__item-actions">
-            <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
-          </div>
         </div>
-        <%# <div class="mys-file-uploads__item-border">
 
-        </div> %>
-
+      </div>
 
 
 
 
-
-      </fieldset>
 
 
       <div class="pagination">
@@ -236,16 +242,14 @@
       $(".over-time").show("fast");
     });
 
-    $("#doctor-no").click(function () {
-      sessionStorage.setItem('nodiagnosis', true);
-      $("#condition").show("fast");
-      $("#diagnosis").hide();
+    $("#requiredDocs-yes").click(function () {
+
+      $(".pt-upload-list").show("fast");
+
     });
-    $("#doctor-yes").click(function () {
-      sessionStorage.setItem('yesdiagnosis', true);
-      $("#diagnosis").show("fast");
-      $("#condition").hide();
-    });
+
+
+    // .pt-upload-list
 
 
 

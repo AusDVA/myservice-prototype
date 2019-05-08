@@ -82,11 +82,22 @@ function claimToCondition() {
             $.each(this.documentTypeRequired, function (index, docsRequired) {
               console.log('docsRequired');
               console.log(docsRequired);
+
+              // if (docsRequired.name !== "any") {
               requiredDocsHtml += '<li>' + docsRequired.name + '</li>';
+              // }
 
             });
 
-            $('.pt-il-claim-required-docs').html('<ul>' + requiredDocsHtml) + '</ul>';
+            if (requiredDocsHtml != '') {
+              $('.pt-il-claim-required-docs').html('<ul>' + requiredDocsHtml) + '</ul>';
+              $('.pt-required-docs').show();
+              $('.pt-no-required-docs').hide();
+            } else {
+              $('.pt-no-required-docs').show();
+              $('.pt-required-docs').hide();
+
+            }
           }
         });
 
