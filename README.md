@@ -33,4 +33,6 @@ There are 2 gulp commands for running regression tests:
 `gulp unit-test` - runs a test on **just** the styleguide  
 `gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)  
   
-If the `backstop_data/bitmaps_reference` directory does not exist, it will generate reference screenshots, but if it does exist it will compare the screenshots to existing reference images.
+If the `backstop_data/bitmaps_reference` directory does not exist, it will generate reference screenshots, but if it does exist it will compare the screenshots to existing reference images.  
+  
+**Please Note** You will need another terminal/command prompt window running `gulp serve` to run this.
