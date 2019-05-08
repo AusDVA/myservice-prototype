@@ -2,174 +2,17 @@
 
 // utility functions 
 
-// returns age from date of birth string 
-function getAge(dateString) {
-  var today = new Date();
-  var birthDate = new Date(dateString);
-  var age = today.getFullYear() - birthDate.getFullYear();
-  var m = today.getMonth() - birthDate.getMonth();
-  if (m < 0 || m === 0 && today.getDate() < birthDate.getDate()) {
-    age--;
-  }
-  return age;
-}
-
-// returns serializes form data from a form 
-function getFormData($form) {
-  var unindexed_array = $form.serializeArray();
-  var indexed_array = {};
-
-  $.map(unindexed_array, function (n, i) {
-    indexed_array[n['name']] = n['value'];
-  });
-
-  return indexed_array;
-}
-
-function guidGenerator() {
-  var S4 = function S4() {
-    return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-  };
-  return S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4();
-}
-
-// end utility functions 
-
-
-$(document).keypress(function (e) {
-
-  switch (e.which) {
-    case 126:
-      //tilda + shift
-      $('.pt-choose-user').toggle();
-      break;
-    default:
-  }
-});
-
-function initNomRep() {
-
-  var repFlow = getUrlParameter('repFlow');
-
-  if (repFlow) {
-
-    localStorage.setItem('repFlow', repFlow);
-  } else if ("repFlow" in localStorage) {} else {
-    localStorage.setItem('repFlow', 'none');
-  }
-
-  if (localStorage.getItem('repFlow') == 'both') {
-    jQuery(".pt-first-time-no").show();
-    jQuery(".pt-rep-flow-representing-no").hide();
-    jQuery(".pt-rep-flow-represented-no").hide();
-    jQuery(".pt-rep-flow-none").hide();
-    jQuery(".pt-rep-flow-representing").show();
-    jQuery(".pt-rep-flow-represented").show();
-  } else if (localStorage.getItem('repFlow') == 'none') {
-    jQuery(".pt-first-time-no").show();
-    jQuery(".pt-rep-flow-representing").hide();
-    jQuery(".pt-rep-flow-represented").hide();
-    jQuery(".pt-rep-flow-none-no").hide();
-    jQuery(".pt-rep-flow-none").show();
-  } else if (localStorage.getItem('repFlow') == 'representing') {
-    jQuery(".pt-first-time-no").show();
-    jQuery(".pt-rep-flow-represented").hide();
-    jQuery(".pt-rep-flow-representing-no").hide();
-    jQuery(".pt-rep-flow-none").hide();
-    jQuery(".pt-rep-flow-representing").show();
-  } else if (localStorage.getItem('repFlow') == 'represented') {
-    jQuery(".pt-first-time-no").show();
-    jQuery(".pt-rep-flow-representing").hide();
-    jQuery(".pt-rep-flow-none").hide();
-    jQuery(".pt-rep-flow-represented").show();
-    jQuery(".pt-rep-flow-represented-no").hide();
-  } else if (localStorage.getItem('repFlow') == 'newbie') {
-    jQuery(".pt-first-time-no").hide();
-    jQuery(".pt-first-time").show();
-  }
-}
-
-initNomRep();
-
-// banners
-function initBanners() {
-
-  var bannerFlow = getUrlParameter('bannerFlow');
-
-  if (bannerFlow) {
-
-    localStorage.setItem('bannerFlow', bannerFlow);
-  } else if ("bannerFlow" in localStorage) {} else {
-    localStorage.setItem('bannerFlow', 'none');
-  }
-
-  if (localStorage.getItem('bannerFlow') == 'all') {
-    jQuery(".pt-banner-service").show();
-    jQuery(".pt-banner-nr-rep").show();
-  } else if (localStorage.getItem('bannerFlow') == 'none') {
-    jQuery(".pt-banner-service").hide();
-    jQuery(".pt-banner-nr-rep").hide();
-  } else if (localStorage.getItem('bannerFlow') == 'service') {
-    jQuery(".pt-banner-service").show();
-    jQuery(".pt-banner-nr-rep").hide();
-  } else if (localStorage.getItem('bannerFlow') == 'nr-rep') {
-    jQuery(".pt-banner-service").hide();
-    jQuery(".pt-banner-nr-rep").show();
-  }
-}
-
-initBanners();
-
-// Switch account
-function initSwitch() {
-
-  var switchFlow = getUrlParameter('switchFlow');
-  var switchId = getUrlParameter('switchId');
-
-  if (switchFlow) {
-    localStorage.setItem('switchFlow', switchFlow);
-    localStorage.setItem('switchId', switchId);
-    jQuery('.pt-managing-user ').slideDown('fast');
-  }
-
-  if (localStorage.getItem('switchFlow') == 'active') {
-    jQuery('.pt-managing-user ').show();
-  } else {}
-  // jQuery('.switch-account-button').removeClass("switch-account-button--current");
-
-
-  // hide switch account overlay when clicking elsewhere on the page
-  $(document).on("click", function () {
-    $(".switch-account-box").addClass("switch-account-box--hide");
-  });
-}
-
-initSwitch();
-
-// to generate more users, go to www.json-generator.com and paste in the data from /docs/data/user.generator 
-// and paste in the generated users in to /docs/data/user.json
 
 // Pull in the json content 
 $.ajax({
-  url: '/docs/data/user.json',
+  url: '/docs/data/claim-il-docs.json',
   async: false,
   dataType: 'json'
 }).done(function (data) {
 
-  console.log('User data back');
+  console.log('Claim data back');
 
-  // $.each(data.person, function (index, element) {
-
-  // });
-
-
-  localStorage.setItem('allPersons', JSON.stringify(data.person));
-
-  // set the default MyService user if no user has been requested 
-  if (!localStorage.getItem('person')) {
-    localStorage.setItem('person', JSON.stringify(data.person[0]));
-    console.log('setting the default user');
-  }
+  localStorage.setItem('ilStraightThrough', JSON.stringify(data));
 
   // populate the user dropdown list with users from the json
   var $userSelect = $('#user-drop-down');
