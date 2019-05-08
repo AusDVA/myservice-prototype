@@ -1,470 +1,84 @@
 'use strict';
 
-// utility functions 
-
-
 // Pull in the json content 
 $.ajax({
-  url: '/docs/data/claim-il-docs.json',
+  url: '/docs/data/claim-il-conditions.json',
   async: false,
   dataType: 'json'
 }).done(function (data) {
 
   console.log('Claim data back');
 
-  localStorage.setItem('ilStraightThrough', JSON.stringify(data));
+  localStorage.setItem('claimIlStraightThrough', JSON.stringify(data));
 
   // populate the user dropdown list with users from the json
-  var $userSelect = $('#user-drop-down');
-  $userSelect.empty();
-  $userSelect.append('<option>-- Select a user --</option>');
-  $.each(data.person, function (key, value) {
-    $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
-  });
+  // var $userSelect = $('#user-drop-down');
+  // $userSelect.empty();
+  // $userSelect.append('<option>-- Select a user --</option>');
+  // $.each(data.person, function (key, value) {
+  //   $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
+  // });
 
-  // switch the user 
-  $userSelect.change(function () {
-    var selectedId = this.value;
-    sessionStorage.removeItem('usersClients');
-    sessionStorage.removeItem('usersReps');
-    sessionStorage.removeItem('sessionGuid');
-
-    $.each(data.person, function (index, element) {
-
-      if (element._id === selectedId) {
-        localStorage.setItem('person', JSON.stringify(data.person[index]));
-        localStorage.setItem('switchId', 'none');
-        jQuery('.pt-managing-user').slideUp('fast');
-        localStorage.setItem('switchFlow', 'none');
-        writeUser();
-      }
-    });
-  });
-  writeUser();
+  claimToCondition();
 });
 
 // put the user from user.js in to local storage and the users clients in to session storage 
-function writeUser() {
+function claimToCondition() {
 
-  console.log('Writing user  ');
+  console.log('Claim lookup ');
 
-  var user = JSON.parse(localStorage.getItem('person'));
-  var sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
-  var sessionReps = JSON.parse(sessionStorage.getItem('usersReps'));
+  var claimData = JSON.parse(localStorage.getItem('claimIlStraightThrough'));
 
-  window.allClients = [];
-  window.allReps = [];
+  $.each(claimData, function (index, condition) {
 
-  if (sessionClients) {
+    // console.log(condition);
+    // console.log('condition = ' + condition.label);
 
-    $.each(sessionClients, function (index, client) {
-      // add new form data to an existing client
-      window.allClients.push(client);
+    $.each(condition.documentTypeRequired, function (index, documentTypeRequired) {
+
+      // console.log('- - - required doc = ' + documentTypeRequired.name);
+
     });
-  } else {
-    // no client data in session so get it from the user 
-    $.each(user.clients, function (index, client) {
+  });
+  // $('.pt-current-user-number-of-claims').html(user.numberOfClaims);
 
-      window.allClients.push(client);
-    });
-  }
 
-  if (sessionReps) {
+  var availableTags = [];
 
-    $.each(sessionReps, function (index, rep) {
-      // add new form data to an existing rep
-      window.allReps.push(rep);
-    });
-  } else {
-    // no rep data in session so get it from the user 
-    $.each(user.reps, function (index, rep) {
+  $("#tags").autocomplete({
+    // source: availableTags,
+    source: claimData,
+    select: function select(event, ui) {
 
-      window.allReps.push(rep);
-    });
-  }
+      console.log('selected = ');
 
-  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
-  // sessionStorage.setItem('usersMultipleClients', JSON.stringify(window.allClients));
+      // checking if it's a condition that is a candidate for a computer based decision 
+      if (ui.item.category === 'cbd') {
 
-  sessionStorage.setItem('usersReps', JSON.stringify(window.allReps));
+        console.log(ui.item.label);
 
-  var firstTimeUser = true;
-  if (sessionStorage.getItem('sessionGuid')) {
-    firstTimeUser = false;
-  }
+        $.each(claimData, function (index, condition) {
 
-  // count number of clients 
-  var sessionClientSubmitted = false;
-  var sessionRepSubmitted = false;
+          // console.log('ui.item.category');
+          // console.log(ui.item.category);
+          // console.log('condition.label');
+          // console.log(condition.label);
 
-  if (window.allClients.length > 0 && window.allReps.length > 0) {
-    console.log(' both');
-    localStorage.setItem('repFlow', 'both');
-    $('.pt-switch-account').show();
+          if (ui.item.label === condition.label) {
+            console.log('element found');
 
-    if (user.clients) {
-      sessionClientSubmitted = true;
-    }
-  } else if (window.allClients.length > 0) {
-    console.log(' representing');
-    localStorage.setItem('repFlow', 'representing');
-    if (user.clients) {
-      sessionClientSubmitted = true;
-    }
-  } else if (window.allReps.length > 0) {
-    console.log(' represented');
-    localStorage.setItem('repFlow', 'represented');
-    if (user.reps) {
-      sessionRepSubmitted = true;
-    }
-  }
+            console.log(this);
+            var requiredDocsHtml = '';
+            $.each(this.documentTypeRequired, function (index, docsRequired) {
+              console.log('docsRequired');
+              console.log(docsRequired);
+              requiredDocsHtml += '<li>' + docsRequired.name + '</li>';
+            });
 
-  // if (sessionReps) {
-  //   localStorage.setItem('repFlow', 'representing');
-  //   if (sessionReps.rep[0].submittedApplication == "true") {
-  //     localStorage.setItem('repFlow', 'representing');
-  //     var sessionRepSubmitted = true;
-  //     user.reps.push(sessionReps.rep[0]);
-  //   }
-
-  //   if (sessionReps.rep[0].role == "Cease") {
-  //     user.numberOfReps = 0
-  //     user.reps.length = 0;
-  //     sessionRepSubmitted = false;
-  //     localStorage.setItem('repFlow', 'none');
-  //     sessionStorage.removeItem('usersReps');
-  //     if (!window.location.hash) {
-  //       window.location = window.location + '#rep-list';
-  //       window.location.reload();
-  //     }
-  //   }
-
-  // }
-
-
-  // set
-  if (user.clients.length > 0 || sessionClientSubmitted === true) {
-
-    if (user.clients.length > 0) {
-      user.numberOfClients = user.clients.length;
-    } else {
-      user.numberOfClients = window.allClients.length;
-    }
-  } else if (user.clients.length < 1) {
-    user.numberOfClients = 0;
-  }
-
-  if (user.reps.length > 0 || sessionRepSubmitted === true) {
-
-    if (user.reps.length > 0) {
-      user.numberOfReps = user.reps.length;
-    } else {
-      user.numberOfReps = window.allReps.length;
-    }
-  } else if (user.reps.length < 1) {
-    user.numberOfReps = 0;
-    // localStorage.setItem('repFlow', 'newbie');
-  }
-
-  if (user.claims) {
-    user.numberOfClaims = user.claims.length;
-  } else {
-    user.numberOfClaims = 0;
-  }
-
-  // show hide the switch account buttons
-
-  // console.log('sessionClientSubmitted -> ' + sessionClientSubmitted);
-  // console.log('window.allClients.length -> ' + window.allClients.length);
-  if (sessionRepSubmitted === true && sessionClientSubmitted === true) {
-    localStorage.setItem('repFlow', 'both');
-    $('.pt-switch-account').show();
-    firstTimeUser = false;
-  } else if (sessionRepSubmitted === true || user.numberOfReps > 0) {
-    // localStorage.setItem('repFlow', 'represented');
-    firstTimeUser = false;
-  } else if (sessionClientSubmitted === true || window.allClients.length > 0) {
-    // localStorage.setItem('repFlow', 'representing');
-    $('.pt-switch-account').show();
-    firstTimeUser = false;
-  } else {
-    $('.pt-switch-account').hide();
-    // alert('hiding');
-  }
-
-  if (firstTimeUser) {
-    localStorage.setItem('repFlow', 'newbie');
-  }
-
-  var userHtml = '';
-  var start = '<div class="pt-flex-grid"><div class="pt-col">';
-  var end = '</div></div>';
-  userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
-  userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
-  userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
-  userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
-  userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
-  userHtml += start + 'Last payment </div><div class="pt-col">' + user.lastPayment + end;
-  userHtml += start + 'Claims </div><div class="pt-col">' + user.numberOfClaims + end;
-  userHtml += start + 'Story </div><div class="pt-col">' + user.story + end;
-
-  user.picture = '<img class="pt-image-circle" src="' + user.picture + '">';
-
-  $('#userContainerId').html(userHtml);
-  $('.pt-current-user-name-picture').html(user.picture);
-  $('.pt-current-user-name-first').html(user.name.first);
-  $('.pt-current-user-name-full').html(user.nameFull);
-  $('.pt-current-user-last-payment').html(user.lastPayment);
-  $('.pt-current-user-number-of-claims').html(user.numberOfClaims);
-}
-
-// TODO: copy from or refactor writeClient
-// function writeRep(form) {
-
-//   var formData = getFormData(form);
-//   var reps = sessionStorage.getItem('usersReps');
-
-
-//   if (reps) { // reps in session data
-
-//     var parsedReps = JSON.parse(reps);
-//     var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-//     $.each(parsedReps.rep, function (index, element) {
-
-//       // console.log('parsedReps');
-//       // console.log(parsedReps);
-
-//       if (element.id === sessionGuid) {
-//         console.log('writing to the user in session');
-
-//         reps = JSON.stringify(parsedReps);
-//         $.extend(true, parsedReps.rep[index], formData);
-
-//       } else {
-
-//         // $.extend({}, parsedReps.rep[index], formData);
-//         // $.merge(parsedReps.rep[index]), formData));
-
-//       }
-//     });
-
-//     sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
-
-//   } else { // no reps 
-
-//     var repArray = $.makeArray(formData);
-//     sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
-//   }
-// }
-
-
-function writeClient(form) {
-
-  var formData = getFormData(form);
-  var clients = sessionStorage.getItem('usersClients');
-
-  if (clients) {
-    // clients in session data
-    console.log('There are clients in session');
-    var existingClient = false;
-    var parsedClients = JSON.parse(clients);
-    var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-    $.each(parsedClients, function (index, element) {
-
-      if (element.id === sessionGuid) {
-        console.log('writing to an EXISTING client');
-
-        // add new form data to an existing client
-        $.extend(true, window.allClients[index], formData);
-        existingClient = true;
-      }
-    });
-
-    if (existingClient === false) {
-      console.log('writing to a NEW client');
-      window.allClients.push(formData);
-    }
-  } else {
-    console.log('no clients so writing to a NEW client');
-    window.allClients.push(formData);
-  }
-
-  sessionStorage.setItem('usersClients', JSON.stringify(window.allClients));
-}
-
-function writeRep(form) {
-
-  var formData = getFormData(form);
-  var reps = sessionStorage.getItem('usersReps');
-
-  if (reps) {
-    // reps in session data
-    console.log('There are reps in session');
-    var existingRep = false;
-    var parsedReps = JSON.parse(reps);
-    var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-    $.each(parsedReps, function (index, element) {
-
-      if (element.id === sessionGuid) {
-        console.log('writing to an EXISTING client');
-
-        // add new form data to an existing client
-        $.extend(true, window.allReps[index], formData);
-        existingRep = true;
-      }
-    });
-
-    if (existingRep === false) {
-      console.log('writing to a NEW client');
-      window.allReps.push(formData);
-    }
-  } else {
-    console.log('no reps so writing to a NEW client');
-    window.allReps.push(formData);
-  }
-
-  sessionStorage.setItem('usersReps', JSON.stringify(window.allReps));
-}
-
-function readClient() {
-  console.log('Reading client data');
-
-  var urlId = getUrlParameter('id');
-
-  if (urlId) {
-    sessionStorage.setItem('sessionGuid', urlId);
-  }
-
-  var clients = sessionStorage.getItem('usersClients');
-  var parsedClients = JSON.parse(clients);
-  var user = localStorage.getItem('person');
-  var parsedUser = JSON.parse(user);
-  var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-  if (parsedClients) {
-    var clientListHtml = '';
-    var clientListFullHtml = '';
-    var switchId = localStorage.getItem('switchId');
-
-    $.each(parsedClients, function (index, client) {
-
-      // write the client currently being worked on
-      if (client.id === sessionGuid) {
-        $.each(client, function (index, client) {
-          $('.pt-current-client-' + index).html(client);
+            $('.pt-il-claim-required-docs').html('<ul>' + requiredDocsHtml) + '</ul>';
+          }
         });
       }
-
-      if (client.id == switchId) {
-        this.nameFull = this.nameFirst + ' ' + this.nameLast;
-        $('.pt-current-user-name-first').html(this.nameFirst);
-        $('.pt-current-user-name-full').html(this.nameFull);
-      }
-
-      if (client.role !== "Cease") {
-
-        client.nameFull = client.nameFirst + ' ' + client.nameLast;
-
-        // switch list
-        clientListHtml += '<li><a href="/auth?switchFlow=active&switchId=' + client.id + '" class="switch-account-box__link"><strong>';
-        clientListHtml += client.nameFirst + ' ' + client.nameLast + '</strong>';
-        clientListHtml += ' (' + client.role + ')</a></li>';
-
-        // all clients list
-        clientListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
-        clientListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
-        clientListFullHtml += '<span class="fal fa-icon-nr fa-user-edit"></span> </div><div class="flex-item flex-item--large"><p><strong>';
-        clientListFullHtml += client.nameFirst + ' ' + client.nameLast;
-        clientListFullHtml += '</strong></p>  <p><strong> Your current role: </strong>';
-        clientListFullHtml += client.role;
-        clientListFullHtml += '</p><p> <strong> Representation date: </strong>';
-        clientListFullHtml += client.startDateDd + ' / ' + client.startDateMm + ' / ' + client.startDateYyyy;
-        clientListFullHtml += ' to ';
-        if (client.endDateDd) {
-          clientListFullHtml += client.endDateDd + ' / ' + client.endDateMm + ' / ' + client.endDateYyyy;
-        } else {
-          clientListFullHtml += '(no fixed end date)</p>';
-        }
-        if (client.enquireOnline) {
-          clientListFullHtml += '<p><strong> Online access: </strong>';
-          clientListFullHtml += client.enquireOnline + '</p>';
-        }
-        clientListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href=\'/auth/profile/nomrep/form-client-3';
-        clientListFullHtml += '?state=edit&id=' + client.id + '\'">';
-        clientListFullHtml += 'Edit Role</button></p></div></div></div></div></div>';
-      }
-    });
-
-    // add current user to the list
-    clientListHtml += '<li><a id="returnProfile" href="javascript:void(0);" class="switch-account-box__link switch-account-box__link--self">';
-    clientListHtml += '<i class="far fa-repeat-alt"></i> Back to my own account</a></li>';
-
-    $('.pt-current-user-client-list').html(clientListHtml);
-    $('.pt-client-list-full').html(clientListFullHtml);
-
-    // hide the return to profile banner 
-    $("#returnProfile").click(function () {
-      jQuery('.pt-managing-user').slideUp('fast');
-      localStorage.setItem('switchFlow', 'none');
-      writeUser();
-      window.reload();
-    });
-  }
-}
-
-readClient();
-
-function readRep() {
-  console.log('Reading rep data');
-  var reps = sessionStorage.getItem('usersReps');
-  var parsedReps = JSON.parse(reps);
-  var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-  if (parsedReps) {
-
-    var repListFullHtml = '';
-    $.each(parsedReps, function (index, rep) {
-
-      // write the rep currently being worked on
-      if (rep.id === sessionGuid) {
-        $.each(rep, function (index, rep) {
-          $('.pt-current-rep-' + index).html(rep);
-        });
-      }
-
-      if (rep.role !== "Cease") {
-
-        rep.nameFull = rep.nameFirst + ' ' + rep.nameLast;
-
-        // all reps list
-        repListFullHtml += '<div class="row"><div class="col-sm-12 margin-below--mid"><div class="horizontal-card-section">';
-        repListFullHtml += '<div class="card card--horizontal flex-container"><div class="flex-item flex-item--icon-only">';
-        repListFullHtml += '<span class="fal fa-icon-nr fa-user-edit"></span> </div><div class="flex-item flex-item--large"><p><strong>';
-        repListFullHtml += rep.nameFirst + ' ' + rep.nameLast;
-        repListFullHtml += '</strong></p>  <p><strong> Your current role: </strong>';
-        repListFullHtml += rep.role;
-        repListFullHtml += '</p><p> <strong> Representation date: </strong>';
-        repListFullHtml += rep.startDateDd + ' / ' + rep.startDateMm + ' / ' + rep.startDateYyyy;
-        repListFullHtml += ' to ';
-        if (rep.endDateDd) {
-          repListFullHtml += rep.endDateDd + ' / ' + rep.endDateMm + ' / ' + rep.endDateYyyy;
-        } else {
-          repListFullHtml += '(no fixed end date)</p>';
-        }
-        if (rep.enquireOnline) {
-          repListFullHtml += '<p><strong> Online access: </strong>';
-          repListFullHtml += rep.enquireOnline + '</p>';
-        }
-        repListFullHtml += '</div><div class="flex-item flex-item--right-align"><p><button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href=\'/auth/profile/nomrep/form-rep-3';
-        repListFullHtml += '?state=edit&id=' + rep.id + '\'">';
-        repListFullHtml += 'Edit Role</button></p></div></div></div></div></div>';
-      }
-    });
-
-    // $('.pt-current-user-rep-list').html(repListHtml);
-    $('.pt-rep-list-full').html(repListFullHtml);
-  }
+    }
+  });
 }
