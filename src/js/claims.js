@@ -9,14 +9,6 @@ $.ajax({
 
   localStorage.setItem('claimIlStraightThrough', JSON.stringify(data));
 
-  // populate the user dropdown list with users from the json
-  // var $userSelect = $('#user-drop-down');
-  // $userSelect.empty();
-  // $userSelect.append('<option>-- Select a user --</option>');
-  // $.each(data.person, function (key, value) {
-  //   $userSelect.append('<option value=' + value._id + '>' + value.nameFull + '</option>');
-  // });
-
   claimToCondition();
 });
 
@@ -46,64 +38,68 @@ function claimToCondition() {
 
 
 
-  var availableTags = [
-
-  ];
-
   $("#tags").autocomplete({
     // source: availableTags,
     source: claimData,
     select: function (event, ui) {
 
       console.log('selected = ');
-
-
-
-
       // checking if it's a condition that is a candidate for a computer based decision 
       if (ui.item.category === 'cbd') {
 
-
-        console.log(ui.item.label);
-
-
         $.each(claimData, function (index, condition) {
 
-          // console.log('ui.item.category');
-          // console.log(ui.item.category);
-          // console.log('condition.label');
-          // console.log(condition.label);
+          console.log('ui.item.category');
+          console.log(ui.item.category);
+          console.log('condition.label');
+          console.log(condition.label);
 
           if (ui.item.label === condition.label) {
             console.log('element found');
 
-            console.log(this);
+            console.log(this.documentTypeRequired.length);
             var requiredDocsHtml = '';
-            $.each(this.documentTypeRequired, function (index, docsRequired) {
-              console.log('docsRequired');
-              console.log(docsRequired);
 
-              // if (docsRequired.name !== "any") {
-              requiredDocsHtml += '<li>' + docsRequired.name + '</li>';
-              // }
+            if (this.documentTypeRequired.length === 1) {
 
-            });
+              console.log(this.documentTypeRequired);
 
+              requiredDocsHtml += this.documentTypeRequired[0].name;
+              $('.pt-il-claim-required-mono-doc').show();
+              $('.pt-il-claim-required-multi-doc').hide();
+            } else {
+              requiredDocsHtml += '<ul>';
+              $.each(this.documentTypeRequired, function (index, docsRequired) {
+                requiredDocsHtml += '<li>' + docsRequired.name + '</li>';
+              });
+              requiredDocsHtml += '</ul>';
+              $('.pt-il-claim-required-mono-doc').hide();
+              $('.pt-il-claim-required-multi-doc').show();
+            }
+
+            // console.log("requiredDocsHtml");
+            // console.log(requiredDocsHtml);
+            $('.pt-il-claim-required-docs-list').html(requiredDocsHtml);
             if (requiredDocsHtml != '') {
-              $('.pt-il-claim-required-docs').html('<ul>' + requiredDocsHtml) + '</ul>';
+
               $('.pt-required-docs').show();
               $('.pt-no-required-docs').hide();
             } else {
-              $('.pt-no-required-docs').show();
-              $('.pt-required-docs').hide();
+              // alert('show blank');
+              // $('.pt-il-claim-required-docs-list').html(requiredDocsHtml);
+              // $('.pt-no-required-docs').show();
+              // $('.pt-required-docs').hide();
+              // $('.pt-il-claim-required-mono-doc').hide();
+              // $('.pt-il-claim-required-multi-doc').hide();
 
             }
           }
         });
 
-
+      } else {
+        $('.pt-no-required-docs').show();
+        $('.pt-required-docs').hide();
       }
-
 
     }
   });
