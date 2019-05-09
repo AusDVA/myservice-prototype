@@ -5,6 +5,22 @@
   <title>Service Pension - Partner | MyService</title>
 <% include ../../../../partials/head.ejs %>
   <style type="text/css">
+      div.table {
+      border: 0;
+      display: table;
+    }
+
+    div.tr {
+      border: 0;
+      display: table-row;
+    }
+
+    div.td {
+      border: 0;
+      display: table-cell;
+      padding-right: 15px;
+    }
+
     hr {
       margin: 0;
     }
@@ -237,19 +253,18 @@
               <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
               <select id="ppp-relationship" class="uikit-text-input input-half" id="drop-down" name="drop-down">
                 <option>-- Select one --</option>
-                <option selected="selected">Married</option>
-                <option>De facto</option>
+                <option>Married</option>
+                <option selected="selected">De facto</option>
               </select>
             </div>
             <!-- Date of marriage -->
             <% 
               locals = {};
               locals.question = 'Date of marriage';
-              locals.optionalHint = '(dd / mm / yyyy)';  
               locals.optionalID = 'ppp-married-date'; 
               locals.optionalHide= true;
             %>
-            <% include ../../../../partials/forms/radio--yes-no.ejs %>
+            <% include ../../../../partials/forms/date.ejs %>
             <!-- Centrelink -->
             <% 
               locals = {};
@@ -286,16 +301,12 @@
 
           <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
             <div class="ledger-rule"></div>
-            <div class="form-group" id="date-marriage">
-              <fieldset>
-                <label class="uikit-text-input__label">When did this relationship end?
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </fieldset>
-            </div>
+             <% 
+              locals = {};
+              locals.question = 'When did this relationship end?'; 
+              locals.optionalID = 'date-marriage'; 
+            %>
+            <% include ../../../../partials/forms/date.ejs %>
           </div>
         </div>
         <div id="ppp--save-and-next" class="margin-above" style="display: none">
@@ -518,6 +529,15 @@
       }
     });
 
+    $("#partnered-pre-pop--current-partner--yes").click(function () {
+      $("#partnered-pre-pop--options").show("fast");
+      $("#partnered-no-longer").hide("fast");
+    });
+    $("#partnered-pre-pop--current-partner--no").click(function () {
+      $("#partnered-pre-pop--options").hide("fast");
+      $("#partnered-no-longer").show("fast");
+    });
+
     /* partnered */
 
     var centrelink_selected = [];
@@ -560,43 +580,39 @@
 
     /* cleanskin */
 
-    $("#single").click(function () {
+    $('input[name=relationship-status]').change(function () {
+      mySelection = $('input[name=relationship-status]:checked').val();
       hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#save-and-next").show("fast");
-    });
-
-    $("#divorced").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#date-divorced").show("fast");
-    });
-
-    $("#widowed").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#save-and-next").show("fast");
-    });
-
-    $("#separated").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#date-separation").show("fast");
-      $("#notice-separation").show("fast");
-    });
-
-    $("#married").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'partnered');
-      $("#date-marriage").show("fast");
-      $("#partner-details").show("fast");
-    });
-
-    $("#defacto").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'partnered');
-      $("#date-living-together").show("fast");
-      $("#partner-details").show("fast");
+      switch (mySelection) {
+        case "single": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#save-and-next").show("fast");
+          break;
+        case "divorced": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#date-divorced").show("fast");
+          break;
+        case "widowed": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#save-and-next").show("fast");
+          break;
+        case "separated": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#date-separation").show("fast");
+          $("#notice-separation").show("fast");
+          break;
+        case "married": 
+          sessionStorage.setItem('partnerStatus', 'partnered');
+          $("#date-marriage").show("fast");
+          $("#partner-details").show("fast");
+          break;
+        case "defacto": 
+          sessionStorage.setItem('partnerStatus', 'partnered');
+          $("#date-living-together").show("fast");
+          $("#partner-details").show("fast");
+          break;
+        default:
+      }
     });
 
     /* partnered */
@@ -655,6 +671,7 @@
       $("#date-living-together").hide();
       $("#other-ps").hide();
       $("#date-separation").hide();
+      $("#notice-separation").hide();
       $("#date-divorced").hide();
       $("#partner-details").hide();
       $("#crn").hide();
