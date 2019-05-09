@@ -255,7 +255,7 @@ function writeUser() {
   var sessionRepSubmitted = false;
 
   if (window.allClients.length > 0 && window.allReps.length > 0) {
-    console.log(' both');
+    // console.log(' both');
     localStorage.setItem('repFlow', 'both');
     $('.pt-switch-account').show();
 

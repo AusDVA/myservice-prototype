@@ -8,7 +8,10 @@ var jshint = require('gulp-jshint');
 var livereload = require('gulp-livereload');
 var util = require('gulp-util');
 var babel = require("gulp-babel");
-var header = require('gulp-header'),
+var header = require('gulp-header');
+var backstop = require('backstopjs');
+var fs = require("fs");
+
 
   d = new Date(),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
@@ -80,4 +83,21 @@ gulp.task('server', function () {
   });
 });
 
+
 gulp.task('serve', ['server', 'sass', 'js', 'watch', 'copy']);
+
+gulp.task('unit-test', function () {
+  if(fs.existsSync('backstop_data/bitmaps_reference')) {
+    backstop('test');
+  } else {
+    backstop('reference');
+  }
+});
+
+gulp.task('unit-test-all', function () {
+  if(fs.existsSync('backstop_data/bitmaps_reference')) {
+    backstop('test', {config:'all-pages.backstop.json'});
+  } else {
+    backstop('reference', {config:'all-pages.backstop.json'});
+  }
+});
