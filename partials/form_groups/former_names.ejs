@@ -1,0 +1,26 @@
+<%
+locals = {};
+locals.question = 'Has your partner ever used or been known by other names?'; 
+locals.optionalHint = 'For example, name at birth, maiden name, previous married name'; 
+locals.optionalID = 'other_names'; 
+%>
+<% include ../forms/radio--yes-no.ejs %>
+<%
+locals = {};
+locals.optionalHide = true;
+locals.optionalID = "former_names"
+%>
+<% include ../forms/former-names.ejs %>
+
+
+<script>
+var other_names;
+$('input[name=other_names]').change(function () {
+    other_names = $('input[name=other_names]:checked').val();
+    if (other_names == "yes") {
+    	$("#former_names").show("fast");
+    } else {
+    	$("#former_names").hide("fast");
+    }
+});
+</script>
