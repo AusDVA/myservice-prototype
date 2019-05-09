@@ -5,7 +5,7 @@
   <title>Service Pension - Partner | MyService</title>
 <% include ../../../../partials/head.ejs %>
   <style type="text/css">
-    div.table {
+      div.table {
       border: 0;
       display: table;
     }
@@ -24,7 +24,6 @@
     hr {
       margin: 0;
     }
-
     .ledger-rule {
       margin: 15px 0 15px 0;
       background-color: #ddd;
@@ -98,8 +97,9 @@
     <div class="row">
       <div class="col-md-offset-2 col-md-8">
         <div class="margin-above--extra margin-below--extra">
-        <!-- Page content -->
-        <!-- current relationship status -->
+        <form id="myForm">
+        <input type="reset" style="display: none;">
+        <!-- Relationship status -->
         <% 
           locals = new Object();
           locals.question = 'What is your CURRENT relationship status?';
@@ -108,153 +108,106 @@
           locals.optionalItemID = ["single","married","defacto","separated","divorced","widowed"];
         %>
         <%- include ../../../../partials/forms/radio.ejs %>
-          <!-- A -->
-          <div class="form-group" id="date-marriage">
-            <fieldset>
-              <label class="uikit-text-input__label">Date of marriage
-                <span class="hint">(dd / mm / yyyy)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </fieldset>
-          </div>
-          <!-- B -->
-          <div class="form-group" id="date-living-together">
-            <fieldset>
-              <label class="uikit-text-input__label">Date commenced living together
-                <span class="hint">(dd / mm / yyyy)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </fieldset>
-          </div>
-          <div class="form-group" id="date-separation" style="display: none;">
-            <fieldset>
-              <label class="uikit-text-input__label">Date separated
-                <span class="hint">(dd / mm / yyyy)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </fieldset>
-          </div>
-           <div class="form-group" id="date-divorced" style="display: none;">
-            <fieldset>
-              <label class="uikit-text-input__label">Date of divorce
-                <span class="hint">(dd / mm / yyyy)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </fieldset>
-          </div>
-          <!-- G -->
-          <div class="form-group" id="partner-details">
-            <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
-            <div class="form-group title">
-              <% include ../../../../partials/forms/title-list-pd.ejs %>
-            </div>
-            <div class="form-group margin-above--large">
-              <label class="uikit-text-input__label" for="tags">Given name <span class="hint">(first name)</span></label>
-              <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-            </div>
-            <div class="form-group margin-above--large">
-              <label class="uikit-text-input__label" for="tags">Surname <span class="hint">(last name)</span></label>
-              <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-            </div>
-            <!-- Former names -->
-            <%
-            locals = {};
-              locals.question = 'Has your partner ever used or been known by other names?'; 
-              locals.optionalHint = 'For example, name at birth, maiden name, previous married name'; 
-              locals.optionalID = 'other_names'; 
-            %>
-            <% include ../../../../partials/forms/radio--yes-no.ejs %>
-            <%
-              locals = {};
-              locals.optionalHide = true;
-              locals.optionalID = "former_names"
-            %>
-            <% include ../../../../partials/forms/former-names.ejs %>
-            <div class="form-group">
-              <fieldset>
-                  <label class="uikit-text-input__label">Partner’s date of birth
-                    <span class="hint">(dd / mm /yyyy)</span>
-                  </label>
-                  <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </fieldset>
-            </div>
-            <!-- Partner phone number -->
-            <%
-            locals = {};
-            locals.question = "Partner's phone number";
-            locals.optionalID = 'partner_phone';
-            %>
-            <% include ../../../../partials/forms/field.ejs %>
-            <!-- Partner email address -->
-            <%
-            locals = {};
-            locals.question = "Partner's email address?";
-            locals.optionalID = 'partner_email';
-            %>
-            <% include ../../../../partials/forms/field.ejs %>
-            <div class="form-group">
-              <div class="uikit-text-input__label-wrapper--inline-block">
-                <legend class="uikit-text-input__label legend-label" id="question_gender">Gender</legend>
-              </div>
-              <div class="tooltip">
-                <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
-                  <div class="tooltip__label tooltip__label--icon-only">
-                    <a>Gender help</a>
-                  </div>
-                  <div class="tooltip__tab"></div>
-                </div>
-                <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
-                  <div class="tooltip__message">Currently, our system only allows us to record gender as male or female. If your partner doesn't identify as either, you can inform
-                    DVA after your claim is processed.</div>
-                  <div class="tooltip__close" role="button" tabindex="0">Close</div>
-                </div>
-              </div>
-              <div class="radio-toggle">
-                <label class="on label-left" for="gender-male">
-                  <input id="gender-male" name="gender" type="radio">
-                  <span>Male</span>
-                </label>
-                <label class="off label-right" for="gender-female">
-                  <input id="gender-female" name="gender" type="radio">
-                  <span>Female</span>
-                </label>
-              </div>
-            </div>
-          <!-- Centrelink -->
-          <% 
-            locals = {};
-            locals.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
-            locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
-            locals.optionalHint = 'Select all that apply.'; 
-            locals.optionalID = "cs_centrelink";            
-            %>
-          <% include ../../../../partials/forms/checkbox.ejs %>
-          <!-- CSHC -->  
-          <%
-            locals = {};
-            locals.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
-            locals.optionalID = 'cs_cshc'; 
+        <!-- Married -->
+        <% 
+          locals = new Object();
+          locals.question = 'Date of marriage';
+          locals.optionalID = 'date-marriage';
+        %>
+        <%- include ../../../../partials/forms/date.ejs %>
+        <!-- Defacto -->
+        <% 
+          locals = new Object();
+          locals.question = 'Date commenced living together';
+          locals.optionalID = 'date-living-together';
+        %>
+        <%- include ../../../../partials/forms/date.ejs %>
+        <!-- Seperated -->
+        <% 
+          locals = new Object();
+          locals.question = 'Date separated';
+          locals.optionalID = 'date-separation';
+        %>
+        <%- include ../../../../partials/forms/date.ejs %>
+        <% 
+          locals = {};
+          locals.message = "<p>You will need to provide the following form:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf' target='blank'><span class='external-link'>Separation from partner (D0513)</a></span></p><p>You can attach the completed form at the end of your claim.</p>"
+          locals.optionalID = 'notice-separation';
+          locals.optionalHide = true;
+        %>
+        <%- include ../../../../partials/forms/notice.ejs %>
+        <!-- Date divorced -->
+        <% 
+          locals = new Object();
+          locals.question = 'Date of divorce';
+          locals.optionalID = 'date-divorced';
+        %>
+        <%- include ../../../../partials/forms/date.ejs %>
+        <!-- Partner details -->
+        <div class="form-group" id="partner-details">
+        <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
+        <!-- Names -->
+        <% include ../../../../partials/form_groups/name.ejs %>
+        <!-- Former names -->
+        <% include ../../../../partials/form_groups/former_names.ejs %>
+        <!-- Partner DOB -->
+        <% 
+          locals = new Object();
+          locals.question = 'Partner’s date of birth';
+        %>
+        <%- include ../../../../partials/forms/date.ejs %>
+        <!-- Partner phone number -->
+        <%
+          locals = {};
+          locals.question = "Partner's phone number";
+          locals.optionalID = 'partner_phone';
+        %>
+        <% include ../../../../partials/forms/field.ejs %>
+        <!-- Partner email address -->
+        <%
+          locals = {};
+          locals.question = "Partner's email address";
+          locals.optionalID = 'partner_email';
+        %>
+        <% include ../../../../partials/forms/field.ejs %>
+        <!-- Partner gender -->
+        <%
+          locals = {};
+          locals.question = "Partner's gender";
+        %>
+        <% include ../../../../partials/forms/radio--gender.ejs %>
+        <!-- Centrelink -->
+        <% 
+          locals = {};
+          locals.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
+          locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
+          locals.optionalHint = 'Select all that apply.'; 
+          locals.optionalID = "cs_centrelink";            
+        %>
+        <% include ../../../../partials/forms/checkbox.ejs %>
+        <!-- CSHC -->  
+        <%
+          locals = {};
+          locals.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
+          locals.optionalID = 'cs_cshc'; 
+        %>
+        <% include ../../../../partials/forms/radio--yes-no.ejs %>
+        <!-- CRN -->
+        <% 
+          locals = {}
+          locals.question = "What is your partner's Centrelink reference number (CRN)?"; 
+          locals.optionalID = 'cs_crn';
+          locals.optionalShort = true; 
+          locals.optionalHide = true;
           %>
-          <% include ../../../../partials/forms/radio--yes-no.ejs %>
-          <!-- CRN -->
-          <% 
-            locals = {}
-            locals.question = "What is your partner's Centrelink reference number (CRN)?"; 
-            locals.optionalID = 'cs_crn';
-            locals.optionalShort = true; 
-            // locals.optionalHide = true;
-            %>
-          <% include ../../../../partials/forms/field.ejs %>
+        <% include ../../../../partials/forms/field.ejs %>
+        <!-- Visual impairment -->
+        <% 
+          locals = {};
+          locals.question = 'Is your partner blind or visually impaired?'; 
+          locals.optionalID = 'visual_impairment'; 
+        %>
+        <% include ../../../../partials/forms/radio--yes-no.ejs %>
         </div>
         <div id="save-and-next" class="margin-above" style="display: none">
           <p>Choose <b>save and next</b> to continue.</p>
@@ -263,12 +216,12 @@
     </div>
   </div><!-- bottom page navigation end -->
   <% include ../../../../partials/claims-cancel-modal.ejs %>
-  </div> <!-- container end -->
+  </div> 
   <div class="container" id="partnered-pre-pop" style="display: none;">
     <div class="row">
       <div class="col-md-offset-2 col-md-8">
         <div class="margin-above--extra margin-below--extra">
-          <div id="partnered-pre-pop--current-partner" class="form-group margin-above--large">
+          <div id="partnered-pre-pop--current-partner" class="form-group">
             <legend class="legend-label">Is this your current partner?</legend>
             <div class="table">
               <div class="tr">
@@ -300,50 +253,60 @@
               <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
               <select id="ppp-relationship" class="uikit-text-input input-half" id="drop-down" name="drop-down">
                 <option>-- Select one --</option>
-                <option selected="selected">Married</option>
-                <option>De facto</option>
+                <option>Married</option>
+                <option selected="selected">De facto</option>
               </select>
             </div>
-            <div class="form-group margin-above--large" id="ppp-married-date" style="display: none;">
-              <fieldset>
-                <label class="uikit-text-input__label">Date of marriage
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </fieldset>
-            </div>
-            <div class="form-group margin-above--large" id="sp-start-pbs">
-              <legend class="legend-label ">Is your partner currently receiving, or applying for, any Centrelink payments?</legend>
-              <div class="radio-toggle">
-                <label class="on label-left" for="ppp--centrelink-yes">
-                  <input id="ppp--centrelink-yes" type="radio" name="ppp--centrelink">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="ppp--centrelink-no">
-                  <input id="ppp--centrelink-no" type="radio" name="ppp--centrelink">
-                  <span>No</span>
-                </label>
-              </div>
-              <div class="form-group margin-above--large" id="ppp--crn" style="display:none;">
-                <label class="uikit-text-input__label" for="tags">What is your partner's Customer Reference Number (CRN)?</label>
-                <input class="uikit-text-input" name="tags" id="tags" type="text" value="" style="max-width: 22em;">
-              </div>
-            </div>
+            <!-- Date of marriage -->
+            <% 
+              locals = {};
+              locals.question = 'Date of marriage';
+              locals.optionalID = 'ppp-married-date'; 
+              locals.optionalHide= true;
+            %>
+            <% include ../../../../partials/forms/date.ejs %>
+            <!-- Centrelink -->
+            <% 
+              locals = {};
+              locals.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
+              locals.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
+              locals.optionalHint = 'Select all that apply.'; 
+              locals.optionalID = "ppp_cs_centrelink";            
+            %>
+            <% include ../../../../partials/forms/checkbox.ejs %>
+            <!-- CSHC -->  
+            <%
+              locals = {};
+              locals.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
+              locals.optionalID = 'ppp_cs_cshc'; 
+            %>
+            <% include ../../../../partials/forms/radio--yes-no.ejs %>
+            <!-- CRN -->
+            <% 
+              locals = {}
+              locals.question = "What is your partner's Centrelink reference number (CRN)?"; 
+              locals.optionalID = 'ppp_cs_crn';
+              locals.optionalShort = true; 
+              locals.optionalHide = true; 
+              %>
+            <% include ../../../../partials/forms/field.ejs %>
+            <!-- Visual impairment -->
+            <% 
+              locals = {};
+              locals.question = 'Is your partner blind or visually impaired?'; 
+              locals.optionalID = 'ppp_visual_impairment'; 
+            %>
+            <% include ../../../../partials/forms/radio--yes-no.ejs %>
           </div>
+
           <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
             <div class="ledger-rule"></div>
-            <div class="form-group" id="date-marriage">
-              <fieldset>
-                <label class="uikit-text-input__label">When did this relationship end?
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
-              </fieldset>
-            </div>
+             <% 
+              locals = {};
+              locals.question = 'When did this relationship end?'; 
+              locals.optionalID = 'date-marriage'; 
+            %>
+            <% include ../../../../partials/forms/date.ejs %>
           </div>
         </div>
         <div id="ppp--save-and-next" class="margin-above" style="display: none">
@@ -357,7 +320,7 @@
       <form id="myForm">
         <div class="col-md-offset-2 col-md-8">
           <div class="margin-above--extra margin-below--extra">
-            <div id="single-pre-pop--current-status" class="form-group margin-above--large">
+            <div id="single-pre-pop--current-status" class="form-group">
               <legend class="legend-label">Is this your CURRENT relationship status?</legend>
               <div class="table">
                 <div class="tr">
@@ -375,12 +338,12 @@
                   <span>No</span>
                 </label>
               </div>
-            </div>
           </div>
           <div id="spp--save-and-next" class="margin-above" style="display: none">
             <p>Choose <b>save and next</b> to continue.</p>
           </div>
         </div>
+      </div>
       </form>
     </div>
     <% include ../../../../partials/claims-cancel-modal.ejs %>
@@ -392,7 +355,6 @@
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
         <div class="floated">
           <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and exit</button>
-          <!-- <button class="uikit-btn btnNext" onclick="window.location.href='/auth/claim/service_pension/sp-dependant'">Save and next</button> -->
           <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
         </div>
       </div>
@@ -400,71 +362,172 @@
   </div>
 </main>
 <% include ../../../../partials/footer.ejs %>
+<div id="state-switcher">
+            <h3>Page info</h3>
+            <div class="review__table">
+              <div class="tr">
+                <div class="td"><b>Page name</b></div>
+                <div class="td">Relationship status</div>
+              </div>
+              <div class="tr">
+                <div class="td"><b>Spec revision</b></div>
+                <div class="td">---</div>
+              </div>
+            </div><BR/>
+            <h3>User info</h3>
+            <% 
+              locals = new Object();
+              locals.question = 'Relationship status';
+              locals.items = ["Known partner","Known single","Status unknown"];
+              locals.optionalItemID = ["partnered-pre-pop","single-pre-pop","cleanskin"];
+            %>
+            <%- include ../../../../partials/forms/radio.ejs %>
+            <% 
+              locals = new Object();
+              locals.question = 'Selected in claim flow:';
+              locals.optionalID = 'state-switcher--user-properties';
+              locals.items = ["Dual application","Veteran blind","Partner blind"];
+              locals.optionalItemID = ["dual_application","veteran_blind","partner_blind"];
+            %>
+            <%- include ../../../../partials/forms/checkbox.ejs %>
+          </div>
 <script>
   $(Document).ready(function () {
 
-    hideAll();
-
-    if ( sessionStorage.getItem('dual-application') == "true" ) {
-      $("#single").parent().hide();
-      $("#separated").parent().hide();
-      $("#divorced").parent().hide();
-      $("#widowed").parent().hide();
-    }
-
-    window.checkSaveAndNext = function () {
-
-      myNav = "/auth/claim/service_pension/sp-dependant";
-      radioTest = $("#myForm input[type='radio']:checked").val();
-
-      if ($("#myForm input[type='radio']:checked").val() == "no") {
-        myNav = "cleanskin";
-      }
-      if ($("#partnered-no-longer").is(":visible")) {
-        myNav = "cleanskin";
-      }
-
-      if (myNav == "cleanskin") {
-        showScenario("cleanskin")
-      } else {
-        window.location.href = '/auth/claim/service_pension/sp-dependant'
-      }
-
-    }
-
-    /* scenarios */
+    /* State switcher */
 
     $(document).keypress(function (e) {
       switch (e.which) {
-        case 51: //partnered pre-pop
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('input[name=relationship_status]').change(function () {
+      mySelection = $('input[name=relationship_status]:checked').val();
+      switch (mySelection) {
+        case "partnered-pre-pop": 
           showScenario("partnered-pre-pop");
           break;
-        case 52: // siungle pre-pop
+        case "single-pre-pop": 
           showScenario("single-pre-pop");
           break;
-        case 53: // siungle pre-pop
+        case "cleanskin": 
           showScenario("cleanskin");
           break;
         default:
       }
     });
 
-    function showScenario(scenario) {
-      $("#cleanskin").hide();
-      $("#single-pre-pop").hide();
-      $("#partnered-pre-pop").hide();
-      if (scenario == "partnered-pre-pop") {
-        $("#partnered-pre-pop").show();
-        $("#partnered-pre-pop--options").hide();
-        $("#ppp--crn").hide();
-      } else if (scenario == "single-pre-pop") {
-        $("#single-pre-pop").show();
+    var myDualApplication = sessionStorage.getItem('dual-application');
+    if ( myDualApplication == "true" ) {
+      $('input[name=dual_application]').prop('checked',true);
+    };
+    upDateDual();
+
+    function upDateDual() {
+      console.log( sessionStorage.getItem('dual-application') )
+      if ( sessionStorage.getItem('dual-application') == "true" ) {
+        $("#single").parent().hide();
+        $("#separated").parent().hide();
+        $("#divorced").parent().hide();
+        $("#widowed").parent().hide();
       } else {
-        $("#cleanskin").show();
+        $("#single").parent().show();
+        $("#separated").parent().show();
+        $("#divorced").parent().show();
+        $("#widowed").parent().show();
+      }
+    }
+
+    $('input[name=dual_application]').change(function () {
+      mySelection = $('input[name=dual_application]').is(':checked');
+      if (mySelection) {
+        sessionStorage.setItem('dual-application', true);
+      } else {
+        sessionStorage.setItem('dual-application', false);
+      }
+      upDateDual();
+      location.reload();
+    });
+
+    var vetBlind = sessionStorage.getItem('veteran-blind');
+    if ( vetBlind == "true" ) {
+      $('input[name=veteran_blind]').prop('checked',true);
+    };
+    $('input[name=veteran_blind]').change(function () {
+      mySelection = $('input[name=veteran_blind]').is(':checked');
+      if (mySelection) {
+        sessionStorage.setItem('veteran-blind', true);
+      } else {
+        sessionStorage.setItem('veteran-blind', false);
+      }
+    });
+
+    var partnerBlind = sessionStorage.getItem('partner-blind');
+    if ( partnerBlind == "true" ) {
+      $('input[name=partner_blind]').prop('checked', true);
+    };
+    $('input[name=partner_blind]').change(function () {
+      mySelection = $('input[name=partner_blind]').is(':checked');
+      if (mySelection) {
+        sessionStorage.setItem('partner-blind', true);
+      } else {
+        sessionStorage.setItem('partner-blind', false);
+      }
+    });
+
+    /* End state switcher */
+
+    $("#myForm").trigger("reset");
+    hideAll();
+
+    window.checkSaveAndNext = function () {
+      myNav = "/auth/claim/service_pension/sp-dependant";
+      radioTest = $("#myForm input[type='radio']:checked").val();
+      if ($("#myForm input[type='radio']:checked").val() == "no") {
+        myNav = "cleanskin";
+      }
+      if ($("#partnered-no-longer").is(":visible")) {
+        myNav = "cleanskin";
+      }
+      if (myNav == "cleanskin") {
+        showScenario("cleanskin")
+      } else {
+        window.location.href = '/auth/claim/service_pension/sp-dependant'
+      }
+    }
+
+    function showScenario(scenario) {
+      hideAll();
+      hidePartner();
+      $("#cleanskin").hide();
+      $("#myForm").trigger("reset");
+      switch (scenario) {
+        case "partnered-pre-pop": 
+          $("#partnered-pre-pop").show();
+          break;
+        case "single-pre-pop": 
+          $("#single-pre-pop").show();
+          break;
+        case "cleanskin": 
+          $("#cleanskin").show();
+          break;
+        default:
       }
     }
 
     /* partnered pre pop */
+
+    $("#ppp-relationship").change(function () {
+      if ($('#ppp-relationship :selected').val() == "Married") {
+        $("#ppp-married-date").show();
+      } else {
+        $("#ppp-married-date").hide();
+      }
+    });
 
     $("#partnered-pre-pop--current-partner--yes").click(function () {
       $("#partnered-pre-pop--options").show("fast");
@@ -475,27 +538,41 @@
       $("#partnered-no-longer").show("fast");
     });
 
-    $("#ppp--centrelink-yes").click(function () {
-      $("#ppp--crn").show("fast");
-    });
-    $("#ppp--centrelink-no").click(function () {
-      $("#ppp--crn").hide("fast");
-    });
+    /* partnered */
 
-    $("#ppp-relationship").change(function () {
-      if ($('#ppp-relationship :selected').val() == "Married") {
-        $("#ppp-married-date").show();
+    var centrelink_selected = [];
+    $("#ppp_cs_centrelink").change(function () {
+      centrelink_selected = [];
+      $('#ppp_cs_centrelink input:checked').each(function () {
+        centrelink_selected.push($(this).attr('name'));
+      });
+      if (centrelink_selected.length > 0) {
+        $("#ppp_cs_crn").show("fast");
       } else {
-        $("#ppp-married-date").hide();
+        if (cs_cshc != "yes") {
+          $("#ppp_cs_crn").hide("fast");
+        }
       }
     });
 
+    /* CSHC card question */
+
+    var cs_cshc;
+    $('input[name=ppp_cs_cshc]').change(function () {
+      cs_cshc = $('input[name=ppp_cs_cshc]:checked').val();
+      if (cs_cshc == "yes") {
+        $("#ppp_cs_crn").show("fast");
+      } else {
+        if (centrelink_selected.length == 0) {
+          $("#ppp_cs_crn").hide("fast");
+        }
+      }
+    });
 
     /* single pre pop */
 
     $("#single-pre-pop--current-status--yes").click(function () {
       $("#spp--save-and-next").show("fast");
-      console.log("gfgfdgfd")
     });
     $("#single-pre-pop--current-status--no").click(function () {
       $("#spp--save-and-next").show("fast");
@@ -503,59 +580,42 @@
 
     /* cleanskin */
 
-    $("#single").click(function () {
+    $('input[name=relationship-status]').change(function () {
+      mySelection = $('input[name=relationship-status]:checked').val();
       hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#save-and-next").show("fast");
-    });
-
-    $("#divorced").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#date-divorced").show("fast");
-    });
-
-    $("#widowed").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#save-and-next").show("fast");
-    });
-
-    $("#separated").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'none');
-      $("#date-separation").show("fast");
-    });
-
-    $("#married").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'partnered');
-      $("#date-marriage").show("fast");
-      $("#partner-details").show("fast");
-    });
-
-    $("#defacto").click(function () {
-      hideAll();
-      sessionStorage.setItem('partnerStatus', 'partnered');
-      $("#date-living-together").show("fast");
-      $("#partner-details").show("fast");
-    });
-
-    /* partnered */
-
-    /* former names */
-
-    var other_names;
-    $('input[name=other_names]').change(function () {
-      other_names = $('input[name=other_names]:checked').val();
-      console.log( other_names )
-      if (other_names == "yes") {
-        $("#former_names").show("fast");
-      } else {
-        $("#former_names").hide();
+      switch (mySelection) {
+        case "single": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#save-and-next").show("fast");
+          break;
+        case "divorced": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#date-divorced").show("fast");
+          break;
+        case "widowed": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#save-and-next").show("fast");
+          break;
+        case "separated": 
+          sessionStorage.setItem('partnerStatus', 'none');
+          $("#date-separation").show("fast");
+          $("#notice-separation").show("fast");
+          break;
+        case "married": 
+          sessionStorage.setItem('partnerStatus', 'partnered');
+          $("#date-marriage").show("fast");
+          $("#partner-details").show("fast");
+          break;
+        case "defacto": 
+          sessionStorage.setItem('partnerStatus', 'partnered');
+          $("#date-living-together").show("fast");
+          $("#partner-details").show("fast");
+          break;
+        default:
       }
     });
 
+    /* partnered */
 
     var centrelink_selected = [];
     $("#cs_centrelink").change(function () {
@@ -586,8 +646,21 @@
       }
     });
 
+    /* visual impairment question */
+
+    $('input[name=visual_impairment]').change(function () {
+      mySelection = $('input[name=visual_impairment]:checked').val();
+      if (mySelection == "yes") {
+        sessionStorage.setItem('partner-blind', true);
+        $('input[name=partner_blind]').prop('checked', true);
+      } else {
+        sessionStorage.setItem('partner-blind', false);
+        $('input[name=partner_blind]').prop('checked', false);
+      }
+    });
+
     function hidePartner() {
-      sessionStorage.setItem('partnerApply', 'false')
+      sessionStorage.setItem('partnerApply', false)
       $("#sp-res-veteranTitle").hide();
       $("#sp-res-partnerDetails").hide();
       $("#intro-copy-no-partner").show();
@@ -598,21 +671,16 @@
       $("#date-living-together").hide();
       $("#other-ps").hide();
       $("#date-separation").hide();
+      $("#notice-separation").hide();
       $("#date-divorced").hide();
       $("#partner-details").hide();
       $("#crn").hide();
       $("#save-and-next").hide();
+      $("#partnered-pre-pop").hide();
+      $("#single-pre-pop").hide();
     }
   });
 
-  //other
-  $('#other').click(function () {
-    if ($(this).is(':checked')) {
-      $("#other-ps").show("fast");
-    } else {
-      $("#other-ps").hide();
-    }
-  });
 </script>
 </body>
 
