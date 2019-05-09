@@ -296,6 +296,75 @@ jQuery(document).ready(function ($) {
 
 
 
+// PoC file upload for prototype
+// TODO:: handle cancel 
+// TODO:: add additional items 
+
+(function (document, window, index) {
+  var inputs = document.querySelectorAll('.file-upload__input');
+  Array.prototype.forEach.call(inputs, function (input) {
+    var label = input.nextElementSibling,
+      labelVal = label.innerHTML,
+      categoryTr = input.closest("tr"),
+      category = categoryTr.querySelector('select'),
+      categoryName = '';
+
+    category.addEventListener('change', function (e) {
+      categoryName = this.value;
+    });
+
+    input.addEventListener('change', function (e) {
+      var fileName = '';
+
+      fileName = e.target.value.split('\\').pop();
+
+      if (fileName) {
+
+        category.outerHTML = '<label>' + categoryName + '</label>';
+
+        label.querySelector('.file-upload__file-name').innerHTML = fileName;
+        label.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
+        label.querySelector('.uikit-btn').innerHTML = 'Remove';
+        label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
+
+        $('.file-upload--add').show();
+
+        var status = label.querySelector('.file-upload__file-name').closest('tr');
+        var categoryTrClass = categoryTr;
+
+
+        // console.log('categoryTrClass');
+        // console.log(status);
+        // console.log(categoryTrClass);
+
+
+        status = status.querySelector('.file-status');
+        if (status) {
+          status.innerHTML = 'Remove';
+          status.innerHTML = '<span class="sr"> Uploaded</span>';
+          status = status.classList;
+          status.remove('file-status--required');
+          status.add('file-status--uploaded');
+        }
+
+        categoryTrClass.classList.add('file-upload-row--uploaded');
+
+
+
+      } else {
+
+        label.innerHTML = labelVal;
+      }
+    });
+
+    // Firefox bug fix
+    // input.addEventListener('focus', function () { input.classList.add('has-focus'); });
+    // input.addEventListener('blur', function () { input.classList.remove('has-focus'); });
+  });
+}(document, window, 0));
+
+
+
 /*! @gov.au/animate v1.0.12 */
 /***************************************************************************************************************************************************************
  *
@@ -452,7 +521,7 @@ var AU = AU || {};
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () { };
+      options.callback = function () {};
     }
 
     // adding iteration counts
@@ -550,17 +619,17 @@ var AU = AU || {};
 
     // making a prefunction if none was provided
     if (typeof options.prefunction !== 'function') {
-      options.prefunction = function () { };
+      options.prefunction = function () {};
     }
 
     // making a postfunction if none was provided
     if (typeof options.postfunction !== 'function') {
-      options.postfunction = function () { };
+      options.postfunction = function () {};
     }
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () { };
+      options.callback = function () {};
     }
 
     // adding iteration counts
@@ -754,7 +823,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) { }
+    } catch (error) {}
 
     // making sure we can iterate over just one DOM element
     if (elements.length === undefined) {
@@ -849,7 +918,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) { }
+    } catch (error) {}
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -907,7 +976,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) { }
+    } catch (error) {}
 
     if (elements.length === undefined) {
       elements = [elements];
