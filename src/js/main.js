@@ -331,7 +331,6 @@ jQuery(document).ready(function ($) {
         $('.file-upload--add').show();
         $('.pt-upload-list-optional').show();
 
-
         var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
         var categoryTrClass = categoryTr;
 
