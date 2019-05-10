@@ -316,14 +316,22 @@ jQuery(document).ready(function ($) {
 
         category.outerHTML = '<label>' + categoryName + '</label>';
 
-        label.querySelector('.file-upload__file-name').innerHTML = fileName;
-        label.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
+        console.log('label');
+        console.log(label);
+
+        console.log('categoryTr');
+        console.log(categoryTr);
+
+        // label.querySelector('.file-upload__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
         label.querySelector('.uikit-btn').innerHTML = 'Remove';
         label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
 
         $('.file-upload--add').show();
+        $('.pt-upload-list-optional').show();
 
-        var status = label.querySelector('.file-upload__file-name').closest('tr');
+        var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
         var categoryTrClass = categoryTr;
 
         // console.log('categoryTrClass');

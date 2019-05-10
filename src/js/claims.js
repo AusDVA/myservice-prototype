@@ -27,6 +27,9 @@ function claimToCondition() {
     select: function (event, ui) {
 
       console.log('selected = ');
+
+
+      $('.pt-type-ahead-type').hide();
       // checking if it's a condition that is a candidate for a computer based decision 
       if (ui.item.category === 'cbd') {
 
@@ -80,12 +83,27 @@ function claimToCondition() {
           }
         });
 
+
+        var clonedDiv = $('#trData1').clone(true);
+
+        $("#add-another-doc").click(function () {
+
+          var random = Math.random();
+          clonedDiv.attr("id", random);
+          $('.file-upload-row--add-another').before(clonedDiv);
+
+          clonedDiv = $('#trData1').clone(true);
+        });
+
+
+
       } else {
         $('.pt-no-required-docs').show();
         $('.pt-required-docs').hide();
       }
 
     }
+
   });
 
 }
