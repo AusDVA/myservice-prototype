@@ -316,12 +316,6 @@ jQuery(document).ready(function ($) {
 
         category.outerHTML = '<label>' + categoryName + '</label>';
 
-        console.log('label');
-        console.log(label);
-
-        console.log('categoryTr');
-        console.log(categoryTr);
-
         // label.querySelector('.file-upload__file-name').innerHTML = fileName;
         categoryTr.querySelector('.file-upload__file-name').innerHTML = fileName;
         categoryTr.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
@@ -333,11 +327,6 @@ jQuery(document).ready(function ($) {
 
         var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
         var categoryTrClass = categoryTr;
-
-        // console.log('categoryTrClass');
-        // console.log(status);
-        // console.log(categoryTrClass);
-
 
         status = status.querySelector('.file-status');
         if (status) {
