@@ -121,7 +121,7 @@
             <span class="sr">Success</span>
           </div>
           <div class="toast__message">
-            <p>Your requet for a callback has been requested. You will receive a callback from a DVA staff member within 5 business days.</p>
+            <p>Your requet for a callback has been requested. A DVA staff member will call you back within 2 business days.</p>
           </div>
         </button>
       </div>
@@ -162,38 +162,38 @@
   // var sends = panel.getElementsByClassName('send');
   var unauthenticated = panel.getElementsByClassName('unauthenticated');
 
-  $("#accordion-send-message .send").on("click", function(pEvent) {
+  $("#accordion-send-message .send").on("click", function (pEvent) {
+    setTimeout(function () {
+      panel.classList.remove('is-visible');
+
+      var toastClone = sendMessage.cloneNode(true);
+      toastClone.removeAttribute('id');
+
+      toastClone.addEventListener('click', function () {
+        toastClone.parentElement.removeChild(toastClone);
+      })
+
       setTimeout(function () {
-        panel.classList.remove('is-visible');
-
-        var toastClone = sendMessage.cloneNode(true);
-        toastClone.removeAttribute('id');
-
-        toastClone.addEventListener('click', function () {
-          toastClone.parentElement.removeChild(toastClone);
-        })
-
-        setTimeout(function () {
-          body.insertBefore(toastClone, body.firstElementChild);
-        }, 1000);
-      }, 300);
+        body.insertBefore(toastClone, body.firstElementChild);
+      }, 1000);
+    }, 300);
   });
 
-  $("#accordion-request-callback .send").on("click", function(pEvent) {
+  $("#accordion-request-callback .send").on("click", function (pEvent) {
+    setTimeout(function () {
+      panel.classList.remove('is-visible');
+
+      var toastClone = requestCallback.cloneNode(true);
+      toastClone.removeAttribute('id');
+
+      toastClone.addEventListener('click', function () {
+        toastClone.parentElement.removeChild(toastClone);
+      })
+
       setTimeout(function () {
-        panel.classList.remove('is-visible');
-
-        var toastClone = requestCallback.cloneNode(true);
-        toastClone.removeAttribute('id');
-
-        toastClone.addEventListener('click', function () {
-          toastClone.parentElement.removeChild(toastClone);
-        })
-
-        setTimeout(function () {
-          body.insertBefore(toastClone, body.firstElementChild);
-        }, 1000);
-      }, 300);
+        body.insertBefore(toastClone, body.firstElementChild);
+      }, 1000);
+    }, 300);
   });
 
   // Array.prototype.forEach.call(sends, function (send) {
