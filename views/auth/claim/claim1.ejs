@@ -8,7 +8,9 @@
   <style>
     .pt-required-docs,
     .pt-no-required-docs,
-    .pt-upload-list {
+    .pt-upload-list,
+    .pt-upload-list-optional,
+    .pt-upload-other-docs {
       display: none;
 
     }
@@ -100,16 +102,15 @@
 
           <div class="form-group">
             <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?
-              <span class="hint display-block">
-                <span class="display-block">
-                  <em>Example: 'Acute meniscal tear of the knee'</em>.</span>
-              </span>
+
             </label>
-            <div class="uikit-page-alerts uikit-page-alerts--info">
-              <p>Start typing the medical term, then if possible select from the options presented.
-                <br>This will assist us to process your claim.</p>
-            </div>
+
             <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            <div class="uikit-page-alerts uikit-page-alerts--info pt-type-ahead-type">
+              <p>Start typing the medical term, then if possible select from the options presented.
+                <br>This will assist us to process your claim.<br>
+                <strong>Example: </strong> 'Acute meniscal tear of the knee'.</p>
+            </div>
           </div>
 
         </fieldset>
@@ -261,84 +262,107 @@
 
         <div class="pt-upload-list">
 
-          <div class="mys-file-uploads__item">
+          <div class="form-group">
 
-            <div class="mys-file-uploads__info">
-              <div class="mys-file-uploads__info-item">
+            <label for="">Select document to upload</label>
+            <table class="table-responsive table-responsive--file-upload">
+              <tr id="trData1" class="file-upload-row">
+                <td>
+                  <select class="uikit-text-input input-half pt-doc-type">
+                    <option value="">-- Select type --</option>
+                    <option value="Proof of residence">Proof of residence</option>
+                    <option value="asdfasdf">Part-time study reason</option>
+                    <option value="bgggg">Proof of relationship</option>
+                  </select>
+                </td>
 
-                <div class="mys-file-uploads__value">
+                <td>
+                  <span class="file-upload__document">
+                    <a class="file-upload__file-name">
+                      <%# document name will go in here %>
+                    </a>
+                  </span>
+                </td>
+                <td class="right">
+                  <div>
+                    <input type="file" class="file-upload__input" id="file-0">
+                    <label class="file-upload__label" for="file-0">
 
-                  <strong>GP report</strong>
-                  <a href="#" class="">My document 222 AAA .png</a>
-                </div>
-              </div>
-              <div class="mys-file-uploads__info-item">
+                      <span class="file-upload__button">
+                        <span class="uikit-btn small">Upload</span>
+                      </span>
+                    </label>
+                  </div>
+                </td>
+              </tr>
 
-                <div class="mys-file-uploads__value">
-
-
-                </div>
-              </div>
-            </div>
-            <div class="mys-file-uploads__item-actions">
-              <button class="mys-file-uploads__item-button uikit-btn small uikit-btn--tertiary">Remove</button>
-            </div>
+              <tr class="file-upload-row file-upload-row--add-another">
+                <td colspan="3">
+                  <button id="add-another-doc" class="icon-link-button">
+                    <span class="icon far fa-plus-circle"></span>
+                    <span class="link">Add another document</span>
+                  </button>
+                </td>
+              </tr>
+            </table>
           </div>
 
 
-          <div>
-            <div style="padding-top: 1em;">
-              <label for="">Document type</label>
-            </div>
-            <div class="mys-file-uploads__value">
-              <select class="uikit-text-input input-half">
-                <option value="">-- Select type --</option>
-                <option value="">Proof of residence</option>
-                <option value="">Part-time study reason</option>
-                <option value="">Proof of relationship</option>
-              </select>
-            </div>
 
-            <div class="mys-file-uploads__item-actions">
-              <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
+
+          <div class="pt-upload-list-optional">
+            <%
+            locals = {};
+              locals.question = 'Would you like to upload any other supporting documents?'; 
+              // locals.optionalHint = '(optional)'; 
+              locals.optionalID = 'other_docs'; 
+            %>
+            <% include ../../../partials/forms/radio--yes-no.ejs %>
+
+
+            <div class="pt-upload-other-docs">
+              <div class="form-group">
+
+
+                <table class="table-responsive table-responsive--file-upload">
+                  <tr id="trData1" class="file-upload-row">
+
+                    <td>
+                      <span class="file-upload__document">
+                        Document
+                        <a class="file-upload__file-name">
+
+                        </a>
+                      </span>
+                    </td>
+                    <td class="right">
+                      <div>
+                        <input type="file" class="file-upload__input" id="file-0">
+                        <label class="file-upload__label" for="file-0">
+
+                          <span class="file-upload__button">
+                            <span class="uikit-btn small">Upload</span>
+                          </span>
+                        </label>
+                      </div>
+                    </td>
+                  </tr>
+
+                  <tr class="file-upload-row file-upload-row--add-another">
+                    <td colspan="3">
+                      <button id="add-another-doc" class="icon-link-button">
+                        <span class="icon far fa-plus-circle"></span>
+                        <span class="link">Add another document</span>
+                      </button>
+                    </td>
+                  </tr>
+                </table>
+              </div>
             </div>
           </div>
-
         </div>
 
-
-
-        <%# 
-          <div class=" mys-file-uploads__item">
-            <div class="mys-file-uploads__l-status">
-              <div class="mys-file-uploads__status mys-file-uploads__status--pending">
-                <div class="mys-file-uploads__status-icon"></div>
-                <div class="mys-file-uploads__status-sr">Success</div>
-              </div>
-            </div>
-            <div class="mys-file-uploads__info">
-              <div class="mys-file-uploads__info-item">
-                <div class="mys-file-uploads__label">Document type</div>
-                <div class="mys-file-uploads__value">
-                  <select class="uikit-text-input input-half">
-                    <option value="">-- Select type --</option>
-                    <option value="">Proof of residence</option>
-                    <option value="">Part-time study reason</option>
-                    <option value="">Proof of relationship</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div class="mys-file-uploads__item-actions">
-              <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
-            </div>
-          </div> %>
-
-
-        <%# </div> %>
       </div>
-
-
 
 
 
@@ -383,20 +407,14 @@
     });
 
     $("#requiredDocs-yes").click(function () {
-
       $(".pt-upload-list").show("fast");
-
     });
 
-
-    // .pt-upload-list
-
-
-
-    // Autocomplete, jQuery UI dependency
-    $(function () {
-
-
+    $("#other_docs-yes").click(function () {
+      $(".pt-upload-other-docs").show("fast");
+    });
+    $("#other_docs-no").click(function () {
+      $(".pt-upload-other-docs").hide("fast");
     });
 
   </script>

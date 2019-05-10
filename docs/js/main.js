@@ -290,6 +290,77 @@ jQuery(document).ready(function ($) {
   });
 });
 
+// PoC file upload for prototype
+// TODO:: handle cancel 
+// TODO:: add additional items 
+
+(function (document, window, index) {
+  var inputs = document.querySelectorAll('.file-upload__input');
+  Array.prototype.forEach.call(inputs, function (input) {
+    var label = input.nextElementSibling,
+        labelVal = label.innerHTML,
+        categoryTr = input.closest("tr"),
+        category = categoryTr.querySelector('select'),
+        categoryName = '';
+
+    category.addEventListener('change', function (e) {
+      categoryName = this.value;
+    });
+
+    input.addEventListener('change', function (e) {
+      var fileName = '';
+
+      fileName = e.target.value.split('\\').pop();
+
+      if (fileName) {
+
+        category.outerHTML = '<label>' + categoryName + '</label>';
+
+        console.log('label');
+        console.log(label);
+
+        console.log('categoryTr');
+        console.log(categoryTr);
+
+        // label.querySelector('.file-upload__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
+        label.querySelector('.uikit-btn').innerHTML = 'Remove';
+        label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
+
+        $('.file-upload--add').show();
+        $('.pt-upload-list-optional').show();
+
+        var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
+        var categoryTrClass = categoryTr;
+
+        // console.log('categoryTrClass');
+        // console.log(status);
+        // console.log(categoryTrClass);
+
+
+        status = status.querySelector('.file-status');
+        if (status) {
+          status.innerHTML = 'Remove';
+          status.innerHTML = '<span class="sr"> Uploaded</span>';
+          status = status.classList;
+          status.remove('file-status--required');
+          status.add('file-status--uploaded');
+        }
+
+        categoryTrClass.classList.add('file-upload-row--uploaded');
+      } else {
+
+        label.innerHTML = labelVal;
+      }
+    });
+
+    // Firefox bug fix
+    // input.addEventListener('focus', function () { input.classList.add('has-focus'); });
+    // input.addEventListener('blur', function () { input.classList.remove('has-focus'); });
+  });
+})(document, window, 0);
+
 /*! @gov.au/animate v1.0.12 */
 /***************************************************************************************************************************************************************
  *
