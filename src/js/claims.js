@@ -21,43 +21,28 @@ function claimToCondition() {
   const claimData = JSON.parse(localStorage.getItem('claimIlStraightThrough'));
 
 
-  $.each(claimData, function (index, condition) {
-
-    // console.log(condition);
-    // console.log('condition = ' + condition.label);
-
-    $.each(condition.documentTypeRequired, function (index, documentTypeRequired) {
-
-
-      // console.log('- - - required doc = ' + documentTypeRequired.name);
-
-    });
-
-  });
-  // $('.pt-current-user-number-of-claims').html(user.numberOfClaims);
-
-
-
   $("#tags").autocomplete({
     // source: availableTags,
     source: claimData,
     select: function (event, ui) {
 
       console.log('selected = ');
+
+
+      $('.pt-type-ahead-type').hide();
       // checking if it's a condition that is a candidate for a computer based decision 
       if (ui.item.category === 'cbd') {
 
-        $.each(claimData, function (index, condition) {
+        // populate the claim dropdown list with the matched data from the json
+        var $docType = $('.pt-doc-type');
+        $docType.empty();
+        $docType.append('<option>-- Select type --</option>');
 
-          console.log('ui.item.category');
-          console.log(ui.item.category);
-          console.log('condition.label');
-          console.log(condition.label);
+        $.each(claimData, function (index, condition) {
 
           if (ui.item.label === condition.label) {
             console.log('element found');
 
-            console.log(this.documentTypeRequired.length);
             var requiredDocsHtml = '';
 
             if (this.documentTypeRequired.length === 1) {
@@ -65,12 +50,14 @@ function claimToCondition() {
               console.log(this.documentTypeRequired);
 
               requiredDocsHtml += this.documentTypeRequired[0].name;
+              $docType.append('<option value=' + this.documentTypeRequired[0].name + '>' + this.documentTypeRequired[0].name + '</option>');
               $('.pt-il-claim-required-mono-doc').show();
               $('.pt-il-claim-required-multi-doc').hide();
             } else {
               requiredDocsHtml += '<ul>';
               $.each(this.documentTypeRequired, function (index, docsRequired) {
                 requiredDocsHtml += '<li>' + docsRequired.name + '</li>';
+                $docType.append('<option value="' + docsRequired.name + '">' + docsRequired.name + '</option>');
               });
               requiredDocsHtml += '</ul>';
               $('.pt-il-claim-required-mono-doc').hide();
@@ -96,12 +83,27 @@ function claimToCondition() {
           }
         });
 
+
+        var clonedDiv = $('#trData1').clone(true);
+
+        $("#add-another-doc").click(function () {
+
+          var random = Math.random();
+          clonedDiv.attr("id", random);
+          $('.file-upload-row--add-another').before(clonedDiv);
+
+          clonedDiv = $('#trData1').clone(true);
+        });
+
+
+
       } else {
         $('.pt-no-required-docs').show();
         $('.pt-required-docs').hide();
       }
 
     }
+
   });
 
 }
