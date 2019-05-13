@@ -158,11 +158,6 @@ $.ajax({
 
   console.log('User data back');
 
-  // $.each(data.person, function (index, element) {
-
-  // });
-
-
   localStorage.setItem('allPersons', JSON.stringify(data.person));
 
   // set the default MyService user if no user has been requested 
