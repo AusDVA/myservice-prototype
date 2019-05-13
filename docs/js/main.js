@@ -295,7 +295,11 @@ jQuery(document).ready(function ($) {
 // TODO:: add additional items 
 
 (function (document, window, index) {
-  var inputs = document.querySelectorAll('.file-upload__input');
+  // var inputs = document.querySelectorAll('.file-upload__input');
+  // if (!inputs) {
+  var inputs = document.querySelectorAll('.file-upload-default__input');
+  // }
+
   Array.prototype.forEach.call(inputs, function (input) {
     var label = input.nextElementSibling,
         labelVal = label.innerHTML,
@@ -318,16 +322,16 @@ jQuery(document).ready(function ($) {
 
         category.outerHTML = '<label>' + categoryName + '</label>';
 
-        // label.querySelector('.file-upload__file-name').innerHTML = fileName;
-        categoryTr.querySelector('.file-upload__file-name').innerHTML = fileName;
-        categoryTr.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
+        // label.querySelector('.file-upload-default__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload-default__file-name').innerHTML = fileName;
+        categoryTr.querySelector('.file-upload-default__file-name').classList.add('file-upload-default__file-name--uploaded');
         label.querySelector('.uikit-btn').innerHTML = 'Remove';
         label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
 
         $('.file-upload--add').show();
         $('.pt-upload-list-optional').show();
 
-        var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
+        var status = categoryTr.querySelector('.file-upload-default__file-name').closest('tr');
         var categoryTrClass = categoryTr;
 
         status = status.querySelector('.file-status');
@@ -339,7 +343,7 @@ jQuery(document).ready(function ($) {
           status.add('file-status--uploaded');
         }
 
-        categoryTrClass.classList.add('file-upload-row--uploaded');
+        categoryTrClass.classList.add('file-upload-default__row--uploaded');
       } else {
 
         label.innerHTML = labelVal;

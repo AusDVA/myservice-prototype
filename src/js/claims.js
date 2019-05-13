@@ -105,7 +105,7 @@ function getClaimCondition() {
 
       var random = Math.random();
       clonedDiv.attr("id", random);
-      $('.file-upload-row--add-another').before(clonedDiv);
+      $('.file-upload-default__row--add-another').before(clonedDiv);
 
       clonedDiv = $('#trData1').clone(true);
     });
