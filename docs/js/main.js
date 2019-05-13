@@ -303,9 +303,11 @@ jQuery(document).ready(function ($) {
         category = categoryTr.querySelector('select'),
         categoryName = '';
 
-    category.addEventListener('change', function (e) {
-      categoryName = this.value;
-    });
+    if (category) {
+      category.addEventListener('change', function (e) {
+        categoryName = this.value;
+      });
+    }
 
     input.addEventListener('change', function (e) {
       var fileName = '';
