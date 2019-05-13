@@ -170,10 +170,6 @@ $.ajax({
 
   console.log('User data back');
 
-  // $.each(data.person, function (index, element) {
-
-  // });
-
 
   localStorage.setItem('allPersons', JSON.stringify(data.person));
 
