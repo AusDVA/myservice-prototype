@@ -303,9 +303,11 @@ jQuery(document).ready(function ($) {
         category = categoryTr.querySelector('select'),
         categoryName = '';
 
-    category.addEventListener('change', function (e) {
-      categoryName = this.value;
-    });
+    if (category) {
+      category.addEventListener('change', function (e) {
+        categoryName = this.value;
+      });
+    }
 
     input.addEventListener('change', function (e) {
       var fileName = '';
@@ -315,12 +317,6 @@ jQuery(document).ready(function ($) {
       if (fileName) {
 
         category.outerHTML = '<label>' + categoryName + '</label>';
-
-        console.log('label');
-        console.log(label);
-
-        console.log('categoryTr');
-        console.log(categoryTr);
 
         // label.querySelector('.file-upload__file-name').innerHTML = fileName;
         categoryTr.querySelector('.file-upload__file-name').innerHTML = fileName;
@@ -333,11 +329,6 @@ jQuery(document).ready(function ($) {
 
         var status = categoryTr.querySelector('.file-upload__file-name').closest('tr');
         var categoryTrClass = categoryTr;
-
-        // console.log('categoryTrClass');
-        // console.log(status);
-        // console.log(categoryTrClass);
-
 
         status = status.querySelector('.file-status');
         if (status) {
