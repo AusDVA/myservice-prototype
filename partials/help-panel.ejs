@@ -40,7 +40,7 @@
                 <input type="text" class="uikit-text-input" value>
               </div>
               <div class="form-group unauthenticated">
-                <label class="uikit-text-input__label">DVA client number <span class="hint">(optional)</span></label>
+                <label class="uikit-text-input__label">DVA file number <span class="hint">(optional)</span></label>
                 <input type="text" class="uikit-text-input" value>
               </div>
 
@@ -78,7 +78,7 @@
                 <input type="text" class="uikit-text-input" value>
               </div>
               <div class="form-group unauthenticated">
-                <label class="uikit-text-input__label">DVA file number <span class="hint">(optional)</span></label>
+                <label class="uikit-text-input__label">DVA file number</label>
                 <input type="text" class="uikit-text-input" value>
               </div>
               <div class="form-group">
@@ -105,21 +105,26 @@
       </form>
 
 
-      <div id="help-submitted" class="toast-container" style="display: none;">
+      <div id="send-message" class="toast-container" style="display: none;">
         <button class="uikit-btn toast" role="alert" type="button">
           <div class="toast__type toast__type--success">
             <span class="sr">Success</span>
           </div>
           <div class="toast__message">
-            <p>Thank you for submitting your enquiry. A DVA staff member will call you back within 2 business days.</p>
+            <p>Thank you for submitting your enquiry. A DVA staff member will reply to your enquiry by email within 5 business days.</p>
           </div>
         </button>
       </div>
-
-
-
-
-
+      <div id="request-callback" class="toast-container" style="display: none;">
+        <button class="uikit-btn toast" role="alert" type="button">
+          <div class="toast__type toast__type--success">
+            <span class="sr">Success</span>
+          </div>
+          <div class="toast__message">
+            <p>Your requet for a callback has been requested. A DVA staff member will call you back within 2 business days.</p>
+          </div>
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -129,6 +134,9 @@
 <script>
   var authDataAttr = document.documentElement.dataset.auth;
   var authenticated = authDataAttr && authDataAttr === 'false' ? false : true;
+
+  var sendMessage = document.getElementById("send-message");
+  var requestCallback = document.getElementById("request-callback")
 
   function showPanel(pEvent) {
     event.preventDefault();
@@ -151,46 +159,81 @@
   trigger.addEventListener('click', showPanel);
 
   var close = panel.getElementsByClassName('panel-close')[0];
-  var sends = panel.getElementsByClassName('send');
+  // var sends = panel.getElementsByClassName('send');
   var unauthenticated = panel.getElementsByClassName('unauthenticated');
 
+  $("#accordion-send-message .send").on("click", function (pEvent) {
+    setTimeout(function () {
+      panel.classList.remove('is-visible');
 
-  Array.prototype.forEach.call(sends, function (send) {
+      var toastClone = sendMessage.cloneNode(true);
+      toastClone.removeAttribute('id');
 
-    send.addEventListener('mouseup', function (pEvent) {
+      toastClone.addEventListener('click', function () {
+        toastClone.parentElement.removeChild(toastClone);
+      })
+
       setTimeout(function () {
-        panel.classList.remove('is-visible');
-
-        var toastClone = toast.cloneNode(true);
-        toastClone.removeAttribute('id');
-
-        toastClone.addEventListener('click', function () {
-          toastClone.parentElement.removeChild(toastClone);
-        })
-
-        setTimeout(function () {
-          body.insertBefore(toastClone, body.firstElementChild);
-        }, 1000);
-      }, 300);
-    })
-
+        body.insertBefore(toastClone, body.firstElementChild);
+      }, 1000);
+    }, 300);
   });
 
+  $("#accordion-request-callback .send").on("click", function (pEvent) {
+    setTimeout(function () {
+      panel.classList.remove('is-visible');
+
+      var toastClone = requestCallback.cloneNode(true);
+      toastClone.removeAttribute('id');
+
+      toastClone.addEventListener('click', function () {
+        toastClone.parentElement.removeChild(toastClone);
+      })
+
+      setTimeout(function () {
+        body.insertBefore(toastClone, body.firstElementChild);
+      }, 1000);
+    }, 300);
+  });
+
+  // Array.prototype.forEach.call(sends, function (send) {
+
+  //   send.addEventListener('mouseup', function (pEvent) {
+  //     setTimeout(function () {
+  //       panel.classList.remove('is-visible');
+
+  //       var toastClone = toast.cloneNode(true);
+  //       toastClone.removeAttribute('id');
+
+  //       toastClone.addEventListener('click', function () {
+  //         toastClone.parentElement.removeChild(toastClone);
+  //       })
+
+  //       setTimeout(function () {
+  //         body.insertBefore(toastClone, body.firstElementChild);
+  //       }, 1000);
+  //     }, 300);
+  //   })
+
+  // });
 
 
 
 
-  var toast = document.getElementById('help-submitted');
+
+  // var toast = document.getElementById('help-submitted');
   var body = document.getElementsByTagName('body')[0];
 
   body.insertBefore(panel, body.firstElementChild);
   body.insertBefore(trigger, body.firstElementChild);
 
-  toast.parentElement.removeChild(toast);
+  sendMessage.parentElement.removeChild(sendMessage);
+  requestCallback.parentElement.removeChild(requestCallback);
 
   panel.style.display = '';
   trigger.style.display = '';
-  toast.style.display = '';
+  sendMessage.style.display = '';
+  requestCallback.style.display = '';
   if (authenticated) {
     Array.prototype.forEach.call(unauthenticated, function (pElement) {
       pElement.style.display = 'none';

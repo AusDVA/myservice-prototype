@@ -1413,50 +1413,7 @@ jQuery(document).ready(function ($) {
   var counter = new Person();
 
 
-  // PoC file upload for prototype
-  // TODO:: handle cancel 
-  // TODO:: add additional items 
-  ;
-  (function (document, window, index) {
-    var inputs = document.querySelectorAll('.file-upload__input');
-    Array.prototype.forEach.call(inputs, function (input) {
-      var label = input.nextElementSibling,
-        labelVal = label.innerHTML;
 
-      input.addEventListener('change', function (e) {
-        var fileName = '';
-
-        fileName = e.target.value.split('\\').pop();
-
-
-        if (fileName) {
-          label.querySelector('.file-upload__file-name').innerHTML = fileName;
-          label.querySelector('.file-upload__file-name').classList.add('file-upload__file-name--uploaded');
-          label.querySelector('.uikit-btn').innerHTML = 'Remove';
-          label.querySelector('.uikit-btn').classList.add('uikit-btn--tertiary');
-
-          $('.file-upload--add').show();
-
-          var status = label.querySelector('.file-upload__file-name').closest('tr');
-
-          status = status.querySelector('.file-status');
-          status.innerHTML = 'Remove';
-          status.innerHTML = '<span class="sr"> Uploaded</span>';
-          status = status.classList;
-          status.remove('file-status--required');
-          status.add('file-status--uploaded');
-
-        } else {
-
-          label.innerHTML = labelVal;
-        }
-      });
-
-      // Firefox bug fix
-      // input.addEventListener('focus', function () { input.classList.add('has-focus'); });
-      // input.addEventListener('blur', function () { input.classList.remove('has-focus'); });
-    });
-  }(document, window, 0));
 
 
   $(".accordion__trigger").click(function () {
