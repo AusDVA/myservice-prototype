@@ -112,24 +112,24 @@
       <div class="form-group" id="subsidy">
         <fieldset>
           <legend class="legend-label">Have you ever had a subsidised loan under any of the following?
-            <span class="hint">(optional)</span>
             <span class="hint display-block">Please select any that apply</span>
+            <span class="hint display-block">If none apply, please select 'No'</span>
           </legend>
           <p class="uiToolKitCheckBox">
             <label class="uikit-control-input">
-              <input class="uikit-control-input__input" type="checkbox" name="subsidy">
+              <input id="subsidy-dsh" class="uikit-control-input__input" type="checkbox" name="subsidy">
               <span class="uikit-control-input__text">Defence Service Home Loan Scheme (DSH)</span>
             </label>
           </p>
           <p class="uiToolKitCheckBox">
             <label class="uikit-control-input">
-              <input class="uikit-control-input__input" type="checkbox" name="subsidy">
+              <input id="subsidy-dhos" class="uikit-control-input__input" type="checkbox" name="subsidy">
               <span class="uikit-control-input__text">Defence Home Owner Scheme (DHOS)</span>
             </label>
           </p>
           <p class="uiToolKitCheckBox">
             <label class="uikit-control-input">
-              <input class="uikit-control-input__input" type="checkbox" name="subsidy" id="dhoas">
+              <input id="subsidy-dhoas" class="uikit-control-input__input" type="checkbox" name="subsidy">
               <span class="uikit-control-input__text">Defence Home Ownership Assistance Scheme (DHOAS)</span>
             </label>
           </p>
@@ -138,10 +138,14 @@
             </label>
             <input class="uikit-text-input" name="why-lodge" id="another-dhoas-reason" type="text" value="" required="" aria-required="true">
           </div>
+          <p class="uiToolKitCheckBox">
+            <label class="uikit-control-input">
+              <input id="subsidy-no" class="uikit-control-input__input" type="checkbox" name="subsidy">
+              <span class="uikit-control-input__text">No</span>
+            </label>
+          </p>
       </div>
       </fieldset>
-
-
       <div class="pagination margin-above--extra">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
         <div class="floated">
@@ -159,6 +163,8 @@
 
 
   <script>
+    $("")
+
     // Progress percentage
     document.getElementById("percentage").style.width = "20%";
     document.getElementById("percentage_value").textContent = "20%";
@@ -185,8 +191,24 @@
       }
     });
 
-    $("#dhoas").click(function () {
+    $("#subsidy-dhoas").click(function () {
       $("#why-lodge").toggle();
+    });
+
+    $("#subsidy-no").on("change", function() {
+      if($("#subsidy-no").prop("checked") == true) {
+        $("#subsidy-dhoas").prop("disabled", true);
+        $("#subsidy-dsh").prop("disabled", true);
+        $("#subsidy-dhos").prop("disabled", true);
+        $("#subsidy-dhoas").prop("checked", false);
+        $("#subsidy-dsh").prop("checked", false);
+        $("#subsidy-dhos").prop("checked", false);
+        $("#why-lodge").css("display", "none");
+      } else {
+        $("#subsidy-dhoas").prop("disabled", false);
+        $("#subsidy-dsh").prop("disabled", false);
+        $("#subsidy-dhos").prop("disabled", false);
+      }
     });
 
   </script>
