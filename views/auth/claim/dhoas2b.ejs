@@ -53,6 +53,58 @@
 
 
       <!-- Co-owner/borrower contact details -->
+              <fieldset>
+                <legend>Service details</legend>
+
+
+                <div class="form-group">
+                  <div class="row col-xs-12 col-md-8 col-lg-7">
+                    <legend class="legend-label">
+                      <span id="rank">Co-owner/borrower's current branch of service <span class="hint">(if applicable)</span></span>
+                    </legend>
+
+                    <div class="mys-radio-group mys-radio-group--cols-3">
+
+                      <label class="mys-radio">
+                        <input class="mys-radio__control" type="radio" name="arm" value="navy">
+                        <span class="mys-radio__box">Navy</span>
+                      </label>
+
+                      <label class="mys-radio">
+                        <input class="mys-radio__control" type="radio" name="arm" value="army">
+                        <span class="mys-radio__box mys-radio__box--not-selected">Army</span>
+                      </label>
+
+                      <label class="mys-radio">
+                        <input class="mys-radio__control" type="radio" name="arm" value="airforce">
+                        <span class="mys-radio__box mys-radio__box--not-selected">Air Force</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                </fieldset>
+
+                <div class="form-group">
+                  <label class="uikit-text-input__label" for="highest-rank" id="rank">Co-owner/borrower's highest rank achieved</label>
+                  <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
+                    <option selected>
+                      -- Select highest rank --
+                    </option>
+                    <option value=""> --- please select an arm above --- </option>
+                  </select>
+                </div>
+
+<!-- PRE POPULATE FORM --> 
+                <div class="form-group" id="prepopulate" style="display: none;">
+                  <label class="uikit-text-input__label" for="prepopulate-list">Pre populate co-owner/borrower's details
+                    <br>
+                    <span class="hint display-block">Used previously saved details to pre populate parts of the form</span>
+                  </label>
+                  <select class="uikit-text-input input-half" id="prepopulate-list" name="prepopulate-list">
+                    <option>Pre populate form...</option>
+                  </select>
+                </div>
+<!-- --> 
 
       <div id="contactdetails">
         <h2 class="margin-below">
@@ -91,6 +143,10 @@
           </label>
           <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
         </div>
+<!-- ADD PREVIOUS NAMES BOX -->
+<% locals = {};
+locals.optionalQuestion = "Has this co-owner/borrower used or been known by any other names?"; %>
+<% include ../../../partials/form_groups/former_names.ejs %>
 
         <div class="form-group" id="PartnerDOB">
           <label class="uikit-text-input__label" for="date">Date of birth
@@ -318,6 +374,107 @@
         }
       }
       window.location.href = "/auth/claim/dhoas3";
+    });
+
+    $.ajax({
+      url: '/docs/data/rank.json',
+      async: false,
+      dataType: 'json'
+    }).done(function (data) {
+
+      console.log('Content data back');
+
+      var amrSet = [];
+      var armArmy = [];
+      var armNavy = [];
+      var armAirforce = [];
+
+      $.each(data.arm, function (index, element) {
+        if (element.army) {
+          armArmy = element.army;
+        }
+        if (element.navy) {
+          armNavy = element.navy;
+        }
+        if (element.airforce) {
+          armAirforce = element.airforce;
+        }
+        console.log(armArmy);
+      });
+
+      $select = $('#highest-rank');
+
+      $('input[type=radio][name=arm]').change(function () {
+        // alert(this.value);
+        $select.empty();
+        if (this.value === 'army') {
+          amrSet = armArmy;
+        }
+        if (this.value === 'navy') {
+          amrSet = armNavy;
+        }
+        if (this.value === 'airforce') {
+          amrSet = armAirforce;
+        }
+
+        $.each(amrSet, function (key, value) {
+          $select.append('<option value=' + key + '>' + value + '</option>');
+        });
+
+      });
+
+      $("#highest-rank").change(function () {
+        // if (500 < windowsize && windowsize < 600) {
+
+          if (22 < this.value && this.value < 30) {
+            console.log(this);
+          // console.log($(this.text()));
+
+          console.log($("#highest-rank option:selected").text());
+          // $("#highest-rank option:selected").text();
+          var content = $("#highest-rank option:selected").text();;
+
+
+          $("#rank-info-chosen").html(content);
+
+          $("#rank-info").show();
+        } else {
+          $("#rank-info").hide();
+        }
+      });
+    });
+
+    var relationships = {};
+
+    $(document).ready(function() {
+      $.ajax({
+        url: '/docs/data/user.json',
+        async: false,
+        dataType: 'json'
+      }).done(function(data) {
+        let person = JSON.parse(localStorage.person)._id;
+        $.each(data["person"], function(a, b) {
+          if(data["person"][a]["_id"] == person) {
+            if(Object.keys(data["person"][a]["_id"]).length > 0) {
+              $("#prepopulate").css("display", "block");
+              $.each(data["person"][a]["relationships"], function(i, q) {
+                relationships = data["person"][a]["relationships"];
+                $("#prepopulate-list").append(`<option>${q.name}</option>`);
+              });
+            }
+          }
+        })
+      });
+    });
+
+    $("#prepopulate-list").on("change", function() {
+      $.each(relationships, function(i, q) {
+        if(q["name"] == $("#prepopulate-list :selected").val()) {
+          console.log(q["name"]);
+          $("#GivenName").val(q["name"].split(" ")[0]);
+          $("#FamilyName").val(q["name"].split(" ")[1]);
+        }
+      });
     });
 
   </script>
