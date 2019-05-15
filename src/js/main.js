@@ -120,6 +120,7 @@ jQuery(document).ready(function ($) {
     }
   }
 
+
   // Tooltip
   function getOffsetDocumentTop(pElement) {
     return document.documentElement.scrollTop + pElement.getBoundingClientRect().top
@@ -159,10 +160,13 @@ jQuery(document).ready(function ($) {
         control.setAttribute(ARIA_EXPANDED_ATTR, true)
 
         const className = `${tabOriginalClassName} ${TAB_CLASS}--active`
-        if (content.clientHeight > getOffsetDocumentTop(tab)) {
+
+        if (content.clientHeight > (content.scrollTop + content.getBoundingClientRect().top)) {
+          console.log('adding tooltip__tab--bottom');
           tab.className = `${className} ${TAB_CLASS}--bottom`
-          content.style.top = `${control.offsetTop + tab.offsetTop + tab.offsetHeight}px`
+          content.style.top = `${control.offsetTop + tab.clientHeight  + tab.offsetTop + tab.offsetHeight}px`
         } else {
+          console.log('adding tooltip__tab--top');
           tab.className = `${className} ${TAB_CLASS}--top`
           content.style.top = `${control.offsetTop - content.clientHeight + tab.offsetTop}px`
         }
