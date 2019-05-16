@@ -16,6 +16,11 @@
 
     }
 
+    @media screen and (min-width: 651px) {
+      position: relative; right: 1em;
+      }
+    }
+
   </style>
 
 </head>
@@ -159,9 +164,8 @@
                   <div>
                     <input type="file" class="file-upload-default__input" id="file-0">
                     <label class="file-upload-default__label" for="file-0">
-
                       <span class="file-upload-default__button">
-                        <span class="uikit-btn small">Upload</span>
+                        <span class="uikit-btn small" id="upload-doc-type">Upload</span>
                       </span>
                     </label>
                   </div>
@@ -206,11 +210,8 @@
 
         <div class="pt-upload-other-docs">
           <div class="form-group">
-
-
             <table class="table-responsive file-upload-default">
               <tr id="trData1" class="file-upload-default__row">
-
                 <td>
                   <span class="file-upload-default__document">
                     Document
@@ -224,7 +225,7 @@
                     <input type="file" class="file-upload-default__input" id="file-0">
                     <label class="file-upload-default__label" for="file-0">
 
-                      <span class="file-upload-default__button">
+                      <span id="document-type-button" class="file-upload-default__button">
                         <span class="uikit-btn small">Upload</span>
                       </span>
                     </label>
@@ -305,6 +306,23 @@
     });
 
     getClaimCondition();
+
+    $("#file-0").on("click", function (event) {
+      if($("#trData1 td select :selected").val() == "-- Select type --") {
+        // event.preventDefault();
+        $("#trData1-error").remove();
+        $("#trData1 td").first().prepend("<p id='trData1-error' class='input-error-message' style='margin-bottom: 0.5em; margin-left: 1em;margin-top: -0.25em;'>Please select a document type</p>");
+        $("#trData1").addClass("mys-file-uploads__info-item").addClass("has-error");
+        $("#upload-doc-type").addClass("adjusted-upload-button");
+        return false;
+      } else {
+        $("#trData1-error").remove();
+        $("#trData1").removeClass("mys-file-uploads__info-item").removeClass("has-error");
+        $("#upload-doc-type").removeClass("adjusted-upload-button");
+
+      }
+    });
+
 
   </script>
 </body>
