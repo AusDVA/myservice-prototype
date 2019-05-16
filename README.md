@@ -23,16 +23,15 @@ Before contributing to the codebase, please familiarise yourself with [Google HT
 
 Install a sass linter e.g. [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint). The .sasslintrc file in this project has been configured to reflect the Google style guide. 
 
-## Other stuff
-The [liverelod VS code app](https://marketplace.visualstudio.com/items?itemName=ziishaned.livereload) and [chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) is very handy.
-
 
 ## Backstop
 
 There are 2 gulp commands for running regression tests:  
 `gulp unit-test` - runs a test on **just** the styleguide  
-`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)  
+`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)   
   
 If the `backstop_data/bitmaps_reference` directory does not exist, it will generate reference screenshots, but if it does exist it will compare the screenshots to existing reference images.  
   
 **Please Note** You will need another terminal/command prompt window running `gulp serve` to run this.
+
+
