@@ -1,9 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-  // featuretoggleapi = require('feature-toggle-api'),
+  gitBranch = require('git-branch');
+// featuretoggleapi = require('feature-toggle-api'),
 
-  // not so secret secret
-  secret = 'eeeek',
+// not so secret secret
+secret = 'eeeek',
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
@@ -11,7 +12,8 @@ let express = require('express'),
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
-
+// console.log('process');
+// console.log(process.env);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -59,7 +61,17 @@ app.use(
 );
 
 
+console.log('Working on branch:', gitBranch.sync());
+
 var liveFeatureList = require('./feature-live-list.json');
+
+// loading in different lists depending on which git branch 
+if (gitBranch.sync() === 'master') {
+  liveFeatureList = liveFeatureList.production;
+} else {
+  liveFeatureList = liveFeatureList.development;
+}
+
 
 
 // folder level renders 
