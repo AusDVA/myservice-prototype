@@ -61,13 +61,14 @@ app.use(
 );
 
 
-console.log('Working on branch:', gitBranch.sync());
+
 
 var liveFeatureList = require('./feature-live-list.json');
 
 // loading in different lists depending on which git branch
 
 if (gitBranch) {
+  console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
     liveFeatureList = liveFeatureList.production;
   } else {
