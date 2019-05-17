@@ -65,12 +65,19 @@ console.log('Working on branch:', gitBranch.sync());
 
 var liveFeatureList = require('./feature-live-list.json');
 
-// loading in different lists depending on which git branch 
-if (gitBranch.sync() === 'master') {
-  liveFeatureList = liveFeatureList.production;
+// loading in different lists depending on which git branch
+
+if (gitBranch) {
+  if (gitBranch.sync() === 'master') {
+    liveFeatureList = liveFeatureList.production;
+  } else {
+    liveFeatureList = liveFeatureList.development;
+  }
 } else {
   liveFeatureList = liveFeatureList.development;
 }
+
+
 
 
 
