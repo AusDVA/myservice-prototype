@@ -60,16 +60,17 @@ app.use(
 
 );
 
-// var gitBranch = require('git-branch');
+if (app.settings.env === "development") {
+  var gitBranch = require('git-branch');
+}
 
-// console.log('env:', process.env);
-console.log('env:', app.settings.env);
+
+console.log('build env:', app.settings.env);
 
 var liveFeatureList = require('./feature-live-list.json');
 
 // loading in different lists depending on which git branch
 
-// if (gitBranch) {
 if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
