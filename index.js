@@ -62,7 +62,8 @@ app.use(
 
 // var gitBranch = require('git-branch');
 
-console.log('env:', process.env);
+// console.log('env:', process.env);
+console.log('env:', app.settings.env);
 
 var liveFeatureList = require('./feature-live-list.json');
 
