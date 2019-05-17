@@ -58,9 +58,6 @@ function getClaimCondition() {
 
         if (this.documentTypeRequired.length === 1) {
 
-          $("#process-faster strong").text("We can process your claim faster on receiving this document.");
-          $("#please-provide-document p:nth-child(2)").text("Your medical provider may be able to provide you with this document. If this is not possible, you can provide supporting documents related to your claim below.");
-
           console.log(this.documentTypeRequired);
 
           requiredDocsHtml += this.documentTypeRequired[0].name;
@@ -108,8 +105,6 @@ function getClaimCondition() {
       clonedDiv = $('#trData1').clone(true);
     });
   } else {
-    $(".pt-required-docs .form-group .uikit-text-input__label-wrapper--inline-block .pt-il-claim-required-multi-doc .legend-label h2").hide("fast");
-    $("#no-cbd-upload").show();
     $('.pt-no-required-docs').show();
     $('.pt-required-docs').hide();
   }
