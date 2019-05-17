@@ -60,16 +60,13 @@ app.use(
 
 );
 
+console.log('build env:', app.settings.env);
+var liveFeatureList = require('./feature-live-list.json');
+
+// loading in different lists depending on which git branch (but not in heroku)
 if (app.settings.env === "development") {
   var gitBranch = require('git-branch');
 }
-
-
-console.log('build env:', app.settings.env);
-
-var liveFeatureList = require('./feature-live-list.json');
-
-// loading in different lists depending on which git branch
 
 if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
@@ -82,8 +79,6 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
   liveFeatureList = liveFeatureList.development;
 }
 
-
-
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
@@ -93,7 +88,6 @@ app.get('/:id0', function (request, response) {
 });
 
 app.get('/:id0/:id1', function (request, response) {
-
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
     liveFeature: liveFeatureList
@@ -126,7 +120,6 @@ app.get('/',
   });
 
 app.get('/mygov-login',
-
   function (req, res) {
     res.render('auth/mygov-login', {
       layout: 'login',
