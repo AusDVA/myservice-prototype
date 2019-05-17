@@ -1,6 +1,6 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-  gitBranch = require('git-branch'),
+
   // featuretoggleapi = require('feature-toggle-api'),
 
   // not so secret secret
@@ -60,14 +60,16 @@ app.use(
 
 );
 
+// var gitBranch = require('git-branch');
 
-
+console.log('env:', process.env);
 
 var liveFeatureList = require('./feature-live-list.json');
 
 // loading in different lists depending on which git branch
 
-if (gitBranch) {
+// if (gitBranch) {
+if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
     liveFeatureList = liveFeatureList.production;
@@ -77,8 +79,6 @@ if (gitBranch) {
 } else {
   liveFeatureList = liveFeatureList.development;
 }
-
-
 
 
 
