@@ -1,10 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-  gitBranch = require('git-branch');
-// featuretoggleapi = require('feature-toggle-api'),
 
-// not so secret secret
-secret = 'eeeek',
+  // featuretoggleapi = require('feature-toggle-api'),
+
+  // not so secret secret
+  secret = 'eeeek',
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
@@ -60,14 +60,24 @@ app.use(
 
 );
 
+if (app.settings.env === "development") {
+  var gitBranch = require('git-branch');
+}
 
-console.log('Working on branch:', gitBranch.sync());
+
+console.log('build env:', app.settings.env);
 
 var liveFeatureList = require('./feature-live-list.json');
 
-// loading in different lists depending on which git branch 
-if (gitBranch.sync() === 'master') {
-  liveFeatureList = liveFeatureList.production;
+// loading in different lists depending on which git branch
+
+if (typeof gitBranch !== 'undefined' && gitBranch) {
+  console.log('Working on branch:', gitBranch.sync());
+  if (gitBranch.sync() === 'master') {
+    liveFeatureList = liveFeatureList.production;
+  } else {
+    liveFeatureList = liveFeatureList.development;
+  }
 } else {
   liveFeatureList = liveFeatureList.development;
 }
