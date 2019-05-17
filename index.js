@@ -1,10 +1,25 @@
+// TODO:: read this https://dustinpfister.github.io/2018/05/31/express-passport/ 
+// and get users mocked out and in to the prototype so we can start introducing the concept 
+// of a user and get rid of all the hard coded names in the prototype
+
 let express = require('express'),
+
   cookieParser = require("cookie-parser"),
 
-  // featuretoggleapi = require('feature-toggle-api'),
+  // I will be using passport, and the local strategy
+  passport = require('passport'),
+  Strategy = require('passport-local').Strategy,
 
-  // not so secret secret
+  // my not so secret secret
   secret = 'eeeek',
+
+  // the single user record that is hard
+  // coded in for the sake of this simple demo
+  user = {
+    username: 'foo',
+    id: 0,
+    password: '123'
+  },
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
@@ -12,25 +27,11 @@ let express = require('express'),
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
-// console.log('process');
-// console.log(process.env);
-
 // using ejs for rendering
 app.use(express.static(__dirname));
 app.use(cookieParser());
-
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-
-
-// this is a pretty nice feature toggle. might be cool to do something like this in the future
-// https://www.npmjs.com/package/feature-toggle-api
-// var api = featuretoggleapi({
-//   feature1: false,
-//   feature2: true
-// });
-
-
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
@@ -60,54 +61,97 @@ app.use(
 
 );
 
-console.log('build env:', app.settings.env);
-var liveFeatureList = require('./feature-live-list.json');
+// using the local strategy with passport
+passport.use(
 
-// loading in different lists depending on which git branch (but not in heroku)
-if (app.settings.env === "development") {
-  var gitBranch = require('git-branch');
-}
+  // calling the constructor given by passport-local
+  new Strategy(
 
-if (typeof gitBranch !== 'undefined' && gitBranch) {
-  console.log('Working on branch:', gitBranch.sync());
-  if (gitBranch.sync() === 'master') {
-    liveFeatureList = liveFeatureList.production;
-  } else {
-    liveFeatureList = liveFeatureList.development;
-  }
-} else {
-  liveFeatureList = liveFeatureList.development;
-}
+    // options for passport local
+    {
+
+      // using custom field names
+      usernameField: 'user',
+      passwordField: 'pass'
+
+    },
+
+    // login method
+    function (username, password, cb) {
+
+      if (username === user.username && password.toString() === user.password) {
+
+        return cb(null, user);
+
+      }
+
+      // null and false for all other cases
+      return cb(null, false);
+
+    }
+
+  )
+
+);
+
+passport.serializeUser(function (user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function (id, cb) {
+
+  cb(null, user);
+
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// app.get('/:id', function (req, res) {
+
+//   res.render(req.params.id, {
+//     layout: 'home',
+//     user: req.user
+//   });
+
+// });
+
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
-  response.render(request.params.id0, {
-    main_nav_active: 'home',
-    liveFeature: liveFeatureList
+  // response.render('auth/index-claims');
+  response.render(request.params.id0, {   
+    partials: "../../partials/",
+    main_nav_active: 'home'
+
   });
 });
 
 app.get('/:id0/:id1', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList
+    partials: "../../partials/"
   });
 });
 
 app.get('/:id0/:id1/:id2', function (request, response) {
+
+  // TODO:: might be good to rewrite this cookies to use express sessions 
+  // console.log("Cookies: ", request.cookies.claimType);
+
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
     secondary_nav_active: request.params.id2,
-    claimType: request.cookies.claimType
+    claimType: request.cookies.claimType,
+    partials: "../../../partials/"
   });
 });
 
 app.get('/:id0/:id1/:id2/:id3', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2 + "/" + request.params.id3, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
-    secondary_nav_active: request.params.id2
+    secondary_nav_active: request.params.id2,
+    partials: "../../../../partials/"
   });
 });
 
@@ -115,18 +159,33 @@ app.get('/',
   function (req, res) {
     res.render('unauth/', {
       layout: 'login',
-      user: req.user
+      user: req.user,
+      partials: '../../partials/'
     });
   });
 
 app.get('/mygov-login',
+
   function (req, res) {
     res.render('auth/mygov-login', {
       layout: 'login',
-      user: req.user
+      user: req.user,
+      partials: '../../partials/'
     });
   });
 
+app.post('/mygov-login',
+  passport.authenticate('local', {
+    // redirect back to /login
+    // if login fails
+    failureRedirect: '/mygov-login'
+  }),
+
+  // end up at / if login works
+  function (req, res) {
+    res.redirect('/');
+  }
+);
 
 app.get('/logout',
   function (req, res) {
@@ -136,6 +195,6 @@ app.get('/logout',
 
 app.listen(port, function () {
 
-  console.log('listening on port: ' + port);
+  console.log('passport-local demo up on port: ' + port);
 
 });
