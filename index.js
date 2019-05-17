@@ -1,10 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-  gitBranch = require('git-branch');
-// featuretoggleapi = require('feature-toggle-api'),
+  gitBranch = require('git-branch'),
+  // featuretoggleapi = require('feature-toggle-api'),
 
-// not so secret secret
-secret = 'eeeek',
+  // not so secret secret
+  secret = 'eeeek',
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
