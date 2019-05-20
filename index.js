@@ -68,6 +68,9 @@ if (app.settings.env === "development") {
   var gitBranch = require('git-branch');
 }
 
+// console.log('liveFeatureList1');
+// console.log(liveFeatureList);
+
 if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
@@ -75,15 +78,14 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
   } else {
     liveFeatureList = liveFeatureList.development;
   }
+} else if (app.settings.env === "production") {
+  liveFeatureList = liveFeatureList.production;
 } else {
   liveFeatureList = liveFeatureList.development;
 }
 
-if (app.settings.env === "production") {
-  // liveFeatureList = liveFeatureList.production;
-}
-
-// liveFeatureList = liveFeatureList.production;
+// console.log('liveFeatureList2');
+// console.log(liveFeatureList);
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
