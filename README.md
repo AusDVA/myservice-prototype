@@ -24,14 +24,14 @@ Before contributing to the codebase, please familiarise yourself with [Google HT
 Install a sass linter e.g. [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint). The .sasslintrc file in this project has been configured to reflect the Google style guide. 
 
 
-## Backstop
+## Visual regression testing
 
-There are 2 gulp commands for running regression tests:  
+[BackstopJS](https://garris.github.io/BackstopJS/) is avaliable in this repo. There are 2 gulp wrappers for running tests:  
 `gulp unit-test` - runs a test on **just** the styleguide  
 `gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)   
   
-If the `backstop_data/bitmaps_reference` directory does not exist, it will generate reference screenshots, but if it does exist it will compare the screenshots to existing reference images.  
+The first time you run a test, BackstopJS will generate reference screenshots (so it's best to do this on the master branch). Once that's done you'll need to run `gulp unit-test` again. 
   
-**Please Note** You will need another terminal/command prompt window running `gulp serve` to run this.
+**Note** BackstopJS requirers [myservice](http://localhost:5000) to be running.
 
 
