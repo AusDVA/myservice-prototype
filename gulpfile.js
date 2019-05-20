@@ -13,7 +13,7 @@ var backstop = require('backstopjs');
 var fs = require("fs");
 
 
-  d = new Date(),
+d = new Date(),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
 
 var config = {
@@ -87,7 +87,7 @@ gulp.task('server', function () {
 gulp.task('serve', ['server', 'sass', 'js', 'watch', 'copy']);
 
 gulp.task('unit-test', function () {
-  if(fs.existsSync('backstop_data/bitmaps_reference')) {
+  if (fs.existsSync('backstop_data/bitmaps_reference')) {
     backstop('test');
   } else {
     backstop('reference');
@@ -95,9 +95,17 @@ gulp.task('unit-test', function () {
 });
 
 gulp.task('unit-test-all', function () {
-  if(fs.existsSync('backstop_data/bitmaps_reference')) {
-    backstop('test', {config:'all-pages.backstop.json'});
+  if (fs.existsSync('backstop_data/bitmaps_reference')) {
+    backstop('test', {
+      config: 'all-pages.backstop.json'
+    });
   } else {
-    backstop('reference', {config:'all-pages.backstop.json'});
+    backstop('reference', {
+      config: 'all-pages.backstop.json'
+    });
   }
+});
+
+gulp.task('unit-test-approve', function () {
+  backstop('approve');
 });
