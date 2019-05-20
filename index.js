@@ -62,50 +62,53 @@ app.use(
 
 console.log('build env:', app.settings.env);
 var liveFeatureList = require('./feature-live-list.json');
+var liveFeatureEnv = [];
 
 // loading in different lists depending on which git branch (but not in heroku)
 if (app.settings.env === "development") {
   var gitBranch = require('git-branch');
 }
 
-// console.log('liveFeatureList1');
-// console.log(liveFeatureList);
+console.log('liveFeatureList1');
+console.log(liveFeatureList);
 
 if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
     liveFeatureList = liveFeatureList.production;
   } else {
-    liveFeatureList = liveFeatureList.development;
+    liveFeatureEnv = liveFeatureList.development;
   }
 } else if (app.settings.env === "production") {
-  liveFeatureList = liveFeatureList.production;
+  liveFeatureEnv = liveFeatureList.production;
 } else {
-  liveFeatureList = liveFeatureList.development;
+  liveFeatureEnv = liveFeatureList.development;
 }
 
-// console.log('liveFeatureList2');
-// console.log(liveFeatureList);
+console.log('liveFeatureList2');
+console.log(liveFeatureList);
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
     main_nav_active: 'home',
-    liveFeature: liveFeatureList
+    liveFeature: liveFeatureEnv
   });
 });
 
 app.get('/:id0/:id1', function (request, response) {
+
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList
+    liveFeature: liveFeatureEnv
+
   });
 });
 
 app.get('/:id0/:id1/:id2', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
+    liveFeature: liveFeatureEnv,
     secondary_nav_active: request.params.id2,
     claimType: request.cookies.claimType
   });
@@ -114,7 +117,7 @@ app.get('/:id0/:id1/:id2', function (request, response) {
 app.get('/:id0/:id1/:id2/:id3', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2 + "/" + request.params.id3, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
+    liveFeature: liveFeatureEnv,
     secondary_nav_active: request.params.id2
   });
 });
@@ -124,7 +127,7 @@ app.get('/',
     response.render('unauth/', {
       layout: 'login',
       user: request.user,
-      liveFeature: liveFeatureList
+      liveFeature: liveFeatureEnv
     });
   });
 
@@ -133,7 +136,7 @@ app.get('/mygov-login',
     response.render('auth/mygov-login', {
       layout: 'login',
       user: request.user,
-      liveFeature: liveFeatureList
+      liveFeature: liveFeatureEnv
     });
   });
 
