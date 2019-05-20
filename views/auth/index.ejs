@@ -74,6 +74,7 @@
                   <% 
                   locals = {};
                   locals.title = "Initial Liability";
+                  locals.optionalID = "il";
                   locals.body_text = "Your first step towards treatment and support for a service-related injury or condition.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/claim1";
@@ -83,6 +84,7 @@
                       <% 
                   locals = {};
                   locals.title = "Mental health treatment";
+                  locals.optionalID = "mental-health";
                   locals.body_text = "Access free mental health treatment.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/health-card0";
@@ -92,6 +94,7 @@
                           <% 
                   locals = {};
                   locals.title = "Australian Defence Veterans' Covenant";
+                  locals.optionalID = "covenant";
                   locals.body_text = "Apply for the Australian Defence Veterans' Covenant.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/veterancard/veteran-card-start";
@@ -101,6 +104,7 @@
                               <% 
                   locals = {};
                   locals.title = "Incapacity Payments";
+                  locals.optionalID = "incap";
                   locals.body_text = "Get compensated for your inability or reduced ability to work because of a service injury or condition.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/incap-progress";
@@ -110,6 +114,7 @@
                                   <% 
                   locals = {};
                   locals.title = "Increase your disability pension (AFI)";
+                  locals.optionalID = "increase-disability";
                   locals.body_text = "Apply for a payment increase to your disability pension.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/afi-start";
@@ -119,6 +124,7 @@
                                       <% 
                   locals = {};
                   locals.title = "Education assistance";
+                  locals.optionalID = "education";
                   locals.body_text = "Apply for assitance with the cost of education for children of eligible veterans.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/studentpreeligibility?flow=veteranFlow";
@@ -129,6 +135,7 @@
 
                   locals = {};
                   locals.title = "Qualifying service";
+                  locals.optionalID = "qs";
                   locals.body_text = "Submit a claim to determine if you have qualifying service.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/qualifying_service/qs-1";
@@ -138,6 +145,7 @@
                                               <% 
                   locals = {};
                   locals.title = "Service Pension";
+                  locals.optionalID = "service-pension";
                   locals.body_text = "Apply for age or invalidity service pension.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/service_pension/sp-progress-a";
@@ -147,24 +155,27 @@
                                                   <% 
                   locals = {};
                   locals.title = "Partner pension";
+                  locals.optionalID = "partner-pension";
                   locals.body_text = "Apply for partner service pension.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/service_pension/sp-progress-a";
                 %>
                                                     <%- include ../../partials/claim-tile.ejs %>
 
-                                                      <%#
+                <%
                   locals = {};
                   locals.title = "Civilian qualifying service";
+                  locals.optionalID = "civilian-qs";
                   locals.body_text = "Submit a claim to determine if you have qualifying service.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/qualifying_service/civilian-qs-1";
                 %>
-                                                        <%#- include ../../partials/claim-tile.ejs %>
+                                                        <%- include ../../partials/claim-tile.ejs %>
 
                                                           <% 
                   locals = {};
                   locals.title = "Lump sum advance";
+                  locals.optionalID = "lump-sum";
                   locals.body_text = "Request a lump sum advance payment.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/lump-sum-advance-request";
@@ -174,6 +185,7 @@
                                                               <% 
                   locals = {};
                   locals.title = "Representation";
+                  locals.optionalID = "representation";
                   locals.body_text = "Allows someone to represent you or you can help someone in dealing with DVA matters.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/profile/nomrep";
@@ -183,6 +195,7 @@
                                                                   <% 
                   locals = {};
                   locals.title = "DHOAS subsidy certificate";
+                  locals.optionalID = "dhoas";
                   locals.body_text = "Apply for a subsidy on the interest of your home loan.";
                   locals.button_text = "Get started";
                   locals.link = "/auth/claim/dhoas-start";
@@ -192,6 +205,7 @@
                                                                       <% 
                   locals = {};
                   locals.title = "Defence Service Home Insurance Scheme";
+                  locals.optionalID = "insurance";
                   locals.body_text = "Apply for home, contents and other insurance policies.";
                   locals.button_text = "<span class='external-link hover-none'>Defence Service Homes website</span>";
                   locals.link = "http://www.dsh.gov.au/insurance";
@@ -204,8 +218,18 @@
 
         </main>
         <div id="state-switcher">
-          <h3>User selected properties</h3>
-          <div class="review__table">
+          <h3>State switcher</h3>
+
+           <%
+                locals = {};
+                locals.optionalID = "user-scenario";
+                locals.question = "User scenario:";
+                locals.items = ["First time user","User with claims","Never served","User with service pension and claims"];
+              %>
+              <%- include ../../partials/forms/select.ejs %>
+              
+          <div class="form-group review__table">
+            <h4>Build your own</h4>
             <div class="tr">
               <div class="ss-box"><input id="text-input-incomplete" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
               <div class="ss-text">Incomplete claims</div>
@@ -218,24 +242,24 @@
               <div class="ss-box"><input id="text-input-tasks" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
               <div class="ss-text">Tasks</div>
             </div>
-            <div class="form-group">
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input" for="payment-received">
-                  <input class="uikit-control-input__input" type="checkbox" id="payment-received" name="numWidgets">
-                  <span class="uikit-control-input__text">Payment received</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input" for="service-history">
-                  <input class="uikit-control-input__input" type="checkbox" id="service-history" name="numWidgets">
-                  <span class="uikit-control-input__text">Service history provided</span>
-                </label>
-              </p>
-              <hr>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="payment-received">
+                <input class="uikit-control-input__input" type="checkbox" id="payment-received" name="numWidgets">
+                <span class="uikit-control-input__text">Payment received</span>
+              </label>
+            </p>
+            <p class="uiToolKitCheckBox">
+              <label class="uikit-control-input" for="service-history">
+                <input class="uikit-control-input__input" type="checkbox" id="service-history" name="numWidgets">
+                <span class="uikit-control-input__text">Service history provided</span>
+              </label>
+            </p>
+            <div class="form-group review__table">
+              <h4>Overrides</h4>
                <p class="uiToolKitCheckBox">
                 <label class="uikit-control-input" for="first-login">
                   <input class="uikit-control-input__input" id="first-login" type="checkbox" name="numWidgets">
-                  <span class="uikit-control-input__text">First login (override)</span>
+                  <span class="uikit-control-input__text">First login</span>
                 </label>
               </p>
             </div>
@@ -259,6 +283,15 @@
                   }
                 });
 
+                /* Tasks widget */
+
+                var tasks = sessionStorage.getItem('tasks');
+                if ( tasks == null ) tasks = 0;
+                $("#text-input-tasks").val(tasks);
+                $("#text-input-tasks").keyup(function () {
+                    updateScenario();
+                });
+
                 /* Claims widget */
 
                 var claims_incomplete = sessionStorage.getItem('claims-incomplete');
@@ -266,25 +299,13 @@
                 $("#text-input-incomplete").val(claims_incomplete);
                 $("#text-input-incomplete").keyup(function () {
                     updateScenario();
-                    sessionStorage.setItem('claims-incomplete', $("#text-input-incomplete").val());
                 });
 
                 var claims_submitted = sessionStorage.getItem('claims-submitted');
                 if ( claims_submitted == null ) claims_submitted = 0;
-                $("#text-input-submitted").val(claims_incomplete);
-                $("#text-input-submitted").val(0);
+                $("#text-input-submitted").val(claims_submitted);
                 $("#text-input-submitted").keyup(function () {
                     updateScenario();
-                    sessionStorage.setItem('claims-submitted', $("#text-input-complete").val());
-                });
-
-                /* Tasks widget */
-
-                var tasks = sessionStorage.getItem('tasks');
-                if ( tasks == null ) tasks = 0;
-                $("#text-input-tasks").keyup(function () {
-                    updateScenario();
-                    sessionStorage.setItem('tasks', $("#text-input-tasks").val());
                 });
 
                 /* Payments widget */
@@ -294,7 +315,6 @@
                 $('#payment-received').prop("checked",payments_received);
                 $("#payment-received").click(function (e) {
                     updateScenario();
-                    sessionStorage.setItem('payments_received', payments_received);
                 });
 
                 /* Profile widget */
@@ -304,13 +324,89 @@
                 $('#service_history').prop("checked",service_history);
                 $("#service-history").click(function (e) {
                     updateScenario();
-                    sessionStorage.setItem('payments_received', service_history);
                 });
 
                  /* First login */
 
                 $("#first-login").click(function (e) {
                   updateScenario();
+                });
+
+                /* Scenarios */
+
+                // Claims we haven’t considered; CSHC, gold card, stand-alone needs 
+
+                $("#user-scenario-list").change(function () {
+                  var mySelection = $(this).val();
+                  switch (mySelection) {
+                    case "First time user":
+                        $("#text-input-tasks").val(0);
+                        $("#text-input-incomplete").val(0);
+                        $("#text-input-submitted").val(0);
+                        $('#payment-received').prop("checked",false);
+                        $('#service-history').prop("checked",false);
+                        $('#first-login').prop("checked",true);
+                        hideAllClaims();
+                        $("#il").show();
+                        $("#mental-health").show();
+                        $("#covenant").show();
+                        $("#education").show();
+                        $("#qs").show();
+                        $("#service-pension").show();
+                        $("#partner-pension").show();
+                        $("#representation").show();
+                        $("#dhoas").show();
+                        $("#insurance").show();
+                        updateScenario();
+                        break;
+                    case "User with claims":
+                        $("#text-input-tasks").val(0);
+                        $("#text-input-incomplete").val(1);
+                        $("#text-input-submitted").val(2);
+                        $('#payment-received').prop("checked",false);
+                        $('#service-history').prop("checked",false);
+                        $('#first-login').prop("checked",false);
+                         hideAllClaims();
+                        $("#il").show();
+                        // afi (if VEA condition) ask chloe
+                        $("#incap").show();
+                        $("#education").show();
+                        $("#service-pension").show();
+                        $("#partner-pension").show();
+                        $("#representation").show();
+                        $("#dhoas").show();
+                        $("#insurance").show();
+                        updateScenario();
+                      break;
+                    case "Never served":
+                        $("#text-input-tasks").val(0);
+                        $("#text-input-incomplete").val(0);
+                        $("#text-input-submitted").val(0);
+                        $('#payment-received').prop("checked",false);
+                        $('#service-history').prop("checked",true);
+                        $('#first-login').prop("checked",false);
+                        hideAllClaims();
+                        $("#education").show();
+                        $("#civilian-qs").show();
+                        $("#partner-pension").show();
+                        updateScenario();
+                      break;
+                    case "User with service pension and claims":
+                        $("#text-input-tasks").val(1);
+                        $("#text-input-incomplete").val(0);
+                        $("#text-input-submitted").val(2);
+                        $('#payment-received').prop("checked",true);
+                        $('#service-history').prop("checked",true);
+                        $('#first-login').prop("checked",false);
+                        hideAllClaims();
+                        $("#education").show();
+                        $("#civilian-qs").show();
+                        $("#partner-pension").show();
+                        updateScenario();
+                      break;
+                    default:
+                      break;
+                  }
                 });
 
                 /* --- End State switcher --- */
@@ -332,13 +428,29 @@
                   document.getElementById('lblGreetings').innerHTML = greet;
                 }
 
+                /* Tasks */
+
+                function updateTasksWidget() {
+                  var tasks = $("#text-input-tasks").val();
+                  sessionStorage.setItem('tasks', tasks);
+                  $("#text-reflect-tasks").val(tasks);
+                  if (tasks > 0) {
+                     $("#widget-tasks").show("fast");
+                     totalWidgets++;
+                    } else {
+                      $("#widget-tasks").hide("fast");
+                  }
+                }
+
                 /* Claims */
 
                 function updateClaimsWidget() {
                   var incomplete = $("#text-input-incomplete").val();
                   $("#text-reflect-incomplete").html(incomplete);
+                  sessionStorage.setItem('claims-incomplete', incomplete);
                   var submitted = $("#text-input-submitted").val();
                   $("#text-reflect-submitted").html(submitted);
+                  sessionStorage.setItem('claims-submitted', submitted);
                   if (incomplete > 0 ){
                     $("#claims-incomplete").show();
                   } else {
@@ -362,32 +474,18 @@
                   }
                 }
 
-                /* Tasks */
-
-                $("#text-input-tasks").val(0);
-                function updateTasksWidget() {
-                  var tasks = $("#text-input-tasks").val();
-                  $("#text-reflect-tasks").html(tasks);
-                  if (tasks > 0) {
-                     $("#widget-tasks").show("fast");
-                     ("#tasks").show();
-                     totalWidgets++;
-                    } else {
-                      $("#widget-tasks").hide("fast");
-                      $("#tasks").hide();
-                  }
-                }
-
                 /* Payments */
 
                 function updatePaymentsWidget() {
                   if ($('#payment-received').prop("checked") == true) {
                     $("#widget-payment").show("fast");
                     $("#payments").show();
+                    sessionStorage.setItem('payments_received', true);
                     totalWidgets++;
                   } else {
                     $("#widget-payment").hide("fast");
                     $("#payments").hide();
+                    sessionStorage.setItem('payments_received', false);
                   }
                 }
 
@@ -396,8 +494,10 @@
                 function updateProfileWidget() {
                     if ( $("#service-history").prop("checked") == true ) {
                         $("#widget-profile .widget-content").html("generic profile message");
+                        sessionStorage.setItem('service_history', true);
                     } else {
                         $("#widget-profile .widget-content").html("service history message");
+                        sessionStorage.setItem('service_history', false);
                     }
                 }
 
@@ -429,63 +529,33 @@
 
                 updateScenario();
                 function hideAll() {
-                  $("#widget-claims").hide();
                   $("#widget-tasks").hide();
+                  $("#widget-claims").hide();
                   $("#widget-payment").hide();
                   $("#widget-profile").hide();
                   $("#first-login-message").hide();
                   $("#update-message").hide();
                 }
 
+                function hideAllClaims() {
+                  $("#il").hide();
+                  $("#mental-health").hide();
+                  $("#covenant").hide();
+                  $("#incap").hide();
+                  $("#increase-disability").hide();
+                  $("#education").hide();
+                  $("#qs").hide();
+                  $("#civilian-qs").hide();
+                  $("#service-pension").hide();
+                  $("#partner-pension").hide();
+                  $("#lump-sum").hide();
+                  $("#representation").hide();
+                  $("#dhoas").hide();
+                  $("#insurance").hide();
+                }
+
                 /* Layout */
                 
-                // function autoWith() {
-
-                  // var $checkboxes = $('#state-switcher input[type="checkbox"]');
-                  // var $textboxes = $('#state-switcher input[type="text"]');
-
-                  // $checkboxes.change(function () {
-                  //   var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
-                  //   var countCheckedTextboxes = $textboxes.filter(':checked').length;
-
-                  //   var totalCountWidget = parseInt(countCheckedTextboxes, 10) + parseInt(countCheckedCheckboxes, 10);
-
-                  //   if (totalCountWidget == 1) {
-                  //     $('.widget-tile').addClass('col-sm-12');
-                  //     $('.widget-tile').removeClass('col-xs-6');
-                  //     $('.widget-tile').removeClass('col-xs-4');
-                  //     $('.widget-tile').removeClass('col-xs-3');
-                  //   }
-                  //   if (totalCountWidget == 2) {
-                  //     $('.widget-tile').removeClass('col-sm-12');
-                  //     $('.widget-tile').addClass('col-xs-6');
-                  //     $('.widget-tile').removeClass('col-xs-4');
-                  //     $('.widget-tile').removeClass('col-xs-3');
-                  //   }
-                  //   if (totalCountWidget == 3) {
-                  //     $('.widget-tile').removeClass('col-sm-12');
-                  //     $('.widget-tile').removeClass('col-xs-6');
-                  //     $('.widget-tile').addClass('col-xs-4');
-                  //     $('.widget-tile').removeClass('col-xs-3');
-                  //   }
-                  //   if (totalCountWidget == 4) {
-                  //     $('.widget-tile').removeClass('col-sm-12');
-                  //     $('.widget-tile').removeClass('col-xs-6');
-                  //     $('.widget-tile').removeClass('col-xs-4');
-                  //     $('.widget-tile').addClass('col-xs-3');
-                  //   }
-                  // });
-
-              
-               
-                // function lblGreetings() {
-                //   if ($('#lblGreetings').prop("checked") == true) {
-                //     $("#lblGreetings").show("fast");
-                //   } else {
-                //     $("#lblGreetings").hide("fast");
-                //     //hide other greeting
-                //   }
-                // }
 
            });
 
