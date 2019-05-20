@@ -80,8 +80,10 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
 }
 
 if (app.settings.env === "production") {
-  liveFeatureList = liveFeatureList.production;
+  // liveFeatureList = liveFeatureList.production;
 }
+
+// liveFeatureList = liveFeatureList.production;
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
@@ -116,28 +118,28 @@ app.get('/:id0/:id1/:id2/:id3', function (request, response) {
 });
 
 app.get('/',
-  function (req, res) {
-    res.render('unauth/', {
+  function (request, response) {
+    response.render('unauth/', {
       layout: 'login',
-      user: req.user,
+      user: request.user,
       liveFeature: liveFeatureList
     });
   });
 
 app.get('/mygov-login',
-  function (req, res) {
-    res.render('auth/mygov-login', {
+  function (request, response) {
+    response.render('auth/mygov-login', {
       layout: 'login',
-      user: req.user,
+      user: request.user,
       liveFeature: liveFeatureList
     });
   });
 
 
 app.get('/logout',
-  function (req, res) {
-    req.logout();
-    res.redirect('/');
+  function (request, response) {
+    request.logout();
+    response.redirect('/');
   });
 
 app.listen(port, function () {
