@@ -29,23 +29,13 @@ The `./feature-live-list.json` contains a list of future features. Any feature a
 
 ## Visual regression testing
 
-[BackstopJS](https://garris.github.io/BackstopJS/) is avaliable in this repo. There are 2 gulp wrappers for running tests:  
+*Visual regression testing is under review.*
+~~[BackstopJS](https://garris.github.io/BackstopJS/) is avaliable in this repo. There are 2 gulp wrappers for running tests:  
 `gulp unit-test` - runs a test on **just** the styleguide  
-`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)   
+`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)~~   
   
-The first time you run a test, BackstopJS will generate reference screenshots (so it's best to do this on the master branch). Once that's done you'll need to run `gulp unit-test` again. 
+~~The first time you run a test, BackstopJS will generate reference screenshots (so it's best to do this on the master branch). Once that's done you'll need to run `gulp unit-test` again.~~
   
-**Note** BackstopJS requirers [myservice](http://localhost:5000) to be running.
+~~**Note** BackstopJS requirers [myservice](http://localhost:5000) to be running.~~
 
 
-## Backstop
-
-**To run a test:**  
-
-Windows: `backstop test`  
-Linux: `./node_modules/backstopjs/cli/index.js test` (or you can run `backstop test` if you run `npm install -g backstopjs@canary`  
-**Note:** The test will say it "failed" if there is no reference images. Refer to below to get references  
-**Also note:** The default `backstop.json` file will only test the styleguide. If you add `--config all-pages.backstop.json` to the end of the command, it will test every single page on the site.  
-  
-To get reference images replace `test` with `reference` in the above commands.  
-Please checkout `development` branch and run this test on there to get reference images.
