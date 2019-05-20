@@ -23,7 +23,7 @@
                 <h1 class="ss-align--center"> <span style="font-size: 24px;">
                     <span id="lblGreetings"></span> <span class="pt-current-user-name-full"></span></span></h1>
                 <div id="first-login-message" style="background-color: #D8D8D8; border: 1px solid #dddddd; height: 160px; margin-top: 10px;">Welcome message</div>
-                <div id="update-message" style="background-color: #D8D8D8; border: 1px solid #dddddd; height: 160px; margin-top: 10px;">Update message</div>
+                <!-- <div id="update-message" style="background-color: #D8D8D8; border: 1px solid #dddddd; height: 160px; margin-top: 10px;">Update message</div> -->
                 <!-- Claims -->
                 <% 
                   locals = {};     
@@ -37,8 +37,8 @@
                     <!-- Task -->
                     <% 
                   locals = {};
-                  locals.body_text_task = " task";
-                  locals.button_text = "View task";
+                  locals.body_text_task = " tasks";
+                  locals.button_text = "View tasks";
                   locals.link = "/auth/claim/claim1";
                 %>
                       <%- include ../../partials/widget-tile-task.ejs %>
@@ -57,10 +57,9 @@
                             <% 
                   locals = {};
 
-                  locals.body_text_payment_date = "Paid on the 24/08/2019";
-                  locals.body_text_payment_amount = "$256.76";
-                  locals.button_text = "View payments";
-                  locals.link = "/auth/claim/claim1";
+                  locals.body_text_profile = "Update your profile";
+                  locals.button_text = "View profile";
+                  locals.link = "/auth/profile";
                 %>
                               <%- include ../../partials/widget-tile-profile.ejs %>
 
@@ -203,35 +202,6 @@
               </div>
             </section>
 
-            <div class="flex-container flex-container--wrap hover-container">
-
-
-
-              <!--  <div class="flex-item flex-item--centred card card--medium hover-element">
-                <a href="/auth/needs1">
-                  <figure>
-                    <img class="card__image" src="../../../docs/images/ico-db-needs.svg" alt="">
-                  </figure>
-                  <h2 class="card__title">
-                    <span>Get treatment and&nbsp;support</span>
-                  </h2>
-                </a>
-                <p class="card__supporting-text">Has your condition changed? Tell us more about your needs at any&nbsp;time.
-                </p>
-              </div> -->
-              <!--  <div class="flex-item flex-item--centred card card--medium hover-element">
-                <a href="/auth/profile">
-                  <figure>
-                    <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
-                  </figure>
-                  <h2 class="card__title">
-                    <span>Review your profile</span>
-                  </h2>
-                </a>
-                <p class="card__supporting-text">Keep your profile up to date so we can help&nbsp;you.</p>
-              </div>
-            </div> -->
-            </div>
         </main>
         <div id="state-switcher">
           <h3>User selected properties</h3>
@@ -245,16 +215,10 @@
               <div class="ss-text">Submitted claims</div>
             </div>
             <div class="tr">
-              <div class="ss-box"><input id="text-input-task" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
+              <div class="ss-box"><input id="text-input-tasks" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
               <div class="ss-text">Tasks</div>
             </div>
             <div class="form-group">
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input" for="first-login">
-                  <input class="uikit-control-input__input" id="first-login" type="checkbox" name="numWidgets">
-                  <span class="uikit-control-input__text">First login</span>
-                </label>
-              </p>
               <p class="uiToolKitCheckBox">
                 <label class="uikit-control-input" for="payment-received">
                   <input class="uikit-control-input__input" type="checkbox" id="payment-received" name="numWidgets">
@@ -262,9 +226,16 @@
                 </label>
               </p>
               <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input" for="profile">
-                  <input class="uikit-control-input__input" type="checkbox" id="profile" name="numWidgets">
+                <label class="uikit-control-input" for="service-history">
+                  <input class="uikit-control-input__input" type="checkbox" id="service-history" name="numWidgets">
                   <span class="uikit-control-input__text">Service history provided</span>
+                </label>
+              </p>
+              <hr>
+               <p class="uiToolKitCheckBox">
+                <label class="uikit-control-input" for="first-login">
+                  <input class="uikit-control-input__input" id="first-login" type="checkbox" name="numWidgets">
+                  <span class="uikit-control-input__text">First login (override)</span>
                 </label>
               </p>
             </div>
@@ -272,205 +243,251 @@
         </div>
         <% include ../../partials/footer.ejs %>
           <script>
-            $("#widget-claim").hide();
-            $("#widget-task").hide();
-            $("#widget-payment").hide();
-            $("#widget-profile").hide();
-            $("#first-login-message").hide();
-
-            var inputBox = document.getElementById('text-input-incomplete');
-
-            inputBox.onkeyup = function () {
-              document.getElementById('text-reflect-incomplete').innerHTML = inputBox.value;
-            }
-
-            var inputBox1 = document.getElementById('text-input-submitted');
-
-            inputBox1.onkeyup = function () {
-              document.getElementById('text-reflect-submitted').innerHTML = inputBox1.value;
-            }
-
-            var inputBox2 = document.getElementById('text-input-task');
-
-            inputBox2.onkeyup = function () {
-              document.getElementById('text-reflect-task').innerHTML = inputBox2.value;
-            }
-
-            $(document).ready(function () {
-              const hoverContainer = document.getElementsByClassName('hover-container')[0]
-              const hoverElements = document.getElementsByClassName('hover-element')
-
-              Array.prototype.forEach.call(hoverElements, hoverElement => {
-                hoverElement.addEventListener('mouseover', (event) => {
-                  hoverElement.classList.add('hover-element--active')
-                })
-
-                hoverElement.addEventListener('mouseout', (event) => {
-                  hoverElement.classList.remove('hover-element--active')
-                })
-              })
-
-              hoverContainer.addEventListener('mouseover', (event) => {
-                if (event.target !== hoverContainer) {
-                  hoverContainer.classList.add('hover-container--faded')
-                }
-              })
-
-              hoverContainer.addEventListener('mouseout', (event) => {
-                hoverContainer.classList.remove('hover-container--faded')
-              })
-            });
-
-            //Basic greeting
-            var myDate = new Date();
-            var hrs = myDate.getHours();
-
-            var greet;
-
-            if (hrs < 12)
-              greet = 'Good morning';
-            else if (hrs >= 12 && hrs <= 17)
-              greet = 'Good afternoon';
-            else if (hrs >= 17 && hrs <= 24)
-              greet = 'Good evening';
-
-            document.getElementById('lblGreetings').innerHTML = greet;
-
-            /* State switcher */
-
-            $(document).keypress(function (e) {
-              switch (e.which) {
-                case 96: //tilda
-                  $('#state-switcher').toggle();
-                  break;
-                default:
-              }
-            });
-            // 
-            // function autoWith() {
 
             $(document).ready(function () {
 
-              var $checkboxes = $('#state-switcher input[type="checkbox"]');
-              var $textboxes = $('#state-switcher input[type="text"]');
+                /* --- State switcher --- */
 
-              $checkboxes.change(function () {
-                var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
-                var countCheckedTextboxes = $textboxes.filter(':checked').length;
+                /* Toggle switcher */
 
+                $(document).keypress(function (e) {
+                  switch (e.which) {
+                    case 96: //tilda
+                      $('#state-switcher').toggle();
+                      break;
+                    default:
+                  }
+                });
 
-                var totalCountWidget = parseInt(countCheckedTextboxes, 10) + parseInt(countCheckedCheckboxes, 10);
+                /* Claims widget */
 
+                var claims_incomplete = sessionStorage.getItem('claims-incomplete');
+                if ( claims_incomplete == null ) claims_incomplete = 0;
+                $("#text-input-incomplete").val(claims_incomplete);
+                $("#text-input-incomplete").keyup(function () {
+                    updateScenario();
+                    sessionStorage.setItem('claims-incomplete', $("#text-input-incomplete").val());
+                });
 
+                var claims_submitted = sessionStorage.getItem('claims-submitted');
+                if ( claims_submitted == null ) claims_submitted = 0;
+                $("#text-input-submitted").val(claims_incomplete);
+                $("#text-input-submitted").val(0);
+                $("#text-input-submitted").keyup(function () {
+                    updateScenario();
+                    sessionStorage.setItem('claims-submitted', $("#text-input-complete").val());
+                });
 
-                if (totalCountWidget == 1) {
-                  $('.widget-tile').addClass('col-sm-12');
-                  $('.widget-tile').removeClass('col-xs-6');
-                  $('.widget-tile').removeClass('col-xs-4');
-                  $('.widget-tile').removeClass('col-xs-3');
+                /* Tasks widget */
+
+                var tasks = sessionStorage.getItem('tasks');
+                if ( tasks == null ) tasks = 0;
+                $("#text-input-tasks").keyup(function () {
+                    updateScenario();
+                    sessionStorage.setItem('tasks', $("#text-input-tasks").val());
+                });
+
+                /* Payments widget */
+
+                var payments_received = sessionStorage.getItem('payments_received');
+                if ( payments_received == null ) payments_received = false;
+                $('#payment-received').prop("checked",payments_received);
+                $("#payment-received").click(function (e) {
+                    updateScenario();
+                    sessionStorage.setItem('payments_received', payments_received);
+                });
+
+                /* Profile widget */
+
+                var service_history = sessionStorage.getItem('service_history');
+                if ( service_history == null ) service_history = false;
+                $('#service_history').prop("checked",service_history);
+                $("#service-history").click(function (e) {
+                    updateScenario();
+                    sessionStorage.setItem('payments_received', service_history);
+                });
+
+                 /* First login */
+
+                $("#first-login").click(function (e) {
+                  updateScenario();
+                });
+
+                /* --- End State switcher --- */
+
+                /* --- Start widgets --- */
+
+                /* Greeting */
+
+                function updateGreeting(){
+                  var myDate = new Date();
+                  var hrs = myDate.getHours();
+                  var greet;
+                  if (hrs < 12)
+                    greet = 'Good morning';
+                  else if (hrs >= 12 && hrs <= 17)
+                    greet = 'Good afternoon';
+                  else if (hrs >= 17 && hrs <= 24)
+                    greet = 'Good evening';
+                  document.getElementById('lblGreetings').innerHTML = greet;
                 }
-                if (totalCountWidget == 2) {
-                  $('.widget-tile').removeClass('col-sm-12');
-                  $('.widget-tile').addClass('col-xs-6');
-                  $('.widget-tile').removeClass('col-xs-4');
-                  $('.widget-tile').removeClass('col-xs-3');
+
+                /* Claims */
+
+                function updateClaimsWidget() {
+                  var incomplete = $("#text-input-incomplete").val();
+                  $("#text-reflect-incomplete").html(incomplete);
+                  var submitted = $("#text-input-submitted").val();
+                  $("#text-reflect-submitted").html(submitted);
+                  if (incomplete > 0 ){
+                    $("#claims-incomplete").show();
+                  } else {
+                    $("#claims-incomplete").hide();
+                  }
+                  if (submitted > 0 ){
+                    $("#claims-submitted").show();
+                  } else {
+                    $("#claims-submitted").hide();
+                  }
+                  if (incomplete > 0 || submitted > 0) {
+                     $("#widget-claims").show("fast");
+                     totalWidgets++;
+                    } else {
+                      $("#widget-claims").hide("fast");
+                  }
+                  if (incomplete == 0 && submitted == 0) {
+                     $("#claims").hide();
+                  } else {
+                    $("#claims").show();
+                  }
                 }
-                if (totalCountWidget == 3) {
-                  $('.widget-tile').removeClass('col-sm-12');
-                  $('.widget-tile').removeClass('col-xs-6');
-                  $('.widget-tile').addClass('col-xs-4');
-                  $('.widget-tile').removeClass('col-xs-3');
+
+                /* Tasks */
+
+                $("#text-input-tasks").val(0);
+                function updateTasksWidget() {
+                  var tasks = $("#text-input-tasks").val();
+                  $("#text-reflect-tasks").html(tasks);
+                  if (tasks > 0) {
+                     $("#widget-tasks").show("fast");
+                     ("#tasks").show();
+                     totalWidgets++;
+                    } else {
+                      $("#widget-tasks").hide("fast");
+                      $("#tasks").hide();
+                  }
                 }
-                if (totalCountWidget == 4) {
-                  $('.widget-tile').removeClass('col-sm-12');
-                  $('.widget-tile').removeClass('col-xs-6');
-                  $('.widget-tile').removeClass('col-xs-4');
-                  $('.widget-tile').addClass('col-xs-3');
+
+                /* Payments */
+
+                function updatePaymentsWidget() {
+                  if ($('#payment-received').prop("checked") == true) {
+                    $("#widget-payment").show("fast");
+                    $("#payments").show();
+                    totalWidgets++;
+                  } else {
+                    $("#widget-payment").hide("fast");
+                    $("#payments").hide();
+                  }
                 }
-              });
 
-            });
+                /* Profile */
 
-            $(document).ready(function () {
-              $("#text-input-task").keyup(function () {
-                if ($(this).val()) {
-                  $("#widget-task").show("fast");
-                } else {
-                  $("#widget-task").hide("fast");
+                function updateProfileWidget() {
+                    if ( $("#service-history").prop("checked") == true ) {
+                        $("#widget-profile .widget-content").html("generic profile message");
+                    } else {
+                        $("#widget-profile .widget-content").html("service history message");
+                    }
                 }
-              });
-            });
 
-            $(document).ready(function () {
-              $("#text-input-submitted").keyup(function () {
-                if ($(this).val()) {
-                  $("#widget-claim").show("fast");
-                } else {
-                  $("#widget-task").hide("fast");
-                  $("#widget-claim").hide("fast");
+                /* --- End widgets --- */
+
+                /* Update everything */
+
+                var totalWidgets;
+                function updateScenario(){
+                    hideAll();
+                    totalWidgets = 0;
+                    updateGreeting();
+                    updateTasksWidget();
+                    updateClaimsWidget();
+                    updatePaymentsWidget();
+                    updateProfileWidget();
+                    /* add backup widget */
+                    if ( totalWidgets <= 1 ) {
+                       $("#widget-profile").show("fast");
+                    }
+                    /* Over ride for first login */
+                    if ($('#first-login').prop("checked") == true) {
+                      hideAll();
+                      $("#first-login-message").show("fast");
+                    }
                 }
-              });
-            });
 
-            $(document).ready(function () {
-              $("#text-input-incomplete").keyup(function () {
-                if ($(this).val()) {
-                  $("#widget-claim").show("fast");
-                } else {
-                  $("#widget-task").hide("fast");
-                  $("#widget-claim").hide("fast");
+                /* Init */
+
+                updateScenario();
+                function hideAll() {
+                  $("#widget-claims").hide();
+                  $("#widget-tasks").hide();
+                  $("#widget-payment").hide();
+                  $("#widget-profile").hide();
+                  $("#first-login-message").hide();
+                  $("#update-message").hide();
                 }
-              });
-            });
 
+                /* Layout */
+                
+                // function autoWith() {
 
-            $("#first-login").click(function (e) {
-              first_login()
-            });
+                  // var $checkboxes = $('#state-switcher input[type="checkbox"]');
+                  // var $textboxes = $('#state-switcher input[type="text"]');
 
-            $("#payment-received").click(function (e) {
-              payment_received()
-            });
+                  // $checkboxes.change(function () {
+                  //   var countCheckedCheckboxes = $checkboxes.filter(':checked').length;
+                  //   var countCheckedTextboxes = $textboxes.filter(':checked').length;
 
-            $("#profile").click(function (e) {
-              profile()
-            });
+                  //   var totalCountWidget = parseInt(countCheckedTextboxes, 10) + parseInt(countCheckedCheckboxes, 10);
 
-            function first_login() {
-              if ($('#first-login').prop("checked") == true) {
-                $("#first-login-message").show("fast");
-                $("#update-message").hide("fast");
-              } else {
-                $("#first-login-message").hide("fast");
-                $("#update-message").show("fast");
+                  //   if (totalCountWidget == 1) {
+                  //     $('.widget-tile').addClass('col-sm-12');
+                  //     $('.widget-tile').removeClass('col-xs-6');
+                  //     $('.widget-tile').removeClass('col-xs-4');
+                  //     $('.widget-tile').removeClass('col-xs-3');
+                  //   }
+                  //   if (totalCountWidget == 2) {
+                  //     $('.widget-tile').removeClass('col-sm-12');
+                  //     $('.widget-tile').addClass('col-xs-6');
+                  //     $('.widget-tile').removeClass('col-xs-4');
+                  //     $('.widget-tile').removeClass('col-xs-3');
+                  //   }
+                  //   if (totalCountWidget == 3) {
+                  //     $('.widget-tile').removeClass('col-sm-12');
+                  //     $('.widget-tile').removeClass('col-xs-6');
+                  //     $('.widget-tile').addClass('col-xs-4');
+                  //     $('.widget-tile').removeClass('col-xs-3');
+                  //   }
+                  //   if (totalCountWidget == 4) {
+                  //     $('.widget-tile').removeClass('col-sm-12');
+                  //     $('.widget-tile').removeClass('col-xs-6');
+                  //     $('.widget-tile').removeClass('col-xs-4');
+                  //     $('.widget-tile').addClass('col-xs-3');
+                  //   }
+                  // });
 
-              }
-            }
+              
+               
+                // function lblGreetings() {
+                //   if ($('#lblGreetings').prop("checked") == true) {
+                //     $("#lblGreetings").show("fast");
+                //   } else {
+                //     $("#lblGreetings").hide("fast");
+                //     //hide other greeting
+                //   }
+                // }
 
-            function lblGreetings() {
-              if ($('#lblGreetings').prop("checked") == true) {
-                $("#lblGreetings").show("fast");
-              } else {
-                $("#lblGreetings").hide("fast");
-                //hide other greeting
-              }
-            }
-
-            function payment_received() {
-              if ($('#payment-received').prop("checked") == true) {
-                $("#widget-payment").show("fast");
-              } else {
-                $("#widget-payment").hide("fast");
-              }
-            }
-
-            function profile() {
-              if ($('#profile').prop("checked") == true) {
-                $("#widget-profile").show("fast");
-              } else {
-                $("#widget-profile").hide("fast");
-              }
-            }
+           });
 
           </script>
 </body>
