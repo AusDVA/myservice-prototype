@@ -328,8 +328,11 @@
 
                  /* First login */
 
+                var first_login = sessionStorage.getItem('first_login');
+                if ( first_login == null ) first_login = false;
+                $('#first_login').prop("checked",first_login);
                 $("#first-login").click(function (e) {
-                  updateScenario();
+                    updateScenario();
                 });
 
                 /* Scenarios */
@@ -338,6 +341,7 @@
 
                 $("#user-scenario-list").change(function () {
                   var mySelection = $(this).val();
+                  console.log( mySelection );
                   switch (mySelection) {
                     case "First time user":
                         $("#text-input-tasks").val(0);
@@ -501,6 +505,19 @@
                     }
                 }
 
+                /* First login */
+
+                function updateFirstLogin() {
+                  if ( $("#first-login").prop("checked") == true ) {
+                      hideAll();
+                      $("#first-login-message").show("fast");
+                      sessionStorage.setItem('first_login', true);
+                    } else {
+                       $("#first-login-message").hide("fast");
+                       sessionStorage.setItem('first_login', false);
+                    }
+                }
+
                 /* --- End widgets --- */
 
                 /* Update everything */
@@ -517,12 +534,11 @@
                     /* add backup widget */
                     if ( totalWidgets <= 1 ) {
                        $("#widget-profile").show("fast");
+                       totalWidgets++;
                     }
                     /* Over ride for first login */
-                    if ($('#first-login').prop("checked") == true) {
-                      hideAll();
-                      $("#first-login-message").show("fast");
-                    }
+                    updateFirstLogin();
+                    updateLayout();
                 }
 
                 /* Init */
@@ -555,7 +571,67 @@
                 }
 
                 /* Layout */
-                
+
+                $(window).resize(function(){
+                  updateLayout();
+                });
+
+                function updateLayout(){
+
+                 if (totalWidgets == 1) {
+                   $('.widget-tile').addClass('col-sm-12');
+                   $('.widget-tile').removeClass('col-xs-6');
+                   $('.widget-tile').removeClass('col-xs-4');
+                   $('.widget-tile').removeClass('col-xs-3');
+                   $('.widget-tile').removeClass('col-sm-3');
+                 }
+                 if (totalWidgets == 2) {
+                   $('.widget-tile').addClass('col-xs-6').removeClass('col-xs-12').css({ clear: "none" });;
+                   $('.widget-tile').removeClass('col-sm-12')
+                   $('.widget-tile').removeClass('col-xs-4');
+                   $('.widget-tile').removeClass('col-xs-3');
+                   $('.widget-tile').removeClass('col-sm-3');
+                 }
+                 if (totalWidgets == 3) {
+                   $('.widget-tile').addClass('col-xs-4').removeClass('col-xs-6');
+                   //$('.widget-tile').addClass('col-xs-6');
+                   $('.widget-tile').removeClass('col-sm-12');
+                   $('.widget-tile').removeClass('col-xs-3');
+                   $('.widget-tile').removeClass('col-sm-3');
+
+                   if ($(window).width() < 800) {
+                     if ($("#payment-received").prop('checked') == true) {
+                       $('.widget-tile-claim').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
+                       $('.widget-tile-task').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
+                       $('.widget-tile-payment').addClass('col-sm-12 widget-tile').removeClass('col-xs-4').css({ clear: "both" });
+                     } else {
+                       $('.widget-tile-task').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
+                     }
+
+
+                     if ($("#profile").prop('checked') == true) {
+                       $('.widget-tile-claim').addClass('col-xs-6 widget-tile');
+                       $('.widget-tile-payment').addClass('col-xs-6 widget-tile').removeClass('col-sm-12').css({ clear: "none" });
+                       $('.widget-tile-profile').addClass('col-xs-12 widget-tile');
+                     }
+                     if ($("#task").prop('checked') == false) {
+                       $('.widget-tile-claim').addClass('col-xs-6 widget-tile');
+                       $('.widget-tile-profile').addClass('col-xs-6 widget-tile');
+                       $('.widget-tile-payment').addClass('col-xs-6 widget-tile').removeClass('col-sm-12').css({ clear: "none" });
+                     }
+                   }
+                 }
+                 if (totalWidgets == 4) {
+                   $('.widget-tile').removeClass('col-sm-12');
+                   $('.widget-tile').removeClass('col-xs-6');
+                   $('.widget-tile').removeClass('col-sm-4');
+                   $('.widget-tile').removeClass('col-xs-4');
+                   $('.widget-tile').addClass('col-xs-3').removeClass('col-xs-12').css({ clear: "none" });
+                   if ($(window).width() < 800) {
+                     $('.widget-tile').addClass('col-xs-6').removeClass('col-xs-3').css({ clear: "none" });
+                   }
+                 }
+                 }            
 
            });
 
