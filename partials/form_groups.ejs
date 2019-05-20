@@ -5,7 +5,7 @@
 	<div class="form-group">
 		<label 	class="uikit-text-input__label" 
 				for="<%- elem.fields && elem.fields.title && elem.fields.title.id ? elem.fields.title.id : "title"; %>">
-			<%- elem.fields && elem.fields.title && elem.fields.title.label ? elem.fields.title.label : "title"; %>
+			<%- elem.fields && elem.fields.title && elem.fields.title.label ? elem.fields.title.label : "Title"; %>
 		</label>
 		<select class="uikit-text-input input-half" 
 				name="<%- elem.fields && elem.fields.title && elem.fields.title.id ? elem.fields.title.id : "title"; %>" 
@@ -14,7 +14,9 @@
 			
 			<% if (elem.fields && elem.fields.title && elem.fields.title.options.length > 0 && typeof elem.fields.title.options[0] == "string") { /* BEGIN OPTIONS FOREACH */ 
 				elem.fields.title.options.forEach(function(option, o_index) { %>
-				<option <%- o_index == 0 ? " selected='' " : ""; %>value="<%- (option.toLowerCase()).replace(/ /g, "_"); %>"><%= option %></option>
+				<option <%- o_index == 0 ? " selected='' " : ""; %>
+						value="<%- (option.toLowerCase()).replace(/ /g, "_"); %>">
+					<%= option %></option>
 				<% }); %>
 			<% /* END OPTIONS BASIC FOREACH */ } else if (elem.fields && elem.fields.title && elem.fields.title.options.length > 0 && typeof elem.fields.title.options[0] == "object") { /* BEGIN OPTIONS ADVANCED FOREACH */
 
@@ -26,9 +28,7 @@
 						selected++;
 					}
 					if (option.toggle != undefined && option.toggle != "") {
- 						else {
-							toggle.append({"toggle-elem": option.toggle, "source-elem": option.value != undefined && option.value != "" ? (option.text.toLowerCase()).replace(/ /g, "_") : option.value});
-						}
+						toggle.append({"toggle-elem": option.toggle, "source-elem": option.value != undefined && option.value != "" ? (option.text.toLowerCase()).replace(/ /g, "_") : option.value});
 					}
 				});
 
@@ -51,14 +51,10 @@
 				<% }); 
 
 				if(toggle.length > 0) { %> 
-					<script>
-					<% toggle.foreach(function() { %>
-					$("#<%- elem.fields && elem.fields.title && elem.fields.title.id && elem.fields.title.id != undefined && elem.fields.title.id != "" ? elem.fields.title.id : "title" %>").on("change", "option", function() {
+					<script type="text/javascript">
 						
-					})
-					<% }); %>
 					</script>
-				} %>
+				<% } %>
 
 			 <% } else { /* BEGIN OPTIONS ELSE */ %>
 					  <option value="--_select_title_--" selected>-- Select title --</option>

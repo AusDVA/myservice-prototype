@@ -1,0 +1,62 @@
+<% console.log(forms);
+forms.forEach(function(elem, index) { /*
+  if(elem.type == "select") { %>
+
+    <div class="form-group">
+      <label 
+        for="<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "select" %>"
+        class="uikit-text-input__label">
+        <%- elem.options && elem.options.select && elem.options.select.label ? elem.options.select.label : "Select" %>
+      </label>
+      <select 
+        name="<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "select" %>" 
+        id="<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "select" %>"
+        class="uikit-text-input input-half">
+
+      <% if(elem.options && elem.options.select && elem.options.select.options.length > 0 && typeof elem.options.select.options[0] == "string") { 
+          elem.options.select.options.forEach(function(option, o_index) { %>
+          <option
+            <%- o_index == 0 ? " selected='' " : "" %>
+            value="<%- (option.toLowerCase()).replace(/ /g, "_") %>">
+            <%- option %>
+          </option>
+        <% }); 
+
+      } else if (elem.options && elem.options.select && elem.options.select.options.length > 0 && typeof elem.options.select.options[0] == "object") {
+          var selected = 0;
+          var toggle = []; 
+          elem.options.options.forEach(function(option, o_index) {
+            if(option.selected != undefined && option.selected == true) {
+              selected++;
+            }
+            if (option.toggle != undefined && option.toggle != "") {
+              toggle.append({"toggle-elem": option.toggle, "source-elem": option.value != undefined && option.value != "" ? (option.text.toLowerCase()).replace(/ /g, "_") : option.value});
+            }
+          });
+          elem.options.select.options.forEach(function(option, o_index) { %>
+            <option
+              <%- option.hidden != undefined && option.hidden ? "hidden " : "" %>
+              <%- option.disabled != undefined && option.disabled ? "disabled " : "" %>
+              <%- option.selected != undefined && option.selected ? "selected " : "" %>
+              <%- option.id != undefined && option.id != "" ? "id='"+option.id+"'" : "" %>
+              <%- option.toggle != undefined && option.toggle != "" ? "data-toggle='"+option.toggle+"'" : "" %>
+              <%- option.value != undefined && option.value != "" ? "value='"+option.value+"'" : "value='"+(option.text.toLowerCase()).replace(/ /g, "_")+"'" %>
+              ><%- option.text %></option>
+        </select>
+    </div>
+          <% });
+
+          if(toggle.length > 0) { %>
+            <script>
+            <% toggle.forEach(function(toggle, t_index) { %>
+              $("<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "#select" %>").on("change", function() {
+                ($("<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "#select" %> :selected").data("toggle")).show();
+                ($("<%- elem.options && elem.options.select && elem.options.select.id ? elem.options.select.id : "#select" %> :not(:selected)").data("toggle")).hide(); 
+              });
+            <% }); %>
+            </script>
+          <% } %>
+  <% }
+  /*}
+*/});
+%>
