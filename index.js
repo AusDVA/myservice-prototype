@@ -79,6 +79,10 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
   liveFeatureList = liveFeatureList.development;
 }
 
+if (app.settings.env === "production") {
+  liveFeatureList = liveFeatureList.production;
+}
+
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
