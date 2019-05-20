@@ -115,7 +115,8 @@ app.get('/',
   function (req, res) {
     res.render('unauth/', {
       layout: 'login',
-      user: req.user
+      user: req.user,
+      liveFeature: liveFeatureList
     });
   });
 
@@ -123,7 +124,8 @@ app.get('/mygov-login',
   function (req, res) {
     res.render('auth/mygov-login', {
       layout: 'login',
-      user: req.user
+      user: req.user,
+      liveFeature: liveFeatureList
     });
   });
 
