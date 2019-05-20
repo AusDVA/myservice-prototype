@@ -2,11 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width" name="viewport">
   <title>My profile | MyService</title>
-  <link href="/docs/css/main.css" rel="stylesheet">
-  <link href="/docs/css/fontawesome/css/all.css" rel="stylesheet">
+  <% include ../../../partials/head.ejs %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -24,74 +21,25 @@
       <div class="container" id="main-content">
         <div class="row margin-above">
           <div class="col-sm-3">
-
-
             <% include ../../../partials/profile-side-nav.ejs %>
           </div>
-          <div class="col-sm-9 margin-below--extra">
+          <div id="relationships" class="col-sm-9 margin-below--extra">
             <h1 class="margin-above--none margin-below--none">Relationships</h1>
             <div class="margin-above margin-below">
               <p>When you or someone you know submits a claim that includes relevant relationship details,
                 this information will be listed here automatically. To update this
                 information email <a href="mailto:generalenquiries@dva.gov.au">generalenquiries@dva.gov.au</a>.</p>
-            </div>
-            <div class="boxed row margin-above" style="padding:1em;">
-              <div class="review__content--label col-sm-10">
-                <h3 class="margin-above--none margin-below--mid">
-                  <!-- <icon class="fal fa-user" style="font-size: 1.3em; vertical-align: -15%;"></icon>
-                      &nbsp;&nbsp;-->Joe Smith
-                </h3>
-                <div class="key-value">
-                  <div class="key">Relationship:</div>
-                  <div class="value">Spouse</div>
-                </div>
-                <div class="key-value margin-above">
-                  <div class="key">Date of birth:</div>
-                  <div class="value">15/02/1986</div>
-                </div>
-              </div>
-            </div>
-            <div class="boxed row margin-above" style="padding:1em;">
-              <div class="review__content--label col-sm-10">
-                <h3 class="margin-above--none margin-below--mid">
-                  Anna Smith
-                </h3>
-                <div class="key-value">
-                  <div class="key">Relationship:</div>
-                  <div class="value">Child</div>
-                </div>
-                <div class="key-value margin-above">
-                  <div class="key">Date of birth:</div>
-                  <div class="value">21/04/2013</div>
-                </div>
-              </div>
-            </div>
-            <div class="boxed row margin-above" style="padding:1em;">
-              <div class="review__content--label col-sm-10">
-                <h3 class="margin-above--none margin-below--mid">
-                  <!-- <icon class="fal fa-user" style="font-size: 1.3em; vertical-align: -15%;"></icon>
-                      &nbsp;&nbsp;-->Cypress Smith
-                </h3>
-                <div class="key-value">
-                  <div class="key">Relationship:</div>
-                  <div class="value">Child</div>
-                </div>
-                <div class="key-value margin-above">
-                  <div class="key">Date of birth:</div>
-                  <div class="value">5/10/2016</div>
-                </div>
               </div>
             </div>
           </div>
-        </div>
-    </section>
-  </main>
-  <% include ../../../partials/footer.ejs %>
-  <script>
-    $('.call-toast').click(function () {
-      $('body,html').animate({
-        scrollTop: 0
-      }, 100);
+        </section>
+      </main>
+      <% include ../../../partials/footer.ejs %>
+      <script>
+        $('.call-toast').click(function () {
+          $('body,html').animate({
+            scrollTop: 0
+          }, 100);
       // hack to reset focus to top of page
       document.body.setAttribute('tabindex', '0');
       document.body.focus();
@@ -99,38 +47,38 @@
       $("#toast__message").show("slow");
     });
 
-    $("#toast__message").click(function () {
-      $("#toast__message").hide("slow");
-    });
-  </script>
-  <script>
-    $(".countryPostal").change(function () {
-      if ($('.countryPostal :selected').val() == "Australia") {
-        $(".addressInAusPostal").show();
-      } else {
-        $(".addressInAusPostal").hide();
+        $("#toast__message").click(function () {
+          $("#toast__message").hide("slow");
+        });
+      </script>
+      <script>
+        $(".countryPostal").change(function () {
+          if ($('.countryPostal :selected').val() == "Australia") {
+            $(".addressInAusPostal").show();
+          } else {
+            $(".addressInAusPostal").hide();
 
-      }
-    });
+          }
+        });
 
-    $(".countryResidential").change(function () {
-      if ($('.countryResidential :selected').val() == "Australia") {
-        $(".addressInAusRes").show();
-      } else {
-        $(".addressInAusRes").hide();
+        $(".countryResidential").change(function () {
+          if ($('.countryResidential :selected').val() == "Australia") {
+            $(".addressInAusRes").show();
+          } else {
+            $(".addressInAusRes").hide();
 
-      }
-    });
+          }
+        });
 
-    $(".pt-showIfAdditionalAddress").hide();
-
-    $('input[name=sameAsPostal]').change(function () {
-      if ($(this).is(':checked')) {
         $(".pt-showIfAdditionalAddress").hide();
-      } else {
-        $(".pt-showIfAdditionalAddress").show();
-      }
-    });
+
+        $('input[name=sameAsPostal]').change(function () {
+          if ($(this).is(':checked')) {
+            $(".pt-showIfAdditionalAddress").hide();
+          } else {
+            $(".pt-showIfAdditionalAddress").show();
+          }
+        });
 
     // mimic functionality need after a save button is pressed
     // to disable all edit buttons to allow for saving time
@@ -334,6 +282,43 @@
       // re-enable other edit fields
       $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
     });
+
+    $(document).ready(function() {
+      $.ajax({
+        url: '/docs/data/user.json',
+        async: false,
+        dataType: 'json'
+      }).done(function(data) {
+        let person = JSON.parse(localStorage.person)._id;
+        $.each(data["person"], function(a, b) {
+          if(data["person"][a]["_id"] == person) {
+            $.each(data["person"][a]["relationships"], function(i, q) {
+              $("#relationships").append(`
+                <div class="boxed row margin-above" style="padding:1em;">
+                <div class="review__content--label col-sm-10">
+                <h3 class="margin-above--none margin-below--mid">
+                <icon class="fal fa-user" style="font-size: 1.3em; vertical-align: -15%;"></icon>
+                &nbsp;&nbsp;${q.name}
+                </h3>
+                <div class="key-value">
+                <div class="key">Relationship:</div>
+                <div class="value">${q.type}</div>
+                </div>
+                <div class="key-value margin-above">
+                <div class="key">Date of birth:</div>
+                <div class="value">${q.dob}</div>
+                </div>
+                </div>
+                </div>`);
+            });
+          }
+        })
+      });
+
+
+
+    });
+
   </script>
 </body>
 

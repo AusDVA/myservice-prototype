@@ -299,12 +299,17 @@
 // Gap between each label and input pair
 .form-group {
   clear: both;
-  margin: 0.5em 0 1em;
+  margin: $form-margin;
   position: relative;
+  ;
 }
 
 .form-group--secondary {
   margin-left: 2.5em;
+}
+
+.form-group--right-aligned {
+  text-align: right;
 }
 
 // Input styling
@@ -322,6 +327,13 @@ textarea {
   }
 }
 
+// conforming button styles
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  line-height: initial;
+}
+
 input[type="text"],
 input[type="name"],
 input[type="date"],
@@ -337,11 +349,14 @@ select,
 .typeahead {
   border: 1px solid $gray-mild !important; // codesmell; why is this important?
   border-radius: $uikit-border-radius;
+  box-sizing: border-box;
   color: $gray;
   margin: 0 1em 0.4em 0; // now zero top margin to come in line with DTA
   max-width: 42em;
   padding: 0.6em 0.4em;
-  width: 90%;
+  // width: 90%;
+  width: 100%;
+
 
   &:focus,
   &:hover {
@@ -378,6 +393,12 @@ select,
 
 .input-support-text--after {
   margin-left: -0.6em;
+}
+
+select {
+  &.uikit-text-input {
+    height: 45px;
+  }
 }
 
 // start jQuery override
@@ -431,6 +452,8 @@ select,
       width: auto;
     }
   }
+
+
 
   input {
     &.input-small {
@@ -540,7 +563,7 @@ label {
 
   &::after {
     clear: both;
-    content: '';
+    content: $content-blank;
     display: block;
     height: 0;
     visibility: hidden;
@@ -758,21 +781,22 @@ label {
 
 
 
-.radio-tile-group--four {
+.radio-tile-group--four,
+.radio-tile-group--three {
   &.radio-tile--group {
     display: block;
-    //margin: 0 0 1em 0;
   }
 }
 
 @include uikit-media(md) {
-  .radio-tile-group--four {
+
+  .radio-tile-group--four,
+  .radio-tile-group--three {
     &.radio-tile--group {
       display: flex;
 
       label {
         flex: 1;
-        //margin: 0 1em 1em 0;
 
         &:last-child {
           margin-right: 0;
@@ -793,7 +817,6 @@ label {
 
     span {
       min-width: 220px;
-      // max-width: 320px;
     }
 
     p {
@@ -810,22 +833,22 @@ label {
 }
 
 
-.file-upload__input {
+.file-upload__input,
+.file-upload-default__input {
   display: none;
   height: 0.1px;
   overflow: hidden;
   position: absolute;
   width: 0.1px;
   z-index: -1;
-}
 
-.file-upload__input+label {
-  cursor: pointer;
-  font-weight: normal;
-  line-height: normal;
-  white-space: nowrap;
+  &+label {
+    cursor: pointer;
+    font-weight: normal;
+    line-height: normal;
+    white-space: nowrap;
+  }
 
-  // overflow: hidden;
 }
 
 .file-upload__label {
@@ -869,7 +892,7 @@ label {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 8px solid $black;
-    content: ' ';
+    content: $content-blank;
     height: 0;
     opacity: 0.5;
     pointer-events: none;
@@ -888,7 +911,7 @@ label {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 8px solid $black;
-    content: ' ';
+    content: $content-blank;
     height: 0;
     opacity: 0.5;
     pointer-events: none;

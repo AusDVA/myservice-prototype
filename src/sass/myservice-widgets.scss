@@ -207,7 +207,7 @@
 
   &::before {
     border-left: 7px solid $orange;
-    content: '';
+    content: $content-blank;
     height: 100%;
     left: 7px;
     margin-left: -7px;
@@ -294,6 +294,7 @@
   .card__title {
     margin-top: 0;
   }
+
 }
 
 @media only screen and (min-width: $AU-media-md) {
@@ -377,7 +378,7 @@
   border-left: 1px solid $gray-mild;
   border-right: 1px solid $gray-mild;
   border-top: 3px solid $gray-mid;
-  padding: 1.3em 2em 0 2em;
+  padding: 1.3em 2em 0;
 }
 
 .widget {
@@ -416,13 +417,13 @@
     margin-bottom: -2em;
     padding: 0;
 
-    table.table-claims {
+    .table-claims {
       border-left: 0 solid $gray-mild;
       border-right: 0 solid $gray-mild;
 
       td,
       th {
-        padding: 0.75em 2em 0.75em 2em;
+        padding: 0.75em 2em;
         vertical-align: middle; // border-bottom: 1px solid $gray-mild;
       }
 
@@ -523,6 +524,39 @@
       }
     }
   }
+
+  /* needs to be improved .. designing a mobile view for claims tiles */
+  .uikit-body {
+    .card--claims {
+      text-align: left;
+
+      .card__supporting-text {
+        padding-left: 1em !important;
+        margin-bottom: 1em;
+      }
+
+      &.card--claims-col-3 {
+        max-width: none !important;
+        background-color: #fff;
+      }
+
+      .card__button {
+        margin-bottom: 0 !important;
+        display: none;
+      }
+
+      .card__title {
+        margin-top: .75em !important;
+      }
+    }
+  }
+
+  .flex-item {
+    margin: 0 0 1em 0 !important;
+  }
+
+  /* end design of mobile view for claims tiles */
+
 }
 
 // @media only screen and (min-width: $medium-tablet) {
@@ -768,7 +802,7 @@
   }
 }
 
-/* Tooltip */
+// Tooltip
 
 .tooltip {
   display: inline-block;
@@ -804,47 +838,54 @@
   position: absolute;
   top: -13px;
   width: 100%;
+}
 
-  &--active::before {
-    content: '';
+.tooltip__tab--active {
+  &::before {
+    content: $content-blank;
     left: 50%;
     margin-left: -12px;
     position: absolute;
     z-index: 1;
   }
 
-  &--top::before {
-    border: 12px solid;
-    border-color: $blue-60 transparent transparent;
-    top: -1px;
-  }
-
-  &--bottom::before {
-    border: 12px solid;
-    border-color: transparent transparent $blue-60;
-    bottom: -1px;
-  }
-
-  &--active::after {
-    content: '';
+  &::after {
+    content: $content-blank;
     left: 50%;
     margin-left: -11px;
     position: absolute;
     z-index: 2;
   }
+}
 
-  &--top::after {
+.tooltip__tab--top {
+  &::before {
+    border: 12px solid;
+    border-color: $blue-60 transparent transparent;
+    top: -1px;
+  }
+
+  &::after {
     border: 11px solid;
     border-color: $blue-10 transparent transparent;
     top: -1px;
   }
+}
 
-  &--bottom::after {
+.tooltip__tab--bottom {
+  &::before {
+    border: 12px solid;
+    border-color: transparent transparent $blue-60;
+    bottom: -27px;
+  }
+
+  &::after {
     border: 11px solid;
     border-color: transparent transparent $blue-10;
-    bottom: -1px;
+    bottom: -27px;
   }
 }
+
 
 .tooltip__content {
   font-weight: normal;
@@ -873,6 +914,10 @@
 
   @media only screen and (max-width: $medium-handheld) {
     width: 100%;
+  }
+
+  p {
+    margin-right: 6em;
   }
 }
 

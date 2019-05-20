@@ -1,0 +1,34 @@
+<% if (locals.optionalID) { 
+  var id = locals.optionalID;
+} else {
+  var id = locals.message.replace(/ +/g, '_').replace(/\?/g, "").toLowerCase(); 
+}
+%>
+
+<% if (locals.optionalHide === true) { %>
+<style>
+  #<%=id %> {
+    display: none;
+  }
+</style>
+<% } %>
+
+<% if (locals.optionalType) { 
+  var myType = "uikit-page-alerts uikit-page-alerts--" + locals.optionalType;%>
+  <div class="<%=myType%>" role="alert" id="<%=id%>">
+<% } else { %>
+  <div class="uikit-page-alerts uikit-page-alerts--info" role="alert" id="<%=id%>">
+<%}%>
+<%-locals.message%>
+</div>
+
+<!-- variants are
+	optionalType = info (blue - default)
+	optionalType = warning (orange)
+	optionalType = error (red)
+	optionalType = success (green)
+
+	may need to put p tags around locals.message when not html
+-->
+
+

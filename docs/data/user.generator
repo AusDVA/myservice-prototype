@@ -1,0 +1,85 @@
+{ "person":
+  [
+  {
+    'repeat(4)': { 
+      _id: '{{objectId()}}', 
+      index: '{{index()}}',
+      authed: '{{bool()}}',
+      guid: '{{guid()}}',
+      lastPayment: '{{floating(100, 3000, 2, "$0,0.00")}}',
+      picture (tags) {
+        return `http://i.pravatar.cc/150?u=${this.guid}`;
+      },
+      dob: '{{date(new Date(1930, 0, 1), new Date(2002, 0, 1),"YYYY-MM-dd")}}',
+      name: {
+        first: '{{firstName()}}',
+        last: '{{surname()}}'
+      },
+      nameFull(tags) {
+        return `${this.name.first} ${this.name.last}`;
+      },
+      gender(tags) {
+        const genders = ['Male', 'Female'];
+     	return genders[tags.integer(0, genders.length - 1)];
+      },
+      title(tags) {
+      	const titles = ['Commissioner','Dame','Emeritus Professor','Honourable Mr Justice','Matron','Miss','Monsignor','Mr','Mr Justice','Mrs','Ms','Reverend Mr','Right Reverend Monsignor'];
+      	return titles[tags.integer(0, titles.length - 1)];
+      },
+      highestRank(tags) {
+        const ranks = ['Captain', 'Gunner', 'Warrant Officer of the Navy', 'Sergeant', 'Warrant Officer'];
+     	return ranks[tags.integer(0, ranks.length - 1)];
+      },
+      pMKeyS: '{{floating(10000000, 90000000, 2, "0000")}}',
+      dVAClientNumber: '{{floating(10000000, 90000000, 2, "0000")}}',
+      email(tags) {
+        return `${this.name.first}.${this.name.last}@somedomain${tags.domainZone()}`.toLowerCase();
+      },
+      phone: '+61 {{phone()}}',
+      veteran: '{{bool()}}',
+      partner: { 
+          id: '{{index()}}',
+          nameFirst: '{{firstName()}}',
+          nameLast: '{{surname()}}',
+          type(tags) {
+            const types = ['Married', 'De facto', 'Widowed', 'Separated', 'Divorced'];
+            return types[tags.integer(0, types.length - 1)];
+          }
+      },
+      reps: [
+        {
+          'repeat(0, 1)': {
+          	id: '{{index()}}',
+        	nameFirst: '{{firstName()}}',
+            nameLast: '{{surname()}}',
+            role(tags) {
+              const roles = ['enquiring', 'acting', 'receiving payments'];
+              return roles[tags.integer(0, roles.length - 1)];
+            }
+          }
+        }
+      ],
+      clients: [
+        {
+          'repeat(0, 3)': {
+          	id: '{{index()}}',
+        	nameFirst: '{{firstName()}}',
+            nameLast: '{{surname()}}',
+            role(tags) {
+              const roles = ['enquiring on behalf', 'acting on behalf', 'receiving payments on behalf'];
+              return roles[tags.integer(0, roles.length - 1)];
+            }
+          }
+        }
+      ],
+ 
+      registered: '{{moment(this.date(new Date(2014, 0, 1), new Date())).format("LLLL")}}',
+
+      greeting(tags) {
+        return `Hello, ${this.name.first}! Welcome back to MyService.`;
+      }
+
+    }
+  }
+]
+}

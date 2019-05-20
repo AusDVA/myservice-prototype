@@ -2,13 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width" name="viewport">
   <title>Home | MyService</title>
-
-  <link href="/docs/css/main.css" rel="stylesheet">
-  <!-- <link rel="stylesheet" href="/src/font/fontawesome/css/all.css"> -->
-  <link href="/docs/css/fontawesome/css/all.css" rel="stylesheet">
+  <% include ../../partials/head.ejs %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -27,7 +22,11 @@
       <section>
         <div class="container" id="main-content">
           <h1>
-            <span class="heading" style="font-size:20px; border-bottom:2px solid orange;">Welcome Robert Johnson</span>
+            <span class="heading" style="font-size:20px; border-bottom:2px solid orange;">Welcome
+
+              <span class="pt-current-user-name-full"></span>
+
+            </span>
           </h1>
           <br>
         </div>
@@ -68,7 +67,7 @@
                     </p>
                   </td>
                   <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-summary'">View</button>
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/incap-summary'">View</button>
                   </td>
                 </tr>
                 <tr>
@@ -82,7 +81,7 @@
                     </p>
                   </td>
                   <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'veteran-card-summary'">View</button>
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-card-summary'">View</button>
                   </td>
                 </tr>
                 <tr>
@@ -96,7 +95,7 @@
                     </p>
                   </td>
                   <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'mental-health-summary'">View</button>
+                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/mental-health-summary'">View</button>
                   </td>
                 </tr>
 
@@ -129,22 +128,19 @@
 
       <div class="flex-container flex-container--wrap hover-container">
 
+        <% if (locals.liveFeature.includes('featureNomrep')) { %>
         <div class="flex-item flex-item--centred card card--medium hover-element">
-          <a href="/auth/nomrep">
+          <a href="/auth/profile/nomrep">
             <figure>
-              <!-- <icon class="fal fa-hands-helping fa-3x" style="padding: 0 1em 0 0;"></icon> -->
-              <!-- <span class="fa-stack fa-4x">
-                <i class="fal fa-circle fa-stack-2x"></i>
-                <i class="fal fa-hands-helping fa-stack-1x"></i>
-              </span> -->
-              <img class="card__image" src="../../../docs/images/ico-db-needs.svg" alt="">
+              <img class="card__image" src="../../../docs/images/ico-db-rep.svg" alt="">
             </figure>
             <h2 class="card__title">
               <span>Representation</span>
             </h2>
           </a>
-          <p class="card__supporting-text">Allows someone to represent you or you can act as a representative for someone else when dealing with DVA matters.</p>
+          <p class="card__supporting-text">Allows someone to represent you or you can help someone in dealing with DVA matters.</p>
         </div>
+        <% } %>
 
         <div class="flex-item flex-item--centred card card--medium hover-element">
           <a href="/auth/needs1">
@@ -275,6 +271,7 @@
         hoverContainer.classList.remove('hover-container--faded')
       })
     });
+
   </script>
 </body>
 
