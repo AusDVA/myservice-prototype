@@ -1,14 +1,14 @@
 
 
 <%
-console.log( "--" + locals );
-v = locals.main_nav_active;
-locals = {};
-locals.items = ["Home","Tasks","Claims","Payments","Cards","Transport","Profile","My Account"];
-locals.itemID = ["home","tasks","claims","payments","healthcard","travel","profile","myaccount"];
-locals.itemLink = ["/auth","/auth","/auth/claim","/auth/payments","/auth/healthcard","/auth/travel","/auth/profile","#open-myaccount-modal"];
-locals.icons = ["fa-home","fa-file-edit","fa-file-edit","fa-calendar-check","fa-money-check","fa-car-alt","fa-user-circle","fa-exchange"];
-locals.main_nav_active = v;
+// v = locals.main_nav_active;
+locals.el = {};
+locals.el.items = ["Home","Tasks","Claims","Payments","Cards","Transport","Profile","My Account"];
+locals.el.itemID = ["home","tasks","claims","payments","healthcard","travel","profile","myaccount"];
+locals.el.itemLink = ["/auth","/auth","/auth/claim","/auth/payments","/auth/healthcard","/auth/travel","/auth/profile","#open-myaccount-modal"];
+locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+// locals.iconTweaks = ["","","","","vertical-align:-0%;","line-height: -10px;","",""];
+// locals.main_nav_active = v;
 %>                
 
 <header class="uikit-header">
@@ -18,15 +18,16 @@ locals.main_nav_active = v;
     </a>
     <button class="toggle" aria-expanded="false">Menu</button>
     <ul class="menu">
-      <% locals.items.forEach(function(element, index) {
+      <% locals.el.items.forEach(function(element, index) {
           // itemID = element.replace(/ +/g, '_').replace(/\?/g, '').toLowerCase(); 
-          itemID = locals.itemID[index];
-          itemLink = locals.itemLink[index];
+          itemID = locals.el.itemID[index];
+          // iconTweaks = locals.el.iconTweaks[index];
+          itemLink = locals.el.itemLink[index];
           var link = "<a href="+itemLink+"";
           if ( (!!locals.main_nav_active && locals.main_nav_active === itemID) ) link += " class='nav-active'"; 
           link += ">";
           %>
-          <li id=<%- itemID %>><%- link %><div class="icon fal <%= locals.icons[index] %> fa-2x"></div><div class="name"><%= element %></div></a></li>
+          <li id=<%- itemID %>><%- link %><div class="fal <%= locals.el.icons[index] %> fa-2x"></div><div class="name"><%= element %></div></a></li>
       <%});%>
     </ul>
   </div>
