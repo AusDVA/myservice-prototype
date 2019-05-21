@@ -69,9 +69,6 @@ if (app.settings.env === "development") {
   var gitBranch = require('git-branch');
 }
 
-console.log('liveFeatureList1');
-console.log(liveFeatureList);
-
 if (typeof gitBranch !== 'undefined' && gitBranch) {
   console.log('Working on branch:', gitBranch.sync());
   if (gitBranch.sync() === 'master') {
@@ -85,7 +82,7 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
   liveFeatureEnv = liveFeatureList.development;
 }
 
-console.log('liveFeatureList2');
+console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
 
 // folder level renders 
@@ -101,7 +98,6 @@ app.get('/:id0/:id1', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
     liveFeature: liveFeatureEnv
-
   });
 });
 
@@ -140,7 +136,6 @@ app.get('/mygov-login',
     });
   });
 
-
 app.get('/logout',
   function (request, response) {
     request.logout();
@@ -148,7 +143,5 @@ app.get('/logout',
   });
 
 app.listen(port, function () {
-
   console.log('listening on port: ' + port);
-
 });
