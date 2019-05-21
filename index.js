@@ -63,9 +63,7 @@ app.use(
 
       }
     }
-
   )
-
 );
 
 console.log('build env:', app.settings.env);
