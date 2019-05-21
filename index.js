@@ -1,5 +1,6 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
+  serveIndex = require('serve-index'),
 
   // featuretoggleapi = require('feature-toggle-api'),
 
@@ -12,8 +13,6 @@ let express = require('express'),
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
-// console.log('process');
-// console.log(process.env);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -30,7 +29,16 @@ app.set('view engine', 'ejs');
 //   feature2: true
 // });
 
+// create sitemap 
+app.use('/files', serveIndex('views', {
+  'icons': true
+}));
 
+// rewrite create sitemap 
+app.get('/files/**.ejs', function (request, response, next) {
+  request.url = request.url.substring(6);
+  next();
+});
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
@@ -94,7 +102,6 @@ app.get('/:id0', function (request, response) {
 });
 
 app.get('/:id0/:id1', function (request, response) {
-
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
     liveFeature: liveFeatureEnv
