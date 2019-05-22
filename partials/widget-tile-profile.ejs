@@ -1,46 +1,46 @@
-<% if (locals.body_text_profile) { 
-  var body_text_profile = locals.body_text_profile;
+<% if (locals.el.body_text_profile) { 
+  var body_text_profile = locals.el.body_text_profile;
 }
 %>
 
-  <% if (locals.button_text) { 
-  var button_text = locals.button_text;
+<% if (locals.el.button_text) { 
+  var button_text = locals.el.button_text;
 } 
 
 %>
-    <% if (locals.link) { 
-  var link = locals.link;
+<% if (locals.el.link) { 
+  var link = locals.el.link;
 }
 %>
 
-      <div class="widget-tile widget-tile-profile" id="widget-profile">
-        <div class="widget-tile-container">
-          <!-- <h2 class="widget-header"><span class="font-weight-heavy">Update profile</span></h2> -->
-          <p id="profile-content" class="widget-content">
-            <#%- body_text_profile %>
-          </p>
-          <div class="widget-link">
-            <a href="<%-link%>"><%- button_text %></a>
-          </div>
-        </div>
-      </div>
+<div class="widget-tile widget-tile-profile" id="widget-profile">
+  <div class="widget-tile-container">
+    <!-- <h2 class="widget-header"><span class="font-weight-heavy">Update profile</span></h2> -->
+    <p id="profile-content" class="widget-content">
+      <#%- body_text_profile %>
+    </p>
+    <div class="widget-link">
+      <a href="<%-link%>"><%- button_text %></a>
+    </div>
+  </div>
+</div>
 
 
-      <script type="text/javascript">
+<script type="text/javascript">
+  function updateProfileWidgetCopy(messageType) {
+    var myMessage;
+    switch (messageType) {
+      case "sh":
+        myMessage = "Profile SH";
+        break;
+      case "general":
+        myMessage =
+          "To help us better support you, make sure your profile is up to date. <span class='profile-hide'>This allows you to manage your information in one place and have it available when you claim.</span";
+        break;
+      default:
+        break;
+    }
+    $("#profile-content").html(myMessage);
+  }
 
-        function updateProfileWidgetCopy(messageType) {
-          var myMessage;
-          switch (messageType) {
-            case "sh":
-              myMessage = "Profile SH";
-              break;
-            case "general":
-              myMessage = "To help us better support you, make sure your profile is up to date. <span class='profile-hide'>This allows you to manage your information in one place and have it available when you claim.</span";
-              break;
-            default:
-              break;
-          }
-          $("#profile-content").html(myMessage);
-        }
-
-      </script>
+</script>
