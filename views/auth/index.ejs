@@ -21,53 +21,12 @@
       <section>
         <div class="container margin-above--large margin-below" style="margin-top: 38px;">
           <h2 class="ss-align--center"> <span style="font-size: 24px;">
-              <span id="lblGreetings"></span> <span class="pt-current-user-name-full"></span></span></h2>
-          <div id="first-login-message" class="widget-welcome">
-            <!-- <h3>Welcome to MyService</h3> -->
-            <p><b>Welcome to MyService.</b>
-              <BR />DVA's mission is to support the wellbeing of veterans and their families. MyService has been developed to streamline the process of claiming for entitlements.
-              We aim to make claiming more intuitive and accessible for all members of the veteran community. We welcome your feedback.
-            </p>
-            <!-- <p><b>Welcome to MyService.</b><BR/>We are delivering on our mission to better support the wellbeing of veterans and their families. This means making it easily accessible and more convenient for you to claim. MyService provides streamline claiming, single sign on to all government services and is better for everyone. Get started by …….</p> -->
-            <!-- <p>Omnis voluptatem ad voluptatibus ratione aut doloremque quod dolores. Reprehenderit sed eius sit corrupti architecto enim voluptatem. Inventore voluptatem porro aut ab rerum sapiente. Rerum beatae ad id ratione id aut.</p> -->
-          </div>
-          <!-- Task -->
-          <% 
-            locals.el = {};
-            locals.el.body_text_task = " tasks";
-            locals.el.button_text = "View tasks";
-            locals.el.link = "/auth";
-          %>
+          <span id="lblGreetings"></span> <span class="pt-current-user-name-full"></span></span></h2>
+          <%- include ../../partials/widget-tile-welcome.ejs %>
           <%- include ../../partials/widget-tile-task.ejs %>
-          <!-- Claims -->
-          <% 
-            locals.el = {};     
-            locals.el.body_text_incomplete = " incomplete claims";
-            locals.el.body_text_submitted = " submitted claims";
-            locals.el.button_text = "View claims";
-            locals.el.link = "/auth/claim";
-          %>
           <%- include ../../partials/widget-tile-claim.ejs %>
-
-          <!-- Payments received -->
-          <% 
-            locals.el = {};
-            locals.el.body_text_payment_date = "Paid on the 24/08/2019";
-            locals.el.body_text_payment_amount = "$256.76";
-            locals.el.button_text = "View payments";
-            locals.el.link = "/auth/payments";
-          %>
           <%- include ../../partials/widget-tile-payment.ejs %>
-
-          <!-- Profile update -->
-          <% 
-            locals.el = {};
-            locals.el.body_text_profile = "Hello";
-            locals.el.button_text = "View profile";
-            locals.el.link = "/auth/profile";
-          %>
           <%- include ../../partials/widget-tile-profile.ejs %>
-
       </section>
     </div>
 
@@ -717,89 +676,6 @@
               $('.widget-tile-payment').addClass('col-xs-6 widget-tile').removeClass('col-sm-12').css({
                 clear: "none"
               });
-
-              /* Scenarios */
-
-              // Claims we haven’t considered; CSHC, gold card, stand-alone needs 
-
-              $("#user-scenario-list").change(function () {
-                var mySelection = $(this).val();
-                switch (mySelection) {
-                  case "First time user":
-                    $("#text-input-tasks").val(0);
-                    $("#text-input-incomplete").val(0);
-                    $("#text-input-submitted").val(0);
-                    $('#payment-received').prop("checked", false);
-                    $('#service-history').prop("checked", false);
-                    $('#first-login').prop("checked", true);
-                    hideAllClaims();
-                    $("#il").show();
-                    $("#mental-health").show();
-                    $("#covenant").show();
-                    $("#education").show();
-                    $("#qs").show();
-                    $("#service-pension").show();
-                    $("#partner-pension").show();
-                    $("#representation").show();
-                    $("#dhoas").show();
-                    $("#insurance").show();
-                    updateScenario();
-                    break;
-                  case "User with claims":
-                    $("#text-input-tasks").val(0);
-                    $("#text-input-incomplete").val(1);
-                    $("#text-input-submitted").val(2);
-                    $('#payment-received').prop("checked", false);
-                    $('#service-history').prop("checked", false);
-                    $('#first-login').prop("checked", false);
-                    hideAllClaims();
-                    $("#il").show();
-                    // afi (if VEA condition) ask chloe
-                    $("#incap").show();
-                    $("#education").show();
-                    $("#service-pension").show();
-                    $("#partner-pension").show();
-                    $("#representation").show();
-                    $("#dhoas").show();
-                    $("#insurance").show();
-                    updateScenario();
-                    break;
-                  case "Never served":
-                    $("#text-input-tasks").val(0);
-                    $("#text-input-incomplete").val(0);
-                    $("#text-input-submitted").val(0);
-                    $('#payment-received').prop("checked", false);
-                    $('#service-history').prop("checked", true);
-                    $('#first-login').prop("checked", false);
-                    hideAllClaims();
-                    $("#education").show();
-                    $("#civilian-qs").show();
-                    $("#partner-pension").show();
-                    updateScenario();
-                    break;
-                  case "User with service pension and claims":
-                    $("#text-input-tasks").val(1);
-                    $("#text-input-incomplete").val(0);
-                    $("#text-input-submitted").val(2);
-                    $('#payment-received').prop("checked", true);
-                    $('#service-history').prop("checked", true);
-                    $('#first-login').prop("checked", false);
-                    hideAllClaims();
-                    $("#il").show();
-                    // afi (if VEA condition) ask chloe
-                    $("#incap").show();
-                    $("#education").show();
-                    $("#partner-pension").show();
-                    $("#lump-sum").show();
-                    $("#representation").show();
-                    $("#dhoas").show();
-                    $("#insurance").show();
-                    updateScenario();
-                    break;
-                  default:
-                    break;
-                }
-              });
             }
           }
         }
@@ -821,82 +697,7 @@
 
     });
 
-    function updateLayout() {
-
-      if (totalWidgets == 1) {
-        $('.widget-tile').addClass('col-sm-12').css({
-          clear: "none"
-        });
-        $('.widget-tile').removeClass('col-xs-6');
-        $('.widget-tile').removeClass('col-xs-4');
-        $('.widget-tile').removeClass('col-xs-3');
-        $('.widget-tile').removeClass('col-sm-3');
-      }
-      if (totalWidgets == 2) {
-        $('.widget-tile').addClass('col-xs-6').removeClass('col-xs-12').css({
-          clear: "none"
-        });;
-        $('.widget-tile').removeClass('col-sm-12')
-        $('.widget-tile').removeClass('col-xs-4');
-        $('.widget-tile').removeClass('col-xs-3');
-        $('.widget-tile').removeClass('col-sm-3');
-      }
-      if (totalWidgets == 3) {
-
-        $('.widget-tile').addClass('col-xs-4').removeClass('col-xs-6 col-xs-12').css({
-          clear: "none"
-        });
-        $('.widget-tile').removeClass('col-sm-12');
-        $('.widget-tile').removeClass('col-xs-3');
-        $('.widget-tile').removeClass('col-sm-3');
-
-        if ($(window).width() < 800) {
-          if ($("#payment-received").prop('checked') == true) {
-            $('.widget-tile-claim').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
-            $('.widget-tile-task').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
-            $('.widget-tile-payment').addClass('col-sm-12 widget-tile').removeClass('col-xs-4').css({
-              clear: "both"
-            });
-          } else {
-            $('.widget-tile-task').addClass('col-xs-6 widget-tile').removeClass('col-xs-4');
-          }
-          if ($("#profile").prop('checked') == true) {
-            $('.widget-tile-claim').addClass('col-xs-6 widget-tile');
-            $('.widget-tile-payment').addClass('col-xs-6 widget-tile').removeClass('col-sm-12').css({
-              clear: "none"
-            });
-            $('.widget-tile-profile').addClass('col-xs-12 widget-tile');
-          }
-          if ($("#task").prop('checked') == false) {
-            $('.widget-tile-claim').addClass('col-xs-6 widget-tile');
-            $('.widget-tile-profile').addClass('col-xs-6 widget-tile');
-            $('.widget-tile-payment').addClass('col-xs-6 widget-tile').removeClass('col-sm-12').css({
-              clear: "none"
-            });
-          } else {
-            $('.widget-tile-claim').addClass('col-xs-6 widget-tile');
-            $('.widget-tile-profile').addClass('col-xs-12 widget-tile').removeClass('col-xs-4');
-          }
-        }
-      }
-
-      if (totalWidgets == 4) {
-        $('.widget-tile').removeClass('col-sm-12').css({
-          clear: "none"
-        });;
-        $('.widget-tile').removeClass('col-xs-6');
-        $('.widget-tile').removeClass('col-sm-4');
-        $('.widget-tile').removeClass('col-xs-4');
-        $('.widget-tile').addClass('col-xs-3').removeClass('col-xs-12').css({
-          clear: "none"
-        });
-        if ($(window).width() < 800) {
-          $('.widget-tile').addClass('col-xs-6').removeClass('col-xs-3').css({
-            clear: "none"
-          });
-        }
-      }
-    }
+   
 
   </script>
 
