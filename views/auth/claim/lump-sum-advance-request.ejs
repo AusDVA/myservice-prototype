@@ -164,7 +164,7 @@
           <!-- End, Only show this message if the maximum limit has been reached.  -->
 
         </div>
-
+    </section>
   </main>
   <% include ../../../partials/footer.ejs %>
 
@@ -173,16 +173,15 @@
   <script>
     $(".pt-amount").each(function () {
       $(this).keyup(function () {
-        Calculate();
+        calculateMax();
       });
     });
 
     var maxTotal = 1250;
     var minTotal = 432;
 
-    function Calculate() {
+    function calculateMax() {
       var total = 0;
-
 
       var validation = ("#validation");
       $(".pt-amount").each(function () {
@@ -226,19 +225,64 @@
       $("#differenceAmount").html(' <strong>$' + difference + '</strong> ');
     }
 
+    function calculateMin() {
+      var total = 0;
+      var validation = ("#validation");
+      var valid;
+      $(".pt-amount").each(function () {
+
+        // validate
+        if (!isNaN(this.value) && this.value.length != 0) {
+          total += parseFloat(this.value);
+          newAmount += parseFloat(this.value);
+
+          if (total < minTotal) {
+            $(this)
+              .closest(".field")
+              .addClass("has-error");
+            valid = false;
+          } else {
+            $(this)
+              .closest(".field")
+              .removeClass("has-error");
+            valid = true;
+          }
+
+        }
+      });
+
+      return valid;
+
+    }
+
     $(function () {
       $("#btnQueryString").bind("click", function () {
+
         var url = "lump-sum-advance-review?name=" + encodeURIComponent($("#newAmount").html()) + "&technology=" + encodeURIComponent($("#lumpAmount").val());
-        window.location.href = url;
+        sessionStorage.setItem('lsaAmount', $("#lumpAmount").val());
+
+        // var minValid = calculateMin();
+        if (calculateMin() === true) {
+          window.location.href = url;
+        }
+
       });
 
       $("#enter-max").click(function () {
         $("#lumpAmount").val(maxTotal);
-        Calculate();
+        calculateMax();
       });
 
       function initLumpSum() {
         localStorage.removeItem('lumpFlow');
+
+        var lsaAmount = sessionStorage.getItem('lsaAmount');
+
+        if (lsaAmount) {
+          $("#lumpAmount").val(lsaAmount);
+          calculateMax();
+        }
+
         var lumpFlow = getUrlParameter('lumpFlow');
 
         if (lumpFlow) {
