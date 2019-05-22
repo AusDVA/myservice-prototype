@@ -1,0 +1,243 @@
+<%
+var counters = {
+                "selects": 0, 
+                "texts": 0, 
+                "dates": 0,
+                "radios": 0,
+                "checkboxes": 0,
+                "toggle-buttons": 0,
+                "y_n_toggles": 0,
+                "textareas": 0
+               };
+
+forms.forEach(function(elem, index) {
+  if(elem.type == "select") { 
+    counters.selects++; %>
+    <div class="form-group">
+      <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "Select"+counters.selects %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+      <select <%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %>" class="uikit-text-input input-half">
+
+      <% if(elem.config && elem.config.options && elem.config.options.length > 0 && typeof elem.config.options[0] == "string") { 
+          elem.config.options.forEach(function(option, o_index) { %>
+          <option <%- o_index == 0 ? "selected " : "" %>value="<%- (option.toLowerCase()).replace(/ /g, "_") %>"><%- option %></option>
+        <% }); 
+
+      } else if (elem.config && elem.config.options && elem.config.options.length > 0 && typeof elem.config.options[0] == "object") {
+          var selected = 0;
+          var toggle = []; 
+          elem.config.options.forEach(function(option, o_index) {
+            if(option.selected != undefined && option.selected == true) {
+              selected++;
+            }
+            if (option.toggle != undefined && option.toggle != "") {
+              toggle.push({"toggle-elem": option.toggle, "source-elem": option.value != undefined && option.value != "" ? option.value : (option.text.toLowerCase()).replace(/ /g, "_") });
+            }
+          });
+          elem.config.options.forEach(function(option, o_index) { %>
+            <option <%- option.hidden != undefined && option.hidden ? "hidden " : "" %><%- option.disabled != undefined && option.disabled ? "disabled " : "" %><%- option.selected != undefined && option.selected ? "selected " : "" %><%- option.id != undefined && option.id != "" ? "id='"+option.id+"' " : "" %><%- option.toggle != undefined && option.toggle != "" ? "data-toggle='"+option.toggle+"' " : ""  %><%- option.value != undefined && option.value != "" ? "value='"+option.value+"'" : "value='"+(option.text.toLowerCase()).replace(/ /g, "_")+"'" %>><%- option.text %></option>
+          <% }); %>
+
+          <% if(toggle.length > 0) { %>
+            <script>
+              $("#<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %>").on("change", function() {  
+                $($("#<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %> :selected").data("toggle")).show();
+                $("#<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "select"+counters.selects %> :not(:selected)").each(function(index, elem) {
+                  $($(elem).data("toggle")).hide();
+                });
+              });
+            </script>
+        <% }
+     } %>
+        </select>
+    </div>
+  <% } else if (elem.type == "text") { 
+    counters.texts++ %>
+    <div class="form-group">
+      <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "text"+counters.texts %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "Input" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+
+      <input <%- elem.config && elem.config.placeholder != undefined && elem.config.placeholder ? "placeholder='"+elem.config.placeholder+"' " : "" %><%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>class="uikit-text-input input-half" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "text"+counters.texts %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "text"+counters.texts %>" type="text">
+    </div>
+  <% } else if (elem.type == "date") { 
+    counters.dates++; %>
+    <div class="form-group">
+      <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "date"+counters.dates %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "Date" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "<span class='hint'>(DD / MM / YYYY)</span>" %></label>
+             <input <%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>class="uikit-text-input dd" type="text" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-dd" : "date"+counters.dates+"-dd" %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-dd" : "date"+counters.dates+"-dd" %>" maxlength="2" aria-label="2 digit day"> /
+             <input <%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>class="uikit-text-input mm" type="text" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-mm" : "date"+counters.dates+"-mm" %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-mm" : "date"+counters.dates+"-mm" %>" maxlength="2" aria-label="2 digit month"> /
+             <input <%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>class="uikit-text-input yyyy" type="text" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-yyyy" : "date"+counters.dates+"-yyyy" %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-yyyy" : "date"+counters.dates+"-yyyy" %>" maxlength="4" aria-label="4 digit year">
+    </div>
+  <% } else if (elem.type == "y_n_toggle") {
+    counters.y_n_toggles++ %>
+      <div class="form-group">
+        <label class="uikit-text-input__label" for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "y_n_toggle"+counters.y_n_toggles %>"><%- elem.config && elem.config.label ? elem.config.label : "Yes or No Toggle Buttons" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+        <div class="radio-toggle" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "y_n_toggle"+counters.y_n_toggles %>">
+          <label class="label-left" for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-yes" : "y_n_toggle"+counters.y_n_toggles+"-yes" %>">
+            <input <%- elem.config && elem.config.yes_toggle != undefined && elem.config.yes_toggle != "" ? "data-toggle='"+elem.config.yes_toggle+"' " : "" %>id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-yes" : "y_n_toggle"+counters.y_n_toggles+"-yes" %>" type="radio" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-yes" : "y_n_toggle"+counters.y_n_toggles %>">
+            <span>Yes</span>
+          </label>
+          <label class="label-right" for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-no" : "y_n_toggle"+counters.y_n_toggles+"-no" %>">
+            <input <%- elem.config && elem.config.no_toggle != undefined && elem.config.no_toggle != "" ? "data-toggle='"+elem.config.no_toggle+"' " : "" %>id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-no" : "y_n_toggle"+counters.y_n_toggles+"-no" %>" type="radio" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-no" : "y_n_toggle"+counters.y_n_toggles %>">
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <% if(elem.config && ((elem.config.yes_toggle != undefined && elem.config.yes_toggle != "") || (elem.no_toggle != undefined && elem.no_toggle != ""))) { %>
+        <script>
+          $("#<%- elem.config.id ? elem.config.id : "y_n_toggle"+counters.y_n_toggles %>").on("change", "input[type=radio]", function() {
+            if(this.checked) {
+              $($(this).data("toggle")).show();
+              $($($(this).parent().siblings()[0]).children().first().data("toggle")).hide();
+            }
+          });
+        </script>
+        <% } %>
+      <% } else if (elem.type == "checkbox") {
+        counters.checkboxes++;
+        var checkbox_counter = 0; %>
+          <div class="form-group">
+            <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "checkbox"+counters.checkboxes %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "Checkbox" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+            <% 
+              if(elem.config && elem.config.boxes && elem.config.boxes.length > 0 && typeof elem.config.boxes[0] == "string") {
+                checkbox_counter = 0;
+                  elem.config.boxes.forEach(function(box, b_index) { 
+                    checkbox_counter++ %>
+                    <div class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input type="checkbox" id="<%- "checkbox"+counters.checkboxes+"-"+checkbox_counter %>" name="<%- "checkbox"+counters.checkboxes+"-"+checkbox_counter %>" class="uikit-control-input__input">
+                        <span class="uikit-control-input__text"><%= box %></span>
+                      </label>
+                    </div>
+                  <% });
+              } else if (elem.config && elem.config.boxes && elem.config.boxes.length > 0 && typeof elem.config.boxes[0] == "object") { 
+                  var inject = false;
+                  var toggle = false; %>
+                    <div id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-wrapper" : "checkbox"+counters.checkboxes+"-wrapper" %>">
+                  <%
+                  elem.config.boxes.forEach(function(box, b_index) { 
+                    checkbox_counter++;
+                    console.log(box);
+                    if(box.inject != undefined && box.inject) {
+                      inject = true;
+                    }
+                    if (box.toggle != undefined && box.toggle) {
+                      toggle = true;
+                    }
+                      %>
+                    <div class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input <%- box.disabled ? "disabled " : "" %><%- box.toggle != undefined && box.toggle != "" ? "data-toggle='"+box.toggle+"' " : "" %><%- box.inject != undefined && box.inject != "" ? "data-inject='"+box.inject+"' " : "" %>type="checkbox" id="<%- box.id != undefined && box.id != "" ? box.id : (elem.config.id != undefined && elem.config.id != "" ? elem.config.id+"-"+checkbox_counter : "checkbox"+counters.checkboxes)+"-"+checkbox_counter %>" name="<%- box.id != undefined && box.id != "" ? box.id : (elem.config.id != undefined && elem.config.id != "" ? elem.config.id+"-"+checkbox_counter : "checkbox"+counters.checkboxes)+"-"+checkbox_counter %>" class="uikit-control-input__input">
+                        <span class="uikit-control-input__text"><%= box.text %> <%- box.hint != undefined && box.hint != "" ? "<span class='hint'>"+box.hint+"</span>" : "" %></span>
+                      </label>
+                    </div>
+                  <% }); %>
+                </div>
+                  <% console.log("inject: " + inject + " toggle " + toggle); console.log(elem.config.boxes)
+                  if(toggle || inject) { %>
+                    <script>
+                      $("#<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-wrapper" : "checkbox"+counters.checkboxes+"-wrapper" %>").on("change", "input[type=checkbox]", function() {
+                        if(this.checked) {
+                            if($(this).data("inject") != undefined && $(this).data("inject") != "") {
+                              $($(this).data("inject")).clone().insertAfter($(this).parent().parent());
+                              $(this).parent().parent().next().show();
+                            }
+                            if($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
+                              $($(this).data("toggle")).show();
+                            }
+                        } else {
+                            if($(this).data("inject") != undefined && $(this).data("inject") != "") {
+                              $(this).parent().parent().next().remove();
+                            }
+                            if($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
+                              $($(this).data("toggle")).hide();
+                            }
+                        }
+                      });
+                    </script>
+                  <% }
+
+                } %>
+          </div>
+
+      <% } else if (elem.type == "radio") {
+        counters.radios++;
+        var radio_counter = 0; %>
+        <div class="form-group">
+          <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "radio"+counters.radios %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "radio" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+          <% 
+            if(elem.config && elem.config.boxes && elem.config.boxes.length > 0 && typeof elem.config.boxes[0] == "string") {
+              radio_counter = 0;
+                elem.config.boxes.forEach(function(box, b_index) { 
+                  radio_counter++ %>
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input type="radio" id="<%- "radio"+counters.radios+"-"+radio_counter %>" name="<%- "radio"+counters.radios %>" class="uikit-control-input__input">
+                      <span class="uikit-control-input__text"><%= box %></span>
+                    </label>
+                  </div>
+                <% });
+            } else if (elem.config && elem.config.boxes && elem.config.boxes.length > 0 && typeof elem.config.boxes[0] == "object") { 
+                var inject = false;
+                var toggle = false; %>
+                  <div id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-wrapper" : "radio"+counters.radios+"-wrapper" %>">
+                <%
+                elem.config.boxes.forEach(function(box, b_index) { 
+                  radio_counter++;
+                  box.inject != undefined && box.inject != "" ? inject = true : inject = false;
+                  box.toggle != undefined && box.toggle != "" ? toggle = true : toggle = false;
+                    %>
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input <%- box.disabled ? "disabled " : "" %><%- box.toggle != undefined && box.toggle != "" ? "data-toggle='"+box.toggle+"' " : "" %><%- box.inject != undefined && box.inject != "" ? "data-inject='"+box.inject+"' " : "" %>type="radio" id="<%- box.id != undefined && box.id != "" ? box.id : (elem.config.id != undefined && elem.config.id != "" ? elem.config.id+"-"+radio_counter : "radio"+counters.radios)+"-"+radio_counter %>" name="<%- box.id != undefined && box.id != "" ? box.id : (elem.config.id != undefined && elem.config.id != "" ? elem.config.id+"-"+radio_counter : "radio"+counters.radios) %>" class="uikit-control-input__input">
+                      <span class="uikit-control-input__text"><%= box.text %> <%- box.hint != undefined && box.hint != "" ? "<span class='hint'>"+box.hint+"</span>" : "" %></span>
+                    </label>
+                  </div>
+                <% }); %>
+              </div>
+                <%
+                if(toggle || inject) { %>
+                  <script>
+                    $("#<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id+"-wrapper" : "radio"+counters.radios+"-wrapper" %>").on("change", "input[type=radio]", function() {
+                      if(this.checked) {
+                          if($(this).data("inject") != undefined && $(this).data("inject") != "") {
+                            $($(this).data("inject")).clone().insertAfter($(this).parent().parent());
+                            $(this).parent().parent().next().show();
+                          }
+                          if($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
+                            $($(this).data("toggle")).show();
+                          }
+                          $(this).parent().parent().parent().find($(".uiToolKitCheckBox")).not($(this).parent().parent()).each(function() {
+                            $($($(this).first().find("input").first()).data("inject")).remove();
+                            $($($(this).first().find("input").first()).data("toggle")).hide();
+                          });
+                        }
+                    });
+                  </script>
+                <% }
+
+              } %>
+        </div>
+      <% } else if (elem.type == "textarea") {
+        counters.textareas++; %>
+          <div class="form-group">
+            <label for="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "textarea"+counters.texts %>" class="uikit-text-input__label"><%- elem.config && elem.config.label ? elem.config.label : "Input" %> <%- elem.config && elem.config.hint != undefined && elem.config.hint != "" ? "<span class='hint'>"+elem.config.hint+"</span>" : "" %></label>
+
+            <textarea <%- elem.config && elem.config.placeholder != undefined && elem.config.placeholder ? "placeholder='"+elem.config.placeholder+"' " : "" %><%- elem.config && elem.config.required ? "required " : "" %><%- elem.config && elem.config.disabled ? "disabled " : "" %><%- elem.config && elem.config.hidden ? "hidden " : "" %>class="uikit-text-input" name="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "textarea"+counters.texts %>" id="<%- elem.config && elem.config.id != undefined && elem.config.id ? elem.config.id : "textarea"+counters.texts %>" rows="<%- elem.config && elem.config.rows != undefined && elem.config.rows != "" && elem.config.rows != 0 ? elem.config.rows : "5" %>"></textarea>
+          </div>
+
+      <% } else if (elem.type == "pagination") { %>
+        <div class="pagination margin-above--extra">
+        <% if(elem.config.normal.length > 0) { 
+           elem.config.normal.forEach(function(button, b_index) { %>
+            <button <%- button.disabled != undefined && button.disabled ? "disabled " : "" %>class="uikit-btn<%- button.primary != undefined && button.primary ? " uikit-btn--primary" : " uikit-btn--tertiary" %>" onclick="window.location.href = '<%= button.link %>'"><%= button.text %></button>
+          <% }); 
+        } if(elem.config.normal.length > 0) { %>
+          <div class="floated">  
+          <% elem.config.floated.forEach(function(button, b_index) { %>
+            <button <%- button.disabled != undefined && button.disabled ? "disabled " : "" %>class="uikit-btn<%- button.primary != undefined && button.primary ? " uikit-btn--primary" : " uikit-btn--tertiary" %>" onclick="window.location.href = '<%= button.link %>'"><%= button.text %></button>
+          <% }); %>
+          </div>
+         <% } %>
+       </div>
+      <% } 
+});
+%>

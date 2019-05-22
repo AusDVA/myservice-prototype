@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+
+  <title>Application for a DHOAS Subsidy Certificate | MyService</title>
+  <%- include(partials+"head.ejs") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"header-topbar.ejs") %>
+  <%- include(partials+"header-claims.ejs") %>
+  <%- include(partials+"header-nom-rep.ejs") %>
+
+  <main id="main-content">
+    <div class="container">
+      <div id="progressbar">
+        <div id="percentage">
+          <p id="percentage_value"></p>
+        </div>
+
+      </div>
+      <h1>
+        <span class="heading">DHOAS Subsidy Certificate</span>
+      </h1>
+<div hidden id="hello">HELLO THERE</div>
+<div hidden id="hey">O HAI THERE</div>
+
+      <%- include(partials+"form_partials.ejs", 
+{
+  "forms": [
+    {
+      "type": "radio",
+      "config": {
+        "label": "What is the purpose of this loan?",
+        "boxes": [
+          {
+            "text": "purchasing a new home"
+          },
+          {
+            "text": "purchasing land and/or constructing a home",
+            "toggle": "#hey"
+          },
+          {
+            "text": "enlarging, repairing, renovating, or creating a permanent improvement to a home",
+            "toggle": "#hello"
+          },
+          {
+            "text": "refinancing an existing home loan that was used for one or more of the above purposes",
+            "inject": "#refinance"
+          }
+        ]
+      }
+    },
+    {
+      "type": "radio",
+      "config": {
+        "label": "Where do you currently live?",
+        "boxes": [
+          {
+            "text": "service residence"
+          },
+          {
+            "text": "rental accommodation property"
+          },
+          {
+            "text": "on base accommodation"
+          },
+          {
+            "text": "own home"
+          },
+          {
+            "text": "other",
+            "inject": "#other-accomodation"
+          }
+        ]
+      }
+    },
+    {
+      "type": "y_n_toggle",
+      "config": {
+        "label": "Have you ever had a defence subsidised loan?",
+        "yes_toggle": "#defence-subsidised"
+      }
+    }
+  ]
+}); %>
+<div id="defence-subsidised" hidden class="form-group">
+  <%- include(partials+"form_partials.ejs", {
+  "forms": [
+    {
+      "type": "checkbox",
+      "config": {
+        "label": "Select all that apply",
+        "boxes": [
+          {
+            "text": "Defence Service Home Loan Scheme (DSH)"
+          },
+          {
+            "text": "Defence Home Owner Scheme (DHOS)"
+          },
+          {
+            "text": "Defence Home Ownership Assistance Scheme (DHOAS)",
+            "inject": "#additional-dhoas"
+          },
+          {
+            "text": "None of the above"
+          }
+        ]
+      }
+    }
+  ]
+}); %>
+</div>
+      <%- include(partials+"claims-cancel-modal.ejs") %>
+    </div>
+
+<div id="refinance" hidden class="form-group form-group--secondary">
+  <%- include(partials+"form_partials.ejs", {
+    "forms": [{
+      "type": "textarea",
+      "config": {
+        "label": "Please detail why you are refinancing your existing home loan, including any non DHOAS purposes",
+        "rows": 3
+      }
+    }]
+  }); %>
+</div>
+<div id="other-accomodation" hidden class="form-group form-group--secondary">
+  <%- include(partials+"form_partials.ejs", {
+    "forms": [{
+      "type": "text",
+      "config": {
+        "label": "Please specify"
+      }
+    }]
+  }); %>
+</div>
+
+
+<div id="additional-dhoas" style="display: none;" class="form-group form-group--secondary">
+  <%- include(partials+"form_partials.ejs", {
+    "forms": [{
+      "type": "text",
+      "config": {
+        "label": "Why are you lodging an additional application for DHOAS?"
+      }
+    }]
+  }); %>
+  
+</div>
+
+
+  </main>
+
+  <%- include(partials+"footer.ejs") %>
+
+
+</body>
+
+</html>
+
+
