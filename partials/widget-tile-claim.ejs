@@ -8,14 +8,54 @@ locals.el.link = "/auth/claim";
 
 <div class="widget-tile widget-tile-claim" id="widget-claims">
   <div class="widget-tile-container">
-    <div id="claims-incomplete"><span class="widget-number" id="text-reflect-incomplete">0</span>
-      <%- locals.el.body_text_incomplete %>
-    </div>
-    <div id="claims-submitted"><span class="widget-number" id="text-reflect-submitted">0</span>
-      <%- locals.el.body_text_submitted  %>
-    </div>
-    <div class="widget-link">
-      <a href="<%-locals.el.link %>"><%- locals.el.button_text %></a>
-    </div>
+   <span id="claims-incomplete"><span class="widget-number" id="text-reflect-incomplete">0</span><%- locals.el.body_text_incomplete %></span><BR/>
+   <span id="claims-submitted"><span class="widget-number" id="text-reflect-submitted">0</span><%- locals.el.body_text_submitted  %></span><BR/>
+   <div class="widget-link"><a href="<%-locals.el.link %>"><%- locals.el.button_text %></a></div>
   </div>
 </div>
+
+
+ <script>
+
+$(window).resize(function () {
+    var myWidth = $("#widget-claims").width();
+    if ( myWidth < 210 ) {
+      $("#widget-claims .hide-on-small").hide();
+    } else {
+    // if ( myWidth < 200 ) {
+     $("#widget-claims .hide-on-small").show();
+    }
+});
+
+function updateClaimsWidget() {
+  var incomplete = $("#text-input-incomplete").val();
+  $("#text-reflect-incomplete").html(incomplete);
+  sessionStorage.setItem('claims-incomplete', incomplete);
+  var submitted = $("#text-input-submitted").val();
+  $("#text-reflect-submitted").html(submitted);
+  sessionStorage.setItem('claims-submitted', submitted);
+  if (incomplete > 0) {
+    $("#claims-incomplete").show();
+  } else {
+    $("#claims-incomplete").hide();
+  }
+  if (submitted > 0) {
+    $("#claims-submitted").show();
+  } else {
+    $("#claims-submitted").hide();
+  }
+  if (incomplete > 0 || submitted > 0) {
+    $("#widget-claims").show("fast");
+    totalWidgets++;
+  } else {
+    $("#widget-claims").hide("fast");
+  }
+  if (incomplete == 0 && submitted == 0) {
+    $("#claims").hide();
+  } else {
+    $("#claims").show();
+  }
+}
+
+</script>
+

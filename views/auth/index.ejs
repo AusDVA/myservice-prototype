@@ -316,6 +316,9 @@
   </div>
   <% include ../../partials/footer.ejs %>
   <script>
+
+var totalWidgets;
+
     $(document).ready(function () {
 
       /* --- State switcher --- */
@@ -469,8 +472,6 @@
 
       /* --- End State switcher --- */
 
-      /* --- Start widgets --- */
-
       /* Greeting */
 
       function updateGreeting() {
@@ -486,81 +487,6 @@
         document.getElementById('lblGreetings').innerHTML = greet;
       }
 
-      /* Tasks */
-
-      function updateTasksWidget() {
-        var tasks = $("#text-input-tasks").val();
-        sessionStorage.setItem('tasks', tasks);
-        $("#text-reflect-tasks").val(tasks);
-        if (tasks > 0) {
-          $("#widget-tasks").show("fast");
-          $("#tasks").show();
-          totalWidgets++;
-        } else {
-          $("#widget-tasks").hide("fast");
-          $("#tasks").hide();
-        }
-      }
-
-      /* Claims */
-
-      function updateClaimsWidget() {
-        var incomplete = $("#text-input-incomplete").val();
-        $("#text-reflect-incomplete").html(incomplete);
-        sessionStorage.setItem('claims-incomplete', incomplete);
-        var submitted = $("#text-input-submitted").val();
-        $("#text-reflect-submitted").html(submitted);
-        sessionStorage.setItem('claims-submitted', submitted);
-        if (incomplete > 0) {
-          $("#claims-incomplete").show();
-        } else {
-          $("#claims-incomplete").hide();
-        }
-        if (submitted > 0) {
-          $("#claims-submitted").show();
-        } else {
-          $("#claims-submitted").hide();
-        }
-        if (incomplete > 0 || submitted > 0) {
-          $("#widget-claims").show("fast");
-          totalWidgets++;
-        } else {
-          $("#widget-claims").hide("fast");
-        }
-        if (incomplete == 0 && submitted == 0) {
-          $("#claims").hide();
-        } else {
-          $("#claims").show();
-        }
-      }
-
-      /* Payments */
-
-      function updatePaymentsWidget() {
-        if ($('#payment-received').prop("checked") == true) {
-          $("#widget-payment").show("fast");
-          $("#payments").show();
-          sessionStorage.setItem('payments_received', true);
-          totalWidgets++;
-        } else {
-          $("#widget-payment").hide("fast");
-          $("#payments").hide();
-          sessionStorage.setItem('payments_received', false);
-        }
-      }
-
-      /* Profile */
-
-      function updateProfileWidget() {
-        if ($("#service-history").prop("checked") == true) {
-          updateProfileWidgetCopy("general");
-          sessionStorage.setItem('service_history', true);
-        } else {
-          updateProfileWidgetCopy("sh");
-          sessionStorage.setItem('service_history', false);
-        }
-      }
-
       /* First login */
 
       function updateFirstLogin() {
@@ -574,11 +500,7 @@
         }
       }
 
-      /* --- End widgets --- */
-
       /* Update everything */
-
-      var totalWidgets;
 
       function updateScenario() {
         hideAll();
