@@ -1,10 +1,11 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-  gitBranch = require('git-branch');
-// featuretoggleapi = require('feature-toggle-api'),
+  serveIndex = require('serve-index'),
 
-// not so secret secret
-secret = 'eeeek',
+  // featuretoggleapi = require('feature-toggle-api'),
+
+  // not so secret secret
+  secret = 'eeeek',
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
@@ -12,8 +13,6 @@ secret = 'eeeek',
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
-// console.log('process');
-// console.log(process.env);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -30,7 +29,16 @@ app.set('view engine', 'ejs');
 //   feature2: true
 // });
 
+// create sitemap 
+app.use('/files', serveIndex('views', {
+  'icons': true
+}));
 
+// rewrite create sitemap 
+app.get('/files/**.ejs', function (request, response, next) {
+  request.url = request.url.substring(6);
+  next();
+});
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
@@ -55,45 +63,53 @@ app.use(
 
       }
     }
-
   )
-
 );
 
-
-console.log('Working on branch:', gitBranch.sync());
-
+console.log('build env:', app.settings.env);
 var liveFeatureList = require('./feature-live-list.json');
+var liveFeatureEnv = [];
 
-// loading in different lists depending on which git branch 
-if (gitBranch.sync() === 'master') {
-  liveFeatureList = liveFeatureList.production;
-} else {
-  liveFeatureList = liveFeatureList.development;
+// loading in different lists depending on which git branch (but not in heroku)
+if (app.settings.env === "development") {
+  var gitBranch = require('git-branch');
 }
 
+if (typeof gitBranch !== 'undefined' && gitBranch) {
+  console.log('Working on branch:', gitBranch.sync());
+  if (gitBranch.sync() === 'master') {
+    liveFeatureList = liveFeatureList.production;
+  } else {
+    liveFeatureEnv = liveFeatureList.development;
+  }
+} else if (app.settings.env === "production") {
+  liveFeatureEnv = liveFeatureList.production;
+} else {
+  liveFeatureEnv = liveFeatureList.development;
+}
 
+console.log('List of features that are unhidden:');
+console.log(liveFeatureList);
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
     main_nav_active: 'home',
-    liveFeature: liveFeatureList
+    liveFeature: liveFeatureEnv
   });
 });
 
 app.get('/:id0/:id1', function (request, response) {
-
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList
+    liveFeature: liveFeatureEnv
   });
 });
 
 app.get('/:id0/:id1/:id2', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
+    liveFeature: liveFeatureEnv,
     secondary_nav_active: request.params.id2,
     claimType: request.cookies.claimType
   });
@@ -102,37 +118,35 @@ app.get('/:id0/:id1/:id2', function (request, response) {
 app.get('/:id0/:id1/:id2/:id3', function (request, response) {
   response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2 + "/" + request.params.id3, {
     main_nav_active: request.params.id1,
-    liveFeature: liveFeatureList,
+    liveFeature: liveFeatureEnv,
     secondary_nav_active: request.params.id2
   });
 });
 
 app.get('/',
-  function (req, res) {
-    res.render('unauth/', {
+  function (request, response) {
+    response.render('unauth/', {
       layout: 'login',
-      user: req.user
+      user: request.user,
+      liveFeature: liveFeatureEnv
     });
   });
 
 app.get('/mygov-login',
-
-  function (req, res) {
-    res.render('auth/mygov-login', {
+  function (request, response) {
+    response.render('auth/mygov-login', {
       layout: 'login',
-      user: req.user
+      user: request.user,
+      liveFeature: liveFeatureEnv
     });
   });
 
-
 app.get('/logout',
-  function (req, res) {
-    req.logout();
-    res.redirect('/');
+  function (request, response) {
+    request.logout();
+    response.redirect('/');
   });
 
 app.listen(port, function () {
-
   console.log('listening on port: ' + port);
-
 });

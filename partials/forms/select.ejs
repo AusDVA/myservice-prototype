@@ -1,44 +1,41 @@
-<% if (locals.optionalID) { 
-  var id = locals.optionalID;
+<% if (locals.el.optionalID) { 
+  var id = locals.el.optionalID;
 } else {
-    var id = locals.question.replace(/ +/g, '_').replace(/\?/g, "").toLowerCase(); 
+    var id = locals.el.question.replace(/ +/g, '_').replace(/\?/g, "").toLowerCase(); 
 }
 %>
 <% 
-if (locals.radioLabel) { 
-  var radioLabel = locals.radioLabel;
+if (locals.el.radioLabel) { 
+  var radioLabel = locals.el.radioLabel;
 } else {
   var radioLabel = ''; 
 }
 %>
-<% if (locals.optionalHide === true) { %>
+<% if (locals.el.optionalHide === true) { %>
 <style>
   #<%=id %> {
     display: none;
   }
+
 </style>
 <% } %>
 
 <div class="form-group" id="<%= id %>">
-  <label class="uikit-text-input__label" for="sop"><%= locals.question %>
-     <br />
-    <% if (locals.optionalHint) { %>
-    <span class="hint display-block"><%= locals.optionalHint %></span>
+  <label class="uikit-text-input__label" for="sop"><%= locals.el.question %>
+    <br />
+    <% if (locals.el.optionalHint) { %>
+    <span class="hint display-block"><%= locals.el.optionalHint %></span>
     <% } %>
   </label>
   <select class="uikit-text-input input-half" id="<%=id%>-list" for="drop-down">
-     <option selected="selected">-- Select an item --</option>
-  <%  locals.items.forEach(function(element, index) { 
+    <option selected="selected">-- Select an item --</option>
+    <%  locals.el.items.forEach(function(element, index) { 
     var itemID = element.replace(/ +/g, '_').toLowerCase() + index; 
-     if (locals.optionalItemID) { 
-      itemID = locals.optionalItemID[index];
+     if (locals.el.optionalItemID) { 
+      itemID = locals.el.optionalItemID[index];
     }
     %>
     <option><%=element%></option>
-  <% }); %>
-   </select>
+    <% }); %>
+  </select>
 </div>
-
-
-
-

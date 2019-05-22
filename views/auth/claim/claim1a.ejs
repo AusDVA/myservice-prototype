@@ -46,15 +46,15 @@
 
       <%# failed to match a CBD %>
       <div class="pt-no-required-docs">
-        <h2>Upload your GP's or Specialist's medical report. (recommended)</h2>
+        <h2>Upload your GP's or Specialist's medical report (recommended)</h2>
 
 
 
         <div class="tip--wrapper">
           <h2>Documents you can provide</h2>
 
-          <p>You need to provide your
-            <b>medical diagnosis</b> (GP or specialist's medical report) to help us assess your claim. You can upload a digital photo or copy of your report below.</p>
+          <p>If you can provide your medical diagnosis (GP or specialist's medical report), it will help us process your claim faster. If this is not possible, you can provide
+            supporting documents related to your claim below.</p>
           <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
           <h3>Other supporting documents</h3>
           <p>Supporting documents help us assess your claim quickly and accurately. You can provide any of the following:
@@ -70,7 +70,26 @@
             <li>training programs or itineraries</li>
           </ul>
         </div>
-        <div class="xxxpt-upload-list">
+        <div class="form-group" id="no-cbd-upload" style="display: none;">
+          <fieldset>
+            <div class="uikit-text-input__label-wrapper--inline-block">
+              <legend class="legend-label">Would you like to upload any other supporting documents?</legend>
+
+            </div>
+
+            <div class="radio-toggle">
+              <label class="on label-left" for="no-cbd-upload-yes">
+                <input id="no-cbd-upload-yes" type="radio" name="no-cbd-upload" value="yes">
+                <span>Yes</span>
+              </label>
+              <label class="off label-right" for="no-cbd-upload-no">
+                <input id="no-cbd-upload-no" type="radio" name="no-cbd-upload" value="no">
+                <span>No</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+        <!--         <div class="xxxpt-upload-list">
           <h3>Uploads</h3>
           <table class="document-uploads">
             <tbody>
@@ -89,7 +108,7 @@
             </tbody>
           </table>
           <button class="uikit-btn btnUpload">Upload a document</button>
-        </div>
+        </div> -->
       </div>
 
 
@@ -132,7 +151,7 @@
 
         <div class="pt-upload-list">
           <div class="form-group">
-            <div class="uikit-page-alerts" role="alert">
+            <div id="process-faster" class="uikit-page-alerts" role="alert">
               <p><strong>We can process your claim faster on receiving these documents.</strong></p>
               <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
             </div>
@@ -185,22 +204,23 @@
         </div>
 
 
-        <div class="pt-cbd-nodoc uikit-page-alerts uikit-page-alerts--warning" role="alert">
+        <div id="please-provide-document" class="pt-cbd-nodoc uikit-page-alerts uikit-page-alerts--warning" role="alert">
           <p><strong>We can process your claim faster.</strong></p>
           <p>Your medical provider may be able to provide you with these documents. If this is not possible, you can provide supporting documents related to your claim below.
           </p>
         </div>
         <%# Optional extra documents  %>
-    
-    <div id="has-docs-no" class="pt-upload-list-optional" style="display: none;">
+
+        <div id="has-docs-no" class="pt-upload-list-optional" style="display: none;">
+
           <%
-            locals = {};
-              locals.question = 'Would you like to upload any other supporting documents?'; 
-              // locals.optionalHint = '(optional)'; 
-              locals.optionalID = 'other_docs'; 
+            locals.el = {};
+              locals.el.question = 'Would you like to upload any other supporting documents?'; 
+              // locals.el.optionalHint = '(optional)'; 
+              locals.el.optionalID = 'other_docs'; 
             %>
           <% include ../../../partials/forms/radio--yes-no.ejs %>
-    </div>
+        </div>
 
 
         <div class="pt-upload-other-docs">
@@ -239,21 +259,21 @@
             </table>
           </div>
         </div>
-
-
-    <div class="pagination">
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claim1'">Previous</button>
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-      <div class="floated">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claim1'">Save and exit</button>
-        <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/claim2'">Save and next</button>
       </div>
-    </div>
+
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claim1'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claim1'">Save and exit</button>
+          <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/claim2'">Save and next</button>
+        </div>
+      </div>
 
 
-    <% include ../../../partials/claims-cancel-modal.ejs %>
+      <% include ../../../partials/claims-cancel-modal.ejs %>
 
-    <% include ../../../partials/claims-removefile-modal.ejs %>
+      <% include ../../../partials/claims-removefile-modal.ejs %>
 
     </div>
   </main>
@@ -303,10 +323,11 @@
     getClaimCondition();
 
     $("#file-0").on("click", function (event) {
-      if($("#trData1 td select :selected").val() == "-- Select type --") {
+      if ($("#trData1 td select :selected").val() == "-- Select type --") {
         // event.preventDefault();
         $("#trData1-error").remove();
-        $("#trData1 td").first().prepend("<p id='trData1-error' class='input-error-message' style='margin-bottom: 0.5em; margin-left: 1em;margin-top: -0.25em;'>Please select a document type</p>");
+        $("#trData1 td").first().prepend(
+          "<p id='trData1-error' class='input-error-message' style='margin-bottom: 0.5em; margin-left: 1em;margin-top: -0.25em;'>Please select a document type</p>");
         $("#trData1").addClass("mys-file-uploads__info-item").addClass("has-error");
         return false;
       } else {
@@ -315,6 +336,18 @@
       }
     });
 
+    $("#no-cbd-upload-yes").on("click", function () {
+      $(".pt-required-docs").show("fast");
+      $(".pt-upload-list").show("fast");
+      $(".pt-il-claim-required-mono-doc").hide();
+      $("#requiredDocs-yes").parent().parent().parent().hide();
+      $("#process-faster").hide();
+
+    });
+
+    $("#no-cbd-upload-no").on("click", function () {
+      $(".pt-required-docs").hide("fast");
+    });
 
   </script>
 </body>
