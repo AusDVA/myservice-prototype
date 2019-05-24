@@ -19,22 +19,24 @@
   <main>
     <div class="authenticated-home" style="background: #fff;">
       <section>
-        <!-- <div class="flex container container margin-above--large margin-below" style="margin-top: 38px;"> -->
-          <!-- <h2 class="ss-align--center"> <span style="font-size: 24px;"> -->
-          <!-- <span id="lblGreetings"></span><span class="pt-current-user-name-full"></span></span></h2> -->
-          <%#- include ../../partials/widget-tile-welcome.ejs %>
-          <%#- include ../../partials/widget-tile-task.ejs %>
-          <div class="flex-container">
-            <%- include ../../partials/widget-tile-claim.ejs %>
-            <%- include ../../partials/widget-tile-payment.ejs %>
-            <%- include ../../partials/widget-tile-profile.ejs %>
-        </div>
+        <div class="flex container container margin-above--large margin-below" style="margin-top: 38px;">
+          <div class="container">
+            <h1 class="heading--greeting"><span id="lblGreetings"></span><span class="pt-current-user-name-full"></span></h1>
+            <%#- include ../../partials/widget-tile-welcome.ejs %>
+            <%#- include ../../partials/widget-tile-task.ejs %>
+            <div class="flex-container">
+              <%- include ../../partials/widget-tile-claim.ejs %>
+              <%- include ../../partials/widget-tile-payment.ejs %>
+              <%- include ../../partials/widget-tile-profile.ejs %>
+            </div>
+            <hr class="mobile-hide margin-below--none">
+          </div>
       </section>
     </div>
 
     <section id="claim-options">
-      <div class="container" style="margin-top: 28px;" id="claims-tiles">
-        <h2 class="ss-align--center"><span style="font-size: 24px;">Claims &amp; applications</span></h2>
+      <div class="container" id="claims-tiles">
+        <h2 class="ss-align--center margin-above--none"><span style="font-size: 24px;">Claims &amp; applications</span></h2>
 
         <% if (locals.liveFeature.includes('featureNewHomePage')) { %>
         <div class="flex-container flex-container--wrap hover-container" style="margin: 0;">
@@ -319,7 +321,7 @@
   <% include ../../partials/footer.ejs %>
   <script>
 
-var totalWidgets;
+    var totalWidgets;
 
     $(document).ready(function () {
 
@@ -435,7 +437,7 @@ var totalWidgets;
             $("#insurance").show();
             updateScenario();
             break;
-           case "User with service pension and claims":
+          case "User with service pension and claims":
             $("#text-input-tasks").val(0);
             $("#text-input-incomplete").val(0);
             $("#text-input-submitted").val(2);
@@ -621,7 +623,21 @@ var totalWidgets;
 
     });
 
-   
+    //Get the current time and print good evening, morning or afternoon in the welcome message
+    //Insert a span you would like to insert the greeting into as an argument
+    function timedGreeting(spanID) {
+      var today = new Date();
+      var greeting = document.querySelector(spanID);
+      var curHr = today.getHours();
+      if (curHr < 12) {
+        greeting.innerHTML = 'Good Morning ';
+      } else if (curHr < 18) {
+        greeting.innerHTML = 'Good Afternoon ';
+      } else {
+        greeting.innerHTML = 'Good Evening ';
+      }
+    }
+    timedGreeting('#lblGreetings');
 
   </script>
 
