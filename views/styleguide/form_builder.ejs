@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+
+  <title>Style Guide | Form Builder | MyService</title>
+  <% include ../../partials/styleguide-styles-and-scripts.ejs %>
+  <style>
+    .bordered tr td:first-of-type {
+      border-right: 1px solid lightgray;
+      font-weight: bold;
+    }
+    .bordered td {
+      vertical-align: middle;
+      border-bottom: 1px solid lightgray;
+    }
+
+    .bordered th, .bordered td {
+      padding-right: 0px;
+    }
+
+    .red {
+      color: red;
+    }
+    
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+
+  <% include ../../partials/styleguide-header.ejs %>
+
+    <main>
+      <div class="container" id="main-content">
+        <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
+          <ul class="uikit-link-list uikit-link-list--inline">
+            <li>
+              <a href="/styleguide">Home</a>
+            </li>
+            <li>Callouts</li>
+          </ul>
+        </nav>
+
+        <div class="row">
+          <div class="col-sm-9">
+            <h1>Form Builder</h1>
+
+            <h2>Generate New Component</h2>
+            <div class="form-group">
+              <label for="select_component" class="uikit-text-input__label">Select component type
+              </label>
+              <select name="select_component" id="select_component" class="uikit-text-input input-half">
+                <option value=" ">Select type...</option>
+                <option data-toggle="#component-select" value="select">Select (Drop Down)</option>
+                <option data-toggle="#component-text" value="text">Text Input</option>
+                <option data-toggle="#component-textarea" value="textarea">Text Area</option>
+                <option data-toggle="#component-date" value="date">Date</option>
+                <option data-toggle="#component-yes_no" value="yes_no">Yes/No</option>
+                <option data-toggle="#component-checkbox" value="checkbox">Checkbox</option>
+                <option data-toggle="#component-radio" value="radio">Radio</option>
+                <option data-toggle="#component-pagination" value="pagination">Pagination</option>
+                <script>
+                $("#select_component").on("change", function() {
+                  $($("#select_component :selected").data("toggle")).show();
+                  $("#select_component :not(:selected)").each(function(index, elem) {
+                    $($(elem).data("toggle")).hide();
+                  });
+                });
+                </script>
+              </select>
+            </div>
+
+
+
+              <div id="component-select">
+                <table class="table-responsive bordered">
+                  <thead>
+                    <tr>
+                      <th>Config Item</th>
+                      <th>Value</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Label</td>
+                      <td><input type="text" id="select-label" placeholder="Please select your title"></td>
+                    </tr>
+                    <tr>
+                      <td>Hint <span class="red">*</span></td>
+                      <td><input type="text" id="select-hint" placeholder="(pick the most relevant)"></td>
+                    </tr>
+                    <tr>
+                      <td>ID <span class="red">*</span></td>
+                      <td><input type="text" id="select-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                    </tr>
+                    <tr>
+                      <td>Tooltip</td>
+                      <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#select-tooltip-options"}]}}]}); %>
+                      <div id="select-tooltip-options" hidden>
+                        <label>Tooltip Screen-reader Label<input type="text" id="select-tooltip-label" placeholder="Gender help"></label>
+                        <label>Tooltip Text Content<input type="text" id="select-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                      </div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>Disabled</td>
+                      <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-disabled","boxes": [{"text": ""}]}}]}); %></td>
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <table style="">
+                          <thead>
+                            <tr>
+                              <th>Options</th>
+                            </tr>
+                          </thead>
+                          <tbody id="select-options">
+                            <tr id="select-option-1" data-option-no=1>
+                              <td>
+                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Text","placeholder": "Between the <option> tags (what the user sees)"}}]}); %>
+                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Custom Value <span class='red'>*</span>","placeholder": "value=\"select-opt1\""}}]}); %>
+                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Toggle Element <span class='red'>*</span>","placeholder": "CSS Selector for element to toggle if selected"}}]}); %>
+                              <div class="form-group">
+                                <div class="uiToolKitCheckBox">
+                                  <label class="uikit-control-input">
+                                    <input type="checkbox" name="select-opt-selected" class="select-opt-selected uikit-control-input__input">
+                                    <span class="uikit-control-input__text">Selected </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","boxes": [{"text": "Disabled"}]}}]}); %>
+                              <button class="another-option uikit-btn">Add another</button>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </td>
+                    </tr>
+                </table>
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+
+                <div id="select-demo-default" hidden>
+                  <div class="form-group">
+                    <label for="" class="uikit-text-input__label">Select component type
+                    </label>
+                    <select name="" id="" class="uikit-text-input input-half">
+                    </select>
+                  </div>
+                </div>
+                <div id="select-demo">
+                  
+                </div>
+
+                <div id="select-code">
+                  <pre>
+                    <code class="language-ejs">
+                      
+                    </code>
+                  </pre>
+                </div>
+              </div>
+
+              <div hidden id="component-text">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-textarea">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-date">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-yes_no">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-checkbox">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-radio">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+              <div hidden id="component-pagination">
+                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+              </div>
+
+
+          </div>
+          <% include ../../partials/styleguide-sidenav.ejs %>
+        </div>
+      </div>
+    </main>
+    <% include ../../partials/styleguide-footer.ejs %>
+
+    <script>
+      $(".another-option").on("click", function() {
+        elem = $("#select-option-1").clone();
+        elem.data("option-no", $("#select-options :last-child").data("option-no") + 1);
+        elem.attr("id", "select-option-"+elem.data("option-no"));
+        elem.appendTo($("#select-options"));
+      });
+
+      $(".select-opt-selected").on("change", function() {
+        if($(this).prop("checked")) {
+         $(".select-opt-selected").not($(this)).each(function() {
+          $(this).prop("disabled", true);
+         });
+       } else {
+         $(".select-opt-selected").each(function() {
+          $(this).prop("disabled", false);
+         });
+      }
+    });
+
+    var tooltip = `
+<div class="tooltip">
+  <div id="TOOLTIP__LABEL" class="tooltip__control" tabindex="0" role="button" aria-controls="TOOLTIP__MESSAGE" aria-expanded="false">
+    <div class="tooltip__label tooltip__label--icon-only">
+      <a>TOOLTIP LABEL</a>
+    </div>
+    <div class="tooltip__tab"></div>
+  </div>
+  <div id="TOOLTIP__message" class="tooltip__content" aria-labelledby="TOOLTIP__label" role="region" tabindex="-1" aria-hidden="true">
+    <div class="tooltip__message">
+      TOOLTIP TEXT
+      <div class="tooltip__close" role="button" tabindex="0">Close</div>
+    </div>
+  </div>
+</div>`;
+
+    $("#component-select").on("change", "input", function() {
+      $("#select-demo").html($("#select-demo-default").html());
+      if($("#select-label").val() != "") {
+        $("#select-demo label").text($("#select-label").val());
+        if($("#select-hint").val() != "") {
+          $("#select-demo label").append("<span class='hint')"+$("#select-hint").val()+"</span>");
+        }
+        if($("select-tooltip-1-1").prop("checked") && $("#select-tooltip-text").val() != "" && $("#select-tooltip-label").val() != "") {
+          $("#select-demo label").append(tooltip);
+          $("#select-demo label .tooltip div:first-of-type").attr("id", ($("#select-id").val() != "") ? $("#select-id")+"__label" : "select__label");
+        }
+
+      }
+
+    });
+    </script>    
+
+
+</body>
+
+</html>
+
+<%#
+select-label
+select-hint
+select-id
+select-tooltip-label
+select-tooltip-text
+select-disabled
+
+select-options
+%>

@@ -42,6 +42,12 @@
 
             </div>
 
+                  <div class="uikit-page-alerts" role="alert">
+                      <p>A
+                        <b>co-owner</b> is someone who shares ownership of the property. Their name will be on the property title deed.</p>
+                      <p>A
+                        <b>co-borrower</b> is someone you plan to sign the loan with. Their name will appear on the mortgage documents.</p>
+                    </div>
 
             <div class="form-group" id="co-ownerQuestion">
               <fieldset>
@@ -82,92 +88,19 @@
             </div>
 
             <div id="coOwner__no" class="margin-above" hidden>
-                  <div class="uikit-page-alerts" role="alert">
-                      <p>A
-                        <b>co-owner</b> is someone who shares ownership of the property. Their name will be on the property title deed.</p>
-                      <p>A
-                        <b>co-borrower</b> is someone you plan to sign the loan with. Their name will appear on the mortgage documents.</p>
-                    </div>
               <p>Choose
                 <b>save and next</b> to continue.</p>
             </div>
 
             <div id="coOwnerDetails" hidden>
-                  <div class="uikit-page-alerts" role="alert">
-                      <p>A
-                        <b>co-owner</b> is someone who shares ownership of the property. Their name will be on the property title deed.</p>
-                      <p>A
-                        <b>co-borrower</b> is someone you plan to sign the loan with. Their name will appear on the mortgage documents.</p>
-                    </div>
 
-              <fieldset>
-                <legend class="legend-label">Select an option that best relates to your co-owner/borrower</legend>
-                <div id="serve-status" class="radio-tile--group">
-                  <label class="radio-tile" for="gs-serving">
-                    <input id="gs-serving" class="sr" type="radio" name="getting-started">
-                    <span>
-                      <img src="../../../../docs/images/ico-user-serving.svg" alt="I am still serving image">They are still serving</span>
-                  </label>
+                <h2 class="margin-below">
+                  <span class="font-weight-heavy">Contact details of co-owner/borrower</span>
+                </h2>
 
-                  <label class="radio-tile" for="gs-served">
-                    <input id="gs-served" class="sr" type="radio" name="getting-started">
-                    <span>
-                      <img src="../../../../docs/images/ico-user-formerserving.svg" alt="I am no longer serving image">They are no longer serving</span>
-                  </label>
-
-                  <label class="radio-tile" for="gs-neverserved">
-                    <input id="gs-neverserved" class="sr" type="radio" name="getting-started">
-                    <span>
-                      <img src="../../../../docs/images/ico-user-nonserving.svg" alt="I have never served image">They have never served</span>
-                  </label>
-                </div>
-              </fieldset>
 
 
               <!-- Co-owner/borrower contact details -->
-              <div id="service-details" style="display: none;">
-                <fieldset>
-                  <legend>Service details</legend>
-
-
-                  <div class="form-group">
-                    <div class="row col-xs-12 col-md-8 col-lg-7">
-                      <legend class="legend-label">
-                        <span id="rank">Co-owner/borrower's current branch of service <span class="hint">(if applicable)</span></span>
-                      </legend>
-
-                      <div class="mys-radio-group mys-radio-group--cols-3">
-
-                        <label class="mys-radio">
-                          <input class="mys-radio__control" type="radio" name="arm" value="navy">
-                          <span class="mys-radio__box">Navy</span>
-                        </label>
-
-                        <label class="mys-radio">
-                          <input class="mys-radio__control" type="radio" name="arm" value="army">
-                          <span class="mys-radio__box mys-radio__box">Army</span>
-                        </label>
-
-                        <label class="mys-radio">
-                          <input class="mys-radio__control" type="radio" name="arm" value="airforce">
-                          <span class="mys-radio__box mys-radio__box">Air Force</span>
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </fieldset>
-
-                <div class="form-group">
-                  <label class="uikit-text-input__label" for="highest-rank" id="rank">Co-owner/borrower's highest rank achieved</label>
-                  <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
-                    <option selected>
-                      -- Select highest rank --
-                    </option>
-                    <option value=""> --- please select an arm above --- </option>
-                  </select>
-                </div>
-
-              </div>
 
               <!-- PRE POPULATE FORM -->
               <%# <div class="form-group" id="prepopulate" style="display: none;">
@@ -183,21 +116,17 @@
 
 
               <div id="contactdetails">
-                <h2 class="margin-below">
-                  <span class="font-weight-heavy">Contact details of co-owner/borrower</span>
-                </h2>
 
-                <div class="form-group" id="PartnerTitle">
-                  <label class="uikit-text-input__label" for="title">Title
-                  </label>
-                  <select class="uikit-text-input input-half" id="title" name="title">
-                    <option>-- Select title --</option>
-                    <option>Mr</option>
-                    <option>Ms</option>
-                    <option>Miss</option>
-                    <option>Mrs</option>
-                  </select>
-                </div>
+                <%- include("../../../../partials/form_partials.ejs", {
+                  "forms": [
+                    {
+                      "type": "text",
+                      "config": {
+                        "label": "Title/Rank"
+                      }
+                    }
+                  ]
+                }); %>
 
                 <div class="form-group" id="PartnerGivenName">
                   <label class="uikit-text-input__label" for="GivenName">Given name
@@ -219,12 +148,30 @@
                   </label>
                   <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
                 </div>
+                <%- include("../../../../partials/form_partials.ejs", {
+                      "forms": [
+                        {
+                          "type": "y_n_toggle",
+                          "config": {
+                            "label": "Has this co-owner/borrower ever used or been known by any other names?",
+                            "yes_toggle": "#previous-names"
+                          }
+                        }
+                      ]
+                    }); %>
 
-                <!-- ADD PREVIOUS NAMES BOX -->
-                <% locals.el = {};
-                      locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by any other names?"; %>
-                <% include ../../../../partials/form_groups/former_names.ejs %>
-                <%# Has this co-borrower ever used or been known by other names %>
+                <div id="previous-names" hidden>                
+                  <%- include("../../../../partials/form_partials.ejs", {
+                    "forms": [
+                      {
+                        "type": "text",
+                        "config": {
+                          "label": "Please enter all previous, separated by commas"
+                        }
+                      }
+                    ]
+                  }); %>
+                </div>
 
                 <div class="form-group" id="PartnerDOB">
                   <label class="uikit-text-input__label" for="date">Date of birth
