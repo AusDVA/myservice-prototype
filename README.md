@@ -23,16 +23,19 @@ Before contributing to the codebase, please familiarise yourself with [Google HT
 
 Install a sass linter e.g. [Sass Lint](https://marketplace.visualstudio.com/items?itemName=glen-84.sass-lint). The .sasslintrc file in this project has been configured to reflect the Google style guide. 
 
-## Other stuff
-The [liverelod VS code app](https://marketplace.visualstudio.com/items?itemName=ziishaned.livereload) and [chrome extension](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei) is very handy.
+## Feature flags
+The `./feature-live-list.json` contains a list of future features. Any feature added to the **production** array will be seen in [demo](http://myservice-demo.herokuapp.com/) and any feature added **development** will be seen in [disco](http://myservice-disco.herokuapp.com/). To create new features, an ejs if statement is needed e.g. ` <% if (locals.liveFeature.includes('featureLsa')) { %> ` in the ejs file. 
 
 
-## Backstop
+## Visual regression testing
 
-There are 2 gulp commands for running regression tests:  
+*Visual regression testing is under review.*
+~~[BackstopJS](https://garris.github.io/BackstopJS/) is avaliable in this repo. There are 2 gulp wrappers for running tests:  
 `gulp unit-test` - runs a test on **just** the styleguide  
-`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)  
+`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)~~   
   
-If the `backstop_data/bitmaps_reference` directory does not exist, it will generate reference screenshots, but if it does exist it will compare the screenshots to existing reference images.  
+~~The first time you run a test, BackstopJS will generate reference screenshots (so it's best to do this on the master branch). Once that's done you'll need to run `gulp unit-test` again.~~
   
-**Please Note** You will need another terminal/command prompt window running `gulp serve` to run this.
+~~**Note** BackstopJS requirers [myservice](http://localhost:5000) to be running.~~
+
+

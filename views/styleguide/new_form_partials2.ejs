@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+
+  <title>Style Guide | New Form Partials | MyService</title>
+  <% include ../../partials/styleguide-styles-and-scripts.ejs %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+
+  <% include ../../partials/styleguide-header.ejs %>
+
+    <main>
+      <div class="container" id="main-content">
+        <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
+          <ul class="uikit-link-list uikit-link-list--inline">
+            <li>
+              <a href="/styleguide">Home</a>
+            </li>
+            <li>New Form Partials</li>
+          </ul>
+        </nav>
+
+        <div class="row">
+          <div class="col-sm-9">
+            <h1>New Form Partials</h1>
+            <h2>Introduction</h2>
+            <p>Through the introduction of the new form partials format, it gives you the ability to create forms in a simpler manner and gives you the ability to introduce dynamic content without using any javascript, therefore speeding up the form building process.</p>
+            <h2>Types of forms:</h2>
+            <ul>
+              <li class="uikit-link-list"><a href="#select">Select (Drop down)</a></li>
+              <li class="uikit-link-list"><a href="#text">Text</a></li>
+              <li class="uikit-link-list"><a href="#textarea">Text Area</a></li>
+              <li class="uikit-link-list"><a href="#date">Date</a></li>
+              <li class="uikit-link-list"><a href="#yes_no">Yes/No Box</a></li>
+              <li class="uikit-link-list"><a href="#checkbox">Checkbox</a></li>
+              <li class="uikit-link-list"><a href="#radio">Radio</a></li>
+              <li class="uikit-link-list"><a href="#pagination">Pagination</a></li>
+            </ul>
+
+        <div data-contents="select">
+          <h2 id="select">Select (Drop Down)</h2>
+          <div class="example-box">
+            <h3>Simple Drop Down</h3>
+            <p>Simple drop downs can be used when finer control of individual options is not needed. The simple type cannot do things like hide or disable items in the list, nor can it set the value attribute of an option to a given value. It does not do any extra functionality.</p>
+            <p>When more advanced features are needed, refer to the advanced drop down.</p>
+            <h4>Simple Dropdown Example:</h4>
+            <%- include("../../partials/form_partials.ejs", {
+              "forms": [
+                {
+                  "type": "select",
+                  "config": {
+                    "label": "Gender",
+                    "hint": "Please select the option closest to how you identify",
+                    "id": "",
+                    "options": [
+                      "Select Your Gender",
+                      "Male",
+                      "Female",
+                      "Other"
+                    ]
+                  }
+                }
+              ]
+            }); %>
+            <h4>Simple Dropdown Code:</h4>
+            <pre>
+              <code class="language-markup">
+                <script type="text/html">
+                  <%%- include(partials+"form_partials.ejs", {
+                    "forms": [
+                      {
+                        "type": "select",
+                        "config": {
+                          "label": "Gender",
+                          "hint": "Please select the option closest to how you identify",
+                          "id": "",
+                          "options": [
+                            "Select Your Gender",
+                            "Male",
+                            "Female",
+                            "Other"
+                          ]
+                        }
+                      }
+                    ]
+                  }); %%>
+                </script>
+              </code>
+            </pre>
+            <h4>Simple Dropdown HTML Code:</h4>
+            <pre>
+              <code class="language-markup">
+                <script type="text/html">
+                  <div class="form-group">
+                    <label for="selectgender" class="uikit-text-input__label">Gender <span class="hint">Please select the option closest to how you identify</span></label>
+                    <select name="selectgender" id="selectgender" class="uikit-text-input input-half">
+                      <option selected="" value="select_your_gender">Select Your Gender</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
+                    </select>
+                  </div>
+                </script>
+              </code>
+            </pre>
+            <hr>
+            <h4>Advanced Dropdown Example:</h4>
+            <p hidden id="advanced-mr">
+              You have selected <code>Mister</code>
+            </p>
+            <p hidden id="advanced-mrs">
+              You have selected <code>Misses</code>
+            </p>
+            <p hidden id="advanced-dr">
+              You have selected <code>Doctor</code>
+            </p>
+            <%- include("../../partials/form_partials.ejs", {
+              "forms": [
+                {
+                  "type": "select",
+                  "config": {
+                    "label": "Please select your title",
+                    "hint": "",
+                    "id": "title",
+                    "required": false,
+                    "disabled": false,
+                    "hidden": false,
+                    "options": [
+                      {
+                        "text": "-- Select title --",
+                        "value": "select_title",
+                        "selected": true,
+                        "disabled": true,
+                        "hidden": true
+                      },
+                      {
+                        "text": "None"
+                      },
+                      {
+                        "text": "Mr",
+                        "toggle": "#advanced-mr"
+                      },
+                      {
+                        "text": "Mrs",
+                        "toggle": "#advanced-mrs"
+                      },
+                      {
+                        "text": "Dr",
+                        "toggle": "#advanced-dr"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }); %>
+            <h4>Advanced Dropdown Code:</h4>
+            <pre>
+              <code class="language-markup">
+                <script type="text/html">
+                  <p hidden id="advanced-mr">
+                    You have selected <code>Mister</code>
+                  </p>
+                  <p hidden id="advanced-mrs">
+                    You have selected <code>Misses</code>
+                  </p>
+                  <p hidden id="advanced-dr">
+                    You have selected <code>Doctor</code>
+                  </p>
+                  <%%- include("../../partials/form_partials.ejs", {
+                    "forms": [
+                      {
+                        "type": "select",
+                        "config": {
+                          "label": "Please select your title",
+                          "hint": "",
+                          "id": "title",
+                          "required": false,
+                          "disabled": false,
+                          "hidden": false,
+                          "options": [
+                            {
+                              "text": "-- Select title --",
+                              "value": "select_title",
+                              "selected": true,
+                              "disabled": true,
+                              "hidden": true
+                            },
+                            {
+                              "text": "None"
+                            },
+                            {
+                              "text": "Mr",
+                              "toggle": "#advanced-mr"
+                            },
+                            {
+                              "text": "Mrs",
+                              "toggle": "#advanced-mrs"
+                            },
+                            {
+                              "text": "Dr",
+                              "toggle": "#advanced-dr"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }); %%>
+                </script>
+              </code>
+            </pre>
+            <h4>Advanced Dropdown HTML/JavaScript Code:</h4>
+            <pre>
+              <code class="language-markup">
+                <script type="text/html">
+                  <p hidden id="advanced-mr">
+                    You have selected <code>Mister</code>
+                  </p>
+                  <p hidden id="advanced-mrs">
+                    You have selected <code>Misses</code>
+                  </p>
+                  <p hidden id="advanced-dr">
+                    You have selected <code>Doctor</code>
+                  </p>
+                  <div class="form-group">
+                    <label for="title" class="uikit-text-input__label">Please select your title </label>
+                    <select name="title" id="title" class="uikit-text-input input-half">
+                      <option hidden="" disabled="" selected="" value="select_title">-- Select title --</option>
+                      <option value="none">None</option>
+                      <option data-toggle="#advanced-mr" value="mr">Mr</option>
+                      <option data-toggle="#advanced-mrs" value="mrs">Mrs</option>
+                      <option data-toggle="#advanced-dr" value="dr">Dr</option>
+                      <script>
+                      $("#title").on("change", function() {
+                        $($("#title :selected").data("toggle")).show();
+                        $("#title :not(:selected)").each(function(index, elem) {
+                          $($(elem).data("toggle")).hide();
+                        });
+                      });
+                      </script>
+                    </select>
+                  </div>
+                </script>
+              </code>
+            </pre>
+            <%- include("../../partials/form_partials.ejs", {
+              "forms": [
+                {
+                  "type": "checkbox",
+                  "config": {
+                    "label": " ",
+                    "id": "checkbox-select",
+                    "boxes": [
+                      {
+                        "text": "Tick this checkbox to view full reference for drop downs",
+                        "hint": "(for full advanced functionality and explanations)",
+                        "toggle": "#select-reference"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }); %>
+            <div id="select-reference" hidden>
+
+            </div>
+          </div>
+        </div>
+
+
+          </div>
+          <% include ../../partials/styleguide-sidenav.ejs %>
+        </div>
+      </div>
+    </main>
+    <% include ../../partials/styleguide-footer.ejs %>
+</body>
+
+</html>
