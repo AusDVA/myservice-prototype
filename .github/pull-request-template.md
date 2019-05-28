@@ -1,4 +1,4 @@
-###Front End Dev Checklist:
+### :zap: Front End Dev Checklist :zap:
 
 * [ ] Can you use existing components? Or add modifiers to existing components? 
 * [ ] Does your code follow BEM?
