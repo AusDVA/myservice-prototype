@@ -32,15 +32,8 @@
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
 
-            <div class="margin-above--large ">
-              <div id="progressbar">
-                <div id="percentage">
-                  <p id="percentage_value">5% complete</p>
-                </div>
-              </div>
-              <p style="padding-top:0.4em;">5% complete</p>
-
-            </div>
+          <h2>Do you have a  co-owner/borrower of the property?</h2>
+          <p>You may be eligible for one loan which will be apportioned equally between partners.</p>
 
                   <div class="uikit-page-alerts" role="alert">
                       <p>A
@@ -49,43 +42,19 @@
                         <b>co-borrower</b> is someone you plan to sign the loan with. Their name will appear on the mortgage documents.</p>
                     </div>
 
-            <div class="form-group" id="co-ownerQuestion">
-              <fieldset>
-
-                <div class="uikit-text-input__label-wrapper--inline-block">
-                  <legend class="uikit-text-input__label legend-label" id="question_gender">Will there be a co-owner/borrower of the property?</legend>
-                </div>
-<!--                 <div class="tooltip">
-                  <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
-                    <div class="tooltip__label tooltip__label--icon-only">
-                      <a>co-owner</a>
-                    </div>
-                    <div class="tooltip__tab"></div>
-                  </div>
-                  <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
-                    <div class="tooltip__message">
-
-                      <p class="">A
-                        <b>co-owner</b> is someone who shares ownership of the property. Their name will be on the property title deed.</p>
-                      <p>A
-                        <b>co-borrower</b> is someone you plan to sign the loan with. Their name will appear on the mortgage documents.</p>
-
-                      <div class="tooltip__close" role="button" tabindex="0">Close</div>
-                    </div>
-                  </div>
-                </div> -->
-                <div class="radio-toggle">
-                  <label class="on label-left">
-                    <input id="coOwner-yes" type="radio" name="co-owner" value="yes">
-                    <span>Yes</span>
-                  </label>
-                  <label class="off label-right">
-                    <input id="coOwner-no" type="radio" name="co-owner" value="no">
-                    <span>No</span>
-                  </label>
-                </div>
-              </fieldset>
-            </div>
+            <%- include(partials+"form_partials.ejs", {
+              "forms": [
+                {
+                  "type": "y_n_toggle",
+                  "config": {
+                    "id": "co_owner",
+                    "label": "Will there be a co-owner/borrower of the property?",
+                    "yes_toggle": "#coOwnerDetails",
+                    "no_toggle": "#coOwner__no"
+                  }
+                }
+              ]
+            }); %>
 
             <div id="coOwner__no" class="margin-above" hidden>
               <p>Choose
@@ -389,17 +358,12 @@
 
 
   <script>
-    // Progress percentage
-    document.getElementById("percentage").style.width = "40%";
-    document.getElementById("percentage_value").innerText = "40%";
-
-
     // Javascript Rules
 
     $("#anotherCoOwner-yes").on("click", () => {
       $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc2b'");
     });
-    $("#anotherCoOwner-no").on("click", () => {
+    $("#anotherCoOwner-no, #co_owner-no").on("click", () => {
       $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc3'");
     });
 
@@ -452,23 +416,6 @@
     $("#anotherCoOwner-no").click(function () {
       $("#no-coowner").show();
     });
-
-    // $("#non-partnerCo-borrower").click(function () {
-    //   if ($(this).prop('checked')) {
-    //     $("#InterestInProperty").show();
-    //   } else {
-    //     $("#InterestInProperty").hide();
-    //   }
-    // });
-
-    document.getElementById('non-partnerCo-borrower').onclick = function (event) {
-      debugger
-      if (event.target.checked) {
-        document.getElementById('InterestInProperty').style.display = ''
-      } else {
-        document.getElementById('InterestInProperty').style.display = 'none'
-      }
-    }
 
     $.ajax({
       url: '/docs/data/rank.json',
