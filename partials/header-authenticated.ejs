@@ -1,3 +1,14 @@
+<%
+// v = locals.main_nav_active;
+locals.el = {};
+locals.el.items = ["Home","Tasks","Claims","Payments","Cards","Transport","Profile","My Account"];
+locals.el.itemID = ["home","tasks","claim","payments","healthcard","travel","profile","myaccount"];
+locals.el.itemLink = ["/auth","/auth","/auth/claim","/auth/payments","/auth/healthcard","/auth/travel","/auth/profile","#open-myaccount-modal"];
+locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+// locals.iconTweaks = ["","","","","vertical-align:-0%;","line-height: -10px;","",""];
+// locals.main_nav_active = v;
+%>
+
 <header class="uikit-header">
   <div class="container">
     <a class="nounderline" href="/auth">
@@ -5,33 +16,46 @@
     </a>
     <button class="toggle" aria-expanded="false">Menu</button>
     <ul class="menu">
+      <% locals.el.items.forEach(function(element, index) {
+          var itemID = locals.el.itemID[index];
+          var itemLink = locals.el.itemLink[index];
+          var link = '<a href="' + itemLink + '"';
+          if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
+            link += ' class="nav-active"'; 
+          }
+          // if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
+          //   link += ' class="nav-active"'; 
+          // }
+          console.log('itemID');
+          console.log(itemID);
 
-      <li>
-        <a class="header-home <% if (!!locals.main_nav_active && locals.main_nav_active === 'home') { %>nav-active<% } %>" href="/auth">Home</a>
-      </li>
-      <li>
-        <a class="header-claims <% if (!!locals.main_nav_active && locals.main_nav_active === 'claim') { %>nav-active<% } %>" href="/auth/claim">Claims</a>
-      </li>
+          link += '>';
+          %>
 
-      <li>
-        <a class="header-payments <% if (!!locals.main_nav_active && locals.main_nav_active === 'payments') { %>nav-active<% } %>" href="/auth/payments">Payments</a>
+      <li id=<%- itemID %>><%- link %><div class="fal <%= locals.el.icons[index] %> fa-2x"></div>
+        <div class="name"><%= element %></div></a>
       </li>
-
-      <li>
-        <a class="header-healthcard <% if (!!locals.main_nav_active && locals.main_nav_active === 'healthcard') { %>nav-active<% } %>" href="/auth/healthcard"">Cards</a>
-      </li>
-      <li>
-        <a class=" header-travel <% if (!!locals.main_nav_active && locals.main_nav_active === 'travel') { %>nav-active<% } %>" href="/auth/travel">Transport</a>
-      </li>
-      <li>
-        <a class="header-profile <% if (!!locals.main_nav_active && locals.main_nav_active === 'profile') { %>nav-active<% } %>" href="/auth/profile">My profile</a>
-      </li>
-      <li>
-        <a class="header-myaccount <% if (!!locals.main_nav_active && locals.main_nav_active === 'myaccount') { %>nav-active<% } %>" href="#open-myaccount-modal">MyAccount</a>
-      </li>
-      <!-- <li>
-        <a class="header-profile <% if (!!locals.main_nav_active && locals.main_nav_active === 'myaccount') { %>nav-active<% } %>" href="#open-myaccount-modal">Nom reps</a>
-      </li> -->
+      <%});%>
     </ul>
   </div>
 </header>
+
+<script>
+  // $("#travel").mouseenter(function () {
+  //   $(this).find('.icon').removeClass("fa-car-alt");
+  //   $(this).find('.icon').addClass("fa-car-bump");
+  // });
+  // $("#travel").mouseleave(function () {
+  //   $(this).find('.icon').addClass("fa-car-alt");
+  //   $(this).find('.icon').removeClass("fa-car-bump");
+  // });
+
+</script>
+
+<style>
+  #myaccount a {
+    /* border-left: 2px solid rgba(255, 255, 255, .2) !important;
+    padding-left: 8px; */
+  }
+
+</style>

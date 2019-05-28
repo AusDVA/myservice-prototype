@@ -67,7 +67,7 @@ app.use(
 );
 
 console.log('build env:', app.settings.env);
-var liveFeatureList = require('./feature-live-list.json');
+var liveFeatureList = require('./feature-flag-list.json');
 var liveFeatureEnv = [];
 
 // loading in different lists depending on which git branch (but not in heroku)
