@@ -22,8 +22,8 @@
         <div class="margin-above--large margin-below" style="margin-top: 38px;">
           <div class="container">
             <h1 class="heading--greeting"><span id="lblGreetings"></span><span class="pt-current-user-name-full"></span></h1>
-            <%#- include ../../partials/widget-tile-welcome.ejs %>
-            <%#- include ../../partials/widget-tile-task.ejs %>
+            <%- include ../../partials/widget-tile-message-welcome.ejs %>
+            <%- include ../../partials/widget-tile-message-profile.ejs %>
             <div class="flex-container">
               <%- include ../../partials/widget-tile-claim.ejs %>
               <%- include ../../partials/widget-tile-payment.ejs %>
@@ -291,22 +291,22 @@
         <div class="ss-box"><input id="text-input-submitted" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
         <div class="ss-text">Submitted claims</div>
       </div>
-      <div class="tr">
+    <!--   <div class="tr">
         <div class="ss-box"><input id="text-input-tasks" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets"></div>
         <div class="ss-text">Tasks</div>
-      </div>
+      </div> -->
       <p class="uiToolKitCheckBox">
         <label class="uikit-control-input" for="payment-received">
           <input class="uikit-control-input__input" type="checkbox" id="payment-received" name="numWidgets">
           <span class="uikit-control-input__text">Payment received</span>
         </label>
       </p>
-      <p class="uiToolKitCheckBox">
+      <!-- <p class="uiToolKitCheckBox">
         <label class="uikit-control-input" for="service-history">
           <input class="uikit-control-input__input" type="checkbox" id="service-history" name="numWidgets">
           <span class="uikit-control-input__text">Service history provided</span>
         </label>
-      </p>
+      </p> -->
       <div class="form-group review__table">
         <h4>Overrides</h4>
         <p class="uiToolKitCheckBox">
@@ -340,12 +340,12 @@
 
       /* Tasks widget */
 
-      var tasks = sessionStorage.getItem('tasks');
-      if (tasks == null) tasks = 0;
-      $("#text-input-tasks").val(tasks);
-      $("#text-input-tasks").keyup(function () {
-        updateScenario();
-      });
+      // var tasks = sessionStorage.getItem('tasks');
+      // if (tasks == null) tasks = 0;
+      // $("#text-input-tasks").val(tasks);
+      // $("#text-input-tasks").keyup(function () {
+      //   updateScenario();
+      // });
 
       /* Claims widget */
 
@@ -374,12 +374,12 @@
 
       /* Profile widget */
 
-      var service_history = sessionStorage.getItem('service_history');
-      if (service_history == null) service_history = false;
-      $('#service_history').prop("checked", service_history);
-      $("#service-history").click(function (e) {
-        updateScenario();
-      });
+      // var service_history = sessionStorage.getItem('service_history');
+      // if (service_history == null) service_history = false;
+      // $('#service_history').prop("checked", service_history);
+      // $("#service-history").click(function (e) {
+      //   updateScenario();
+      // });
 
       /* First login */
 
@@ -423,7 +423,7 @@
             $("#text-input-incomplete").val(1);
             $("#text-input-submitted").val(2);
             $('#payment-received').prop("checked", false);
-            $('#service-history').prop("checked", false);
+            // $('#service-history').prop("checked", false);
             $('#first-login').prop("checked", false);
             hideAllClaims();
             $("#il").show();
@@ -442,7 +442,7 @@
             $("#text-input-incomplete").val(0);
             $("#text-input-submitted").val(2);
             $('#payment-received').prop("checked", true);
-            $('#service-history').prop("checked", true);
+            // $('#service-history').prop("checked", true);
             $('#first-login').prop("checked", false);
             hideAllClaims();
             $("#il").show();
@@ -461,7 +461,7 @@
             $("#text-input-incomplete").val(0);
             $("#text-input-submitted").val(0);
             $('#payment-received').prop("checked", false);
-            $('#service-history').prop("checked", true);
+            // $('#service-history').prop("checked", true);
             $('#first-login').prop("checked", false);
             hideAllClaims();
             $("#education").show();
@@ -496,10 +496,10 @@
       function updateFirstLogin() {
         if ($("#first-login").prop("checked") == true) {
           hideAll();
-          $("#first-login-message").show("fast");
+          $("#welcome-message").show("fast");
           sessionStorage.setItem('first_login', true);
         } else {
-          $("#first-login-message").hide("fast");
+          $("#welcome-message").hide("fast");
           sessionStorage.setItem('first_login', false);
         }
       }
@@ -509,32 +509,32 @@
       function updateScenario() {
         hideAll();
         totalWidgets = 0;
-        // updateGreeting();
-        // updateTasksWidget();
+        updateGreeting();
         updateClaimsWidget();
-        // updatePaymentsWidget();
-        // updateProfileWidget();
+        updatePaymentsWidget();
         /* add backup widget */
-        if (totalWidgets <= 2) {
+        if (totalWidgets <= 2 && totalWidgets > 0) {
           $("#widget-profile").show("fast");
           totalWidgets++;
         }
+         if (totalWidgets == 0) {
+          $("#profile-message").show("fast");
+        }
         /* Over ride for first login */
         updateFirstLogin();
-        updateLayout();
+        // updateLayout();
       }
 
       /* Init */
 
-      // updateScenario();
+      updateScenario();
 
       function hideAll() {
-        $("#widget-tasks").hide();
         $("#widget-claims").hide();
         $("#widget-payment").hide();
         $("#widget-profile").hide();
-        $("#first-login-message").hide();
-        $("#update-message").hide();
+        $("#welcome-message").hide();
+        $("#profile-message").hide();
       }
 
       function hideAllClaims() {
