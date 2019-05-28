@@ -29,6 +29,12 @@ app.set('view engine', 'ejs');
 //   feature2: true
 // });
 
+app.use(function(req, res, next) {
+  res.locals.partials = __dirname + '/partials/';
+  next();
+});
+
+
 // create sitemap 
 app.use('/files', serveIndex('views', {
   'icons': true

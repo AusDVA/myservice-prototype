@@ -94,7 +94,7 @@
                       <td><input type="text" id="select-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
                     </tr>
                     <tr>
-                      <td>Tooltip</td>
+                      <td>Tooltip <span class="red">*</span></td>
                       <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#select-tooltip-options"}]}}]}); %>
                       <div id="select-tooltip-options" hidden>
                         <label>Tooltip Screen-reader Label<input type="text" id="select-tooltip-label" placeholder="Gender help"></label>
@@ -103,43 +103,25 @@
                       </td>
                     </tr>
                     <tr>
-                      <td>Disabled</td>
+                      <td>Disabled <span class="red">*</span></td>
                       <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-disabled","boxes": [{"text": ""}]}}]}); %></td>
                     </tr>
                     <tr>
+                      <td colspan="2" id="options">
+                        <button style="text-align: center; margin: 0.5em auto 1em auto;" id="toggle-extra" class="display-block uikit-btn uikit-btn--tertiary">Toggle Advanced Options</button>
+
+                        
+                      </td>
+                    </tr>
+                    <tr>
                       <td colspan="2">
-                        <table style="">
-                          <thead>
-                            <tr>
-                              <th>Options</th>
-                            </tr>
-                          </thead>
-                          <tbody id="select-options">
-                            <tr id="select-option-1" data-option-no=1>
-                              <td>
-                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Text","placeholder": "Between the <option> tags (what the user sees)"}}]}); %>
-                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Custom Value <span class='red'>*</span>","placeholder": "value=\"select-opt1\""}}]}); %>
-                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "text","config": {"label": "Toggle Element <span class='red'>*</span>","placeholder": "CSS Selector for element to toggle if selected"}}]}); %>
-                              <div class="form-group">
-                                <div class="uiToolKitCheckBox">
-                                  <label class="uikit-control-input">
-                                    <input type="checkbox" name="select-opt-selected" class="select-opt-selected uikit-control-input__input">
-                                    <span class="uikit-control-input__text">Selected </span>
-                                  </label>
-                                </div>
-                              </div>
-                              <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","boxes": [{"text": "Disabled"}]}}]}); %>
-                              <button class="another-option uikit-btn">Add another</button>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                        <button id="add-another-option" style="text-align: center; margin: 0.5em auto 1em auto;" class="display-block uikit-btn">Add Another</button>
                       </td>
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
 
-                <div id="select-demo-default" hidden>
+                <div id="select-demo-default " hidden>
                   <div class="form-group">
                     <label for="" class="uikit-text-input__label">Select component type
                     </label>
@@ -196,15 +178,81 @@
     </main>
     <% include ../../partials/styleguide-footer.ejs %>
 
+    <table class="option" id="opt-template" data-option-no="0" hidden>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody class="basic">
+        <tr class="option-text">
+          <td>Option Text <span class="red">*</span></td>
+          <td>
+            <input type="text" placeholder="What the user sees in the dropdown">
+          </td>
+        </tr>
+      </tbody>
+      <tbody class="advanced" hidden>
+        <tr class="option-value">
+          <td>Custom Value Attribute <span class="red">*</span></td>
+          <td><input type="text" placeholder='value="option"'></td>
+        </tr>
+        <tr class="option-toggle">
+          <td>Toggle Element <span class="red">*</span></td>
+          <td><input type="text" placeholder="CSS Selector for element to toggle if selected"></td>
+        </tr>
+        <tr class="option-selected">
+          <td>Selected by Default<span class="red">*</span></td>
+          <td>
+            <div class="form-group">
+              <div class="uiToolKitCheckBox">
+                <label class="uikit-control-input">
+                  <input type="checkbox" name="select-opt-selected" class="select-opt-selected uikit-control-input__input">
+                  <span class="uikit-control-input__text"></span>
+                </label>
+              </div>
+            </div>
+          </td>
+        </tr>
+        <tr class="option-disabled">
+          <td>Disabled Option <span class="red">*</span></td>
+          <td>
+            <div class="form-group">
+              <div class="uiToolKitCheckBox">
+                <label class="uikit-control-input">
+                  <input type="checkbox" name="select-opt-selected" class="uikit-control-input__input">
+                  <span class="uikit-control-input__text"></span>
+                </label>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
     <script>
-      $(".another-option").on("click", function() {
-        elem = $("#select-option-1").clone();
-        elem.data("option-no", $("#select-options :last-child").data("option-no") + 1);
-        elem.attr("id", "select-option-"+elem.data("option-no"));
-        elem.appendTo($("#select-options"));
+      $("#add-another-option").on("click", function() {
+        $("#opt-template").clone().attr("id", "").attr("data-option-no", $("#options table:last-child").data("option-no") + 1).attr("hidden", false).appendTo("#options");
+
       });
 
-      $(".select-opt-selected").on("change", function() {
+      $("#toggle-extra").on("click", () => {
+        $(".advanced").each(function() {
+          $(this).toggle();
+        });
+      });
+
+      $(document).ready(() => {
+        $("#opt-template").clone().attr("id", "").attr("data-option-no", 1).appendTo("#options");
+        $("#options .option").show();
+      });
+
+      // $("#select-options tr td").on("click", ".toggle-extra", function() {
+      //   $(this).parent().find($(".extra")).toggle()
+      // });
+
+      $("#options").on("change", ".select-opt-selected", function() {
         if($(this).prop("checked")) {
          $(".select-opt-selected").not($(this)).each(function() {
           $(this).prop("disabled", true);
@@ -264,3 +312,8 @@ select-disabled
 
 select-options
 %>
+
+
+
+
+
