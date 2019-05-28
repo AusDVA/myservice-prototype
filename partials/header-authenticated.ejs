@@ -19,22 +19,25 @@ locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-cr
       <% locals.el.items.forEach(function(element, index) {
           var itemID = locals.el.itemID[index];
           var itemLink = locals.el.itemLink[index];
-          var link = '<a href="' + itemLink + '"';
+          var link = '<a href="' + itemLink + '" class="';
+          var external = '';
+
           if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
-            link += ' class="menu__item-link nav-active"'; 
+            link += 'menu__item-link nav-active'; 
           } else {
-            link += ' class="menu__item-link"'; 
+            link += 'menu__item-link'; 
           }
           // if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
           //   link += ' class="nav-active"'; 
-          // }
-          console.log('itemID');
-          console.log(itemID);
-
-          link += '>';
+          // } 
+           if (itemID === 'myaccount') { 
+            external = 'menu__item--external'; 
+          }
+        
+          link += '">';
           %>
 
-      <li class="menu__item" id=<%- itemID %>><%- link %><div class="fal <%= locals.el.icons[index] %> fa-2x"></div>
+      <li class="menu__item <%- external %>" id=<%- itemID %>><%- link %><div class="fal <%= locals.el.icons[index] %> fa-2x"></div>
         <div class="menu__item-name"><%= element %></div></a>
       </li>
       <%});%>
@@ -57,9 +60,6 @@ locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-cr
 
 
 <style>
-  #myaccount a {
-    /* border-left: 2px solid rgba(255, 255, 255, .2) !important;
-    padding-left: 8px; */
-  }
+
 
 </style>
