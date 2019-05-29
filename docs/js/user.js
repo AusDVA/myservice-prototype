@@ -36,6 +36,7 @@ function guidGenerator() {
 // end utility functions 
 
 
+// call up the persona panel via keyboard 
 $(document).keypress(function (e) {
 
   switch (e.which) {
@@ -46,6 +47,19 @@ $(document).keypress(function (e) {
     default:
   }
 });
+
+// or via mobile shake 
+var shakeEvent = new Shake({
+  threshold: 15, // optional shake strength threshold
+  timeout: 1000 // optional, determines the frequency of event generation
+});
+shakeEvent.start();
+window.addEventListener('shake', shakeEventDidOccur, false);
+
+//function to call when shake occurs
+function shakeEventDidOccur() {
+  $('.pt-choose-user').toggle();
+}
 
 function initNomRep() {
 
