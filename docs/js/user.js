@@ -48,19 +48,6 @@ $(document).keypress(function (e) {
   }
 });
 
-// or via mobile shake 
-var shakeEvent = new Shake({
-  threshold: 15, // optional shake strength threshold
-  timeout: 1000 // optional, determines the frequency of event generation
-});
-shakeEvent.start();
-window.addEventListener('shake', shakeEventDidOccur, false);
-
-//function to call when shake occurs
-function shakeEventDidOccur() {
-  $('.pt-choose-user').toggle();
-}
-
 function initNomRep() {
 
   var repFlow = getUrlParameter('repFlow');
