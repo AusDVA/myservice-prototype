@@ -1,3 +1,6 @@
+const { promisify } = require('util');
+const { resolve } = require('path');
+
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
@@ -12,7 +15,6 @@ let express = require('express'),
   // else default to a hard coded value of 5000
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
-
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -97,6 +99,44 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
 console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
 
+app.get('/sitemap', (req, res) => {
+  const fs = require('fs');
+  const readdir = promisify(fs.readdir);
+  const stat = promisify(fs.stat);
+
+  async function getFiles(dir) {
+    const subdirs = await readdir(dir);
+    const files = await Promise.all(subdirs.map(async (subdir) => {
+      const res = resolve(dir, subdir);
+      return (await stat(res)).isDirectory() ? getFiles(res) : res;
+    }));
+    return files.reduce((a, f) => a.concat(f), []);
+  }
+  var pages = []
+  getFiles("./views")
+    .then(files => {
+       files.forEach((file, index) => {
+         file = file.replace(__dirname+"\\views", "");
+         file = file.replace(/\\/g, "/")
+         var data = fs.readFileSync('./views/'+file, "utf8");
+         data = data.match(/<title>(.*)<\/title>/);
+         if (data === null) {
+           data = "(No Title)";
+         } else {
+           data = data[1];
+         }
+         pages.push({
+           page: file,
+           title: data
+         });
+       });
+       res.render('sitemap', {pages})
+    })
+    .catch(e => console.error(e));
+  
+
+});
+
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
@@ -152,6 +192,7 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
+
 
 app.listen(port, function () {
   console.log('listening on port: ' + port);
