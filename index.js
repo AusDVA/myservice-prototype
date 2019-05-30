@@ -116,7 +116,7 @@ app.get('/sitemap', (req, res) => {
   getFiles("./views")
     .then(files => {
        files.forEach((file, index) => {
-         file = file.replace(__dirname+"\\views", "");
+         file = file.replace(__dirname+"/views", "");
          file = file.replace(/\\/g, "/")
          var data = fs.readFileSync('./views/'+file, "utf8");
          data = data.match(/<title>(.*)<\/title>/);
