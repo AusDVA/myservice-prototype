@@ -48,18 +48,17 @@ $(document).keypress(function (e) {
   }
 });
 
-// or via mobile shake 
-var shakeEvent = new Shake({
-  threshold: 15, // optional shake strength threshold
-  timeout: 1000 // optional, determines the frequency of event generation
-});
-shakeEvent.start();
-window.addEventListener('shake', shakeEventDidOccur, false);
+// or via logo long press
 
-//function to call when shake occurs
-function shakeEventDidOccur() {
+// grab the element
+var el = document.getElementById('mys-logo');
+
+// listen for the long-press event
+el.addEventListener('long-press', function (e) {
+  // stop the event from bubbling up
+  e.preventDefault();
   $('.pt-choose-user').toggle();
-}
+});
 
 function initNomRep() {
 
