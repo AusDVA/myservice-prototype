@@ -124,7 +124,7 @@
               provided the diagnosis
             </label>
             <select class="uikit-text-input input-half" id="medical-practitioner" name="medical-practitioner">
-              <% include ../../../partials/forms/medical-practitioner-list.ejs %>
+              <option value="">-- Select doctor --</option>
             </select>
             <button id="add-another-doc" class="icon-link-button">
               <span class="icon far fa-plus-circle"></span>
@@ -195,6 +195,35 @@
 
     $("#add-another-doc").click(function () {
       $(".pt-medical-prac").toggle("fast");
+    });
+
+    $.ajax({
+      url: '/docs/data/medical-practitioner.json',
+      type: 'GET',
+      dataType: 'json'
+    })
+    .done((data) => {
+      practs = []
+        person = JSON.parse(localStorage.getItem("person"));
+        console.log(person.practitioners);
+        $.each(data.practitioners, (index, pract) => {
+          if (person.practitioners.includes(pract._id)) {
+            practs.push({
+              id: pract._id,
+              name: pract.nameFull
+            });
+          }
+        });
+
+        if (practs.length < 1) {
+          $("#medical-practitioner-group").hide("fast");
+          $(".pt-medical-prac").show("fast");
+        } else {
+          $.each(practs, (index, pract) => {
+            $("#medical-practitioner").append(`<option value='${pract.id}'>${pract.name}</option>`);
+          });
+        }
+
     });
 
   </script>
