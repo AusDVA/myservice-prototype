@@ -348,12 +348,30 @@ function writeUser() {
     localStorage.setItem('repFlow', 'newbie');
   }
 
+  var practitioners = "";
+
+  $.ajax({
+    url: '/docs/data/medical-practitioner.json',
+    type: 'GET',
+    dataType: 'json',
+    async: false
+  }).done(function (data) {
+    practitioners = '<ul>';
+    $.each(data.practitioners, function (index, pract) {
+      if (user.practitioners.includes(pract._id)) {
+        practitioners += '<li>' + pract.nameFull + '</li>';
+      }
+    });
+    practitioners += '</ul>';
+  });
+
   var userHtml = '';
   var start = '<div class="pt-flex-grid"><div class="pt-col">';
   var end = '</div></div>';
   userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
   userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
+  userHtml += start + 'Practitioners </div><div class="pt-col">' + practitioners + end;
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
   userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
   userHtml += start + 'Last payment </div><div class="pt-col">' + user.lastPayment + end;
