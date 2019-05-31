@@ -370,47 +370,6 @@ function writeUser() {
   $('.pt-current-user-number-of-claims').html(user.numberOfClaims);
 }
 
-// TODO: copy from or refactor writeClient
-// function writeRep(form) {
-
-//   var formData = getFormData(form);
-//   var reps = sessionStorage.getItem('usersReps');
-
-
-//   if (reps) { // reps in session data
-
-//     var parsedReps = JSON.parse(reps);
-//     var sessionGuid = sessionStorage.getItem('sessionGuid');
-
-//     $.each(parsedReps.rep, function (index, element) {
-
-//       // console.log('parsedReps');
-//       // console.log(parsedReps);
-
-//       if (element.id === sessionGuid) {
-//         console.log('writing to the user in session');
-
-//         reps = JSON.stringify(parsedReps);
-//         $.extend(true, parsedReps.rep[index], formData);
-
-//       } else {
-
-//         // $.extend({}, parsedReps.rep[index], formData);
-//         // $.merge(parsedReps.rep[index]), formData));
-
-//       }
-//     });
-
-//     sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
-
-//   } else { // no reps 
-
-//     var repArray = $.makeArray(formData);
-//     sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
-//   }
-// }
-
-
 function writeClient(form) {
 
   var formData = getFormData(form);
