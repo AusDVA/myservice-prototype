@@ -224,6 +224,23 @@
           });
         }
 
+        $("#saveDetails").on("click", () => {
+          if ($("#drName").val() != "") {
+            $("#drName").parent().removeClass("has-error");
+            $("#drName").parent().find("label").html("Doctor's Name");
+            var doc_id = Math.floor(Math.random() * 10000);
+            var doc_name = $("#drName").val();
+            $("#medical-practitioner").append(`<option value='${doc_id}' selected>${doc_name}</option>`);
+            $(".pt-medical-prac").hide("fast");
+            $("#medical-practitioner-group").show();
+            person.practitioners.push(doc_id.toString());
+            console.log(person);
+            localStorage.setItem("person", JSON.stringify(person));
+          } else {
+            $("#drName").parent().addClass("has-error");
+            $("#drName").parent().find("label").html(`Doctor's name <span class="input-error-message">Please enter your doctor's name</span>`);
+          }
+        });
     });
 
   </script>
