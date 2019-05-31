@@ -1,10 +1,10 @@
-const { promisify } = require('util');
-const { resolve } = require('path');
-
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-
+  { promisify } = require('util'),
+  { resolve } = require('path'),
+  fs = require('fs'),
+  path = require('path'),
   // featuretoggleapi = require('feature-toggle-api'),
 
   // not so secret secret
@@ -15,6 +15,9 @@ let express = require('express'),
   // else default to a hard coded value of 5000
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
+
+let readdir = promisify(fs.readdir);
+let stat = promisify(fs.stat);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -100,10 +103,6 @@ console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
 
 app.get('/sitemap', (req, res) => {
-  const fs = require('fs');
-  const readdir = promisify(fs.readdir);
-  const stat = promisify(fs.stat);
-
   async function getFiles(dir) {
     const subdirs = await readdir(dir);
     const files = await Promise.all(subdirs.map(async (subdir) => {
@@ -116,8 +115,10 @@ app.get('/sitemap', (req, res) => {
   getFiles("./views")
     .then(files => {
        files.forEach((file, index) => {
-         file = file.replace(__dirname+"/views", "");
-         file = file.replace(/\\/g, "/")
+         file = path.normalize(file);
+         file = file.replace(__dirname, "");
+         file = file.replace(/\\/g, "/");
+         file = file.replace("/views", "");
          var data = fs.readFileSync('./views/'+file, "utf8");
          data = data.match(/<title>(.*)<\/title>/);
          if (data === null) {
