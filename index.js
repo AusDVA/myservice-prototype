@@ -1,7 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-
+  { promisify } = require('util'),
+  { resolve } = require('path'),
+  fs = require('fs'),
+  path = require('path'),
   // featuretoggleapi = require('feature-toggle-api'),
 
   // not so secret secret
@@ -13,6 +16,8 @@ let express = require('express'),
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
+let readdir = promisify(fs.readdir);
+let stat = promisify(fs.stat);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -28,6 +33,12 @@ app.set('view engine', 'ejs');
 //   feature1: false,
 //   feature2: true
 // });
+
+app.use(function(req, res, next) {
+  res.locals.partials = __dirname + '/partials/';
+  next();
+});
+
 
 // create sitemap 
 app.use('/files', serveIndex('views', {
@@ -91,6 +102,42 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
 console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
 
+app.get('/sitemap', (req, res) => {
+  async function getFiles(dir) {
+    const subdirs = await readdir(dir);
+    const files = await Promise.all(subdirs.map(async (subdir) => {
+      const res = resolve(dir, subdir);
+      return (await stat(res)).isDirectory() ? getFiles(res) : res;
+    }));
+    return files.reduce((a, f) => a.concat(f), []);
+  }
+  var pages = []
+  getFiles("./views")
+    .then(files => {
+       files.forEach((file, index) => {
+         file = path.normalize(file);
+         file = file.replace(__dirname, "");
+         file = file.replace(/\\/g, "/");
+         file = file.replace("/views", "");
+         var data = fs.readFileSync('./views/'+file, "utf8");
+         data = data.match(/<title>(.*)<\/title>/);
+         if (data === null) {
+           data = "(No Title)";
+         } else {
+           data = data[1];
+         }
+         pages.push({
+           page: file,
+           title: data
+         });
+       });
+       res.render('sitemap', {pages})
+    })
+    .catch(e => console.error(e));
+  
+
+});
+
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
@@ -146,6 +193,7 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
+
 
 app.listen(port, function () {
   console.log('listening on port: ' + port);

@@ -33,27 +33,18 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
+            <h2>Tell us about your service history</h2>
+            <p>Your service history is retrieved from PMKeyS and will be used to calculate your DHOAS&nbsp;entitlements.</p>
 
-            <div class="margin-above--large ">
-              <div id="progressbar">
-                <div id="percentage">
-                  <p id="percentage_value">5% complete</p>
-                </div>
-              </div>
-              <p style="padding-top:0.4em;">5% complete</p>
-
+            <div class="uikit-page-alerts" role="alert">
+              <p>If you need to update your records with the Department of Defence. You can do this by contacting the Defence Service Center on 1800 333 362</p>
             </div>
-
-
-
-            <p>Your service history is retrieved from PMKeyS and will be used to calculate your DHOAS&nbsp;entitlements.
-            </p>
           </div>
 
           <h3>Review your service and operational history information</h3>
 
 
-          <div class="col-xs-12 col-md-7 section section-feature border-all">
+          <div class="col-xs-12 col-md-10 section section-feature border-all">
             <div class="data-list">
               <div class="row">
                 <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
@@ -113,215 +104,195 @@
         </div>
       </div>
 
-<!-- MEDICALLY DISCHARGED SECTION -->
-<!-- 
-    ONLY SHOW MEDICALLY DISCHARGED
-    RADIO & SECTION IF THEY ARE NOT
-    CURRENTLY IN ACTIVE SERVICE
-  -->
 
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
 
-        <div class="margin-above--extra" id="medicallyDischarged">
-          <div class="row">
-            <div class="form-group">
-              <legend class="legend-label">Were you medically discharged?</legend>
-              <div class="radio-toggle">
-                <label class="on label-left" for="medicalDischarge-yes">
-                  <input id="medicalDischarge-yes" type="radio" name="medicalDischarge">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="medicalDischarge-no">
-                  <input id="medicalDischarge-no" type="radio" name="medicalDischarge">
-                  <span>No</span>
-                </label>
-              </div>
-            </div>
+          <div id="reservist-question" hidden>
+            <%- include(partials+"form_partials.ejs", {
+              "forms": [
+                {
+                  "type": "y_n_toggle",
+                  "config": {
+                    "label": "Are/were you a reservist?",
+                    "yes_toggle": "#reservist-yes"
+                  }
+                }
+              ]
+            }); %>
           </div>
-          <div id="medicallyDischarged__yes" style="display:none;">
+
+          <div id="reservist-yes" class="margin-below margin-above" hidden>
+            <h4>Upload evidence of your Effective Reservist service
+              <span class="hint display-block">For example, a Statement of Reserve Service, CENRES pay printout, or other evidence.</span>
+            </h4>
+            <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
+          </div>
+
+
+          <%- include(partials+"form_partials.ejs", {
+            "forms": [
+              {
+                "type": "y_n_toggle",
+                "config": {
+                  "label": "Is your service history complete?",
+                  "no_toggle": "#historyNotComplete"
+                }
+              }
+            ]
+          }); %>
+
+          <div id="historyNotComplete" hidden>
             <div class="tip--wrapper">
-              <h2>Provide evidence of your medical discharge</h2>
-              <p>For example, a copy of yuour DM42, SHE, MECRB documents or other evidence.</p>
-              <p>This will ensure our calculations for your DHOAS entitlements are correct.</p>
+              <p><strong>If your service history is incomplete, please upload any evidence you may have.</strong></p>
               <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
             </div>
-            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
-
-
-          </div>
-          <div id="medicallyDischarged__no" style="display:none;">
-
-            <!-- <p>Choose <b>save and next</b> to continue.</p> -->
-          </div>
-        </div>
-
-        <!-- 
-    ONLY SHOW EFFECTIVE RESERVIST 
-    AREA IF THEY ARE RESERVSIST
-
-  -->
-
-        <div id="effectiveReservistService">
-          <div class="tip--wrapper">
-            <h2>Upload evidence of your Effective Reservist service</h2>
-            <p>For example, a Statement of Reserve Service, CENRES pay printout, or other evidence.</p>
-            <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-
-            <p>text for how to obtain</p>
-          </div>
-          <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
-
-        </div>
-
-
-
-        <div id="serviceHistory">
-          <div class="form-group">
-            <fieldset class="margin-above--extra">
-              <legend class="legend-label">Is your service history complete?</legend>
-              <div class="radio-toggle">
-                <label class="on label-left" for="serviceHistory-yes">
-                  <input id="serviceHistory-yes" type="radio" name="serviceHistory">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="serviceHistory-no">
-                  <input id="serviceHistory-no" type="radio" name="serviceHistory">
-                  <span>No</span>
-                </label>
-              </div>
-            </fieldset>
           </div>
 
-          <div id="something-missing__yes" class="margin-below" style="display:none;">
-            <h4>Update your service history
-              <span class="hint">(optional)</span>
-            </h4>
-                <!-- <p>For an accurate assessment of your service credit, it is vital your PMKeyS records are up-to-date and include both Permanent and Reserve service, as well as any warlike
-                service.</p> -->
+          <%- include(partials+"form_partials.ejs", {
+            "forms": [
+              {
+                "type": "y_n_toggle",
+                "config": {
+                  "label": "Did you have any period of leave without pay?",
+                  "yes_toggle": "#leaveWithoutPay-dates"
+                }
+              }
+            ]
+          }); %>
 
-                <div class="tip--wrapper">
-                  <h2>Update your service history <span class="hint">(optional)</span></h2>
-                  <p>If your service history is incomplete, please upload any evidence you may have.</p>
-                  <p>You may also need to update your records with the Department of Defence. You can do this by contacting the Defence Service Center on 1800 333 362</p>
-
-                  <p>For more information, go to the <a href="https://www.dhoas.gov.au/service-records.html" rel="external" target="_blank">DHOAS website.</a> </p>
-                  <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-
-                  <p>text for how to obtain</p>
-                </div>
-
-
-                <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
-
-                <!-- <p>You can provide evidence of your correct service history by uploading a copy of either your Document A or Document B.</p>
-                      <p>Alternatively, you can update your service history through Defence by calling 1800&nbsp;123&nbsp;456. If contacting Defence, we suggest you save and exit this claim
-                      until your service history has been updated becuase it will be used to calculate your entitlements for DHOAS.</p> -->
-
-                    </div>
-                  </div>
-
-
-            <!-- LEAVE WITHOUT PAY SECTION -->
-
-            <div id="leaveWithoutPay">
-        <%# <p>
-          <span class="heading heading--spacer"></span>
-        </p> %>
-        <div class="form-group">
-          <fieldset>
-            <legend class="legend-label">Did you have any period of leave without pay?</legend>
-            <div class="radio-toggle">
-              <label class="on label-left" for="leaveWithoutPay-yes">
-                <input id="leaveWithoutPay-yes" type="radio" name="leaveWithoutPay">
-                <span>Yes</span>
-              </label>
-              <label class="off label-right" for="leaveWithoutPay-no">
-                <input id="leaveWithoutPay-no" type="radio" name="leaveWithoutPay">
-                <span>No</span>
-              </label>
-            </div>
-          </fieldset>
-        </div>
-        <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display:none;">
-          <h4>Tell us when you had leave without pay</h4>
-          <table class="mys-table table-responsive border-all border-top__thick--blue">
-            <tr>
-              <th style="border-left:1px solid #cccccc;">
-                <label class="uikit-text-input__label" for="date">Start Date
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-              </th>
-              <th></th>
-              <th>
-                <label class="uikit-text-input__label" for="date">End Date
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-              </th>
-              <th style="border-right:1px solid #cccccc;"></th>
-            </tr>
-            <tr id="date-template">
-              <td>
-                <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-              </td>
-              <td>&mdash;</td>
-              <td>
-                <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-              </td>
-              <td>
-                <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
-              </td>
-            </tr>
-            <tr>
-              <td></td>
-              <td></td>
-              <td class="padding-above--none">
-                <div class="display-block">
-                  <label class="uikit-control-input margin-above--none">
-                    <input class="uikit-control-input__input" type="checkbox" name="agreement">
-                    <span class="uikit-control-input__text">Currently on leave</span>
+          <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display:none;">
+            <h4>Tell us when you had leave without pay</h4>
+            <table class="mys-table table-responsive border-all border-top__thick--blue">
+              <tr>
+                <th style="border-left:1px solid #cccccc;">
+                  <label class="uikit-text-input__label" for="date">Start Date
+                    <span class="hint">(dd / mm / yyyy)</span>
                   </label>
-                </div>
-              </td>
-              <td></td>
-            </tr>
-            <tr class="padding-above--none">
-              <td colspan=4 class="padding-above--none ss-align--center">
-                <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+                </th>
+                <th></th>
+                <th>
+                  <label class="uikit-text-input__label" for="date">End Date
+                    <span class="hint">(dd / mm / yyyy)</span>
+                  </label>
+                </th>
+                <th style="border-right:1px solid #cccccc;"></th>
+              </tr>
+              <tr id="date-template">
+                <td>
+                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                </td>
+                <td>&mdash;</td>
+                <td>
+                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                </td>
+                <td>
+                  <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                </td>
+              </tr>
+              <tr>
+                <td></td>
+                <td></td>
+                <td class="padding-above--none">
+                  <div class="display-block">
+                    <label class="uikit-control-input margin-above--none">
+                      <input class="uikit-control-input__input" type="checkbox" name="agreement">
+                      <span class="uikit-control-input__text">Currently on leave</span>
+                    </label>
+                  </div>
+                </td>
+                <td></td>
+              </tr>
+              <tr class="padding-above--none">
+                <td colspan=4 class="padding-above--none ss-align--center">
+                  <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div id="medically-discharged" hidden>
+            <%- include(partials+"form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "y_n_toggle",
+                    "config": {
+                      "label": "Were you medically discharged?",
+                      "yes_toggle": "#medically-discharged-upload"
+                    }
+                  }
+                ]
+              }); %>
+          </div>
 
-      <div class="pagination margin-above--extra">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/dhoas/asc2'">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-        <div class="floated">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-          <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc4'">Save and next</button>
+          <div id="medically-discharged-upload" hidden>
+            <h4>Provide evidence of your medical discharge
+              <span class="hint display-block">This will ensure our calculations for your entitlements under DHOAS are correct.</span>
+            </h4>
+            <button class="uikit-btn uikit-btn--tertiary">Upload evidence of medical discharge</button>
+          </div>
+
+
         </div>
+        <div class="pagination margin-above--extra">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/dhoas/asc2'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
+            <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc4'">Save and next</button>
+          </div>
+        </div>
+
+
       </div>
     </div>
-  </div>
 
-  <% include ../../../../partials/claims-cancel-modal.ejs %>
-</div>
+    <% include ../../../../partials/claims-cancel-modal.ejs %>
+    </div>
 
-</main>
+  </main>
 
-<% include ../../../../partials/footer.ejs %>
+  <% include ../../../../partials/footer.ejs %>
 
 
-<script>
-    // Progress percentage
-    document.getElementById("percentage").style.width = "60%";
-    document.getElementById("percentage_value").textContent = "60%";
+  <script>
+    $(document).ready(() => {
+      $.ajax({
+          url: '/docs/data/user.json',
+          type: 'GET',
+          dataType: 'json'
+        })
+        .done((data) => {
+          let user = JSON.parse(localStorage.person)._id;
+          let person;
+
+          $.each(data.person, function () {
+            if (this._id == user) {
+              person = this;
+            }
+          });
+
+          if (person.isCurrentlyServing === false) {
+            console.log("not currently serving");
+            $("#medically-discharged").show();
+          }
+          if (person.reservist === true) {
+            $("#reservist-yes").show();
+            console.log("is reservist");
+          } else if (person.reservist === null) {
+            $("#reservist-question").show();
+            console.log("don't know reservist status")
+          } else if (person.reservist === false) {
+            console.log("not a reservist");
+          }
+        });
+    });
+
+
 
     function cloneme() {
       var newOne = $('#date-template').clone();;
@@ -330,33 +301,6 @@
 
     $("#removeDateRow").click(function () {
       $("#date-template:not(first-child)").remove();
-    });
-
-    $("#serviceHistory-no").click(function () {
-      $("#something-missing__yes").show();
-      $("#leaveWithoutPay").show();
-    });
-    $("#serviceHistory-yes").click(function () {
-      $("#something-missing__yes").hide();
-      $("#leaveWithoutPay").show();
-    });
-
-    $("#leaveWithoutPay-no").click(function () {
-      $("#leaveWithoutPay-dates").hide();
-      $("#medicallyDischarged").show();
-    });
-    $("#leaveWithoutPay-yes").click(function () {
-      $("#leaveWithoutPay-dates").show();
-      $("#medicallyDischarged").show();
-    });
-
-    $("#medicalDischarge-yes").click(function () {
-      $("#medicallyDischarged__no").hide();
-      $("#medicallyDischarged__yes").show();
-    });
-    $("#medicalDischarge-no").click(function () {
-      $("#medicallyDischarged__no").show();
-      $("#medicallyDischarged__yes").hide();
     });
 
   </script>

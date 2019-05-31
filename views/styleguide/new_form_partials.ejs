@@ -15,7 +15,7 @@
           <li>
             <a href="/styleguide">Home</a>
           </li>
-          <li>Accordion</li>
+          <li>New Form Partials</li>
         </ul>
       </nav>
       <div class="row">
@@ -42,13 +42,17 @@
   <p>Simple drop downs can be used when finer control of individual options is not needed. The simple type cannot do things like hide or disable items in the list, nor can it set the value attribute of an option to a given value. It does not do any extra functionality.</p>
   <p>When more advanced features are needed, refer to the advanced drop down.</p>
   <h4>Simple Dropdown Example:</h4>
-  <%- include("../../partials/form_partials.ejs", {
+  <%- include(partials+"form_partials.ejs", {
   "forms": [
     {
       "type": "select",
       "config": {
         "label": "Gender",
         "hint": "Please select the option closest to how you identify",
+        "tooltip": {
+          "label": "Tooltip demo",
+          "text": "This is an example of a tooltip!"
+        },
         "id": "",
         "options": [
           "Select Your Gender",
@@ -62,9 +66,8 @@
 }); %>
   <h4>Simple Dropdown Code:</h4>
   <pre>
-              <code class="language-markup">
-                <script type="text/html">
-<%%- include(partials+"form_partials.ejs", {
+              <code class="language-ejs">
+&lt;%- include(partials+"form_partials.ejs", {
   "forms": [
     {
       "type": "select",
@@ -81,166 +84,113 @@
       }
     }
   ]
-}); %%>
-                </script>
+}); %&gt;
               </code>
             </pre>
-  <h4>Simple Dropdown HTML Code:</h4>
-  <pre>
-                <code class="language-markup">
-                  <script type="text/html">
-                    <div class="form-group">
-                      <label for="selectgender" class="uikit-text-input__label">Gender <span class="hint">Please select the option closest to how you identify</span></label>
-                      <select name="selectgender" id="selectgender" class="uikit-text-input input-half">
-                        <option selected="" value="select_your_gender">Select Your Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                  </script>
-                </code>
-              </pre>
-  <hr>
-  <h4>Advanced Dropdown Example:</h4>
-  <p hidden id="advanced-mr">
-    You have selected <code>Mister</code>
-  </p>
-  <p hidden id="advanced-mrs">
-    You have selected <code>Misses</code>
-  </p>
-  <p hidden id="advanced-dr">
-    You have selected <code>Doctor</code>
-  </p>
-  <%- include("../../partials/form_partials.ejs", {
-  "forms": [
-    {
-      "type": "select",
-      "config": {
-        "label": "Please select your title",
-        "hint": "",
-        "id": "title",
-        "required": false,
-        "disabled": false,
-        "hidden": false,
-        "options": [
-          {
-            "text": "-- Select title --",
-            "value": "select_title",
-            "selected": true,
-            "disabled": true,
-            "hidden": true
-          },
-          {
-            "text": "None"
-          },
-          {
-            "text": "Mr",
-            "toggle": "#advanced-mr"
-          },
-          {
-            "text": "Mrs",
-            "toggle": "#advanced-mrs"
-          },
-          {
-            "text": "Dr",
-            "toggle": "#advanced-dr"
-          }
-        ]
-      }
-    }
-  ]
-}); %>
-  <h4>Advanced Dropdown Code:</h4>
-  <pre>
-              <code class="language-markup">
-                <script type="text/html">
-<p hidden id="advanced-mr">
-  You have selected <code>Mister</code>
-</p>
-<p hidden id="advanced-mrs">
-  You have selected <code>Misses</code>
-</p>
-<p hidden id="advanced-dr">
-  You have selected <code>Doctor</code>
-</p>
-<%%- include("../../partials/form_partials.ejs", {
-  "forms": [
-    {
-      "type": "select",
-      "config": {
-        "label": "Please select your title",
-        "hint": "",
-        "id": "title",
-        "required": false,
-        "disabled": false,
-        "hidden": false,
-        "options": [
-          {
-            "text": "-- Select title --",
-            "value": "select_title",
-            "selected": true,
-            "disabled": true,
-            "hidden": true
-          },
-          {
-            "text": "None"
-          },
-          {
-            "text": "Mr",
-            "toggle": "#advanced-mr"
-          },
-          {
-            "text": "Mrs",
-            "toggle": "#advanced-mrs"
-          },
-          {
-            "text": "Dr",
-            "toggle": "#advanced-dr"
-          }
-        ]
-      }
-    }
-  ]
-}); %%>
-                </script>
-              </code>
-            </pre>
-  <h4>Advanced Dropdown HTML/JavaScript Code:</h4>
-  <pre>
-                <code class="language-markup">
-                  <script type="text/html">
-                    <p hidden id="advanced-mr">
-                      You have selected <code>Mister</code>
-                    </p>
-                    <p hidden id="advanced-mrs">
-                      You have selected <code>Misses</code>
-                    </p>
-                    <p hidden id="advanced-dr">
-                      You have selected <code>Doctor</code>
-                    </p>
-                    <div class="form-group">
-                      <label for="title" class="uikit-text-input__label">Please select your title </label>
-                      <select name="title" id="title" class="uikit-text-input input-half">
-                        <option hidden="" disabled="" selected="" value="select_title">-- Select title --</option>
-                        <option value="none">None</option>
-                        <option data-toggle="#advanced-mr" value="mr">Mr</option>
-                        <option data-toggle="#advanced-mrs" value="mrs">Mrs</option>
-                        <option data-toggle="#advanced-dr" value="dr">Dr</option>
-                        <script>
-                        $("#title").on("change", function() {
-                          $($("#title :selected").data("toggle")).show();
-                          $("#title :not(:selected)").each(function(index, elem) {
-                            $($(elem).data("toggle")).hide();
-                          });
-                        });
-                        </script>
-                      </select>
-                    </div>
-                  </script>
-                </code>
-              </pre>
-              <%- include("../../partials/form_partials.ejs", {
+                <hr>
+                <h4>Advanced Dropdown Example:</h4>
+                <p hidden id="advanced-mr">
+                  You have selected <code>Mister</code>
+                </p>
+                <p hidden id="advanced-mrs">
+                  You have selected <code>Misses</code>
+                </p>
+                <p hidden id="advanced-dr">
+                  You have selected <code>Doctor</code>
+                </p>
+                <%- include(partials+"form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "select",
+                    "config": {
+                      "label": "Please select your title",
+                      "hint": "",
+                      "id": "title",
+                      "required": false,
+                      "disabled": false,
+                      "hidden": false,
+                      "options": [
+                        {
+                          "text": "-- Select title --",
+                          "value": "select_title",
+                          "selected": true,
+                          "disabled": true,
+                          "hidden": true
+                        },
+                        {
+                          "text": "None"
+                        },
+                        {
+                          "text": "Mr",
+                          "toggle": "#advanced-mr"
+                        },
+                        {
+                          "text": "Mrs",
+                          "toggle": "#advanced-mrs"
+                        },
+                        {
+                          "text": "Dr",
+                          "toggle": "#advanced-dr"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }); %>
+                <h4>Advanced Dropdown Code:</h4>
+                <pre>
+                            <code class="language-markup">
+              &lt;p hidden id="advanced-mr"&gt;
+                You have selected &lt;code&gt;Mister&lt;/code&gt;
+              &lt;/p&gt;
+              &lt;p hidden id="advanced-mrs"&gt;
+                You have selected &lt;code&gt;Misses&lt;/code&gt;
+              &lt;/p&gt;
+              &lt;p hidden id="advanced-dr"&gt;
+                You have selected &lt;code&gt;Doctor&lt;/code&gt;
+              &lt;/p&gt;
+              &lt;%- include(partials+"form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "select",
+                    "config": {
+                      "label": "Please select your title",
+                      "hint": "",
+                      "id": "title",
+                      "required": false,
+                      "disabled": false,
+                      "hidden": false,
+                      "options": [
+                        {
+                          "text": "-- Select title --",
+                          "value": "select_title",
+                          "selected": true,
+                          "disabled": true,
+                          "hidden": true
+                        },
+                        {
+                          "text": "None"
+                        },
+                        {
+                          "text": "Mr",
+                          "toggle": "#advanced-mr"
+                        },
+                        {
+                          "text": "Mrs",
+                          "toggle": "#advanced-mrs"
+                        },
+                        {
+                          "text": "Dr",
+                          "toggle": "#advanced-dr"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }); %&gt;
+                            </code>
+                          </pre>
+              <%- include(partials+"form_partials.ejs", {
               "forms": [
                 {
                   "type": "checkbox",
@@ -457,7 +407,7 @@
               <div class="example-box">
                 <h3>Text Input</h3>
                 <h4>Text Input Example:</h4>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "text",
@@ -468,12 +418,10 @@
                     }
                   ]
                 }); %>
-                <hr>
                 <h4>Text Input Code:</h4>
                 <pre>
                   <code class="language-markup">
-                    <script type="text/plain">
-                      <%%- include("../../partials/form_partials.ejs", {
+                      &lt;%- include(partials+"form_partials.ejs", {
                         "forms": [
                           {
                             "type": "text",
@@ -483,23 +431,10 @@
                             }
                           }
                         ]
-                      }); %%>   
-                    </script>
+                      }); %&gt;   
                   </code>
                 </pre>
-                <hr>
-                <h4>Text Input HTML Code:</h4>
-                <pre>
-                  <code class="language-markup">
-                    <script type="text/html">
-                      <div class="form-group">
-                        <label for="textpleaseenteryourname" class="uikit-text-input__label">Please enter your name </label>
-                        <input placeholder="John Smith" class="uikit-text-input input-half" name="textpleaseenteryourname" id="textpleaseenteryourname" type="text">
-                      </div> 
-                    </script>
-                  </code>
-                </pre>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "checkbox",
@@ -521,12 +456,12 @@
                   Coming soon
                 </div>
               </div>
-
+          <hr>
               <h2 id="textarea">Text Area (Box)</h2>
               <div class="example-box">
                 <h3>Text Area</h3>
                 <h4>Text Area Example:</h4>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "textarea",
@@ -538,12 +473,10 @@
                     }
                   ]
                 }); %>
-                <hr>
                 <h4>Text Area Code:</h4>
                 <pre>
                   <code class="language-markup">
-                    <script type="text/plain">
-                    <%%- include("../../partials/form_partials.ejs", {
+                    &lt;%- include(partials+"form_partials.ejs", {
                       "forms": [
                         {
                           "type": "textarea",
@@ -554,23 +487,10 @@
                           }
                         }
                       ]
-                    }); %%>
-                    </script>
+                    }); %&gt;
                   </code>
                 </pre>
-                <hr>
-                <h4>Text Area HTML Code:</h4>
-                <pre>
-                  <code class="language-markup">
-                    <script type="text/html">
-                    <div class="form-group">
-                      <label for="pleasedescribefairyfloss" class="uikit-text-input__label">Please describe fairy floss <span class="hint">(minimum 500 words)</span></label>
-                      <textarea placeholder="Fairy floss is..." class="uikit-text-input" name="pleasedescribefairyfloss" id="pleasedescribefairyfloss" rows="5"></textarea>
-                    </div>
-                    </script>
-                  </code>
-                </pre>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "checkbox",
@@ -579,7 +499,7 @@
                         "id": "checkbox-textarea",
                         "boxes": [
                           {
-                            "text": "Tick this checkbox to view full reference for text area",
+                            "text": "Tick this checkbox to view full reference for text areas",
                             "hint": "(for full advanced functionality and explanations)",
                             "toggle": "#textarea-reference"
                           }
@@ -597,7 +517,7 @@
               <div class="example-box">
                 <h3>Date</h3>
                 <h4>Date Example</h4>
-              <%- include("../../partials/form_partials.ejs", {
+              <%- include(partials+"form_partials.ejs", {
                 "forms": [
                   {
                     "type": "date",
@@ -607,12 +527,10 @@
                   }
                 ]
               }); %>
-              <hr>
               <h4>Date Code</h4>
                 <pre>
                   <code class="language-markup">
-                    <script type="text/html">
-                    <%%- include("../../partials/form_partials.ejs", {
+                    &lt;%- include(partials+"form_partials.ejs", {
                       "forms": [
                         {
                           "type": "date",
@@ -621,25 +539,10 @@
                           }
                         }
                       ]
-                    }); %%>
-                    </script>
+                    }); %&gt;
                   </code>
                 </pre>
-              <hr>
-              <h4>Date HTML Code</h4>
-                <pre>
-                  <code class="language-markup">
-                    <script type="text/html">
-                    <div class="form-group">
-                      <label for="dateplease_enter_your_birthday" class="uikit-text-input__label">Please enter your birthday <span class="hint">(DD / MM / YYYY)</span></label>
-                      <input class="uikit-text-input dd" type="text" name="dateplease_enter_your_birthday-dd" id="dateplease_enter_your_birthday-dd" maxlength="2" aria-label="2 digit day"> /
-                      <input class="uikit-text-input mm" type="text" name="dateplease_enter_your_birthday-mm" id="dateplease_enter_your_birthday-mm" maxlength="2" aria-label="2 digit month"> /
-                      <input class="uikit-text-input yyyy" type="text" name="dateplease_enter_your_birthday-yyyy" id="dateplease_enter_your_birthday-yyyy" maxlength="4" aria-label="4 digit year">
-                    </div>
-                    </script>
-                  </code>
-                </pre>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "checkbox",
@@ -648,7 +551,7 @@
                         "id": "checkbox-date",
                         "boxes": [
                           {
-                            "text": "Tick this checkbox to view full reference for text input",
+                            "text": "Tick this checkbox to view full reference for dates",
                             "hint": "(for full advanced functionality and explanations)",
                             "toggle": "#date-reference"
                           }
@@ -661,11 +564,12 @@
                   Coming soon
                 </div>
               </div>
+              <hr>
               <h2 id="yes_no">Yes/No Toggle Box</h2>
               <div class="example-box">
                 <h3>Yes/No Toggle Boxes</h3>
                 <h4>Yes/No Toggle Box Example:</h4>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "y_n_toggle",
@@ -681,13 +585,11 @@
                 <p id="demo-no" hidden>You have selected <code>No</code></p>
 
 
-              <hr>
               <h4>Yes/No Toggle Box Code:</h4>
                 <pre>
                   <code class="language-markup">
-                    <script type="text/html">
 
-                    <%%- include("../../partials/form_partials.ejs", {
+                    &lt;%- include(partials+"form_partials.ejs", {
                       "forms": [
                         {
                           "type": "y_n_toggle",
@@ -700,46 +602,13 @@
                           }
                         }
                       ]
-                    }); %%>
-                <p id="demo-yes" hidden>You have selected <code>Yes</code></p>
-                <p id="demo-no" hidden>You have selected <code>No</code></p>
+                    }); %&gt;
+                &lt;p id="demo-yes" hidden&gt;You have selected &lt;code&gt;Yes&lt;/code&gt;&lt;/p&gt;
+                &lt;p id="demo-no" hidden&gt;You have selected &lt;code&gt;No&lt;/code&gt;&lt;/p&gt;
 
-                    </script>
                   </code>
                 </pre>
-                <hr>
-                <h4>Yes/No Toggle Box HTML & JavaScript Code:</h4>
-                <pre>
-                  <code class="language-markup">
-                    <script type="text/html">
-                      <div class="form-group">
-                        <label class="uikit-text-input__label" for="y_n_toggledoyouagreetothetermsandconditions">Do you agree to the terms and conditions? </label>
-                        <div class="radio-toggle" id="y_n_toggledoyouagreetothetermsandconditions">
-                          <label class="label-left" for="y_n_toggledoyouagreetothetermsandconditions-yes">
-                            <input data-toggle="#demo-yes" id="y_n_toggledoyouagreetothetermsandconditions-yes" type="radio" name="y_n_toggledoyouagreetothetermsandconditions">
-                            <span>Yes</span>
-                          </label>
-                          <label class="label-right" for="y_n_toggledoyouagreetothetermsandconditions-no">
-                            <input data-toggle="#demo-no" id="y_n_toggledoyouagreetothetermsandconditions-no" type="radio" name="y_n_toggledoyouagreetothetermsandconditions">
-                            <span>No</span>
-                          </label>
-                        </div>
-                      </div>
-                      <p id="demo-yes" hidden="">You have selected <code>Yes</code></p>
-                      <p id="demo-no" hidden="">You have selected <code>No</code></p>
-                      <script>
-                        $("#y_n_toggledoyouagreetothetermsandconditions").on("change", "input[type=radio]", function() {
-                          if (this.checked) {
-                            $($(this).data("toggle")).show();
-                            $($($(this).parent().siblings()[0]).children().first().data("toggle")).hide();
-                          }
-                        });
-                      </script>
-
-                    </script>
-                  </code>
-                </pre>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                   "forms": [
                     {
                       "type": "checkbox",
@@ -748,7 +617,7 @@
                         "id": "checkbox-y_n_toggle",
                         "boxes": [
                           {
-                            "text": "Tick this checkbox to view full reference for text area",
+                            "text": "Tick this checkbox to view full reference for yes/no toggles",
                             "hint": "(for full advanced functionality and explanations)",
                             "toggle": "#y_n_toggle-reference"
                           }
@@ -762,105 +631,104 @@
                 </div>
               </div>
               <hr>
-<h2 id="checkbox">Checkboxes</h2>
-<div class="example-box">
-  <h3>Simple Checkboxes</h3>
-  <p>Simple checkboxes can be used when finer control of individual options is not needed. The simple type cannot do things like hide or disable items in the list, nor can it show/hide elements. It does not do any extra functionality.</p>
-  <p>When more advanced features are needed, refer to the advanced checkboxes.</p>
-  <h4>Simple Checkbox Example:</h4>
-  <%- include("../../partials/form_partials.ejs", {
-    "forms": [
+              <h2 id="checkbox">Checkboxes</h2>
+              <div class="example-box">
+                <h3>Simple Checkboxes</h3>
+                <p>Simple checkboxes can be used when finer control of individual options is not needed. The simple type cannot do things like hide or disable items in the list, nor can it show/hide elements. It does not do any extra functionality.</p>
+                <p>When more advanced features are needed, refer to the advanced checkboxes.</p>
+                <h4>Simple Checkbox Example:</h4>
+                <%- include(partials+"form_partials.ejs", {
+                  "forms": [
+                  {
+                    "type": "checkbox",
+                    "config": {
+                      "label": "Which of the following are you doing on the weekend?",
+                      "hint": "(select all that apply)",
+                      "tooltip": {
+                        "label": "Hello",
+                        "text": "There"
+                      },
+                      "boxes": [
+                      "Cricket",
+                      "Video Games",
+                      "Cooking",
+                      "Netflix",
+                      "Sleeping"
+                      ]
+                    }
+                  }
+                  ]
+                }); %>
+                <h4>Simple Checkbox Code:</h4>
+                <pre>
+                  <code class="language-markup">
+                      &lt;%- include(partials+"form_partials.ejs", {
+                      "forms": [
+                      {
+                        "type": "checkbox",
+                        "config": {
+                        "label": "Which of the following are you doing on the weekend?",
+                        "hint": "(select all that apply)",
+                        "boxes": [
+                        "Cricket",
+                        "Video Games",
+                        "Cooking",
+                        "Netflix",
+                        "Sleeping"
+                        ]
+                      }
+                    }
+                    ]
+                  }); &gt;
+
+              </code>
+              </pre>
+              <hr>
+              <h4>Advanced Checkbox Example:</h4>
+              <p id="checkbox-inject" hidden>I got injected here :O Where am I?!</p>
+              <p id="checkbox-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
+              <%- include(partials+"form_partials.ejs", {
+                "forms": [
+                {
+                  "type": "checkbox",
+                  "config": {
+                    "label": "Tick the boxes to see what happens!",
+                    "boxes": [
+                    {
+                      "text": "Checkbox number 1!",
+                      "hint": "sorry I'm just a regular checkbox :("
+                    },
+                    {
+                      "text": "Checkbox number 2!",
+                      "hint": "haha you can't tick me!",
+                      "disabled": true
+                    },
+                    {
+                      "text": "Checkbox number 3!",
+                      "hint": "I <em>inject</em> an element!",
+                      "inject": "#checkbox-inject"
+                    },
+                    {
+                      "text": "Checkbox number 4!",
+                      "hint": "I <em>toggle</em> an element!",
+                      "toggle": "#checkbox-toggle"
+                    }
+                    ]
+                  }
+                }
+                ]
+              }); %>
+              <h4>Advanced Checkbox Code:</h4>
+              <pre>
+                <code class="language-markup">
+
+&lt;p id="checkbox-inject" hidden&gt;I got injected here :O Where am I?!&lt;/p&gt;
+&lt;p id="checkbox-toggle" hidden&gt;I got toggled on! Who's disturbing my slumber?!&lt;/p&gt;
+&lt;%- include(partials+"form_partials.ejs", {
+  "forms": [
     {
       "type": "checkbox",
       "config": {
-        "label": "Which of the following are you doing on the weekend?",
-        "hint": "(select all that apply)",
-        "boxes": [
-        "Cricket",
-        "Video Games",
-        "Cooking",
-        "Netflix",
-        "Sleeping"
-        ]
-      }
-    }
-    ]
-  }); %>
-  <h4>Simple Checkbox Code:</h4>
-  <pre>
-    <code class="language-markup">
-      <script type="text/html">
-        <%%- include("../../partials/form_partials.ejs", {
-        "forms": [
-        {
-          "type": "checkbox",
-          "config": {
-          "label": "Which of the following are you doing on the weekend?",
-          "hint": "(select all that apply)",
-          "boxes": [
-          "Cricket",
-          "Video Games",
-          "Cooking",
-          "Netflix",
-          "Sleeping"
-          ]
-        }
-      }
-      ]
-    }); %%>
-
-  </script>
-</code>
-</pre>
-<h4>Simple Checkbox HTML Code:</h4>
-<pre>
-  <code class="language-markup">
-    <script type="text/html">
-      <div class="form-group">
-        <label for="checkboxwhichofthefollowingareyoudoingontheweekend" class="uikit-text-input__label">Which of the following are you doing on the weekend? <span class="hint">(select all that apply)</span></label>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input type="checkbox" id="checkboxwhichofthefollowingareyoudoingontheweekend-1" name="checkboxwhichofthefollowingareyoudoingontheweekend-1" class="uikit-control-input__input">
-            <span class="uikit-control-input__text">Cricket</span>
-          </label>
-        </div>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input type="checkbox" id="checkboxwhichofthefollowingareyoudoingontheweekend-2" name="checkboxwhichofthefollowingareyoudoingontheweekend-2" class="uikit-control-input__input">
-            <span class="uikit-control-input__text">Video Games</span>
-          </label>
-        </div>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input type="checkbox" id="checkboxwhichofthefollowingareyoudoingontheweekend-3" name="checkboxwhichofthefollowingareyoudoingontheweekend-3" class="uikit-control-input__input">
-            <span class="uikit-control-input__text">Cooking</span>
-          </label>
-        </div>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input type="checkbox" id="checkboxwhichofthefollowingareyoudoingontheweekend-4" name="checkboxwhichofthefollowingareyoudoingontheweekend-4" class="uikit-control-input__input">
-            <span class="uikit-control-input__text">Netflix</span>
-          </label>
-        </div>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input type="checkbox" id="checkboxwhichofthefollowingareyoudoingontheweekend-5" name="checkboxwhichofthefollowingareyoudoingontheweekend-5" class="uikit-control-input__input">
-            <span class="uikit-control-input__text">Sleeping</span>
-          </label>
-        </div>
-      </div>
-    </script>
-  </code>
-</pre>
-<hr>
-<h4>Advanced Checkbox Example:</h4>
-<p id="checkbox-inject" hidden>I got injected here :O Where am I?!</p>
-<p id="checkbox-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
-<%- include("../../partials/form_partials.ejs", {
-  "forms": [
-  {
-    "type": "checkbox",
-    "config": {
       "label": "Tick the boxes to see what happens!",
       "boxes": [
       {
@@ -874,129 +742,55 @@
       },
       {
         "text": "Checkbox number 3!",
-        "hint": "I <em>inject</em> an element!",
+        "hint": "I &lt;em&gt;inject&lt;/em&gt; an element!",
         "inject": "#checkbox-inject"
       },
       {
         "text": "Checkbox number 4!",
-        "hint": "I <em>toggle</em> an element!",
+        "hint": "I &lt;em&gt;toggle&lt;/em&gt; an element!",
         "toggle": "#checkbox-toggle"
       }
       ]
     }
   }
   ]
-}); %>
-<hr>
-<h4>Advanced Checkbox Code:</h4>
-<pre>
-  <code class="language-markup">
-    <script type="text/html">
-
-      <p id="checkbox-inject" hidden>I got injected here :O Where am I?!</p>
-      <p id="checkbox-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
-      <%%- include("../../partials/form_partials.ejs", {
-      "forms": [
-      {
-        "type": "checkbox",
-        "config": {
-        "label": "Tick the boxes to see what happens!",
-        "boxes": [
-        {
-          "text": "Checkbox number 1!",
-          "hint": "sorry I'm just a regular checkbox :("
-        },
-        {
-          "text": "Checkbox number 2!",
-          "hint": "haha you can't tick me!",
-          "disabled": true
-        },
-        {
-          "text": "Checkbox number 3!",
-          "hint": "I <em>inject</em> an element!",
-          "inject": "#checkbox-inject"
-        },
-        {
-          "text": "Checkbox number 4!",
-          "hint": "I <em>toggle</em> an element!",
-          "toggle": "#checkbox-toggle"
-        }
-        ]
-      }
-    }
-    ]
-  }); %%>
+}); %&gt;
 
 
-</script>
-</code>
-</pre>
-<h4>Advanced Checkbox HTML/JavaScript Code:</h4>
-<pre>
-  <code class="language-markup">
-    <script type="text/html">
-      <p id="checkbox-inject" hidden>I got injected here :O Where am I?!</p>
-      <p id="checkbox-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
-      <div class="form-group">
-        <label for="checkboxticktheboxestoseewhathappens" class="uikit-text-input__label">Tick the boxes to see what happens! </label>
-        <div id="checkboxticktheboxestoseewhathappens-wrapper">
-          <div class="uiToolKitCheckBox">
-            <label class="uikit-control-input">
-              <input type="checkbox" id="checkboxticktheboxestoseewhathappens-1" name="checkboxticktheboxestoseewhathappens-1" class="uikit-control-input__input">
-              <span class="uikit-control-input__text">Checkbox number 1! <span class="hint">sorry I'm just a regular checkbox :(</span></span>
-            </label>
-          </div>
-          <div class="uiToolKitCheckBox">
-            <label class="uikit-control-input">
-              <input disabled="" type="checkbox" id="checkboxticktheboxestoseewhathappens-2" name="checkboxticktheboxestoseewhathappens-2" class="uikit-control-input__input">
-              <span class="uikit-control-input__text">Checkbox number 2! <span class="hint">haha you can't tick me!</span></span>
-            </label>
-          </div>
-          <div class="uiToolKitCheckBox">
-            <label class="uikit-control-input">
-              <input data-inject="#checkbox-inject" type="checkbox" id="checkboxticktheboxestoseewhathappens-3" name="checkboxticktheboxestoseewhathappens-3" class="uikit-control-input__input">
-              <span class="uikit-control-input__text">Checkbox number 3! <span class="hint">I <em>inject</em> an element!</span></span>
-            </label>
-          </div>
-          <div class="uiToolKitCheckBox">
-            <label class="uikit-control-input">
-              <input data-toggle="#checkbox-toggle" type="checkbox" id="checkboxticktheboxestoseewhathappens-4" name="checkboxticktheboxestoseewhathappens-4" class="uikit-control-input__input">
-              <span class="uikit-control-input__text">Checkbox number 4! <span class="hint">I <em>toggle</em> an element!</span></span>
-            </label>
-          </div>
-        </div>
-        <script>
-          $("#checkboxticktheboxestoseewhathappens-wrapper").on("change", "input[type=checkbox]", function() {
-            if (this.checked) {
-              if ($(this).data("inject") != undefined && $(this).data("inject") != "") {
-                $($(this).data("inject")).clone().insertAfter($(this).parent().parent());
-                $(this).parent().parent().next().show();
-              }
-              if ($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
-                $($(this).data("toggle")).show();
-              }
-            } else {
-              if ($(this).data("inject") != undefined && $(this).data("inject") != "") {
-                $(this).parent().parent().next().remove();
-              }
-              if ($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
-                $($(this).data("toggle")).hide();
-              }
-            }
-          });
-        </script>
-      </div>
-    </script>
-  </code>
-</pre>
-</div>
+              </script>
+              </code>
+              </pre>
+                <%- include(partials+"form_partials.ejs", {
+                  "forms": [
+                    {
+                      "type": "checkbox",
+                      "config": {
+                        "label": " ",
+                        "id": "checkbox-checkbox",
+                        "boxes": [
+                          {
+                            "text": "Tick this checkbox to view full reference for checkboxes",
+                            "hint": "(for full advanced functionality and explanations)",
+                            "toggle": "#checkbox-reference"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }); %>
+                <div id="checkbox-reference" hidden>
+                  Coming soon
+                </div>
+      
+              </div>
+              <hr>
               <h2 id="radio">Radios</h2>
               <div class="example-box">
                 <h3>Simple Radios</h3>
                 <p>Simple radios can be used when finer control of individual options is not needed. The simple type cannot do things like hide or disable items in the list, nor can it show/hide elements. It does not do any extra functionality.</p>
                 <p>When more advanced features are needed, refer to the advanced radios.</p>
                 <h4>Simple Radio Example:</h4>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                 "forms": [
                   {
                     "type": "radio",
@@ -1016,8 +810,7 @@
                 <h4>Simple Radio Code:</h4>
                 <pre>
                             <code class="language-markup">
-                              <script type="text/html">
-              <%%- include("../../partials/form_partials.ejs", {
+              <%%- include(partials+"form_partials.ejs", {
                 "forms": [
                   {
                     "type": "radio",
@@ -1035,55 +828,14 @@
                 ]
               }); %%>
 
-                              </script>
                             </code>
                           </pre>
-                <h4>Simple Radio HTML Code:</h4>
-                <pre>
-                              <code class="language-markup">
-                                <script type="text/html">
-<div class="form-group">
-  <label for="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-text-input__label">Which of the following are you doing on the weekend? </label>
-  <div class="uiToolKitCheckBox">
-    <label class="uikit-control-input">
-      <input type="radio" id="radiowhichofthefollowingareyoudoingontheweekend-1" name="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-control-input__input">
-      <span class="uikit-control-input__text">Cricket</span>
-    </label>
-  </div>
-  <div class="uiToolKitCheckBox">
-    <label class="uikit-control-input">
-      <input type="radio" id="radiowhichofthefollowingareyoudoingontheweekend-2" name="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-control-input__input">
-      <span class="uikit-control-input__text">Video Games</span>
-    </label>
-  </div>
-  <div class="uiToolKitCheckBox">
-    <label class="uikit-control-input">
-      <input type="radio" id="radiowhichofthefollowingareyoudoingontheweekend-3" name="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-control-input__input">
-      <span class="uikit-control-input__text">Cooking</span>
-    </label>
-  </div>
-  <div class="uiToolKitCheckBox">
-    <label class="uikit-control-input">
-      <input type="radio" id="radiowhichofthefollowingareyoudoingontheweekend-4" name="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-control-input__input">
-      <span class="uikit-control-input__text">Netflix</span>
-    </label>
-  </div>
-  <div class="uiToolKitCheckBox">
-    <label class="uikit-control-input">
-      <input type="radio" id="radiowhichofthefollowingareyoudoingontheweekend-5" name="radiowhichofthefollowingareyoudoingontheweekend" class="uikit-control-input__input">
-      <span class="uikit-control-input__text">Sleeping</span>
-    </label>
-  </div>
-</div>
-                                </script>
-                              </code>
-                            </pre>
                 <hr>
                 <h4>Advanced Radio Example:</h4>
                   
                 <p id="radio-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
                 <p id="radio-inject" hidden>I got injected here :O Where am I?!</p>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                 "forms": [
                   {
                     "type": "radio",
@@ -1114,15 +866,13 @@
                   }
                 ]
               }); %>
-                <hr>
                 <h4>Advanced Radio Code:</h4>
                 <pre>
                             <code class="language-markup">
-                              <script type="text/html">
 
-                              <p id="radio-inject" hidden>I got injected here :O Where am I?!</p>
-                              <p id="radio-toggle" hidden>I got toggled on! Who's disturbing my slumber?!</p>
-                              <%%- include("../../partials/form_partials.ejs", {
+                              &lt;p id="radio-inject" hidden&gt;I got injected here :O Where am I?!&lt;/p&gt;
+                              &lt;p id="radio-toggle" hidden&gt;I got toggled on! Who's disturbing my slumber?!&lt;/p&gt;
+                              <%%- include(partials+"form_partials.ejs", {
                                 "forms": [
                                   {
                                     "type": "radio",
@@ -1155,65 +905,9 @@
                               }); %%>
 
 
-                              </script>
                             </code>
                           </pre>
-                <h4>Advanced Radio HTML/JavaScript Code:</h4>
-                <pre>
-                              <code class="language-markup">
-                                <script type="text/html">
-                                  <p id="radio-toggle" hidden="">I got toggled on! Who's disturbing my slumber?!</p>
-                                  <p id="radio-inject" hidden="">I got injected here :O Where am I?!</p>
-                                  <div class="form-group">
-                                    <label for="radioticktheboxestoseewhathappens" class="uikit-text-input__label">Tick the boxes to see what happens! </label>
-                                    <div id="radioticktheboxestoseewhathappens-wrapper">
-                                      <div class="uiToolKitCheckBox">
-                                        <label class="uikit-control-input">
-                                          <input type="radio" id="radioticktheboxestoseewhathappens-1" name="radioticktheboxestoseewhathappens" class="uikit-control-input__input">
-                                          <span class="uikit-control-input__text">Radio number 1! <span class="hint">sorry I'm just a regular radio :(</span></span>
-                                        </label>
-                                      </div>
-                                      <div class="uiToolKitCheckBox">
-                                        <label class="uikit-control-input">
-                                          <input disabled="" type="radio" id="radioticktheboxestoseewhathappens-2" name="radioticktheboxestoseewhathappens" class="uikit-control-input__input">
-                                          <span class="uikit-control-input__text">Radio number 2! <span class="hint">haha you can't tick me!</span></span>
-                                        </label>
-                                      </div>
-                                      <div class="uiToolKitCheckBox">
-                                        <label class="uikit-control-input">
-                                          <input data-inject="#radio-inject" type="radio" id="radioticktheboxestoseewhathappens-3" name="radioticktheboxestoseewhathappens" class="uikit-control-input__input">
-                                          <span class="uikit-control-input__text">Radio number 3! <span class="hint">I <em>inject</em> an element!</span></span>
-                                        </label>
-                                      </div>
-                                      <div class="uiToolKitCheckBox">
-                                        <label class="uikit-control-input">
-                                          <input data-toggle="#radio-toggle" type="radio" id="radioticktheboxestoseewhathappens-4" name="radioticktheboxestoseewhathappens" class="uikit-control-input__input">
-                                          <span class="uikit-control-input__text">Radio number 4! <span class="hint">I <em>toggle</em> an element!</span></span>
-                                        </label>
-                                      </div>
-                                    </div>
-                                    <script>
-                                    $("#radioticktheboxestoseewhathappens-wrapper").on("change", "input[type=radio]", function() {
-                                      if (this.checked) {
-                                        if ($(this).data("inject") != undefined && $(this).data("inject") != "") {
-                                          $($(this).data("inject")).clone().insertAfter($(this).parent().parent());
-                                          $(this).parent().parent().next().show();
-                                        }
-                                        if ($(this).data("toggle") != undefined && $(this).data("toggle") != "") {
-                                          $($(this).data("toggle")).show();
-                                        }
-                                        $(this).parent().parent().parent().find($("input[type=radio]:not(:checked)")).each(function() {
-                                          $($(this).data("toggle")).hide();
-                                          $(this).parent().parent().parent().find($($(this).data("inject"))).remove();
-                                        });
-                                      }
-                                    });
-                                    </script>
-                                  </div>
-                                </script>
-                              </code>
-                            </pre>
-                <%- include("../../partials/form_partials.ejs", {
+                <%- include(partials+"form_partials.ejs", {
                 "forms": [
                   {
                     "type": "checkbox",
