@@ -31,6 +31,10 @@ app.set('view engine', 'ejs');
 // });
 
 
+app.use(function (req, res, next) {
+  res.locals.partials = __dirname + '/partials/';
+  next();
+});
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
