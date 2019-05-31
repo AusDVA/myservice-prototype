@@ -1,3 +1,12 @@
+//Hide widgets on initial load for a smoother loading experience
+.widget-profile,
+#widget-payment,
+#widget-claims,
+#welcome-message,
+#profile-message {
+  display: none;
+}
+
 .widget-tile {
   @include uikit-media(sm) {
     max-width: 370px;
@@ -7,10 +16,10 @@
   border-radius: 4px;
   box-shadow: 1px 1px 2px 2px $gray-mild;
   flex-grow: 1;
-  height: 140px;
+  height: 102px;
   margin: .5em .5em 15px;
   overflow: hidden;
-  width: 140px;
+  width: 100%;
 
   p {
     line-height: 1.45em;
@@ -21,15 +30,14 @@
 .widget-tile--full-width {
   border-left: 4px solid $blue;
   height: auto;
-  margin: 1.5em auto 1em;
-  max-width: 430px;
-  min-height: 140px;
-  padding: 12px 20px;
+  margin: .5em;
+  min-height: 126px;
+  padding: 8px 20px;
   width: 1112px;
 }
 
 .widget-tile--half-width {
-  max-width: 430px;
+  max-width: 100%;
 }
 
 .widget-tile--mobile-hide {
@@ -62,7 +70,6 @@
 }
 
 .widget-tile--blue-light {
-
   .fa-edit {
     color: $blue-light;
   }
@@ -73,9 +80,9 @@
   background: $blue;
   box-shadow: 0 1px 2px 0 $rgba-gray;
   display: flex;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
-  height: 42px;
+  height: 34px;
   justify-content: space-between;
   padding: 10px 12px;
 
@@ -93,9 +100,10 @@
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  height: 98px;
+  height: 69px;
   justify-content: center;
-  padding: 15px;
+  padding: 12px;
+  font-size: 13.6px;
 }
 
 .mobile-hide {
@@ -103,25 +111,91 @@
 }
 
 .claims-tile {
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.widget-profile {
+.widget-tile__content--fullwidth {
+  width: 100%;
+}
+
+.widget-tile__stats {
+  align-items: center;
+  display: flex;
+  font-weight: 500;
+  font-size: 13.6px;
+  justify-content: center;
+  padding: 0 15px 0 0;
+}
+
+.profile-content {
+  align-items: flex-start;
+}
+
+.payment-amount {
+  color: $blue;
+  font-size: 25px;
+}
+
+.fa-edit {
+  color: #1377b7;
+  display: none !important;
+  font-size: 20px;
+  padding-right: 10px;
+}
+
+.authenticated-home {
+  .home__seperator {
+    margin: 25px 18px 10px;
+    max-width: 1112px;
+  }
+
+  .container {
+    max-width: 1142px;
+  }
+}
+
+.widgets-container {
+  padding: 0 !important;
+}
+
+.message__mobile-hide {
   display: none;
 }
 
-@media only screen and (min-width: $AU-media-lg) {
-  .intro {
-    max-width: 100%;
-  }
+.tablet-hide {
+  display: none;
+}
 
-  .widget-tile--mobile-hide {
-    display: block;
+.widget-tile__stats:nth-child(1) {
+  margin-bottom: 10px;
+}
+
+.profile-content {
+  justify-content: center;
+  line-height: 1.3em;
+  padding: 9px;
+}
+
+.widget-profile {
+  .widget-tile__title {
+    background: $blue-light;
   }
 }
 
-.intro {
-  max-width: 756px;
+.tablet-message::first-letter {
+  text-transform: capitalize;
+}
+
+@media only screen and (min-width: $AU-media-xs) {
+  .widgets-container {
+    margin: 0 12px !important;
+  }
+
+  .authenticated-home {
+    .heading--greeting {
+      padding: 0 20px;
+    }
+  }
 }
 
 @media only screen and (min-width: $AU-media-sm) {
@@ -130,10 +204,43 @@
   .widget-tile {
     border: 1px solid transparent;
     border-left: 4px solid $blue;
+    height: 126px;
+  }
+
+  .widget-tile__title-text {
+    font-size: 16px;
+  }
+
+  .widget-tile__title {
+    height: 42px;
+  }
+
+  .authenticated-home {
+    .intro {
+      max-width: 100%;
+  }
   }
 
   .mobile-hide {
     display: block;
+  }
+
+  .tablet-hide {
+    display: inline !important;
+  }
+
+  .widget-profile {
+    .widget-tile__title {
+      background: $white !important;
+    }
+
+    .profile-content {
+      padding: 16px;
+    }
+  }
+
+  .widget-tile__stats:nth-child(1) {
+    margin-bottom: 0 !important;
   }
 
   .widget-tile--full-width {
@@ -148,8 +255,17 @@
   .widget-tile__content {
     align-items: center;
     flex-direction: row;
-    height: 98px;
+    height: 83px;
     padding: 20px;
+    font-size: 16px;
+  }
+
+  .widget-tile__stats {
+    font-size: 16px !important;
+  }
+
+  .widget-number {
+    font-size: 32px;
   }
 
   .widget-tile--blue {
@@ -200,7 +316,8 @@
 
     .payment-amount {
       color: $blue-mid;
-      font-size: 30px;
+      font-size: 32px;
+      line-height: 1.2em;
     }
 
   }
@@ -213,51 +330,63 @@
   .claims-tile {
     justify-content: flex-start;
   }
+
+  .profile-content {
+    font-size: 16px;
+
+    .fa-edit {
+      display: inline !important;
+    }
+  }
 }
 
-.widget-tile__content--fullwidth {
-  width: 100%;
-}
-
-.widget-tile__stats {
-  align-items: center;
-  display: flex;
-  font-weight: 500;
-  justify-content: center;
-  padding: 0 15px 0 0;
-}
-
-.profile-content {
-  align-items: flex-start;
-}
-
-.payment-amount {
-  color: $blue;
-  font-size: 25px;
-}
-
-.fa-edit {
-  color: #1377b7;
-  font-size: 30px;
-  padding-right: 10px;
-}
-
-.authenticated-home {
-  .home__seperator {
-    margin: 25px auto 10px;
-    max-width: 1112px;
+@media only screen and (min-width: $AU-media-md) {
+  .authenticated-home {
+    .intro {
+      max-width: 800px;
+  }
   }
 
-  .widgets-container {
-    margin: 0;
-    padding: 0;
+  .message__mobile-hide {
+    display: inline !important;
+  }
+}
+
+@media only screen and (min-width: $AU-media-lg) {
+  .widget-tile--mobile-hide {
+    display: block;
   }
 
-  .container {
-    max-width: 1142px;
+  .intro {
+    .flex-container {
+      padding: 0px !important;
+    }
   }
 
-  .heading--greeting {
-    padding: 0 8px;
+  .authenticated-home {
+    .home__seperator {
+      margin: 25px auto 10px;
+      max-width: 1112px;
+  }
+
+    .intro {
+      max-width: 100%;
+    }
+
+    h1 {
+      padding: 0 24px !important;
+    }
+  }
+
+  .widget-tile {
+    .profile-content {
+      align-items: flex-start;
+      justify-content: flex-start;
+      padding: 20px;
+    }
+  }
+
+  .tablet-hide {
+    display: inline !important;
   }
 }
