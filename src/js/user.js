@@ -34,6 +34,7 @@ function guidGenerator() {
 // end utility functions 
 
 
+// call up the persona panel via keyboard 
 $(document).keypress(function (e) {
 
   switch (e.which) {
@@ -43,6 +44,25 @@ $(document).keypress(function (e) {
     default:
   }
 });
+
+// or via logo long press
+
+// // grab the element
+// var el = document.getElementById('mys-logo');
+
+// // listen for the long-press event
+// el.addEventListener('long-press', function (e) {
+//   // stop the event from bubbling up
+//   e.preventDefault()
+//   $('.pt-choose-user').toggle();
+// });
+
+document.addEventListener('swiped-left', function (e) {
+  console.log(e.target); // element that was swiped
+  $('.pt-choose-user').toggle();
+});
+
+
 
 function initNomRep() {
 
