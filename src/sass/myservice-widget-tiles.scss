@@ -226,7 +226,7 @@
   .authenticated-home {
     .intro {
       max-width: 100%;
-  }
+    }
   }
 
   .mobile-hide {
@@ -352,7 +352,7 @@
   .authenticated-home {
     .intro {
       max-width: 800px;
-  }
+    }
   }
 
   .message__mobile-hide {
@@ -375,7 +375,7 @@
     .home__seperator {
       margin: 25px auto 10px;
       max-width: 1112px;
-  }
+    }
 
     .intro {
       max-width: 100%;
@@ -397,4 +397,71 @@
   .tablet-hide {
     display: inline !important;
   }
+}
+
+
+// POC loading widget 
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0
+  }
+
+  100% {
+    background-position: 468px 0
+  }
+}
+
+.widget-tile--loading {
+
+  .widget-tile__content,
+  .widget-tile__content::before,
+  .widget-tile__content::after {
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-name: placeHolderShimmer;
+    animation-timing-function: linear;
+    // background: linear-gradient(to right, $gray-super-super-light 8%, $gray-super-light 18%, $gray-light 33%);
+    background: linear-gradient(to right, #eeeeee 8%, #dadada 18%, #eeeeee 33%);
+    // background: linear-gradient(to right, #eeeeee 8%, #eeeeee 18%, #dddddd 33%);
+
+    background-size: 800px 104px;
+    position: relative;
+  }
+
+  .widget-tile__content {
+
+    height: 11px;
+    margin: 2.2em 1em 1em;
+    padding: 5px;
+    width: 85%;
+
+    &::before,
+    &::after {
+      content: $content-blank;
+      height: 6px;
+      left: 0;
+      margin: 0;
+      padding: 5px 0 0;
+      position: absolute;
+    }
+
+    &::before {
+      top: -20px;
+      width: 85%;
+    }
+
+    &::after {
+      top: 20px;
+      width: 60%;
+    }
+
+    >div,
+    >span {
+      display: none !important; // this is only important bacause of other "!important" uses in this file. Need to remove all of them! 
+    }
+  }
+
+
 }

@@ -402,8 +402,14 @@
         <h4>Overrides</h4>
         <p class="uiToolKitCheckBox">
           <label class="uikit-control-input" for="first-login">
-            <input class="uikit-control-input__input" id="first-login" type="checkbox" name="numWidgets">
+            <input class="uikit-control-input__input" id="first-login" type="checkbox" name="first-login">
             <span class="uikit-control-input__text">First login</span>
+          </label>
+        </p>
+        <p class="uiToolKitCheckBox">
+          <label class="uikit-control-input" for="loading-state">
+            <input class="uikit-control-input__input" id="loading-state" type="checkbox" name="loading-state">
+            <span class="uikit-control-input__text">Loading State</span>
           </label>
         </p>
       </div>
@@ -477,6 +483,13 @@
       if (first_login == null) first_login = false;
       $('#first_login').prop("checked", first_login);
       $("#first-login").click(function (e) {
+        updateScenario();
+      });
+
+      // loading state
+      var loading_state = sessionStorage.getItem('widget_loading_state');
+      if (loading_state == null) loading_state = false;
+      $("#loading-state").click(function (e) {
         updateScenario();
       });
 
@@ -594,6 +607,20 @@
         }
       }
 
+      function updateLoadingState() {
+        if ($("#loading-state").prop("checked") == true) {
+          $(".widget-tile").each(function (index) {
+            $(this).addClass("widget-tile--loading");
+          });
+          sessionStorage.setItem('widget_loading_state', true);
+        } else {
+          $(".widget-tile").each(function (index) {
+            $(this).removeClass("widget-tile--loading");
+          });
+          sessionStorage.setItem('widget_loading_state', false);
+        }
+      }
+
       /* Update everything */
 
       function updateScenario() {
@@ -614,6 +641,7 @@
         /* Over ride for first login */
         updateFirstLogin();
         updateLayout();
+        updateLoadingState();
       }
 
       /* Init */
