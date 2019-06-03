@@ -1,6 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
-
+  serveIndex = require('serve-index'),
+  { promisify } = require('util'),
+  { resolve } = require('path'),
+  fs = require('fs'),
+  path = require('path'),
   // featuretoggleapi = require('feature-toggle-api'),
 
   // not so secret secret
@@ -12,8 +16,8 @@ let express = require('express'),
   port = process.env.PORT || process.argv[2] || 5000,
   app = express();
 
-// console.log('process');
-// console.log(process.env);
+let readdir = promisify(fs.readdir);
+let stat = promisify(fs.stat);
 
 // using ejs for rendering
 app.use(express.static(__dirname));
@@ -30,7 +34,22 @@ app.set('view engine', 'ejs');
 //   feature2: true
 // });
 
+app.use(function(req, res, next) {
+  res.locals.partials = __dirname + '/partials/';
+  next();
+});
 
+
+// create sitemap 
+app.use('/files', serveIndex('views', {
+  'icons': true
+}));
+
+// rewrite create sitemap 
+app.get('/files/**.ejs', function (request, response, next) {
+  request.url = request.url.substring(6);
+  next();
+});
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
@@ -55,9 +74,7 @@ app.use(
 
       }
     }
-
   )
-
 );
 
 console.log('build env:', app.settings.env);
@@ -85,6 +102,42 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
 console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
 
+app.get('/sitemap', (req, res) => {
+  async function getFiles(dir) {
+    const subdirs = await readdir(dir);
+    const files = await Promise.all(subdirs.map(async (subdir) => {
+      const res = resolve(dir, subdir);
+      return (await stat(res)).isDirectory() ? getFiles(res) : res;
+    }));
+    return files.reduce((a, f) => a.concat(f), []);
+  }
+  var pages = []
+  getFiles("./views")
+    .then(files => {
+       files.forEach((file, index) => {
+         file = path.normalize(file);
+         file = file.replace(__dirname, "");
+         file = file.replace(/\\/g, "/");
+         file = file.replace("/views", "");
+         var data = fs.readFileSync('./views/'+file, "utf8");
+         data = data.match(/<title>(.*)<\/title>/);
+         if (data === null) {
+           data = "(No Title)";
+         } else {
+           data = data[1];
+         }
+         pages.push({
+           page: file,
+           title: data
+         });
+       });
+       res.render('sitemap', {pages})
+    })
+    .catch(e => console.error(e));
+  
+
+});
+
 // folder level renders 
 app.get('/:id0', function (request, response) {
   response.render(request.params.id0, {
@@ -94,7 +147,6 @@ app.get('/:id0', function (request, response) {
 });
 
 app.get('/:id0/:id1', function (request, response) {
-
   response.render(request.params.id0 + "/" + request.params.id1, {
     main_nav_active: request.params.id1,
     liveFeature: liveFeatureEnv
@@ -141,6 +193,7 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
+
 
 app.listen(port, function () {
   console.log('listening on port: ' + port);

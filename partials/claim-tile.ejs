@@ -1,36 +1,40 @@
-<% if (locals.title) { 
-  var title = locals.title;
+<% if (locals.el.optionalID) { 
+  var id = locals.el.optionalID;
+} else {
+  var id = locals.el.title.replace(/ +/g, '_').replace(/\?/g, "").toLowerCase(); 
+}
+%>
+<% if (locals.el.title) { 
+  var title = locals.el.title;
 } else {
   var title = "No title specified" 
 }
 %>
-<% if (locals.body_text) { 
-  var body_text = locals.body_text;
+<% if (locals.el.body_text) { 
+  var body_text = locals.el.body_text;
 } else {
   var body_text = "No body_text specified" 
 }
 %>
-<% if (locals.button_text) { 
-  var button_text = locals.button_text;
+<% if (locals.el.button_text) { 
+  var button_text = locals.el.button_text;
 } else {
   var button_text = "No button_text specified" 
 }
 %>
-<% if (locals.link) { 
-  var link = locals.link;
+<% if (locals.el.link) { 
+  var link = locals.el.link;
 } else {
   var link = "No link specified" 
 }
 %>
 
-<div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element">
-	<a class="card-container" href="<%= link %>">
-		<h2 class="card__title"><span class="font-weight-heavy"><%- title %></span></h2>
-		<p class="card__supporting-text text-fullwidth"><%- body_text %></p>
-		<div class="card__button">
-		<button class="uikit-btn uikit-btn--tertiary small"><%- button_text %></button>
-		</div>
-	</a>
+<div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="<%= id %>">
+  <a class="card-container" href="<%= link %>">
+    <h2 class="card__title"><span class="font-weight-heavy"><%- title %></span></h2>
+    <p class="card__supporting-text text-fullwidth"><%- body_text %></p>
+    <div class="card__button">
+      <button class="uikit-btn uikit-btn--tertiary small"><%- button_text %></button>
+    </div>
+  </a>
 </div>
-
-
