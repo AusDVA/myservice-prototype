@@ -195,6 +195,12 @@ app.get('/logout',
   });
 
 
+app.post('/styleguide/new_forms_preview', (req, res) => {
+  let form_preview = req.body.form_preview;
+  console.log(form_preview);
+  res.render('styleguide/new_forms_preview', {form_preview});
+});
+
 app.listen(port, function () {
   console.log('listening on port: ' + port);
 });
