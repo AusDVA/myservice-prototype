@@ -48,6 +48,33 @@
                 <option>The Land Area, Territorial Waters and Superjacent Airspace of Iraq and Syria</option>
               </select>
             </div>
+            <div class="form-group margin-above--large" id="operations" style="display: none">
+                    <div class="uikit-text-input__label-wrapper--inline-block"><label class="uikit-text-input__label" for="drop-down">Operation name<span class="hint"> (If known)</span></label>
+                    </div>
+                    <div>
+                      <input type="reset" style="display:none">
+                      <select style="" class="uikit-text-input input-half" id="select-operation-afghanistan" name="drop-down" onchange="typeSelected()">
+                        <option selected="selected">-- Select an operation --</option>
+                        <option>Operation Ariki</option>
+                        <option>Operation Athena</option>
+                        <option>Operation Enduring Freedom</option>
+                        <option>Operation Herrick</option>
+                        <option>Operation Highroad</option>
+                        <option>International Security Assist</option>
+                        <option>Operation Palate</option>
+                        <option>Operation Palate II</option>
+                        <option>Operation Slipper</option>
+                      </select>
+                      <select style="display:none;" class="uikit-text-input input-half" id="select-operation-east-timor" name="drop-down" onchange="typeSelected()">
+                        <option selected="selected">-- Select an operation --</option>
+                        <option>Operation Citadel</option>
+                        <option>Operation Faber (Unamet)</option>
+                        <option>Operation Stabilise</option>
+                        <option>Operation Tanager</option>
+                        <option>Operation Warden</option>
+                      </select>
+                    </div>
+                  </div>
             <div class="form-group margin-above--large">
               <label class="uikit-text-input__label" for="date">Start date
                 <span class="hint">(dd / mm / yyyy)</span>
@@ -140,25 +167,233 @@
   <% include ../../../../partials/footer.ejs %>
 </body>
 <script>
-  $(Document).ready(function () {
+ $(Document).ready(function () {
 
-    // former name
+    if (sessionStorage.getItem('commonwealth-allied') != 'yes') {
+      $("#type-of-service").show("fast");
+    } else {
+      $("#type-of-service").hide();
+    }
 
-    var formerNames = false;
-    $("#former_yes").click(function () {
-      $("#former_name").show("fast");
-      $("#save-and-next").hide();
-      formerNames = true;
-    });
-    $("#former_no").click(function () {
-      $("#former_name").hide("fast");
-      $("#save-and-next").show();
-    });
-    $("#removeDateRow").click(function () {
-      $(this).closest('tr').remove();
+    /* Clicks on 'add service' button */
+    $("#add-service").click(function () {
+      hideAll();
+      $("#footer-buttons-mask").show();
+      $("#myFormSP").trigger("reset");
+      $("#service-period-add").html("Save");
+      $("#service-period-card").show("fast");
+      $("#deleteButtonSP").hide();
     });
 
+    /* Clicks save */
+    var firstServicePeriodAdded = false;
+    $("#service-period-add").click(function () {
+      hideAll();
+      firstServicePeriodAdded = true;
+      $("#client-list").show();
+      $("#add-operation").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      if (addingSecondSP) {
+        $("#service-period-summary-2").show("fast");
+        $("#add-operation-2").show("fast");
+        $("#ops").show();
+        $("#client-list").show();
+      }
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks cancel */
+    $("#service-period-cancel").click(function () {
+      hideAll();
+      if (addingSecondSP) {
+        $("#ops").show();
+        $("#client-list").show();
+        $("#add-operation").show();
+        $("#add-service-period-footer").show();
+        $("#service-period-summary").show("fast");
+      } else {
+        $("#add-service").show();
+        $("#message").show();
+      }
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks edit on SP summary */
+    $("#edit-service-period").click(function () {
+      hideAll();
+      $("#service-period-add").html("Update");
+      $("#service-period-card").show("fast");
+      $("#deleteButtonSP").show();
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks on 'add operation' button */
+    $("#add-operation").click(function () {
+      hideAll();
+      $("#operation-add").html("Save");
+      $("#myFormOP").trigger("reset");
+      $("#footer-buttons-mask").show();
+      $("#operation-card").show("fast");
+      $("#deleteButtonOP").hide();
+    });
+
+    /* Clicks 'add' in operation card */
+    var firstSummaryAdded = false;
+    $('#operation-add').click(function () {
+      hideAll();
+      $("#client-list").show();
+      $("#ops").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      $("#add-operation").show();
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+      if (firstSummaryAdded) {
+        $('#op-summary').clone(true, true).appendTo('#ops');
+      } else {
+        $('#op-summary-1').show();
+      }
+      firstSummaryAdded = true;
+    });
+
+    /* Clicks 'cancel' in operation card */
+    $('#operation-cancel').click(function () {
+      hideAll();
+      $("#client-list").show();
+      $("#ops").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      $("#add-operation").show();
+      $("#add-service-period-footer").show();
+      $("#timeline-1").show();
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+    });
+
+    /* Clicks edit on OP summary */
+    $(".op-edit").click(function () {
+      hideAll();
+      $("#deleteButtonOP").show();
+      $("#operation-add").html("Update");
+      $("#footer-buttons-mask").show();
+      $("#operation-card").show("fast");
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks on 'add another service period' */
+    var addingSecondSP = false;
+    $('#add-another-service-period').click(function () {
+      hideAll();
+      addingSecondSP = true;
+      $("#deleteButtonSP").hide();
+      $("#footer-buttons-mask").show();
+      $("#myFormSP").trigger("reset");
+      $("#service-period-add").html("Add");
+      $("#service-period-card").show("fast");
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+    });
+
+    /* Selects conflict/region in open card */
+    $("#region-select").change(function () {
+      mySelection = $('#region-select :selected').val();
+      hideOperationLists();
+      switch (mySelection) {
+        case "Afghanistan":
+          $("#select-operation-afghanistan").show();
+          $("#operations").show();
+          break;
+        case "East Timor/Timor-Leste":
+          $("#select-operation-east-timor").show();
+          $("#operations").show();
+          break;
+        case "vietnam":
+          $("#operations").hide();
+          break;
+        default:
+          $("#operations").hide();
+      }
+    });
+
+    function hideOperationLists() {
+      $("#select-operation-afghanistan").hide();
+      $("#select-operation-east-timor").hide();
+    }
+
+    function hideAll() {
+      $("#client-list").hide();
+      $("#timeline-1").hide();
+      $("#footer-buttons-mask").hide();
+      $("#ops").hide();
+      $("#add-service").hide();
+      $("#service-period-card").hide();
+      $("#message").hide();
+      $("#service-period-summary").hide();
+      $("#add-operation").hide();
+      $("#add-service-period-footer").hide();
+      $("#operation-card").hide();
+      $("#alert-no-service").hide();
+      $("#alert-no-ops").hide();
+    }
+
+    window.checkSaveAndNext = function () {
+      if (!firstServicePeriodAdded) {
+        $("#alert-no-service").show("fast");
+        $("body,html").animate({
+            scrollTop: 0 // set to half way down the screen
+          },
+          700
+        );
+        return;
+      }
+      if (!firstSummaryAdded) {
+        $("#alert-no-ops").show("fast");
+        $("body,html").animate({
+            scrollTop: 0 // set to half way down the screen
+          },
+          700
+        );
+        return;
+      }
+
+      myNav = "/auth/claim/qualifying_service/qs-3";
+      if (sessionStorage.getItem('commonwealth-allied') == 'yes') myNav = "/auth/claim/qualifying_service/qs-2a";
+      // myNav = "#open-ops-modal"
+      window.location.href = myNav;
+    }
   });
+
+  function typeSelected(event) {
+    var field = document.getElementById("operation-other");
+    var select = document.getElementById("operation-name");
+    var selectedString = select.options[select.selectedIndex].value;
+    if (selectedString == "Other") {
+      field.style.display = 'block';
+    } else {
+      field.style.display = 'none';
+    }
+  }
+
 
 </script>
 
