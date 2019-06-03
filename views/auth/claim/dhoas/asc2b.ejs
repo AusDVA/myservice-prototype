@@ -2,6 +2,7 @@
 <html class="js" lang="en">
 
 <head>
+
   <title>DHOAS Application for a subsidy certificate | MyService</title>
   <% include ../../../../partials/head.ejs %>
 </head>
@@ -14,88 +15,45 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
   <% include ../../../../partials/header-topbar.ejs %>
-  <% include ../../../../partials/header-claims.ejs %>
+
   <% include ../../../../partials/header-nom-rep.ejs %>
 
-  <main id="main-content">
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Co-owner/borrower details</span>
+        </h1>
+      </div>
+    </div>
+
     <div class="container">
-      <div id="progressbar">
-        <div id="percentage">
-          <p id="percentage_value"></p>
-        </div>
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+          <div class="margin-above--extra margin-below--extra">
 
-      </div>
-      <h1>
-        <span class="heading">Additional co-owner/borrower details</span>
-      </h1>
-
-      <h2 class="margin-above--large margin-below">
-        <span class="font-weight-heavy">Consent</span>
-      </h2>
-      <div id="consent">
-        <p class="text-fullwidth">
-          <label class="uikit-control-input">
-            <input id="agreementOne" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-            <span class="uikit-control-input__text">I agree that DVA can discuss my application with this co-owner/borrower</span>
-          </label>
-        </p>
-        <p class="text-fullwidth">
-          <label class="uikit-control-input">
-            <input id="agreementTwo" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-            <span class="uikit-control-input__text">I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my&nbsp;behalf</span>
-          </label>
-        </p>
-
-        <p class="margin-above--large">
-          <span class="heading heading--spacer"></span>
-        </p>
-      </div>
-
-
-      <!-- Co-owner/borrower contact details -->
-              <fieldset>
-                <legend>Service details</legend>
-
-
-                <div class="form-group">
-                  <div class="row col-xs-12 col-md-8 col-lg-7">
-                    <legend class="legend-label">
-                      <span id="rank">Co-owner/borrower's current branch of service <span class="hint">(if applicable)</span></span>
-                    </legend>
-
-                    <div class="mys-radio-group mys-radio-group--cols-3">
-
-                      <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="arm" value="navy">
-                        <span class="mys-radio__box">Navy</span>
-                      </label>
-
-                      <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="arm" value="army">
-                        <span class="mys-radio__box mys-radio__box--not-selected">Army</span>
-                      </label>
-
-                      <label class="mys-radio">
-                        <input class="mys-radio__control" type="radio" name="arm" value="airforce">
-                        <span class="mys-radio__box mys-radio__box--not-selected">Air Force</span>
-                      </label>
-                    </div>
-                  </div>
+            <div class="margin-above--large ">
+              <div id="progressbar">
+                <div id="percentage">
+                  <p id="percentage_value">5% complete</p>
                 </div>
-                </fieldset>
+              </div>
+              <p style="padding-top:0.4em;">5% complete</p>
 
-                <div class="form-group">
-                  <label class="uikit-text-input__label" for="highest-rank" id="rank">Co-owner/borrower's highest rank achieved</label>
-                  <select class="uikit-text-input input-half" id="highest-rank" name="highest-rank">
-                    <option selected>
-                      -- Select highest rank --
-                    </option>
-                    <option value=""> --- please select an arm above --- </option>
-                  </select>
-                </div>
+            </div>
 
-<!-- PRE POPULATE FORM --> 
-                <div class="form-group" id="prepopulate" style="display: none;">
+            <div id="coOwnerDetails">
+
+                <h2 class="margin-below">
+                  <span class="font-weight-heavy">Contact details of co-owner/borrower</span>
+                </h2>
+
+
+
+              <!-- Co-owner/borrower contact details -->
+
+              <!-- PRE POPULATE FORM -->
+              <%# <div class="form-group" id="prepopulate" style="display: none;">
                   <label class="uikit-text-input__label" for="prepopulate-list">Pre populate co-owner/borrower's details
                     <br>
                     <span class="hint display-block">Used previously saved details to pre populate parts of the form</span>
@@ -103,211 +61,277 @@
                   <select class="uikit-text-input input-half" id="prepopulate-list" name="prepopulate-list">
                     <option>Pre populate form...</option>
                   </select>
+                </div> %>
+              <!-- -->
+
+
+              <div id="contactdetails">
+
+                <%- include("../../../../partials/form_partials.ejs", {
+                  "forms": [
+                    {
+                      "type": "text",
+                      "config": {
+                        "label": "Title/Rank"
+                      }
+                    }
+                  ]
+                }); %>
+
+                <div class="form-group" id="PartnerGivenName">
+                  <label class="uikit-text-input__label" for="GivenName">Given name
+                    <span class="hint">(first name)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="GivenName" id="GivenName" type="text" value="" required aria-required="true">
                 </div>
-<!-- --> 
 
-      <div id="contactdetails">
-        <h2 class="margin-below">
-          <span class="font-weight-heavy">Contact details of co-owner/borrower</span>
-        </h2>
+                <div class="form-group" id="PartnerOtherGivenName">
+                  <label class="uikit-text-input__label" for="OtherGivenName">Middle name
+                    <span class="hint">(optional)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="OtherGivenName" id="OtherGivenName" type="text" value="" required aria-required="true">
+                </div>
 
-        <div class="form-group" id="PartnerTitle">
-          <label class="uikit-text-input__label" for="title">Title
-          </label>
-          <select class="uikit-text-input input-half" id="title" name="title">
-            <option>-- Select title --</option>
-            <option>Mr</option>
-            <option>Ms</option>
-            <option>Miss</option>
-            <option>Mrs</option>
-          </select>
-        </div>
+                <div class="form-group" id="PartnerFamilyName">
+                  <label class="uikit-text-input__label" for="FamilyName">Surname
+                    <span class="hint">(last name)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
+                </div>
+                <%- include("../../../../partials/form_partials.ejs", {
+                      "forms": [
+                        {
+                          "type": "y_n_toggle",
+                          "config": {
+                            "label": "Has this co-owner/borrower ever used or been known by any other names?",
+                            "yes_toggle": "#previous-names"
+                          }
+                        }
+                      ]
+                    }); %>
 
-        <div class="form-group" id="PartnerGivenName">
-          <label class="uikit-text-input__label" for="GivenName">Given name
-            <span class="hint">(first name)</span>
-          </label>
-          <input class="uikit-text-input input-half" name="GivenName" id="GivenName" type="text" value="" required aria-required="true">
-        </div>
+                <div id="previous-names" hidden>                
+                  <%- include("../../../../partials/form_partials.ejs", {
+                    "forms": [
+                      {
+                        "type": "text",
+                        "config": {
+                          "label": "Please enter all previous, separated by commas"
+                        }
+                      }
+                    ]
+                  }); %>
+                </div>
 
-        <div class="form-group" id="PartnerOtherGivenName">
-          <label class="uikit-text-input__label" for="OtherGivenName">Middle name
-            <span class="hint">(optional)</span>
-          </label>
-          <input class="uikit-text-input input-half" name="OtherGivenName" id="OtherGivenName" type="text" value="" required aria-required="true">
-        </div>
+                <div class="form-group" id="PartnerDOB">
+                  <label class="uikit-text-input__label" for="date">Date of birth
+                    <span class="hint">(dd / mm / yyyy)</span>
+                  </label>
+                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                </div>
 
-        <div class="form-group" id="PartnerFamilyName">
-          <label class="uikit-text-input__label" for="FamilyName">Surname
-            <span class="hint">(last name)</span>
-          </label>
-          <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
-        </div>
-<!-- ADD PREVIOUS NAMES BOX -->
-<% locals.el = {};
-locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by any other names?"; %>
-<% include ../../../../partials/form_groups/former_names.ejs %>
 
-        <div class="form-group" id="PartnerDOB">
-          <label class="uikit-text-input__label" for="date">Date of birth
-            <span class="hint">(dd / mm / yyyy)</span>
-          </label>
-          <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-          <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-          <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-        </div>
+                <div class="form-group" id="PartnerEmail">
+                  <label class="uikit-text-input__label" for="Email">Email
+                    <span class="hint onlyifconsent">(if known)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="Email" id="Email" type="text" value="" required aria-required="true">
+                </div>
 
-        <div id="only-if-consent" hidden>
-          <div class="form-group" id="PartnerEmail">
-            <label class="uikit-text-input__label" for="Email">Email</label>
-            <input class="uikit-text-input input-half" name="Email" id="Email" type="text" value="" required aria-required="true">
+                <div class="form-group" id="PartnerContactNumber">
+                  <label class="uikit-text-input__label" for="ContactNumber">Contact phone number
+                    <span class="hint onlyifconsent">(if known)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" name="ContactNumber" id="ContactNumber" type="text" value="" required aria-required="true">
+                </div>
+              </div>
+
+
+
+
+
+
+
+              <fieldset>
+                <legend>Relationship to co-owner/borrower</legend>
+                <div class="form-group" id="relationship">
+                  <label class="uikit-text-input__label" for="sop">What is your relationship to this person?
+                    <p>
+                      <br>
+                      <span class="hint display-block">Select all that apply</span>
+                    </p>
+                  </label>
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" id="partner" name="checkbox">
+                      <span class="uikit-control-input__text">Partner (co-owner and/or co-borrower)</span>
+                    </label>
+                  </div>
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-owner" name="checkbox" value="nonpartner-coowner">
+                      <span class="uikit-control-input__text">Non-partner co-owner</span>
+                    </label>
+                  </div>
+
+                  <div id="InterestInProp">
+                    <fieldset class="form-group form-group--secondary">
+                      <span class="input-support-text">
+                        <span class="hint">My non-partner co-owner has</span>
+                      </span>
+                      <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
+                      <span class="input-support-text">%
+                        <span class="hint">Interest in the property</span>
+                      </span>
+                    </fieldset>
+                  </div>
+
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-borrower" name="checkbox" value="nonpartner-coborrower">
+                      <span class="uikit-control-input__text">Non-partner co-borrower</span>
+                    </label>
+                  </div>
+
+                  <div id="InterestInProperty">
+                    <fieldset class="form-group form-group--secondary">
+                      <span class="input-support-text">
+                        <span class="hint">My non-partner co-borrower has</span>
+                      </span>
+                      <input class="uikit-text-input input-small yyyy" name="InterestInProperty" id="InterestAmount" type="number">
+                      <span class="input-support-text">%
+                        <span class="hint">Interest in the property</span>
+                      </span>
+                    </fieldset>
+                  </div>
+
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" id="guarantor" name="checkbox">
+                      <span class="uikit-control-input__text">Guarantor on loan</span>
+                    </label>
+                  </div>
+
+                  <div class="uiToolKitCheckBox">
+                    <label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerPointofcontact" name="checkbox">
+                      <span class="uikit-control-input__text">Non-partner point of contact</span>
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </fieldset>
+
+
+              <div class="form-group" id="also-applying">
+                <label class="uikit-text-input__label margin-above--large" for="radio-buttons">Is this person also applying for a DHOAS Subsidy Certificate?</label>
+                <div class="row">
+
+                  <div class="col-sm-3">
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-this">
+                        <span class="uikit-control-input__text">Yes, to use on this property</span>
+                      </label>
+                    </p>
+                  </div>
+                  <div class="col-sm-4">
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-another">
+                        <span class="uikit-control-input__text">Yes, to use on another property</span>
+                      </label>
+                    </p>
+                  </div>
+                  <div class="col-sm-1">
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="no">
+                        <span class="uikit-control-input__text">No</span>
+                      </label>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+
+              <%# <div class="form-group" id="anotherCoOwner">
+                <fieldset>
+                  <legend class="legend-label">Is there another co-owner/borrower of the property?</legend>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input id="anotherCoOwner-yes" type="radio" name="anotherCoOwner" value="anotherCoOwner-yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input id="anotherCoOwner-no" type="radio" name="anotherCoOwner" value="anotherCoOwner-no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div> %>
+
+
+              <div class="form-group">
+                <%# <legend class="legend-label margin-below" for="agreement">Consent
+                  <span class="hint">(optional)</span>
+                </legend> %>
+                <div id="consent">
+                  <%# <p class="text-fullwidth">
+                    <label class="uikit-control-input">
+                      <input id="agreementOne" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
+                      <span class="uikit-control-input__text">I agree that DVA can discuss my application with this co-owner/borrower.</span>
+                    </label>
+                  </p>
+                  <p class="text-fullwidth">
+                    <label class="uikit-control-input">
+                      <input id="agreementTwo" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
+                      <span class="uikit-control-input__text">I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my&nbsp;behalf.</span>
+                    </label>
+                  </p> %>
+
+
+                  <%
+                  locals.el = {};
+                  locals.el.question = 'I agree that DVA can discuss my application with this co-owner/borrower.';
+                  %>
+                  <% include ../../../../partials/forms/radio--yes-no.ejs %>
+
+                  <%
+                  locals.el = {};
+                  locals.el.question = 'I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my behalf.';
+                  %>
+                  <% include ../../../../partials/forms/radio--yes-no.ejs %>
+                </div>
+              </div>
+
+
+              <%
+                  locals.el = {};
+                  locals.el.question = 'Is there another co-owner/borrower of the property?';
+                  locals.el.optionalID = 'anotherCoOwner';
+                  %>
+              <% include ../../../../partials/forms/radio--yes-no.ejs %>
+
+              <div id="no-coowner" class="margin-above" style="display:none;">
+                <p>Choose
+                  <b>save and next</b> to continue.</p>
+              </div>
+            </div>
+
+            <div class="pagination margin-above--large">
+              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/asc1' ">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='#open-modal ' ">Cancel application</button>
+              <div class="floated ">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claims ' ">Save and exit</button>
+                <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+              </div>
+            </div>
+
+            <% include ../../../../partials/claims-cancel-modal.ejs %>
           </div>
-
-          <div class="form-group" id="PartnerContactNumber">
-            <label class="uikit-text-input__label" for="ContactNumber">Contact phone number</label>
-            <input class="uikit-text-input input-half" name="ContactNumber" id="ContactNumber" type="text" value="" required aria-required="true">
-          </div>
-        </div>
-      </div>
-
-      <p class="margin-above--large">
-        <span class="heading heading--spacer"></span>
-      </p>
-
-      <h2 class="margin-below">
-        <span class="font-weight-heavy">Personal details of co-owner/borrower</span>
-      </h2>
-
-      <div class="form-group" id="relationship">
-        <label class="uikit-text-input__label" for="sop">What is your relationship to this person?
-          <span class="hint display-block">Select all that apply.</span>
-        </label>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="checkbox" id="partner" name="checkbox">
-            <span class="uikit-control-input__text">Partner (co-owner and/or co-borrower)</span>
-          </label>
-        </div>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-owner" name="checkbox" value="nonpartner-coowner">
-            <span class="uikit-control-input__text">Non partner co-owner</span>
-          </label>
-        </div>
-
-        <div id="InterestInProp">
-          <fieldset class="form-group form-group--secondary">
-            <span class="input-support-text">
-              <span class="hint">My non partner co-owner has</span>
-            </span>
-            <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
-            <span class="input-support-text">%
-              <span class="hint">interest in the property</span>
-            </span>
-          </fieldset>
-        </div>
-
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-borrower" name="checkbox" value="nonpartner-coborrower">
-            <span class="uikit-control-input__text">Non partner co-borrower</span>
-          </label>
-        </div>
-
-        <div id="InterestInProperty">
-          <fieldset class="form-group form-group--secondary">
-            <span class="input-support-text">
-              <span class="hint">My non partner co-borrower has</span>
-            </span>
-            <input class="uikit-text-input input-small yyyy" name="InterestInProperty" id="InterestAmount" type="number">
-            <span class="input-support-text">%
-              <span class="hint">interest in the property</span>
-            </span>
-          </fieldset>
-        </div>
-
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="checkbox" id="guarantor" name="checkbox">
-            <span class="uikit-control-input__text">Guarantor on loan</span>
-          </label>
-        </div>
-
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="checkbox" id="non-partnerPointofcontact" name="checkbox">
-            <span class="uikit-control-input__text">Non partner point of contact</span>
-            </span>
-          </label>
-        </div>
-      </div>
-
-      <div class="form-group" id="also-applying">
-        <label class="uikit-text-input__label margin-above--large" for="radio-buttons">Is this person also applying for a DHOAS Subsidy Certificate?</label>
-        <div class="row">
-          <div class="col-sm-1">
-            <p class="uiToolKitCheckBox">
-              <label class="uikit-control-input">
-                <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="no">
-                <span class="uikit-control-input__text">No</span>
-              </label>
-            </p>
-          </div>
-          <div class="col-sm-3">
-            <p class="uiToolKitCheckBox">
-              <label class="uikit-control-input">
-                <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-this">
-                <span class="uikit-control-input__text">Yes, to use on this property</span>
-              </label>
-            </p>
-          </div>
-          <div class="col-sm-4">
-            <p class="uiToolKitCheckBox">
-              <label class="uikit-control-input">
-                <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-another">
-                <span class="uikit-control-input__text">Yes, to use on another property</span>
-              </label>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <p class="margin-above">
-        <span class="heading heading--spacer"></span>
-      </p>
-
-      <div class="form-group" id="anotherCoOwner">
-        <fieldset>
-          <legend class="legend-label">Is there another co-owner/borrower of the property?</legend>
-          <div class="radio-toggle">
-            <label class="on label-left">
-              <input id="anotherCoOwner-yes" type="radio" name="anotherCoOwner" value="anotherCoOwner-yes">
-              <span>Yes</span>
-            </label>
-            <label class="off label-right">
-              <input id="anotherCoOwner-no" type="radio" name="anotherCoOwner" value="anotherCoOwner-no">
-              <span>No</span>
-            </label>
-          </div>
-        </fieldset>
-      </div>
-
-      <div id="no-coowner" class="margin-above" style="display:none;">
-        <p>Choose
-          <b>save and next</b> to continue.</p>
-      </div>
-
-      <div class="pagination margin-above--large">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/dhoas1'">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel application</button>
-        <div class="floated">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and exit</button>
-          <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-        </div>
-      </div>
-
-      <% include ../../../../partials/claims-cancel-modal.ejs %>
-    </div>
 
   </main>
 
@@ -319,29 +343,26 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
     document.getElementById("percentage").style.width = "40%";
     document.getElementById("percentage_value").innerText = "40%";
 
+    $("#anotherCoOwner-yes").on("click", () => {
+      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc2b'");
+    });
+    $("#anotherCoOwner-no").on("click", () => {
+      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc3'");
+    });
 
     // Javascript Rules
 
 
-    $(".hidden2").hide();
     $("#InterestInProp").hide();
     $("#InterestInProperty").hide();
 
-    $("#coOwner-no").click(function () {
-      $("#coOwner__no").show();
+    $("#co-ownerQuestion label").click(function () {
+      if ($(this).children('input').val() == "no") {
+        $("#coOwnerDetails").hide();
+      } else {
+        $("#coOwnerDetails").show();
+      }
     });
-    $("#coOwner-yes").click(function () {
-      $("#coOwner__no").hide();
-    });
-
-    $(document).ready(function () {
-      var checkboxes = $("input[name='agreement']"),
-        actions = $("#only-if-consent");
-      checkboxes.click(function () {
-        actions.attr("hidden", !checkboxes.is(":checked"));
-      });
-    });
-
 
     $("#non-partnerCo-owner").click(function () {
       if ($(this).prop('checked')) {
@@ -351,6 +372,36 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
       }
     });
 
+    $(document).ready(function () {
+      var checkboxes = $("input[name='agreement']"),
+        actions = $(".onlyifconsent");
+      checkboxes.click(function () {
+        if (!checkboxes.is(":checked")) {
+          actions.hide();
+        } else if (checkboxes.not(":checked")) {
+          actions.show();
+        } else {
+          actions.hide();
+        }
+      });
+    });
+
+    $("#anotherCoOwner-yes").click(function () {
+      $("#no-coowner").show();
+    });
+
+    $("#anotherCoOwner-no").click(function () {
+      $("#no-coowner").show();
+    });
+
+    // $("#non-partnerCo-borrower").click(function () {
+    //   if ($(this).prop('checked')) {
+    //     $("#InterestInProperty").show();
+    //   } else {
+    //     $("#InterestInProperty").hide();
+    //   }
+    // });
+
     document.getElementById('non-partnerCo-borrower').onclick = function (event) {
       debugger
       if (event.target.checked) {
@@ -359,6 +410,8 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
         document.getElementById('InterestInProperty').style.display = 'none'
       }
     }
+
+
 
     var buttonon = true;
     $("#btnNext").click(function () {
@@ -426,8 +479,8 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
       $("#highest-rank").change(function () {
         // if (500 < windowsize && windowsize < 600) {
 
-          if (22 < this.value && this.value < 30) {
-            console.log(this);
+        if (22 < this.value && this.value < 30) {
+          console.log(this);
           // console.log($(this.text()));
 
           console.log($("#highest-rank option:selected").text());
@@ -446,18 +499,18 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
 
     var relationships = {};
 
-    $(document).ready(function() {
+    $(document).ready(function () {
       $.ajax({
         url: '/docs/data/user.json',
         async: false,
         dataType: 'json'
-      }).done(function(data) {
+      }).done(function (data) {
         let person = JSON.parse(localStorage.person)._id;
-        $.each(data["person"], function(a, b) {
-          if(data["person"][a]["_id"] == person) {
-            if(Object.keys(data["person"][a]["_id"]).length > 0) {
+        $.each(data["person"], function (a, b) {
+          if (data["person"][a]["_id"] == person) {
+            if (Object.keys(data["person"][a]["_id"]).length > 0) {
               $("#prepopulate").css("display", "block");
-              $.each(data["person"][a]["relationships"], function(i, q) {
+              $.each(data["person"][a]["relationships"], function (i, q) {
                 relationships = data["person"][a]["relationships"];
                 $("#prepopulate-list").append(`<option>${q.name}</option>`);
               });
@@ -467,14 +520,26 @@ locals.el.optionalQuestion = "Has this co-owner/borrower used or been known by a
       });
     });
 
-    $("#prepopulate-list").on("change", function() {
-      $.each(relationships, function(i, q) {
-        if(q["name"] == $("#prepopulate-list :selected").val()) {
+    $("#prepopulate-list").on("change", function () {
+      $.each(relationships, function (i, q) {
+        if (q["name"] == $("#prepopulate-list :selected").val()) {
           console.log(q["name"]);
           $("#GivenName").val(q["name"].split(" ")[0]);
           $("#FamilyName").val(q["name"].split(" ")[1]);
         }
       });
+    });
+
+    $("#gs-serving").on("click", function () {
+      $("#rank").html("Co-owner/borrower's current branch of service");
+      $("#service-details").show();
+    });
+    $("#gs-served").on("click", function () {
+      $("#rank").html("Co-owner/borrower's most recent branch of service");
+      $("#service-details").show();
+    });
+    $("#gs-neverserved").on("click", function () {
+      $("#service-details").hide();
     });
 
   </script>

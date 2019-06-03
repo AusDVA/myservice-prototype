@@ -34,6 +34,7 @@ function guidGenerator() {
 // end utility functions 
 
 
+// call up the persona panel via keyboard 
 $(document).keypress(function (e) {
 
   switch (e.which) {
@@ -43,6 +44,25 @@ $(document).keypress(function (e) {
     default:
   }
 });
+
+// or via logo long press
+
+// // grab the element
+// var el = document.getElementById('mys-logo');
+
+// // listen for the long-press event
+// el.addEventListener('long-press', function (e) {
+//   // stop the event from bubbling up
+//   e.preventDefault()
+//   $('.pt-choose-user').toggle();
+// });
+
+document.addEventListener('swiped-left', function (e) {
+  console.log(e.target); // element that was swiped
+  $('.pt-choose-user').toggle();
+});
+
+
 
 function initNomRep() {
 
@@ -377,6 +397,7 @@ function writeUser() {
   userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
   userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
+  userHtml += start + 'Currently Serving </div><div class="pt-col">' + user.isCurrentlyServing + end;
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
   userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
   userHtml += start + 'Last payment </div><div class="pt-col">' + user.lastPayment + end;
