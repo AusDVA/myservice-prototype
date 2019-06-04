@@ -603,21 +603,35 @@
         var mySelection = $(this).val();
 
         switch (mySelection) {
-          case "Loading full page":
-            $("main").addClass('page-loading');
-            $(".page-preloader ").show();
-
-            break;
           case "Loaded":
             $("main").removeClass('page-loading');
             $(".page-preloader ").hide();
+            $("#state-switcher ").hide();
             break;
+
+          case "Loading full page":
+            $("main").addClass('page-loading');
+            $(".page-preloader ").show('fast');
+            $("#state-switcher ").hide();
+
+            setTimeout(function () {
+              $("main").removeClass('page-loading');
+              $(".page-preloader ").hide('fast');
+            }, 5000);
+            break;
+
           case "Loading widgets only":
             $("main").removeClass('page-loading');
             $(".page-preloader ").hide();
+            $("#state-switcher ").hide();
             $(".widget-tile").each(function (index) {
               $(this).addClass("widget-tile--loading");
             });
+            setTimeout(function () {
+              $(".widget-tile").each(function (index) {
+                $(this).removeClass("widget-tile--loading");
+              });
+            }, 5000);
             break;
         }
       });
