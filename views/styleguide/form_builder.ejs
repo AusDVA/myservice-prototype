@@ -120,12 +120,17 @@
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
 
+                <h2>Code</h2>
                 <div id="select-code">
                   <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
+                </div>
+
+                <h2>Preview</h2>
+                <div id="select-preview">
                 </div>
               </div>
 
@@ -169,7 +174,7 @@
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-
+                <h2>Code</h2>
                 <div id="text-code">
                   <pre>
                     <code class="language-ejs">
@@ -177,6 +182,10 @@
                     </code>
                   </pre>
                 </div>
+                <h2>Preview</h2>
+                <div id="text-preview">
+                </div>
+
               </div>
 
               <div hidden id="component-textarea">
@@ -223,13 +232,16 @@
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-
+                <h2>Code</h2>
                 <div id="textarea-code">
                   <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
+                </div>
+                <h2>Preview</h2>                
+                <div id="textarea-preview">
                 </div>
 
               </div>
@@ -270,6 +282,7 @@
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
+                <h2>Code</h2>
 
                 <div id="date-code">
                   <pre>
@@ -277,6 +290,10 @@
                       
                     </code>
                   </pre>
+                </div>
+
+                <h2>Preview</h2>                
+                <div id="date-preview">
                 </div>
               </div>
 
@@ -320,13 +337,16 @@
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-
+                <h2>Code</h2>
                 <div id="yes_no-code">
                   <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
+                </div>
+                <h2>Preview</h2>                
+                <div id="yes_no-preview">
                 </div>
               </div>
 
@@ -383,13 +403,16 @@
                     </tr>
                 </table>
                 <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-
+                <h2>Code</h2>
                 <div id="checkbox-code">
                   <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
+                </div>
+                <h2>Preview</h2>
+                <div id="checkbox-preview">
                 </div>
               </div>
 
@@ -607,11 +630,25 @@
         if ($(this).find(".option-selected").prop("checked") != "") option.selected = true;
 
         select_json.forms[0].config.options.push(option);
+
+        $.ajax({
+          url: '/styleguide/new_forms_preview',
+          type: 'POST',
+          dataType: 'html',
+          data: {form_preview: JSON.stringify(select_json)},
+        })
+        .done(function(data) {
+  
+          $("#select-preview").html("");
+          $("#select-preview").html(data);
+
+        });
+
       });
 
       $("#select-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#select-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(select_json, null, 2 )+"); %&gt;")
+      $("#select-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(select_json, null, 2 )+"); %&gt;")
     }
 
     $("#options").on("click", ".delete-option", function() {
@@ -619,7 +656,7 @@
       generateSelect();
     });
 
-    $("#component-select").on("change", "input", generateSelect);
+    $("#component-select table").on("change", "input", generateSelect);
 
     /* 
 
@@ -638,7 +675,7 @@
     };
 
 
-    $("#component-text").on("click", () => {
+    $("#component-text table").on("change", "input", () => {
       if ($("#text-label").val() != undefined && $("#text-label").val() != "") {
         text_json.forms[0].config.label = $("#text-label").val();
       }
@@ -677,7 +714,21 @@
 
       $("#text-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#text-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(text_json, null, 2 )+"); %&gt;");
+      $("#text-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(text_json, null, 2 )+"); %&gt;");
+
+      $.ajax({
+        url: '/styleguide/new_forms_preview',
+        type: 'POST',
+        dataType: 'html',
+        data: {form_preview: JSON.stringify(text_json)},
+      })
+      .done(function(data) {
+        $("#text-preview").html("");
+        $("#text-preview").html(data);
+
+      });
+      
+
     });
 
     /* 
@@ -697,7 +748,7 @@
     };
 
 
-    $("#component-textarea").on("click", () => {
+    $("#component-textarea table").on("click", () => {
       if ($("#textarea-label").val() != undefined && $("#textarea-label").val() != "") {
         textarea_json.forms[0].config.label = $("#textarea-label").val();
       }
@@ -742,7 +793,19 @@
 
       $("#textarea-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#textarea-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(textarea_json, null, 2 )+"); %&gt;");
+      $("#textarea-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(textarea_json, null, 2 )+"); %&gt;");
+
+      $.ajax({
+        url: '/styleguide/new_forms_preview',
+        type: 'POST',
+        dataType: 'html',
+        data: {form_preview: JSON.stringify(textarea_json)},
+      })
+      .done(function(data) {
+        $("#textarea-preview").html("");
+        $("#textarea-preview").html(data);
+
+      });
     });
 
     /* 
@@ -762,7 +825,7 @@
     };
 
 
-    $("#component-date").on("click", () => {
+    $("#component-date table").on("click", () => {
       if ($("#date-label").val() != undefined && $("#date-label").val() != "") {
         date_json.forms[0].config.label = $("#date-label").val();
       }
@@ -795,7 +858,19 @@
 
       $("#date-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#date-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(date_json, null, 2 )+"); %&gt;");
+      $("#date-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(date_json, null, 2 )+"); %&gt;");
+
+      $.ajax({
+        url: '/styleguide/new_forms_preview',
+        type: 'POST',
+        dataType: 'html',
+        data: {form_preview: JSON.stringify(date_json)},
+      })
+      .done(function(data) {
+        $("#date-preview").html("");
+        $("#date-preview").html(data);
+
+      });
     });
 
 
@@ -816,7 +891,7 @@
     };
 
 
-    $("#component-yes_no").on("click", () => {
+    $("#component-yes_no table").on("click", () => {
       if ($("#yes_no-label").val() != undefined && $("#yes_no-label").val() != "") {
         yes_no_json.forms[0].config.label = $("#yes_no-label").val();
       }
@@ -855,7 +930,20 @@
 
       $("#yes_no-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#yes_no-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(yes_no_json, null, 2 )+"); %&gt;");
+      $("#yes_no-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(yes_no_json, null, 2 )+"); %&gt;");
+
+      $.ajax({
+        url: '/styleguide/new_forms_preview',
+        type: 'POST',
+        dataType: 'html',
+        data: {form_preview: JSON.stringify(yes_no_json)},
+      })
+      .done(function(data) {
+
+        $("#yes_no-preview").html("");
+        $("#yes_no-preview").html(data);
+
+      });
     });
 
     /* 
@@ -941,7 +1029,20 @@
 
       $("#checkbox-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#checkbox-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(checkbox_json, null, 2 )+"); %&gt;")
+      $("#checkbox-code .code-toolbar pre code").html(`&lt;%- include(partials+"form_partials", ` + JSON.stringify(checkbox_json, null, 2 )+"); %&gt;");
+
+      $.ajax({
+        url: '/styleguide/new_forms_preview',
+        type: 'POST',
+        dataType: 'html',
+        data: {form_preview: JSON.stringify(checkbox_json)},
+      })
+      .done(function(data) {
+
+        $("#checkbox-preview").html("");
+        $("#checkbox-preview").html(data);
+
+      });
     }
 
     $("#checkboxes").on("click", ".delete-option", function() {
@@ -953,7 +1054,7 @@
       generateCheckbox();
     });
 
-    $("#component-checkbox").on("change", "input", generateCheckbox);
+    $("#component-checkbox table").on("change", "input", generateCheckbox);
 
 
     /*
