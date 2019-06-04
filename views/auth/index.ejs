@@ -627,11 +627,18 @@
             $(".widget-tile").each(function (index) {
               $(this).addClass("widget-tile--loading");
             });
-            setTimeout(function () {
-              $(".widget-tile").each(function (index) {
-                $(this).removeClass("widget-tile--loading");
+
+            var $cards = $('.widget-tile');
+            var time = 0;
+            setInterval(function () {
+              $cards.each(function () {
+                var that = this;
+                setTimeout(function () {
+                  $(that).removeClass("widget-tile--loading");
+                }, time)
+                time += 500;
               });
-            }, 5000);
+            }, 4000);
             break;
         }
       });
