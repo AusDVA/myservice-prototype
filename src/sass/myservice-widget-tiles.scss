@@ -401,36 +401,34 @@
 
 
 // POC loading widget 
-
 @keyframes placeHolderShimmer {
   0% {
-    background-position: -468px 0
+    background-position: -468px 0;
   }
 
   100% {
-    background-position: 468px 0
+    background-position: 468px 0;
   }
+}
+
+%widget-tile--loading-ph {
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, $gray-light 8%, darken($gray-light, 05) 18%, $gray-light 33%);
+  // background: linear-gradient(to right, $gray-light 8%, $gray-light 18%, darken($gray-light, 05) 33%);
+
+
+  background-size: 800px 104px;
+  position: relative;
 }
 
 .widget-tile--loading {
 
-  .widget-tile__content,
-  .widget-tile__content::before,
-  .widget-tile__content::after {
-    animation-duration: 2s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    // background: linear-gradient(to right, $gray-super-super-light 8%, $gray-super-light 18%, $gray-light 33%);
-    background: linear-gradient(to right, #eeeeee 8%, #dadada 18%, #eeeeee 33%);
-    // background: linear-gradient(to right, #eeeeee 8%, #eeeeee 18%, #dddddd 33%);
-
-    background-size: 800px 104px;
-    position: relative;
-  }
-
   .widget-tile__content {
+    @extend %widget-tile--loading-ph;
 
     height: 11px;
     margin: 2.2em 1em 1em;
@@ -439,6 +437,8 @@
 
     &::before,
     &::after {
+      @extend %widget-tile--loading-ph;
+
       content: $content-blank;
       height: 6px;
       left: 0;
@@ -459,9 +459,7 @@
 
     >div,
     >span {
-      display: none !important; // this is only important bacause of other "!important" uses in this file. Need to remove all of them! 
+      display: none !important; // this is only important because of other "!important" uses in this file. Need to remove all of them! 
     }
   }
-
-
 }
