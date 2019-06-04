@@ -4,6 +4,13 @@
 <head>
   <title>Home | MyService</title>
   <% include ../../partials/head.ejs %>
+
+  <style>
+    .page-preloader {
+      display: none;
+    }
+
+  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -35,13 +42,10 @@
       </section>
     </div>
 
-    <section class='feature'>
-      <div class='container'>
-        <div class='page-preloader'>
-          <img src="docs/images/waiting-myservice.svg" alt="loading animation" />
-        </div>
-      </div>
-    </section>
+    <div class="page-preloader">
+      <img src="docs/images/waiting-myservice.svg" alt="loading animation" />
+    </div>
+
 
     <section id="claim-options">
       <div class="container" id="claims-tiles">
@@ -421,6 +425,15 @@
           </label>
         </p>
       </div>
+
+      <%
+      locals.el = {};
+      locals.el.optionalID = "loading-state";
+      locals.el.question = "Loading state:";
+      locals.el.items = ["Loaded","Loading full page", "Loading widgets only"];
+     %>
+      <%- include ../../partials/forms/select.ejs %>
+
     </div>
   </div>
   <% include ../../partials/footer.ejs %>
@@ -584,6 +597,31 @@
             break;
         }
       });
+
+      $("#loading-state-list").change(function () {
+
+        var mySelection = $(this).val();
+
+        switch (mySelection) {
+          case "Loading full page":
+            $("main").addClass('page-loading');
+            $(".page-preloader ").show();
+
+            break;
+          case "Loaded":
+            $("main").removeClass('page-loading');
+            $(".page-preloader ").hide();
+            break;
+          case "Loading widgets only":
+            $("main").removeClass('page-loading');
+            $(".page-preloader ").hide();
+            $(".widget-tile").each(function (index) {
+              $(this).addClass("widget-tile--loading");
+            });
+            break;
+        }
+      });
+
 
       /* --- End State switcher --- */
 
