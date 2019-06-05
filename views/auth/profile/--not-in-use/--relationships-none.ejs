@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>My profile | MyService</title>
+<%- include(partials+"head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"header-topbar") %>
+  <%- include(partials+"header-authenticated") %>
+  <%- include(partials+"header-nom-rep") %>
+  <main>
+    <section>
+      <div class="container" id="main-content">
+        <div class="row margin-above">
+          <div class="col-sm-3">
+            <%- include(partials+"profile-side-nav") %>
+            <!-- <ul class="secondary-navigation">
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile">Personal details</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/contact">Contact details</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/account">Account settings</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/history">Service history</a>
+              </li>
+              <li class="secondary-navigation__item secondary-navigation__item--active">
+                <a class="secondary-navigation__link" href="/auth/profile/relationships">Relationships</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/account">Income and assets</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/history">Bank details</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/nomrep">Representations</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/contact">Overseas travel</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/account">Honours and military awards</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="/auth/profile/history">Commemoration preferences</a>
+              </li>
+            </ul> -->
+          </div>
+          <div class="col-sm-9 margin-below--extra">
+            <h1 class="margin-above--none margin-below--none">Relationships</h1>
+            <div class="margin-above margin-below">
+
+              <p>When you or someone you know submits a claim that includes relevant relationship details,
+                this information will be listed here automatically. To update this
+                information email <a href="mailto:generalenquiries@dva.gov.au">generalenquiries@dva.gov.au</a>.</p>
+            </div>
+          </div>
+        </div>
+    </section>
+  </main>
+  <%- include(partials+"footer") %>
+  <script>
+    $('.call-toast').click(function () {
+      $('body,html').animate({
+        scrollTop: 0
+      }, 100);
+      // hack to reset focus to top of page
+      document.body.setAttribute('tabindex', '0');
+      document.body.focus();
+      document.body.removeAttribute('tabindex');
+      $("#toast__message").show("slow");
+    });
+
+    $("#toast__message").click(function () {
+      $("#toast__message").hide("slow");
+    });
+  </script>
+  <script>
+    $(".countryPostal").change(function () {
+      if ($('.countryPostal :selected').val() == "Australia") {
+        $(".addressInAusPostal").show();
+      } else {
+        $(".addressInAusPostal").hide();
+
+      }
+    });
+
+    $(".countryResidential").change(function () {
+      if ($('.countryResidential :selected').val() == "Australia") {
+        $(".addressInAusRes").show();
+      } else {
+        $(".addressInAusRes").hide();
+
+      }
+    });
+
+    $(".pt-showIfAdditionalAddress").hide();
+
+    $('input[name=sameAsPostal]').change(function () {
+      if ($(this).is(':checked')) {
+        $(".pt-showIfAdditionalAddress").hide();
+      } else {
+        $(".pt-showIfAdditionalAddress").show();
+      }
+    });
+
+    // mimic functionality need after a save button is pressed
+    // to disable all edit buttons to allow for saving time
+    var fewSeconds = 2;
+
+    // When the edit field is clicked for home phone number
+    $(".edit-home-button").click(function () {
+      $(".home-editable-div").show();
+      $(".save-home-button").show();
+      $(".edit-home-button").hide();
+      $(".home-uneditable-div").hide();
+      $("#error-example").addClass('has-error');
+      // disable other edit fields
+      $('.edit-email-button, .edit-mobile-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', true);
+    });
+
+    // When the save field is clicked for home phone number
+    $(".save-home-button").click(function () {
+      $("#error-example").removeClass('has-error');
+
+      var btn = $(".save-home-button, .cancel-home-button");
+      btn.prop('disabled', true);
+      $('.waiting-animation').show();
+      setTimeout(function () {
+        btn.prop('disabled', false);
+
+        $(".home-editable-div").hide();
+        $(".save-home-button").hide();
+        $(".edit-home-button").show();
+        $(".home-uneditable-div").show();
+        var home_new = $("#home-phone").val();
+        $("#home-span").html(home_new)
+        // re-enable other edit fields
+        $('.edit-email-button, .edit-mobile-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+        $('.waiting-animation').hide();
+      }, fewSeconds * 1000);
+    });
+
+    // When the cancel field is clicked for home phone number
+    $(".cancel-home-button").click(function () {
+      $("#error-example").removeClass('has-error');
+      $(".home-editable-div").hide();
+      $(".save-home-button").hide();
+      $(".edit-home-button").show();
+      $(".home-uneditable-div").show();
+      // re-enable other edit fields
+      $('.edit-email-button, .edit-mobile-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+    });
+
+    // When the edit field is clicked for mobile phone number
+    $(".edit-mobile-button").click(function () {
+      $(".mobile-editable-div").show();
+      $(".save-mobile-button").show();
+      $(".edit-mobile-button").hide();
+      $(".mobile-uneditable-div").hide();
+      // disable other edit fields
+      $('.edit-home-button, .edit-email-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', true);
+    });
+
+    // When the save field is clicked for mobile phone number
+    $(".save-mobile-button").click(function () {
+
+      var btn = $(".save-mobile-button, .cancel-mobile-button");
+      btn.prop('disabled', true);
+      $('.waiting-animation').show();
+      setTimeout(function () {
+        btn.prop('disabled', false);
+        $(".mobile-editable-div").hide();
+        $(".save-mobile-button").hide();
+        $(".edit-mobile-button").show();
+        $(".mobile-uneditable-div").show();
+        var mobile_new = $("#mobile-phone").val();
+        $("#mobile-span").html(mobile_new)
+        // re-enable other edit fields
+        $('.edit-home-button, .edit-email-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+        $('.waiting-animation').hide();
+      }, fewSeconds * 1000);
+    });
+
+    // When the cancel field is clicked for mobile phone number
+    $(".cancel-mobile-button").click(function () {
+      $(".mobile-editable-div").hide();
+      $(".save-mobile-button").hide();
+      $(".edit-mobile-button").show();
+      $(".mobile-uneditable-div").show();
+      // re-enable other edit fields
+      $('.edit-home-button, .edit-email-button, .edit-postal-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+    });
+
+
+    // When the edit field is clicked for postal address
+    $(".edit-postal-button").click(function () {
+      $(".postal-editable-div").show();
+      $(".save-postal-button").show();
+      $(".edit-postal-button").hide();
+      $(".postal-uneditable-div").hide();
+      // disable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-residential-button, .edit-address-button').prop('disabled', true);
+    });
+
+    // When the save field is clicked for postal address
+    $(".save-postal-button").click(function () {
+      var btn = $(".save-postal-button, .cancel-postal-button");
+      btn.prop('disabled', true);
+      $('.waiting-animation').show();
+      setTimeout(function () {
+        btn.prop('disabled', false);
+        $(".postal-editable-div").hide();
+        $(".save-postal-button").hide();
+        $(".edit-postal-button").show();
+        $(".postal-uneditable-div").show();
+        // re-enable other edit fields
+        $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+        $('.waiting-animation').hide();
+      }, fewSeconds * 1000);
+    });
+
+    // When the cancel field is clicked for postal address
+    $(".cancel-postal-button").click(function () {
+      $(".postal-editable-div").hide();
+      $(".save-postal-button").hide();
+      $(".edit-postal-button").show();
+      $(".postal-uneditable-div").show();
+      // re-enable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-residential-button, .edit-address-button').prop('disabled', false);
+    });
+
+
+    // When the edit field is clicked for residential address
+    $(".edit-residential-button").click(function () {
+      $(".residential-editable-div").show();
+      $(".save-residential-button").show();
+      $(".edit-residential-button").hide();
+      $(".residential-uneditable-div").hide();
+      // disable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button, .edit-address-button').prop('disabled', true);
+    });
+
+    // When the save field is clicked for residential address
+    $(".save-residential-button").click(function () {
+      var btn = $(".save-residential-button, .cancel-residential-button");
+      btn.prop('disabled', true);
+      $('.waiting-animation').show();
+      setTimeout(function () {
+        btn.prop('disabled', false);
+        $(".residential-editable-div").hide();
+        $(".save-residential-button").hide();
+        $(".edit-residential-button").show();
+        $(".residential-uneditable-div").show();
+
+        // re-enable other edit fields
+        $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button, .edit-address-button').prop('disabled', false);
+        $('.waiting-animation').hide();
+      }, fewSeconds * 1000);
+    });
+
+    // When the cancel field is clicked for residential address
+    $(".cancel-residential-button").click(function () {
+      $(".residential-editable-div").hide();
+      $(".save-residential-button").hide();
+      $(".edit-residential-button").show();
+      $(".residential-uneditable-div").show();
+      // re-enable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button, .edit-address-button').prop('disabled', false);
+    });
+
+
+    // When the edit field is clicked for address
+    $(".edit-address-button").click(function () {
+      $(".address-editable-div").show();
+      $(".save-address-button").show();
+      $(".edit-address-button").hide();
+      $(".address-uneditable-div").hide();
+      // disable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', true);
+    });
+
+    // When the save field is clicked for address
+    $(".save-address-button").click(function () {
+      var btn = $(".save-address-button, .cancel-address-button");
+      btn.prop('disabled', true);
+      $('.waiting-animation').show();
+      setTimeout(function () {
+        btn.prop('disabled', false);
+        $(".address-editable-div").hide();
+        $(".save-address-button").hide();
+        $(".edit-address-button").show();
+        $(".address-uneditable-div").show();
+        // re-enable other edit fields
+        $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
+        $('.waiting-animation').hide();
+      }, fewSeconds * 1000);
+    });
+
+    // When the cancel field is clicked for address
+    $(".cancel-address-button").click(function () {
+      $(".address-editable-div").hide();
+      $(".save-address-button").hide();
+      $(".edit-address-button").show();
+      $(".address-uneditable-div").show();
+      // re-enable other edit fields
+      $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
+    });
+  </script>
+</body>
+
+</html>

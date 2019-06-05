@@ -1,11 +1,11 @@
-<% if (locals.el.optionalID) { 
+<% if (locals && locals.el && locals.el.optionalID) { 
   	var id = locals.el.optionalID;
 } else {
   	var id = "former_names"
 }
 %>
 
-<% if (locals.el.optionalQuestion) { 
+<% if (locals && locals.el && locals.el.optionalQuestion) { 
    	var question = locals.el.optionalQuestion;
 } else {
 	var question = "Have you ever used or been known by other names?"; 
@@ -18,13 +18,13 @@
 	locals.el.optionalHint = 'For example, name at birth, maiden name, previous married name'; 
 	locals.el.optionalID = "former_names_question"; 
 %>
-<% include ../forms/radio--yes-no.ejs %>
+<%- include(partials+"forms/radio--yes-no", locals) %>
 <%
 	locals.el = {};
 	locals.el.optionalHide = true;
 	locals.el.optionalID = "former_names_list"
 %>
-<% include ../forms/former_names_list.ejs %>
+<%- include(partials+"forms/former_names_list", locals) %>
 
 <script>
   var former_names;
