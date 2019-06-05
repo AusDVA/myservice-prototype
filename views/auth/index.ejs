@@ -4,6 +4,13 @@
 <head>
   <title>Home | MyService</title>
   <%- include(partials+"head") %>
+
+  <style>
+    .mys-page-preloader {
+      display: none;
+    }
+
+  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -17,7 +24,14 @@
   <%- include(partials+"header-authenticated") %>
   <%- include(partials+"header-nom-rep") %>
   <main>
+
     <% if (locals.liveFeature.includes('featureNewHomePage')) { %>
+
+    <div class="mys-page-preloader">
+      <img src="docs/images/waiting-myservice.svg" alt="loading animation" />
+    </div>
+
+
     <div class="authenticated-home authenticated-home--clear">
       <section>
         <div class="margin-above--large">
@@ -34,6 +48,9 @@
           </div>
       </section>
     </div>
+
+
+
 
     <section id="claim-options">
       <div class="container" id="claims-tiles">
@@ -402,11 +419,26 @@
         <h4>Overrides</h4>
         <p class="uiToolKitCheckBox">
           <label class="uikit-control-input" for="first-login">
-            <input class="uikit-control-input__input" id="first-login" type="checkbox" name="numWidgets">
+            <input class="uikit-control-input__input" id="first-login" type="checkbox" name="first-login">
             <span class="uikit-control-input__text">First login</span>
           </label>
         </p>
+        <%# <p class="uiToolKitCheckBox">
+          <label class="uikit-control-input" for="loading-state">
+            <input class="uikit-control-input__input" id="loading-state" type="checkbox" name="loading-state">
+            <span class="uikit-control-input__text">Loading State</span>
+          </label>
+        </p> %>
       </div>
+
+      <%
+      locals.el = {};
+      locals.el.optionalID = "loading-state";
+      locals.el.question = "Loading state:";
+      locals.el.items = ["Loaded","Loading full page", "Loading widgets only"];
+     %>
+      <%- include ../../partials/forms/select.ejs %>
+
     </div>
   </div>
   <%- include(partials+"footer") %>
@@ -477,6 +509,13 @@
       if (first_login == null) first_login = false;
       $('#first_login').prop("checked", first_login);
       $("#first-login").click(function (e) {
+        updateScenario();
+      });
+
+      // loading state
+      var loading_state = sessionStorage.getItem('widget_loading_state');
+      if (loading_state == null) loading_state = false;
+      $("#loading-state").click(function (e) {
         updateScenario();
       });
 
@@ -564,6 +603,52 @@
         }
       });
 
+      $("#loading-state-list").change(function () {
+
+        var mySelection = $(this).val();
+
+        switch (mySelection) {
+          case "Loaded":
+            $("main").removeClass('page-loading');
+            $(".page-preloader ").hide();
+            $("#state-switcher ").hide();
+            break;
+
+          case "Loading full page":
+            $("main").addClass('page-loading');
+            $(".page-preloader ").show('fast');
+            $("#state-switcher ").hide();
+
+            setTimeout(function () {
+              $("main").removeClass('page-loading');
+              $(".page-preloader ").hide('fast');
+            }, 5000);
+            break;
+
+          case "Loading widgets only":
+            $("main").removeClass('page-loading');
+            $(".page-preloader ").hide();
+            $("#state-switcher ").hide();
+            $(".widget-tile").each(function (index) {
+              $(this).addClass("widget-tile--loading");
+            });
+
+            var $cards = $('.widget-tile');
+            var time = 0;
+            setInterval(function () {
+              $cards.each(function () {
+                var that = this;
+                setTimeout(function () {
+                  $(that).removeClass("widget-tile--loading");
+                }, time)
+                time += 500;
+              });
+            }, 4000);
+            break;
+        }
+      });
+
+
       /* --- End State switcher --- */
 
       /* Greeting */
@@ -594,6 +679,20 @@
         }
       }
 
+      function updateLoadingState() {
+        if ($("#loading-state").prop("checked") == true) {
+          $(".widget-tile").each(function (index) {
+            $(this).addClass("widget-tile--loading");
+          });
+          sessionStorage.setItem('widget_loading_state', true);
+        } else {
+          $(".widget-tile").each(function (index) {
+            $(this).removeClass("widget-tile--loading");
+          });
+          sessionStorage.setItem('widget_loading_state', false);
+        }
+      }
+
       /* Update everything */
 
       function updateScenario() {
@@ -614,6 +713,7 @@
         /* Over ride for first login */
         updateFirstLogin();
         updateLayout();
+        updateLoadingState();
       }
 
       /* Init */

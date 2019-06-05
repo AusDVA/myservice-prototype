@@ -39,11 +39,36 @@ $(document).keypress(function (e) {
 
   switch (e.which) {
     case 126: //tilda + shift
-      $('.pt-choose-user').toggle();
+      $('.pt-persona-switcher').toggle();
+      // addListeners();
       break;
     default:
   }
 });
+
+// window.onload = addListeners();
+
+// function addListeners() {
+//   document.getElementsByClassName('pt-persona-switcher')[0].addEventListener('mousedown', mouseDown, false);
+//   window.addEventListener('mouseup', mouseUp, false);
+
+// }
+
+// function mouseUp() {
+//   window.removeEventListener('mousemove', divMove, true);
+// }
+
+// function mouseDown(e) {
+//   window.addEventListener('mousemove', divMove, true);
+// }
+
+// function divMove(e) {
+//   var div = document.getElementsByClassName('pt-persona-switcher')[0];
+//   div.style.position = 'absolute';
+//   div.style.top = e.clientY + 'px';
+//   div.style.left = e.clientX + 'px';
+// }
+
 
 // or via logo long press
 
@@ -54,12 +79,12 @@ $(document).keypress(function (e) {
 // el.addEventListener('long-press', function (e) {
 //   // stop the event from bubbling up
 //   e.preventDefault()
-//   $('.pt-choose-user').toggle();
+//   $('.pt-persona-switcher').toggle();
 // });
 
 document.addEventListener('swiped-left', function (e) {
   console.log(e.target); // element that was swiped
-  $('.pt-choose-user').toggle();
+  $('.pt-persona-switcher').toggle();
 });
 
 
