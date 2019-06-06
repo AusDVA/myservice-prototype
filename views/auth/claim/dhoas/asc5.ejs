@@ -3,7 +3,7 @@
 
 <head>
   <title>DHOAS Application for a subsidy certificate | MyService</title>
-<% include ../../../../partials/head.ejs %>
+<%- include(partials+"components/layout/head") %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -13,8 +13,8 @@
   <nav class="uikit-skip-link">
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
-  <% include ../../../../partials/header-topbar.ejs %>
-  <% include ../../../../partials/header-nom-rep.ejs %>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
 
   <main id="main-content">
 
@@ -27,13 +27,8 @@
     </div>
 
     <div class="container">
-      <div id="progressbar">
-        <div id="percentage">
-          <p id="percentage_value"></p>
-        </div>
-
-      </div>
-      <div id="factor" class="form-group">
+      <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+      <div id="factor" class="form-group margin-above--extra">
         <fieldset>
           <legend class="legend-label">Is access to the DHOAS subsidy a key factor in you choosing to remain in the ADF?
           </legend>
@@ -91,136 +86,19 @@
           <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc-review'">Save and review</button>
         </div>
       </div>
+    </div>
 
-      <% include ../../../../partials/claims-cancel-modal.ejs %>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
     </div>
 
   </main>
 
-  <% include ../../../../partials/footer.ejs %>
+  <%- include(partials+"components/layout/footer") %>
 
   <script>
     // Progress percentage
     document.getElementById("percentage").style.width = "80%";
     document.getElementById("percentage_value").textContent = "80%";
-
-    var landValue;
-    var continueValue;
-
-    $("#lumpSum-no").click(function () {
-      $("#lumpSum__no").show();
-      $("#lumpSum-eligibility").hide();
-    });
-    $("#lumpSum-yes").click(function () {
-      $("#lumpSum__no").hide();
-      $("#lumpSum-eligibility").show();
-    });
-
-    $('#landOwnership').click(function () {
-      if (radiosChecked()) {
-        if (showEligibility()) {
-          $("#eligible__yes").show();
-          $("#lumpSum-amount").show();
-          $("#eligible__no").hide();
-        } else {
-          $("#eligible__no").show();
-          $("#lumpSum-amount").hide();
-          $("#eligible__yes").hide();
-        }
-      }
-    });
-    $('#continueService').click(function () {
-      if (radiosChecked()) {
-        if (showEligibility()) {
-          $("#eligible__yes").show();
-          $("#lumpSum-amount").show();
-          $("#eligible__no").hide();
-        } else {
-          $("#eligible__no").show();
-          $("#lumpSum-amount").hide();
-          $("#eligible__yes").hide();
-        }
-      }
-    });
-
-    $('#continueService-yes').click(function () {
-      continueValue = true
-    });
-    $('#continueService-no').click(function () {
-      continueValue = false
-    });
-    $('#landOwnership-yes').click(function () {
-      landValue = true
-    });
-    $('#landOwnership-no').click(function () {
-      landValue = false
-    });
-
-
-
-
-    function radiosChecked() {
-      var landChecked = false;
-      $('#landOwnership').find('input').each(function () {
-        if (this.checked) {
-          landChecked = true;
-        }
-      })
-      var continueChecked = false;
-      $('#continueService').find('input').each(function () {
-        if (this.checked) {
-          continueChecked = true
-        }
-      })
-      if (landChecked && continueChecked) {
-        return true
-      } else {
-        return false
-      }
-    }
-
-    function showEligibility() {
-      if (this.landValue && this.continueValue) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-
-
-    var buttonon = true;
-
-    $("#next").click(function () {
-
-      if ($("#reservist")[0].checked) {
-        $(".off > input").each(function () {
-          if (!$(this)[0].checked) {
-            buttonon = false;
-          }
-        })
-        if (buttonon) {
-          window.location.href = "/auth/claim/health-card-blocker";
-          return
-        }
-      }
-      window.location.href = "/auth/claim/health-card1";
-    });
-
-    $("#monthlyamount").hide();
-    $("#monthlychoice").click(function () {
-      // debugger
-      if ($(this).prop('checked')) {
-        $("#monthlyamount").show();
-      } else {
-        $("#monthlyamount").hide();
-      }
-    });
-    $("#maximum").click(function () {
-      // debugger
-      if ($(this).prop('checked')) {
-        $("#monthlyamount").hide();
-      }
-    });
   </script>
 
 </body>

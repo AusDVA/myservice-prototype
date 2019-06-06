@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Incapacity Payments | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+
+        <!-- Progress bar -->
+        <div class="col-xs-12">
+          <nav>
+            <ul class="progress-container">
+              <li class="progress-step progress-step--active">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Your conditions</p>
+              </li>
+              <li class="progress-step">
+                <a href="/auth/claim/incap/b-2">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Service history</p>
+                </a>
+              </li>
+              <li class="progress-step ongoing-only employed">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Employment</p>
+              </li>
+              <li class="progress-step ongoing-only">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Medical practitioners</p>
+              </li>
+              <li class="progress-step">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Nominated representative</p>
+              </li>
+              <li class="progress-step ongoing-only">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Compensation damages action</p>
+              </li>
+              <li class="progress-step progress-step--last">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Bank&nbsp;details</p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Your conditions</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+
+          <div class="margin-above--extra margin-below--extra">
+
+            <div id="conditions" class="margin-below--large">
+              <div class="form-group">
+                <h4 class="uikit-text-input__label margin-above--large margin-below" for="checkbox-buttons">Select the conditions that are affecting your capacity to
+                  work &nbsp;<span class="hint display-block">You can add a condition if you can't see it below</span></h4>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="checkbox-1">
+                    <span class="uikit-control-input__text">depression</span>
+                  </label>
+                </p>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="checkbox-2">
+                    <span class="uikit-control-input__text">lumbar spondylosis</span>
+                  </label>
+                </p>
+                <p class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="checkbox-3">
+                    <span class="uikit-control-input__text">tinnitus</span>
+                  </label>
+                </p>
+                <p id="customcondition" class="uiToolKitCheckBox" style="display:none;">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" name="checkbox-5" checked>
+                    <span class="uikit-control-input__text">osteoarthritis&nbsp;&nbsp;&nbsp;<a id="btnRemove" href="" style="font-weight: normal;">Remove</a></span>
+                  </label>
+                </p>
+              </div>
+
+              <button id="addanotherbtn" class="uikit-btn uikit-btn--tertiary small">Add a condition</button>
+
+              <div id="addanothercondition" class="boxed margin-above" style="display:none;">
+                <div id="service-number" class="form-group">
+                  <label class="uikit-text-input__label" for="nomrep-name">Condition name</label>
+                  <input class="uikit-text-input" name="nomrep-name" id="nomrep-name" type="text" value="">
+                </div>
+                <button id="btnSave" class="uikit-btn small">Save</button> <button id="btnCancel" class="uikit-btn uikit-btn--tertiary small">Cancel</button>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
+    </div>
+
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    $(Document).ready(function () {
+      $("#btnPrev").click(function () {
+        window.location.href = "/auth/claim/incap/progress-b"
+      });
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/incap/b-2"
+      });
+
+      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
+      } else {
+        $(".employed").show();
+      };
+
+      $('input[name=checkbox-5]').change(function () {
+        if ($(this).is(':checked')) {
+          $("#condition-not-in-list").show();
+        } else {
+          $("#condition-not-in-list").hide();;
+        }
+      });
+      $("#addanotherbtn").click(function () {
+        $("#addanothercondition").show();
+        $("#addanotherbtn").hide();
+      });
+      $("#btnSave").click(function () {
+        $("#addanothercondition").hide();
+        $("#addanotherbtn").show();
+        $("#customcondition").show();
+      });
+      $("#btnCancel").click(function () {
+        $("#addanothercondition").hide();
+        $("#addanotherbtn").show();
+      });
+      $("#btnRemove").click(function () {
+        $("#customcondition").hide();
+      });
+
+
+
+    });
+  </script>
+
+</body>
+
+</html>
