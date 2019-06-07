@@ -49,11 +49,16 @@ app.use('/files', serveIndex('views', {
   'icons': true
 }));
 
-// rewrite create sitemap 
-app.get('/files/**.ejs', function (request, response, next) {
-  request.url = request.url.substring(6);
+app.use(function(req, res, next) {
+  res.locals.partials = __dirname + '/partials/';
   next();
 });
+
+
+// create sitemap 
+app.use('/files', serveIndex('views', {
+  'icons': true
+}));
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
