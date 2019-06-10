@@ -104,8 +104,8 @@
      </div>
 
      <div class="form-group margin-above--extra">
-       <button class="uikit-btn ss-align--center" id="correctDetails" style="display: none;">These details are correct</button>
-       <button class="uikit-btn ss-align--center" id="updateDetails" style="display: none;">Update details</button>
+       <!-- <button class="uikit-btn ss-align--center" id="correctDetails" style="display: none;">These details are correct</button> -->
+       <!-- <button class="uikit-btn ss-align--center" id="updateDetails" style="display: none;">Update details</button> -->
        <button class="uikit-btn ss-align--center" id="addPractitioner" style="display: none;">Add practitioner</button>
      </div>
 
@@ -201,11 +201,13 @@
             $("#hint-adding").show("fast");
             $("#hint-reviewing").hide("fast");
             $(".pt-medical-prac").show("fast");
-          } else {
+          } 
+          else {
             sel_prac = $("#medical-practitioner :checked").val();
             $.each(practs, (index, pract) => {
               if (pract.id === sel_prac) {
-                $(".pt-medical-prac").show("fast");
+                $("#save-next").show("fast");
+                $(".pt-medical-prac").hide("hide");
                 $("#updateDetails").hide("fast");
                 $("#addPractitioner").hide("fast");
                 $("#correctDetails").show("fast");
@@ -234,15 +236,15 @@
 
         $(".pt-medical-prac").on("change", "input, select", () => {
           if ($(".pt-medical-prac").data("type") === "reviewing") {
-            $("#updateDetails").show("fast");
-            $("#correctDetails").hide("fast");
+            // $("#updateDetails").show("fast");
+            // $("#correctDetails").hide("fast");
             $("#addPractitioner").hide("fast");
-            $(".pt-medical-prac").data("type", "reviewed");
+            // $(".pt-medical-prac").data("type", "reviewed");
           }
         });
 
         $("#correctDetails").on("click", () => {
-          $(".pt-medical-prac").hide("fast");
+          // $(".pt-medical-prac").hide("fast");
           $("#save-next").show("fast");
         });
 
@@ -252,8 +254,6 @@
           if ($("#drName").val() != $("#drName").data("initial-val")) {
             $("#medical-practitioner input").each(function() {
               console.log($(this));
-              // console.log("initial: " + $("#drName").data("initial-val"));
-              // console.log("opt txt: " + opt.text());
               if ($(this).parent().find("span").text() == $("#drName").data("initial-val")) {
                 $(this).parent().find("span").text($("#drName").val());
               }
