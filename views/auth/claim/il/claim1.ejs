@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Add claim: Diagnosis | MyService</title>
+  <title>Add claim: Condition | MyService</title>
   <%- include(partials+"components/layout/head") %>
 
   <style>
@@ -40,79 +40,40 @@
         </div>
 
       </div>
-      <h1>Diagnosis</span>
-      </h1>
-      <p>All fields are required unless marked (optional).</p>
+      <h1>Condition</h1>
 
 
       <!-- Diagnosis -->
       <div id="diagnosis">
         <fieldset>
-
-          <% if (locals.liveFeature.includes('featureSideOfBody')) { %>
-          <div class="form-group">
-            <div class="row col-xs-12 col-md-8 col-lg-7 margin-below">
-              <legend class="legend-label">What side of your body is affected?</legend>
-              <div class="mys-radio-group mys-radio-group--cols-4">
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="left side">
-                  <span class="mys-radio__box">Left side</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="right side">
-                  <span class="mys-radio__box">Right side</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="both side">
-                  <span class="mys-radio__box">Both sides</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="other">
-                  <span class="mys-radio__box">Other</span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <% } %>
-
           <% 
           locals.el = {};
           locals.el.question = 'Did the condition occur on a specific date?'; 
           locals.el.optionalID = 'single'; %>
           <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
 
+          <% 
+            locals.el = new Object();
+            locals.el.question = 'When did it happen?';
+            locals.el.optionalID = "single-incident";
+            locals.el.optionalHide = true;%>
+          <%- include(partials+"components/form-elements/date", locals) %>
 
-          <div class="single-incident" style="display:none;">
-
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-single">When did it happen?
-                <span class="hint display-block">(DD / MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input dd" type="text" name="dd-single" id="dd-single" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="text" name="mm-single" id="mm-single" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="yyyy-single" id="yyyy-single" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-
-          </div>
-
-          <div class="over-time" style="display:none;">
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-over-time">Approximately when did you start noticing symptoms?
-                <span class="hint display-block">(MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input mm" type="text" name="mm-over-time" id="mm-over-time" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="text" name="yyyy-over-time" id="yyyy-over-time" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-          </div>
+          <% 
+            locals.el = new Object();
+            locals.el.question = 'Approximately when did you start noticing symptoms?';
+            locals.el.optionalID = "over-time";
+            locals.el.optionalMonthOnly = true;
+            locals.el.optionalHide = true;%>
+          <%- include(partials+"components/form-elements/date", locals) %>
 
           <div class="form-group">
-            <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?
-            </label>
-            <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+            <label class="uikit-text-input__label margin-below--none" for="tags">Describe your condition</label>
+            <!-- <span class="uikit-text-input__hint">If you don't have a diagnosis describe your condition.</span> -->
+            <input class="uikit-text-input margin-above--small" name="tags" id="tags" type="text" value="">
             <div class="uikit-page-alerts uikit-page-alerts--info pt-type-ahead-type">
-              <p>Start typing the medical term, then if possible select from the options presented.
-                <br>This will assist us to process your claim.<br>
-                <strong>Example: </strong> 'Acute meniscal tear of the knee'.</p>
+              <p>Start typing the medical term if you know it, then if possible select from the options presented. This will assist us to process your claim.
+                <BR /><strong>Example: </strong> 'Acute meniscal tear of the knee'.</p>
             </div>
           </div>
 
@@ -152,12 +113,12 @@
     document.getElementById("percentage_value").textContent = "15%";
 
     $("#single-yes").click(function () {
-      $(".single-incident").show("fast");
-      $(".over-time").hide();
+      $("#single-incident").show("fast");
+      $("#over-time").hide();
     });
     $("#single-no").click(function () {
-      $(".single-incident").hide();
-      $(".over-time").show("fast");
+      $("#single-incident").hide();
+      $("#over-time").show("fast");
     });
 
     $("#requiredDocs-yes").click(function () {
