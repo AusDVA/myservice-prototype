@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Incapacity Payments | MyService</title>
+<% include ../../../partials/head.ejs %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../partials/header-topbar.ejs %>
+  <% include ../../../partials/header-nom-rep.ejs %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+
+        <!-- Progress bar -->
+        <div class="col-xs-12">
+          <nav>
+            <ul class="progress-container">
+              <li class="progress-step progress-step--done ongoing-only">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Your conditions</p>
+              </li>
+              <li class="progress-step progress-step--done">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Service history</p>
+              </li>
+              <li class="progress-step progress-step--done ongoing-only employed">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Employment</p>
+              </li>
+              <li class="progress-step progress-step--done ongoing-only">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Medical practitioners</p>
+              </li>
+              <li class="progress-step progress-step--done">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Nominated representative</p>
+              </li>
+              <li class="progress-step progress-step--done ongoing-only">
+                <a href="/auth/claim/incap-b-5">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Compensation damages action</p>
+                </a>
+              </li>
+              <li class="progress-step progress-step--active progress-step--last">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Bank&nbsp;details</p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Bank details</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+
+          <div class="margin-above--extra margin-below--extra">
+
+            <p class="text-fullwidth">Provide your bank details. If your claim is approved your Incapacity Payments will go into this&nbsp;account.</p>
+
+            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
+              <p class="margin-below--mid">This will be your nominated bank account for all DVA payments</p>
+            </div>
+
+
+            <% include ../../../partials/bank-account-details.ejs %>
+
+          </div>
+
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <% include ../../../partials/claims-cancel-modal.ejs %>
+    </div>
+
+  </main>
+
+  <% include ../../../partials/footer.ejs %>
+
+
+  <script>
+    $(Document).ready(function () {
+
+      // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and go to the 'Nominated Rep' page when they click the 'Previous' button.
+      if ("flow1" in localStorage) {
+        $(".ongoing-only").hide();
+        $("#btnNext").click(function () {
+          window.location.href = "/auth/claim/incap-progress-c"
+        });
+        $("#btnPrev").click(function () {
+          window.location.href = "/auth/claim/incap-b-5"
+        });
+      } else {
+        $(".ongoing-only").show();
+        $(".employed").show();
+        $("#btnNext").click(function () {
+          window.location.href = "/auth/claim/incap-progress-c"
+        });
+        $("#btnPrev").click(function () {
+          window.location.href = "/auth/claim/incap-b-6"
+        });
+      };
+
+      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar and should navigate to 'Nominated Rep' page on click of 'Previous' button.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
+      };
+
+
+      // Show and hide needs list
+      $("#leaving-yes").click(function () {
+        $(".leaving-date").show("fast");
+        $(".save-and-next").hide();
+      });
+      $("#leaving-no").click(function () {
+        $(".leaving-date").hide();
+        $(".save-and-next").show("fast");
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

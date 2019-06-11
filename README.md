@@ -32,3 +32,17 @@ Please follow the below process for new features or significant changes
 
 ## Feature flags
 The `./feature-flag-list.json` contains a list of future features. Any feature added to the **production** array will be seen in [demo](http://myservice-demo.herokuapp.com/) and any feature added **development** will be seen in [disco](http://myservice-disco.herokuapp.com/). To create new features, an ejs if statement is needed e.g. ` <% if (locals.liveFeature.includes('featureLsa')) { %> ` in the ejs file. 
+
+
+## Visual regression testing
+
+*Visual regression testing is under review.*
+~~[BackstopJS](https://garris.github.io/BackstopJS/) is avaliable in this repo. There are 2 gulp wrappers for running tests:  
+`gulp unit-test` - runs a test on **just** the styleguide  
+`gulp unit-test-all` - runs a test on **all** 400+ pages (this will take a long time)~~   
+  
+~~The first time you run a test, BackstopJS will generate reference screenshots (so it's best to do this on the master branch). Once that's done you'll need to run `gulp unit-test` again.~~
+  
+~~**Note** BackstopJS requirers [myservice](http://localhost:5000) to be running.~~
+
+
