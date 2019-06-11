@@ -10,7 +10,8 @@
     .pt-no-required-docs,
     .pt-upload-list,
     .pt-upload-list-optional,
-    .pt-upload-other-docs {
+    .pt-upload-other-docs,
+    .pt-medical-prac {
       display: none;
     }
 
@@ -114,14 +115,37 @@
                 <strong>Example: </strong> 'Acute meniscal tear of the knee'.</p>
             </div>
           </div>
+
+
+
+
+          <div id="medical-practitioner-group" class="form-group">
+            <label class="uikit-text-input__label" for="medical-practitioner">Select the medical practitioner that
+              provided the diagnosis
+            </label>
+            <select class="uikit-text-input input-half" id="medical-practitioner" name="medical-practitioner">
+              <option value="">-- Select doctor --</option>
+            </select>
+            <button id="add-another-doc" class="icon-link-button">
+              <span class="icon far fa-plus-circle"></span>
+              <span class="link">Add another practitioner</span>
+            </button>
+          </div>
+
+
+          <div class="pt-medical-prac">
+            <%- include(partials+"content/medical-practitioner.ejs", {"lastSixMonths": false});%>
+          </div>
+
+
         </fieldset>
       </div>
 
 
       <!-- Document list-->
-      <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Previous</button><button class="uikit-btn uikit-btn--tertiary"
-          onclick="window.location.href = '#open-modal'">Cancel claim</button>
+      <div class=" pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
         <div class="floated">
           <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button><button class="uikit-btn btnNext"
             onclick="window.location.href = '/auth/claim/il/claim1a'">Save and next</button>
@@ -167,6 +191,55 @@
     });
     $("#other_docs-no").click(function () {
       $(".pt-upload-other-docs").hide("fast");
+    });
+
+    $("#add-another-doc").click(function () {
+      $(".pt-medical-prac").toggle("fast");
+    });
+
+    $.ajax({
+      url: '/docs/data/medical-practitioner.json',
+      type: 'GET',
+      dataType: 'json'
+    })
+    .done((data) => {
+      practs = []
+        person = JSON.parse(localStorage.getItem("person"));
+        $.each(data.practitioners, (index, pract) => {
+          if (person.practitioners.includes(pract._id)) {
+            practs.push({
+              id: pract._id,
+              name: pract.nameFull
+            });
+          }
+        });
+
+        if (practs.length < 1) {
+          $("#medical-practitioner-group").hide("fast");
+          $(".pt-medical-prac").show("fast");
+        } else {
+          $.each(practs, (index, pract) => {
+            $("#medical-practitioner").append(`<option value='${pract.id}'>${pract.name}</option>`);
+          });
+        }
+
+        $("#saveDetails").on("click", () => {
+          if ($("#drName").val() != "") {
+            $("#drName").parent().removeClass("has-error");
+            $("#drName").parent().find("label").html("Doctor's Name");
+            var doc_id = Math.floor(Math.random() * 10000);
+            var doc_name = $("#drName").val();
+            $("#medical-practitioner").append(`<option value='${doc_id}' selected>${doc_name}</option>`);
+            $(".pt-medical-prac").hide("fast");
+            $("#medical-practitioner-group").show();
+            person.practitioners.push(doc_id.toString());
+            console.log(person);
+            localStorage.setItem("person", JSON.stringify(person));
+          } else {
+            $("#drName").parent().addClass("has-error");
+            $("#drName").parent().find("label").html(`Doctor's name <span class="input-error-message">Please enter your doctor's name</span>`);
+          }
+        });
     });
 
   </script>
