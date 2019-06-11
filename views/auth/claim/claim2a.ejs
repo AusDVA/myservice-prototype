@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: How did it happen? | MyService</title>
+<% include ../../../partials/head.ejs %>
+  <style>
+    #templates {
+      display: none;
+    }
+
+    #upload-button {
+      margin-top: 1em;
+    }
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../partials/header-topbar.ejs %>
+  <% include ../../../partials/header-claims.ejs %>
+  <% include ../../../partials/header-nom-rep.ejs %>
+  <main>
+    <div class="container" id="main-content">
+      <div id="progressbar">
+        <div id="percentage">
+          <p id="percentage_value"></p>
+        </div>
+
+      </div>
+
+      <form id="service-history">
+
+        <h1>Service history</h1>
+        <p>Providing your service history relating to this calim, will help us assess your claim more accurately and may result in a faster processing time.</p>
+
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="serviceNumber">Service number
+            <span class="hint">(if known)</span>
+          </label>
+          <input class="uikit-text-input input-half" name="serviceNumber" type="text" value="">
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-4">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label">Date of enlistment
+                  <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="text" name="enlistStartDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="enlistStartMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </fieldset>
+          </div>
+          <div class="col-md-4">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label">Date of discharge
+                  <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="text" name="dischargeEndDay" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="text" name="dischargeEndMonth" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="text" name="dischargeEndYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <h2>When your condition started</h2>
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="branch">What service were you in when your condition or illness started?</label>
+          <select class="uikit-text-input input-half" name="branch" type="text" value="">
+            <option selected>-- Select branch/arm --</option>
+            <option value="navy">Navy</option>
+            <option value="army">Army</option>
+            <option value="airforce">Air Force</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="type">Type of Service</label>
+          <select class="uikit-text-input input-half" name="type" type="text" value="">
+            <option selected>-- Select type --</option>
+            <option value="type1">Full time</option>
+            <option value="type2">Reservist</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label">Start date of this service
+                  <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <div>
+                  <input class="uikit-text-input dd" type="text" name="serviceStartDay" maxlength="2" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="serviceStartMonth" maxlength="2" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="serviceStartYear" maxlength="4" aria-label="4 digit year">
+                </div>
+                <div>
+                  <label class="uikit-control-input uikit-control-input--full">
+                    <input class="uikit-control-input__input" type="checkbox" name="serviceStartSame">
+                    <span class="uikit-control-input__text">Same as date of enlistment above</span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="col-md-4">
+            <fieldset>
+              <div class="form-group">
+                <label class="uikit-text-input__label">End date of this service
+                  <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <div>
+                  <input class="uikit-text-input dd" type="text" name="serviceEndDay" maxlength="2" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="text" name="serviceEndMonth" maxlength="2" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="text" name="serviceEndYear" maxlength="4" aria-label="4 digit year">
+                </div>
+                <div>
+                  <label class="uikit-control-input uikit-control-input--full">
+                    <input class="uikit-control-input__input" type="checkbox" name="serviceEndSame">
+                    <span class="uikit-control-input__text">Same as date of discharge above</span>
+                  </label>
+                </div>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <fieldset>
+          <legend class="legend-label">Do you have operational service?</legend>
+          <div class="radio-toggle">
+            <label class="label-left">
+              <input type="radio" name="operation" value="yes">
+              <span>Yes</span>
+            </label>
+            <label class="label-right">
+              <input type="radio" name="operation" value="no">
+              <span>No</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div id="operation-details" class="hidden">
+          <div class="uikit-page-alerts uikit-page-alerts--warning">
+            <p>
+              <strong>Do not provide information about classified operational service</strong>
+              <br>If you are unsure about the classification of your operation call
+              <a href="tel:1800-555-254">1800&nbsp;555&nbsp;254</a>
+            </p>
+          </div>
+
+
+          <fieldset class="margin-below">
+            <label class="uikit-text-input__label" for="operation-radios">What operation were you in when your condition or illness started?</label>
+            <div class="row row--50vh">
+              <div id="operation-list-items" class="col-md-12">
+                <p class="uiToolKitCheckBox" id="operation-list-item-template">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="radio" name="operation-radios" value="">
+                    <span class="uikit-control-input__text"></span>
+                  </label>
+                </p>
+              </div>
+            </div>
+          </fieldset>
+
+          <div id="operation-other" class="form-group hidden">
+            <label class="uikit-text-input__label" for="operationName">Operation name</label>
+            <input class="uikit-text-input" name="operationName" type="text" value="">
+          </div>
+
+          <div id="operation-dates" class="hidden">
+            <p>Enter the dates you were in this operation from when you were first deployed to the final day you were in the operation.</p>
+            <div class="row">
+              <div class="col-md-4">
+                <fieldset>
+                  <div class="form-group">
+                    <label class="uikit-text-input__label">Start date
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="text" name="operationStartDay" maxlength="2" aria-label="2 digit day"> /
+                    <input class="uikit-text-input mm" type="text" name="operationStartMonth" maxlength="2" aria-label="2 digit month"> /
+                    <input class="uikit-text-input yyyy" type="text" name="operationStartYear" maxlength="4" aria-label="4 digit year">
+                  </div>
+                </fieldset>
+              </div>
+              <div class="col-md-4">
+                <fieldset>
+                  <div class="form-group">
+                    <label class="uikit-text-input__label">End date
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="text" name="operationEndDay" maxlength="2" aria-label="2 digit day"> /
+                    <input class="uikit-text-input mm" type="text" name="operationEndMonth" maxlength="2" aria-label="2 digit month"> /
+                    <input class="uikit-text-input yyyy" type="text" name="operationEndYear" maxlength="4" aria-label="4 digit year">
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="document-uploads" class="hidden">
+          <h2>Upload service records</h2>
+          <table class="table-responsive table-responsive--no-border">
+            <tr class="accordion accordion--open">
+              <td id="file-status" class="file-status">
+                <span class="sr"></span>
+              </td>
+              <td>
+                <span>
+                  <b>Service documents</b>
+                </span>
+                <span class="accordion-title__details">For example, service record, discharge record or any other related operational documents.</span>
+              </td>
+
+              <td class="right">
+                <div id="file-uploads-container">
+                </div>
+                <input type="file" id="upload" class="file-upload__input">
+                <label class="file-upload__label" for="upload">
+                  <span class="file-upload__button">
+                    <span id="upload-button" class="uikit-btn small"></span>
+                  </span>
+                </label>
+              </td>
+              <td>
+                <a class="accordion__trigger accordion__trigger--closed">
+                  <span class="sr">Toggle accordion</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </form>
+
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claim2'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
+          <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/claim3'">Save and next</button>
+        </div>
+      </div>
+      <% include ../../../partials/claims-cancel-modal.ejs %>
+      <% include ../../../partials/claims-removefile-modal.ejs %>
+    </div>
+
+  </main>
+
+  <div id="templates">
+
+    <div id="file-upload-template" class="file-upload accordion-title__details">
+      <span class="file-upload__input"></span>
+      <label class="file-upload__label">
+        <span class="file-upload__document">
+          <a href="#" class="file-upload__file-name"></a>
+        </span>
+        <span class="file-upload__button">
+          <button class="uikit-btn uikit-btn--tertiary small">Remove</button>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <% include ../../../partials/footer.ejs %>
+
+
+  <script>
+    var VEA_OPERATIONS = [{
+      "moniker": "Vietnam (Southern Zone)",
+      "startDate": "1973-01-12",
+      "endDate": "1975-04-29",
+      "specifiedAreas": ["Vietnam (Southern Zone)"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02932"
+    }, {
+      "moniker": "JURAL",
+      "operationName": "JURAL",
+      "startDate": "1991-06-30",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["with the United Kingdom elements of the coalition force operation to patrol the Iraq No-Fly-Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04375"
+    }, {
+      "moniker": "PROVIDE COMFORT",
+      "operationName": "PROVIDE COMFORT",
+      "startDate": "1991-08-11",
+      "endDate": "1996-12-15",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["service with the United States elements of the coalition force operation to patrol the Iraq No-Fly-Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04377"
+    }, {
+      "moniker": "SOUTHERN WATCH",
+      "operationName": "SOUTHERN WATCH",
+      "startDate": "1992-08-31",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["with the United States elements of the coalition force operation to patrol the Iraq No-fly Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04379"
+    }, {
+      "moniker": "BOLTON",
+      "operationName": "BOLTON",
+      "startDate": "1992-08-31",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["with the United Kingdom elements of the coalition force operation to patrol the Iraq No-fly Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04378"
+    }, {
+      "moniker": "TAMAR",
+      "operationName": "TAMAR",
+      "startDate": "1994-07-25",
+      "endDate": "1996-01-16",
+      "specifiedAreas": ["Rwanda",
+        "the areas in Uganda, Zaire (now known as the Democratic Republic of the Congo), Burundi and Tanzania that are not more than 50 kilometres from the border with Rwanda"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006L01121"
+    }, {
+      "moniker": "NORTHERN WATCH",
+      "operationName": "NORTHERN WATCH",
+      "startDate": "1997-01-01",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["service with the United States elements of the coalition force operation to patrol the Iraq No-Fly-Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04376"
+    }, {
+      "moniker": "FABER",
+      "operationName": "FABER",
+      "startDate": "1999-09-16",
+      "endDate": "2000-02-23",
+      "specifiedAreas": ["East Timor", "the sea area that on 16 September 1999 was the territorial sea of Indonesia adjacent to East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00958"
+    }, {
+      "moniker": "WARDEN",
+      "operationName": "WARDEN",
+      "startDate": "1999-09-16",
+      "endDate": "2000-04-10",
+      "specifiedAreas": ["East Timor", "the sea area that on 16 September 1999 was the territorial sea of Indonesia adjacent to East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00578"
+    }, {
+      "moniker": "STABILISE",
+      "operationName": "STABILISE",
+      "startDate": "1999-09-16",
+      "endDate": "2000-02-23",
+      "specifiedAreas": ["East Timor", "the sea area that on 16 September 1999 was the territorial sea of Indonesia adjacent to East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00961"
+    }, {
+      "moniker": "TANAGER",
+      "operationName": "TANAGER",
+      "startDate": "2000-02-20",
+      "endDate": "2002-05-19",
+      "specifiedAreas": ["East Timor", "the territorial sea of East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00577"
+    }, {
+      "moniker": "HUSKY",
+      "operationName": "HUSKY",
+      "startDate": "2001-01-15",
+      "endDate": "2003-02-28",
+      "specifiedAreas": ["Sierra Leone"],
+      "qualifications": ["with the International Military Advisory and Training Team in Sierra Leone"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L00986"
+    }, {
+      "moniker": "SLIPPER",
+      "operationName": "SLIPPER",
+      "startDate": "2001-10-11",
+      "endDate": "2009-07-30",
+      "specifiedAreas": [
+        "[[ <kml xmlns=\"http://www.opengis.net/kml/2.2> <Polygon> <tessellate>1</tessellate> <outerBoundaryIs> <LinearRing> <coordinates> 81.0,48.0,0 35.0,48.0,0 35.0,12.0,0 81.0,12.0,0 81.0,48.0,0 </coordinates> </LinearRing> </outerBoundaryIs> </Polygon> </kml>",
+        "the Diego Garcia land mass and territorial waters, plus airspace of Diego Garcia out to 250nm radius (from Reference Point 07 18.6S 072 24.6E)"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2010L00176"
+    }, {
+      "moniker": "CITADEL",
+      "operationName": "CITADEL",
+      "startDate": "2002-05-20",
+      "endDate": "2003-08-17",
+      "specifiedAreas": ["East Timor", "the territorial sea of East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00579"
+    }, {
+      "moniker": "FALCONER",
+      "operationName": "FALCONER",
+      "startDate": "2003-03-18",
+      "endDate": "2003-07-22",
+      "specifiedAreas": [
+        "[[ <kml xmlns=\"http://www.opengis.net/kml/2.2> <Polygon> <tessellate>1</tessellate> <outerBoundaryIs> <LinearRing> <coordinates> 68.0,38.0,0 32.0,38.0,0 32.0,10.0,0 68.0,10.0,0 68.0,38.0,0 </coordinates> </LinearRing> </outerBoundaryIs> </Polygon> </kml>"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00960"
+    }, {
+      "moniker": "PALATE",
+      "operationName": "PALATE",
+      "startDate": "2003-04-18",
+      "endDate": "2004-06-30",
+      "specifiedAreas": ["Afghanistan"],
+      "legalSource": "https://legislation.gov.au/Details/F2005L03487"
+    }, {
+      "moniker": "CATALYST",
+      "operationName": "CATALYST",
+      "startDate": "2003-07-16",
+      "endDate": "2009-07-31",
+      "specifiedAreas": ["Iraq, territorial waters and adjacent airspace", "Kuwait, territorial waters and adjacent airspace",
+        "Bahrain, territorial waters and adjacent airspace", "Qatar, territorial waters and adjacent airspace",
+        "United Arab Emirates, territorial waters and adjacent airspace", "Saudia Arabia, territorial waters and adjacent airspace north of 23 degrees North latitude",
+        "the Persian Gulf", "the Straight of Hormuz"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2010L00699"
+    }, {
+      "moniker": "International Security Assistance Force",
+      "operationName": "International Security Assistance Force",
+      "startDate": "2003-08-11",
+      "specifiedAreas": ["Afghanistan and its superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2014L00151"
+    }, {
+      "moniker": "PALATE II",
+      "operationName": "PALATE II",
+      "startDate": "2005-06-27",
+      "specifiedAreas": ["Afghanistan, including Afghanistan’s land territory, internal waters and superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2005L04107"
+    }, {
+      "moniker": "RIVERBANK",
+      "operationName": "RIVERBANK",
+      "startDate": "2008-07-21",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["service with the Australian Defence Force contribution to the United Nations Assistance Mission in Iraq"],
+      "legalSource": "https://legislation.gov.au/Details/F2009L02442"
+    }, {
+      "moniker": "KRUGER",
+      "operationName": "KRUGER",
+      "startDate": "2009-01-01",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["with the Australian Defence Force contribution to the provision of security to the Australian Embassy in Iraq"],
+      "legalSource": "https://legislation.gov.au/Details/F2009L00722"
+    }, {
+      "moniker": "Berlin Airlift",
+      "startDate": "1948-09-15",
+      "endDate": "1949-08-29",
+      "qualifications": ["service rendered as a member of the Royal Australian Air Force aircrew in the Berlin Airlift"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00566"
+    }, {
+      "moniker": "BANNER",
+      "operationName": "BANNER",
+      "startDate": "1993-10-08",
+      "endDate": "1999-10-04",
+      "specifiedAreas": ["Cambodia", "the areas of Laos and Thailand that are not more than 50 kilometres from the border with Cambodia"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00718"
+    }, {
+      "moniker": "UN Observer Mission in Guatemala",
+      "startDate": "1997-02-13",
+      "endDate": "1997-05-12",
+      "specifiedAreas": ["Guatemala"],
+      "qualifications": ["part of the United Nations Observer Mission"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02913"
+    }, {
+      "moniker": "VISTA",
+      "operationName": "VISTA",
+      "startDate": "1997-07-05",
+      "endDate": "1997-07-14",
+      "specifiedAreas": ["Cambodia"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02915"
+    }, {
+      "moniker": "",
+      "startDate": "1997-07-25",
+      "endDate": "1997-08-07",
+      "specifiedAreas": ["Libreville (Gabon)", "Pointe Noire (Republic of the Congo)", "Brazzaville (Republic of the Congo)"],
+      "qualifications": ["as part of the Technical Survey Team"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02916"
+    }, {
+      "moniker": "BEL ISI II",
+      "operationName": "BEL ISI II",
+      "startDate": "1997-11-20",
+      "endDate": "2003-08-26",
+      "specifiedAreas": ["Bougainville", "Buka Islands", "the Papua New Guinea territorial waters surrounding Bogainville and Buka Islands"],
+      "qualifications": ["serving with the Peace Monitoring Group"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00576"
+    }, {
+      "moniker": "POLLARD",
+      "operationName": "POLLARD",
+      "startDate": "1998-02-17",
+      "endDate": "2001-10-01",
+      "specifiedAreas": [
+        "all sea, airspace and land North and West from 5 deg 00 min S 68 deg 00 min E and encompassing the outer boundaries of Pakistan, Afghanistan, Iran, Iraq, Jordan, Egypt, Sudan and Kenya"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00950"
+    }, {
+      "moniker": "AGRICOLA",
+      "operationName": "AGRICOLA",
+      "startDate": "1999-02-25",
+      "endDate": "1999-06-10",
+      "specifiedAreas": ["Federal Republic of Yugoslavia", "Albania", "Former Yugoslav Republic of Macedonia"],
+      "legalSource": "https://legislation.gov.au/Details/F2007B00578"
+    }, {
+      "moniker": "DAMASK",
+      "operationName": "DAMASK",
+      "startDate": "1999-03-18",
+      "endDate": "2001-10-19",
+      "specifiedAreas": [
+        "the Arabian Gulf, the Gulf of Oman and the northern Arabian Sea bounded by 61 degrees 50 minutes east longitude and 20 degrees north latitude, together with the ports contiguous to that sea area and the airfields and military facilities adjacent to those ports"
+      ],
+      "qualifications": ["with the Multi-national Maritime Interception Force"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B11477"
+    }, {
+      "moniker": "ALLIED FORCE",
+      "operationName": "ALLIED FORCE",
+      "startDate": "1999-04-15",
+      "endDate": "1999-06-03",
+      "specifiedAreas": ["Federal Republic of Yugoslavia", "Albania", "Former Yugoslav Republic of Macedonia", "the Adriatic Sea", "NATO bases in Italy"],
+      "qualifications": ["serving with the NATO operation against the Federal Republic of Yugoslavia"],
+      "legalSource": "https://legislation.gov.au/Details/F2007B00576"
+    }, {
+      "moniker": "BOLTON",
+      "operationName": "BOLTON",
+      "startDate": "1999-05-13",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Saudi Arabia", "Kuwait", "Incirlik airbase in Turkey"],
+      "qualifications": ["with the United Kingdom elements of the coalition force operation to patrol the Iraq No-fly Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04378"
+    }, {
+      "moniker": "JOINT GUARDIAN",
+      "operationName": "JOINT GUARDIAN",
+      "startDate": "1999-06-11",
+      "specifiedAreas": ["the Federal Republic of Yugoslavia", "Albania", "the Former Yugoslav Republic of Macedonia"],
+      "legalSource": "https://legislation.gov.au/Details/F2007B00579"
+    }, {
+      "moniker": "FABER",
+      "operationName": "FABER",
+      "startDate": "1999-06-19",
+      "endDate": "1999-09-15",
+      "specifiedAreas": ["East Timor", "the territorial sea of Indonesia adjacent to East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2007B00581"
+    }, {
+      "moniker": "SPITFIRE",
+      "operationName": "SPITFIRE",
+      "startDate": "1999-09-06",
+      "endDate": "1999-09-19",
+      "specifiedAreas": ["East Timor", "the territorial sea of Indonesia adjacent to East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00499"
+    }, {
+      "moniker": "SOUTHERN WATCH",
+      "operationName": "SOUTHERN WATCH",
+      "startDate": "1999-09-23",
+      "endDate": "2003-01-12",
+      "specifiedAreas": ["Saudi Arabia", "Kuwait", "Incirlik airbase in Turkey"],
+      "qualifications": ["with the United States elements of the coalition force operation to patrol the Iraq No-fly Zones"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04379"
+    }, {
+      "moniker": "PLUMBOB",
+      "operationName": "PLUMBOB",
+      "startDate": "2000-06-08",
+      "endDate": "2000-06-24",
+      "specifiedAreas": ["the island of Guadalcanal and the adjacent waters extending 12 nautical miles from the low water mark from Guadalcanal Island"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00574"
+    }, {
+      "moniker": "TREK",
+      "operationName": "TREK",
+      "startDate": "2000-11-04",
+      "specifiedAreas": ["the Solomon Islands and its territorial sea"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00951"
+    }, {
+      "moniker": "POMELO",
+      "operationName": "POMELO",
+      "startDate": "2001-01-15",
+      "specifiedAreas": ["Ethiopia", "Eritrea"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00932"
+    }, {
+      "moniker": "ANODE",
+      "operationName": "ANODE",
+      "startDate": "2003-07-24",
+      "specifiedAreas": ["the Solomon Islands, territorial waters and superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00719"
+    }, {
+      "moniker": "CITADEL",
+      "operationName": "CITADEL",
+      "startDate": "2003-08-18",
+      "specifiedAreas": ["East Timor and the territorial sea of East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2006B00571"
+    }, {
+      "moniker": "SPIRE",
+      "operationName": "SPIRE",
+      "startDate": "2004-05-20",
+      "specifiedAreas": ["East Timor and the territorial sea of East Timor"],
+      "legalSource": "https://legislation.gov.au/Details/F2005L04103"
+    }, {
+      "moniker": "AZURE",
+      "operationName": "AZURE",
+      "startDate": "2005-04-10",
+      "specifiedAreas": ["Sudan and its territorial waters and superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2005L04106"
+    }, {
+      "moniker": "ASTUTE",
+      "operationName": "ASTUTE",
+      "startDate": "2006-05-12",
+      "specifiedAreas": ["East Timor and its territorial waters and superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02013"
+    }, {
+      "moniker": "VIGILANCE",
+      "operationName": "VIGILANCE",
+      "startDate": "2006-07-01",
+      "legalSource": "https://legislation.gov.au/Details/F2007L02362"
+    }, {
+      "moniker": "RAMP",
+      "operationName": "RAMP",
+      "startDate": "2006-07-20",
+      "specifiedAreas": ["Lebanon and its territorial waters and superjacent airspace"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L03709"
+    }, {
+      "moniker": "QUICKSTEP",
+      "operationName": "QUICKSTEP",
+      "startDate": "2006-10-31",
+      "endDate": "2006-12-22",
+      "specifiedAreas": ["Fiji: its land, internal waters, archipelagic waters, territorial sea and superjacent airspace and the exclusive economic zone"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L04870"
+    }, {
+      "moniker": "Gulf of Iran",
+      "startDate": "1986-11-17",
+      "endDate": "1989-02-28",
+      "specifiedAreas": [
+        "the waters of the Gulf of Iran and the Gulf of Oman west of the line joining Rass-Al-Hadd and the southern end of the Iran Pakistan border, and the countries littoral to those waters, to a maximum distance inland of 50 km from the high water mark"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02864"
+    }, {
+      "moniker": "First Gulf War",
+      "startDate": "1990-08-02",
+      "specifiedAreas": ["Bahrain", "Oman", "Qatar", "Saudi Arabia", "United Arab Emirates", "Island of Cyprus",
+        "the sea areas contained within the Gulf of Suez, the Gulf of Aqaba, the Red Sea, the Gulf of Aden, the Persian Gulf and the Gulf of Oman",
+        "<kml xmlns=\"http://www.opengis.net/kml/2.2\"> <Polygon> <tessellate>1</tessellate> <outerBoundaryIs> <LinearRing> <coordinates> 70.6666666,20.5,0 67.5833333,14.5,0 60.0,8.5,0 53.8666666,6.3333333,0 49.0666666,5.8,0 70.6666666,20.5,0 </coordinates> </LinearRing> </outerBoundaryIs> </Polygon> </kml>",
+        "the sea area contained within the Suez Canal and the Mediterranean Sea east of 30°E"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02842"
+    }, {
+      "moniker": "UNOCA or UNMCTT",
+      "startDate": "1991-06-08",
+      "specifiedAreas": ["Afghanistan"],
+      "qualifications": ["with the the United Nations Office for Co-ordinating Assistance to Afghanistan (UNOCA) or the United Nations Mine Clearing Training Team (UNMCTT)"],
+      "legalSource": "https://legislation.gov.au/Details/F2007L01654"
+    }, {
+      "moniker": "BLAZER",
+      "operationName": "BLAZER",
+      "startDate": "1991-07-02",
+      "specifiedAreas": ["Iraq"],
+      "qualifications": ["with the United Nations Special Commission for the Destruction of Weapons of Mass Destruction"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02857"
+    }, {
+      "moniker": "UN humanitarian operation in Mozambique",
+      "startDate": "1994-07-12",
+      "specifiedAreas": ["Mozambique"],
+      "qualifications": ["as part of the United Nations humanitarian operations"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02865"
+    }, {
+      "moniker": "US-led multi-national force in Haiti",
+      "startDate": "1994-09-17",
+      "specifiedAreas": ["Haiti"],
+      "qualifications": ["as part of the United States of America led multi-national force"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02872"
+    }, {
+      "moniker": "Arabian Gulf, Gulf of Oman and Northern Arabian Sea from 1996 onwards",
+      "startDate": "1996-04-01",
+      "specifiedAreas": [
+        "international waters, contiguous ports and waters used for international navigation contained with the Arabian Gulf, the Gulf of Oman and the Northern Arabian Sea with an eastern extremity of 61 degrees, 50 minutes East and a southern extremity of 20 degrees North"
+      ],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02911"
+    }, {
+      "moniker": "On Exchange in former Republic Yugoslavia",
+      "startDate": "1997-01-24",
+      "specifiedAreas": ["the former Republic of Yugoslavia"],
+      "qualifications": ["while on exchange with the forces of other countries"],
+      "legalSource": "https://legislation.gov.au/Details/F2006L02912"
+    }, {
+      "moniker": "Security Council Commission of Investigation on the Balkans",
+      "startDate": "1947-01-29",
+      "description": "Security Council Commission of Investigation on the Balkans",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 1"
+    }, {
+      "moniker": "Committee of Good Offices",
+      "startDate": "1947-08-25",
+      "description": "Committee of Good Offices",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 2"
+    }, {
+      "moniker": "United Nations Special Commission on the Balkans",
+      "startDate": "1947-11-26",
+      "description": "United Nations Special Commission on the Balkans",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 3"
+    }, {
+      "moniker": "United Nations Commission on Korea",
+      "startDate": "1949-01-01",
+      "description": "United Nations Commission on Korea",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 4"
+    }, {
+      "moniker": "United Nations Military Observer Group in India and Pakistan",
+      "startDate": "1949-01-01",
+      "description": "United Nations Military Observer Group in India and Pakistan",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 5"
+    }, {
+      "moniker": "United Nations Commission for Indonesia",
+      "startDate": "1949-01-28",
+      "description": "United Nations Commission for Indonesia",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 6"
+    }, {
+      "moniker": "United Nations Truce Supervision Organisation",
+      "startDate": "1956-06-01",
+      "description": "United Nations Truce Supervision Organisation",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 7"
+    }, {
+      "moniker": "United Nations Operations in the Congo",
+      "startDate": "1960-08-01",
+      "description": "United Nations Operations in the Congo",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 8"
+    }, {
+      "moniker": "United Nations Yemen Observation Mission",
+      "startDate": "1963-01-01",
+      "description": "United Nations Yemen Observation Mission",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 9"
+    }, {
+      "moniker": "United Nations Force in Cyprus",
+      "startDate": "1964-05-14",
+      "description": "United Nations Force in Cyprus",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 10"
+    }, {
+      "moniker": "United Nations India-Pakistan Observation Mission",
+      "startDate": "1965-09-20",
+      "description": "United Nations India-Pakistan Observation Mission",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 11"
+    }, {
+      "moniker": "United Nations Disengagement Observer Force",
+      "startDate": "1974-01-01",
+      "description": "United Nations Disengagement Observer Force",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 12"
+    }, {
+      "moniker": "United Nations Emergency Force Two",
+      "startDate": "1976-07-01",
+      "description": "United Nations Emergency Force Two",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 13"
+    }, {
+      "moniker": "United Nations Interim Force in Lebanon",
+      "startDate": "1978-03-23",
+      "description": "United Nations Interim Force in Lebanon",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 14"
+    }, {
+      "moniker": "Commonwealth Monitoring Force in Zimbabwe",
+      "startDate": "1979-12-24",
+      "description": "Commonwealth Monitoring Force in Zimbabwe",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 15"
+    }, {
+      "moniker": "Sinai Multinational Force and Observers established by the Protocol between the Arab Republic of Egypt and the State of Israel dated 3 August 1981",
+      "startDate": "1982-02-18",
+      "description": "Sinai Multinational Force and Observers established by the Protocol between the Arab Republic of Egypt and the State of Israel dated 3 August 1981",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 16"
+    }, {
+      "moniker": "United Nations Iran/Iraq Military Observer Group",
+      "startDate": "1988-08-11",
+      "description": "United Nations Iran/Iraq Military Observer Group",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 17"
+    }, {
+      "moniker": "United Nations Border Relief Operation in Cambodia",
+      "startDate": "1989-02-01",
+      "description": "United Nations Border Relief Operation in Cambodia",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 18"
+    }, {
+      "moniker": "United Nations Transition Assistance Group Namibia",
+      "startDate": "1989-02-18",
+      "description": "United Nations Transition Assistance Group Namibia",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 19"
+    }, {
+      "moniker": "United Nations Mission for the Referendum in Western Sahara (Mission des Nations Unies pour un Referendum au Sahara Occidental)",
+      "startDate": "1991-06-27",
+      "description": "United Nations Mission for the Referendum in Western Sahara (Mission des Nations Unies pour un Referendum au Sahara Occidental)",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 20"
+    }, {
+      "moniker": "The Australian Police Contingent of the United Nations Transitional Authority in Cambodia",
+      "startDate": "1992-05-18",
+      "description": "The Australian Police Contingent of the United Nations Transitional Authority in Cambodia",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 21"
+    }, {
+      "moniker": "The Australian Police Contingent of the United Nations Operation in Mozambique",
+      "startDate": "1994-03-27",
+      "description": "The Australian Police Contingent of the United Nations Operation in Mozambique",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 22"
+    }, {
+      "moniker": "Australian Defence Support to a Pacific Peacekeeping Force for a Bougainville Peace Conference",
+      "startDate": "1994-09-21",
+      "description": "Australian Defence Support to a Pacific Peacekeeping Force for a Bougainville Peace Conference",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 23"
+    }, {
+      "moniker": "The Australian Police Contingent of the Multi-National Force in Haiti",
+      "startDate": "1994-10-10",
+      "description": "The Australian Police Contingent of the Multi-National Force in Haiti",
+      "legalSource": "Veterans Entitlements' Act 1998 Sch 3, item 24"
+    }, {
+      "moniker": "UNAMET",
+      "startDate": "1999-06-21",
+      "description": "The Australian Police Contingent of the United Nations Assistance Mission in East Timor (UNAMET) established on 11 June 1999 and ended on 25 October 1999 while in the area comprising East Timor and its territorial waters",
+      "legalSource": "Gazette GN10 of 15 March 2000, page 586"
+    }, {
+      "moniker": "UNTAET",
+      "startDate": "1999-10-25",
+      "description": "The Australian Police Contingent of the United Nations Transitional Administration in East Timor (UNTAET) established on 25 October 1999 while in the area comprising East Timor and its territorial waters.",
+      "legalSource": "Gazette GN10 of 15 March 2000, page 587"
+    }, {
+      "moniker": "UNMISET",
+      "startDate": "2002-05-20",
+      "description": "UNMISET in East Timor",
+      "legalSource": "Unknown"
+    }, {
+      "moniker": "UNMIS",
+      "startDate": "2006-01-01",
+      "description": "The Australian Police Contingent of the United Nations Mission in Sudan (UNMIS)",
+      "legalSource": "Gazette S238 of 21 December 2005"
+    }];
+
+    var MCRA_OPPERATIONS = [{
+      "operationName": "Manitou",
+      "startDate": "2016-11-14",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Litten",
+      "startDate": "2016-11-04",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Litten",
+      "startDate": "2016-08-31",
+      "endDate": "2016-10-21",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Augury",
+      "startDate": "2016-04-28",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Augury",
+      "startDate": "2016-04-28",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Okra",
+      "startDate": "2015-09-09",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Okra",
+      "startDate": "2015-09-09",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Manitou",
+      "startDate": "2015-05-14",
+      "endDate": "2016-11-13",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Highroad",
+      "startDate": "2015-01-01",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Okra",
+      "startDate": "2014-08-09",
+      "endDate": "2015-09-08",
+      "type": "warlike"
+    }, {
+      "operationName": "Okra",
+      "startDate": "2014-08-09",
+      "endDate": "2015-09-08",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Hawick",
+      "startDate": "2014-07-21",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Augury",
+      "startDate": "2014-07-04",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Slipper",
+      "startDate": "2014-07-01",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Accordion",
+      "startDate": "2014-07-01",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Manitou",
+      "startDate": "2014-07-01",
+      "endDate": "2015-05-13",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Okra",
+      "startDate": "2014-07-01",
+      "endDate": "2014-08-08",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Slipper",
+      "startDate": "2012-02-20",
+      "endDate": "2014-06-30",
+      "type": "warlike"
+    }, {
+      "operationName": "Aslan",
+      "startDate": "2011-09-23",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "NNMEOAL",
+      "startDate": "2011-03-31",
+      "endDate": "2011-10-31",
+      "type": "warlike"
+    }, {
+      "operationName": "NNMEOAL",
+      "startDate": "2011-03-31",
+      "endDate": "2011-10-31",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Slipper",
+      "startDate": "2009-07-31",
+      "endDate": "2012-02-19",
+      "type": "warlike"
+    }, {
+      "operationName": "Kruger",
+      "startDate": "2009-01-01",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Hedgerow",
+      "startDate": "2008-07-28",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Riverbank",
+      "startDate": "2008-07-21",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Quickstep Tonga",
+      "startDate": "2006-11-18",
+      "endDate": "2006-11-30",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Quickstep",
+      "startDate": "2006-10-31",
+      "endDate": "2006-12-22",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Paladin",
+      "startDate": "2006-08-15",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Ramp",
+      "startDate": "2006-07-20",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Paladin",
+      "startDate": "2006-07-12",
+      "endDate": "2006-08-14",
+      "type": "warlike"
+    }, {
+      "operationName": "Paladin",
+      "startDate": "2006-07-12",
+      "endDate": "2006-08-14",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Astute",
+      "startDate": "2006-05-12",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Palate II",
+      "startDate": "2005-06-27",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Azure",
+      "startDate": "2005-04-10",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Herrick",
+      "startDate": "2004-09-01",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Spire",
+      "startDate": "2004-05-20",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Citadel",
+      "startDate": "2003-08-18",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "International Security Assistance Force",
+      "startDate": "2003-08-11",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Anode",
+      "startDate": "2003-07-24",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Athena",
+      "startDate": "2003-07-17",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Catalyst",
+      "startDate": "2003-07-16",
+      "endDate": "2009-07-31",
+      "type": "warlike"
+    }, {
+      "operationName": "Paladin",
+      "startDate": "2003-04-21",
+      "endDate": "2006-07-11",
+      "type": "non-warlike"
+    }, {
+      "operationName": "Palate",
+      "startDate": "2003-04-18",
+      "endDate": "2004-07-05",
+      "type": "warlike"
+    }, {
+      "operationName": "Ariki",
+      "startDate": "2001-12-01",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Slipper",
+      "startDate": "2001-10-11",
+      "endDate": "2009-07-30",
+      "type": "warlike"
+    }, {
+      "operationName": "Enduring Freedom—Afghanistan",
+      "startDate": "2001-10-07",
+      "endDate": null,
+      "type": "warlike"
+    }, {
+      "operationName": "Pomelo",
+      "startDate": "2001-01-15",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Joint Guardian",
+      "startDate": "1999-06-11",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Osier",
+      "startDate": "1997-01-24",
+      "endDate": null,
+      "type": "non-warlike"
+    }, {
+      "operationName": "Mazurka",
+      "startDate": "1993-01-28",
+      "endDate": null,
+      "type": "non-warlike"
+    }]
+
+    var OPERATIONS = VEA_OPERATIONS.concat(MCRA_OPPERATIONS)
+    // Sorty operations by start
+    OPERATIONS = OPERATIONS.sort(function (pOperationA, pOperationB) {
+      var startDateA = new Date(pOperationA.startDate)
+      var startDateB = new Date(pOperationB.startDate)
+      if (startDateA < startDateB) {
+        return -1;
+      }
+      if (startDateA > startDateB) {
+        return 1;
+      }
+      return 0;
+    })
+
+    function datesOverlap(pStartA, pEndA, pStartB, pEndB) {
+      if (pStartA < pStartB && pEndA > pStartB) {
+        return true
+      }
+      if (pStartA > pStartB && pStartA < pStartB) {
+        return true
+      }
+      return false
+    }
+
+    var operationListElement = document.getElementById('operation-list-items');
+    var operationTemplate = document.getElementById('operation-list-item-template');
+    operationTemplate.removeAttribute('id');
+    operationListElement.removeChild(operationTemplate);
+
+    function updateContainerState(pContainer) {
+      var button = document.getElementById('upload-button');
+      var fileStatus = document.getElementById('file-status');
+      var className = 'file-status--uploaded';
+      var srElement = fileStatus.getElementsByClassName('sr')[0];
+
+      if (!pContainer.getElementsByClassName('file-upload').length) {
+        button.innerText = 'Upload';
+        fileStatus.classList.remove(className);
+        srElement.innerText = '';
+      } else {
+        button.innerText = 'Upload another';
+        fileStatus.classList.add(className);
+        srElement.innerText = 'Success';
+      }
+    }
+
+    function renderLayout() {
+      var fileUploadTemplate = document.getElementById('file-upload-template');
+      var fileUploadsContainer = document.getElementById('file-uploads-container');
+
+      updateContainerState(fileUploadsContainer);
+    }
+
+    function renderFileUpload(pElement, pDestination, pFileName) {
+      var fileUploadElement = pElement.cloneNode(true);
+      fileUploadElement.removeAttribute('id');
+
+      fileUploadElement.getElementsByClassName('file-upload__file-name')[0].innerText = pFileName;
+
+      var button = fileUploadElement.getElementsByClassName('uikit-btn')[0];
+      button.onclick = function () {
+        var fileUploadsContainer = document.getElementById('file-uploads-container');
+        fileUploadElement.parentElement.removeChild(fileUploadElement);
+        updateContainerState(fileUploadsContainer);
+      };
+
+      pDestination.appendChild(fileUploadElement);
+    }
+
+    document.getElementById('upload').onchange = function (pEvent) {
+      var fileName = pEvent.target.value.split('\\').pop()
+
+      var fileUploadTemplate = document.getElementById('file-upload-template');
+      var fileUploadsContainer = document.getElementById('file-uploads-container');
+
+      renderFileUpload(fileUploadTemplate, fileUploadsContainer, fileName);
+      updateContainerState(fileUploadsContainer);
+    }
+
+    function createYearRange(pStartDate, pEndDate) {
+      var startYear = pStartDate.getFullYear();
+      var endYear = pEndDate.getFullYear();
+
+      if (startYear === endYear) {
+        return startYear;
+      } else {
+        return startYear + '–' + endYear;
+      }
+    }
+
+    function renderListItemOriginal(pData) {
+      var element = operationTemplate.cloneNode(true);
+      element.getElementsByTagName('span')[0].innerHTML = pData.operation
+      operationListElement.appendChild(element);
+    }
+
+    function renderListItemGood(pData) {
+      var element = operationTemplate.cloneNode(true);
+      var spanElement = element.getElementsByTagName('span')[0];
+
+      var startDate = new Date(pData.startDate);
+      var endDate = new Date(pData.endDate)
+
+      if (isNaN(endDate)) {
+        endDate = startDate
+      }
+
+      var title = document.createElement('div');
+      title.innerHTML = (pData.operationName || pData.moniker || 'Untitled') + ' ' + createYearRange(startDate, endDate);
+
+      var areas = document.createElement('div');
+      areas.innerHTML = '<strong>Specified areas:</strong> ' + (pData.specifiedAreas ? pData.specifiedAreas.join(', ') : 'Unspecified');
+
+      var quals = document.createElement('div');
+      quals.innerHTML = '<strong>Qualifications:</strong> ' + (pData.qualifications ? pData.qualifications.join(', ') : 'Unspecified');
+
+      spanElement.appendChild(title);
+      spanElement.appendChild(areas);
+      spanElement.appendChild(quals);
+      operationListElement.appendChild(element);
+    }
+
+    function getDate(pYear, pMonth, pDay) {
+      if (/\d+/.test(pYear) && /\d+/.test(pMonth) && /\d+/.test(pDay)) {
+        var date = new Date(pYear, pMonth, pDay)
+        if (!isNaN(date)) {
+          return date
+        }
+      }
+      return
+    }
+
+    function renderList() {
+      var startDate = getDate(
+        document.getElementsByName('serviceStartYear')[0].value,
+        document.getElementsByName('serviceStartMonth')[0].value,
+        document.getElementsByName('serviceStartDay')[0].value
+      );
+
+      var endDate = getDate(
+        document.getElementsByName('serviceEndYear')[0].value,
+        document.getElementsByName('serviceEndMonth')[0].value,
+        document.getElementsByName('serviceEndDay')[0].value
+      );
+
+      var operations;
+      if (startDate && endDate) {
+        operations = OPERATIONS.filter(function (pOperation) {
+          var operationStartDate = new Date(pOperation.startDate);
+          if (isNaN(operationStartDate)) {
+            return false
+          }
+
+          var operationEndDate = new Date(pOperation.endDate);
+          if (isNaN(operationEndDate)) {
+            operationEndDate = operationStartDate;
+          }
+
+          return datesOverlap(startDate, endDate, operationStartDate, operationEndDate);
+        });
+      } else {
+        operations = OPERATIONS;
+      }
+
+      operationListElement.innerHTML = '';
+
+      operations.forEach(renderListItemGood);
+
+
+      var element = operationTemplate.cloneNode(true);
+      element.getElementsByTagName('input')[0].value = 'other'
+      var spanElement = element.getElementsByTagName('span')[0];
+      var title = document.createElement('div');
+      title.innerHTML = 'Other';
+      spanElement.appendChild(title);
+      operationListElement.appendChild(element);
+    }
+
+    var form = document.getElementById('service-history');
+
+    form.addEventListener('change', function (pEvent) {
+      if (pEvent.target.name === 'operation') {
+        document.getElementById('document-uploads').classList.remove('hidden');
+        if (form.operation[0].checked) {
+          document.getElementById('operation-details').classList.remove('hidden');
+          return;
+        } else {
+          document.getElementById('operation-details').classList.add('hidden');
+          return;
+        }
+      }
+
+      if (/^service(Start|End)(Day|Month|Year)/.test(pEvent.target.name)) {
+        renderList()
+      }
+
+      if (pEvent.target.name === 'operation-radios') {
+        document.getElementById('operation-dates').classList.remove('hidden')
+        if (pEvent.target.value === 'other') {
+          document.getElementById('operation-other').classList.remove('hidden')
+        }
+      }
+
+      if (pEvent.target.name === 'serviceStartSame') {
+        if (form.serviceStartSame.checked) {
+          form.serviceStartDay.value = form.enlistStartDay.value;
+          form.serviceStartDay.disabled = true;
+          form.serviceStartMonth.value = form.enlistStartMonth.value;
+          form.serviceStartMonth.disabled = true;
+          form.serviceStartYear.value = form.enlistStartYear.value;
+          form.serviceStartYear.disabled = true;
+        } else {
+          form.serviceStartDay.disabled = false;
+          form.serviceStartMonth.disabled = false;
+          form.serviceStartYear.disabled = false;
+        }
+      }
+
+      if (pEvent.target.name === 'serviceEndSame') {
+        if (form.serviceEndSame.checked) {
+          form.serviceEndDay.value = form.dischargeEndDay.value;
+          form.serviceEndDay.disabled = true;
+          form.serviceEndMonth.value = form.dischargeEndMonth.value;
+          form.serviceEndMonth.disabled = true;
+          form.serviceEndYear.value = form.dischargeEndYear.value;
+          form.serviceEndYear.disabled = true;
+        } else {
+          form.serviceEndDay.disabled = false;
+          form.serviceEndMonth.disabled = false;
+          form.serviceEndYear.disabled = false;
+        }
+      }
+    });
+
+    // Progress percentage
+    // document.getElementById("percentage").style.width = "30%";
+    document.getElementById("percentage").style.width = "25%";
+    document.getElementById("percentage_value").textContent = "25%";
+
+    renderLayout();
+    renderList();
+  </script>
+
+</body>
+
+</html>

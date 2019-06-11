@@ -39,36 +39,11 @@ $(document).keypress(function (e) {
 
   switch (e.which) {
     case 126: //tilda + shift
-      $('.pt-persona-switcher').toggle();
-      // addListeners();
+      $('.pt-choose-user').toggle();
       break;
     default:
   }
 });
-
-// window.onload = addListeners();
-
-// function addListeners() {
-//   document.getElementsByClassName('pt-persona-switcher')[0].addEventListener('mousedown', mouseDown, false);
-//   window.addEventListener('mouseup', mouseUp, false);
-
-// }
-
-// function mouseUp() {
-//   window.removeEventListener('mousemove', divMove, true);
-// }
-
-// function mouseDown(e) {
-//   window.addEventListener('mousemove', divMove, true);
-// }
-
-// function divMove(e) {
-//   var div = document.getElementsByClassName('pt-persona-switcher')[0];
-//   div.style.position = 'absolute';
-//   div.style.top = e.clientY + 'px';
-//   div.style.left = e.clientX + 'px';
-// }
-
 
 // or via logo long press
 
@@ -79,12 +54,12 @@ $(document).keypress(function (e) {
 // el.addEventListener('long-press', function (e) {
 //   // stop the event from bubbling up
 //   e.preventDefault()
-//   $('.pt-persona-switcher').toggle();
+//   $('.pt-choose-user').toggle();
 // });
 
 document.addEventListener('swiped-left', function (e) {
   console.log(e.target); // element that was swiped
-  $('.pt-persona-switcher').toggle();
+  $('.pt-choose-user').toggle();
 });
 
 
@@ -415,24 +390,6 @@ function writeUser() {
     localStorage.setItem('repFlow', 'newbie');
   }
 
-  var practitioners = "";
-
-  $.ajax({
-    url: '/docs/data/medical-practitioner.json',
-    type: 'GET',
-    dataType: 'json',
-    async: false
-  })
-  .done((data) => {
-    practitioners = `<ul>`;
-    $.each(data.practitioners, (index, pract) => {
-      if (user.practitioners.includes(pract._id)) {
-        practitioners += `<li>${pract.nameFull}</li>`;
-      }
-    });
-    practitioners += `</ul>`;
-  });
-
 
   var userHtml = '';
   var start = '<div class="pt-flex-grid"><div class="pt-col">';
@@ -440,7 +397,6 @@ function writeUser() {
   userHtml += start + 'Name </div><div class="pt-col">' + user.nameFull + end;
   userHtml += start + 'Age </div><div class="pt-col">' + getAge(user.dob) + end;
   userHtml += start + 'Is a veteran </div><div class="pt-col">' + user.veteran + end;
-  userHtml += start + 'Practitioners </div><div class="pt-col">' + practitioners + end;
   userHtml += start + 'Currently Serving </div><div class="pt-col">' + user.isCurrentlyServing + end;
   userHtml += start + 'Clients </div><div class="pt-col">' + user.numberOfClients + end;
   userHtml += start + 'Reps </div><div class="pt-col">' + user.numberOfReps + end;
@@ -462,6 +418,47 @@ function writeUser() {
 }
 
 
+
+
+// TODO: copy from or refactor writeClient
+// function writeRep(form) {
+
+//   var formData = getFormData(form);
+//   var reps = sessionStorage.getItem('usersReps');
+
+
+//   if (reps) { // reps in session data
+
+//     var parsedReps = JSON.parse(reps);
+//     var sessionGuid = sessionStorage.getItem('sessionGuid');
+
+//     $.each(parsedReps.rep, function (index, element) {
+
+//       // console.log('parsedReps');
+//       // console.log(parsedReps);
+
+//       if (element.id === sessionGuid) {
+//         console.log('writing to the user in session');
+
+//         reps = JSON.stringify(parsedReps);
+//         $.extend(true, parsedReps.rep[index], formData);
+
+//       } else {
+
+//         // $.extend({}, parsedReps.rep[index], formData);
+//         // $.merge(parsedReps.rep[index]), formData));
+
+//       }
+//     });
+
+//     sessionStorage.setItem('usersReps', JSON.stringify(parsedReps));
+
+//   } else { // no reps 
+
+//     var repArray = $.makeArray(formData);
+//     sessionStorage.setItem('usersReps', '{"rep":' + JSON.stringify(repArray) + '}');
+//   }
+// }
 
 
 function writeClient(form) {

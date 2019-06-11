@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service history</title>
+  <% include ../../partials/head.ejs %>
+  <style>
+    #templates {
+      display: none;
+    }
+
+    #upload-button {
+      margin-top: 1em;
+    }
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../partials/header-topbar.ejs %>
+  <% include ../../partials/header-claims.ejs %>
+  <% include ../../partials/header-nom-rep.ejs %>
+  <main>
+    <div class="container" id="main-content">
+      <h1>
+        <span class="heading">Service period evidence</span>
+      </h1>
+      <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequuntur mollitia veritatis minima molestias debitis impedit ducimus excepturi ea, quo sequi dolore corrupti
+        ipsa
+        iure minus amet recusandae itaque enim qui?</p>
+      <div class="row">
+        <div class="col-sm-7">
+
+          <p>Please upload and submit the documents below.</p>
+          <p>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
+          <table class="table-responsive table-responsive--no-border">
+            <tr class="accordion accordion--open">
+              <td id="file-status" class="file-status">
+                <span class="sr"></span>
+              </td>
+              <td>
+                <span>
+                  <b>Service documents</b>
+                </span>
+                <span class="accordion-title__details">For example, ...</span>
+              </td>
+
+              <td class="right">
+                <div id="file-uploads-container">
+                </div>
+                <input type="file" id="upload" class="file-upload__input">
+                <label class="file-upload__label" for="upload">
+                  <span class="file-upload__button">
+                    <span id="upload-button" class="uikit-btn small"></span>
+                  </span>
+                </label>
+              </td>
+              <td>
+                <a class="accordion__trigger accordion__trigger--closed">
+                  <span class="sr">Toggle accordion</span>
+                </a>
+              </td>
+            </tr>
+          </table>
+
+
+          <form id="details">
+            <div class="form-group">
+              <legend class="legend-label">Do you want to provide more details about this period of service?</legend>
+              <div class="radio-toggle">
+                <label class="on label-left">
+                  <input type="radio" name="include" value="yes">
+                  <span>Yes</span>
+                </label>
+                <label class="off label-right ">
+                  <input id="details-no" type="radio" name="include" value="no">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+
+            <div id="textarea" class="form-group">
+              <label class="uikit-text-input__label" for="details">Details
+                <span class="hint display-block">If a classified operation led to your condition, enter 'classified'. Do not provide details about the classified operations.</span>
+              </label>
+              <textarea name="details"></textarea>
+            </div>
+          </form>
+
+        </div>
+      </div>
+      <div class="pagination">
+        <button id="previous" class="uikit-btn uikit-btn--tertiary">Previous</button>
+        <button id="cancel" class="uikit-btn uikit-btn--tertiary">Cancel</button>
+        <div class="floated">
+          <button id="add" class="uikit-btn uikit-btn--tertiary">Add another service period</button>
+          <button id="submit" class="uikit-btn">Submit</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <% include ../../partials/footer.ejs %>
+
+  <div id="modal" class="modal-window">
+    <div>
+      <a href="#modal-close" title="Close" class="modal-close">Close</a>
+      <h2>Exit to service details?</h2>
+      <p>Changes may not be saved</p>
+      <div class="modal-buttons">
+        <button id="modal-ok" class="uikit-btn">OK</button>
+        <button id="modal-cancel" class="uikit-btn uikit-btn--tertiary cancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="templates">
+
+    <div id="file-upload-template" class="file-upload accordion-title__details">
+      <span class="file-upload__input"></span>
+      <label class="file-upload__label">
+        <span class="file-upload__document">
+          <a href="#" class="file-upload__file-name"></a>
+        </span>
+        <span class="file-upload__button">
+          <button class="uikit-btn uikit-btn--tertiary small">Remove</button>
+        </span>
+      </label>
+    </div>
+  </div>
+
+  <script>
+    var SERVICE_HISTORY = 'serviceHistory';
+    var PERIOD_DEFAULT = {
+      branch: null,
+      startDay: null,
+      startMonth: null,
+      startYear: null,
+      endDay: null,
+      endMonth: null,
+      endYear: null,
+      operations: [],
+      documents: [],
+      details: null
+    };
+
+    function urlParameter(pName) {
+      var name = pName.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(window.location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    function getServiceHistory() {
+      return JSON.parse(localStorage.getItem(SERVICE_HISTORY));
+    }
+
+    function setServiceHistory(pData) {
+      return localStorage.setItem(SERVICE_HISTORY, JSON.stringify(pData));
+    }
+
+    function addPeriod() {
+      var serviceHistory = getServiceHistory();
+      var nextIndex = serviceHistory.periods.length
+      serviceHistory.periods[nextIndex] = Object.assign({}, PERIOD_DEFAULT);
+      setServiceHistory(serviceHistory);
+      return nextIndex;
+    }
+
+    function getElementByClassName(pRootElement, pClassName) {
+      return pRootElement.getElementsByClassName(pClassName)[0];
+    }
+
+    function updateContainerState(pContainer) {
+      var button = document.getElementById('upload-button');
+      var fileStatus = document.getElementById('file-status');
+      var className = 'file-status--uploaded';
+      var srElement = getElementByClassName(fileStatus, 'sr');
+
+      if (!pContainer.getElementsByClassName('file-upload').length) {
+        button.innerText = 'Upload';
+        fileStatus.classList.remove(className);
+        srElement.innerText = '';
+      } else {
+        button.innerText = 'Upload another';
+        fileStatus.classList.add(className);
+        srElement.innerText = 'Success';
+      }
+    }
+
+    function renderFileUpload(pElement, pDestination, pFileName) {
+      var fileUploadElement = pElement.cloneNode(true);
+      fileUploadElement.removeAttribute('id');
+
+      getElementByClassName(fileUploadElement, 'file-upload__file-name').innerText = pFileName;
+
+      var button = getElementByClassName(fileUploadElement, 'uikit-btn');
+      button.onclick = function () {
+        fileUploadElement.parentElement.removeChild(fileUploadElement);
+        updateContainerState(pDestination);
+      };
+
+      pDestination.appendChild(fileUploadElement);
+      updateContainerState(pDestination);
+    }
+
+    function renderDetails(pDetails) {
+      var detailsForm = document.getElementById('details');
+
+      if (pDetails) {
+        detailsForm.include[0].checked = true;
+        detailsForm.include[0].click();
+        detailsForm.details.value = pDetails;
+      } else {
+        detailsForm.include[1].checked = true;
+        detailsForm.include[1].click();
+      }
+    }
+
+    function renderLayout() {
+      var periodIndex = parseInt(urlParameter('period'));
+      var period = getServiceHistory().periods[periodIndex];
+
+      var fileUploadTemplate = document.getElementById('file-upload-template');
+      var fileUploadsContainer = document.getElementById('file-uploads-container');
+      if (period.documents.length) {
+        period.documents.forEach(function (pDocument) {
+          renderFileUpload(fileUploadTemplate, fileUploadsContainer, pDocument);
+        });
+      }
+
+      updateContainerState(fileUploadsContainer);
+
+      renderDetails(period.details);
+    }
+
+    function getInputValues() {
+      var fileUploadsContainer = document.getElementById('file-uploads-container');
+      var fileUploads = fileUploadsContainer.getElementsByClassName('file-upload');
+      var documents = Array.prototype.map.call(fileUploads, function (pFileUpload) {
+        return getElementByClassName(pFileUpload, 'file-upload__file-name').innerText;
+      });
+
+      var details = document.getElementById('details').include[0].checked ? document.getElementById('textarea').getElementsByTagName('textarea')[0].value : '';
+      return {
+        documents: documents,
+        details: details
+      }
+    }
+
+    function submitData() {
+      var periodIndex = parseInt(urlParameter('period'));
+      var serviceHistory = getServiceHistory();
+      var period = serviceHistory.periods[periodIndex];
+
+      serviceHistory.periods[periodIndex] = Object.assign({}, period, getInputValues());
+      setServiceHistory(serviceHistory);
+    }
+
+    document.getElementById('upload').onchange = function (pEvent) {
+      var fileName = pEvent.target.value.split('\\').pop()
+
+      var fileUploadTemplate = document.getElementById('file-upload-template');
+      var fileUploadsContainer = document.getElementById('file-uploads-container');
+
+      renderFileUpload(fileUploadTemplate, fileUploadsContainer, fileName);
+    }
+
+    document.getElementById('details').include[0].onclick = function () {
+      document.getElementById('textarea').style.display = '';
+    }
+
+    document.getElementById('details').include[1].onclick = function () {
+      document.getElementById('textarea').style.display = 'none';
+    }
+
+    document.getElementById('submit').onclick = function () {
+      submitData();
+      var toastMessage = encodeURIComponent('Service history successfully updated');
+      window.location.href = '/profile-history?continue=true&toastType=Success&toastMessage=' + toastMessage;
+    }
+
+    document.getElementById('add').onclick = function () {
+      submitData();
+      addPeriod();
+      var nextIndex = addPeriod()
+      var toastMessage = encodeURIComponent('Service period successfully updated');
+      window.location.href = '/service-period-1?period=' + nextIndex + '&toastType=Success&toastMessage=' + toastMessage;
+    }
+
+    document.getElementById('previous').onclick = function () {
+      submitData();
+      window.location.href = '/service-period-2?period=' + urlParameter('period');
+    }
+
+    document.getElementById('cancel').onclick = function () {
+      document.getElementById('modal').classList.add('modal-visible');
+    };
+
+    document.getElementById('modal-ok').onclick = function () {
+      window.location.href = '/profile-history?continue=true';
+    };
+
+    document.getElementById('modal-cancel').onclick = function () {
+      document.getElementById('modal').classList.remove('modal-visible');
+    };
+
+    renderLayout();
+  </script>
+</body>
+
+</html>
