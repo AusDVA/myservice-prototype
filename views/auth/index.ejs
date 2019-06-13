@@ -4,12 +4,17 @@
 <head>
   <title>Home | MyService</title>
   <%- include(partials+"components/layout/head") %>
-
           <style>
             .mys-page-preloader {
+              display: block;
+              min-height: 80vh;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            .page-loading {
               display: none;
             }
-
           </style>
 </head>
 
@@ -23,14 +28,14 @@
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
+
+   <div class="mys-page-preloader">
+      <img src="docs/images/waiting-gray-fat.svg" alt="loading animation" />
+  </div>
+
+  <main class="page-loading">
 
     <% if (locals.liveFeature.includes('featureNewHomePage')) { %>
-
-    <div class="mys-page-preloader">
-      <img src="docs/images/waiting-myservice.svg" alt="loading animation" />
-    </div>
-
 
     <div class="authenticated-home authenticated-home--clear">
       <section>
@@ -445,7 +450,18 @@
   <script>
     var totalWidgets;
 
+    function pageLoaded(){
+        $('.mys-page-preloader').hide();
+        $("main").fadeOut("slow", function() {
+            $(this).removeClass("page-loading");
+        });
+    }
+
     $(document).ready(function () {
+
+      /* Page preloader CSS */
+      setTimeout(pageLoaded, 3000);
+
 
       /* --- State switcher --- */
 
