@@ -4,13 +4,6 @@
 <head>
   <title>Home | MyService</title>
   <%- include(partials+"components/layout/head") %>
-
-  <style>
-    .mys-page-preloader {
-      display: none;
-    }
-
-  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -23,14 +16,14 @@
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
+
+   <div class="mys-page-preloader">
+      <img src="docs/images/waiting-gray-fat.svg" alt="loading animation" />
+  </div>
+
+  <main class="page-loading">
 
     <% if (locals.liveFeature.includes('featureNewHomePage')) { %>
-
-    <div class="mys-page-preloader">
-      <img src="docs/images/waiting-myservice.svg" alt="loading animation" />
-    </div>
-
 
     <div class="authenticated-home authenticated-home--clear">
       <section>
@@ -445,7 +438,18 @@
   <script>
     var totalWidgets;
 
+    function pageLoaded(){
+        $('.mys-page-preloader').hide();
+        $("main").fadeOut("slow", function() {
+            $(this).removeClass("page-loading");
+        });
+    }
+
     $(document).ready(function () {
+
+      /* Page preloader CSS */
+      setTimeout(pageLoaded, 3000);
+
 
       /* --- State switcher --- */
 
@@ -531,7 +535,7 @@
             $("#text-input-incomplete").val(0);
             $("#text-input-submitted").val(0);
             $('#payment-received').prop("checked", false);
-            $('#content/service-history').prop("checked", false);
+            //$('#content/service-history').prop("checked", false);
             $('#first-login').prop("checked", true);
             hideAllClaims();
             $("#il").show();

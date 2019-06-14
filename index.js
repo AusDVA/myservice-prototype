@@ -1,8 +1,12 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-  { promisify } = require('util'),
-  { resolve } = require('path'),
+  {
+    promisify
+  } = require('util'),
+  {
+    resolve
+  } = require('path'),
   fs = require('fs'),
   path = require('path'),
   // featuretoggleapi = require('feature-toggle-api'),
@@ -34,7 +38,7 @@ app.set('view engine', 'ejs');
 //   feature2: true
 // });
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
   next();
 });
@@ -119,27 +123,29 @@ app.get('/sitemap', (req, res) => {
   var pages = []
   getFiles("./views")
     .then(files => {
-       files.forEach((file, index) => {
-         file = path.normalize(file);
-         file = file.replace(__dirname, "");
-         file = file.replace(/\\/g, "/");
-         file = file.replace("/views", "");
-         var data = fs.readFileSync('./views/'+file, "utf8");
-         data = data.match(/<title>(.*)<\/title>/);
-         if (data === null) {
-           data = "(No Title)";
-         } else {
-           data = data[1];
-         }
-         pages.push({
-           page: file,
-           title: data
-         });
-       });
-       res.render('sitemap', {pages})
+      files.forEach((file, index) => {
+        file = path.normalize(file);
+        file = file.replace(__dirname, "");
+        file = file.replace(/\\/g, "/");
+        file = file.replace("/views", "");
+        var data = fs.readFileSync('./views/' + file, "utf8");
+        data = data.match(/<title>(.*)<\/title>/);
+        if (data === null) {
+          data = "(No Title)";
+        } else {
+          data = data[1];
+        }
+        pages.push({
+          page: file,
+          title: data
+        });
+      });
+      res.render('sitemap', {
+        pages
+      })
     })
     .catch(e => console.error(e));
-  
+
 
 });
 
@@ -177,7 +183,7 @@ app.get('/:id0/:id1/:id2/:id3', function (request, response) {
 
 app.get('/',
   function (request, response) {
-    response.render('unauth/', {
+    response.render('unauth/index-loading', {
       layout: 'login',
       user: request.user,
       liveFeature: liveFeatureEnv
@@ -203,7 +209,9 @@ app.get('/logout',
 app.post('/styleguide/new_forms_preview', (req, res) => {
   let form_preview = req.body.form_preview;
   console.log(form_preview);
-  res.render('styleguide/new_forms_preview', {form_preview});
+  res.render('styleguide/new_forms_preview', {
+    form_preview
+  });
 });
 
 app.listen(port, function () {
