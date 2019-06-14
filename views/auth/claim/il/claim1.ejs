@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Add claim: Diagnosis | MyService</title>
+  <title>Add claim: Condition | MyService</title>
   <%- include(partials+"components/layout/head") %>
 
   <style>
@@ -40,103 +40,36 @@
         </div>
 
       </div>
-      <h1>Diagnosis</span>
-      </h1>
-      <p>All fields are required unless marked (optional).</p>
+      <h1>Diagnosis</h1>
 
-
-      <!-- Diagnosis -->
       <div id="diagnosis">
         <fieldset>
-
-          <% if (locals.liveFeature.includes('featureSideOfBody')) { %>
-          <div class="form-group">
-            <div class="row col-xs-12 col-md-8 col-lg-7 margin-below">
-              <legend class="legend-label">What side of your body is affected?</legend>
-              <div class="mys-radio-group mys-radio-group--cols-4">
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="left side">
-                  <span class="mys-radio__box">Left side</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="right side">
-                  <span class="mys-radio__box">Right side</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="both side">
-                  <span class="mys-radio__box">Both sides</span>
-                </label>
-                <label class="mys-radio">
-                  <input class="mys-radio__control" type="radio" name="bodypart" value="other">
-                  <span class="mys-radio__box">Other</span>
-                </label>
-              </div>
-            </div>
-          </div>
-          <% } %>
-
           <% 
           locals.el = {};
           locals.el.question = 'Did the condition occur on a specific date?'; 
           locals.el.optionalID = 'single'; %>
           <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
 
+          <% 
+            locals.el = new Object();
+            locals.el.question = 'When did it happen?';
+            locals.el.optionalID = "single-incident";
+            locals.el.optionalHide = true;%>
+          <%- include(partials+"components/form-elements/date", locals) %>
 
-          <div class="single-incident" style="display:none;">
-
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-single">When did it happen?
-                <span class="hint display-block">(DD / MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input dd" type="number" name="dd-single" id="dd-single" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-              <input class="uikit-text-input mm" type="number" name="mm-single" id="mm-single" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="number" name="yyyy-single" id="yyyy-single" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-
-          </div>
-
-          <div class="over-time" style="display:none;">
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="dd-over-time">Approximately when did you start noticing symptoms?
-                <span class="hint display-block">(MM / YYYY)</span>
-              </label>
-              <input class="uikit-text-input mm" type="number" name="mm-over-time" id="mm-over-time" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-              <input class="uikit-text-input yyyy" type="number" name="yyyy-over-time" id="yyyy-over-time" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
-          </div>
+          <% 
+            locals.el = new Object();
+            locals.el.question = 'Approximately when did you start noticing symptoms?';
+            locals.el.optionalID = "over-time";
+            locals.el.optionalMonthOnly = true;
+            locals.el.optionalHide = true;%>
+          <%- include(partials+"components/form-elements/date", locals) %>
 
           <div class="form-group">
-            <label class="uikit-text-input__label" for="tags">What did your medical practitioner diagnose you with?
-            </label>
+            <label class="uikit-text-input__label" for="tags">What is your diagnosis?
+              <span class="hint"><BR />Start typing the medical term if you know it. Example: 'Acute meniscal tear of the knee'.</span></label>
             <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-            <div class="uikit-page-alerts uikit-page-alerts--info pt-type-ahead-type">
-              <p>Start typing the medical term, then if possible select from the options presented.
-                <br>This will assist us to process your claim.<br>
-                <strong>Example: </strong> 'Acute meniscal tear of the knee'.</p>
-            </div>
           </div>
-
-
-
-
-          <div id="medical-practitioner-group" class="form-group">
-            <label class="uikit-text-input__label" for="medical-practitioner">Select the medical practitioner that
-              provided the diagnosis
-            </label>
-            <select class="uikit-text-input input-half" id="medical-practitioner" name="medical-practitioner">
-              <option value="">-- Select doctor --</option>
-            </select>
-            <button id="add-another-doc" class="icon-link-button">
-              <span class="icon far fa-plus-circle"></span>
-              <span class="link">Add another practitioner</span>
-            </button>
-          </div>
-
-
-          <div class="pt-medical-prac">
-            <%- include(partials+"content/medical-practitioner.ejs", {"lastSixMonths": false});%>
-          </div>
-
 
         </fieldset>
       </div>
@@ -174,12 +107,12 @@
     document.getElementById("percentage_value").textContent = "15%";
 
     $("#single-yes").click(function () {
-      $(".single-incident").show("fast");
-      $(".over-time").hide();
+      $("#single-incident").show("fast");
+      $("#over-time").hide();
     });
     $("#single-no").click(function () {
-      $(".single-incident").hide();
-      $(".over-time").show("fast");
+      $("#single-incident").hide();
+      $("#over-time").show("fast");
     });
 
     $("#requiredDocs-yes").click(function () {
@@ -197,50 +130,6 @@
       $(".pt-medical-prac").toggle("fast");
     });
 
-    $.ajax({
-      url: '/docs/data/medical-practitioner.json',
-      type: 'GET',
-      dataType: 'json'
-    })
-    .done((data) => {
-      practs = []
-        person = JSON.parse(localStorage.getItem("person"));
-        $.each(data.practitioners, (index, pract) => {
-          if (person.practitioners.includes(pract._id)) {
-            practs.push({
-              id: pract._id,
-              name: pract.nameFull
-            });
-          }
-        });
-
-        if (practs.length < 1) {
-          $("#medical-practitioner-group").hide("fast");
-          $(".pt-medical-prac").show("fast");
-        } else {
-          $.each(practs, (index, pract) => {
-            $("#medical-practitioner").append(`<option value='${pract.id}'>${pract.name}</option>`);
-          });
-        }
-
-        $("#saveDetails").on("click", () => {
-          if ($("#drName").val() != "") {
-            $("#drName").parent().removeClass("has-error");
-            $("#drName").parent().find("label").html("Doctor's Name");
-            var doc_id = Math.floor(Math.random() * 10000);
-            var doc_name = $("#drName").val();
-            $("#medical-practitioner").append(`<option value='${doc_id}' selected>${doc_name}</option>`);
-            $(".pt-medical-prac").hide("fast");
-            $("#medical-practitioner-group").show();
-            person.practitioners.push(doc_id.toString());
-            console.log(person);
-            localStorage.setItem("person", JSON.stringify(person));
-          } else {
-            $("#drName").parent().addClass("has-error");
-            $("#drName").parent().find("label").html(`Doctor's name <span class="input-error-message">Please enter your doctor's name</span>`);
-          }
-        });
-    });
 
   </script>
 </body>
