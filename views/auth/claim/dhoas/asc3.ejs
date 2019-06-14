@@ -32,19 +32,19 @@
     <div class="container">
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+          <div class="margin-above--extra margin-below">
             <h2>Tell us about your service history</h2>
             <p>Your service history is retrieved from PMKeyS and will be used to calculate your DHOAS&nbsp;entitlements.</p>
 
-            <div class="uikit-page-alerts" role="alert">
+            <!-- <div class="uikit-page-alerts" role="alert">
               <p>If you need to update your records with the Department of Defence. You can do this by contacting the Defence Service Center on 1800 333 362</p>
-            </div>
+            </div> -->
           </div>
+          <!-- 
+          <h3>Review your service and operational history information</h3> -->
 
-          <h3>Review your service and operational history information</h3>
 
-
-          <div class="col-xs-12 col-md-10 section section-feature border-all">
+          <!-- <div class="col-xs-12 col-md-10 section section-feature border-all">
             <div class="data-list">
               <div class="row">
                 <div class="col-xs-offset-1 col-xs-10 col-md-offset-1 col-md-10">
@@ -100,7 +100,7 @@
 
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
 
@@ -108,25 +108,30 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
 
-          <div id="reservist-question" hidden>
+          <!-- <div id="reservist-question" hidden>
             <%- include(partials+"components/form_partials.ejs", {
               "forms": [
                 {
                   "type": "y_n_toggle",
                   "config": {
-                    "label": "Are/were you a reservist?",
+                    "label": "Are you or have you been a Reservist?",
                     "yes_toggle": "#reservist-yes"
                   }
                 }
               ]
             }); %>
-          </div>
+          </div> -->
 
-          <div id="reservist-yes" class="margin-below margin-above" hidden>
-            <h4>Upload evidence of your Effective Reservist service
-              <span class="hint display-block">For example, a Statement of Reserve Service, CENRES pay printout, or other evidence.</span>
-            </h4>
-            <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+          <div id="reservist-yes" class="margin-below--extra margin-above" hidden>
+            <h3>Upload evidence of your Effective Reservist service
+              <span class="hint display-block">You can update your records by contacting the Defence Service Center on 1800
+                333 362.</span>
+            </h3>
+            <div class="uikit-page-alerts" role="alert">
+              <p>To accrue a years entitlement to DHOAS you will need to have completed 20 days of paid Reserve service within the financial year. </p>
+              <p>Evidence for this can be a Statement of Reserve Service, CENRES pay printout or other supporting evidence.</p>
+              <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+            </div>
             <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
           </div>
 
@@ -143,13 +148,35 @@
             ]
           }); %>
 
-          <div id="historyNotComplete" hidden>
-            <div class="tip--wrapper">
+          <div id="historyNotComplete" class="margin-below margin-above" hidden>
+            <!-- <div class="tip--wrapper">
               <p><strong>If your service history is incomplete, please upload any evidence you may have.</strong></p>
+            </div>
+            <div> -->
+            <h4>Please upload evidence of service history
+              <span class="hint display-block">You can also update your records by contacting the Defence Service Center on 1800
+                333 362.</span></h4>
+            <div class="uikit-page-alerts" role="alert">
+
+              <p>For example, a Statement of Reserve Service, CENRES pay printout documents or other evidence.</p>
               <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
             </div>
+            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
           </div>
 
+          <div id="medically-discharged" hidden>
+            <%- include(partials+"components/form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "y_n_toggle",
+                    "config": {
+                      "label": "Were you medically discharged?",
+                      "yes_toggle": "#medically-discharged-upload"
+                    }
+                  }
+                ]
+              }); %>
+          </div>
           <%- include(partials+"components/form_partials.ejs", {
             "forms": [
               {
@@ -215,43 +242,36 @@
               </tr>
             </table>
           </div>
-          <div id="medically-discharged" hidden>
-            <%- include(partials+"components/form_partials.ejs", {
-                "forms": [
-                  {
-                    "type": "y_n_toggle",
-                    "config": {
-                      "label": "Were you medically discharged?",
-                      "yes_toggle": "#medically-discharged-upload"
-                    }
-                  }
-                ]
-              }); %>
-          </div>
+
 
           <div id="medically-discharged-upload" hidden>
             <h4>Provide evidence of your medical discharge
               <span class="hint display-block">This will ensure our calculations for your entitlements under DHOAS are correct.</span>
             </h4>
-            <button class="uikit-btn uikit-btn--tertiary">Upload evidence of medical discharge</button>
+            <div class="uikit-page-alerts" role="alert">
+
+              <p>For example, a copy of your DM42, SHE, MERCRB documents or other evidence.</p>
+              <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+            </div>
+            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
+          </div>
+          <!-- 
+
+        </div> -->
+          <div class="pagination margin-above--extra">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/dhoas/asc2'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
+              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc4'">Save and next</button>
+            </div>
           </div>
 
 
         </div>
-        <div class="pagination margin-above--extra">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/dhoas/asc2'">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-            <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc4'">Save and next</button>
-          </div>
-        </div>
-
-
       </div>
-    </div>
 
-    <%- include(partials+"content/modals/claims-cancel-modal") %>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
     </div>
 
   </main>
