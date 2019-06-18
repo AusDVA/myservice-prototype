@@ -71,7 +71,43 @@
             <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
           </div>
 
+          <% 
+          locals.el = {};
+          locals.el.question = 'Have you received compensation outside of DVA for this injury or condition?'; 
+          locals.el.optionalID = 'compensation'; 
+          locals.el.optionalHelp = 'fsdfsdfdsf'
+          %>
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+          <% 
+          locals.el = {};
+          locals.el.question = 'Did you have a lawyer represent you for this compensation'; 
+          locals.el.optionalID = 'lawyer'; 
+          locals.el.optionalHide = true;%>
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+          <div id="solicitor-details">
+
+            <h2>Lawyer details</h2>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="solicitor-name">Lawyer name</label>
+              <input class="uikit-text-input input-half" name="solicitor-name" id="solicitor-name" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="solicitor-firm">Firm name</label>
+              <input class="uikit-text-input input-half" name="solicitor-firm" id="solicitor-firm" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="solicitor-phone">Phone number</label>
+              <input class="uikit-text-input input-half" name="solicitor-phone" id="solicitor-phone" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="solicitor-email">Email address</label>
+              <input class="uikit-text-input input-half" name="solicitor-email" id="solicitor-email" type="text" value="">
+            </div>
         </fieldset>
+
+
       </div>
 
 
@@ -130,6 +166,23 @@
       $(".pt-medical-prac").toggle("fast");
     });
 
+    $('input[name=compensation]').change(function () {
+      var compensation = $('input[name=compensation]:checked').val();
+      // $("#myForm").trigger("reset");
+      // console.log($("#myForm"))
+      if (compensation == "yes") {
+        $("#lawyer").show("fast");
+        // $("#medical-practitioner-group").show("fast");
+        // $("#save-next").hide();
+      } else {
+        $("#lawyer").hide("fast");
+        // $("#no-diagnosis").show("fast");
+        // $("#medical-practitioner-group").hide("fast");
+        // $("#medical-practitioner-details").hide();
+        // $("#save-next").show("fast");
+      }
+
+    });
 
   </script>
 </body>
