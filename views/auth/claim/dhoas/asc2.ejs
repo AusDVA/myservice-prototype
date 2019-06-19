@@ -131,30 +131,12 @@
                   </label>
                   <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
                 </div>
-                <%- include(partials+"components/form_partials.ejs", {
-                      "forms": [
-                        {
-                          "type": "y_n_toggle",
-                          "config": {
-                            "label": "Has this co-owner/borrower ever used or been known by any other names?",
-                            "yes_toggle": "#previous-names"
-                          }
-                        }
-                      ]
-                    }); %>
 
-                <div id="previous-names" hidden>
-                  <%- include(partials+"components/form_partials.ejs", {
-                    "forms": [
-                      {
-                        "type": "text",
-                        "config": {
-                          "label": "Please enter all previous, separated by commas"
-                        }
-                      }
-                    ]
-                  }); %>
-                </div>
+                <%
+                locals.el = {};
+                locals.el.optionalQuestion = "Has this co-owner/borrower ever used or been known by any other names?";
+                %>
+                  <%- include(partials+"content/former_names") %>
 
                 <div class="form-group" id="PartnerDOB">
                   <label class="uikit-text-input__label" for="date">Date of birth
@@ -251,36 +233,21 @@
               </fieldset>
 
 
-              <div class="form-group" id="also-applying">
-                <label class="uikit-text-input__label margin-above--large" for="radio-buttons">Is this person also applying for a DHOAS Subsidy Certificate?</label>
-                <div class="row">
-
-                  <div class="col-sm-3">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-this">
-                        <span class="uikit-control-input__text">Yes, to use on this property</span>
-                      </label>
-                    </p>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-another">
-                        <span class="uikit-control-input__text">Yes, to use on another property</span>
-                      </label>
-                    </p>
-                  </div>
-                  <div class="col-sm-1">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="no">
-                        <span class="uikit-control-input__text">No</span>
-                      </label>
-                    </p>
-                  </div>
-                </div>
-              </div>
+              <%- include(partials+"components/form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "radio",
+                    "config": {
+                      "label": "Is this person also applying for a DHOAS Subsidy Certificate?",
+                      "boxes": [
+                        "Yes, to use on this property",
+                        "Yes, to use on another property",
+                        "No"
+                      ]
+                    }
+                  }
+                ]
+              }); %>
 
 
               <%# <div class="form-group" id="anotherCoOwner">
