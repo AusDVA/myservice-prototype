@@ -163,74 +163,62 @@
                 </div>
               </div>
 
-              <fieldset>
-                <h3>Relationship to co-owner/borrower</h3>
-                <div class="form-group" id="relationship">
-                  <!-- <label class="uikit-text-input__label" for="sop">What is your relationship to this person?
-                    <p> -->
-                  <span class="hint display-block">Select all that apply</span>
-                  </p>
-                  </label>
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="partner" name="checkbox">
-                      <span class="uikit-control-input__text">Partner (co-owner and/or co-borrower)</span>
-                    </label>
-                  </div>
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-owner" name="checkbox" value="nonpartner-coowner">
-                      <span class="uikit-control-input__text">Non-partner co-owner</span>
-                    </label>
-                  </div>
+              <h3>Relationship to co-owner/borrower</h3>
+              <%- include(partials+"components/form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "checkbox",
+                    "config": {
+                    "label": "What is your relationship to this person?",
+                    "hint": "Select all that apply",
+                    "boxes": [
+                    {
+                      "text": "Partner (co-owner and/or co-borrower)",
+                    },
+                    {
+                      "text": "Non-partner co-owner",
+                      "inject": "#non-partner-co-owner"
+                    },
+                    {
+                      "text": "Non-partner co-borrower",
+                      "inject": "#non-partner-co-borrower"
+                    },
+                    {
+                      "text": "Guarantor on loan"
+                    }, 
+                    {
+                      "text": "Non-partner point of contact"
+                    }
+                    ]
+                  }
+                }
+                ]
+              }); %>
 
-                  <div id="InterestInProp">
-                    <fieldset class="form-group form-group--secondary">
-                      <span class="input-support-text">
-                        <span class="hint">My non-partner co-owner has</span>
-                      </span>
-                      <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
-                      <span class="input-support-text">%
-                        <span class="hint">Interest in the property</span>
-                      </span>
-                    </fieldset>
-                  </div>
+              <div id="non-partner-co-owner" hidden>
+                <fieldset class="form-group form-group--secondary">
+                  <span class="input-support-text">
+                    <span class="hint">My non-partner co-owner has</span>
+                  </span>
+                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
+                  <span class="input-support-text">%
+                    <span class="hint">Interest in the property</span>
+                  </span>
+                </fieldset>
+              </div>
 
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-borrower" name="checkbox" value="nonpartner-coborrower">
-                      <span class="uikit-control-input__text">Non-partner co-borrower</span>
-                    </label>
-                  </div>
 
-                  <div id="InterestInProperty">
-                    <fieldset class="form-group form-group--secondary">
-                      <span class="input-support-text">
-                        <span class="hint">My non-partner co-borrower has</span>
-                      </span>
-                      <input class="uikit-text-input input-small yyyy" name="InterestInProperty" id="InterestAmount" type="number">
-                      <span class="input-support-text">%
-                        <span class="hint">Interest in the property</span>
-                      </span>
-                    </fieldset>
-                  </div>
-
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="guarantor" name="checkbox">
-                      <span class="uikit-control-input__text">Guarantor on loan</span>
-                    </label>
-                  </div>
-
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerPointofcontact" name="checkbox">
-                      <span class="uikit-control-input__text">Non-partner point of contact</span>
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
+              <div id="non-partner-co-borrower" hidden>
+                <fieldset class="form-group form-group--secondary">
+                  <span class="input-support-text">
+                    <span class="hint">My non-partner co-borrower has</span>
+                  </span>
+                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
+                  <span class="input-support-text">%
+                    <span class="hint">Interest in the property</span>
+                  </span>
+                </fieldset>
+              </div>
 
 
               <%- include(partials+"components/form_partials.ejs", {
@@ -343,8 +331,6 @@
 
 
     $("#coOwnerDetails").hide();
-    $("#InterestInProp").hide();
-    $("#InterestInProperty").hide();
 
     $("#coOwner-no").click(function () {
       $("#coOwner__no").show();
