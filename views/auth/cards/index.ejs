@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Home | MyService</title>
+  <title>Your cards | MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
 
@@ -20,20 +20,8 @@
   <main>
   <div class="container margin-below">
     <h1><span class="heading">Cards</span></h1>
-    <div id="health-cards">
+    <div id="health-cards" class="row">
 
-      <div class="accordion">
-        <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
-        <div class="accordion-content">
-          This is the content for an accordion  
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        </div>
-      </div>
 
     </div>
   </div>
@@ -43,14 +31,132 @@
     $(document).ready(() => {
         person = JSON.parse(localStorage.getItem("person"));
         $.each(person.cards, (c_index, card) => {
-          // content = "";
+          content = "";
 
-          // content += `
-          // <div class="health-card">
+          content += `
+<div class="health-card ${person.cards.length - 1 != c_index ? "margin-below" : ""}">
+  
+  <div class="health-card__content">
+    <h2 class="margin-above--none margin-below--none">${card.type}</h2>
+`;
+          if (card.type == "Veteran Card") {
+            content += `
+    <div class="health-card__detail">
+      <label class="health-card__label">File Number</label>
+      <span>${card.fileNumber}</span>
+    </div>`;
+          } else if (card.type == "Commonwealth senior health card") {
+            content += `
+    <div class="health-card__detail">
+      <label class="health-card__label">CRN number</label>
+      <span>${card.crnNumber}</span>
+    </div>`;
+          }
 
-          // </div>
-          // `;
+          if (typeof card.issued != "undefined" && card.issued != "") {
+          content += `
+    <div class="health-card__detail">
+      <label class="health-card__label">Date issued</label>
+      <span>${card.issued}</span>
+    </div>`;
+          }
+
+          content += `<div class="health-card__detail">
+      <label class="health-card__label">Expiry date</label>
+      <span>${card.expiry}</span>
+    </div>`;
+
+          if (typeof card.class != "undefined" && card.class != "") {
+            content += `
+    <div class="health-card__detail">
+      <label class="health-card__label">Class</label>
+      <span>${card.class}</span>
+    </div>`;
+          }
+
+          content += `
+    <div class="health-card__order-replacement ${card.type == "Veteran Card" ? "margin-below--mid" : ""}">
+      <a href="/">Order replacement</a>
+    </div>`
+
+          if (typeof card.conditions != "undefined" && card.conditions.length > 0) {
+            content += `
+    <div class="health-card__detail">
+      <div class="accordion">
+        <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
+
+        <div class="accordion-content">
+          <p>The following conditions are listed on your card:</p>
+          <table class="table-claims">
+            <tbody>`;
+
+              $.each(card.conditions, (cond_index, condition) => {
+                content += `
+                  <tr>
+                    <td>
+                      <p class="status-icon status-approved">${condition.condition}
+                      <br>
+                      <span><strong>Approved</strong> ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - " + condition.approvedDate : ""}</span></p>
+                    </td>
+                  </tr>
+                `;
+              });
+
+
+        content += `
+            </tbody>
+          </table>
+        </div>`;
+
+        content += `
+      </div>
+    </div>`;
+          }
+
+          if (card.type == "Veteran Card") {
+            content += `
+      <div class="accordion">
+        <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
+          <div class="accordion-content">
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            This is the content for the how to use section
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam magnam iusto quos labore tempora quidem culpa, adipisci consectetur? Minus iste quidem quas assumenda vero, sunt veniam nulla voluptas culpa tempora.
+          </div>
+      </div>
+
+            `;
+          }
+
+          content += `
+  </div>
+  <img class="health-card__image" src="/docs/images/health-card.png" alt="">
+</div>`;
+
+          $("#health-cards").append(content);
         });
+
+      $("#health-cards .accordion").each(function() {
+        if($(this).find(".accordion-button").attr("data-state") != "open") {
+          $(this).find(".accordion-button").attr("data-state", "closed");
+        }
+      });
+
+      $("#health-cards .accordion").on("change", ".accordion-button input[type='checkbox']", function() {
+        if ($(this).parent().attr("data-state") == "open") {
+          $(this).parent().attr("data-state", "closed");
+        } else {
+          $(this).parent().attr("data-state", "open");
+        }
+      });
     });
   </script>
 
