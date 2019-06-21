@@ -35,110 +35,111 @@
 
           content += `
 <div class="health-card ${person.cards.length - 1 != c_index ? "margin-below" : ""}">
-  
-  <div class="health-card__content">
-    <h2 class="margin-above--none margin-below--none">${card.type}</h2>
-`;
-          if (card.type == "Veteran Card") {
-            content += `
-    <div class="health-card__detail">
-      <label class="health-card__label">File Number</label>
-      <span>${card.fileNumber}</span>
-    </div>`;
-          } else if (card.type == "Commonwealth senior health card") {
-            content += `
-    <div class="health-card__detail">
-      <label class="health-card__label">CRN number</label>
-      <span>${card.crnNumber}</span>
-    </div>`;
-          }
-
-          if (typeof card.issued != "undefined" && card.issued != "") {
-          content += `
-    <div class="health-card__detail">
-      <label class="health-card__label">Date issued</label>
-      <span>${card.issued}</span>
-    </div>`;
-          }
-
-          content += `<div class="health-card__detail">
-      <label class="health-card__label">Expiry date</label>
-      <span>${card.expiry}</span>
-    </div>`;
-
-          if (typeof card.class != "undefined" && card.class != "") {
-            content += `
-    <div class="health-card__detail">
-      <label class="health-card__label">Class</label>
-      <span>${card.class}</span>
-    </div>`;
-          }
-
-          content += `
-    <div class="health-card__order-replacement ${card.type == "Veteran Card" ? "margin-below--mid" : ""}">
-      <a href="/">Order replacement</a>
-    </div>`
-
-          if (typeof card.conditions != "undefined" && card.conditions.length > 0) {
-            content += `
-    <div class="health-card__detail">
-      <div class="accordion">
-        <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
-
-        <div class="accordion-content">
-          <p>The following conditions are listed on your card:</p>
-          <table class="table-claims">
-            <tbody>`;
-
-              $.each(card.conditions, (cond_index, condition) => {
-                content += `
-                  <tr>
-                    <td>
-                      <p class="status-icon status-approved">${condition.condition}
-                      <br>
-                      <span><strong>Approved</strong> ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - " + condition.approvedDate : ""}</span></p>
-                    </td>
-                  </tr>
-                `;
-              });
-
-
-        content += `
-            </tbody>
-          </table>
-        </div>`;
-
-        content += `
-      </div>
-    </div>`;
-          }
-
-          if (card.type == "Veteran Card") {
-            content += `
-      <div class="accordion">
-        <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
-          <div class="accordion-content">
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            This is the content for the how to use section
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam magnam iusto quos labore tempora quidem culpa, adipisci consectetur? Minus iste quidem quas assumenda vero, sunt veniam nulla voluptas culpa tempora.
-          </div>
-      </div>
-
-            `;
-          }
-
-          content += `
-  </div>
   <img class="health-card__image" src="/docs/images/health-card.png" alt="">
+  <div class="accordion"><label class="accordion-button health-card--mobile-only"><input type="checkbox" class="health-card__mobile-toggle"><i class="fas fa-plus-circle"></i> Show details</label></div>
+    
+    <div class="accordion-content health-card__content" id="card-${c_index}">
+      <h2 class="margin-above--none margin-below--none">${card.type}</h2>
+  `;
+            if (card.type == "Veteran Card") {
+              content += `
+      <div class="health-card__detail">
+        <label class="health-card__label">File Number</label>
+        <span>${card.fileNumber}</span>
+      </div>`;
+            } else if (card.type == "Commonwealth senior health card") {
+              content += `
+      <div class="health-card__detail">
+        <label class="health-card__label">CRN number</label>
+        <span>${card.crnNumber}</span>
+      </div>`;
+            }
+
+            if (typeof card.issued != "undefined" && card.issued != "") {
+            content += `
+      <div class="health-card__detail">
+        <label class="health-card__label">Date issued</label>
+        <span>${card.issued}</span>
+      </div>`;
+            }
+
+            content += `<div class="health-card__detail">
+        <label class="health-card__label">Expiry date</label>
+        <span>${card.expiry}</span>
+      </div>`;
+
+            if (typeof card.class != "undefined" && card.class != "") {
+              content += `
+      <div class="health-card__detail">
+        <label class="health-card__label">Class</label>
+        <span>${card.class}</span>
+      </div>`;
+            }
+
+            content += `
+      <div class="health-card__order-replacement ${card.type == "Veteran Card" ? "margin-below--mid" : ""}">
+        <a href="/">Order replacement</a>
+      </div>`
+
+            if (typeof card.conditions != "undefined" && card.conditions.length > 0) {
+              content += `
+      <div class="health-card__detail">
+        <div class="accordion">
+          <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
+
+          <div class="accordion-content">
+            <p>The following conditions are listed on your card:</p>
+            <table class="table-claims">
+              <tbody>`;
+
+                $.each(card.conditions, (cond_index, condition) => {
+                  content += `
+                    <tr>
+                      <td>
+                        <p class="status-icon status-approved">${condition.condition}
+                        <br>
+                        <span><strong>Approved</strong> ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - " + condition.approvedDate : ""}</span></p>
+                      </td>
+                    </tr>
+                  `;
+                });
+
+
+          content += `
+              </tbody>
+            </table>
+          </div>`;
+
+          content += `
+        </div>
+      </div>`;
+            }
+
+            if (card.type == "Veteran Card") {
+              content += `
+        <div class="accordion">
+          <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
+            <div class="accordion-content">
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              This is the content for the how to use section
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quibusdam magnam iusto quos labore tempora quidem culpa, adipisci consectetur? Minus iste quidem quas assumenda vero, sunt veniam nulla voluptas culpa tempora.
+            </div>
+        </div>
+
+              `;
+            }
+
+            content += `
+  </div>
 </div>`;
 
           $("#health-cards").append(content);
@@ -156,6 +157,10 @@
         } else {
           $(this).parent().attr("data-state", "open");
         }
+      });
+
+      $("#health-cards .health-card__mobile-toggle").on("click", () => {
+        // do this
       });
     });
   </script>
