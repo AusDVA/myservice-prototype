@@ -34,23 +34,6 @@
             <div class="uikit-text-input__label-wrapper--inline-block">
               <h2>Details of joint co-owner/borrower of the property for the loan</h2>
             </div>
-            <div class="tooltip">
-              <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
-                <div class="tooltip__label tooltip__label--icon-only">
-                  <a>co-owner</a>
-                </div>
-                <div class="tooltip__tab"></div>
-              </div>
-              <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
-                <div class="tooltip__message">
-
-                  <p class="">A <strong>co-owner</strong> is someone who shares ownership of the property, their name will be on the property title deed.</p>
-                  <p>A <strong>co-borrower</strong> is someone you plan to sign the loan with, their name will appear on the mortgage documents.</p>
-
-                  <div class="tooltip__close" role="button" tabindex="0">Close</div>
-                </div>
-              </div>
-            </div>
 
             <%- include(partials+"components/form_partials.ejs", {
               "forms": [
@@ -60,7 +43,11 @@
                     "id": "co_owner",
                     "label": "Will there be a co-owner/borrower of the property?",
                     "yes_toggle": "#coOwnerDetails",
-                    "no_toggle": "#coOwner__no"
+                    "no_toggle": "#coOwner__no",
+                    "tooltip": {
+                      "label": "What is a co-owner/borrower?",
+                      "text": "<p>A <strong>co-owner</strong> is someone who shares ownership of the property, their name will be on the property title deed.</p><p>A <strong>co-borrower</strong> is someone you plan to sign the loan with, their name will appear on the mortgage documents.</p>"
+                    }
                   }
                 }
               ]
@@ -130,11 +117,61 @@
                   <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
                 </div>
 
-                <%
-                locals.el = {};
-                locals.el.optionalQuestion = "Has this co-owner/borrower ever used or been known by any other names?";
-                %>
-                <%- include(partials+"content/former_names") %>
+                <%- include(partials+"components/form_partials.ejs", {
+                  "forms": [
+                    {
+                      "type": "y_n_toggle",
+                      "config": {
+                        "label": "Has this co-owner/borrower ever used or been known by any other names?",
+                        "hint": "<br>For example, name at birth, maiden name, previous married name",
+                        "yes_toggle": "#former-names-list"
+                      }
+                    }
+                  ]
+                }); %>
+
+                <div id="former-names-list" hidden class="form-group">
+                    <table class="mys-table table-responsive border-all border-top__thick--blue">
+                        <tbody>
+                            <tr>
+                                <th class="border-left__thin--white">
+                                    <label class="uikit-text-input__label" for="date">Given name (first name)</label>
+                                </th>
+                                <th>
+                                    <label class="uikit-text-input__label" for="date">Surname (last name)</label>
+                                </th>
+                                <th class="border-right__thin--white"></th>
+                            </tr>
+                            <tr id="date-template">
+                                <td>
+                                    <input class="uikit-text-input" type="text">
+                                </td>
+                                <td>
+                                    <input class="uikit-text-input" type="text">
+                                </td>
+                                <td>
+                                    <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                                </td>
+                            </tr>
+                            <tr class="padding-above--none">
+                                <td colspan="4" class="padding-above--none ss-align">
+                                    <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
+                                        <span class="icon far fa-plus-circle"></span>
+                                        <span class="link">Add another name</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                    function cloneMe() {
+                        var newOne = $('#date-template').clone(true)
+                            .find("input:text").val("").end();
+                        $("#removeDateRow").show();
+                        newOne.insertAfter($('#date-template'));
+                    }
+                    </script>
+                </div>
 
                 <div class="form-group" id="PartnerDOB">
                   <label class="uikit-text-input__label" for="date">Date of birth
