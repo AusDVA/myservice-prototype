@@ -87,8 +87,7 @@
                     "config": {
                       "id": "leave-within-12",
                       "label": "Do you expect to leave the ADF within 12 months of your subsidy payment being authorised?",
-                      "yes_toggle": "#leave-12, #save-next",
-                      "no_toggle": "#save-next2"
+                      "yes_toggle": "#leave-12"
                     }
                   }
                 ]
@@ -116,7 +115,34 @@
 
                 </ul>
               </div>
+            </div>
 
+            <div id="not-eligible" hidden>
+              <div class="uikit-page-alerts uikit-page-alerts--warning">
+                <h3>You are not eligible to receive a lump sum payment</h3>
+                <ul>
+                  <li id="stake-50" hidden>If you and your co-owner/borrower have owned a 50% or greater stake in a home, either to live in or for an investment.</li>
+                  <li id="leave-12" hidden>If you expect to leave the ADF within 12 months of your subsidy payment being authorised.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div hidden id="claim-lump-sum">
+              <%- include(partials+"components/form_partials", {
+                "forms": [
+                  {
+                    "type": "y_n_toggle",
+                    "config": {
+                      "label": "Would you like request a lump sum payment?",
+                      "yes_toggle": "#claim-lump-sum-yes",
+                      "no_toggle": "#save-next"
+                    }
+                  }
+                ]
+              }); %>
+            </div>
+
+            <div id="claim-lump-sum-yes" hidden>
               <%- include(partials+"components/form_partials.ejs", {
                 "forms": [
                   {
@@ -154,16 +180,6 @@
                   ]
                 });
                 %>
-            </div>
-
-            <div id="not-eligible" hidden>
-              <div class="uikit-page-alerts uikit-page-alerts--warning">
-                <h3>You are not eligible to receive a lump sum payment</h3>
-                <ul>
-                  <li id="stake-50" hidden>If you and your co-owner/borrower have owned a 50% or greater stake in a home, either to live in or for an investment.</li>
-                  <li id="leave-12" hidden>If you expect to leave the ADF within 12 months of your subsidy payment being authorised.</li>
-                </ul>
-              </div>
             </div>
 
             <p id="save-next" hidden="">Choose <b>save and next</b> to continue.</p>
@@ -241,6 +257,7 @@
     $("#eligibility-check").on("click", "input", () => {
       if (adf_checked && leave_checked) {
         if ($("#leave-within-12-no").prop("checked") && $("#serving-in-adf-no").prop("checked")) {
+          $("#claim-lump-sum").show();
           $("#may-be-eligible").show();
           $("#not-eligible").hide();
         } else {
