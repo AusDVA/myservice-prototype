@@ -36,9 +36,10 @@
           content += `
 <div class="health-card ${person.cards.length - 1 != c_index ? "margin-below" : ""}">
   <img class="health-card__image" src="/docs/images/health-card.png" alt="">
-  <div class="accordion"><label class="accordion-button health-card--mobile-only"><input type="checkbox" class="health-card__mobile-toggle"><i class="fas fa-plus-circle"></i> Show details</label></div>
-    
-    <div class="accordion-content health-card__content" id="card-${c_index}">
+  <input class="health-card__mobile-toggle" type="checkbox" id="card-${c_index}__reveal">
+  <label class="health-card--mobile-only" for="card-${c_index}__reveal"><i class="far fa-plus-circle"></i> Show details</label>    
+    <div class="health-card__content" id="card-${c_index}">
+    <label class="health-card--mobile-only" for="card-${c_index}__reveal"><i class="far fa-times"></i></label>    
       <h2 class="margin-above--none margin-below--none">${card.type}</h2>
   `;
             if (card.type == "Veteran Card") {
@@ -159,8 +160,11 @@
         }
       });
 
-      $("#health-cards .health-card__mobile-toggle").on("click", () => {
-        // do this
+      $("#health-cards").on("click", ".health-card--mobile-only", function() {
+        if ($(this).find(".far").attr("class").split(" ").includes("times")) {
+          $("#health-cards").find("");
+        }
+
       });
     });
   </script>
