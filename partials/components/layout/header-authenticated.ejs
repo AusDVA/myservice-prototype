@@ -3,7 +3,8 @@ locals.el = {};
 locals.el.items = ["Home", "Tasks","Claims","Payments","Cards","Transport","Profile","My Account"];
 locals.el.itemID = ["home","tasks","claim","payments","healthcard","travel","profile","myaccount"];
 locals.el.itemLink = ["/auth", "/auth/tasks", "/auth/claim","/auth/payments","/auth/healthcard","/auth/travel","/auth/profile","#open-myaccount-modal"];
-locals.el.icons = ["fa-home","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+locals.el.taskAmount = 1;
 %>
 
 <header class="uikit-header">
@@ -33,7 +34,11 @@ locals.el.icons = ["fa-home","fa-list-alt","fa-calendar-check","fa-credit-card-b
 
       <li class="menu__item <%- external %>" id=<%- itemID %>>
         <%- link %>
-          <div class="fal <%= locals.el.icons[index] %> fa-2x fa-fw"></div><div class="menu__item-name"><%= element %></div>
+          <div class="fal <%= locals.el.icons[index] %> fa-2x fa-fw"></div>
+          <% if(itemID == "tasks"){ %>
+            <div class="tasks-badge"><%= locals.el.taskAmount%></div>
+          <% } %>
+          <div class="menu__item-name"><%= element %></div>
         </a>
       </li>
       <%});%>
