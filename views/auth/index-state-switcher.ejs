@@ -61,21 +61,14 @@
       });
   }
 
-  $(window).bind("load", function() {
-    updateLayout();
-  });
-
-
   $(document).ready(function () {
-    window.onload = updateScenario
-
     /* Page preloader CSS */
     setTimeout(pageLoaded, 500);
+    updateScenario();
 
     /* --- State switcher --- */
 
     /* Toggle switcher */
-
     $(document).keypress(function (e) {
       switch (e.which) {
         case 96: //tilda
@@ -88,7 +81,7 @@
     /* Tasks widget */
 
     var tasks = sessionStorage.getItem('tasks');
-    if (tasks == null) tasks = 0;
+    if (tasks == null) tasks = 2;
     $("#text-input-tasks").val(tasks);
     $("#text-input-tasks").keyup(function () {
       updateScenario();
@@ -229,7 +222,6 @@
     /* Update everything */
 
     function updateScenario() {
-      totalWidgets = $('.widget-tile:visible').length;
       hideAll();
       updateGreeting();
       updateTasksWidget();
@@ -279,47 +271,40 @@
       updateLayout();
     });
 
-    
-    
     function updateLayout() {
-      
-      var profileVisible = $("#widget-profile").is(":visible");
+      totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
       var mobile = $(window).width() < 679;
       var tablet = $(window).width() > 679 && $(window).width() < 1200;
       var desktop = $(window).width() > 1200;
       if(mobile) {
-        if(totalWidgets == 3 && profileVisible) {
-          $("#widget-profile").hide("fast");
-          totalWidgets = 2;
-        }
-        if(totalWidgets == 3 && !profileVisible) {
-          $("#widget-profile").show("fast");
-        }
+        if(totalWidgets === 3) $("#widget-profile").show();
+        // totalWidgets == 3 ? $("#widget-profile").show("fast"): false ;
+        totalWidgets == 2 ? $("#widget-profile").hide("fast"): false ;
       }
       if(tablet) {
-        if(totalWidgets == 2 && !profileVisible) {
-          $("#widget-profile").show("fast");
-        }
-        if(totalWidgets == 4) {
-          $("#widget-profile").hide("fast");
-        }
+        totalWidgets == 2 ? $("#widget-profile").show("fast"): false;
+        totalWidgets == 3 ? $("#widget-profile").hide("fast"): false;
       }
       if(desktop) {
-        if(totalWidgets == 3 &&  !profileVisible) {
-          $("#widget-profile").show("fast");
+        if(totalWidgets < 1) {
+          $("#widget-profile").hide("fast");
+          $("#profile-message").show("fast");
         }
+        else {
+          $("#widget-profile").show("fast");
+          $("#profile-message").hide("fast");
+        }
+        totalWidgets < 2 ? $(".tablet-hide").show("fast"): $(".tablet-hide").hide("fast");
+         totalWidgets == 3 ? $("#widget-profile").show("fast"): false;
       }
-      if(totalWidgets == 2) {
-        $('.widget-tile').addClass('widget-tile--half-width');
-      }
-      if(totalWidgets == 4) {
-        $(".tablet-hide").hide("fast");
-      }
-
-      console.log('amount of widgets: ' + totalWidgets)
-      totalWidgets = $('.widget-tile:visible').length;
+      totalWidgets <= 2 ? $('.widget-tile').addClass('widget-tile--half-width'): false;
+      totalWidgets == 3 ? $(".tablet-hide").hide("fast"): false;
+      console.log('amount of widgets: ' + totalWidgets);
     }
-   
+  });
+
+  $(window).bind("load", function() { 
+
   });
 
   //capitalises the first letter in a string
