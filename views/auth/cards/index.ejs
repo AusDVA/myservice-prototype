@@ -6,7 +6,7 @@
   <%- include(partials+"components/layout/head") %>
 </head>
 
-<body class="uikit-body uikit-grid uikit-refactor">
+<body class="uikit-body uikit-grid uikit-refactor health-cards__main">
   <noscript>
     <p role="alert">This website needs JavaScript to work properly.</p>
   </noscript>
@@ -17,7 +17,7 @@
   <%- include(partials+"components/layout/header-authenticated") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
 
-  <main class="health-cards__main">
+  <main>
   <div class="container margin-below">
     <h1><span class="heading">Cards</span></h1>
     <div id="health-cards" class="row">
@@ -37,7 +37,11 @@ content += `
 <div class="health-card">
   <div class="health-card__card-info">
     <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="outside"><i class="far fa-plus-circle"></i> Show details</button>
-    <img class="health-card__image" src="/docs/images/health-card--multiple.png">
+    <div class="health-card__image-container">
+      <img class="health-card__image ${card.type === "Veteran Card" ? "health-card__image--veteran" : "health-card__image--concession"}" src="/docs/images/health-card--multiple.png">
+      <p class="health-card__card-number card-text">${card.type === "Veteran Card" ? card.fileNumber : card.crnNumber}</p>
+      <p class="health-card__card-expiry card-text">${card.type === "Veteran Card" ? card.expiryShort : card.expiry}</p>
+    </div>
     <div class="health-card__inner-card-info">
       <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="inside"><i class="far fa-times-circle"></i></button>
       <div class="health-card__details-wrapper">
@@ -73,6 +77,9 @@ content += `
         <hr class="non-breaking-hr">`;
         }
       content += `
+        <div class="health-card__order-replacement">
+          <a href="/">Order replacement</a>
+        </div>
       </div>
     </div>
   </div>`;
