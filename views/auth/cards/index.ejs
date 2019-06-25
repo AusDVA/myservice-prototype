@@ -34,33 +34,20 @@
           content = "";
 
 content += `
-<div class="health-card ${person.cards.length - 1 != c_index ? "margin-below" : ""}">
-  <div class="health-card__card-summary">
+<div class="health-card">
+  <div class="health-card__card-info">
+    <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="outside"><i class="far fa-plus-circle"></i> Show details</button>
     <img class="health-card__image" src="/docs/images/health-card--multiple.png">
-    <button class="uikit-btn health-card__card-toggle health-card__card-toggle--outside" data-position="outside" aria-expanded="false"><i class="far fa-plus-circle"></i> Show details</button>
-    <div class="health-card__card-info">
-      <div class="health-card__inner-card-info">      
-        <button class="uikit-btn health-card__card-toggle health-card__card-toggle--inside" data-position="inside" aria-expanded="false"><i class="far fa-times-circle"></i></button>
-        <div>
-          <h2 class="margin-above--none margin-below--none">${card.type}</h2>
-          <hr class="non-breaking-hr">
-  `;
+    <div class="health-card__inner-card-info">
+      <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="inside"><i class="far fa-times-circle"></i></button>
+      <div class="health-card__details-wrapper">
+        <h2 class="margin-above--none margin-below--none">${card.type}</h2>
+        <hr class="non-breaking-hr">
 
-        if (card.type == "Veteran Card") {
-          content += `
-          <div class="health-card__detail">
-            <label class="health-card__label">File Number</label>
-            <span>${card.fileNumber}</span>
-          </div>
-          <hr class="non-breaking-hr">`;
-        } else if (card.type == "Commonwealth senior health card") {
-          content += `
-          <div class="health-card__detail">
-            <label class="health-card__label">CRN number</label>
-            <span>${card.crnNumber}</span>
-          </div>
-          <hr class="non-breaking-hr">`;
-        }
+        <div class="health-card__detail">
+          <label class="health-card__label">${card.type === "Veteran Card" ? "File Number" : "CRN Number"}</label> <span>${card.type === "Veteran Card" ? card.fileNumber : card.crnNumber}</span>
+        </div>
+        <hr class="non-breaking-hr">`;
 
         if (typeof card.issued != "undefined" && card.issued != "") {
         content += `
@@ -68,45 +55,41 @@ content += `
             <label class="health-card__label">Date issued</label>
             <span>${card.issued}</span>
           </div>
-          <hr class="non-breaking-hr">;
+          <hr class="non-breaking-hr">
         `;
         }
 
-
         content += `
-          <div class="health-card__detail">
-            <label class="health-card__label">Expiry date</label>
-            <span>${card.expiry}</span>
-          </div>
-          <hr class="non-breaking-hr">`;
-
-        if (typeof card.class != "undefined" && card.class != "") {
-          content += `
-          <div class="health-card__detail">
-            <label class="health-card__label">Class</label>
-            <span>${card.class}</span>
-          </div>
-          <hr class="non-breaking-hr">`;
+        <div class="health-card__detail">
+          <label class="health-card__label">Expiry date</label> <span>${card.expiry}</span>
+        </div>
+        <hr class="non-breaking-hr">
+        `;
+        if (typeof card.class !== "undefined" && card.class !== "") {
+        content += `
+        <div class="health-card__detail">
+          <label class="health-card__label">Class</label> <span>White</span>
+        </div>
+        <hr class="non-breaking-hr">`;
         }
-
-    content += `
+      content += `
       </div>
-    </div>`;
-
-    if ((typeof card.conditions != "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
+    </div>
+  </div>`;
+    if ((typeof card.conditions !== "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
       content += `
       <div class="health-card__extras">`;
-    }
 
-    if (typeof card.conditions != "undefined" && card.conditions.length > 0) {
+      if (typeof card.conditions !== "undefined" && card.conditions.length > 0) {
       content += `
       <div class="health-card__detail">
         <div class="accordion">
-          <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
+          <label class="accordion-button" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
           <div class="accordion-content">
+            <p>The following conditions are listed on this card:</p>
             <table class="horizontal-card-section">
-              <tbody>`;
-
+              <tbody>
+      `;
         $.each(card.conditions, (cond_index, condition) => {
           content += `
                 <tr class="card card--horizontal">
@@ -117,50 +100,39 @@ content += `
                   </td>
                 </tr>`;
         });
+        
+
 
       content += `
               </tbody>
             </table>
           </div>
         </div>
-      </div>`;
+      </div>
+      `;
     }
+      content += `
 
-
-      if (card.type == "Veteran Card") {
-        content += `
-          <div class="health-card__detail">
-            <div class="accordion">
-              <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
-              <div class="accordion-content health-card--no-margins">
-                <h4>Step 1: Finding a provider</h4>
-                <p>You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
-                <p>Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
-                <h4>Step 2: Getting treatment</h4>
-                <p>Show your card when you receive medical treatment for your condition.</p>
-                <p>You can also use the letter you received from us if your card has not arrived yet.</p>
-                <div class="uikit-page-alerts uikit-page-alerts--info" role="alert">
-                  <h3>You don't have to pay for treatment if it relates to any of the conditions listed on your card.</h3>
-                  <p>If you are billed by your health care provider, <strong>do not</strong> pay the account and tell DVA immediately on 133 254 (or 1800 555 254 in regional areas). If you've already paid for treatment, you can <a href="#">make an application for reimbursement</a>.</p>
-                </div>
-              </div>
+      <div class="health-card__detail">
+        <div class="accordion">
+          <label class="accordion-button" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
+          <div class="accordion-content health-card--no-margins">
+            <h4>Step 1: Finding a provider</h4>
+            <p>You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
+            <p>Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
+            <h4>Step 2: Getting treatment</h4>
+            <p>Show your card when you receive medical treatment for your condition.</p>
+            <p>You can also use the letter you received from us if your card has not arrived yet.</p>
+            <div class="uikit-page-alerts uikit-page-alerts--info" role="alert">
+              <h3>You don't have to pay for treatment if it relates to any of the conditions listed on your card.</h3>
+              <p>If you are billed by your health care provider, <strong>do not</strong> pay the account and tell DVA immediately on 133 254 (or 1800 555 254 in regional areas). If you've already paid for treatment, you can <a href="#">make an application for reimbursement</a>.</p>
             </div>
           </div>
-        `;
-      }
-
-    if ((typeof card.conditions != "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
-      content += `
-      </div>`;
+        </div>
+      </div>
+    </div>`;
     }
-
-      content += `
-      </div>`;
-    
-
-  content += `
-    </div>
-  </div>
+    content += `
 </div>`;
 
           $("#health-cards").append(content);
@@ -182,15 +154,17 @@ content += `
 
       $("#health-cards").on("click", ".health-card__card-toggle", function() {
         if ($(this).data("position") === "outside") {
-          $(this).parent().find(".health-card__card-info").css("display", "flex");
+          $(this).closest(".health-card").css("background", "#fff");
+          $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "flex");
+          $(this).closest(".health-card").find(".health-card__extras").css("display", "flex");
+          $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "true");
           $(this).hide();
-          $(this).attr("aria-expanded", "true");
-          $(this).parent().find(".health-card__card-toggle[data-position='inside']").attr("aria-expanded", "true");
         } else {
-          $(this).parent().parent().css("display", "none");
-          $(this).attr("aria-expanded", "false");
-          $(this).parent().parent().parent().find(".health-card__card-toggle[data-position='outside']").attr("aria-expanded", "false");
-          $(this).parent().parent().parent().find(".health-card__card-toggle[data-position='outside']").show();
+          $(this).closest(".health-card").css("background", "initial");
+          $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "none");
+          $(this).closest(".health-card").find(".health-card__extras").css("display", "none");
+          $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "false");
+          $(this).closest(".health-card").find(".health-card__card-toggle[data-position='outside']").show();
         }
 
       });
