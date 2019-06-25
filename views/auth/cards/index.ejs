@@ -36,56 +36,62 @@
 content += `
 <div class="health-card ${person.cards.length - 1 != c_index ? "margin-below" : ""}">
   <div class="health-card__card-summary">
-    <img class="health-card__image" src="/docs/images/health-card.png">
-    <button class="uikit-btn health-card--card-toggle" data-position="outside" aria-expanded="false"><i class="far fa-plus-circle"></i> Show details</button>
+    <img class="health-card__image" src="/docs/images/health-card--multiple.png">
+    <button class="uikit-btn health-card__card-toggle health-card__card-toggle--outside" data-position="outside" aria-expanded="false"><i class="far fa-plus-circle"></i> Show details</button>
     <div class="health-card__card-info">
-      <button class="uikit-btn health-card--card-toggle" data-position="inside" aria-expanded="false"><i class="far fa-times-circle"></i></button>
-      
-      <h2 class="margin-above--none margin-below--none">${card.type}</h2>
-      <hr class="non-breaking-hr">
-`;
+      <div class="health-card__inner-card-info">      
+        <button class="uikit-btn health-card__card-toggle health-card__card-toggle--inside" data-position="inside" aria-expanded="false"><i class="far fa-times-circle"></i></button>
+        <div>
+          <h2 class="margin-above--none margin-below--none">${card.type}</h2>
+          <hr class="non-breaking-hr">
+  `;
 
-    if (card.type == "Veteran Card") {
-      content += `
-      <div class="health-card__detail">
-        <label class="health-card__label">File Number</label>
-        <span>${card.fileNumber}</span>
-      </div>
-      <hr class="non-breaking-hr">`;
-    } else if (card.type == "Commonwealth senior health card") {
-      content += `
-      <div class="health-card__detail">
-        <label class="health-card__label">CRN number</label>
-        <span>${card.crnNumber}</span>
-      </div>
-      <hr class="non-breaking-hr">`;
-    }
+        if (card.type == "Veteran Card") {
+          content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">File Number</label>
+            <span>${card.fileNumber}</span>
+          </div>
+          <hr class="non-breaking-hr">`;
+        } else if (card.type == "Commonwealth senior health card") {
+          content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">CRN number</label>
+            <span>${card.crnNumber}</span>
+          </div>
+          <hr class="non-breaking-hr">`;
+        }
 
-    if (typeof card.issued != "undefined" && card.issued != "") {
+        if (typeof card.issued != "undefined" && card.issued != "") {
+        content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">Date issued</label>
+            <span>${card.issued}</span>
+          </div>
+          <hr class="non-breaking-hr">;
+        `;
+        }
+
+
+        content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">Expiry date</label>
+            <span>${card.expiry}</span>
+          </div>
+          <hr class="non-breaking-hr">`;
+
+        if (typeof card.class != "undefined" && card.class != "") {
+          content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">Class</label>
+            <span>${card.class}</span>
+          </div>
+          <hr class="non-breaking-hr">`;
+        }
+
     content += `
-      <div class="health-card__detail">
-        <label class="health-card__label">Date issued</label>
-        <span>${card.issued}</span>
       </div>
-      <hr class="non-breaking-hr">;
-    `;
-    }
-
-    content += `
-      <div class="health-card__detail">
-        <label class="health-card__label">Expiry date</label>
-        <span>${card.expiry}</span>
-      </div>
-      <hr class="non-breaking-hr">`;
-
-    if (typeof card.class != "undefined" && card.class != "") {
-      content += `
-      <div class="health-card__detail">
-        <label class="health-card__label">Class</label>
-        <span>${card.class}</span>
-      </div>
-      <hr class="non-breaking-hr">`;
-    }
+    </div>`;
 
     if ((typeof card.conditions != "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
       content += `
@@ -94,13 +100,14 @@ content += `
 
     if (typeof card.conditions != "undefined" && card.conditions.length > 0) {
       content += `
+      <div class="health-card__detail">
         <div class="accordion">
           <label class="accordion-button"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
           <div class="accordion-content">
             <table class="horizontal-card-section">
               <tbody>`;
 
-        $.each(card.conditioins, (cond_index, condition) => {
+        $.each(card.conditions, (cond_index, condition) => {
           content += `
                 <tr class="card card--horizontal">
                   <td class="flex-item">
@@ -115,13 +122,10 @@ content += `
               </tbody>
             </table>
           </div>
-        </div>`;
-    }
-
-    if ((typeof card.conditions != "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
-      content += `
+        </div>
       </div>`;
     }
+
 
       if (card.type == "Veteran Card") {
         content += `
@@ -145,10 +149,16 @@ content += `
         `;
       }
 
+    if ((typeof card.conditions != "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
       content += `
-      </div>
+      </div>`;
     }
 
+      content += `
+      </div>`;
+    
+
+  content += `
     </div>
   </div>
 </div>`;
@@ -170,16 +180,17 @@ content += `
         }
       });
 
-      $("#health-cards").on("click", ".health-card--mobile-only", function() {
-        console.log($(this).html());
-        console.log($(this).find(".far").attr("class"));
-        if ($(this).attr("class").includes("inside")) {
-          $("#"+$(this).attr("for")).css("display", "none");
-          console.log()
-          $(".health-card--mobile-only--outside").show();
+      $("#health-cards").on("click", ".health-card__card-toggle", function() {
+        if ($(this).data("position") === "outside") {
+          $(this).parent().find(".health-card__card-info").css("display", "flex");
+          $(this).hide();
+          $(this).attr("aria-expanded", "true");
+          $(this).parent().find(".health-card__card-toggle[data-position='inside']").attr("aria-expanded", "true");
         } else {
-          $("#"+$(this).attr("for")).css("display", "flex");
-          $(".health-card--mobile-only--outside").hide();
+          $(this).parent().parent().css("display", "none");
+          $(this).attr("aria-expanded", "false");
+          $(this).parent().parent().parent().find(".health-card__card-toggle[data-position='outside']").attr("aria-expanded", "false");
+          $(this).parent().parent().parent().find(".health-card__card-toggle[data-position='outside']").show();
         }
 
       });
