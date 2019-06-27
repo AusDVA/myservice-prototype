@@ -18,7 +18,7 @@
   <%- include(partials+"components/layout/header-nom-rep") %>
 
   <main>
-  <div class="container margin-below">
+  <div class="container margin-below health-card--container">
     <h1><span class="heading">Cards</span></h1>
     <div id="health-cards" class="row">
 
@@ -41,11 +41,16 @@ content += `
       <img class="health-card__image ${card.type === "Veteran Card" ? "health-card__image--veteran" : "health-card__image--concession"}" src="/docs/images/health-card--multiple.png">
       <p class="health-card__card-number card-text">${card.type === "Veteran Card" ? card.fileNumber : card.crnNumber}</p>
       <p class="health-card__card-expiry card-text">${card.type === "Veteran Card" ? card.expiryShort : card.expiry}</p>
+      <p class="health-card__card-name card-text">${person.nameFull}</p>
+      <p class="health-card__file-no-text card-text">File No.</p>
+      <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
+      `;
+      content += `
     </div>
     <div class="health-card__inner-card-info">
       <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="inside"><i class="far fa-times-circle"></i></button>
       <div class="health-card__details-wrapper">
-        <h2 class="margin-above--none margin-below--none">${card.type}</h2>
+        <h3 class="health-card__header-text">${card.type}</h3>
         <hr class="non-breaking-hr">
 
         <div class="health-card__detail">
@@ -91,28 +96,28 @@ content += `
       content += `
       <div class="health-card__detail">
         <div class="accordion">
-          <label class="accordion-button" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
+          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
           <div class="accordion-content">
-            <p>The following conditions are listed on this card:</p>
-            <table class="horizontal-card-section">
-              <tbody>
+            <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
+              <div class="health-card__conditions-list margin-below--mid">
       `;
         $.each(card.conditions, (cond_index, condition) => {
           content += `
-                <tr class="card card--horizontal">
-                  <td class="flex-item">
-                    <p class="status-icon status-approved">${condition.condition}
-                    <br>
-                    <span><strong>Approved</strong> ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - " + condition.approvedDate : ""}</span></p>
-                  </td>
-                </tr>`;
+            <div class="health-card__condition">
+              <i class="far fa-check-circle health-card__condition-icon"></i>
+              <div class="health-card__condition-info">
+                <span class="health-card__condition-name">${condition.condition}</span><br>
+                <span class="health-card__condition-status">Approved</span>
+                ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - <span class=\"health-card__condition-date\">" + condition.approvedDate + "</span>": ""}
+              </div>
+            </div>`;
         });
         
 
 
       content += `
-              </tbody>
-            </table>
+            </div>
+            <p>Last updated on ${card.lastUpdated}. If incorrect try logging in again later or contact us.</p>
           </div>
         </div>
       </div>
@@ -122,14 +127,14 @@ content += `
 
       <div class="health-card__detail">
         <div class="accordion">
-          <label class="accordion-button" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
+          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
           <div class="accordion-content health-card--no-margins">
-            <h4>Step 1: Finding a provider</h4>
-            <p>You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
-            <p>Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
-            <h4>Step 2: Getting treatment</h4>
-            <p>Show your card when you receive medical treatment for your condition.</p>
-            <p>You can also use the letter you received from us if your card has not arrived yet.</p>
+            <h4 class="margin-below--small accordion-content__sub-heading">Step 1: Finding a provider</h4>
+            <p class="margin-below--small">You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
+            <p class="margin-below">Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
+            <h4 class="margin-below--small">Step 2: Getting treatment</h4>
+            <p class="margin-below--small">Show your card when you receive medical treatment for your condition.</p>
+            <p class="margin-below--large">You can also use the letter you received from us if your card has not arrived yet.</p>
             <div class="uikit-page-alerts uikit-page-alerts--info" role="alert">
               <h3>You don't have to pay for treatment if it relates to any of the conditions listed on your card.</h3>
               <p>If you are billed by your health care provider, <strong>do not</strong> pay the account and tell DVA immediately on 133 254 (or 1800 555 254 in regional areas). If you've already paid for treatment, you can <a href="#">make an application for reimbursement</a>.</p>
