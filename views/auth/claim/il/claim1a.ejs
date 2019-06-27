@@ -2,21 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Add claim: Diagnosis | MyService</title>
+  <title>Add claim: Medical practitioner | MyService</title>
   <%- include(partials+"components/layout/head") %>
-
-  <style>
-    .pt-required-docs,
-    .pt-no-required-docs,
-    .pt-upload-list,
-    .pt-upload-list-optional,
-    .pt-upload-other-docs,
-    .pt-medical-prac {
-      display: none;
-    }
-
-  </style>
-
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -30,20 +17,73 @@
   <%- include(partials+"components/layout/header-claims") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
 
-
-
   <main>
     <div class="container" id="main-content">
-      <div id="progressbar">
-        <div id="percentage">
-          <p id="percentage_value"></p>
-        </div>
+
+      <h1>Medical practitioner</h1>
+
+      <% 
+      locals.el = {};
+      locals.el.question = 'Do you have a diagnosis from a medical practitioner?'; 
+      locals.el.optionalID = 'diagnosis'; %>
+      <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+      <% 
+      locals.el = {};
+      locals.el.message = "If you don't have a diagnosis from a medical practitioner you should consider obtaining one. This will help us to process your claim more efficiently. You are are able to claim for costs incurred regardless of the outcome."; 
+      locals.el.optionalType = "info";
+      locals.el.optionalID = "no-diagnosis";
+      locals.el.optionalHide = true;
+      %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
+
+      <% 
+      locals.el = {};
+      locals.el.question = 'Do you have a treating General Practitioner (GP) for this condition?'; 
+      locals.el.optionalID = 'gp'; %>
+      <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+      <div id="medical-practitioner-details" class="margin-above--extra" style="display:none;">
+
+        <h2>Add treating General Practioner details</h2>
+
+        <% 
+            locals.el = {};
+            locals.el.question = "Doctor's name"; 
+            %>
+        <%- include(partials+"components/form-elements/field", locals) %>
+
+        <% 
+            locals.el = {};
+            locals.el.question = 'Practice name'; 
+            %>
+        <%- include(partials+"components/form-elements/field", locals) %>
+
+        <% 
+            locals.el = {};
+            locals.el.question = 'Phone number'; 
+            %>
+        <%- include(partials+"components/form-elements/field", locals) %>
+
+        <% 
+            locals.el = {};
+            locals.el.question = 'Suburb or town'; 
+            %>
+        <%- include(partials+"components/form-elements/field", locals) %>
+
+        <% 
+            locals.el = {};
+            locals.el.question = 'State or territory'; 
+            locals.el.items = ['Australian Capital Territory', 'Queensland', 'New South Wales', 'Northern Territory', 'South Australia', 'Tasmania', 'Victoria', 'Western Australian'];
+            locals.el.optionalID = "state-location";
+            %>
+        <%- include(partials+"components/form-elements/select", locals) %>
 
       </div>
-      <h1>Medical practitioner</span>
-      </h1>
 
-      <%- include(partials+"content/medical-practitioner.ejs");%>
+      <div id="save-next" hidden>
+        <p>Choose <b>save and next</b> to continue</p>
+      </div>
 
       <div class=" pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Previous</button>
@@ -54,7 +94,6 @@
         </div>
       </div>
 
-
       <%- include(partials+"content/modals/claims-cancel-modal") %>
 
       <%- include(partials+"content/modals/claims-removefile-modal") %>
@@ -64,12 +103,49 @@
 
   <%- include(partials+"components/layout/footer") %>
 
-
-
-  <script src="/docs/js/jquery-ui.min.js"></script>
-
-  <script src="/docs/js/claims.js"></script>
-
 </body>
 
 </html>
+
+<script>
+
+  $(document).ready(() => {
+
+    $('input[name=diagnosis]').change(function () {
+      var diagnosis = $('input[name=diagnosis]:checked').val();
+      $("#myForm").trigger("reset");
+      console.log($("#myForm"))
+      if (diagnosis == "yes") {
+        $("#no-diagnosis").hide("fast");
+        $("#medical-practitioner-group").show("fast");
+        $("#save-next").hide();
+      } else {
+        $("#no-diagnosis").show("fast");
+        $("#medical-practitioner-group").hide("fast");
+        $("#medical-practitioner-details").hide();
+        $("#save-next").show("fast");
+      }
+    });
+
+    $('input[name=gp]').change(function () {
+      var gp = $('input[name=gp]:checked').val();
+      $("#myForm").trigger("reset");
+      console.log($("#myForm"))
+      if (gp == "yes") {
+        $("#medical-practitioner-details").show("fast");
+        $("#save-next").hide();
+      } else {
+        // $("#medical-practitioner-group").hide("fast");
+        $("#medical-practitioner-details").hide();
+        $("#save-next").show("fast");
+      }
+    });
+
+    $("#state-location").change(function () {
+      mySelection = $('#state-location :selected').val();
+      $("#save-next").show("fast");
+    });
+
+  });
+
+</script>
