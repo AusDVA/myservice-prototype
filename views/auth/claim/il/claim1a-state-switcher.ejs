@@ -4,8 +4,8 @@
     locals.el = new Object();
     locals.el.question = 'Select state';
     locals.el.optionalID = "select-state";
-    locals.el.items = ["Default","Max 3 exceeded","Address provisional","Card on the way"];
-    locals.el.optionalItemID = ["default","max-exceeded","address-provisional","card-on-way"];
+    locals.el.items = ["Default","Pre-populated"];
+    locals.el.optionalItemID = ["default","pre-populated"];
   %>
   <%- include(partials+"components/form-elements/radio", locals) %>
 </div>
@@ -22,31 +22,30 @@
       }
     });
 
+    $("input[name=select-state][value=default]").prop('checked', true);
+
     $('input[name=select-state]').change(function () {
       mySelection = $('input[name=select-state]:checked').val();
       hideAll();
       switch (mySelection) {
         case "default":
-          $("#default").show();
+          // $("#gp-pre-pop").hide();
+          location.reload();
           break;
-        case "max-exceeded":
-          $("#max-exceeded").show();
-          break;
-        case "address-provisional":
-          $("#address-provisional").show();
-          break;
-        case "card-on-way":
-          $("#card-on-way").show();
+        case "pre-populated":
+          $("#gp-pre-pop").show();
+          $("#gp").hide();
+          $("#medical-practitioner-details").hide();
+          $("#save-next").hide();
           break;
         default:
+          break;
       }
     });
 
     function hideAll() {
       $("#default").hide();
-      $("#max-exceeded").hide();
-      $("#address-provisional").hide();
-      $("#card-on-way").hide();
+      $("#pre-populated").hide();
     }
 
   });
