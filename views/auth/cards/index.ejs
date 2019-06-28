@@ -34,7 +34,7 @@
           content = "";
 
 content += `
-<div class="health-card">
+<div class="health-card" data-expanded="false">
   <div class="health-card__card-info">
     <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="outside"><i class="far fa-plus-circle"></i> Show details</button>
     <div class="health-card__image-container">
@@ -164,23 +164,25 @@ content += `
         }
       });
 
-      $("#health-cards").on("click", ".health-card__card-toggle", function() {
-        if ($(this).data("position") === "outside") {
-          $(this).closest(".health-card").css("background", "#fff");
+      $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function() {
+        if ($(this).closest(".health-card").attr("data-expanded") === "false") {
+          $(this).closest(".health-card").css("background", "rgb(255, 255, 255)");
           $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "flex");
           $(this).closest(".health-card").find(".health-card__extras").css("display", "flex");
           $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "true");
-          $(this).hide();
+          $(this).closest(".health-card").find(".health-card__card-toggle[data-position='outside']").hide();
+          $(this).closest(".health-card").attr("data-expanded", "true");
         } else {
           $(this).closest(".health-card").css("background", "initial");
           $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "none");
           $(this).closest(".health-card").find(".health-card__extras").css("display", "none");
           $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "false");
           $(this).closest(".health-card").find(".health-card__card-toggle[data-position='outside']").show();
+          $(this).closest(".health-card").attr("data-expanded", "false");
         }
-
       });
     });
+
   </script>
 
 </body>
