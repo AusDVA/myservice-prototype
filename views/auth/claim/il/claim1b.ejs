@@ -13,7 +13,6 @@
     .pt-upload-other-docs,
     .pt-cbd-nodoc {
       display: none;
-
     }
 
   </style>
@@ -31,8 +30,6 @@
   <%- include(partials+"components/layout/header-claims") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
 
-
-
   <main>
     <div class="container" id="main-content">
       <div id="progressbar">
@@ -47,8 +44,6 @@
       <%# failed to match a CBD %>
       <div class="pt-no-required-docs">
         <h2>Upload your GP's or Specialist's medical report (recommended)</h2>
-
-
 
         <div class="tip--wrapper">
           <h3>Documents you can provide</h3>
@@ -89,26 +84,7 @@
             </div>
           </fieldset>
         </div>
-        <!--         <div class="xxxpt-upload-list">
-          <h3>Uploads</h3>
-          <table class="document-uploads">
-            <tbody>
-              <tr>
-                <th>Document title</th>
-                <th class="centred">Actions</th>
-              </tr>
-              <tr>
-                <td>
-                  <a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a>
-                </td>
-                <td class="centred">
-                  <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <button class="uikit-btn btnUpload">Upload a document</button>
-        </div> -->
+
       </div>
 
 
@@ -116,7 +92,6 @@
         <div class="form-group">
 
           <div class="uikit-text-input__label-wrapper--inline-block">
-
 
             <%# show if more than 1 cdb docs found %>
             <span class="pt-il-claim-required-multi-doc">
@@ -148,15 +123,23 @@
           </div>
         </div>
 
+        <% 
+        locals.el = {};
+        locals.el.message = "If you don't have a diagnosis from a medical practitioner you should consider obtaining one. This will help us to process your claim more efficiently. DVA can reimburse you for the cost of obtaining your diagnosis, regardless of the outcome."; 
+        locals.el.message = "Providing documents to support your diagnosis may help us process your claim more efficiently. DVA can reimburse you for any costs involved in seeking a diagnosis."; 
+        locals.el.optionalType = "info";
+        locals.el.optionalID = "cbd-nudge";
+        locals.el.optionalHide = true;
+        %>
+        <%- include(partials+"components/form-elements/notice", locals) %>
 
         <div class="pt-upload-list">
           <div class="form-group">
-            <div id="process-faster" class="uikit-page-alerts" role="alert">
-              <p><strong>We can process your claim faster on receiving these documents.</strong></p>
-              <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-            </div>
 
-            <label for="">Select document to upload</label>
+            <label for="">Select document to upload
+              <span class="hint display-block">Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</span>
+            </label>
+
             <table class="table-responsive file-upload-default">
               <tr id="trData1" class="file-upload-default__row">
                 <td>
@@ -204,18 +187,6 @@
 
         </div>
 
-
-        <div id="please-provide-document" class="pt-cbd-nodoc uikit-page-alerts uikit-page-alerts--warning" role="alert">
-          <p><strong>We can process your claim faster.</strong></p>
-          <p>Your medical provider may be able to provide you with these documents. If this is not possible, you can provide supporting documents related to your claim below.
-          </p>
-        </div>
-
-        <!-- <div id="please-provide-document" class="uikit-page-alerts uikit-page-alerts--info pt-type-ahead-type" style="display: none;">
-          <p>If you don't have a diagnosis from a medical practitioner you should consider obtaining one. This will help us to process your claim more efficiently.
-            DVA can reimburse you for the cost of obtaining your diagnosis, regardless of the outcome.</p>
-        </div> -->
-
         <%# Optional extra documents  %>
 
         <div id="has-docs-no" class="pt-upload-list-optional" style="display: none;">
@@ -223,7 +194,6 @@
           <%
             locals.el = {};
               locals.el.question = 'Would you like to upload any other supporting documents?'; 
-              // locals.el.optionalHint = '(optional)'; 
               locals.el.optionalID = 'other_docs'; 
             %>
           <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
@@ -311,6 +281,7 @@
       $(".pt-upload-list").show("fast");
       $(".pt-cbd-nodoc").hide("fast");
       $("#has-docs-no").hide("fast");
+      $("#cbd-nudge").hide();
     });
 
     $("#requiredDocs-no").click(function () {
@@ -318,6 +289,7 @@
       $(".pt-upload-list-optional").show("fast");
       $(".pt-cbd-nodoc").show("fast");
       $("#has-docs-no").show("fast");
+      $("#cbd-nudge").show("fast");
     });
 
     $("#other_docs-yes").click(function () {
@@ -348,7 +320,6 @@
       $(".pt-upload-list").show("fast");
       $(".pt-il-claim-required-mono-doc").hide();
       $("#requiredDocs-yes").parent().parent().parent().hide();
-      $("#process-faster").hide();
 
     });
 
