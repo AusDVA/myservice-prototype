@@ -1,0 +1,55 @@
+<div id="state-switcher">
+  <h3>State swticher</h3>
+  <% 
+    locals.el = new Object();
+    locals.el.question = 'Select state';
+    locals.el.optionalID = "select-state";
+    locals.el.items = ["Default","Max 3 exceeded","Address provisional","Card on the way"];
+    locals.el.optionalItemID = ["default","max-exceeded","address-provisional","card-on-way"];
+  %>
+  <%- include(partials+"components/form-elements/radio", locals) %>
+</div>
+
+<script>
+  $(Document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('input[name=select-state]').change(function () {
+      mySelection = $('input[name=select-state]:checked').val();
+      hideAll();
+      switch (mySelection) {
+        case "default":
+          $("#default").show();
+          console.log("sdfdsfdsf")
+          break;
+        case "max-exceeded":
+          $("#max-exceeded").show();
+          break;
+        case "address-provisional":
+          $("#address-provisional").show();
+          break;
+        case "card-on-way":
+          $("#card-on-way").show();
+          break;
+        default:
+      }
+    });
+
+    function hideAll() {
+      $("#default").hide();
+      $("#max-exceeded").hide();
+      $("#address-provisional").hide();
+      $("#card-on-way").hide();
+    }
+
+  });
+
+</script>
