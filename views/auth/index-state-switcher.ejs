@@ -64,10 +64,8 @@
   $(document).ready(function () {
     /* Page preloader CSS */
     setTimeout(pageLoaded, 500);
-    updateScenario();
-
     /* --- State switcher --- */
-
+  
     /* Toggle switcher */
     $(document).keypress(function (e) {
       switch (e.which) {
@@ -81,23 +79,24 @@
     /* Tasks widget */
 
     var tasks = sessionStorage.getItem('tasks');
-    if (tasks == null) tasks = 2;
+    if (!tasks) tasks = 3;
     $("#text-input-tasks").val(tasks);
     $("#text-input-tasks").keyup(function () {
-      updateScenario();
+      updateTasksWidget();
+      updateLayout(); 
     });
 
     /* Claims widget */
 
     var claims_incomplete = sessionStorage.getItem('claims-incomplete');
-    if (claims_incomplete == null) claims_incomplete = 0;
+    if (!claims_incomplete) claims_incomplete = 1;
     $("#text-input-incomplete").val(claims_incomplete);
     $("#text-input-incomplete").keyup(function () {
       updateScenario();
     });
 
     var claims_submitted = sessionStorage.getItem('claims-submitted');
-    if (claims_submitted == null) claims_submitted = 0;
+    if (!claims_submitted) claims_submitted = 3;
     $("#text-input-submitted").val(claims_submitted);
     $("#text-input-submitted").keyup(function () {
       updateScenario();
@@ -106,7 +105,7 @@
     /* Payments widget */
 
     var payments_received = sessionStorage.getItem('payments_received');
-    if (payments_received == null) payments_received = false;
+    if (!payments_received) payments_received = false;
     $('#payment-received').prop("checked", payments_received);
     $("#payment-received").click(function (e) {
       updateScenario();
@@ -136,24 +135,24 @@
       switch (mySelection) {
         case "Loaded":
           $("main").removeClass('page-loading');
-          $(".page-preloader ").hide();
+          $(".mys-page-preloader ").hide();
           $("#state-switcher ").hide();
           break;
 
         case "Loading full page":
           $("main").addClass('page-loading');
-          $(".page-preloader ").show('fast');
+          $(".mys-page-preloader").show('fast');
           $("#state-switcher ").hide();
 
           setTimeout(function () {
             $("main").removeClass('page-loading');
-            $(".page-preloader ").hide('fast');
-          }, 5000);
+            $(".mys-page-preloader ").hide('fast');
+          }, 3000);
           break;
 
         case "Loading widgets only":
           $("main").removeClass('page-loading');
-          $(".page-preloader ").hide();
+          $(".mys-page-preloader").hide();
           $("#state-switcher ").hide();
           $(".widget-tile").each(function (index) {
             $(this).addClass("widget-tile--loading");
@@ -197,6 +196,7 @@
     function updateFirstLogin() {
       if ($("#first-login").prop("checked") == true) {
         hideAll();
+        $("#widget-profile").hide();
         $("#welcome-message").show("fast");
         sessionStorage.setItem('first_login', true);
       } else {
@@ -222,22 +222,24 @@
     /* Update everything */
 
     function updateScenario() {
+      updateLayout();
       hideAll();
       updateGreeting();
       updateTasksWidget();
       updateClaimsWidget();
       updatePaymentsWidget();
       updateProfileWidget();
+      updateLayout();
 
       /* Over ride for first login */
-      updateFirstLogin();
-      updateLayout();
       updateLoadingState();
+      updateFirstLogin();
     }
 
     /* Init */
 
     updateScenario();
+    $(".tablet-hide").hide("fast");
 
     function hideAll() {
       $("#widget-tasks").hide();
@@ -286,16 +288,16 @@
         totalWidgets == 3 ? $("#widget-profile").hide("fast"): false;
       }
       if(desktop) {
-        if(totalWidgets < 1) {
+        if(totalWidgets < 1 && $("#widget-profile").is(":visible")) {
           $("#widget-profile").hide("fast");
           $("#profile-message").show("fast");
         }
-        else {
-          $("#widget-profile").show("fast");
+      if(totalWidgets === 1) {
           $("#profile-message").hide("fast");
-        }
+          $("#widget-profile").show("fast");
+      }
         totalWidgets < 2 ? $(".tablet-hide").show("fast"): $(".tablet-hide").hide("fast");
-         totalWidgets == 3 ? $("#widget-profile").show("fast"): false;
+        totalWidgets == 3 ? $("#widget-profile").show("fast"): false;
       }
       totalWidgets <= 2 ? $('.widget-tile').addClass('widget-tile--half-width'): false;
       totalWidgets == 3 ? $(".tablet-hide").hide("fast"): false;
@@ -303,9 +305,7 @@
     }
   });
 
-  $(window).bind("load", function() { 
-
-  });
+ 
 
   //capitalises the first letter in a string
   function jsUcfirst(string) {
