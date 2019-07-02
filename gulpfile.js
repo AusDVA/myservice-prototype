@@ -9,7 +9,6 @@ var livereload = require('gulp-livereload');
 var util = require('gulp-util');
 var babel = require("gulp-babel");
 var header = require('gulp-header');
-var backstop = require('backstopjs');
 var fs = require("fs");
 
 
@@ -85,27 +84,3 @@ gulp.task('server', function () {
 
 
 gulp.task('serve', ['server', 'sass', 'js', 'watch', 'copy']);
-
-gulp.task('unit-test', function () {
-  if (fs.existsSync('backstop_data/bitmaps_reference')) {
-    backstop('test');
-  } else {
-    backstop('reference');
-  }
-});
-
-gulp.task('unit-test-all', function () {
-  if (fs.existsSync('backstop_data/bitmaps_reference')) {
-    backstop('test', {
-      config: 'all-pages.backstop.json'
-    });
-  } else {
-    backstop('reference', {
-      config: 'all-pages.backstop.json'
-    });
-  }
-});
-
-gulp.task('unit-test-approve', function () {
-  backstop('approve');
-});

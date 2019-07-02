@@ -31,6 +31,7 @@
   border-left: 4px solid $blue;
   height: auto;
   margin: .5em;
+  max-width: 100% !important;
   min-height: 126px;
   padding: 8px 20px;
   width: 1112px;
@@ -40,8 +41,23 @@
   max-width: 100%;
 }
 
-.widget-tile--mobile-hide {
-  display: none;
+.widget-tile__tasks {
+
+  .widget-tile__title {
+    background: $radical-red;
+  }
+
+  .widget-number {
+    color: $radical-red;
+  }
+}
+
+.widget-tile__payment {
+  .payment-amount {
+    color: #2b7dce;
+    font-size: 32px;
+    line-height: 1.2em;
+  }
 }
 
 .widget-tile span {
@@ -62,10 +78,6 @@
 
   .widget-tile__title {
     background: $blue-light;
-  }
-
-  .payment-amount {
-    color: $blue-light;
   }
 }
 
@@ -136,8 +148,9 @@
 }
 
 .payment-amount {
-  color: $blue;
+  color: $payments-blue;
   font-size: 25px;
+  line-height: 1.1em;
 }
 
 .fa-edit {
@@ -205,7 +218,22 @@
   }
 }
 
-@media only screen and (min-width: $AU-media-sm) {
+.widget-payment {
+  .widget-tile__title {
+    background: $payments-blue;
+  }
+}
+
+.widget-tile__tasks {
+  &:hover {
+    border: 0;
+    border-left: 0;
+    cursor: pointer;
+  }
+}
+
+
+@media only screen and (min-width: $AU-media-lg) {
 
   //TODO replace this with uikit-media after speaking to Luke
   .widget-tile {
@@ -241,7 +269,7 @@
   }
 
   .tablet-hide {
-    display: inline !important;
+    display: inline;
   }
 
   .widget-profile {
@@ -270,9 +298,10 @@
   .widget-tile__content {
     align-items: center;
     flex-direction: row;
-    height: 83px;
-    padding: 20px;
     font-size: 16px;
+    height: 83px;
+    padding: 10px 20px;
+    
   }
 
   .widget-tile__stats {
@@ -283,6 +312,10 @@
     font-size: 32px;
   }
 
+  .widget-number--red {
+    color: $radical-red;
+  }
+
   .widget-tile--blue {
     &:hover {
       border: 1px inset $blue;
@@ -291,6 +324,27 @@
 
     .widget-tile__title-icon {
       color: $blue;
+    }
+  }
+
+  .widget-payment {
+    border-left: 4px solid $payments-blue;
+
+    .widget-tile__title-icon {
+      color: $payments-blue;
+    }
+
+    .payment-amount {
+      color: $payments-blue;
+    }
+
+    .widget-tile__title {
+      background: $white;
+    }
+
+    &:hover {
+      border: 1px solid $payments-blue;
+      border-left: 4px solid $payments-blue;
     }
   }
 
@@ -353,6 +407,28 @@
       display: inline !important;
     }
   }
+
+  .widget-tile__content--tasks {
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+  .widget-tile__tasks {
+    border-left: 4px solid $radical-red;
+
+    &:hover {
+      border: 1px solid $radical-red;
+      border-left: 4px solid $radical-red;
+    }
+
+    .widget-tile__title-icon {
+      color: $radical-red;
+    }
+
+    .widget-tile__title {
+      background: $white;
+    }
+  }
 }
 
 @media only screen and (min-width: $AU-media-md) {
@@ -368,10 +444,6 @@
 }
 
 @media only screen and (min-width: $AU-media-lg) {
-  .widget-tile--mobile-hide {
-    display: block;
-  }
-
   .intro {
     .flex-container {
       padding: 0px !important;
@@ -379,11 +451,7 @@
   }
 
   .authenticated-home {
-    .home__seperator {
-      margin: 25px auto 10px;
-      max-width: 1112px;
-    }
-
+  
     .intro {
       max-width: 100%;
     }
@@ -402,7 +470,7 @@
   }
 
   .tablet-hide {
-    display: inline !important;
+    display: inline;
   }
 }
 
@@ -487,4 +555,30 @@
 
 #widget-payment .widget-tile__content {
   flex-direction: column;
+}
+
+@media(max-width: 679px) {
+  .widgets-container {
+    flex-wrap: wrap;
+  }
+
+  .widget-tile {
+    max-width: 45%;
+  }
+
+  .authenticated-home {
+    .home__seperator {
+      display: none;
+    }
+  }
+}
+
+.handheld-hide {
+  display: none;
+}
+
+@media(min-width: 425px) {
+  .handheld-hide {
+    display: inline-block;
+  }
 }

@@ -1,18 +1,23 @@
 <%
 locals.el = {};
-locals.el.body_text_task = " tasks";
-locals.el.button_text = "View tasks";
+locals.el.button_text = "Tasks";
 locals.el.link = "/auth";
+locals.el.task_amount = "0";
 %>
 
 
 
-<div class="widget-tile" id="widget-task">
+<div class="widget-tile widget-tile__tasks" id="widget-tasks">
   <div class="widget-tile__title">
     <span class="widget-tile__title-text"><%- locals.el.button_text %></span>
     <span class="widget-tile__title-icon fa fa-angle-right"></span>
   </div>
-  <div class="widget-tile__content"></div>
+  <div class="widget-tile__content widget-tile__content--tasks">
+    <div class="widget-tile__stats margin-below--none">
+      <span id="task_text" class="widget-number widget-number--red"><%- locals.el.task_amount %></span>
+      <span id="tasks-text">Tasks <span class="handheld-hide">to complete</span></span>
+    </div>
+  </div>
 </div>
 
 
@@ -20,14 +25,22 @@ locals.el.link = "/auth";
   function updateTasksWidget() {
     var tasks = $("#text-input-tasks").val();
     sessionStorage.setItem('tasks', tasks);
-    $("#text-reflect-tasks").val(tasks);
+    $("#task_text").text(tasks);
+    $(".tasks-badge").text(tasks);
+    if (tasks == 1) $("#tasks-text").text('Task to complete'); 
     if (tasks > 0) {
       $("#widget-tasks").show("fast");
-      $("#tasks").show();
-      totalWidgets++;
+      $("#task_text").show();
     } else {
       $("#widget-tasks").hide("fast");
+      $("#task_text").hide();
+    }
+     if(tasks == 0) {
+       console.log("tasks is 0");
       $("#tasks").hide();
+    }
+    else {
+      $("#tasks").show();
     }
   }
 </script>
