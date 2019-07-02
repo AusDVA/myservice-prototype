@@ -97,8 +97,8 @@ content += `
       content += `
       <div class="health-card__detail">
         <div class="accordion">
-          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
-          <div class="accordion-content">
+          <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Conditions listed</button>
+          <div class="accordion-content" hidden>
             <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
               <div class="health-card__conditions-list margin-below--mid">
       `;
@@ -128,8 +128,8 @@ content += `
 
       <div class="health-card__detail">
         <div class="accordion">
-          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
-          <div class="accordion-content health-card--no-margins">
+          <button class="style-less-button accordion-button health-card__label--big"><fa-icon class="transition fas fa-chevron-right"></fa-icon> How to use</button>
+          <div class="accordion-content health-card--no-margins" hidden>
             <h4 class="margin-below--small accordion-content__how-to-use">Step 1: Finding a provider</h4>
             <p class="margin-below--small">You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
             <p class="margin-below">Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
@@ -151,19 +151,16 @@ content += `
           $("#health-cards").append(content);
         });
 
-      $("#health-cards .accordion").each(function() {
-        if($(this).find(".accordion-button").attr("data-state") != "open") {
-          $(this).find(".accordion-button").attr("data-state", "closed");
-        }
-      });
+        $("#health-cards .accordion").on("click", ".accordion-button", function() {
+          console.log("hi");
+          if ($(this).hasClass("rotate-90")) {
+            $(this).removeClass("rotate-90");
+          } else {
+            $(this).addClass("rotate-90");
+          }
 
-      $("#health-cards .accordion").on("change", ".accordion-button input[type='checkbox']", function() {
-        if ($(this).parent().attr("data-state") == "open") {
-          $(this).parent().attr("data-state", "closed");
-        } else {
-          $(this).parent().attr("data-state", "open");
-        }
-      });
+          $(this).parent().find(".accordion-content").toggle();
+        });
 
       $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function() {
         if ($(this).closest(".health-card").attr("data-expanded") === "false") {
