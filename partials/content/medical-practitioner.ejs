@@ -9,31 +9,19 @@
     You are are able to claim for costs incurred regardless of the outcome.</p>
 </div>
 
+<% 
+    locals.el = {};
+    locals.el.question = 'Do you have a treating General Practitioner (GP) for this condition?'; 
+    locals.el.optionalID = 'gp'; %>
+<%- include(partials+"components/form-elements/radio--yes-no", locals) %>
 
-<div id="medical-practitioner-group" class="form-group" style="display: none;">
-  <div class="form-group">
-    <form id="myForm">
-      <input type="reset" style="display:none">
-      <label class="uikit-text-input__label" for="practitioners">Select the medical practitioner who provided the diagnosis</label>
-      <div id="medical-practitioner">
-        <p class="uiToolKitCheckBox">
-          <label class="uikit-control-input">
-            <input class="uikit-control-input__input" type="radio" name="practitioners" value="none">
-            <span class="uikit-control-input__text">None of the above</span>
-
-          </label>
-        </p>
-      </div>
-    </form>
-  </div>
-</div>
 <div id="medical-practitioner-details" class="pt-medical-prac">
 
   <div class="margin-above--extra">
 
     <div class="hide-form-group margin-above--extra">
 
-      <h2 id="intro-copy-no-partner" class="margin-below--none">Add medical practitioner</h2>
+      <h2 id="intro-copy-no-partner" class="margin-below--none">Add treating General Practioner details</h2>
 
       <!-- id was gp-name -->
       <div class="form-group margin-above--large">
@@ -44,7 +32,7 @@
         </form>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="uikit-text-input__label" for="practitioner-type">Type of practitioner</label>
         <select class="uikit-text-input input-half" id="practitioner-type" name="practitioner-type">
           <option>-- Select a type --</option>
@@ -54,15 +42,12 @@
           <option>Cardiologist</option>
           <option>Other</option>
         </select>
-      </div>
+      </div> -->
 
-      <div class="form-group" id="practitioner-type-other" hidden>
+      <!-- <div class="form-group" id="practitioner-type-other" hidden>
         <label class="uikit-text-input__label" for="practition-type-other">Please specify type of practitioner</label>
         <input class="uikit-text-input input-half" name="practition-type-other" type="text">
-      </div>
-
-
-
+      </div> -->
 
       <div class="form-group">
         <label class="uikit-text-input__label" for="practiceName">Practice name
@@ -70,18 +55,24 @@
         <input class="uikit-text-input" name="practiceName" id="practiceName" type="text" value="" required="" aria-required="true">
       </div>
 
-      <div class="form-group">
-        <label class="uikit-text-input__label" for="gp-name">Phone number
-        </label>
-        <input class="uikit-text-input input-half" name="gp-name" id="gp-number" type="text" value="" required="" aria-required="true">
-      </div>
+      <% 
+      locals.el = {};
+      locals.el.question = 'Practice name'; 
+      %>
+      <%- include(partials+"components/form-elements/field", locals) %>
 
-      <!--id was gp-name-->
-      <div class="form-group">
-        <label class="uikit-text-input__label" for="practiceSuburb">Suburb or town
-        </label>
-        <input class="uikit-text-input input-half" name="practiceSuburb" id="practiceSuburb" type="text" value="" required="" aria-required="true">
-      </div>
+      <% 
+      locals.el = {};
+      locals.el.question = 'Phone number'; 
+      %>
+      <%- include(partials+"components/form-elements/field", locals) %>
+
+      <% 
+      locals.el = {};
+      locals.el.question = 'Suburb or town'; 
+      %>
+      <%- include(partials+"components/form-elements/field", locals) %>
+
 
       <div class="form-group margin-above margin-below">
         <label class="uikit-text-input__label" for="state-location">State or territory</label>
@@ -275,7 +266,20 @@
         $("#medical-practitioner-details").hide();
         $("#save-next").show("fast");
       }
+    });
 
+    $('input[name=gp]').change(function () {
+      var gp = $('input[name=gp]:checked').val();
+      $("#myForm").trigger("reset");
+      console.log($("#myForm"))
+      if (gp == "yes") {
+        $("#medical-practitioner-details").show("fast");
+        $("#save-next").hide();
+      } else {
+        // $("#medical-practitioner-group").hide("fast");
+        $("#medical-practitioner-details").hide();
+        $("#save-next").show("fast");
+      }
     });
 
 
