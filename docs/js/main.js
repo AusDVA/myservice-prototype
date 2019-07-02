@@ -980,19 +980,3 @@ var AU = AU || {};
 if (typeof module !== 'undefined') {
   module.exports = AU;
 }
-
-$(document).ready(function () {
-  $(".accordion").each(function () {
-    if ($(this).find(".accordion-button").attr("data-state") != "open") {
-      $(this).find(".accordion-button").attr("data-state", "closed");
-    }
-  });
-});
-
-$(".accordion").on("change", ".accordion-button input[type='checkbox']", function () {
-  if ($(this).parent().attr("data-state") == "open") {
-    $(this).parent().attr("data-state", "closed");
-  } else {
-    $(this).parent().attr("data-state", "open");
-  }
-});
