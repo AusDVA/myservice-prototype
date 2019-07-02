@@ -2,11 +2,12 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Home | MyService</title>
+  <title>Your cards | MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
 
-<body class="uikit-body uikit-grid uikit-refactor">
+<body class="uikit-body uikit-grid uikit-refactor health-cards__main">
+
   <noscript>
     <p role="alert">This website needs JavaScript to work properly.</p>
   </noscript>
@@ -16,111 +17,176 @@
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
+
   <main>
-    <section>
-      <div class="section-feature margin-above--none" id="main-content">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-6">
-              <h1 class="margin-below--small ss-align">
-                <span class="heading">Veteran Card</span>
-              </h1>
-              <p class="medium-text margin-above">Making it easier to recognise and respect the unique contribution you have made to Australia.
-              </p>
-            </div>
-            <div class="col-md-6 margin-above">
-              <div id="whitecard" class="healthcard-container">
-                <img class="white-card-image" src="/docs/images/health-card.png">
-                <div id="card-number">
-                  <span class="card-text">VX000000</span>
-                </div>
-                <div id="card-name">
-                  <span class="card-text"><span class="pt-current-user-name-full"></span></span>
-                </div>
-                <div id="card-date">
-                  <span class="card-text">12 / 22</span>
-                </div>
-                <div class="cantered-item">
-                  <a id="replace-card" href="cards/card-replacement/card-replacement">Request a replacement card</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+  <div class="container margin-below health-card__container">
+    <h1><span class="heading">Cards</span></h1>
+    <div id="health-cards" class="row">
 
-      </div>
-    </section>
-
-
-    <div class="container margin-above--extra margin-below--extra">
-      <h2>
-        <span class="font-weight-heavy">What's on your card</span>
-      </h2>
-      <p>You can access free treatment for any conditions listed on your DVA Veteran Card.<br>The following accepted conditions are listed on your card:</p>
-
-      <section class="widget margin-below--extra">
-        <div class="row widget-content widget--justclaims">
-          <div class="col-md-12">
-            <table class="table-claims">
-              <!-- <tr>
-                <td>
-                  <p class="status-icon status-approved">
-                    Lumbar Spondylosis
-                    <br />
-                    <span>Approved
-                      <em>&ndash; 06 Feb 2018</em>
-                    </span>
-                  </p>
-                </td>
-              </tr> -->
-              <tr>
-                <td>
-                  <p class="status-icon status-approved">
-                    Mental Health Treatment (NLHC)
-                    <br />
-                    <span>Approved
-
-                    </span>
-                  </p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p class="status-icon status-approved">
-                    Hearing loss
-                    <br />
-                    <span>Approved
-
-                    </span>
-                  </p>
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      <%- include(partials+"content/auth-healthcard-howtouse") %>
 
     </div>
-
+  </div>
   </main>
-  <%- include(partials+"content/modals/auth-modal-deleteclaim") %>
   <%- include(partials+"components/layout/footer") %>
+  <script type="text/javascript">
+    $(document).ready(() => {
+        person = JSON.parse(localStorage.getItem("person"));
+        $.each(person.cards, (c_index, card) => {
+          content = "";
 
-  <script>
-    var queryString = location.search.substr(1);
-    var settings = {}
-    queryString.split('&').forEach(function (pItem) {
-      var item = pItem.split('=');
+content += `
+<div class="health-card" data-expanded="false">
+  <div class="health-card__card-info">
+    <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="outside"><i class="far fa-plus-circle"></i> Show details</button>
+    <div class="health-card__image-container ${card.available ? "" : "health-card__image--on-its-way"} ">
+      <img class="health-card__image ${card.type === "Veteran Card" ? "health-card__image--veteran" : "health-card__image--concession"}" src="/docs/images/health-card--multiple.png">
+      <p class="health-card__card-number card-text">${card.type === "Veteran Card" ? card.fileNumber : card.crnNumber}</p>
+      <p class="health-card__card-expiry card-text">${card.type === "Veteran Card" ? card.expiryShort : card.expiry}</p>
+      <p class="health-card__card-name card-text">${person.nameFull}</p>
+      <p class="health-card__file-no-text card-text">File No.</p>
+      <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
+      `;
+      content += `
+    </div>
+    <div class="health-card__inner-card-info">
+      <button aria-expanded="false" class="uikit-btn health-card__card-toggle" data-position="inside"><i class="far fa-times-circle"></i></button>
+      <div class="health-card__details-wrapper">
+        <h3 class="health-card__header-text">${card.type}</h3>
+        <hr class="non-breaking-hr">
 
-      settings[item[0]] = item.length > 1 ? decodeURIComponent(item[1]) : true;
-    })
+        <div class="health-card__detail">
+          <label class="health-card__label">${card.type === "Veteran Card" ? "File Number" : "CRN Number"}</label> <span>${card.type === "Veteran Card" ? card.fileNumber : card.crnNumber}</span>
+        </div>
+        <hr class="non-breaking-hr">`;
 
-    if (settings['max-requests']) {
-      document.getElementById('replace-card').href = 'healthcard-replacement-fail'
+        if (typeof card.issued != "undefined" && card.issued != "") {
+        content += `
+          <div class="health-card__detail">
+            <label class="health-card__label">Date issued</label>
+            <span>${card.issued}</span>
+          </div>
+          <hr class="non-breaking-hr">
+        `;
+        }
+
+        content += `
+        <div class="health-card__detail">
+          <label class="health-card__label">Expiry date</label> <span>${card.expiry}</span>
+        </div>
+        <hr class="non-breaking-hr">
+        `;
+        if (typeof card.class !== "undefined" && card.class !== "") {
+        content += `
+        <div class="health-card__detail">
+          <label class="health-card__label">Card type</label> <span>White</span>
+        </div>
+        <hr class="non-breaking-hr">`;
+        }
+      content += `
+        <div class="health-card__order-replacement">
+          <a href="/">Order replacement</a>
+        </div>
+      </div>
+    </div>
+  </div>`;
+    if ((typeof card.conditions !== "undefined" && card.conditions.length > 0) || (card.type === "Veteran Card")) {
+      content += `
+      <div class="health-card__extras">`;
+
+      if (typeof card.conditions !== "undefined" && card.conditions.length > 0) {
+      content += `
+      <div class="health-card__detail">
+        <div class="accordion">
+          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> Conditions listed</label>
+          <div class="accordion-content">
+            <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
+              <div class="health-card__conditions-list margin-below--mid">
+      `;
+        $.each(card.conditions, (cond_index, condition) => {
+          content += `
+            <div class="health-card__condition">
+              <i class="far fa-check-circle health-card__condition-icon"></i>
+              <div class="health-card__condition-info">
+                <span class="health-card__condition-name">${condition.condition}</span><br>
+                <span class="health-card__condition-status">Approved</span>
+                ${typeof condition.approvedDate != "undefined" && condition.approvedDate ? " - <span class=\"health-card__condition-date\">" + condition.approvedDate + "</span>": ""}
+              </div>
+            </div>`;
+        });
+        
+
+
+      content += `
+            </div>
+            <p>Last updated on ${card.lastUpdated}. If incorrect try logging in again later or contact us.</p>
+          </div>
+        </div>
+      </div>
+      `;
     }
+      content += `
+
+      <div class="health-card__detail">
+        <div class="accordion">
+          <label class="accordion-button health-card__label--big" data-state="closed"><input type="checkbox"><i class="fas fa-chevron-right"></i> How to use</label>
+          <div class="accordion-content health-card--no-margins">
+            <h4 class="margin-below--small accordion-content__how-to-use">Step 1: Finding a provider</h4>
+            <p class="margin-below--small">You can use <a href="#" rel="external">HealthDirect</a> to find health services in yur area.</p>
+            <p class="margin-below">Before booking your appointment, check that your selected provider accepts the DVA veteran card.</p>
+            <h4 class="margin-below--small">Step 2: Getting treatment</h4>
+            <p class="margin-below--small">Show your card when you receive medical treatment for your condition.</p>
+            <p class="margin-below--large">You can also use the letter you received from us if your card has not arrived yet.</p>
+            <div class="uikit-page-alerts uikit-page-alerts--info" role="alert">
+              <h3>You don't have to pay for treatment if it relates to any of the conditions listed on your card.</h3>
+              <p>If you are billed by your health care provider, <strong>do not</strong> pay the account and tell DVA immediately on 133 254 (or 1800 555 254 in regional areas). If you've already paid for treatment, you can <a href="#">make an application for reimbursement</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+    }
+    content += `
+</div>`;
+
+          $("#health-cards").append(content);
+        });
+
+      $("#health-cards .accordion").each(function() {
+        if($(this).find(".accordion-button").attr("data-state") != "open") {
+          $(this).find(".accordion-button").attr("data-state", "closed");
+        }
+      });
+
+      $("#health-cards .accordion").on("change", ".accordion-button input[type='checkbox']", function() {
+        if ($(this).parent().attr("data-state") == "open") {
+          $(this).parent().attr("data-state", "closed");
+        } else {
+          $(this).parent().attr("data-state", "open");
+        }
+      });
+
+      $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function() {
+        if ($(this).closest(".health-card").attr("data-expanded") === "false") {
+          $(this).closest(".health-card").css("background", "rgb(255, 255, 255)");
+          $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "flex");
+          $(this).closest(".health-card").find(".health-card__extras").css("display", "flex");
+          $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "true");
+          $(this).closest(".health-card").find(".health-card__card-toggle[data-position='outside']").hide();
+          $(this).closest(".health-card").attr("data-expanded", "true");
+        } else {
+          $(this).closest(".health-card").css("background", "initial");
+          $(this).closest(".health-card").find(".health-card__inner-card-info").css("display", "none");
+          $(this).closest(".health-card").find(".health-card__extras").css("display", "none");
+          $(this).closest(".health-card").find(".health-card__card-toggle").attr("aria-expanded", "false");
+          $(this).closest(".health-card").find(".health-card__card-toggle[data-position='outside']").show();
+          $(this).closest(".health-card").attr("data-expanded", "false");
+        }
+      });
+    });
+
   </script>
+
 </body>
 
 </html>
+
