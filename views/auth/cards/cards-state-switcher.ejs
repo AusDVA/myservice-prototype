@@ -1,0 +1,56 @@
+<% var cardStates = [
+ { "card-type": "Gold Card", "id": "gold-card" },
+ { "card-type": "White Card", "id": "white-card"},
+ { "card-type": "Card on the way", "id": "on-the-way"},
+ { "card-type": "White + CSCHC (2 Cards)", "id": "white-plus-csch"} 
+ ]; %>
+
+<div id="state-switcher">
+  <h3>State switcher</h3>
+      <h4>Card States</h4>
+      <div class="form-group card-state-switcher">
+      <% cardStates.map(function(state, i) { %>
+        <div class="uiToolKitCheckBox">
+          <label class="uikit-control-input" for="<%- cardStates[i]['id'] %>">
+            <input class="uikit-control-input__input" type="checkbox" id="<%- cardStates[i]['id'] %>" name="">
+            <span class="uikit-control-input__text"><%- cardStates[i]["card-type"] %></span>
+          </label>
+        </div>
+      <% }); %>
+    </div>
+</div>
+
+<script>
+
+$(document).ready(function () {
+/* --- State switcher --- */
+  /* Toggle switcher */
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+      break;
+      default:
+    }
+  });
+
+  $(".card-state-switcher .uikit-control-input__input").change(function () { 
+    var cardState = $(this).attr("id");
+    console.log(cardState);
+    switch (cardState) {
+      case "gold-card":
+      $(".commonwealth-senior-health-card").css("display", "none");
+      break;
+      case "white-card":
+      $(".commonwealth-senior-health-card").css("display", "none");
+      break;
+      case "on-the-way":
+      $(".commonwealth-senior-health-card").css("display", "none");
+      break;
+      case "white-plus-csch":
+      $(".commonwealth-senior-health-card").css("display", "block");
+      break;
+    };
+  });
+});
+</script>
