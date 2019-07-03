@@ -1,24 +1,30 @@
-<% var cardStates = [
- { "card-type": "Gold Card", "id": "gold-card" },
- { "card-type": "White Card", "id": "white-card"},
- { "card-type": "Card on the way", "id": "on-the-way"},
- { "card-type": "White + CSCHC (2 Cards)", "id": "white-plus-csch"} 
- ]; %>
+<% var cards = JSON.parse(include("cards-data")) %>
 
 <div id="state-switcher">
   <h3>State switcher</h3>
-      <h4>Card States</h4>
-      <div class="form-group card-state-switcher">
-      <% cardStates.map(function(state, i) { %>
-        <div class="uiToolKitCheckBox">
-          <label class="uikit-control-input" for="<%- cardStates[i]['id'] %>">
-            <input class="uikit-control-input__input" type="checkbox" id="<%- cardStates[i]['id'] %>" name="">
-            <span class="uikit-control-input__text"><%- cardStates[i]["card-type"] %></span>
-          </label>
-        </div>
-      <% }); %>
+        <% var boxes = []; %>
+
+        <% cards.map((state, i) => {
+          boxes.push({
+            "text": state.stateSwitcherDesc
+          })
+        }); %>
+
+        <%- include(partials+"components/form_partials", {
+          "forms": [
+            {
+              "type": "checkbox",
+              "id": "card-states",
+              "config": {
+                "label": "Card States",
+                boxes
+              }
+            }
+          ]
+        }) %>
     </div>
 </div>
+
 
 <script>
 
@@ -34,23 +40,38 @@ $(document).ready(function () {
     }
   });
 
-  $(".card-state-switcher .uikit-control-input__input").change(function () { 
-    var cardState = $(this).attr("id");
-    console.log(cardState);
-    switch (cardState) {
-      case "gold-card":
-      $(".commonwealth-senior-health-card").css("display", "none");
-      break;
-      case "white-card":
-      $(".commonwealth-senior-health-card").css("display", "none");
-      break;
-      case "on-the-way":
-      $(".commonwealth-senior-health-card").css("display", "none");
-      break;
-      case "white-plus-csch":
-      $(".commonwealth-senior-health-card").css("display", "block");
-      break;
-    };
+  $("#checkboxcardstates-1").prop("checked", true);
+  $("#checkboxcardstates-2").prop("checked", true);
+
+
+  <% cards.map((state, i) => {
+    if (i >= 2) { %>
+      $("#<%- state.id %>").hide();
+    <% } %>
+
+    $("#checkboxcardstates-<%- i+1 %>").on("change", function() {
+      if ($(this).prop("checked")) {
+        $("#<%- state.id %>").show();
+      } else {
+        $("#<%- state.id %>").hide();
+      }
+    });
+  <% }); %> 
+
+  $("#checkboxcardstates__wrapper").on("change", "input[type='checkbox']", function() {
+    var boxes = 0;
+
+    $.each($(this).closest("#checkboxcardstates__wrapper").find("input[type='checkbox']"), function(i, box) {
+      if($(this).prop("checked")) boxes += 1;
+    });
+
+    if (boxes === 0) {
+      $("#health-cards").hide();
+      $("#health-cards--none").show();
+    } else {
+      $("#health-cards").show();
+      $("#health-cards--none").hide();
+    }
   });
 });
 </script>
