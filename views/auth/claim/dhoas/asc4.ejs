@@ -28,25 +28,25 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8 margin-above--extra margin-below--extra">
 
-          <p>Your entitlements will be paid monthly. You can choose to convert these payments into a single lump sum payment.</p>
+          <h2>Request a lump sum payment</h2>
+          <p>A request for lump sum payment should be made on this Subsidy Certificate application.</a>
+          </p>
 
-          <div class="uikit-page-alerts" role="alert">
-            <p>A request for the lump sum should be made on this application, however the assessment of your lump sum eligibility is made at payment commencement time after you confirm
-              your request on the <a href="https://www.dhoas.gov.au/subsidy_authorisation_request" rel="external" target="_blank">Subsidy Authorisation Request Form (SARF)</a>
-            </p>
-              <ul>
-                <li>
-                  You must request the lump sum before you purchase or complete building your home.
-                </li>
-                <li>
-                  The lump sum can only be paid on the Subsidy Certificate you requested before your home was purchased or completed.
-                </li>
-                <li>
-                  If that Subsidy Certificate expires, and you are required to request a new Certificate after the home is purchased or completed, you will not be eligible for a lump
-                  sum.
-                </li>
-              </ul>
-          </div>
+          <!-- <div class="uikit-page-alerts" role="alert">
+
+            <ul>
+              <li>
+                A lump sum request should be made before you purchase or complete building your home.
+              </li>
+              <li>
+                The lump sum can only be paid on the Subsidy Certificate you requested before your home was purchased or completed.
+              </li>
+              <li>
+                If that Subsidy Certificate expires, and you are required to request a new Certificate after the home is purchased or completed, you will not be eligible for a lump
+                sum.
+              </li>
+            </ul>
+          </div> -->
 
           <%- include(partials+"components/form_partials.ejs", {
             "forms": [
@@ -73,7 +73,8 @@
                     "type": "y_n_toggle",
                     "config": {
                       "id": "serving-in-adf",
-                      "label": "While serving in the ADF have you, or you and your partner, previously owned a 50% or greater stake in a home, either to live in or for an investment?"
+                      "label": "While serving in the ADF have you, or you and your co-owner/borrower, previously owned a 50% or greater stake in a home, either to live in or for an investment?",
+                      "yes_toggle": "#stake-50"
                     }
                   }
                 ]
@@ -85,7 +86,8 @@
                     "type": "y_n_toggle",
                     "config": {
                       "id": "leave-within-12",
-                      "label": "Do you expect to leave the ADF within 12 months of your subsidy payment being authorised?"
+                      "label": "Do you expect to leave the ADF within 12 months of your subsidy payment being authorised?",
+                      "yes_toggle": "#leave-12"
                     }
                   }
                 ]
@@ -93,34 +95,67 @@
             </div>
 
             <div id="may-be-eligible" hidden>
-              <div class="uikit-page-alerts uikit-page-alerts--success">
+              <!-- <div class="uikit-page-alerts uikit-page-alerts--success">
                 <p>You may be eligible to receive a lump sum payment.</p>
-              </div>
+              </div> -->
 
               <div class="uikit-page-alerts uikit-page-alerts--info">
-                <p><strong>Important things to know:</strong></p>
+                <h3>You may be eligible to receive a lump sum payment </h3>
                 <ul>
-                  <li>The maximum lump sum amount cannot exceed 48 months of payments.</li>
-                  <li>Your monthly DHOAS payments may cease if you transfer to the Reserves and have less than 12 months of entitlement remaining after your lump sum payment is received.</li>
-                  <li>You can find out more about DHOAS lump sum payments on the
-                    <a href="http://dhoas.gov.au/8.-lump-sum.html" rel="external" target="_blank">DHOAS website</a>
-                  </li>
+                  <!-- <li>A request for the lump sum payment should be made on this application.</li> -->
+
+                  <li>A lump sum request should be made before you purchase or complete building your home.</li>
+                  <li>The lump sum can only be paid on the Subsidy Certificate you requested before your home was purchased or completed.</li>
+                  <li>Final assessment of your lump sum eligibility is made after you confirm your request on the Subsidy Authorisation Request Form
+                    (SARF).
+                  <li>Your monthly DHOAS payments may cease if you transfer to the Reserves and have less than 12 months of entitlement remaining after your lump sum payment is
+                    received.</li>
+                  <!-- <li> If that Subsidy Certificate expires, and you are required to request a new Certificate after the home is purchased or completed, you will not be eligible for
+                    a lump sum. </li> -->
+
                 </ul>
               </div>
+            </div>
 
+            <div id="not-eligible" hidden>
+              <div class="uikit-page-alerts uikit-page-alerts--warning">
+                <h3>You are not eligible to receive a lump sum payment</h3>
+                <ul>
+                  <li id="stake-50" hidden>If you and your co-owner/borrower have owned a 50% or greater stake in a home, either to live in or for an investment.</li>
+                  <li id="leave-12" hidden>If you expect to leave the ADF within 12 months of your subsidy payment being authorised.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div hidden id="claim-lump-sum">
+              <%- include(partials+"components/form_partials", {
+                "forms": [
+                  {
+                    "type": "y_n_toggle",
+                    "config": {
+                      "label": "Would you like to request a lump sum payment?",
+                      "yes_toggle": "#claim-lump-sum-yes",
+                      "no_toggle": "#save-next"
+                    }
+                  }
+                ]
+              }); %>
+            </div>
+
+            <div id="claim-lump-sum-yes" hidden>
               <%- include(partials+"components/form_partials.ejs", {
                 "forms": [
                   {
                     "type": "radio",
                     "config": {
-                      "label": "How much of your entitlement do you want to receive as a lump sum?",
-                      "hint": "You can choose how many months of your entitlement you would like to convert into a single lump sum payment.",
+                      "label": "How much of your entitlement do you want to receive as a lump sum?<br>",
+                      <!-- "hint": "If you request a specific number of months this amount cannot exceed 48 months.", -->
                       "boxes": [
                         {
                           "text": "Request the maximum amount"
                         },
                         {
-                          "text": "Request a specific number of months",
+                          "text": "Request a specific number of months (cannot exceed 48 months)",
                           "inject": "#specific-months-sum"
                         }
                       ]
@@ -128,28 +163,35 @@
                   }
                 ]
               }); %>
-        
-              <div class="uikit-page-alerts uikit-page-alerts--error">
-                <p><strong>You must agree with the following before your lump sum payment request can be submitted:</strong></p>
-                <p>I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.</p>
-                <p>I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.</p>
-              </div>
 
+              <!-- <div class="uikit-page-alerts uikit-page-alerts--error"> -->
+              <%- include(partials+"components/form_partials", {
+                  "forms": [
+                    {
+                      "type": "checkbox",
+                      "config": {
+                        "label": "You must agree with the following before your lump sum payment request can be submitted:",
+                        "boxes": [
+                          "I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.",
+                          "I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time."
+                        ]
+                      }
+                    }
+                  ]
+                });
+                %>
             </div>
 
-            <div id="not-eligible" hidden>
-              <div class="uikit-page-alerts uikit-page-alerts--warning">
-                <p>You are not eligible to receive a lump sum payment.</p>
-              </div>
-            </div>
+            <p id="save-next" hidden="">Choose <b>save and next</b> to continue.</p>
+            <p id="save-next2" hidden="">Choose <b>save and next</b> to continue.</p>
           </div>
 
-            <%- include(partials+"components/form_partials.ejs", {"forms": [    {
+          <%- include(partials+"components/form_partials.ejs", {"forms": [    {
                 "type": "pagination",
                 "config": {
                   "normal": [
                     {
-                      "link": "/auth/claim/",
+                      "link": "/auth/claim/dhoas/asc3",
                       "primary": false,
                       "text": "Previous",
                     },
@@ -175,26 +217,28 @@
                   ]
                 }
               }]}) %>
-
         </div>
+
+
+
       </div>
+    </div>
     </div>
   </main>
 
   <%- include(partials+"components/layout/footer") %>
 
-<div id="specific-months-sum" class="form-group form-group--secondary" hidden>
-  <span class="input-support-text">
-    <span class="hint">I would like to convert &nbsp; &nbsp;</span>
-  </span>
-  <input type="number" class="uikit-text-input input-small mm">
-  <span class="input-support-text">
-    <span class="hint">&nbsp; months into a lump sum payment.</span>
-  </span>
-</div>
+  <div id="specific-months-sum" class="form-group form-group--secondary" hidden>
+    <span class="input-support-text">
+      <span class="hint">I would like to convert &nbsp; &nbsp;</span>
+    </span>
+    <input type="number" class="uikit-text-input input-small mm">
+    <span class="input-support-text">
+      <span class="hint">&nbsp; months into a lump sum payment.</span>
+    </span>
+  </div>
 
   <script>
-
     var adf_checked = false;
     var leave_checked = false;
 
@@ -211,16 +255,22 @@
     });
 
     $("#eligibility-check").on("click", "input", () => {
+      console.log(adf_checked, leave_checked);
       if (adf_checked && leave_checked) {
-        if($("#leave-within-12-no").prop("checked") && $("#serving-in-adf-no").prop("checked")) {
+        if ($("#leave-within-12-no").prop("checked") && $("#serving-in-adf-no").prop("checked")) {
+          $("#claim-lump-sum").show();
           $("#may-be-eligible").show();
           $("#not-eligible").hide();
         } else {
           $("#not-eligible").show();
           $("#may-be-eligible").hide();
+          $("#claim-lump-sum").hide();
+          $("#save-next").show();
         }
       }
     });
+
+    $
 
   </script>
 
