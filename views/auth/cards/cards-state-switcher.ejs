@@ -4,20 +4,30 @@
   <h3>State switcher</h3>
         <% var boxes = []; %>
 
-        <% cards.map((state, i) => {
-          boxes.push({
-            "text": state.stateSwitcherDesc
-          })
-        }); %>
-
         <%- include(partials+"components/form_partials", {
           "forms": [
             {
-              "type": "checkbox",
+              "type": "radio",
               "id": "card-states",
               "config": {
                 "label": "Card States",
-                boxes
+                "boxes": [
+                  {
+                    "text": "Gold"
+                  },
+                  {
+                    "text": "White"
+                  },
+                  {
+                    "text": "No card"
+                  },
+                  {
+                    "text": "Card on the way"
+                  },
+                  {
+                    "text": "Gold TPI + CSHC (2 cards)"
+                  }
+                ]
               }
             }
           ]
@@ -40,38 +50,57 @@ $(document).ready(function () {
     }
   });
 
-  $("#checkboxcardstates-1").prop("checked", true);
-  $("#checkboxcardstates-2").prop("checked", true);
+  $("#radiocardstates-3").prop("checked", true);
+
+  $("#health-cards").hide();
+  $("#health-cards--none").show();
 
 
-  <% cards.map((state, i) => {
-    if (i >= 2) { %>
-      $("#<%- state.id %>").hide();
-    <% } %>
-
-    $("#checkboxcardstates-<%- i+1 %>").on("change", function() {
-      if ($(this).prop("checked")) {
-        $("#<%- state.id %>").show();
-      } else {
-        $("#<%- state.id %>").hide();
-      }
-    });
-  <% }); %> 
-
-  $("#checkboxcardstates__wrapper").on("change", "input[type='checkbox']", function() {
-    var boxes = 0;
-
-    $.each($(this).closest("#checkboxcardstates__wrapper").find("input[type='checkbox']"), function(i, box) {
-      if($(this).prop("checked")) boxes += 1;
-    });
-
-    if (boxes === 0) {
-      $("#health-cards").hide();
-      $("#health-cards--none").show();
-    } else {
-      $("#health-cards").show();
-      $("#health-cards--none").hide();
-    }
+  $("#radiocardstates-1").on("click", () => { // Gold
+    $("#health-cards--none").hide();
+    $("#health-cards").show();
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").show();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
   });
+
+  $("#radiocardstates-2").on("click", () => { // White
+    $("#health-cards--none").hide();
+    $("#health-cards").show();
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").show();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+  $("#radiocardstates-3").on("click", () => { // No card
+    $("#health-cards--none").show();
+    $("#health-cards").hide();
+  });
+
+  $("#radiocardstates-4").on("click", () => { // White card on the way
+    $("#health-cards--none").hide();
+    $("#health-cards").show();
+    $("#veteran-white-on-way").show();
+    $("#veteran-gold").hide();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+  $("#radiocardstates-5").on("click", () => { // Gold TPI + CSHC (2 cards)
+    $("#health-cards--none").hide();
+    $("#health-cards").show();
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").show();
+    $("#cshc").show();
+  });
+
+
 });
 </script>
