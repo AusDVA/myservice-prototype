@@ -85,6 +85,7 @@
           locals.el = {};
           locals.el.question = 'You must agree with the following before your lump sum payment request can be submitted:'; 
           locals.el.items = ['I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.','I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.'];
+          locals.el.optionalItemID = ['a','b'];
           locals.el.optionalID = 'lump_sum_agreement';
           locals.el.optionalHide = true;
           %>
@@ -103,6 +104,7 @@
 
     $('input[name=check_eligibility]').change(function () {
       var mySelection = $('input[name=check_eligibility]:checked').val();
+      $("input[name=expect_to_leave").prop("checked", false);
       hideAll();
       if (mySelection == "yes") {
         $("#expect_to_leave").show("fast");
@@ -113,6 +115,7 @@
 
     $('input[name=expect_to_leave]').change(function () {
       var mySelection = $('input[name=expect_to_leave]:checked').val();
+      $("input[name=fifty_percent").prop("checked", false);
       $("#fifty_percent").hide();
       $("#fifty_percent_notice").hide();
       $("#save-next").hide();
@@ -127,14 +130,18 @@
 
     $('input[name=fifty_percent]').change(function () {
       var mySelection = $('input[name=fifty_percent]:checked').val();
+      $("input[name=lump_sum").prop("checked", false);
+      $("#request_amount").hide();
+      $("#save-next").hide();
+      $("#fifty_percent_no_notice").hide();
+      $("#lump_sum").hide();
+      $("#fifty_percent_notice").hide();
+      $("#partial_input").hide();
+      $("#lump_sum_agreement").hide();
       if (mySelection == "yes") {
         $("#fifty_percent_notice").show("fast");
-        $("#fifty_percent_no_notice").hide("fast");
-        $("#lump_sum").hide("fast");
         $("#save-next").show("fast");
       } else {
-        $("#save-next").hide();
-        $("#fifty_percent_notice").hide("fast");
         $("#fifty_percent_no_notice").show("fast");
         $("#may-be-eligible").show("fast");
         $("#lump_sum").show("fast");
@@ -143,17 +150,9 @@
 
     $('input[name=lump_sum]').change(function () {
       var mySelection = $('input[name=lump_sum]:checked').val();
-      if (mySelection == "yes") {
-        $("#request_amount").show("fast");
-        $("#save-next").hide();
-      } else {
-        $("#request_amount").hide("fast");
-        $("#save-next").show("fast");
-      }
-    });
-
-    $('input[name=lump_sum]').change(function () {
-      var mySelection = $('input[name=lump_sum]:checked').val();
+      $("input[name=request_amount").prop("checked", false);
+      $("#partial_input").hide();
+      $("#lump_sum_agreement").hide();
       if (mySelection == "yes") {
         $("#request_amount").show("fast");
         $("#save-next").hide();
@@ -165,6 +164,9 @@
 
     $('input[name=request_amount]').change(function () {
       var mySelection = $('input[name=request_amount]:checked').val();
+      $("input[name=a").prop("checked", false);
+      $("input[name=b").prop("checked", false);
+      $('#partial_input').find('input[type=text]').val("");
       if (mySelection == "partial") {
         $("#partial_input").show("fast");
         $("#lump_sum_agreement").show("fast");
@@ -180,6 +182,10 @@
       $("#expect_to_leave_notice").hide();
       $("#fifty_percent").hide();
       $("#fifty_percent_notice").hide();
+      $("#fifty_percent_no_notice").hide();
+      $("#lump_sum").hide();
+      $("#request_amount").hide();
+      $("#lump_sum_agreement").hide();
       $("#save-next").hide();
     }
 

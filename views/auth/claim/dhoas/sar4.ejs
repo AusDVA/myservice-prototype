@@ -62,15 +62,6 @@
               </div>
             </div>
 
-            <% 
-            locals.el = {};
-            locals.el.question = 'Do you want to make an application for a lump sum now?';
-            locals.el.optionalID = "apply_lump_sum";
-            locals.el.optionalHide = true;
-            %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-
             <div id="dhoas_lump_sum" style="display: none;"><%- include(partials+"content/dhoas_lump_sum") %></div>
 
             <div class="pagination margin-above--extra">
@@ -99,15 +90,17 @@
 
     $('input[name=requested_lump_sum]').change(function () {
       var mySelection = $('input[name=requested_lump_sum]:checked').val();
+      $("input[type=radio]").not("input[name=requested_lump_sum]").prop("checked", false);
       if (mySelection == "yes") {
-        $("input:checkbox").prop("checked", false);
+        $("input[name=declaration_checked").prop("checked", false);
         $("#lump-sum-previous-yes-div").show("fast");
         $("#save-and-next-button").prop('disabled', true);
-        $("#apply_lump_sum").hide("fast");
+        $("#dhoas_lump_sum").hide("fast");
+        $("#save-next").hide("fast");
       } else {
         $("#lump-sum-previous-yes-div").hide("fast");
         $("#save-and-next-button").prop('disabled', false);
-        $("#apply_lump_sum").show("fast");
+        $("#dhoas_lump_sum").show("fast");
       }
     });
 
@@ -117,15 +110,6 @@
         $("#save-and-next-button").prop('disabled', false);
       } else {
         $("#save-and-next-button").prop('disabled', true);
-      }
-    });
-
-    $('input[name=apply_lump_sum]').change(function () {
-      var mySelection = $('input[name=apply_lump_sum]:checked').val();
-      if (mySelection == "yes") {
-        $("#dhoas_lump_sum").show("fast");
-      } else {
-        $("#dhoas_lump_sum").hide("fast");
       }
     });
 
