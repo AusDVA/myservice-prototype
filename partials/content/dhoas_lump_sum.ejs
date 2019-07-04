@@ -81,7 +81,7 @@
           %>
 <%- include(partials+"components/form-elements/field", locals) %>
 
-<% 
+<%# 
           locals.el = {};
           locals.el.question = 'You must agree with the following before your lump sum payment request can be submitted:'; 
           locals.el.items = ['I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.','I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.'];
@@ -89,7 +89,25 @@
           locals.el.optionalID = 'lump_sum_agreement';
           locals.el.optionalHide = true;
           %>
-<%- include(partials+"components/form-elements/checkbox", locals) %>
+<%#- include(partials+"components/form-elements/checkbox", locals) %>
+
+<div class="form-group" id="lump_sum_agreement" style="display: none;">
+  <h2>Declaration</h2>
+  <div style="border: 1px solid #d8d8d8; padding: 30px;">
+    <div class="uiToolKitCheckBox">
+      <label class="uikit-control-input">
+        <input class="uikit-control-input__input" type="checkbox" id="lump_sum_agreement_checked" name="lump_sum_agreement_checked">
+        <span class="uikit-control-input__text">I acknowledge and agree with the following statements:</span>
+      </label>
+    </div>
+    <ol style="padding-left: 35px;">
+      <li style="padding-left: 7px;">I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease
+        to be a member of the ADF within 12 months after payment is authorised.</li>
+      <li style="padding-left: 7px;">I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.</li>
+    </ol>
+  </div>
+</div>
+
 
 <div id="save-next" hidden>
   <p>Choose <b>save and next</b> to continue</p>
@@ -174,6 +192,15 @@
       } else {
         $("#lump_sum_agreement").show("fast");
         $("#partial_input").hide("fast");
+      }
+    });
+
+    $('input[name=lump_sum_agreement_checked]').change(function () {
+      var mySelection = $('input[name=lump_sum_agreement_checked]:checked').val();
+      if (mySelection == "on") {
+        $("#save-next").show("fast");
+      } else {
+        $("#save-next").hide("fast");
       }
     });
 
