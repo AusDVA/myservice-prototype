@@ -29,29 +29,42 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
-            
-            <h2>Confirmation of a lump sum request
-            </h2>
 
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="toggle-buttons-0">Have you requested the lump sum on your current Subsidy Certificate?</label>
-              <div class="uikit-page-alerts" role="alert">
-                <p>If you select 'Yes' you must be able to agree to both statement 1 and 2 to be eligible for the lump sum (unless you are applying as a surviving partner). If you
-                  cannot confirm 'Yes' to both of the statements, you are not eligible for the lump sum.</p>
-                <p>You can find out more about DHOAS lump sum payments on the
-                  <a href="http://dhoas.gov.au/8.-lump-sum.html" rel="external" target="_blank">DHOAS website</a></p>
-              </div>
-              <div id="lump-sum-previous" class="radio-toggle">
-                <label class="on label-left" for="lump-sum-previous-yes">
-                  <input id="lump-sum-previous-yes" type="radio" name="toggle-buttons-0">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="lump-sum-previous-no">
-                  <input id="lump-sum-previous-no" type="radio" name="toggle-buttons-0">
-                  <span>No</span>
-                </label>
+            <% 
+            locals.el = {};
+            locals.el.question = 'Have you requested the lump sum on your current Subsidy Certificate?';
+            locals.el.optionalID = "requested_lump_sum";
+            %>
+            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+            <div id="lump-sum-previous-yes-div" style="display: none;">
+              <h2>Declaration</h2>
+              <div style="border: 1px solid #d8d8d8; padding: 30px;">
+                <div class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" id="declaration_checked" name="declaration_checked">
+                    <span class="uikit-control-input__text">I confirm the declarations made on my application for Subsidy Certificate form are correct in that:</span>
+                  </label>
+                </div>
+                <ol style="padding-left: 35px;">
+                  <li style="padding-left: 7px;">I expect that I will continue to provide service in the Australian Defence Force (ADF), where the service is considered effective
+                    for DHOAS purposes, for a period of at least 12 months after the payment of subsidy is authorised. I acknowledge that the Scheme Administrator or the Department
+                    of Defence may recover
+                    an amount equal to the lump sum subsidy paid to me if I cease to be a member of the ADF within 12 month after the payment subsidy is authorised. (*The
+                    declaration does not apply if you are applying for a lump sum as a surviving partner); and</li>
+                  <li style="padding-left: 7px;">Whilst I have been a member of the ADF, I have not previously purchased a home, other than the one that is the subject of this
+                    application for
+                    Subsidy
+                    Certificate, and this property was purchased after I received my Subsidy Certificate.<BR /><BR />
+                    <strong>NOTE: </strong>If you have less than 12 months of entitlement remaining after you receive the lump sum payment, and subsequently transfer to the
+                    Reserves, your monthly DHOAS payments may cease.</li>
+                </ol>
               </div>
             </div>
+
+
+
+
 
             <div class="form-group" id="lump-sum-previous-no-div" style="display: none;">
               <label class="uikit-text-input__label" for="toggle-buttons">Do you want to make an application for a lump sum now?</label>
@@ -66,21 +79,7 @@
                 </label>
               </div>
             </div>
-            <div id="lump-sum-previous-yes-div" style="display: none;">
-              <div class="uikit-page-alerts uikit-page-alerts--error" role="alert">
-                <p>I confirm the declarations made on my application for Subsidy Certificate form are correct in that:</p>
-                <ol>
-                  <li>I expect that I will continue to provide service in the Australian Defence Force (ADF), where the service is considered effective for DHOAS purposes, for a
-                    period of at least 12 months after the payment of subsidy is authorised. *I acknowledge that the Scheme Administrator or the Department of Defence may recover
-                    an amount equal to the lump sum subsidy paid to me if I cease to be a member of the ADF within 12 month after the payment subsidy is authorised. (*The
-                    declaration does not apply if you are applying for a lump sum as a surviving partner); and</li>
-                  <li>Whilst I have been a member of the ADF, I have not previously purchased a home, other than the one that is the subject of this application for Subsidy
-                    Certificate, and this property was purchased after I received my Subsidy Certificate.</li>
-                  <p><strong>NOTE: </strong>If you have less than 12 months of entitlement remaining after you receive the lump sum payment, and subsequently transfer to the
-                    Reserves, your monthly DHOAS payments may cease.</p>
-                </ol>
-              </div>
-            </div>
+
 
             <div id="lump-sum-now-no-div" style="display: none;">
 
@@ -243,7 +242,7 @@
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
               <div class="floated">
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar5'">Save and next</button>
+                <button class="uikit-btn btnNext" id="save-and-next-button" onclick="window.location.href = '/auth/claim/dhoas/sar5'">Save and next</button>
               </div>
             </div>
 
@@ -257,6 +256,38 @@
 </body>
 
 <script type="text/javascript">
+
+  $(document).ready(() => {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=requested_lump_sum]').change(function () {
+      var mySelection = $('input[name=requested_lump_sum]:checked').val();
+      if (mySelection == "yes") {
+        $("input:checkbox").prop("checked", false);
+        $("#lump-sum-previous-yes-div").show("fast");
+        $("#save-and-next-button").prop('disabled', true);
+      } else {
+        $("#lump-sum-previous-yes-div").hide("fast");
+        $("#save-and-next-button").prop('disabled', false);
+      }
+    });
+
+    $('input[name=declaration_checked]').change(function () {
+      var mySelection = $('input[name=declaration_checked]:checked').val();
+      console.log(mySelection);
+      if (mySelection == "on") {
+        $("#save-and-next-button").prop('disabled', false);
+      } else {
+        $("#save-and-next-button").prop('disabled', true);
+      }
+    });
+
+  });
+
+
+
+
   $("#posting").on("change", "input[type='radio']", function () {
     if ($("#posting-yes").prop("checked")) {
       $("#posting-yes-div").css("display", "block");
