@@ -24,7 +24,6 @@
   <div class="health-cards__page-wrapper">
     <div class="container health-card__container">
       <h1><span class="heading">Cards</span></h1>
-      <div id="health-cards--none" class="row" hidden>When content is available for no card, it will be in here</div>
       <div id="health-cards" class="row">
 <% cards.forEach((card, index) => { %>
   <div class="health-card" id="<%- card.id %>">
@@ -33,26 +32,30 @@
       
 
       <div class="health-card__image-container <%- !card.available ? "health-card__image--on-its-way" : "" %>">
-        <% if (card.type === "Veteran Card") {
-          if (card.class === "White") { %>
-              <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-white--edited.png" alt="White veterans card">
-          <% } else if (card.class === "Gold") {
-              if (card.TPI) { %>
-                  <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold-tpi--edited.png" alt="Gold TPI veterans card">
-              <% } else { %>
-                  <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold--edited.png" alt="Gold veterans card">
-              <% } %>
+        <% if (card.available) { %>
+          <% if (card.type === "Veteran Card") {
+            if (card.class === "White") { %>
+                <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-white--edited.png" alt="White veterans card">
+            <% } else if (card.class === "Gold") {
+                if (card.TPI) { %>
+                    <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold-tpi--edited.png" alt="Gold TPI veterans card">
+                <% } else { %>
+                    <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold--edited.png" alt="Gold veterans card">
+                <% } %>
+            <% } %>
+            <p class="health-card__card-number card-text"><%- card.fileNumber %></p>
+            <p class="health-card__card-expiry card-text"><%- card.expiryShort %></p>
+            <p class="health-card__card-name card-text"><%- card.name %></p>
+            <p class="health-card__file-no-text card-text">File No.</p>
+            <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
+          <% } else if (card.type === "Commonwealth Senior Health Card") { %>
+            <img class="health-card__image health-card__image--concession" src="/docs/images/concession-card-seniors-back.jpg" alt="Commonwealth Senior Health Card">
+            <p class="health-card__card-number card-text"><%- card.crnNumber %></p>
+            <p class="health-card__card-expiry card-text"><%- card.expiry %></p>
+            <p class="health-card__card-name card-text"><%- card.name %></p>
           <% } %>
-          <p class="health-card__card-number card-text"><%- card.fileNumber %></p>
-          <p class="health-card__card-expiry card-text"><%- card.expiryShort %></p>
-          <p class="health-card__card-name card-text"><%- card.name %></p>
-          <p class="health-card__file-no-text card-text">File No.</p>
-          <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
-        <% } else if (card.type === "Commonwealth Senior Health Card") { %>
-          <img class="health-card__image health-card__image--concession" src="/docs/images/concession-card-seniors-back.jpg" alt="Commonwealth Senior Health Card">
-          <p class="health-card__card-number card-text"><%- card.crnNumber %></p>
-          <p class="health-card__card-expiry card-text"><%- card.expiry %></p>
-          <p class="health-card__card-name card-text"><%- card.name %></p>
+        <% } else { %>
+          <img class="health-card__image" src="/docs/images/health-card-white--edited.png" alt="lightgray background">
         <% } %>
       </div>
       <div class="health-card__inner-card-info">
@@ -60,44 +63,58 @@
 
         <div class="health-card__details-wrapper">
         <h3 class="health-card__header-text"><%- card.type %></h3>
-        <hr class="non-breaking-hr">
 
-          <div class="health-card__detail">
+          <% if (card.available) { %>
+
+            <hr class="non-breaking-hr">
+            <div class="health-card__detail">
+              <% if (card.type === "Veteran Card") { %>
+                <label class="health-card__label">File Number</label>
+                <span><%- card.fileNumber %></span>
+              <% } else if (card.type === "Commonwealth Senior Health Card") { %>
+                <label class="health-card__label">CRN Number</label>
+                <span><%- card.crnNumber %></span>
+              <% } %>
+            </div>
+            <hr class="non-breaking-hr">
+
+            <div class="health-card__detail">
+              <label class="health-card__label">Expiry date</label>
+              <span><%- card.expiry %></span>
+            </div>
+            <hr class="non-breaking-hr">
+
             <% if (card.type === "Veteran Card") { %>
-              <label class="health-card__label">File Number</label>
-              <span><%- card.fileNumber %></span>
-            <% } else if (card.type === "Commonwealth Senior Health Card") { %>
-              <label class="health-card__label">CRN Number</label>
-              <span><%- card.crnNumber %></span>
+              <div class="health-card__detail">
+                <label class="health-card__label">Card type</label>
+                <span><%- card.class %></span>
+              </div>
+              <hr class="non-breaking-hr">
             <% } %>
-          </div>
-          <hr class="non-breaking-hr">
 
-          <div class="health-card__detail">
-            <label class="health-card__label">Expiry date</label>
-            <span><%- card.expiry %></span>
-          </div>
-          <hr class="non-breaking-hr">
+            <% if (card.type === "Commonwealth Senior Health Card") { %>
+              <div class="health-card__detail">
+                <label class="health-card__label">Date issued</label>
+                <span><%- card.issued %></span>
+              </div>
+              <hr class="non-breaking-hr">
+            <% } %>
 
-          <% if (card.type === "Veteran Card") { %>
-            <div class="health-card__detail">
-              <label class="health-card__label">Card type</label>
-              <span><%- card.class %></span>
+            <div class="health-card__order-replacement">
+              <a href="/">Order replacement</a>
             </div>
-            <hr class="non-breaking-hr">
-          <% } %>
 
-          <% if (card.type === "Commonwealth Senior Health Card") { %>
-            <div class="health-card__detail">
-              <label class="health-card__label">Date issued</label>
-              <span><%- card.issued %></span>
+          <% } else { %>
+            <div class="health-card__on-its-way">
+
+              <hr class="non-breaking-hr margin-below--mid">
+              <div class="health-card__detail">
+                <p>Your card is on its way. Your card details will be availalbe here when it has been issued.</p>
+              </div>
+              <hr class="non-breaking-hr margin-above--mid">
+              
             </div>
-            <hr class="non-breaking-hr">
           <% } %>
-
-          <div class="health-card__order-replacement">
-            <a href="/">Order replacement</a>
-          </div>
         </div>
       </div>
     </div>
