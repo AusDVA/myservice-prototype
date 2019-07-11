@@ -32,21 +32,13 @@
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
 
-            <div class="margin-above--large ">
-              <div id="progressbar">
-                <div id="percentage">
-                  <p id="percentage_value">5% complete</p>
-                </div>
-              </div>
-              <p style="padding-top:0.4em;">5% complete</p>
-
-            </div>
-
             <div id="coOwnerDetails">
-
-                <h2 class="margin-below">
-                  <span class="font-weight-heavy">Contact details of co-owner/borrower</span>
-                </h2>
+              <!-- <div class="uikit-page-alerts" role="alert">
+                <p>To be eligble for the Subsidy Certificate, either you, or you and your co-owner/borrower together, must have at least 50% ownership in the property.</p>
+              </div> -->
+              <h3 class="margin-below">
+                <span>Contact details of co-owner/borrower</span>
+              </h3>
 
 
 
@@ -98,29 +90,61 @@
                   </label>
                   <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
                 </div>
-                <%- include(partials+"components/form_partials.ejs", {
-                      "forms": [
-                        {
-                          "type": "y_n_toggle",
-                          "config": {
-                            "label": "Has this co-owner/borrower ever used or been known by any other names?",
-                            "yes_toggle": "#previous-names"
-                          }
-                        }
-                      ]
-                    }); %>
 
-                <div id="previous-names" hidden>                
-                  <%- include(partials+"components/form_partials.ejs", {
-                    "forms": [
-                      {
-                        "type": "text",
-                        "config": {
-                          "label": "Please enter all previous, separated by commas"
-                        }
+                <%- include(partials+"components/form_partials.ejs", {
+                  "forms": [
+                    {
+                      "type": "y_n_toggle",
+                      "config": {
+                        "label": "Has this co-owner/borrower ever used or been known by any other names?",
+                        "hint": "<br>For example, name at birth, maiden name, previous married name",
+                        "yes_toggle": "#former-names-list"
                       }
-                    ]
-                  }); %>
+                    }
+                  ]
+                }); %>
+
+                <div id="former-names-list" hidden class="form-group">
+                    <table class="mys-table table-responsive border-all border-top__thick--blue">
+                        <tbody>
+                            <tr>
+                                <th class="border-left__thin--white">
+                                    <label class="uikit-text-input__label" for="date">Given name (first name)</label>
+                                </th>
+                                <th>
+                                    <label class="uikit-text-input__label" for="date">Surname (last name)</label>
+                                </th>
+                                <th class="border-right__thin--white"></th>
+                            </tr>
+                            <tr id="date-template">
+                                <td>
+                                    <input class="uikit-text-input" type="text">
+                                </td>
+                                <td>
+                                    <input class="uikit-text-input" type="text">
+                                </td>
+                                <td>
+                                    <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                                </td>
+                            </tr>
+                            <tr class="padding-above--none">
+                                <td colspan="4" class="padding-above--none ss-align">
+                                    <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
+                                        <span class="icon far fa-plus-circle"></span>
+                                        <span class="link">Add another name</span>
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <script>
+                    function cloneMe() {
+                        var newOne = $('#date-template').clone(true)
+                            .find("input:text").val("").end();
+                        $("#removeDateRow").show();
+                        newOne.insertAfter($('#date-template'));
+                    }
+                    </script>
                 </div>
 
                 <div class="form-group" id="PartnerDOB">
@@ -148,113 +172,79 @@
                 </div>
               </div>
 
+              <h3>Relationship to co-owner/borrower</h3>
+              <%- include(partials+"components/form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "checkbox",
+                    "config": {
+                    "label": "Select all that apply",
+                    <!-- "hint": "Select all that apply", -->
+                    "boxes": [
+                    {
+                      "text": "Partner (co-owner and/or co-borrower)",
+                    },
+                    {
+                      "text": "Non-partner co-owner",
+                      "inject": "#non-partner-co-owner"
+                    },
+                    {
+                      "text": "Non-partner co-borrower",
+                      "inject": "#non-partner-co-borrower"
+                    },
+                    {
+                      "text": "Guarantor on loan"
+                    }, 
+                    {
+                      "text": "Non-partner point of contact"
+                    }
+                    ]
+                  }
+                }
+                ]
+              }); %>
 
-
-
-
-
-
-              <fieldset>
-                <legend>Relationship to co-owner/borrower</legend>
-                <div class="form-group" id="relationship">
-                  <label class="uikit-text-input__label" for="sop">What is your relationship to this person?
-                    <p>
-                      <br>
-                      <span class="hint display-block">Select all that apply</span>
-                    </p>
-                  </label>
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="partner" name="checkbox">
-                      <span class="uikit-control-input__text">Partner (co-owner and/or co-borrower)</span>
-                    </label>
-                  </div>
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-owner" name="checkbox" value="nonpartner-coowner">
-                      <span class="uikit-control-input__text">Non-partner co-owner</span>
-                    </label>
-                  </div>
-
-                  <div id="InterestInProp">
-                    <fieldset class="form-group form-group--secondary">
-                      <span class="input-support-text">
-                        <span class="hint">My non-partner co-owner has</span>
-                      </span>
-                      <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
-                      <span class="input-support-text">%
-                        <span class="hint">Interest in the property</span>
-                      </span>
-                    </fieldset>
-                  </div>
-
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerCo-borrower" name="checkbox" value="nonpartner-coborrower">
-                      <span class="uikit-control-input__text">Non-partner co-borrower</span>
-                    </label>
-                  </div>
-
-                  <div id="InterestInProperty">
-                    <fieldset class="form-group form-group--secondary">
-                      <span class="input-support-text">
-                        <span class="hint">My non-partner co-borrower has</span>
-                      </span>
-                      <input class="uikit-text-input input-small yyyy" name="InterestInProperty" id="InterestAmount" type="number">
-                      <span class="input-support-text">%
-                        <span class="hint">Interest in the property</span>
-                      </span>
-                    </fieldset>
-                  </div>
-
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="guarantor" name="checkbox">
-                      <span class="uikit-control-input__text">Guarantor on loan</span>
-                    </label>
-                  </div>
-
-                  <div class="uiToolKitCheckBox">
-                    <label class="uikit-control-input">
-                      <input class="uikit-control-input__input" type="checkbox" id="non-partnerPointofcontact" name="checkbox">
-                      <span class="uikit-control-input__text">Non-partner point of contact</span>
-                      </span>
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
-
-
-              <div class="form-group" id="also-applying">
-                <label class="uikit-text-input__label margin-above--large" for="radio-buttons">Is this person also applying for a DHOAS Subsidy Certificate?</label>
-                <div class="row">
-
-                  <div class="col-sm-3">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-this">
-                        <span class="uikit-control-input__text">Yes, to use on this property</span>
-                      </label>
-                    </p>
-                  </div>
-                  <div class="col-sm-4">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="yes-another">
-                        <span class="uikit-control-input__text">Yes, to use on another property</span>
-                      </label>
-                    </p>
-                  </div>
-                  <div class="col-sm-1">
-                    <p class="uiToolKitCheckBox">
-                      <label class="uikit-control-input">
-                        <input class="uikit-control-input__input" type="radio" name="studentLivingArrangement" value="no">
-                        <span class="uikit-control-input__text">No</span>
-                      </label>
-                    </p>
-                  </div>
-                </div>
+              <div id="non-partner-co-owner" hidden>
+                <fieldset class="form-group form-group--secondary">
+                  <span class="input-support-text">
+                    <span class="hint">My non-partner co-owner has</span>
+                  </span>
+                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
+                  <span class="input-support-text">%
+                    <span class="hint">Interest in the property</span>
+                  </span>
+                </fieldset>
               </div>
+
+
+              <div id="non-partner-co-borrower" hidden>
+                <fieldset class="form-group form-group--secondary">
+                  <span class="input-support-text">
+                    <span class="hint">My non-partner co-borrower has</span>
+                  </span>
+                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
+                  <span class="input-support-text">%
+                    <span class="hint">Interest in the property</span>
+                  </span>
+                </fieldset>
+              </div>
+
+
+              <%- include(partials+"components/form_partials.ejs", {
+                "forms": [
+                  {
+                    "type": "radio",
+                    "config": {
+                      "label": "Is this person also applying for a DHOAS Subsidy Certificate?",
+                      "boxes": [
+                        "Yes, to use on this property",
+                        "Yes, to use on another property",
+                        "No"
+                      ]
+                    }
+                  }
+                ]
+              }); %>
 
 
               <%# <div class="form-group" id="anotherCoOwner">
@@ -321,8 +311,9 @@
               </div>
             </div>
 
+
             <div class="pagination margin-above--large">
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/asc1' ">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/asc2' ">Previous</button>
               <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='#open-modal ' ">Cancel application</button>
               <div class="floated ">
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claims ' ">Save and exit</button>
@@ -338,23 +329,26 @@
   <%- include(partials+"components/layout/footer") %>
 
 
-  <script>
-    // Progress percentage
-    document.getElementById("percentage").style.width = "40%";
-    document.getElementById("percentage_value").innerText = "40%";
+   <script>
+    // Javascript Rules
 
     $("#anotherCoOwner-yes").on("click", () => {
       $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc2b'");
     });
-    $("#anotherCoOwner-no").on("click", () => {
+    $("#anotherCoOwner-no, #co_owner-no").on("click", () => {
       $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc3'");
     });
-
-    // Javascript Rules
 
 
     $("#InterestInProp").hide();
     $("#InterestInProperty").hide();
+
+    $("#coOwner-no").click(function () {
+      $("#coOwner__no").show();
+    });
+    $("#coOwner-yes").click(function () {
+      $("#coOwner__no").hide();
+    });
 
     $("#co-ownerQuestion label").click(function () {
       if ($(this).children('input').val() == "no") {
@@ -392,41 +386,6 @@
 
     $("#anotherCoOwner-no").click(function () {
       $("#no-coowner").show();
-    });
-
-    // $("#non-partnerCo-borrower").click(function () {
-    //   if ($(this).prop('checked')) {
-    //     $("#InterestInProperty").show();
-    //   } else {
-    //     $("#InterestInProperty").hide();
-    //   }
-    // });
-
-    document.getElementById('non-partnerCo-borrower').onclick = function (event) {
-      debugger
-      if (event.target.checked) {
-        document.getElementById('InterestInProperty').style.display = ''
-      } else {
-        document.getElementById('InterestInProperty').style.display = 'none'
-      }
-    }
-
-
-
-    var buttonon = true;
-    $("#btnNext").click(function () {
-      if ($("#anotherCoOwner-yes")[0].checked) {
-        $(".on > input").each(function () {
-          if (!$(this)[0].checked) {
-            buttonon = false;
-          }
-        })
-        if (buttonon) {
-          window.location.href = "/auth/claim/dhoas/asc2b";
-          return
-        }
-      }
-      window.location.href = "/auth/claim/dhoas/asc3";
     });
 
     $.ajax({
