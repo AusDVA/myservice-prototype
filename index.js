@@ -40,8 +40,13 @@ app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
+  res.locals.formPartialsID = require('./helpers/formPartialsID');
+  res.locals.generateOption = require('./helpers/generateOption');
+  res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
+  res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
   next();
 });
+
 
 
 // create sitemap 
