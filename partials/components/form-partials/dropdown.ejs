@@ -4,20 +4,42 @@ form.id = formPartialsID(form.id, "dropdown");
 
 %>
 
-<!-- <select> -->
-  
-<% form.options.map(opt => { 
+<select>
+ 
 
-    if (typeof opt === "string") {
-      opt = {
-        text: opt
-      }
+<% const options = form.options.map(opt => { 
+  if (typeof opt === "string") {
+    opt = {
+      text: opt
     }
+  }
+  %>
+  <%- generateOption(opt).html; %>
 
-    %> <%#- JSON.stringify(opt) %> <%
-    
-    generateOption(opt);
+  <% 
+    if (opt.toggle) {
+      return {
+        "toggle": opt.toggle,
+        "rev": false
+      } 
+    } else if (opt.rToggle) {
+      return {
+        "toggle": opt.rToggle,
+        rev: false
+      }
 
-  }) %>
+    }
+  });
+  %>
 
-<!-- </select> -->
+  %>
+
+</select>
+
+<%
+  
+  if (!options.includes(undefined)) {
+    // add toggle functionality
+  }
+
+%>

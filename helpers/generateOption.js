@@ -1,25 +1,25 @@
+const replaceNonAlphanumeric = require('../helpers/replaceNonAlphanumeric');
+
 module.exports = (option) => {
-  if (typeof option === "object") {
-    let {disabled, hidden, selected, modifiers, text, toggle, value} = option;
-  } else {
-    let text = option;
-  }
+  let { modifiers, 
+        text, 
+        toggle, 
+        value
+       } = option;
 
-  if (!text) return "Must specify the option text"
+  if (!value) value = replaceNonAlphanumeric(text);
 
-  if (!value) value = replaceNonAlphanumeric(value);
-
-  if (toggle && modifiers.includes("toggleRev")) {
+  if (toggle && modifiers && modifiers.includes("toggleRev")) {
     toggleStr = `data-r-toggle="${toggle}"`;
-  } else if (toggle && !modifiers.includes("toggleRev")) {
+  } else if (toggle && (!modifiers || modifiers) && !modifiers.includes("toggleRev")) {
     toggleStr = `data-toggle="${toggle}"`;
   }
 
   let html = `
     <option value="${value}"
-      ${disabled ? "disabled" : "" } 
-      ${selected ? "selected" : "" } 
-      ${hidden ? "hidden" : "" } 
+      ${modifiers && modifiers.includes("disabled") ? "disabled" : "" } 
+      ${modifiers && modifiers.includes("selected") ? "selected" : "" } 
+      ${modifiers && modifiers.includes("hidden") ? "hidden" : "" } 
       ${toggle ? toggleStr : "" }>
         ${text}
     </option>`;
