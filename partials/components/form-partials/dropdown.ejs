@@ -1,13 +1,16 @@
 <%
 
-form.id = formPartialsID(form.id, "dropdown");
+id = formPartialsID(id, "dropdown");
 
 %>
 
-<select>
+<select
+  class="uikit-text-input <%- modifiers && modifier.includes("inputFullLength") ? "" : "input-half" %>input-half"
+  id="<%- %>"
+>
  
 
-<% const options = form.options.map(opt => { 
+<% const options = form.options.map(opt => {
   if (typeof opt === "string") {
     opt = {
       text: opt
@@ -17,29 +20,30 @@ form.id = formPartialsID(form.id, "dropdown");
   <%- generateOption(opt).html; %>
 
   <% 
-    if (opt.toggle) {
-      return {
-        "toggle": opt.toggle,
-        "rev": false
-      } 
-    } else if (opt.rToggle) {
-      return {
-        "toggle": opt.rToggle,
-        rev: false
-      }
 
+    let { toggle, rToggle } = generateOption(opt);
+    return {
+      toggle,
+      rToggle
     }
-  });
-  %>
 
+  });
   %>
 
 </select>
 
 <%
   
-  if (!options.includes(undefined)) {
-    // add toggle functionality
-  }
+  if (!options.includes(undefined)) { %>
+    <script type="text/javascript">
+        $("#<%- id %>").on("change", function() {
+          $($("option:selected", this).data("toggle")).show();
+          $($("option:selected", this).data("r-toggle")).hide();
+          $($("option:not(:selected)", this).data("r-toggle")).show();
+          $($("option:not(:selected)", this).data("toggle")).hide();
+        })
+
+    </script>
+  <% }
 
 %>

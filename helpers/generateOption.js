@@ -9,36 +9,20 @@ module.exports = (option) => {
 
   if (!value) value = replaceNonAlphanumeric(text);
 
-  if (toggle && modifiers && modifiers.includes("toggleRev")) {
-    toggleStr = `data-r-toggle="${toggle}"`;
-  } else if (toggle && (!modifiers || modifiers) && !modifiers.includes("toggleRev")) {
-    toggleStr = `data-toggle="${toggle}"`;
-  }
-
   let html = `
     <option value="${value}"
       ${modifiers && modifiers.includes("disabled") ? "disabled" : "" } 
       ${modifiers && modifiers.includes("selected") ? "selected" : "" } 
       ${modifiers && modifiers.includes("hidden") ? "hidden" : "" } 
-      ${toggle ? toggleStr : "" }>
+      ${toggle ? `data-toggle="${toggle}"` : "" }>
+      ${toggle ? `data-r-toggle="${rToggle}"` : "" }>
         ${text}
     </option>`;
 
-  if (toggle) {
-    if (modifiers.includes("toggleRev")) {
-      return {
-        "rToggle": toggle,
-        html
-      }
-    } else {
-      return {
-        toggle,
-        html
-      }
-    }
-  } else {
-    return {
-      html
-    }
+  return {
+    toggle,
+    rToggle,
+    html
   }
+
 }
