@@ -135,7 +135,7 @@
               
             </div>
           <% } else if (card.available === null) { %>
-            <div class="health-card__on-its-way">
+            <div class="health-card__no-card">
               <hr class="non-breaking-hr margin-below--mid">
                 <div class="health-card__detail">
                   <p><strong>Our records show you do not currently have a Veteran Card</strong></p>
@@ -157,6 +157,7 @@
             <div class="accordion">
               <button class="style-less-button accordion-button health-card__label--big <%- card.available === null ? "rotate-90" : "" %>"><i class="transition fas fa-chevron-right"></i> Conditions listed</button>
               <div class="accordion-content" <%- card.available !== null ? "hidden" : "" %>>
+                <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Plase continue to visit your local defence health centre.</p>
                 <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
                   <div class="health-card__conditions-list margin-below--mid">
                     <% card.conditions.forEach((condition, c_index) => { %>
@@ -210,17 +211,6 @@
   <%- include(partials+"components/layout/footer") %>
   <script type="text/javascript">
     $(document).ready(() => {
-
-        $("#health-cards .accordion").on("click", ".accordion-button", function() {
-          if ($(this).hasClass("rotate-90")) {
-            $(this).removeClass("rotate-90");
-          } else {
-            $(this).addClass("rotate-90");
-          }
-
-          $(this).parent().find(".accordion-content").toggle();
-        });
-
         $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function() {
           if ($(this).closest(".health-card").hasClass("toggled-open")) {
             $(this).closest(".health-card").removeClass("toggled-open");
