@@ -15,7 +15,7 @@ module.exports = (option) => {
       ${modifiers && modifiers.includes("selected") ? "selected" : "" } 
       ${modifiers && modifiers.includes("hidden") ? "hidden" : "" } 
       ${toggle ? `data-toggle="${toggle}"` : "" }>
-      ${toggle ? `data-r-toggle="${rToggle}"` : "" }>
+      ${rToggle ? `data-r-toggle="${rToggle}"` : "" }>
         ${text}
     </option>`;
 

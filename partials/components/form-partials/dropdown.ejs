@@ -5,12 +5,12 @@ id = formPartialsID(id, "dropdown");
 %>
 
 <select
-  class="uikit-text-input <%- modifiers && modifier.includes("inputFullLength") ? "" : "input-half" %>input-half"
+  class="uikit-text-input <%- modifiers && modifiers.includes("inputFullLength") ? "" : "input-half" %>input-half"
   id="<%- %>"
 >
  
 
-<% const options = form.options.map(opt => {
+<% const opts = options.map(opt => {
   if (typeof opt === "string") {
     opt = {
       text: opt
@@ -21,10 +21,12 @@ id = formPartialsID(id, "dropdown");
 
   <% 
 
+
     let { toggle, rToggle } = generateOption(opt);
+    console.log(toggle, rToggle)
     return {
-      toggle,
-      rToggle
+      toggle: toggle,
+      rToggle: rToggle
     }
 
   });
@@ -34,7 +36,7 @@ id = formPartialsID(id, "dropdown");
 
 <%
   
-  if (!options.includes(undefined)) { %>
+  if (!otps.includes(undefined)) { %>
     <script type="text/javascript">
         $("#<%- id %>").on("change", function() {
           $($("option:selected", this).data("toggle")).show();
