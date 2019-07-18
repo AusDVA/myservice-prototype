@@ -24,24 +24,6 @@
   <div class="health-cards__page-wrapper">
     <div class="container health-card__container">
       <h1><span class="heading">Cards</span></h1>
-
-        <div id="health-cards--joe" class="row" hidden>
-            <h3 style="margin-left: 8px;" class="heading--light">Our records show you do not currently have a Veteran card.</h3>
-            <div class="tile-container">
-              <%- include(partials+"components/tile", {
-                "tiles": [
-                  {
-                    "title": "Australian Defence Veterans' Covenant",
-                    "subtext": "Request a Veteran Card as part of the Australian Defence Veterans' Covenant.",
-                    "link": "/auth/claim/veterancard/veteran-card-start",
-                    "modifiers": ["bgWhite"]
-                  }
-                ]
-              }); %>
-
-            </div>
-            <p style="margin: 1em 0 0 8px;">You can also <a href="https://www.dva.gov.au/factsheet-hsv61-dva-health-card-specific-conditions-white" rel="external">refer to the fact sheet</a> to check your eligibility for a DVA White Card</p>
-        </div>
               
       <div id="health-cards" class="row">
 <% cards.forEach((card, index) => { %>
@@ -140,7 +122,7 @@
                 <div class="health-card__detail">
                   <p><strong>Our records show you do not currently have a Veteran Card</strong></p>
                   <p>You can <a href="/auth/claim/veterancard/veteran-card-start">request a Vetaran Card here</a> as part of the Australian Defence Veterans' Covenant.</p>
-                  <p>If you are currently serving, you will receive a card when you discharge.</p>
+                  <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Please continue to visit your local defence health centre. A card will be sent to you when you discharge.</p>
                 </div>
 
               <hr class="non-breaking-hr margin-below--mid">
@@ -157,7 +139,9 @@
             <div class="accordion">
               <button class="style-less-button accordion-button health-card__label--big <%- card.available === null ? "rotate-90" : "" %>"><i class="transition fas fa-chevron-right"></i> Conditions listed</button>
               <div class="accordion-content" <%- card.available !== null ? "hidden" : "" %>>
-                <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Plase continue to visit your local defence health centre.</p>
+                <% if (card.available !== null) { %>
+                  <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Plase continue to visit your local defence health centre.</p>
+                <% } %>
                 <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
                   <div class="health-card__conditions-list margin-below--mid">
                     <% card.conditions.forEach((condition, c_index) => { %>
