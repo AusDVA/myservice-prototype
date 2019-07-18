@@ -1,0 +1,89 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("checkbox");
+let boxCounter = 0;
+
+%>
+
+<div class="form-group">
+  <fieldset
+    class="uikit-text-input__label legend-label"
+    id="<%- id %>"
+  >
+
+    <legend 
+      for="<%- id %>"
+      class="uikit-text-input__label"
+      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>
+      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+      >
+        <%- legend %>
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+        <% } %>
+
+        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: tooltip.screenreaderText,
+              content: tooltip.content,
+              id,
+              modifiers
+            })
+          %>
+        <% } %>
+    </legend>
+
+    <% const boxs = boxes.map(box => {
+      boxCounter++;
+
+      console.log(typeof box);
+      if (typeof box === "string") {
+        box = {
+          text: box
+        }
+      } else if (typeof box === "object") {
+        box.baseID = id;
+        box.type = "checkbox";
+        box.boxID = boxCounter;
+      }
+
+      %>
+
+      <%- generateCheckRadio(box).html; %>
+
+      <% 
+
+
+        let { toggle, rToggle, inject } = generateCheckRadio(box);
+        return {
+          toggle,
+          rToggle,
+          inject
+        }
+
+      });
+      %>
+
+  </fieldset>
+
+  <% if (!boxs.includes(undefined)) { %>
+    <script type="text/javascript">
+      $("#<%- id %>").change("input[type=checkbox]", function() {
+        $("input[type=checkbox]:checked", this).each(function() {
+          $($(this).data("toggle")).show();
+          $($(this).data("r-toggle")).hide();
+          $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitCheckBox"));
+          $(this).closest("fieldset").find($($(this).data("inject"))).show();
+        });
+
+        $("input[type=checkbox]:not(:checked)", this).each(function() {
+          $($(this).data("toggle")).hide();
+          $($(this).data("r-toggle")).show();
+          $(this).closest("fieldset").find($(this).data("inject")).remove();
+        });
+      })
+    </script>
+  <% } %>
+
+</div>

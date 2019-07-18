@@ -1,51 +1,70 @@
 <%
 
-id = formPartialsID(id, "dropdown");
+if (typeof id === "undefined") var id = formPartialsID("dropdown");
 
 %>
 
-<select
-  class="uikit-text-input <%- modifiers && modifiers.includes("inputFullLength") ? "" : "input-half" %>input-half"
-  id="<%- %>"
->
- 
+<div class="form-group">
+  <label 
+    for="<%- id %>"
+    class="uikit-text-input__label"
+    <%- typeof modifiers !== "undefined" && modifiers.includes("hidden") ? "hidden" : "" %>
+    <%- typeof modifiers !== "undefined" && modifiers.includes("disabled") ? "disabled" : "" %>
+    >
+      <%- label %>
+      <% if (typeof hint !== "undefined") { %>
+        <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+      <% } %>
 
-<% const opts = options.map(opt => {
-  if (typeof opt === "string") {
-    opt = {
-      text: opt
+      <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+        <%- 
+          generateTooltip({
+            screenreaderText: tooltip.screenreaderText,
+            content: tooltip.content,
+            id,
+            modifiers
+          })
+        %>
+      <% } %>
+  </label>
+
+  <select
+    class="uikit-text-input <%- modifiers && modifiers.includes("inputFullLength") ? "" : "input-half" %>"
+    id="<%- id %>"
+  >
+
+  <% const opts = options.map(opt => {
+    if (typeof opt === "string") {
+      opt = {
+        text: opt
+      }
     }
-  }
-  %>
-  <%- generateOption(opt).html; %>
+    %>
+    <%- generateOption(opt).html; %>
 
-  <% 
+    <% 
 
 
-    let { toggle, rToggle } = generateOption(opt);
-    console.log(toggle, rToggle)
-    return {
-      toggle: toggle,
-      rToggle: rToggle
-    }
+      let { toggle, rToggle } = generateOption(opt);
+      return {
+        toggle: toggle,
+        rToggle: rToggle
+      }
 
-  });
-  %>
+    });
+    %>
 
-</select>
+  </select>
 
-<%
-  
-  if (!otps.includes(undefined)) { %>
+  <% if (!opts.includes(undefined)) { %>
     <script type="text/javascript">
-        $("#<%- id %>").on("change", function() {
+        $("#<%- id %>").change(function() {
           $($("option:selected", this).data("toggle")).show();
           $($("option:selected", this).data("r-toggle")).hide();
           $($("option:not(:selected)", this).data("r-toggle")).show();
           $($("option:not(:selected)", this).data("toggle")).hide();
         })
-
     </script>
-  <% }
+  <% } %>
 
-%>
+</div>

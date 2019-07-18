@@ -3,7 +3,8 @@ const replaceNonAlphanumeric = require('../helpers/replaceNonAlphanumeric');
 module.exports = (option) => {
   let { modifiers, 
         text, 
-        toggle, 
+        toggle,
+        rToggle,
         value
        } = option;
 
@@ -14,7 +15,7 @@ module.exports = (option) => {
       ${modifiers && modifiers.includes("disabled") ? "disabled" : "" } 
       ${modifiers && modifiers.includes("selected") ? "selected" : "" } 
       ${modifiers && modifiers.includes("hidden") ? "hidden" : "" } 
-      ${toggle ? `data-toggle="${toggle}"` : "" }>
+      ${toggle ? `data-toggle="${toggle}"` : "" }
       ${rToggle ? `data-r-toggle="${rToggle}"` : "" }>
         ${text}
     </option>`;
