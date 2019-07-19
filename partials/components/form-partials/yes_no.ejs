@@ -4,22 +4,18 @@ if (typeof id === "undefined") var id = formPartialsID("yes_no");
 
 %>
 
-<div class="form-group">
+<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
   <fieldset
     class="uikit-text-input__label legend-label"
     id="<%- id %>"
+    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
   >
 
     <legend 
       for="<%- id %>"
       class="uikit-text-input__label legend-override"
-      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>
-      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
       >
         <%- legend %>
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
 
         <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
           <%- 
@@ -30,6 +26,10 @@ if (typeof id === "undefined") var id = formPartialsID("yes_no");
               modifiers
             })
           %>
+        <% } %>
+
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
         <% } %>
     </legend>
 

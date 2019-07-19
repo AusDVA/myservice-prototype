@@ -5,22 +5,18 @@ let boxCounter = 0;
 
 %>
 
-<div class="form-group">
+<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
   <fieldset
     class="uikit-text-input__label legend-label"
+    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
     id="<%- id %>"
   >
 
     <legend 
       for="<%- id %>"
       class="uikit-text-input__label"
-      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>
-      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
-      >
-        <%- legend %>
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
+    >
+        <%- typeof legend !== "undefined" ? legend : "" %>
 
         <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
           <%- 
@@ -32,16 +28,23 @@ let boxCounter = 0;
             })
           %>
         <% } %>
+        
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+        <% } %>
     </legend>
 
     <% const boxs = boxes.map(box => {
       boxCounter++;
 
-      console.log(typeof box);
       if (typeof box === "string") {
         box = {
-          text: box
+          text: box,
+          baseID: id,
+          type: "checkbox",
+          boxID: boxCounter 
         }
+
       } else if (typeof box === "object") {
         box.baseID = id;
         box.type = "checkbox";
