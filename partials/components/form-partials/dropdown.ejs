@@ -1,0 +1,70 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("dropdown");
+
+%>
+
+<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
+  <label 
+    for="<%- id %>"
+    class="uikit-text-input__label"
+  >
+      <%- label %>
+
+      <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+        <%- 
+          generateTooltip({
+            screenreaderText: tooltip.screenreaderText,
+            content: tooltip.content,
+            id,
+            modifiers
+          })
+        %>
+      <% } %>
+
+      <% if (typeof hint !== "undefined") { %>
+        <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+      <% } %>
+  </label>
+
+  <select
+    class="uikit-text-input <%- modifiers && modifiers.includes("inputFullLength") ? "" : "input-half" %>"
+    id="<%- id %>"
+    <%- typeof modifiers !== "undefined" && modifiers.includes("disabled") ? "disabled" : "" %>
+  >
+
+  <% const opts = options.map(opt => {
+    if (typeof opt === "string") {
+      opt = {
+        text: opt
+      }
+    }
+    %>
+    <%- generateOption(opt).html; %>
+
+    <% 
+
+
+      let { toggle, rToggle } = generateOption(opt);
+      return {
+        toggle: toggle,
+        rToggle: rToggle
+      }
+
+    });
+    %>
+
+  </select>
+
+  <% if (!opts.includes(undefined)) { %>
+    <script type="text/javascript">
+        $("#<%- id %>").change(function() {
+          $($("option:selected", this).data("toggle")).show();
+          $($("option:selected", this).data("r-toggle")).hide();
+          $($("option:not(:selected)", this).data("r-toggle")).show();
+          $($("option:not(:selected)", this).data("toggle")).hide();
+        })
+    </script>
+  <% } %>
+
+</div>

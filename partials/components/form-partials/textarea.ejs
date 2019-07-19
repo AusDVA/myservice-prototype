@@ -1,0 +1,38 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("textarea");
+
+%>
+
+<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
+    <label
+      for="<%- id %>"
+      class="uikit-text-input__label">
+        <%- label %>
+
+        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: tooltip.screenreaderText,
+              content: tooltip.content,
+              id,
+              modifiers
+            })
+          %>
+        <% } %>
+
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+        <% } %>
+    </label>
+    <textarea 
+      class="uikit-text-input"
+      name="<%- id %>"
+      id="<%- id %>"
+      <%- typeof placholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
+      <%- typeof rows !== "undefined" ? `rows="${rows}"` : `rows="5"` %>
+      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+    >
+    <%- typeof value !== "undefined" ? value : "" %>
+    </textarea>
+</div>

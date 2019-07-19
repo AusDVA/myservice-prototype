@@ -30,6 +30,9 @@ app.use(cookieParser());
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
+app.get('/favicon.ico', (req, res) => {
+  res.send();
+})
 
 // this is a pretty nice feature toggle. might be cool to do something like this in the future
 // https://www.npmjs.com/package/feature-toggle-api
@@ -40,8 +43,14 @@ app.set('view engine', 'ejs');
 
 app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
+  res.locals.formPartialsID = require('./helpers/formPartialsID');
+  res.locals.generateOption = require('./helpers/generateOption');
+  res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
+  res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
+  res.locals.generateTooltip = require('./helpers/generateTooltip');
   next();
 });
+
 
 
 // create sitemap 
