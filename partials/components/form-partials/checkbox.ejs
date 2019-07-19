@@ -5,18 +5,14 @@ let boxCounter = 0;
 
 %>
 
-<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
+<div class="form-group" >
   <fieldset
-    class="uikit-text-input__label legend-label"
     <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
     id="<%- id %>"
   >
 
-    <legend 
-      for="<%- id %>"
-      class="uikit-text-input__label"
-    >
-        <%- typeof legend !== "undefined" ? legend : "" %>
+    <legend class="uikit-text-input__label legend-override">
+        <%- typeof label !== "undefined" ? label : "" %>
 
         <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
           <%- 
@@ -70,12 +66,13 @@ let boxCounter = 0;
 
   </fieldset>
 
-  <% if (!boxs.includes(undefined)) { %>
+  <% if (boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined || box.inject !== undefined).length > 0) { %>
     <script type="text/javascript">
       $("#<%- id %>").change("input[type=checkbox]", function() {
         $("input[type=checkbox]:checked", this).each(function() {
           $($(this).data("toggle")).show();
           $($(this).data("r-toggle")).hide();
+          $(this).closest("fieldset").find($(this).data("inject")).remove();
           $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitCheckBox"));
           $(this).closest("fieldset").find($($(this).data("inject"))).show();
         });
