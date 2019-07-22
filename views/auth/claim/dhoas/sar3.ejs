@@ -21,7 +21,7 @@
     <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
       <div class="container margin-above--none">
         <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Ownership and use of the property</span>
+          <span class="heading">Occupancy</span>
         </h1>
       </div>
     </div>
@@ -30,169 +30,100 @@
       <div class="row">
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
-            <div class="uikit-page-alerts" role="alert">
-              <p><strong>Please note: </strong>You must be occupying your subsidised property for DHOAS subsidy to commence.</p>
-            </div>
 
-            <div class="form-group" id="property-occupancy">
-              <label class="uikit-text-input__label" for="radio-buttons">I declare that: <br><span class="hint">(please select applicable item)</span></label>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="property-occupancy-1" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">I (or I and my dependent/s) will occupy the property from:</span>
-                </label>
-              </p>
-              <div class="breakout form-group" style="display: none; padding: 0.5em 2em 0.25em;" id="property-occupancy-1-div">
-                <div class="form-group">
-                  <!-- VALIDATION: must be today or future only -->
-                  <label class="uikit-text-input__label" for="date">Date occupancy will commence:
-                    <span class="hint">(DD / MM / YYYY)</span>
+            <% 
+          locals.el = {};
+          locals.el.message = "<p>You must be occupying your subsidised property for DHOAS subsidy to commence.</p><p>I understand that subsidy may cease if I stop occupying the property within 12 months following the commencement of subsidy payments or the completion of building work.</p><p>If I am unable to occupy the home for the 12 month occupancy period, I understand that I must be approved for a shorter period of occupancy to be eligible for continued subsidy payments.</p><p>I also understand that I must apply for a reduced occupancy period within a reasonable period of time of vacating the DHOAS subsidised property.</p>"; 
+          locals.el.optionalType = "content";
+          %>
+            <%- include(partials+"components/form-elements/notice", locals) %>
+
+            <% 
+            locals.el = {};
+            locals.el.question = 'I declare that:'; 
+            locals.el.items = ['I (or I and my dependent/s) will be occupying the property','I (or I and my dependent/s) currently occupy the property','My dependent/s will be occupying the property','My dependent/s currently occupy the property','I will not be occupying the property until the completion of building work'];
+            locals.el.optionalItemID = ['date_a','date_b','date_c','date_d','date_e'];
+            locals.el.optionalHelp = "This question does not relate to your equity in the property. It relates to the parties on the Certificate of Title and what percentage is owned by those parties. The eligible person must be one of the parties on the title for the subsidy to be payable on the property/loan."
+            locals.el.optionalID = "occupancy_date";
+            %>
+            <%- include(partials+"components/form-elements/radio", locals) %>
+
+            <% 
+            locals.el = {};
+            locals.el.question = 'Date occupancy will commence'; 
+            locals.el.optionalID = "date_will_commence";
+            locals.el.optionalHide = true;
+            %>
+            <%- include(partials+"components/form-elements/date", locals) %>
+
+            <% 
+            locals.el = {};
+            locals.el.question = 'Date occupancy commenced'; 
+            locals.el.optionalID = "date_commenced";
+            locals.el.optionalHide = true;
+            %>
+            <%- include(partials+"components/form-elements/date", locals) %>
+
+            <% 
+            locals.el = {};
+            locals.el.question = 'Expected occupancy start date'; 
+            locals.el.optionalID = "date_expected";
+            locals.el.optionalHide = true;
+            %>
+            <%- include(partials+"components/form-elements/date", locals) %>
+
+            <%# 
+            locals.el = {};
+            locals.el.question = 'Occupancy declaration'; 
+            locals.el.items = ['I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of subsidy payments.']
+            %>
+            <%#- include(partials+"components/form-elements/checkbox", locals) %>
+
+            <div class="form-group" id="lump-sum-previous-yes-div">
+              <h2>Occupancy declaration</h2>
+              <div style="border: 1px solid #d8d8d8; padding: 30px;">
+                <div class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" id="declaration_checked" name="declaration_checked">
+                    <span class="uikit-control-input__text">I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of
+                      subsidy payments.</span>
                   </label>
-                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-              </div>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="property-occupancy-2" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">I (or I and my dependent/s) currently occupy the property:</span>
-                </label>
-              </p>
-              <div class="breakout form-group" style="display: none; padding: 0.5em 2em 0.25em;" id="property-occupancy-2-div">
-                <div class="form-group">
-                  <!-- VALIDATION: must be today or future only -->
-                  <label class="uikit-text-input__label" for="date">Date occupancy commenced:
-                    <span class="hint">(DD / MM / YYYY)</span>
-                  </label>
-                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-              </div>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="property-occupancy-3" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">My dependent/s currently occupy the property:</span>
-                </label>
-              </p>
-              <div class="breakout form-group" style="display: none; padding: 0.5em 2em 0.25em;" id="property-occupancy-3-div">
-                <div class="form-group">
-                  <!-- VALIDATION: must be today or past date only -->
-                  <label class="uikit-text-input__label" for="date">Date occupancy commenced:
-                    <span class="hint">(DD / MM / YYYY)</span>
-                  </label>
-                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-                <!-- 300 character limit? -->
-                <div class="form-group">
-                  <label class="uikit-text-input__label">Name of dependent/s meeting occupancy on my behalf:</label>
-                  <input class="uikit-text-input input-half" type="text" value="" required="" aria-required="true">
-                </div>
-                <!-- 50 character limit? -->
-                <div class="form-group">
-                  <label class="uikit-text-input__label">Relationship to me</label>
-                  <input class="uikit-text-input input-half" type="text" value="" required="" aria-required="true">
-                </div>
-              </div>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="property-occupancy-4" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">I will not be occupying the property until the completion of building work:</span>
-                </label>
-              </p>
-              <div class="breakout form-group" style="display: none; padding: 0.5em 2em 0.25em;" id="property-occupancy-4-div">
-                <div class="form-group">
-                  <!-- VALIDATION: must be today or future only -->
-                  <label class="uikit-text-input__label" for="date">Expected occupancy start date:
-                    <span class="hint">(DD / MM / YYYY)</span>
-                  </label>
-                  <input class="uikit-text-input dd" type="text" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="text" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="text" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
                 </div>
               </div>
             </div>
 
-            <div class="form-group">
-              <label class="uikit-text-input__label" for="sop">Occupancy requirement:
-              </label>
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox">
-                  <span class="uikit-control-input__text">I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of subsidy
-                    payments for this application for Subsidy Certificate.</span>
-                </label>
-              </div>
-            </div>
+            <% 
+            locals.el = {};
+            locals.el.question = 'Do you currently hold a posting order which will prevent you from meeting the 12 month occupancy requirement?';
+            locals.el.optionalID = "posting_order";
+            %>
+            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
 
-            <h2>
-              Property use
-            </h2>
-            <span class="hint">(Where use of land is defined as: land or any building on the land)</span>
+            <% 
+            locals.el = {};
+            locals.el.question = "Provide details of the posting order:"; 
+            locals.el.optionalHide = true;
+            locals.el.optionalLong = true;
+            locals.el.optionalID = "posting_order_explain";
+            %>
+            <%- include(partials+"components/form-elements/field", locals) %>
 
-            <!-- -->
+            <% 
+            locals.el = {};
+            locals.el.question = 'Will the land or any building on the land be used for the purpose of carrying on a business, trade or profession?';
+            locals.el.optionalID = "using_for_work";
+            %>
+            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
 
-            <div class="form-group" id="land-use">
-              <label class="uikit-text-input__label" for="radio-buttons">I declare that: <br><span class="hint">(please select applicable item)</span></label>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="land-use-1" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">The land or any building on the land will not be used for the purpose of carrying on a business, trade or
-                    profession.</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="land-use-2" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">I will be carrying on a business, trade or profession on the land or any building on the land of the following
-                    nature:</span>
-                </label>
-              </p>
-              <div class="form-group" style="display: none; padding: 0.5em 2em 0.25em;" id="land-use-2-div">
-                <!-- VALIDATION: 300 characters -->
-                <div class="form-group">
-                  <textarea id="textArea" name="textArea" rows="5"></textarea>
-                </div>
-              </div>
-            </div>
-            <h2>
-              Posting order
-            </h2>
-            <span class="hint">(content in tip here required)</span>
-              <%- include(partials+"components/form_partials.ejs", {
-                "forms": [
-                  {
-                    "type": "y_n_toggle",
-                    "config": {
-                      "label": "Do you currently hold a posting order which will prevent you from meeting the 12 month occupancy requirement?",
-                      "yes_toggle": "#posting-yes-div"
-                    }
-                  }
-                ]
-              }); %>
-            
-            <div id="posting-yes-div" hidden>
-              <%- include(partials+"components/form_partials.ejs", {
-                "forms": [
-                  {
-                    "type": "textarea",
-                    "config": {
-                      "label": "Please provide details"
-                    }
-                  }
-                ]
-              }); %>
-              <div class="uikit-page-alerts uikit-page-alerts--error" role="alert">
-                <p>I understand that subsidy may cease if I stop occupying the property within 12 months following the commencement of subsidy payments or the completion of
-                  building work.</p>
-                <p>If I am unable to occupy the home for the 12 month occupancy period, I understand that I must be approved for a shorter period of occupancy to be eligible for
-                  continued subsidy payments.</p>
-                <p>I also understand that I must apply for a reduced occupancy period within a reasoanble period of time of vacating the DHOAS subsidised property.</p>
-              </div>
-            </div>
+            <% 
+            locals.el = {};
+            locals.el.question = "Describe the nature of the business, trade or profession:"; 
+            locals.el.optionalHide = true;
+            locals.el.optionalLong = true;
+            locals.el.optionalID = "using_for_work_explain";
+            %>
+            <%- include(partials+"components/form-elements/field", locals) %>
+
 
 
             <div class="pagination margin-above--extra">
@@ -203,7 +134,6 @@
                 <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar4'">Save and next</button>
               </div>
             </div>
-
             <%- include(partials+"content/modals/claims-cancel-modal") %>
           </div>
 
@@ -213,40 +143,68 @@
 </body>
 
 <script type="text/javascript">
-  $("#property-occupancy").on("change", "input[type='radio']", function () {
-    if ($("#property-occupancy-1").prop("checked")) {
-      $("#property-occupancy-1-div").css("display", "block");
-      $("#property-occupancy-2-div").css("display", "none");
-      $("#property-occupancy-3-div").css("display", "none");
-      $("#property-occupancy-4-div").css("display", "none");
-    } else if ($("#property-occupancy-2").prop("checked")) {
-      $("#property-occupancy-1-div").css("display", "none");
-      $("#property-occupancy-2-div").css("display", "block");
-      $("#property-occupancy-3-div").css("display", "none");
-      $("#property-occupancy-4-div").css("display", "none");
-    } else if ($("#property-occupancy-3").prop("checked")) {
-      $("#property-occupancy-1-div").css("display", "none");
-      $("#property-occupancy-2-div").css("display", "none");
-      $("#property-occupancy-3-div").css("display", "block");
-      $("#property-occupancy-4-div").css("display", "none");
-    } else if ($("#property-occupancy-4").prop("checked")) {
-      $("#property-occupancy-1-div").css("display", "none");
-      $("#property-occupancy-2-div").css("display", "none");
-      $("#property-occupancy-3-div").css("display", "none");
-      $("#property-occupancy-4-div").css("display", "block");
-    } else {
-      $("#property-occupancy-1-div").css("display", "none");
-      $("#property-occupancy-2-div").css("display", "none");
-      $("#property-occupancy-3-div").css("display", "none");
-      $("#property-occupancy-4-div").css("display", "none");
+
+  $(document).ready(() => {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=occupy_understand]').change(function () {
+      var occupy_understand = $('input[name=occupy_understand]:checked').val();
+      if (occupy_understand == "yes") {
+        $("#occupy_understand_no").hide("fast");
+      } else {
+        $("#occupy_understand_no").show("fast");
+      }
+    });
+
+    $('input[name=posting_order]').change(function () {
+      var mySelection = $('input[name=posting_order]:checked').val();
+      if (mySelection == "yes") {
+        $("#posting_order_explain").show("fast");
+      } else {
+        $("#posting_order_explain").hide("fast");
+      }
+    });
+
+    $('input[name=using_for_work]').change(function () {
+      var mySelection = $('input[name=using_for_work]:checked').val();
+      if (mySelection == "yes") {
+        $("#using_for_work_explain").show("fast");
+      } else {
+        $("#using_for_work_explain").hide("fast");
+      }
+    });
+
+    $('input[name=occupancy_date]').change(function () {
+      mySelection = $('input[name=occupancy_date]:checked').val();
+      hideDates();
+      console.log(mySelection)
+      switch (mySelection) {
+        case "date_a":
+          $("#date_will_commence").show("fast");
+          break;
+        case "date_b":
+          $("#date_commenced").show("fast");
+          break;
+        case "date_c":
+          $("#date_will_commence").show("fast");
+          break;
+        case "date_d":
+          $("#date_commenced").show("fast");
+          break;
+        case "date_e":
+          $("#date_expected").show("fast");
+          break;
+        default:
+      }
+    });
+
+    function hideDates() {
+      $("#date_will_commence").hide();
+      $("#date_commenced").hide();
+      $("#date_expected").hide();
     }
-  });
-  $("#land-use").on("change", "input[type='radio']", function () {
-    if ($("#land-use-2").prop("checked")) {
-      $("#land-use-2-div").css("display", "block");
-    } else {
-      $("#land-use-2-div").css("display", "none");
-    }
+
   });
 
 </script>
