@@ -1,3 +1,9 @@
+.health-card__on-its-way {
+  hr.non-breaking-hr, p {
+    width: 70%;
+  }
+}
+
 .health-cards__page-wrapper {
   background: $gray-light;
   padding-bottom: 50px;
@@ -47,12 +53,15 @@
 }
 
 .health-card__image--on-its-way {
-  & > p, & > img {
-    opacity: 0.5;
+  background-color: #fcfcfc;
+  border: 3px dashed #eeeeee;
+  
+  .health-card__image {
+    opacity: 0;
   }
 
   &:before {
-    background: rgba(0, 0, 0, 0.7);
+    background: #e2e2e2;
     border-radius: 3px;
     opacity: 1;
     content: "Your card is on its way";
@@ -132,9 +141,7 @@
 
   }
 
-  .health-card__image--concession
-  // , .health-card__image--veteran
-   {
+  .health-card__image--concession {
     & ~ p {
       display: none;
     }
@@ -171,13 +178,13 @@
   align-items: center;
   white-space: pre;
 
-  &[data-position="outside"] {
+  &.health-card__card-toggle--outside {
     margin: 0.25em 0 0 0;
     text-align: left;
     order: 2;
   }
 
-  &[data-position="inside"] {
+  &.health-card__card-toggle--inside {
     order: 2;
     position: absolute;
     right: 23px;
@@ -309,6 +316,13 @@ hr.non-breaking-hr {
 
 
 @media screen and (min-width: $AU-media-sm) {
+
+  .health-card__on-its-way {
+    hr.non-breaking-hr, p {
+      width: 90%;
+    }
+  }
+
   .health-card__header-text {
     max-width: 200px;
   }
@@ -339,21 +353,6 @@ hr.non-breaking-hr {
     padding: 1.5em 2em 1.2em;
   }
 
-  .health-card__image--on-its-way {
-    & > p, & > img {
-      opacity: 0.5;
-    }
-
-    &:before {
-      font-size: 1.3em;
-      padding: 0.5em 1em;
-      position: absolute;
-      left: 50px;
-      transform: translateY(-50%);
-    }
-  }
-
-
   .health-card__image-container {
     height: auto;
     width: 352px;
@@ -367,10 +366,6 @@ hr.non-breaking-hr {
     .health-card__image--veteran {
       & ~ .card-text {
         font-size: 14px;
-      }
-
-      & ~ p {
-        display: block;
       }
 
       & ~ .health-card__card-number {
@@ -410,23 +405,31 @@ hr.non-breaking-hr {
       width: inherit;
       height: inherit;
     }
-
   }
+
+.health-card__image--on-its-way {
+  // .health-card__image,
+  // .card-text {
+  //   opacity: 0.5;
+  // }
+
+  &:before {
+    font-size: 1.3em;
+    padding: 0.5em 1em;
+    position: absolute;
+    left: 50px;
+    transform: translateY(-50%);
+  }
+}
 
   .health-card__card-toggle {
     display: none !important;
   }
-
-  // @media screen and (min-width: $AU-media-md) {
-  //   .health-card__extras > div {
-  //     width: 60%;
-  //   }
-  // }
   
   .health-card__extras {
     .health-card__detail {
       &:nth-child(2) {
-        margin-top: 0em;
+        margin-top: 0.25em;
       }
     }
   }
@@ -453,6 +456,12 @@ hr.non-breaking-hr {
 @media screen and (min-width: $AU-media-md) {
   hr.non-breaking-hr {
     width:  65%;
+  }
+
+  .health-card__on-its-way {
+    hr.non-breaking-hr, p {
+      width: 50%;
+    }
   }
 }
 
@@ -528,4 +537,36 @@ hr.non-breaking-hr {
       font-size: 3.93vw;
     }
   }  
+}
+
+//styles required to override the specificity of the angular implementation of font awesome
+.health-card__condition-icon {
+  &.ng-fa-icon {
+    align-items: center;
+    color: #5bb356;
+    display: flex;
+    padding-right: 1em;
+  }
+
+  .fa-check-circle {
+    font-size: 1.35em;
+  }
+}
+
+.toggled-open {
+  background: $white;
+
+  .health-card__card-info {
+    .health-card__card-toggle--outside {
+      display: none;
+    }
+
+    .health-card__inner-card-info {
+      display: flex;
+    }
+  }
+
+  .health-card__extras {
+    display: flex;
+  }
 }

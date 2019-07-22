@@ -1,0 +1,59 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("date");
+
+%>
+
+<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
+  <fieldset>
+    <legend
+      for="<%- id %>"
+      class="uikit-text-input__label legend-override">
+        <%- legend %>
+
+        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: tooltip.screenreaderText,
+              content: tooltip.content,
+              id,
+              modifiers
+            })
+          %>
+        <% } %>
+
+        <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %>
+          <%- typeof hint !== "undefined" ? hint : "(DD / MM / YYYY)" %>
+        </span>
+    </legend>
+
+    <input 
+      type="number"
+      class="uikit-text-input dd"
+      name="<%- id %>-dd"
+      id="<%- id %>-dd"
+      maxlength="2" 
+      aria-label="2 digit day"
+    >
+
+    <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
+    <input 
+      type="number"
+      class="uikit-text-input mm"
+      name="<%- id %>-mm"
+      id="<%- id %>-mm"
+      maxlength="2" 
+      aria-label="2 digit month"
+    >
+
+    <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
+    <input 
+      type="number"
+      class="uikit-text-input yyyy"
+      name="<%- id %>-yyyy"
+      id="<%- id %>-yyyy"
+      maxlength="4" 
+      aria-label="4 digit year"
+    >
+  </fieldset>
+</div>
