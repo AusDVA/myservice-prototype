@@ -24,6 +24,7 @@ module.exports = box => {
           ${inject ? `data-inject="${inject}"` : ""}
           ${modifiers && modifiers.includes("disabled") ? "disabled" : ""}
           ${modifiers && modifiers.includes("hidden") ? "hidden" : ""}
+          ${modifiers && modifiers.includes("checked") ? "checked" : ""}
         >
         <span 
           class="uikit-control-input__text">
