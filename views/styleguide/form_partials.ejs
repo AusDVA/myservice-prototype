@@ -397,8 +397,6 @@
         }
       ];
 
-      var propList
-
       var modDisabled = {
         text: "disabled",
         desc: "Disables the (set) of form elements"
@@ -411,23 +409,26 @@
         req: false
       };
 
-      var hint = hintDate = {
+      var hint = {
         property: "hint",
         desc: "Some text to provide some extra information on the question",
         type: "string",
         req: false
       };
 
-      hintDate.desc += " (defaults to \"(DD / MM / YYYY)\"";
-
-      var legend = legendMod = {
+      var legend = {
         property: "legend",
         desc: "A \"label\" for the set of fields",
         type: "string",
         req: true
       };
 
-      legendMod.req = false;
+      legendMod = {
+        property: "legend",
+        desc: "A \"label\" for the set of fields",
+        type: "string",
+        req: false
+      }
 
       var label = {
         property: "label",
@@ -450,15 +451,12 @@
         req: false
       }
 
-      var boxes = options = {
+      var boxes = {
         property: "boxes",
         desc: "A list of eiter strings or objects to create a list of checkboxes",
         type: "array",
         req: true
       }
-
-      options.prop = "options";
-      options.desc = options.desc.replace("checkboxes", "options");
 
       var selector = `<a href="https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors" rel="external">CSS Selector</a>`;
 
@@ -498,7 +496,12 @@
           tooltip,
           label,
           modifiers,
-          hintDate,
+          {
+            property: "hint",
+            desc: "Some text to provide some extra information on the question  (defaults to \"(DD / MM / YYYY)\"",
+            type: "string",
+            req: false
+          },
           id
         ],
         dropdown: [
@@ -507,7 +510,12 @@
           modifiers,
           hint,
           id,
-          options
+          {
+            property: "options",
+            desc: "A list of eiter strings or objects to create a list of options",
+            type: "array",
+            req: true
+          }
         ],
         text: [
           tooltip,
@@ -537,47 +545,171 @@
           id,
           {
             property: "yes_toggle",
-            desc: `Shows the given ${selector} when "Yes" is checked`,
+            desc: `Shows the element with the given ${selector} when "Yes" is checked`,
             type: "string",
             req: false
           },
           {
             property: "no_toggle",
-            desc: `Shows the given ${selector} when "No" is checked`,
+            desc: `Shows the element with the given ${selector} when "No" is checked`,
             type: "string",
             req: false
           },
           {
             property: "yes_rToggle",
-            desc: `Shows the given ${selector} when "Yes" is NOT checked`,
+            desc: `Shows the element with the given ${selector} when "Yes" is NOT checked`,
             type: "string",
             req: false
           },
           {
             property: "no_rToggle",
-            desc: `Shows the given ${selector} when "No" is NOT checked`,
+            desc: `Shows the element with the given ${selector} when "No" is NOT checked`,
             type: "string",
             req: false
           }
         ]
-      }
+      };
+
+      var boxesDesc = [
+        {
+          property: "text",
+          desc: "The text that is displayed next to the box",
+          type: "string",
+          req: true
+        },
+        {
+          property: "hint",
+          desc: "Hint text for this specific box",
+          type: "string",
+          req: false
+        },
+        {
+          property: "toggle",
+          desc: `Shows the element with the given ${selector} when this box is checked`,
+          type: "",
+          req: false
+        },
+        {
+          property: "rToggle",
+          desc: `Shows the element with the given ${selector} when this box is NOT checked`,
+          type: "",
+          req: false
+        },
+        {
+          property: "inject",
+          desc: `"Injects" (moves to under this box) the element with the given ${selector} when this box is checked`,
+          type: "string",
+          req: false
+        },
+        modifiers
+      ];
+
+      var optionsDesc = [
+        {
+          property: "text",
+          desc: "The text that is displayed in the dropdown",
+          type: "string",
+          req: true
+        },
+        {
+          property: "value",
+          desc: "The value attribute for this specific item (use only when extra Javascript is needed)",
+          type: "string",
+          req: false
+        },
+        {
+          property: "toggle",
+          desc: `Shows the element with the given ${selector} when this box is selected`,
+          type: "",
+          req: false
+        },
+        {
+          property: "rToggle",
+          desc: `Shows the element with the given ${selector} when this box is NOT selected`,
+          type: "",
+          req: false
+        },
+        modifiers
+      ];
 
       $(document).ready(() => {
         $(".form_elem").each(function() {
 
-          var listProps = properties[$(this).data("field")].map(propt => {
-            return `
-            <tr>
-              <td><pre class="language-json">${propt.property}:<code></code></pre></td>
-              <td>${propt.desc}</td>
-              <td><pre class="language-text"><code>${propt.type}</code></pre></td>
-              <td>${propt.req ? "Yes" : "No" }</td>
-            </tr>`
-          });
+          var mapArr = (arr) => {
+            var mappedArr = arr.map(elem => {            
+              return `
+              <tr>
+                <td><pre class="language-json">${elem.property}:<code></code></pre></td>
+                <td>${elem.desc}</td>
+                <td><pre class="language-text"><code>${elem.type}</code></pre></td>
+                <td>${elem.req ? "Yes" : "No" }</td>
+              </tr>`
+            });
 
+            return mappedArr.join("")
+          };
+
+          var checkRadioDesc = `
+            <div class="accordion">
+              <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Properties</button>
+              <div class="accordion-content" hidden>
+
+                <p>Checkboxes / radios can take 2 types of data for a box, either a string or an object.</p>
+
+                <p>An example list of boxes using strings can be seen below:</p>
+                <pre class="language-json">
+                  <code>
+                    boxes: [
+                      "Box 1",
+                      "Box 2",
+                      "Box 3",
+                      "Box 4"
+                    ]
+                  </code>
+                </pre>
+
+                <p>An example list of boxes using objects can be seen below:</p>
+                <pre class="language-json">
+                  <code>
+                    boxes: [
+                      {
+                        text: "Box 1",
+                        toggle: "#element"
+                      },
+                      {
+                        text: "Box 2",
+                        rToggle: "#otherElement",
+                      },
+                      {
+                        text: "Box 3",
+                        hint: "Hello"
+                      },
+                      {
+                        text: "Box 4",
+                        inject: "#anotherElement"
+                      }
+                    ]
+                  </code>
+                </pre> 
+
+                <table class="margin-above">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Description</th>
+                      <th>Data type</th>
+                      <th>Required</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${mapArr(boxesDesc)}
+                  </tbody>
+              </div>
+            </div>`;
+         
           $(this).append(`
             <div class="accordion properties">
-              <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Properties</button>
+              <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Box Specific Properties</button>
               <div class="accordion-content" hidden>
                 <table class="margin-above">
                   <thead>
@@ -589,12 +721,14 @@
                     </tr>
                   </thead>
                   <tbody>
-                    ${listProps.join("")}
+                    ${mapArr(properties[$(this).data("field")])}
                   </tbody>
                 </table>
+                ${$(this).data("field") === "checkbox" || $(this).data("field") === "radio" ? checkRadioDesc : ""}
               </div>
             </div>`);
         });
+
 
         $(".form_elem").on("click", ".properties .accordion-button", function() {
           if ($(this).hasClass("rotate-90")) {
