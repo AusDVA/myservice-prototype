@@ -11,7 +11,8 @@
     .pt-upload-list,
     .pt-upload-list-optional,
     .pt-upload-other-docs,
-    .pt-cbd-nodoc {
+    .pt-cbd-nodoc,
+    .pt-tinnitus-response {
       display: none;
     }
 
@@ -237,12 +238,17 @@
               </div>
             </div>
 
+
+            <div class="uikit-page-alerts pt-tinnitus-response" role="alert">
+              <p>Message body informaion. </p>
+            </div>
+
             <div class="pagination">
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1a'">Previous</button>
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
               <div class="floated">
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/il/claim2'">Save and next</button>
+                <button id="btnNext" class="uikit-btn btnNext">Save and next</button>
               </div>
             </div>
 
@@ -328,6 +334,79 @@
     $("#no-cbd-upload-no").on("click", function () {
       $(".pt-required-docs").hide("fast");
     });
+
+    var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+
+    if (claimData.label === 'Tinnitus') {
+
+
+      $('#btnNext').click(function () {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+
+
+        var formData = new FormData();
+        var requestData = {
+          "dateOfBirth": "2019-07-22",
+          "serviceHistory": {
+            "serviceSummaryInformation": {
+              "originalHireDate": "2019-07-22"
+            },
+            "serviceDetails": [
+              {
+                "service": "Australian Army",
+                "serviceType": "Regular/Permanent Force",
+                "startDate": "2019-07-22",
+                "endDate": "2019-07-22",
+                "rank": "officer",
+                "operationalService": [
+                  {
+                    "assigned": "2019-07-22",
+                    "description": "string",
+                    "event": "string",
+                    "startDate": "2019-07-22",
+                    "endDate": "2019-07-22"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+
+        // TODO:: post this file
+        var opmlFile = $('#file-0')[0];
+        formData.append("opmlFile", opmlFile.files[0]);
+
+        $('.pt-tinnitus-response').show();
+
+        $.ajax({
+          url: 'https://virtserver.swaggerhub.com/Gov-Law-Tech/hearinglosspiai/1.0.0/pi',
+          type: 'POST',
+
+          dataType: 'json',
+          data: {
+            dateOfBirth: "1980-07-22"
+          },
+          success: function (data) {
+            console.log(data);
+            $('.pt-tinnitus-response p').html(JSON.stringify(data));
+          },
+          error: function (error) {
+            console.log("Error:");
+            console.log(error);
+            $('.pt-tinnitus-response p').html(JSON.stringify(error));
+          }
+        });
+
+
+      });
+
+
+
+    } else {
+      window.location.href = '/auth/claim/il/claim2';
+    }
+    console.log('claimLabel' + claimData.label);
 
   </script>
 </body>

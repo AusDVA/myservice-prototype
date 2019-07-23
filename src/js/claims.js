@@ -26,13 +26,18 @@ function setClaimCondition() {
     source: claimDataAll,
     select: function (event, ui) {
 
-      console.log('selected = ');
+      console.log('selected = ' + ui.item.value);
+
+
 
       sessionStorage.setItem('claimCondition', JSON.stringify(ui.item));
 
-
+      if (ui.item.value === "Tinnitus") {
+        $('#pt-tinnitus-severity').show();
+      } else {
+        $('#pt-tinnitus-severity').hide();
+      }
       // $('.pt-type-ahead-type').hide();
-
 
     }
 
