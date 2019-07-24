@@ -116,6 +116,7 @@
             <ul>
               <li class="uikit-link-list"><a href="#address">Address</a></li>
               <li class="uikit-link-list"><a href="#bankdetails">Bank Details</a></li>
+              <li class="uikit-link-list"><a href="#gender">Gender</a></li>
               <li class="uikit-link-list"><a href="#checkbox">Checkbox</a></li>
               <li class="uikit-link-list"><a href="#date">Date</a></li>
               <li class="uikit-link-list"><a href="#dropdown">Dropdown</a></li>
@@ -168,6 +169,26 @@
                       <%%- include(partials+"components/form-partials/bank-details", {
                         legend: "Bank details"
                       }); %%>
+                    </code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <h2 id="gender">Gender</h2>
+            <div class="example-box form_elem" data-field="gender">
+              <h3>Practical example</h3>
+              <%- include(partials+"components/form-partials/gender"); %>
+            
+
+              <div class="accordion">
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <div class="accordion-content" hidden>  
+
+                  <pre class="language-ejs">
+                    <code>
+                      <%%- include(partials+"components/form-partials/gender"); %%>
                     </code>
                   </pre>
                 </div>
@@ -416,7 +437,7 @@
       var tooltip = {
         property: "tooltip",
         desc: "A button to toggle an large extend description",
-        type: "string",
+        type: "object",
         req: false
       };
 
@@ -486,6 +507,23 @@
           modifiers,
           hint,
           id
+        ],
+        gender: [
+          {
+            property: "tooltip",
+            desc: "A button to toggle an large extend description (gender has default specified tooltip)",
+            type: "object",
+            req: false
+          },
+          id,
+          modifiers,
+          hint,
+          {
+            property: "label",
+            desc: "A label for the form element (defaults to \"Gender\"",
+            type: "string",
+            req: true
+          }
         ],
         checkbox: [
           tooltip,
@@ -704,7 +742,7 @@
             <div style="margin-left: 1em;" class="margin-above accordion">
               <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
               <div class="accordion-content" hidden>
-                          ${mapMods([modGlobal[0], modGlobal[1], modGlobal[2], modGlobal[3], modGlobal[4]])}
+                          ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3], modGlobal[4]])}
               </div>
             </div>
             <div style="margin-left: 1em;" class="accordion">
@@ -744,7 +782,7 @@ options: [
                     <div style="margin-left: 1em;" class="margin-above accordion">
                       <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Option Specific Modifiers</button>
                         <div class="accordion-content" hidden>
-                          ${mapMods([modGlobal[1], modGlobal[2], {text: "selected", desc: "Sets this box to the default selected box (can only be used once)"}])}
+                          ${mapMods([modGlobal[2], {text: "selected", desc: "Sets this box to the default selected box (can only be used once)"}])}
                         </div>
                     </div>
               </div>
@@ -754,7 +792,7 @@ options: [
             <div style="margin-left: 1em;" class="margin-above accordion">
               <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
               <div class="accordion-content" hidden>
-                ${mapMods([modGlobal[0], modGlobal[1], modGlobal[2], modGlobal[3]])}
+                ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3]])}
                 
               </div>
             </div>
@@ -799,7 +837,7 @@ boxes: [
                     <div style="margin-left: 1em;" class="accordion">
                       <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Box Specific Modifiers</button>
                         <div class="accordion-content" hidden>
-                          ${mapMods([modGlobal[1], modGlobal[2], modGlobal[3], {text: "checked", desc: "Sets the box checked by default"}])}
+                          ${mapMods([modGlobal[2], modGlobal[3], {text: "checked", desc: "Sets the box checked by default"}])}
                         </div>
                     </div>
               </div>
@@ -834,6 +872,13 @@ boxes: [
                     </div>
                 </div>` : ""}
                 ${$(this).data("field") === "textarea" || $(this).data("field") === "yes_no" ? `
+                <div style="margin-left: 1em;" class="accordion">
+                  <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
+                    <div class="accordion-content" hidden>
+                      ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3]])}
+                    </div>
+                </div>` : ""}
+                ${$(this).data("field") === "gender" ? `
                 <div style="margin-left: 1em;" class="accordion">
                   <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
                     <div class="accordion-content" hidden>

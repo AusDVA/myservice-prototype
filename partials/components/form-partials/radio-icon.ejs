@@ -1,6 +1,6 @@
 <%
 
-if (typeof id === "undefined") var id = formPartialsID("radio");
+if (typeof id === "undefined") var id = formPartialsID("radioIcon");
 let boxCounter = 0;
 
 %>
@@ -9,6 +9,7 @@ let boxCounter = 0;
   <fieldset
     <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
     id="<%- id %>"
+    class="radio-tile--group"
   >
 
     <legend class="uikit-text-input__label legend-override">
@@ -32,23 +33,14 @@ let boxCounter = 0;
 
     <% const boxs = boxes.map(box => {
       boxCounter++;
-      
-      if (typeof box === "string") {
-        box = {
-          text: box,
-          baseID: id,
-          type: "radio",
-          boxID: boxCounter 
-        }
-      } else if (typeof box === "object") {
-        box.baseID = id;
-        box.type = "radio";
-        box.boxID = boxCounter;
-      }
+
+      box.baseID = id;
+      box.type = "radio";
+      box.boxID = boxCounter;
 
       %>
 
-      <%- generateCheckRadio(box).html; %>
+      <%- generateRadioIcons(box).html; %>
 
       <% 
 
