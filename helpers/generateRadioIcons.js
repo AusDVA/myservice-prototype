@@ -16,11 +16,11 @@ module.exports = box => {
     let printedIcons = icons.map(icon => {
       if (typeof icon === "object") {
         return `
-          <i class="radio-tile__icon radio-tile__icon--padding fa-3x ${icon.weight} ${icon.icon}"></i>
+          <i class="fa-3x ${icon.weight} ${icon.icon}"></i>
         ` 
       } else if (typeof icon === "string") {
         return `
-          <i class="radio-tile__icon radio-tile__icon--padding fa-3x fas ${icon}"></i>
+          <i class="fa-3x fas ${icon}"></i>
         ` 
       }
     })
@@ -30,18 +30,18 @@ module.exports = box => {
 
   let html =  `
 
-  <label class="radio-tile">
-    <input type="${type}" name="${baseID}" id="${baseID}-${boxID}" class="sr"
+  <label class="mys-radio">
+    <input type="${type}" name="${baseID}" id="${baseID}-${boxID}" class="mys-radio__control"
       ${toggle ? `data-toggle="${toggle}"` : ""}
       ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
       ${inject ? `data-inject="${inject}"` : ""}
       ${modifiers && modifiers.includes("disabled") ? "disabled" : ""}
       ${modifiers && modifiers.includes("hidden") ? "hidden" : ""}
       ${modifiers && modifiers.includes("checked") ? "checked" : ""}>
-      <span>
-        ${printIconBox(icons)}
-        ${text}
-      </span>
+    <span class="mys-radio__box mys-radio__box--large">
+      ${printIconBox(icons)}
+      <div class="margin-above">${text}</div>
+    </span>
   </label>`
 
   return {
