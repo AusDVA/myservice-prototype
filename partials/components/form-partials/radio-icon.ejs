@@ -30,30 +30,28 @@ let boxCounter = 0;
           <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
         <% } %>
     </legend>
+    <div class="radio-icons">
+      <% const boxs = boxes.map(box => {
+        boxCounter++;
 
-    <% const boxs = boxes.map(box => {
-      boxCounter++;
+        box.baseID = id;
+        box.type = "radio";
+        box.boxID = boxCounter;
 
-      box.baseID = id;
-      box.type = "radio";
-      box.boxID = boxCounter;
+        %>
 
-      %>
+        <%- generateCheckRadioIcons(box).html; %>
 
-      <%- generateRadioIcons(box).html; %>
-
-      <% 
-
-
-        let { toggle, rToggle, inject } = generateRadioIcons(box);
-        return {
-          toggle,
-          rToggle,
-          inject
-        }
-
-      });
-      %>
+        <% 
+          let { toggle, rToggle, inject } = generateCheckRadioIcons(box);
+          return {
+            toggle,
+            rToggle,
+            inject
+          }
+        });
+        %>
+    </div>
 
   </fieldset>
 
