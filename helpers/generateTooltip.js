@@ -15,7 +15,6 @@ module.exports = tooltip => {
   <div id="${id}__message" class="tooltip__content" aria-labelledby="${id}__label" role="region" tabindex="-1" aria-hidden="true">
     <div class="tooltip__message">${content}
       <div class="tooltip__close" role="button" tabindex="0">Close</div>
-    }
     </div>
   </div>
 	</div>`;
