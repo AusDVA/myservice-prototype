@@ -1,0 +1,59 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("gender");
+
+%>
+
+
+<fieldset
+    id="<%- id %>"
+    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+  >
+
+    <legend class="uikit-text-input__label legend-override">
+        <%- typeof label !== "undefined" ? label : "Gender" %>
+
+        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: tooltip.screenreaderText,
+              content: tooltip.content,
+              id,
+              modifiers
+            })
+          %>
+        <% } else { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: "Gender help",
+              content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.",
+              id,
+              modifiers: ["tooltipIconOnly"]
+            })
+          %>
+        <% } %>
+
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+        <% } %>
+    </legend>
+
+    <div class="radio-toggle">
+      <label class="label-left"
+        for="<%- id %>-male">
+        <input 
+          type="radio" 
+          name="<%- id %>" 
+          id="<%- id %>-male">
+          <span>Male</span>
+      </label>
+      <label class="label-right"
+        for="<%- id %>-female">
+        <input 
+          type="radio" 
+          name="<%- id %>" 
+          id="<%- id %>-female">
+          <span>Female</span>
+      </label>
+    </div>
+  </fieldset>
