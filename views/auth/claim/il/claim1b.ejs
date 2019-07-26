@@ -343,53 +343,34 @@
       $('#btnNext').click(function () {
         event.stopImmediatePropagation();
         event.preventDefault();
-
-
-        var formData = new FormData();
-        var requestData = {
-          "dateOfBirth": "2019-07-22",
-          "serviceHistory": {
-            "serviceSummaryInformation": {
-              "originalHireDate": "2019-07-22"
-            },
-            "serviceDetails": [
-              {
-                "service": "Australian Army",
-                "serviceType": "Regular/Permanent Force",
-                "startDate": "2019-07-22",
-                "endDate": "2019-07-22",
-                "rank": "officer",
-                "operationalService": [
-                  {
-                    "assigned": "2019-07-22",
-                    "description": "string",
-                    "event": "string",
-                    "startDate": "2019-07-22",
-                    "endDate": "2019-07-22"
-                  }
-                ]
-              }
-            ]
-          }
-        }
-
-        // TODO:: post this file
-        var opmlFile = $('#file-0')[0];
-        formData.append("opmlFile", opmlFile.files[0]);
-
         $('.pt-tinnitus-response').show();
+
+        var data = new FormData();
+        jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
+          data.append('file-' + i, file);
+        });
+
 
         $.ajax({
           url: 'https://virtserver.swaggerhub.com/Gov-Law-Tech/hearinglosspiai/1.0.0/pi',
+          cache: false,
+          contentType: false,
+          processData: false,
+          method: 'POST',
           type: 'POST',
-
-          dataType: 'json',
-          data: {
-            dateOfBirth: "1980-07-22"
-          },
+          // TODO: might need to append json data here as well 
+          // data: {
+          //   diagnosisDate: "2019-07-25",
+          //   level: "0"
+          // },
+          data: data,
           success: function (data) {
             console.log(data);
-            $('.pt-tinnitus-response p').html(JSON.stringify(data));
+            sessionStorage.setItem('hearingLossApiUrl', JSON.stringify(data.id));
+            $('.pt-tinnitus-response p').html('URL from Heading loss API = ' + JSON.stringify(data.id));
+            setTimeout(function () {
+              window.location.href = '/auth/claim/il/claim2';
+            }, 2000);
           },
           error: function (error) {
             console.log("Error:");
@@ -398,9 +379,7 @@
           }
         });
 
-
       });
-
 
 
     } else {
