@@ -21,20 +21,30 @@ if (typeof id === "undefined") var id = formPartialsID("date");
         <% } %>
 
         <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %>
-          <%- typeof hint !== "undefined" ? hint : "(DD / MM / YYYY)" %>
+          <% if (typeof hint === "undefined") { %>
+            <% if (!(typeof modifiers !== "undefined" && modifiers.includes("noDay"))) { %>
+              (DD / MM / YYYY)
+            <% } else { %>
+              (MM / YYYY)
+            <% } %>
+          <% } else { %>
+            <%- hint %>
+          <% } %>
         </span>
     </legend>
 
-    <input 
-      type="number"
-      class="uikit-text-input dd"
-      name="<%- id %>-dd"
-      id="<%- id %>-dd"
-      maxlength="2" 
-      aria-label="2 digit day"
-    >
+    <% if (!(typeof modifiers !== "undefined" && modifiers.includes("noDay"))) { %>
+      <input 
+        type="number"
+        class="uikit-text-input dd"
+        name="<%- id %>-dd"
+        id="<%- id %>-dd"
+        maxlength="2" 
+        aria-label="2 digit day"
+      >
+      <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
+    <% } %>
 
-    <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
     <input 
       type="number"
       class="uikit-text-input mm"
