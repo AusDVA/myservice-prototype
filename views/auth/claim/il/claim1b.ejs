@@ -214,8 +214,8 @@
                       </td>
                       <td class="right">
                         <div>
-                          <input type="file" class="file-upload-default__input" id="file-0">
-                          <label class="file-upload-default__label" for="file-0">
+                          <input type="file" class="file-upload-default__input" id="file-1">
+                          <label class="file-upload-default__label" for="file-1">
 
                             <span id="document-type-button" class="file-upload-default__button">
                               <span class="uikit-btn small">Upload</span>
@@ -240,7 +240,7 @@
 
 
             <div class="uikit-page-alerts pt-tinnitus-response" role="alert">
-              <p>Message body informaion. </p>
+              <p>Waiting for response... </p>
             </div>
 
             <div class="pagination">
@@ -337,39 +337,97 @@
 
     var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
 
-    if (claimData.label === 'Tinnitus') {
 
+    // option with valila js
+    if (claimData.label === 'Tinnitus') {
 
       $('#btnNext').click(function () {
         event.stopImmediatePropagation();
         event.preventDefault();
         $('.pt-tinnitus-response').show();
 
-        var data = new FormData();
-        jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
-          data.append('file-' + i, file);
-        });
+        var oOutput = document.querySelector(".pt-tinnitus-response")
+        var oData = new FormData();
+        var fileData = $('#file-0').prop('files')[0];
+        oData.append("tinnitusData", "{ \"diagnosisDate\": \"2019-07-28\", \"level\": 3}");
+        oData.append("audiogramDocument", fileData);
 
+        console.log('uploading: ');
+        for (var pair of oData.entries()) {
+          console.log(pair[0] + ', ' + pair[1]);
+        }
+        console.log(fileData.name);
+
+
+        var oReq = new XMLHttpRequest();
+        oReq.open("POST", "https://hearinglossai.govlawtech.com.au/api/tinnitusCheck", false);
+        oReq.onload = function (oEvent) {
+
+          if (oReq.status == 202) {
+            oOutput.innerHTML = JSON.stringify(oReq);
+            console.log(oReq);
+            console.log(oEvent);
+          } else {
+            console.log(oReq);
+            oOutput.innerHTML = "Error " + oReq.status + " occurred when trying to upload your file.<br \/>";
+          }
+        };
+
+        oReq.send(oData);
+
+
+
+
+      });
+    }
+
+    // option with jquery
+    if (claimData.label === 'jquery-Tinnitus') {
+
+      alert('wrong');
+
+      $('#btnNext').click(function () {
+        event.stopImmediatePropagation();
+        event.preventDefault();
+        $('.pt-tinnitus-response').show();
+
+        var formData = new FormData();
+        var jsonObj = {
+          "diagnosisDate": "2019-07-28", "level": "3"
+        };
+        // jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
+        //   // data.append('file-' + i, file);
+        //   formData.append('audiogramDocument', file);
+
+        // });
+
+        var fileData = $('#file-0').prop('files')[0];
+
+        formData.append('tinnitusData', JSON.stringify(jsonObj));
+        formData.append('audiogramDocument', fileData);
+
+
+        // curl - X POST "https://hearinglossai.govlawtech.com.au/api/tinnitusCheck"
+        //   - H "accept: application/json"
+        //   - H "Content-Type: multipart/mixed"
+        //   - F tinnitusData = "{ \"diagnosisDate\": \"2019-07-28\", \"level\": 3}"
+        //   - F audiogramDocument =@knownToWork.pdf | json_pp
 
         $.ajax({
-          url: 'https://virtserver.swaggerhub.com/Gov-Law-Tech/hearinglosspiai/1.0.0/pi',
+          url: 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck',
+          data: formData,
           cache: false,
           contentType: false,
           processData: false,
-          method: 'POST',
-          type: 'POST',
-          // TODO: might need to append json data here as well 
-          // data: {
-          //   diagnosisDate: "2019-07-25",
-          //   level: "0"
-          // },
-          data: data,
+          // method: 'POST',
+          type: 'POST', // For jQuery < 1.9
           success: function (data) {
             console.log(data);
-            sessionStorage.setItem('hearingLossApiUrl', JSON.stringify(data.id));
-            $('.pt-tinnitus-response p').html('URL from Heading loss API = ' + JSON.stringify(data.id));
+            // sessionStorage.setItem('hearingLossApiUrl', JSON.stringify(data.id));
+            // $('.pt-tinnitus-response p').html('URL from Heading loss API = ' + JSON.stringify(data.id));
+            $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data));
             setTimeout(function () {
-              window.location.href = '/auth/claim/il/claim2';
+              // window.location.href = '/auth/claim/il/claim2';
             }, 2000);
           },
           error: function (error) {
@@ -383,7 +441,7 @@
 
 
     } else {
-      window.location.href = '/auth/claim/il/claim2';
+      // window.location.href = '/auth/claim/il/claim2';
     }
     console.log('claimLabel' + claimData.label);
 
