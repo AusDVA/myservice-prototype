@@ -164,7 +164,7 @@ jQuery(document).ready(function ($) {
         if (content.clientHeight > (content.scrollTop + content.getBoundingClientRect().top)) {
           console.log('adding tooltip__tab--bottom');
           tab.className = `${className} ${TAB_CLASS}--bottom`
-          content.style.top = `${control.offsetTop + tab.clientHeight  + tab.offsetTop + tab.offsetHeight}px`
+          content.style.top = `${control.offsetTop + tab.clientHeight + tab.offsetTop + tab.offsetHeight}px`
         } else {
           console.log('adding tooltip__tab--top');
           tab.className = `${className} ${TAB_CLASS}--top`
@@ -529,7 +529,7 @@ var AU = AU || {};
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -627,17 +627,17 @@ var AU = AU || {};
 
     // making a prefunction if none was provided
     if (typeof options.prefunction !== 'function') {
-      options.prefunction = function () {};
+      options.prefunction = function () { };
     }
 
     // making a postfunction if none was provided
     if (typeof options.postfunction !== 'function') {
-      options.postfunction = function () {};
+      options.postfunction = function () { };
     }
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -831,7 +831,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     // making sure we can iterate over just one DOM element
     if (elements.length === undefined) {
@@ -926,7 +926,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -984,7 +984,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -1024,3 +1024,13 @@ var AU = AU || {};
 if (typeof module !== 'undefined') {
   module.exports = AU;
 }
+
+//accordion toggle jQuery
+$(".accordion").on("click", ".accordion-button", function () {
+  if ($(this).hasClass("rotate-90")) {
+    $(this).removeClass("rotate-90");
+  } else {
+    $(this).addClass("rotate-90");
+  }
+  $(this).parent().find(".accordion-content").toggle();
+});

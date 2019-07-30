@@ -1,0 +1,92 @@
+<% var cards = JSON.parse(include("cards-data")) %>
+
+<div id="state-switcher">
+  <h3>State switcher</h3>
+        <% var boxes = []; %>
+
+        <%- include(partials+"components/form_partials", {
+          "forms": [
+            {
+              "type": "radio",
+              "id": "card-states",
+              "config": {
+                "label": "Card States",
+                "boxes": [
+                  {
+                    "text": "Gold"
+                  },
+                  {
+                    "text": "White"
+                  },
+                  {
+                    "text": "Card on the way"
+                  },
+                  {
+                    "text": "Gold TPI + CSHC (2 cards)"
+                  }
+                ]
+              }
+            }
+          ]
+        }) %>
+    </div>
+</div>
+
+
+<script>
+
+$(document).ready(function () {
+/* --- State switcher --- */
+  /* Toggle switcher */
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+      break;
+      default:
+    }
+  });
+
+  $("#radiocardstates-2").prop("checked", true);
+  $("#veteran-white-on-way").hide();
+  $("#veteran-gold").hide();
+  $("#veteran-white").show();
+  $("#veteran-gold-tpi").hide();
+  $("#cshc").hide();
+
+  $("#radiocardstates-1").on("click", () => { // Gold
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").show();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+  $("#radiocardstates-2").on("click", () => { // White
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").show();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+
+  $("#radiocardstates-3").on("click", () => { // White card on the way
+    $("#veteran-white-on-way").show();
+    $("#veteran-gold").hide();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+  $("#radiocardstates-4").on("click", () => { // Gold TPI + CSHC (2 cards)
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").show();
+    $("#cshc").show();
+  });
+
+
+});
+</script>

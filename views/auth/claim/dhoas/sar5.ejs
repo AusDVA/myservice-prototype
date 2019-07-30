@@ -31,37 +31,51 @@
           <div class="margin-above--extra margin-below--extra">
 
             <div class="form-group">
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox">
-                  <span class="uikit-control-input__text">I agree to the following:</span>
-                </label>
-              </div>
-              <div class="breakout">
-                <ul>
-                  <li>I will advise if any of the above declarations made in anticipation are not subsequently confirmed during the home purchase and loan processes.</li>
-                  <li>I will advise DVA either on a "D9155 Notification of change in circumstances" form, or via email or phone, within a reasable time from my becoming aware of
+              <h2>Declaration</h2>
+              <div class="declaration">
+                <div class="uiToolKitCheckBox">
+                  <label class="uikit-control-input">
+                    <input class="uikit-control-input__input" type="checkbox" id="agreement_checked" name="agreement_checked">
+                    <span class="uikit-control-input__text">I agree to the following:</span>
+                  </label>
+                </div>
+                <ol class="declaration__list">
+
+                  <li>I will advise DVA either on a "D9155 Notification of change in circumstances" form, or via email or phone, within a reasonable time
+                    from my becoming aware of
                     any of the following:
                     <ul>
-                      <li>A reasonaly significant change to my loan agreement;</li>
+                      <li>A reasonably significant change to my loan agreement;</li>
                       <li>A change that affects the way my service credit or tier level is worked out, including a change in my service status;</li>
                       <li>Where there is a reasonably significant change to the house or a permanent improvement on the property detailed;</li>
                       <li>Where I am undertaking building work, when I complete that building work;</li>
                       <li>Where there is a change in my or my partner's ownership of the property detailed;</li>
                       <li>Where my partner and I own the subsidised property detailed, and the partnership is dissolved;</li>
                       <li>If I move out of my home within 12 months of subsidy commencing;</li>
-                      <li>If the house and/or land (excluding the common property associated with a strata or similar title property) starts being used, to a reasonably significant
-                        extent, for the purpose of carrying out a business, trade or profession.</li>
-                      <strong>Note:</strong> Failure to advise any of the above may result in your subsidy being stopped.
+                      <li>If the house and/or land (excluding the common property associated with a strata or similar title property) starts being used,
+                        to a reasonably significant
+                        extent, for the purpose of carrying out a business, trade or profession.<BR /><BR />
+                        <strong>Note:</strong> Failure to advise any of the above may result in your subsidy being stopped.</li>
+
                     </ul>
                   </li>
-                  <li>Giving false information is a serious offence and may be prosecuted under section 137 of the Criminal Code Act 1995. I declare that the information given in
+                  <li>Giving false information is a serious offence and may be prosecuted under section 137 of the Criminal Code Act 1995. I declare that
+                    the information given in
                     this form and any other attached document is complete and correct.</li>
-                  <li>I consent to the disclosure and use of personal information as notified in the Privacy Notification and Consent section of the application for Subsidy
+                  <li>I consent to the disclosure and use of personal information as notified in the Privacy Notification and Consent section of the
+                    application for Subsidy
                     Certificate form.</li>
-                </ul>
+                  <li>I will advise if any of the above declarations made in anticipation are not subsequently confirmed during the home purchase and
+                    loan processes.</li>
+                </ol>
               </div>
             </div>
+
+            <div id="save-next" hidden>
+              <p>Choose <b>save and next</b> to continue</p>
+            </div>
+
+
             <div class="pagination margin-above--extra">
               <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/sar4' ">Previous</button>
 
@@ -80,10 +94,20 @@
   <%- include(partials+"components/layout/footer") %>
 
 
-  <script>
-    // Progress percentage
-    document.getElementById("percentage").style.width = "20%";
-    document.getElementById("percentage_value").textContent = "20%";
+  <script type="text/javascript">
+
+    $(document).ready(() => {
+
+      $('input[name=agreement_checked]').change(function () {
+        var mySelection = $('input[name=agreement_checked]:checked').val();
+        if (mySelection == "on") {
+          $("#save-next").show("fast");
+        } else {
+          $("#save-next").hide("fast");
+        }
+      });
+
+    });
 
   </script>
 
