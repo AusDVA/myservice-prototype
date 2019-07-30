@@ -1,0 +1,37 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("text");
+
+%>
+
+<div class="form-group" >
+    <label
+      for="<%- id %>"
+      class="uikit-text-input__label">
+        <%- label %>
+
+        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
+          <%- 
+            generateTooltip({
+              screenreaderText: tooltip.screenreaderText,
+              content: tooltip.content,
+              id,
+              modifiers
+            })
+          %>
+        <% } %>
+
+        <% if (typeof hint !== "undefined") { %>
+          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
+        <% } %>
+    </label>
+    <input 
+      type="text"
+      class="uikit-text-input <%- typeof modifiers !== "undefined" && modifiers.includes("inputFullLength") ? "" : "input-half" %>"
+      name="<%- id %>"
+      id="<%- id %>"
+      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+      <%- typeof placholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
+      <%- typeof value !== "undefined" ? `value="${value}"` : "" %>
+      >
+</div>

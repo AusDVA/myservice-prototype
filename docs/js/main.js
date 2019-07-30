@@ -989,4 +989,5 @@ $(".accordion").on("click", ".accordion-button", function () {
     $(this).addClass("rotate-90");
   }
   $(this).parent().find(".accordion-content").toggle();
+
 });
