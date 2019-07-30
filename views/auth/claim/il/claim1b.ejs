@@ -339,9 +339,9 @@
 
 
     // option with valila js
-    if (claimData.label === 'Tinnitus') {
+    if (claimData.label === 'api-Tinnitus') {
 
-      $('#btnNext').click(function () {
+      $('#btnNext').click(function (event) {
         event.stopImmediatePropagation();
         event.preventDefault();
         $('.pt-tinnitus-response').show();
@@ -382,11 +382,11 @@
     }
 
     // option with jquery
-    if (claimData.label === 'jquery-Tinnitus') {
+    if (claimData.label === 'Tinnitus') {
 
-      alert('wrong');
+      // alert('wrong');
 
-      $('#btnNext').click(function () {
+      $('#btnNext').click(function (event) {
         event.stopImmediatePropagation();
         event.preventDefault();
         $('.pt-tinnitus-response').show();
@@ -421,16 +421,22 @@
           processData: false,
           // method: 'POST',
           type: 'POST', // For jQuery < 1.9
-          success: function (data) {
+          success: function (data, textStatus, jqXHR) {
+            // console.log(jqXHR);
+
             console.log(data);
-            // sessionStorage.setItem('hearingLossApiUrl', JSON.stringify(data.id));
+            // console.log(textStatus);
+            // console.log(JSON.parse(xhr.responseText));
+
+            sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
             // $('.pt-tinnitus-response p').html('URL from Heading loss API = ' + JSON.stringify(data.id));
-            $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data));
+            $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusQueryGetUri));
             setTimeout(function () {
               // window.location.href = '/auth/claim/il/claim2';
             }, 2000);
           },
           error: function (error) {
+            // console.log(JSON.parse(xhr.responseText));
             console.log("Error:");
             console.log(error);
             $('.pt-tinnitus-response p').html(JSON.stringify(error));
