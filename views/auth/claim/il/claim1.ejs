@@ -230,6 +230,35 @@
     sessionStorage.setItem('claimTinnitusSeverity', '');
     sessionStorage.setItem('claimDiagnosisDate', '');
 
+    $('input[name=tinnitus-severity]').change(function () {
+      var tinnitusSeverity = $('input[name=tinnitus-severity]:checked').val();
+      sessionStorage.setItem('claimTinnitusSeverity', tinnitusSeverity);
+
+    });
+
+
+
+    // Set diagnosis date
+    $("#single-incident :input").keyup(function () {
+      console.log('setting diagnosis date');
+      var diagnosisDateDay = $("input[name=enlistStartDay]").val();
+      var diagnosisDateMonth = $('input[name=enlistStartMonth]').val();
+      var diagnosisDateYear = $('input[name=enlistStartYear]').val();
+
+      // if a valid date
+      if (diagnosisDateDay && diagnosisDateMonth && (diagnosisDateYear.length === 4)) {
+
+        if (diagnosisDateDay.length === 1) {
+          diagnosisDateDay = "0" + diagnosisDateDay;
+        }
+        if (diagnosisDateMonth.length === 1) {
+          diagnosisDateMonth = "0" + diagnosisDateMonth;
+        }
+        var diagnosisDate = diagnosisDateYear + '-' + diagnosisDateMonth + '-' + diagnosisDateDay;
+        sessionStorage.setItem('claimDiagnosisDate', diagnosisDate);
+      }
+    });
+
   </script>
 </body>
 

@@ -164,7 +164,7 @@ jQuery(document).ready(function ($) {
         if (content.clientHeight > (content.scrollTop + content.getBoundingClientRect().top)) {
           console.log('adding tooltip__tab--bottom');
           tab.className = `${className} ${TAB_CLASS}--bottom`
-          content.style.top = `${control.offsetTop + tab.clientHeight  + tab.offsetTop + tab.offsetHeight}px`
+          content.style.top = `${control.offsetTop + tab.clientHeight + tab.offsetTop + tab.offsetHeight}px`
         } else {
           console.log('adding tooltip__tab--top');
           tab.className = `${className} ${TAB_CLASS}--top`
@@ -359,6 +359,51 @@ jQuery(document).ready(function ($) {
 
 
 
+        // TODO: move this to claims.js and make docload function take paramaters 
+        var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+
+        // option with jquery
+        if (claimData.label === 'Tinnitus') {
+
+          $('.pt-tinnitus-response').show();
+          $("#btnNext").attr("disabled", true);
+
+          var formData = new FormData();
+          var jsonObj = {
+            "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate'), "level": sessionStorage.getItem('claimTinnitusSeverity')
+          };
+          // jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
+          //   // data.append('file-' + i, file);
+          //   formData.append('audiogramDocument', file);
+          // });
+
+          // only 1 file for now 
+          var fileData = $('#file-0').prop('files')[0];
+
+          formData.append('tinnitusData', JSON.stringify(jsonObj));
+          formData.append('audiogramDocument', fileData);
+
+          $.ajax({
+            url: 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function (data, textStatus, jqXHR) {
+              console.log(data);
+              sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
+              $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusQueryGetUri));
+              $("#btnNext").attr("disabled", false);
+            },
+            error: function (error) {
+              console.log("Error:");
+              console.log(error);
+              $('.pt-tinnitus-response p').html(JSON.stringify(error));
+            }
+          });
+        }
+
       } else {
 
         label.innerHTML = labelVal;
@@ -529,7 +574,7 @@ var AU = AU || {};
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -627,17 +672,17 @@ var AU = AU || {};
 
     // making a prefunction if none was provided
     if (typeof options.prefunction !== 'function') {
-      options.prefunction = function () {};
+      options.prefunction = function () { };
     }
 
     // making a postfunction if none was provided
     if (typeof options.postfunction !== 'function') {
-      options.postfunction = function () {};
+      options.postfunction = function () { };
     }
 
     // making a callback if none was provided
     if (typeof options.callback !== 'function') {
-      options.callback = function () {};
+      options.callback = function () { };
     }
 
     // adding iteration counts
@@ -831,7 +876,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     // making sure we can iterate over just one DOM element
     if (elements.length === undefined) {
@@ -926,7 +971,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];
@@ -984,7 +1029,7 @@ var AU = AU || {};
     try {
       window.event.cancelBubble = true;
       event.stopPropagation();
-    } catch (error) {}
+    } catch (error) { }
 
     if (elements.length === undefined) {
       elements = [elements];

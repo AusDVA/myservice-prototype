@@ -347,6 +347,51 @@ jQuery(document).ready(function ($) {
         }
 
         categoryTrClass.classList.add('file-upload-default__row--uploaded');
+
+        // TODO: move this to claims.js and make docload function take paramaters 
+        var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+
+        // option with jquery
+        if (claimData.label === 'Tinnitus') {
+
+          $('.pt-tinnitus-response').show();
+          $("#btnNext").attr("disabled", true);
+
+          var formData = new FormData();
+          var jsonObj = {
+            "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate'), "level": sessionStorage.getItem('claimTinnitusSeverity')
+          };
+          // jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
+          //   // data.append('file-' + i, file);
+          //   formData.append('audiogramDocument', file);
+          // });
+
+          // only 1 file for now 
+          var fileData = $('#file-0').prop('files')[0];
+
+          formData.append('tinnitusData', JSON.stringify(jsonObj));
+          formData.append('audiogramDocument', fileData);
+
+          $.ajax({
+            url: 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck',
+            data: formData,
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'POST',
+            success: function success(data, textStatus, jqXHR) {
+              console.log(data);
+              sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
+              $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusQueryGetUri));
+              $("#btnNext").attr("disabled", false);
+            },
+            error: function error(_error) {
+              console.log("Error:");
+              console.log(_error);
+              $('.pt-tinnitus-response p').html(JSON.stringify(_error));
+            }
+          });
+        }
       } else {
 
         label.innerHTML = labelVal;

@@ -240,7 +240,7 @@
 
 
             <div class="uikit-page-alerts pt-tinnitus-response" role="alert">
-              <p>Waiting for response... </p>
+              <p style="Word-Wrap: break-word">Uploading doc to tinnitus API... </p>
             </div>
 
             <div class="pagination">
@@ -248,7 +248,7 @@
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
               <div class="floated">
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button>
-                <button id="btnNext" class="uikit-btn btnNext">Save and next</button>
+                <button id="btnNext" class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/il/claim2'">Save and next</button>
               </div>
             </div>
 
@@ -335,121 +335,7 @@
       $(".pt-required-docs").hide("fast");
     });
 
-    var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
 
-
-    // option with valila js
-    if (claimData.label === 'api-Tinnitus') {
-
-      $('#btnNext').click(function (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-        $('.pt-tinnitus-response').show();
-
-        var oOutput = document.querySelector(".pt-tinnitus-response")
-        var oData = new FormData();
-        var fileData = $('#file-0').prop('files')[0];
-        oData.append("tinnitusData", "{ \"diagnosisDate\": \"2019-07-28\", \"level\": 3}");
-        oData.append("audiogramDocument", fileData);
-
-        console.log('uploading: ');
-        for (var pair of oData.entries()) {
-          console.log(pair[0] + ', ' + pair[1]);
-        }
-        console.log(fileData.name);
-
-
-        var oReq = new XMLHttpRequest();
-        oReq.open("POST", "https://hearinglossai.govlawtech.com.au/api/tinnitusCheck", false);
-        oReq.onload = function (oEvent) {
-
-          if (oReq.status == 202) {
-            oOutput.innerHTML = JSON.stringify(oReq);
-            console.log(oReq);
-            console.log(oEvent);
-          } else {
-            console.log(oReq);
-            oOutput.innerHTML = "Error " + oReq.status + " occurred when trying to upload your file.<br \/>";
-          }
-        };
-
-        oReq.send(oData);
-
-
-
-
-      });
-    }
-
-    // option with jquery
-    if (claimData.label === 'Tinnitus') {
-
-      // alert('wrong');
-
-      $('#btnNext').click(function (event) {
-        event.stopImmediatePropagation();
-        event.preventDefault();
-        $('.pt-tinnitus-response').show();
-
-        var formData = new FormData();
-        var jsonObj = {
-          "diagnosisDate": "2019-07-28", "level": "3"
-        };
-        // jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
-        //   // data.append('file-' + i, file);
-        //   formData.append('audiogramDocument', file);
-
-        // });
-
-        var fileData = $('#file-0').prop('files')[0];
-
-        formData.append('tinnitusData', JSON.stringify(jsonObj));
-        formData.append('audiogramDocument', fileData);
-
-
-        // curl - X POST "https://hearinglossai.govlawtech.com.au/api/tinnitusCheck"
-        //   - H "accept: application/json"
-        //   - H "Content-Type: multipart/mixed"
-        //   - F tinnitusData = "{ \"diagnosisDate\": \"2019-07-28\", \"level\": 3}"
-        //   - F audiogramDocument =@knownToWork.pdf | json_pp
-
-        $.ajax({
-          url: 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck',
-          data: formData,
-          cache: false,
-          contentType: false,
-          processData: false,
-          // method: 'POST',
-          type: 'POST', // For jQuery < 1.9
-          success: function (data, textStatus, jqXHR) {
-            // console.log(jqXHR);
-
-            console.log(data);
-            // console.log(textStatus);
-            // console.log(JSON.parse(xhr.responseText));
-
-            sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
-            // $('.pt-tinnitus-response p').html('URL from Heading loss API = ' + JSON.stringify(data.id));
-            $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusQueryGetUri));
-            setTimeout(function () {
-              // window.location.href = '/auth/claim/il/claim2';
-            }, 2000);
-          },
-          error: function (error) {
-            // console.log(JSON.parse(xhr.responseText));
-            console.log("Error:");
-            console.log(error);
-            $('.pt-tinnitus-response p').html(JSON.stringify(error));
-          }
-        });
-
-      });
-
-
-    } else {
-      // window.location.href = '/auth/claim/il/claim2';
-    }
-    console.log('claimLabel' + claimData.label);
 
   </script>
 </body>

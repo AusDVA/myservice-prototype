@@ -26,9 +26,16 @@
               <div class="margin-above ie-success-animation">
                 <img src="/docs/images/ico-submitted.svg" alt="Submitted icon">
               </div>
+
               <div class="margin-above submitted-animation">
                 <%- include(partials+"components/animations/submitted") %>
+              </div>
+              <div class="margin-above success-animation" style="display: none;">
+                <%- include(partials+"components/animations/success") %>
+              </div>
 
+              <div class="uikit-page-alerts pt-tinnitus-response" role="alert">
+                <p style="Word-Wrap: break-word">Checking Tinnitus API... </p>
               </div>
               <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
                 <h1>We're submitting your claim for Initial Liability </h1>
@@ -37,7 +44,7 @@
 
             <div class="transition-content pt-claim-animation-end margin-below--extra">
               <div class="pt-claim-type--normal">
-                <h1 class="centred-item">Your claim has been <strong>submitted</strong>
+                <h1 class="centred-item">Your claim has been <strong> <span class="pt-claim-status"></span> </strong>
                 </h1>
               </div>
 
@@ -118,6 +125,48 @@
     // } else {
     //   localStorage.setItem('repFlow', 'represented');
     // }
+
+
+    var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+
+    // option with jquery
+    if (claimData.label === 'Tinnitus') {
+      $.ajax({
+        url: sessionStorage.getItem('hearingLossApiUrl'),
+        data: '',
+        cache: false,
+        contentType: false,
+        processData: false,
+        type: 'GET',
+        success: function (data, textStatus, jqXHR) {
+          console.log(data);
+          console.log(data.output.isVerified);
+          // sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
+          $('.pt-tinnitus-response p').html('Response from API: <br>' + JSON.stringify(data.output));
+
+
+          if (data.output.isVerified === true) {
+            $('.success-animation').show();
+            $('.submitted-animation').hide();
+            $('.pt-claim-status').html('approved');
+          } else {
+            $('.pt-claim-status').html('submitted');
+          }
+
+
+        },
+        error: function (error) {
+          console.log("Error:");
+          console.log(error);
+          $('.pt-tinnitus-response p').html(JSON.stringify(error));
+        }
+      });
+
+    } else {
+      $('.pt-claim-status').html('submitted');
+
+    }
+
 
   </script>
 

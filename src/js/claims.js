@@ -88,7 +88,7 @@ function getClaimCondition() {
         // console.log(requiredDocsHtml);
         $('.pt-il-claim-required-docs-list').html(requiredDocsHtml);
         if (requiredDocsHtml != '') {
-
+          // console.log("doc loaded");
           $('.pt-required-docs').show();
           $('.pt-no-required-docs').hide();
         } else {
