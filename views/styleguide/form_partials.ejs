@@ -35,7 +35,7 @@
           <div class="col-sm-9">
             <h1>Form Partials</h1>
             <h2>Introduction</h2>
-            <p>Through the introduction of the new form partials format, it gives you the ability to create forms in a simpler manner and gives you the ability to introduce dynamic content without using any javascript, therefore speeding up the form building process.</p>
+            <p>Form partials give you the ability to create forms in a simple manner. With form partials, desigers and developers can include dynamic content without the use of any javascript, therefore, speeding up the development process.</p>
 
             <div class="accordion">
               <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Terminology used on this page</button>
@@ -114,10 +114,8 @@
             
             <h2>Types of forms:</h2>
             <ul>
-              <li class="uikit-link-list"><a href="#address">Address</a></li>
-              <li class="uikit-link-list"><a href="#bankdetails">Bank Details</a></li>
-              <li class="uikit-link-list"><a href="#gender">Gender</a></li>
-              <li class="uikit-link-list"><a href="#checkbox">Checkbox</a></li>
+              <li class="uikit-link-list"><a href="#checkbox">Checkbox / Radio</a></li>
+              <li class="uikit-link-list"><a href="#checkboxicon">Checkbox / Radio with Icon</a></li>
               <li class="uikit-link-list"><a href="#date">Date</a></li>
               <li class="uikit-link-list"><a href="#dropdown">Dropdown</a></li>
               <li class="uikit-link-list"><a href="#radio">Radio</a></li>
@@ -128,77 +126,25 @@
 
             <hr>
 
-            <h2 id="address">Address</h2>
-            <div class="example-box form_elem" data-field="address">
-              <h3>Practical example</h3>
-              <%- include(partials+"components/form-partials/address", {
-                legend: "Residential address"
-              }); %>
-            
+            <h2>Tooltips</h2>
+            <p>Tooltips can be added to any form element (or group). You can do so by adding a <code style="padding: 3px; background: #f5f2f0;">tooltip</code> object like the example below.</p>
 
-              <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
-                <div class="accordion-content" hidden>  
+            <p><code style="padding: 3px; background: #f5f2f0;">screenreaderText</code> is used to add a short description for screenreader users (or if you specify the below mentioned modifier)</p>
+            <p><code style="padding: 3px; background: #f5f2f0;">content</code> is the body of the tooltip. It can accept HTML if needed as well.</p>
+ <pre class="language-json"><code>
+tooltip: {
+  screenreaderText: "Gender help",
+  content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed."
+}</code></pre>
 
-                  <pre class="language-ejs">
-                    <code>
-                      <%%- include(partials+"components/form-partials/address", {
-                        legend: "Residential address"
-                      }); %%>
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
+            There is also a modifier available to show extra supporting text (versus only an icon) if your modifiers list contains the string <code style="padding: 3px; background: #f5f2f0;">"tooltipShowText"</code>
             <hr>
 
-            <h2 id="bankdetails">Bank Details</h2>
-            <div class="example-box form_elem" data-field="bankdetails">
-              <h3>Practical example</h3>
-              <%- include(partials+"components/form-partials/bank-details", {
-                legend: "Bank details"
-              }); %>
-            
-
-              <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
-                <div class="accordion-content" hidden>  
-
-                  <pre class="language-ejs">
-                    <code>
-                      <%%- include(partials+"components/form-partials/bank-details", {
-                        legend: "Bank details"
-                      }); %%>
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-            <hr>
-
-            <h2 id="gender">Gender</h2>
-            <div class="example-box form_elem" data-field="gender">
-              <h3>Practical example</h3>
-              <%- include(partials+"components/form-partials/gender"); %>
-            
-
-              <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
-                <div class="accordion-content" hidden>  
-
-                  <pre class="language-ejs">
-                    <code>
-                      <%%- include(partials+"components/form-partials/gender"); %%>
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-            <hr>
-
-            <h2 id="checkbox">Checkbox</h2>
+            <h2 id="checkbox">Checkbox / Radio</h2>
             <div class="example-box form_elem" data-field="checkbox">
-              <h3>Practical example</h3>
+              <h3>Note:</h3>
+              <p>Checkboxes and radios share the format and can be change between radio and checkbox by changing the included partial between <code style="padding: 3px; background: #f5f2f0;">components/radio</code> and <code style="background: #f5f2f0; padding: 3px;">components/checkbox</code>.</p>
+              <h3>Practical examples</h3>
               <%- include(partials+"components/form-partials/checkbox", {
                 label: "Which of the following do you like?",
                 hint: "(select all that apply)",
@@ -209,10 +155,67 @@
                   "Pizza"
                 ]
               }); %>
-            
+
+              <%- include(partials+"components/form-partials/radio", {
+                label: "Which is your favourite?",
+                boxes: [
+                  "Ice cream",
+                  "Tacos",
+                  "Hotdogs",
+                  "Pizza"
+                ]
+              }); %>
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
+                <div class="accordion-content" hidden>  
+
+                  <pre class="language-ejs">
+                    <code>
+                      <%%- include(partials+"components/form-partials/checkbox", {
+                        label: "Which of the following do you like?",
+                        hint: "(select all that apply)",
+                        boxes: [
+                          "Ice cream",
+                          "Tacos",
+                          "Hotdogs",
+                          "Pizza"
+                        ]
+                      }); %%>
+                    </code>
+                  </pre>
+                </div>
+              </div>
+            </div>
+            <hr>
+
+            <h2 id="checkbox">Checkbox / Radio with Icons</h2>
+            <div class="example-box form_elem" data-field="checkboxicon">
+              <h3>Note:</h3>
+              <p>Checkboxes and radios share the format and can be change between radio and checkbox by changing the included partial between <code style="padding: 3px; background: #f5f2f0;">components/radio-icon</code> and <code style="background: #f5f2f0; padding: 3px;">components/checkbox-icon</code>.</p>
+              <h3>Practical example</h3>
+              <%- include(partials+"components/form-partials/checkbox-icon", {
+                label: "Choose your favourite social media",
+                boxes: [
+                  {
+                    text: "Invalidity service pension",
+                    icon: {
+                      icon: "fa-user",
+                      weight: "fal"
+                    }
+                  },
+                  {
+                    text: "Age service pension",
+                    icon: {
+                      icon: "fa-user",
+                      weight: "fal"
+                    }
+                  }
+                ]
+              }); %>
+
+              <div class="accordion">
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -243,7 +246,7 @@
             
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -274,7 +277,7 @@
             
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -296,42 +299,6 @@
             </div>
             <hr>
 
-            <h2 id="radio">Radio</h2>
-            <div class="example-box form_elem" data-field="radio">
-              <h3>Practical example</h3>
-              <%- include(partials+"components/form-partials/radio", {
-                label: "Which of the following is your favourite",
-                boxes: [
-                  "Ice cream",
-                  "Tacos",
-                  "Hotdogs",
-                  "Pizza"
-                ]
-              }); %>
-            
-
-              <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
-                <div class="accordion-content" hidden>  
-
-                  <pre class="language-ejs">
-                    <code>
-                      <%%- include(partials+"components/form-partials/radio", {
-                        label: "Which of the following is your favourite",
-                        boxes: [
-                          "Ice cream",
-                          "Tacos",
-                          "Hotdogs",
-                          "Pizza"
-                        ]
-                      }); %%>
-                    </code>
-                  </pre>
-                </div>
-              </div>
-            </div>
-            <hr>
-
             <h2 id="text">Text</h2>
             <div class="example-box form_elem" data-field="text">
               <h3>Practical example</h3>
@@ -341,7 +308,7 @@
             
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -365,7 +332,7 @@
             
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -389,7 +356,7 @@
             
 
               <div class="accordion">
-                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code used</button>
+                <button class="style-less-button accordion-button margin-below--small"><i class="transition fas fa-chevron-right"></i> Code example</button>
                 <div class="accordion-content" hidden>  
 
                   <pre class="language-ejs">
@@ -422,10 +389,10 @@
         },
         {
           text: "disabled",
-          desc: "Disables the (set) of form elements"
+          desc: "Disables the (set of) form elements"
         },
         {
-          text: "tooltipIconOnly",
+          text: "tooltipShowText",
           desc: "(Only if tooltip specified) Shows extra supporting text for tooltip"
         },
         {
@@ -436,7 +403,7 @@
 
       var tooltip = {
         property: "tooltip",
-        desc: "A button to toggle an large extend description",
+        desc: "A button to toggle extended description",
         type: "object",
         req: false
       };
@@ -471,7 +438,7 @@
 
       var modifiers = {
         property: "modifiers",
-        desc: "An list of pre-determined strings to modify the output",
+        desc: "A list of pre-determined strings to modify the output",
         type: "array",
         req: false
       };
@@ -485,7 +452,7 @@
 
       var boxes = {
         property: "boxes",
-        desc: "A list of eiter strings or objects to create a list of checkboxes",
+        desc: "A list of either strings or objects to create a list of checkboxes or radios",
         type: "array",
         req: true
       }
@@ -527,15 +494,7 @@
         ],
         checkbox: [
           tooltip,
-          legend,
-          modifiers,
-          hint,
-          id,
-          boxes
-        ],
-        radio: [
-          tooltip,
-          legend,
+          label,
           modifiers,
           hint,
           id,
@@ -561,7 +520,7 @@
           id,
           {
             property: "options",
-            desc: "A list of eiter strings or objects to create a list of options",
+            desc: "A list of either strings or objects to create a list of options",
             type: "array",
             req: true
           }
@@ -616,6 +575,19 @@
             type: "string",
             req: false
           }
+        ],
+        checkboxicon: [
+          tooltip,
+          label,
+          modifiers,
+          hint,
+          id,
+          {
+            property: "boxes",
+            desc: "A list of objects to create a list of checkboxes or radios with icons",
+            type: "array",
+            req: true
+          }
         ]
       };
 
@@ -635,13 +607,47 @@
         {
           property: "toggle",
           desc: `Shows the element with the given ${selector} when this box is checked`,
-          type: "",
+          type: "string",
           req: false
         },
         {
           property: "rToggle",
           desc: `Shows the element with the given ${selector} when this box is NOT checked`,
-          type: "",
+          type: "string",
+          req: false
+        },
+        {
+          property: "inject",
+          desc: `"Injects" (moves to under this box) the element with the given ${selector} when this box is checked`,
+          type: "string",
+          req: false
+        },
+        modifiers
+      ];
+
+      var boxesIconDesc = [
+        {
+          property: "text",
+          desc: "The text that is displayed next to the box",
+          type: "string",
+          req: true
+        },
+        {
+          property: "icon",
+          desc: "The font awesome icon to display in the box",
+          type: "string OR object",
+          req: true
+        },
+        {
+          property: "toggle",
+          desc: `Shows the element with the given ${selector} when this box is checked`,
+          type: "string",
+          req: false
+        },
+        {
+          property: "rToggle",
+          desc: `Shows the element with the given ${selector} when this box is NOT checked`,
+          type: "string",
           req: false
         },
         {
@@ -669,13 +675,13 @@
         {
           property: "toggle",
           desc: `Shows the element with the given ${selector} when this box is selected`,
-          type: "",
+          type: "string",
           req: false
         },
         {
           property: "rToggle",
           desc: `Shows the element with the given ${selector} when this box is NOT selected`,
-          type: "",
+          type: "string",
           req: false
         },
         modifiers
@@ -842,26 +848,94 @@ boxes: [
                     </div>
               </div>
             </div>`;
+
+          var checkRadioIconDesc = `
+            <div style="margin-left: 1em;" class="margin-above accordion">
+              <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
+              <div class="accordion-content" hidden>
+                ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3]])}
+                
+              </div>
+            </div>
+            <div style="margin-left: 1em;" class="accordion margin-above">
+              <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Box Specific Properties</button>
+              <div class="accordion-content" hidden>
+
+                <p>Checkboxes / radios with icons use an object data type.</p>
+
+                <p>An example list of boxes using objects can be seen below:</p>
+<pre class="language-json"><code>
+boxes: [
+  {
+    text: "Ambulance",
+    toggle: "#element",
+    icon: "fa-ambulance"
+  },
+  {
+    text: "YouTube",
+    rToggle: "#otherElement",
+    icon: {
+      weight: "fab",
+      icon: "fa-youtube"
+    },
+  },
+  {
+    text: "Twitter",
+    icon: {
+      weight: "fab",
+      icon: "fa-twitter"
+    }
+  },
+  {
+    text: "Anchor",
+    inject: "#anotherElement",
+    icon: "fa-anchor"
+  }
+]</code></pre>
+
+                    ${mapArr(boxesIconDesc)}
+
+
+                    <div style="margin-left: 1em;" class="accordion">
+                      <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Icon Formatting</button>
+                        <div class="accordion-content" hidden>
+                          <p>Icons can be entered in 2 ways: an <code>object</code> or a <code>string</code>. Using an object allows you to specify an icon weight (e.g. "<code>fas</code> for solid, etc), otherwise an standard of "fal" (or light) will be used</p>
+                          <h4>String:</h4>
+<pre><code>icon: "fa-anchor"</code></pre>
+                          <h4>Object:</h4>
+<pre>
+<code>
+icon: {
+  icon: "fa-anchor",
+  weight: "fas"
+}
+</code>
+</pre>
+                        </div>
+                    </div>
+
+                    <div style="margin-left: 1em;" class="accordion">
+                      <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Box Specific Modifiers</button>
+                        <div class="accordion-content" hidden>
+                          ${mapMods([modGlobal[2], modGlobal[3], {text: "checked", desc: "Sets the box checked by default"}])}
+                        </div>
+                    </div>
+              </div>
+            </div>`;
          
           $(this).append(`
             <div class="accordion properties">
               <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Properties</button>
               <div class="accordion-content" hidden>
                 ${mapArr(properties[$(this).data("field")])}
-                ${$(this).data("field") === "checkbox" || $(this).data("field") === "radio" ? checkRadioDesc : ""}
+                ${$(this).data("field") === "checkbox" ? checkRadioDesc : ""}
+                ${$(this).data("field") === "checkboxicon" ? checkRadioIconDesc : ""}
                 ${$(this).data("field") === "dropdown" ? optionsPropDesc : ""}
-                ${$(this).data("field") === "address" || $(this).data("field") === "bankdetails" ? `
-                <div style="margin-left: 1em;" class="accordion">
-                  <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
-                    <div class="accordion-content" hidden>
-                      ${mapMods([modGlobal[0], modGlobal[3]])}
-                    </div>
-                </div>` : ""}
                 ${$(this).data("field") === "date" ? `
                 <div style="margin-left: 1em;" class="accordion">
                   <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
                     <div class="accordion-content" hidden>
-                      ${mapMods([modGlobal[0], modGlobal[3], {text: "noSlashes", desc: "Does not put slashes between date boxes"}])}
+                      ${mapMods([modGlobal[0], modGlobal[3], {text: "noSlashes", desc: "Does not put slashes between date boxes"}, {text: "noDay", desc: "Puts only month and year fields (no day)"}])}
                     </div>
                 </div>` : ""}
                 ${$(this).data("field") === "text" ? `
@@ -872,13 +946,6 @@ boxes: [
                     </div>
                 </div>` : ""}
                 ${$(this).data("field") === "textarea" || $(this).data("field") === "yes_no" ? `
-                <div style="margin-left: 1em;" class="accordion">
-                  <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
-                    <div class="accordion-content" hidden>
-                      ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3]])}
-                    </div>
-                </div>` : ""}
-                ${$(this).data("field") === "gender" ? `
                 <div style="margin-left: 1em;" class="accordion">
                   <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
                     <div class="accordion-content" hidden>

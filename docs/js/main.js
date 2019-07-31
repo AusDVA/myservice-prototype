@@ -981,14 +981,12 @@ if (typeof module !== 'undefined') {
   module.exports = AU;
 }
 
-$(document).ready(function () {
-  $(".accordion").on("click", ".accordion-button", function () {
-    if ($(this).hasClass("rotate-90")) {
-      $(this).removeClass("rotate-90");
-    } else {
-      $(this).addClass("rotate-90");
-    }
-
-    $(this).parent().find(".accordion-content").toggle();
-  });
+//accordion toggle jQuery
+$(".accordion").on("click", ".accordion-button", function () {
+  if ($(this).hasClass("rotate-90")) {
+    $(this).removeClass("rotate-90");
+  } else {
+    $(this).addClass("rotate-90");
+  }
+  $(this).parent().find(".accordion-content").toggle();
 });
