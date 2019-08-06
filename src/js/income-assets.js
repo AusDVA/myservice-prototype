@@ -11,10 +11,10 @@ function scrollToAdd() {
 function showNewCard(cardType) {
   captureUserList();
   hideAll();
-  myDiv = "#" + cardType + "-card";
-  myForm = myDiv + " #myForm";
-  myDelete = myDiv + " #deleteButton";
-  myAdd = myDiv + " #addButton";
+  var myDiv = "#" + cardType + "-card";
+  var myForm = myDiv + " #myForm";
+  var myDelete = myDiv + " #deleteButton";
+  var myAdd = myDiv + " #addButton";
   $(myAdd).html("Add");
   $(myDelete).hide();
   $(myForm).trigger("reset");
@@ -29,7 +29,7 @@ function showNewCard(cardType) {
 
 function addSummary(cardType) {
   hideAll();
-  myDiv = "#" + cardType + "-summary";
+  var myDiv = "#" + cardType + "-summary";
   userEntries.push($(myDiv));
   displayUserList();
   $('html, body').animate({
@@ -42,9 +42,9 @@ function addSummary(cardType) {
 function editCard(cardType) {
   captureUserList();
   hideAll();
-  myDiv = "#" + cardType + "-card";
-  myDelete = myDiv + " #deleteButton";
-  myAdd = myDiv + " #addButton";
+  var myDiv = "#" + cardType + "-card";
+  var myDelete = myDiv + " #deleteButton";
+  var myAdd = myDiv + " #addButton";
   $(myAdd).html("Update");
   $(myDelete).show();
   $(myDiv).show();
@@ -54,7 +54,7 @@ function editCard(cardType) {
 
 function removeSummary(cardType) {
   hideAll();
-  myDiv = "#" + cardType + "-summary";
+  var myDiv = "#" + cardType + "-summary";
   userEntries.splice($.inArray(myDiv, userEntries), 1);
   displayUserList();
   $('html, body').animate({

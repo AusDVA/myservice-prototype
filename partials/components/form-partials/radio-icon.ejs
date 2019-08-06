@@ -11,7 +11,7 @@ let boxCounter = 0;
     id="<%- id %>"
     class="mys-radio-group"
   >
-
+    <% if (label) { %><label><%- label %> <label><% } %>
     <legend class="uikit-text-input__label legend-override">
         <%- typeof legend !== "undefined" ? legend : "" %>
 
@@ -33,24 +33,22 @@ let boxCounter = 0;
     <div class="radio-icons">
       <% const boxs = boxes.map(box => {
         boxCounter++;
-
-        box.baseID = id;
+        box.id ? box.boxID = box.id : box.boxID = boxCounter ;
+        box.id ? box.baseID = null : box.baseID = baseID;
         box.type = "radio";
-        box.boxID = boxCounter;
+      %>
 
-        %>
+      <%- generateCheckRadioIcons(box).html; %>
 
-        <%- generateCheckRadioIcons(box).html; %>
-
-        <% 
-          let { toggle, rToggle, inject } = generateCheckRadioIcons(box);
-          return {
-            toggle,
-            rToggle,
-            inject
-          }
-        });
-        %>
+      <% 
+        let { toggle, rToggle, inject } = generateCheckRadioIcons(box);
+        return {
+          toggle,
+          rToggle,
+          inject
+        }
+      });
+      %>
     </div>
 
   </fieldset>
