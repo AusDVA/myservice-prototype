@@ -13,7 +13,7 @@ module.exports = box => {
 
 
   if (typeof icon === "object") {
-    icon = `<i class="radio_icons__icon ${icon.weight} ${icon.icon}"></i>` ;
+    icon = `<i class="radio_icons__icon ${icon.weight ? icon.weight : 'fal'} ${icon.icon}"></i>` ;
   } else if (typeof icon === "string") {
     icon = `<i class="radio_icons__icon fal ${icon}"></i>`;
   }
