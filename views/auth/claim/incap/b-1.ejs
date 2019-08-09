@@ -97,8 +97,8 @@
 
           <div class="margin-above--extra margin-below--extra">
 
-            <h2>Tell us about the cause of your incapacity</h2>
-            <BR />
+            <!-- <h2>Tell us about the cause of your incapacity</h2> -->
+            <!-- <BR /> -->
 
             <%- include(partials+"components/form-partials/dropdown", {
                 label: "Select the primary cause of your incapacity",
@@ -106,9 +106,10 @@
                 id: "primary",
                 options: [
                   "Select a condition",
-                  "depression",
-                  "lumbar spondylosis",
-                  "tinnitus"
+                  "Depression",
+                  "Lumbar spondylosis",
+                  "Tinnitus",
+                  "Osteoarthritis"
                 ]
               }); %>
 
@@ -117,57 +118,31 @@
               <div class=" table">
               <div class="tr">
                 <div class="td"><b>Selected condition</b></div>
-                <div class="td">Depression</div>
+                <div class="td" id="selected-label">Depression</div>
               </div>
               <div class="tr">
                 <div class="td"><b>Date of onset</b></div>
-                <div class="td">21/05/2014</div>
+                <div class="td" id="date-label">21/05/2014</div>
               </div>
               <div class="tr">
                 <div class="td"><b>Covered under</b></div>
-                <div class="td">MRCA</div>
+                <div class="td" id="act-label">MRCA</div>
               </div>
             </div>
             <BR />
             <hr>
-            <div class="form-group">
-              <h4 class="uikit-text-input__label margin-above--large margin-below" for="checkbox-buttons">Select any other conditions that are affecting your capacity to
-                work &nbsp;<span class="hint display-block">You can add a condition if you can't see it below</span></h4>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" name="checkbox-1">
-                  <span class="uikit-control-input__text">depression</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" name="checkbox-2">
-                  <span class="uikit-control-input__text">lumbar spondylosis</span>
-                </label>
-              </p>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" name="checkbox-3">
-                  <span class="uikit-control-input__text">tinnitus</span>
-                </label>
-              </p>
-              <p id="customcondition" class="uiToolKitCheckBox" style="display:none;">
-                <label class="uikit-control-input">
-                  <input class="uikit-control-input__input" type="checkbox" name="checkbox-5" checked>
-                  <span class="uikit-control-input__text">osteoarthritis&nbsp;&nbsp;&nbsp;<a id="btnRemove" href="" style="font-weight: normal;">Remove</a></span>
-                </label>
-              </p>
-            </div>
 
-            <!-- <button id="addanotherbtn" class="uikit-btn uikit-btn--tertiary small">Add a condition</button>
-
-            <div id="addanothercondition" class="boxed margin-above" style="display:none;">
-              <div id="service-number" class="form-group">
-                <label class="uikit-text-input__label" for="nomrep-name">Condition name</label>
-                <input class="uikit-text-input" name="nomrep-name" id="nomrep-name" type="text" value="">
-              </div>
-              <button id="btnSave" class="uikit-btn small">Save</button> <button id="btnCancel" class="uikit-btn uikit-btn--tertiary small">Cancel</button>
-            </div> -->
+            <%- include(partials+"components/form-partials/checkbox", {
+              label: "Select any other conditions that are affecting your capacity to work",
+              hint: "<BR/>(select all that apply)",
+              id: "other-conditions",
+              boxes: [
+                "Depression",
+                "Lumbar spondylosis",
+                "Tinnitus",
+                "Osteoarthritis"
+              ]
+            }); %>
 
           </div>
         </div>
@@ -208,24 +183,41 @@
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
         var mySelection = $('#primary :selected').val();
-        $("#conditions").find("p").eq(0).show();
-        $("#conditions").find("p").eq(1).show();
-        $("#conditions").find("p").eq(2).show();
+        $("#other-conditions-1").parent().show();
+        $("#other-conditions-2").parent().show();
+        $("#other-conditions-3").parent().show();
+        $("#other-conditions-4").parent().show();
         switch (mySelection) {
           case "selectacondition":
             $("#conditions").hide();
             break;
           case "depression":
-            $("#conditions").find("p").eq(0).hide();
+            $("#other-conditions-1").parent().hide();
             $("#conditions").show();
+            $("#selected-label").text("Depression");
+            $("#date-label").text("21/05/2014");
+            $("#act-label").text("MRCA");
             break;
           case "lumbarspondylosis":
-            $("#conditions").find("p").eq(1).hide();
+            $("#other-conditions-2").parent().hide();
             $("#conditions").show();
+            $("#selected-label").text("Lumbar spondylosis");
+            $("#date-label").text("18/11/2008");
+            $("#act-label").text("MRCA");
             break;
           case "tinnitus":
-            $("#conditions").find("p").eq(2).hide();
+            $("#other-conditions-3").parent().hide();
             $("#conditions").show();
+            $("#selected-label").text("Tinnitus");
+            $("#date-label").text("03/06/2003");
+            $("#act-label").text("MRCA");
+            break;
+          case "osteoarthritis":
+            $("#other-conditions-4").parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Osteoarthritis");
+            $("#date-label").text("12/03/2011");
+            $("#act-label").text("DRCA");
             break;
           default:
             break;
