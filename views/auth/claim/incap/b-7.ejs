@@ -98,8 +98,9 @@
           </div>
           <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you receive any payments from Centrelink?",
-  yes_toggle: "#save-and-next",
+  id: "save-next-toggle"
 }); %>
+          <div id="save-and-next" class="margin-below hidden"><strong>Save and next to continue.</strong></div>
         </div>
 
         <div class="pagination pagination--ss-reverse-order">
@@ -127,7 +128,6 @@
 
   <script>
     $(Document).ready(function () {
-
       // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and go to the 'Nominated Rep' page when they click the 'Previous' button.
       if ("flow1" in localStorage) {
         $(".ongoing-only").hide();
@@ -152,6 +152,12 @@
       if ("flow2" in localStorage) {
         $(".employed").hide();
       };
+
+      //toggle save and next
+      $("#save-next-toggle-yes, #save-next-toggle-no").click(function () {
+        $('#save-and-next').removeClass("hidden");
+        console.log('working');
+      });
 
 
       // Show and hide needs list
