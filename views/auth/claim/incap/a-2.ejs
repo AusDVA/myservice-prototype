@@ -3,7 +3,7 @@
 
 <head>
   <title>Add claim: Incapacity Payments | MyService</title>
-<%- include(partials+"components/layout/head") %>
+  <%- include(partials+"components/layout/head") %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -16,10 +16,32 @@
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
   <main>
+
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+
       <div class="container margin-above--none">
+        <!-- Progress bar -->
+        <div class="col-xs-12">
+          <nav>
+            <ul class="progress-container">
+              <li class="progress-step progress-step--done">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Your lost earnings</p>
+              </li>
+              <li class="progress-step progress-step--active">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Cause of incapacity</p>
+              </li>
+              <li class="progress-step ongoing-only progress-step--last">
+                <span class="progress-step__icon"></span>
+                <p class="progress-step-label">Periods of incapacity</p>
+              </li>
+            </ul>
+          </nav>
+        </div>
+
         <h1 class="margin-above--none ss-align--center">
-          <span class="heading">How Incapacity Payments work</span>
+          <span class="heading">Cause of incapacity</span>
         </h1>
       </div>
     </div>
@@ -28,76 +50,73 @@
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
 
-          <div class="instructions">
+          <div class="margin-above--extra margin-below--extra">
 
-            <div class="ongoing-only">
-              <img class="instructions__image" src="/docs/images/ico-stethascope.svg" height="100" alt="image of a medical stethiscope">
-              <h2 class="instructions__heading">Visit your doctor</h2>
-              <p>See a doctor or specialist about your service-related condition or injury. You&nbsp;will need to provide a medical certificate to support your claim for
-                Incapacity&nbsp;Benefits.</p>
-              <p>During your application you will be asked to provide your doctor's details.</p>
+            <%- include(partials+"components/form-partials/dropdown", {
+                label: "Select the primary cause of your incapacity",
+                hint: "<BR/>This list shows your accepted conditions",
+                id: "primary",
+                options: [
+                  "Select a condition",
+                  "Depression",
+                  "Lumbar spondylosis",
+                  "Tinnitus",
+                  "Osteoarthritis (DRCA)",
+                  "Osteoarthritis (MRCA)"
+                ]
+              }); %>
 
-              <p class="margin-above--large">
-                <span class="heading heading--spacer ss-align--center"></span>
-              </p>
+            <div id="conditions" class="margin-below--large" style="display: none;">
+
+              <div class="borderless-table">
+                <div class="borderless-table__row">
+                  <div class="borderless-table__title">
+                    <b>Date of onset</b>
+                  </div>
+                  <div class="borderless-table__value">
+                    21/05/2014
+                  </div>
+                </div>
+                <div class="borderless-table__row">
+                  <div class="borderless-table__title">
+                    <b>Covered under</b>
+                  </div>
+                  <div class="borderless-table__value">
+                    MRCA
+                  </div>
+                </div>
+              </div>
+              <hr style="margin-top: 20px;">
             </div>
 
-            <img class="instructions__image" src="/docs/images/ico-online-form.svg" height="100" alt="image of a digital health card">
-            <h2 class="instructions__heading">Complete your claim</h2>
-            <p>Depending on your circumstances you may need to provide the following evidence as part of your claim:</p>
-            <ul>
-              <li class="ongoing-only">medical evidence</li>
-              <li>Tax File Declaration form</li>
-              <li class="ongoing-only">evidence of medical discharge</li>
-              <li>proof of loss of earnings – this may be your military allowance or civilian
-                earnings.</li>
-            </ul>
-            <p>Once you've submitted your claim a DVA delegate will contact you to discuss your claim in more detail.</p>
+            <%- include(partials+"components/form-partials/checkbox", {
+              label: "Select any other conditions that are affecting your capacity to work",
+              hint: "<BR/>(select all that apply)",
+              id: "other-conditions",
+              boxes: [
+                "Depression",
+                "Lumbar spondylosis",
+                "Tinnitus",
+                "Osteoarthritis (DRCA)",
+                "Osteoarthritis (MRCA)"
+              ]
+            }); %>
 
-            <p class="margin-above--large">
-              <span class="heading heading--spacer ss-align--center"></span>
-            </p>
-
-            <img class="instructions__image" src="/docs/images/ico-sprout.svg" height="100" alt="image of shaking hands">
-            <h2 class="instructions__heading">Rehabilitation assessment</h2>
-            <p>We want to help you live a healthy and productive life. To do this we may conduct a rehabilitation assessment to see how we can help you
-              manage, adapt or improve your service-related condition or injury.
-              Learn more about DVA's rehabilitation support on the DVA website.</p>
-
-            <div class="ongoing-only">
-              <p class="margin-above--large">
-                <span class="heading heading--spacer ss-align--center"></span>
-              </p>
-
-              <img class="instructions__image" src="/docs/images/ico-change.svg" height="100" alt="image of an umbrella">
-              <h2 class="instructions__heading">Tell us about changes in your circumstances</h2>
-              <p>You may need to tell us if you:</p>
-              <ul>
-                <li>return to work</li>
-                <li>receive any additional income</li>
-                <li>travel overseas for 6 weeks or longer</li>
-                <li>get a job or change jobs</li>
-                <li>change your address</li>
-                <li>experience a change in your condition</li>
-                <li>discharge from the ADF</li>
-              </ul>
-              <p>Your Incapacity Payments will be reviewed annually. We will send you a letter or email with an Annual Review form.</p>
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-md-offset-2 col-md-8">
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <div class="floated">
-              <button class="uikit-btn btnNext" id="btnNext">Okay, I've got it</button>
-            </div>
           </div>
         </div>
 
+        <div class="pagination pagination--ss-reverse-order">
+          <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+          </div>
+        </div>
 
       </div>
+
+    </div>
     </div>
 
     <%- include(partials+"content/modals/claims-cancel-modal") %>
@@ -109,27 +128,102 @@
 
 
   <script>
-    $(document).ready(function () {
+    $(Document).ready(function () {
 
+      $("input:checkbox").prop("checked", false);
 
       $("#btnPrev").click(function () {
         window.location.href = "/auth/claim/incap/a-1"
       });
-
-      // Determine which path
-      $('.btnNext').click(function () {
-        if ("datachange" in localStorage) {
-          location.href = '/auth/claim/incap/progress-e';
-        } else {
-          location.href = '/auth/claim/incap/progress-b';
-        };
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/incap/a-3"
       });
 
-      if ("flow1" in localStorage) {
-        $(".ongoing-only").hide();
+      $('#primary').prop('selectedIndex', 0);
+      $("#primary").change(function () {
+        $("input:checkbox").prop("checked", false);
+        var mySelection = $('#primary :selected').val();
+        $("#other-conditions-1").parent().parent().show();
+        $("#other-conditions-2").parent().parent().show();
+        $("#other-conditions-3").parent().parent().show();
+        $("#other-conditions-4").parent().parent().show();
+        $("#other-conditions-5").parent().parent().show();
+        switch (mySelection) {
+          case "selectacondition":
+            $("#conditions").hide();
+            break;
+          case "depression":
+            $("#other-conditions-1").parent().parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Depression");
+            $("#date-label").text("21/05/2014");
+            $("#act-label").text("MRCA");
+            break;
+          case "lumbarspondylosis":
+            $("#other-conditions-2").parent().parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Lumbar spondylosis");
+            $("#date-label").text("18/11/2008");
+            $("#act-label").text("MRCA");
+            break;
+          case "tinnitus":
+            $("#other-conditions-3").parent().parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Tinnitus");
+            $("#date-label").text("03/06/2003");
+            $("#act-label").text("MRCA");
+            break;
+          case "osteoarthritisdrca":
+            $("#other-conditions-4").parent().parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Osteoarthritis");
+            $("#date-label").text("12/03/2011");
+            $("#act-label").text("DRCA");
+            break;
+          case "osteoarthritismrca":
+            $("#other-conditions-5").parent().parent().hide();
+            $("#conditions").show();
+            $("#selected-label").text("Osteoarthritis");
+            $("#date-label").text("12/03/2011");
+            $("#act-label").text("MRCA");
+            break;
+          default:
+            break;
+        }
+
+      });
+
+      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
+      if ("flow2" in localStorage) {
+        $(".employed").hide();
       } else {
-        $(".ongoing-only").show();
+        $(".employed").show();
       };
+
+      $('input[name=checkbox-5]').change(function () {
+        if ($(this).is(':checked')) {
+          $("#condition-not-in-list").show();
+        } else {
+          $("#condition-not-in-list").hide();;
+        }
+      });
+      $("#addanotherbtn").click(function () {
+        $("#addanothercondition").show();
+        $("#addanotherbtn").hide();
+      });
+      $("#btnSave").click(function () {
+        $("#addanothercondition").hide();
+        $("#addanotherbtn").show();
+        $("#customcondition").show();
+      });
+      $("#btnCancel").click(function () {
+        $("#addanothercondition").hide();
+        $("#addanotherbtn").show();
+      });
+      $("#btnRemove").click(function () {
+        $("#customcondition").hide();
+      });
+
 
 
     });
