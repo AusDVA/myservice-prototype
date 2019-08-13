@@ -17,65 +17,83 @@
   <%- include(partials+"components/layout/header-authenticated") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
   <main>
-  <section class="container add-document__content">
-  <h1>Upload your medical diagnosis report</h1>
-  <h3>Your medical diagnosis report helps us process your liability claim quickly.</h3>
-  <p>
-  Upload a report for your claim below.<br>
-  You can also add an updated report if needed to support your claim<br>
-  Accepted file types inlude pdf, jpeg and png. Maximum file size is 50MB.<br>
-  <p>
-  </section>
-  <section class="container add-document__upload">
-  <div class="upload-list">
-     <h4>Uploads</h4>
-      <table class="document-uploads" id="add-documents">
-        <tbody>
-          <tr>
-            <th>Document title</th>
-            <th class="centred">Actions</th>
-          </tr>
-        </tbody>
-      </table>
+    <section class="container add-document__content">
+      <h1>Upload your medical diagnosis report</h1>
+      <h3>Your medical diagnosis report helps us process your liability claim quickly.</h3>
+      <p>
+        Upload a report for your claim below.<br>
+        You can also add an updated report if needed to support your claim<br>
+        Accepted file types inlude pdf, jpeg and png. Maximum file size is 50MB.<br>
+        <p>
+    </section>
+    <section class="container add-document__upload">
+      <div class="upload-list">
+        <h4>Uploads</h4>
+        <table class="document-uploads" id="add-documents">
+          <tbody>
+            <tr>
+              <th>Document title</th>
+              <th class="centred">Actions</th>
+            </tr>
+          </tbody>
+        </table>
         <div>
-        <input type="file" class="file-upload-default__input" id="file-0">
-        <label class="file-upload-default__label" for="file-0">
+          <input type="file" class="file-upload-default__input" id="file-0">
+          <label class="file-upload-default__label" for="file-0">
 
-          <span id="document-type-button" class="file-upload-default__button">
-            <span class="uikit-btn uikit-btn--tertiary">Upload a document</span>
-          </span>
-        </label>
+            <span id="document-type-button" class="file-upload-default__button">
+              <span class="uikit-btn uikit-btn--tertiary">Upload a document</span>
+            </span>
+          </label>
         </div>
-    </div>
-    <div class="pagination">
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">View my claims</button>
-      <button id="submit-upload" class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = '/auth/claim/il/claim1'" disabled>Submit</button>
-    </div>
-  </section>
-  
+      </div>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">View my claims</button>
+        <button id="submit-upload" class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = '/auth/claim/submitting-documents'" disabled>Submit</button>
+      </div>
+    </section>
+
   </main>
   <%- include(partials+"components/layout/footer") %>
   <%- include(partials+"content/modals/claims-dhoas-start-modal") %>
   <script>
 
+    function deleteRow(r) {
+      $(r).closest('tr').remove();
+      var rowIndex = document.getElementById("add-documents").getElementsByTagName("tr").length;
+    };
+
     //variables for simulating a document upload
-    var table    = document.getElementById("add-documents").getElementsByTagName('tbody')[0];
-    var newRow   = table.insertRow();
-    var newCell  = newRow.insertCell(0);
-    var deleteCell = newRow.insertCell(1);
-    
+    var rowIndex = 1;
+    var table = document.getElementById("add-documents").getElementsByTagName('tbody')[0];
 
     //when a file is uploaded create a new table row and add the file name to first cell, delete button on second
-    $('#file-0').change(function(e){
-        var fileName = document.createTextNode(e.target.files[0].name);
-        newCell.appendChild(fileName);
-        var deleteButton = deleteCell.appendChild(document.createElement("button")); 
-        deleteCell.classList.add('centred');
-        deleteButton.classList.add('uikit-btn', 'uikit-btn--tertiary', 'small', 'delete-button');
-        deleteButton.appendChild(document.createTextNode('Delete'));
+    $('#file-0').change(function (e) {
+      var newRow = table.insertRow(rowIndex);
+      var newCell = newRow.insertCell(0);
+      var deleteCell = newRow.insertCell(1);
+      var fileName = document.createTextNode(e.target.files[0].name);
 
-        document.getElementById('submit-upload').removeAttribute('disabled');
+      newCell.appendChild(fileName);
+
+      var rowIndex = document.getElementById("add-documents").getElementsByTagName("tr").length;
+      var deleteButton = deleteCell.appendChild(document.createElement("button"));
+
+      deleteCell.classList.add('centred');
+      deleteButton.classList.add('uikit-btn', 'uikit-btn--tertiary', 'small', 'delete-button');
+      deleteButton.appendChild(document.createTextNode('Delete'));
+
+      document.getElementById('submit-upload').removeAttribute('disabled');
+      var deleteButtons = document.getElementsByClassName('delete-button');
+      for (let i = 0; i < deleteButtons.length; i++) {
+        deleteButtons[i].addEventListener("click", function () { deleteRow(this); })
+      }
     });
+
+
+
+
+
   </script>
 </body>
 
