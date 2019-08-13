@@ -61,7 +61,7 @@
               </li>
               <li class="progress-step ongoing-only">
                 <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Employment</p>
+                <p class="progress-step-label">Civilian employment</p>
               </li>
               <li class="progress-step ongoing-only">
                 <span class="progress-step__icon"></span>
@@ -95,9 +95,6 @@
 
           <div class="margin-above--extra margin-below--extra">
 
-            <!-- <h2>Tell us about the cause of your incapacity</h2> -->
-            <!-- <BR /> -->
-
             <%- include(partials+"components/form-partials/dropdown", {
                 label: "Select the primary cause of your incapacity",
                 hint: "<BR/>This list shows your accepted conditions",
@@ -113,25 +110,25 @@
               }); %>
 
             <div id="conditions" class="margin-below--large" style="display: none;">
-              <hr style="margin-bottom: 7px;"">
+              <!-- <hr style="margin-bottom: 7px;""> -->
               <div class=" table">
-              <div class="tr">
-                <div class="td"><b>Selected condition</b></div>
-                <div class="td" id="selected-label">Depression</div>
+                <!-- <div class="tr">
+                  <div class="td"><b>Selected condition</b></div>
+                  <div class="td" id="selected-label">Depression</div>
+                </div> -->
+                <div class="tr">
+                  <div class="td"><b>Date of onset</b></div>
+                  <div class="td" id="date-label">21/05/2014</div>
+                </div>
+                <div class="tr">
+                  <div class="td"><b>Covered under</b></div>
+                  <div class="td" id="act-label">MRCA</div>
+                </div>
               </div>
-              <div class="tr">
-                <div class="td"><b>Date of onset</b></div>
-                <div class="td" id="date-label">21/05/2014</div>
-              </div>
-              <div class="tr">
-                <div class="td"><b>Covered under</b></div>
-                <div class="td" id="act-label">MRCA</div>
-              </div>
-            </div>
-            <BR />
-            <hr>
+              <BR />
+              <hr>
 
-            <%- include(partials+"components/form-partials/checkbox", {
+              <%- include(partials+"components/form-partials/checkbox", {
               label: "Select any other conditions that are affecting your capacity to work",
               hint: "<BR/>(select all that apply)",
               id: "other-conditions",
@@ -144,21 +141,21 @@
               ]
             }); %>
 
+            </div>
           </div>
-        </div>
 
-        <div class="pagination pagination--ss-reverse-order">
-          <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+            </div>
           </div>
+
         </div>
 
       </div>
-
-    </div>
     </div>
 
     <%- include(partials+"content/modals/claims-cancel-modal") %>
@@ -172,6 +169,8 @@
   <script>
     $(Document).ready(function () {
 
+      $("input:checkbox").prop("checked", false);
+
       $("#btnPrev").click(function () {
         window.location.href = "/auth/claim/incap/progress-b"
       });
@@ -181,6 +180,7 @@
 
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
+        $("input:checkbox").prop("checked", false);
         var mySelection = $('#primary :selected').val();
         $("#other-conditions-1").parent().parent().show();
         $("#other-conditions-2").parent().parent().show();
