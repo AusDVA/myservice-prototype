@@ -1,39 +1,24 @@
 <%
 
 if (typeof id === "undefined") var id = formPartialsID("date");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
-<div class="form-group" >
+<div class="form-group"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
   <fieldset>
-    <legend class="uikit-text-input__label legend-override">
-        <%- label %>
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : (modifiers.includes("noDay") ? "(MM / YYYY)" : "(DD / MM / YYYY)"),
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
 
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-
-        <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %>
-          <% if (typeof hint === "undefined") { %>
-            <% if (!(typeof modifiers !== "undefined" && modifiers.includes("noDay"))) { %>
-              (DD / MM / YYYY)
-            <% } else { %>
-              (MM / YYYY)
-            <% } %>
-          <% } else { %>
-            <%- hint %>
-          <% } %>
-        </span>
-    </legend>
-
-    <% if (!(typeof modifiers !== "undefined" && modifiers.includes("noDay"))) { %>
+    <% if (!(modifiers.includes("noDay"))) { %>
       <input 
         type="number"
         class="uikit-text-input dd"
@@ -42,7 +27,7 @@ if (typeof id === "undefined") var id = formPartialsID("date");
         maxlength="2" 
         aria-label="2 digit day"
       >
-      <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
+      <%- modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
     <% } %>
 
     <input 
@@ -54,7 +39,7 @@ if (typeof id === "undefined") var id = formPartialsID("date");
       aria-label="2 digit month"
     >
 
-    <%- typeof modifiers !== "undefined" && modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
+    <%- modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
     <input 
       type="number"
       class="uikit-text-input yyyy"
@@ -64,4 +49,41 @@ if (typeof id === "undefined") var id = formPartialsID("date");
       aria-label="4 digit year"
     >
   </fieldset>
+
+  <script>
+    <% if (!(modifiers.includes("noDay"))) { %>
+      $("#<%- id %>-dd")
+        .on("keyup", function(e) {
+          if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+            if ($(this).val().length === 2) {
+              $("#<%- id %>-mm").focus();
+            }
+          }
+        })
+    <% } %> 
+
+    <% if (!(modifiers.includes("noDay"))) { %>
+    <% } %> 
+
+    $("#<%- id %>-mm").on("keyup", function(e) {
+      if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+        <% if (!(modifiers.includes("noDay"))) { %>
+          if ($(this).val().length === 0) {
+            $("#<%- id %>-dd").focus();
+          }
+        <% } %>
+        if ($(this).val().length === 2) {
+          $("#<%- id %>-yyyy").focus();
+        }
+      }
+    })
+
+    $("#<%- id %>-yyyy").on("keyup", function() {
+      if ($(this).val().length === 0) {
+        $("#<%- id %>-mm").focus();
+      }
+    })
+
+
+  </script>
 </div>

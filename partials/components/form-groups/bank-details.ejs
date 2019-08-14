@@ -1,29 +1,23 @@
 <%
 
 if (typeof id === "undefined") var id = formPartialsID("bankdetails");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
 
-<fieldset>
-    <legend class="uikit-text-input__label">
-        <%- typeof legend !== "undefined" ? legend : "" %>
+<fieldset
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
 
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </legend>
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legend"]),
+        label: typeof label !== "undefined" ? label : "Bank details",
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
 
     <div class="form-group">
       <label class="uikit-text-input__label" for="<%- id %>-accName">Account name </label>
