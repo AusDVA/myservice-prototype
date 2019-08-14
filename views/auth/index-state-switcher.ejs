@@ -42,6 +42,12 @@
                 <span class="uikit-control-input__text">First login</span>
             </label>
         </p>
+        <p class="uiToolKitCheckBox">
+            <label class="uikit-control-input" for="nav-show-cards">
+                <input class="uikit-control-input__input" id="nav-show-cards" type="checkbox" name="nav-show-cards">
+                <span class="uikit-control-input__text">Show Cards in Navbar</span>
+            </label>
+        </p>
     </div>
     <%
     locals.el = {};
@@ -311,4 +317,21 @@
   function jsUcfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
+
+  $(document).ready(() => {
+
+    const person = JSON.parse(localStorage.getItem("person"));
+
+    if (person.cards && person.cards.length > 0) {
+      $("#nav-show-cards").prop("checked", true);
+    }
+
+    $("#nav-show-cards").on("change", function() {
+      if ($(this).prop("checked")) {
+        $("#healthcard").show();
+      } else {
+        $("#healthcard").hide();
+      }
+    });
+  });
 </script>
