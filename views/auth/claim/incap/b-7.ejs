@@ -84,19 +84,23 @@
               <p>This will be your nominated bank account for all DVA payments</p>
             </div>
 
-            <%- include(partials+"components/form-groups/bank-details") %>
+            <div id="bank-details">
+              <%- include(partials+"components/form-groups/bank-details") %>
+            </div>
 
             <%- include(partials+"components/form-partials/checkbox", {
               boxes: [
                 { 
-                  text: "I would like to specify an overseas bank account",
+                  text: "I would like to nominate an overseas bank account",
                   toggle: "#overseas"
                 }
-              ]
+              ],
+              id: "nominate"
             }); %>
 
-            <div id="overseas" hidden>
-              <p>To specify an overseas account please complete the <a href="https://www.dva.gov.au/about-dva/forms/dva-forms-keyword">appropriate form</a>.
+
+            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below--none-small" id="overseas" hidden>
+              <p>To nominate an overseas account please complete the <a href="https://www.dva.gov.au/about-dva/forms/dva-forms-keyword">appropriate form</a>.
                 <div class="tooltip">
                   <div id="tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="message" aria-expanded="false">
                     <div class="tooltip__label tooltip__label--icon-only">
@@ -114,7 +118,6 @@
                 </div>
               </p>
             </div>
-
 
           </div>
 
@@ -147,6 +150,16 @@
     $(Document).ready(function () {
 
       $("input:radio").prop("checked", false);
+      $("input:checkbox").prop("checked", false);
+
+      $("#nominate").change(function () {
+        var mySelection = $('#nominate :checked').val();
+        if (mySelection == "on") {
+          $('#bank-details').css({ opacity: 0.5 });
+        } else {
+          $('#bank-details').css({ opacity: 1 });
+        }
+      });
 
       // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and go to the 'Nominated Rep' page when they click the 'Previous' button.
       if ("flow1" in localStorage) {
