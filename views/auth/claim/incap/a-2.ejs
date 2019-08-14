@@ -20,25 +20,7 @@
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
 
       <div class="container margin-above--none">
-        <!-- Progress bar -->
-        <div class="col-xs-12">
-          <nav>
-            <ul class="progress-container">
-              <li class="progress-step progress-step--done">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Your lost earnings</p>
-              </li>
-              <li class="progress-step progress-step--active">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Cause of incapacity</p>
-              </li>
-              <li class="progress-step ongoing-only progress-step--last">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Periods of incapacity</p>
-              </li>
-            </ul>
-          </nav>
-        </div>
+
 
         <h1 class="margin-above--none ss-align--center">
           <span class="heading">Cause of incapacity</span>
@@ -63,33 +45,109 @@
                   "Tinnitus",
                   "Osteoarthritis (DRCA)",
                   "Osteoarthritis (MRCA)"
-                ]
+                ] 
               }); %>
 
-            <div id="conditions" class="margin-below--large" style="display: none;">
+            <div id="conditions" class="form-group" style="display: none; margin-top: -25px;">
 
               <div class="borderless-table">
                 <div class="borderless-table__row">
                   <div class="borderless-table__title">
-                    <b>Date of onset</b>
+                    Condition selected:
                   </div>
                   <div class="borderless-table__value">
-                    21/05/2014
+                    Depression
                   </div>
                 </div>
+
                 <div class="borderless-table__row">
                   <div class="borderless-table__title">
-                    <b>Covered under</b>
+                    Covered under:
                   </div>
                   <div class="borderless-table__value">
                     MRCA
                   </div>
                 </div>
               </div>
-              <hr style="margin-top: 20px;">
-            </div>
+              <div class="borderless-table__row">
+                <div class="borderless-table__title">
+                  Date of effect
+                  <!-- <div class="tooltip">
+                    <div id="tt1-label" class="tooltip__control" tabindex="0" role="button" aria-controls="tt1-message" aria-expanded="false">
+                      <div class="tooltip__label">
+                        Date of effect:
+                      </div>
+                      <div class="tooltip__tab"></div>
+                    </div>
+                    <div id="tt1-message" class="tooltip__content" aria-labelledby="tt1-label" role="region" tabindex="-1" aria-hidden="true">
+                      <div class="tooltip__message">Definition goes here</div>
+                      <div class="tooltip__close" role="button" tabindex="0">Close</div>
+                    </div>
+                  </div> -->
+                </div>
+                <div class="borderless-table__value">
+                  <div class="tooltip">
+                    <div id="tt1-label" class="tooltip__control" tabindex="0" role="button" aria-controls="tt1-message" aria-expanded="false">
+                      <div class="tooltip__label">
+                        21/05/2014
+                      </div>
+                      <div class="tooltip__tab"></div>
+                    </div>
+                    <div id="tt1-message" class="tooltip__content" aria-labelledby="tt1-label" role="region" tabindex="-1" aria-hidden="true">
+                      <div class="tooltip__message">Definition goes here</div>
+                      <div class="tooltip__close" role="button" tabindex="0">Close</div>
+                    </div>
+                  </div>
+                </div>
 
-            <%- include(partials+"components/form-partials/checkbox", {
+              </div>
+            </div>
+            <!-- <hr style="margin-top: 20px;"> -->
+          </div>
+
+
+          <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display: none;">
+            <p><b>List any periods of lost earnings and/or allowances you are claiming:</b></p>
+            <table class="mys-table table-responsive border-all border-top__thick--blue">
+              <tr>
+                <th style="border-left:1px solid #cccccc;">
+                  <label class="uikit-text-input__label" for="date">Start Date
+                    <span class="hint">(dd / mm / yyyy)</span>
+                  </label>
+                </th>
+                <th></th>
+                <th>
+                  <label class="uikit-text-input__label" for="date">End Date
+                    <span class="hint">(dd / mm / yyyy)</span>
+                  </label>
+                </th>
+                <th style="border-right:1px solid #cccccc;"></th>
+              </tr>
+              <tr id="date-template">
+                <td>
+                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                </td>
+                <td>&mdash;</td>
+                <td>
+                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
+                </td>
+                <td>
+                  <!-- <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button> -->
+                </td>
+              </tr>
+              <tr class="padding-above--none">
+                <td colspan=4 class="padding-above--none">
+                  <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <%- include(partials+"components/form-partials/checkbox", {
               label: "Select any other conditions that are affecting your capacity to work",
               hint: "<BR/>(select all that apply)",
               id: "other-conditions",
@@ -99,22 +157,23 @@
                 "Tinnitus",
                 "Osteoarthritis (DRCA)",
                 "Osteoarthritis (MRCA)"
-              ]
+              ],
+              modifiers: ["hidden"]
             }); %>
 
-          </div>
         </div>
-
-        <div class="pagination pagination--ss-reverse-order">
-          <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-          </div>
-        </div>
-
       </div>
+
+      <div class="pagination pagination--ss-reverse-order">
+        <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+          <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+        </div>
+      </div>
+
+    </div>
 
     </div>
     </div>
@@ -136,12 +195,15 @@
         window.location.href = "/auth/claim/incap/a-1"
       });
       $("#btnNext").click(function () {
-        window.location.href = "/auth/claim/incap/a-3"
+        window.location.href = "/auth/claim/incap/progress-b"
       });
+
+      $("#other-conditions").hide();
 
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
         $("input:checkbox").prop("checked", false);
+        $("#other-conditions").hide();
         var mySelection = $('#primary :selected').val();
         $("#other-conditions-1").parent().parent().show();
         $("#other-conditions-2").parent().parent().show();
@@ -190,6 +252,8 @@
           default:
             break;
         }
+        $("#leaveWithoutPay-dates").show("fast");
+        $("#other-conditions").show("fast");
 
       });
 
