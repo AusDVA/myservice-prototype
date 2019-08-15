@@ -38,7 +38,12 @@
                 label: "Select the primary cause of your incapacity",
                 hint: "<BR/>This list shows your accepted conditions",
                 tooltip: {
-                  content: ``,
+                  content: `<p>If you can't see your condition in this list:</p>
+                  <ul>
+                    <li>it may not be eligible for this payment due to the time the injury occurred, or</li>
+                    <li>it may not be approved yet</li>
+                  </ul>
+                  For more information call <a href="tel:1800 555 254">1800 555 254</a> or contact your delegate.`,
                   screenreaderText: ""
                 },
                 modifiers: ["tooltipOnHint"],
@@ -96,12 +101,11 @@
 
               </div>
             </div>
-            <!-- <hr style="margin-top: 20px;"> -->
           </div>
-
 
           <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display: none;">
             <p><b>List any periods of lost earnings and/or allowances you are claiming:</b></p>
+
             <table class="mys-table table-responsive border-all border-top__thick--blue">
               <tr>
                 <th style="border-left:1px solid #cccccc;">
@@ -128,9 +132,6 @@
                   <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
                   <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
                   <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                </td>
-                <td>
-                  <!-- <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button> -->
                 </td>
               </tr>
               <tr class="padding-above--none">
@@ -192,12 +193,12 @@
         window.location.href = "/auth/claim/incap/progress-b"
       });
 
-      $("#other-conditions").hide();
+      // $("#other-conditions").hide();
 
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
         $("input:checkbox").prop("checked", false);
-        $("#other-conditions").hide();
+        $("#other-conditions-container").hide();
         var mySelection = $('#primary :selected').val();
         $("#other-conditions-1").parent().parent().show();
         $("#other-conditions-2").parent().parent().show();
@@ -247,7 +248,7 @@
             break;
         }
         $("#leaveWithoutPay-dates").show("fast");
-        $("#other-conditions").show("fast");
+        $("#other-conditions-container").show("fast");
 
       });
 
