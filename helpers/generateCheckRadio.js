@@ -43,19 +43,27 @@ module.exports = box => {
         >
         <span 
           class="uikit-control-input__text">
-            ${text}
+            ${text} ${tooltip && !(modifiers.includes("tooltipOnHint")) ? tooltip : ""}
+            ${hint && modifiers.includes("hintAfterTick") ? `<div class="hidden-hint" hidden>` : ""}
             ${hint ? `${modifiers.includes("hintNewLine") ? "<br>" : ""} <span class="hint">${hint}</span>` : ""}
-            ${tooltip ? tooltip : ""}
+            ${tooltip && modifiers.includes("tooltipOnHint") ? tooltip : ""}
+            ${hint && modifiers.includes("hintAfterTick") ? `</div>` : ""}
           </span>
       </label>
     </div>
   `;
 
+  var hintAfterTick = modifiers.includes("hintAfterTick") ? true : false;
+  var tooltipOnHint = modifiers.includes("tooltipOnHint") ? true : false;
+
   return {
     html,
+    hintAfterTick,
     toggle,
     rToggle,
-    inject
+    inject,
+    tooltip,
+    tooltipOnHint
   }
 
 }
