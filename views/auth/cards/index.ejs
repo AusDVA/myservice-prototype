@@ -24,48 +24,47 @@
   <div class="health-cards__page-wrapper">
     <div class="container health-card__container">
       <h1><span class="heading">Cards</span></h1>
-              
       <div id="health-cards" class="row">
 <% cards.forEach((card, index) => { %>
-  <div class="health-card <%- card.available === null ? "toggled-open toggled-open--no-card" : "" %>" id="<%- card.id %>">
+  <div class="health-card" id="<%- card.id %>">
     <div class="health-card__card-info">
       <button class="uikit-btn health-card__card-toggle health-card__card-toggle--outside" aria-expanded="false"> <i class="far fa-plus-circle"></i> Show details</button>
-      <% if (card.available !== null) { %>
-        <div class="health-card__image-container <%- card.available !== true ? "health-card__image--on-its-way" : "" %>">
-          <% if (card.available === true) { %>
-            <% if (card.type === "Veteran Card") {
-              if (card.class === "White") { %>
-                  <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-white--edited.png" alt="White veterans card">
-              <% } else if (card.class === "Gold") {
-                  if (card.TPI) { %>
-                      <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold-tpi--edited.png" alt="Gold TPI veterans card">
-                  <% } else { %>
-                      <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold--edited.png" alt="Gold veterans card">
-                  <% } %>
-              <% } %>
-              <p class="health-card__card-number card-text"><%- card.fileNumber %></p>
-              <p class="health-card__card-expiry card-text"><%- card.expiryShort %></p>
-              <p class="health-card__card-name card-text"><%- card.name %></p>
-              <p class="health-card__file-no-text card-text">File No.</p>
-              <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
-            <% } else if (card.type === "Commonwealth Senior Health Card") { %>
-              <img class="health-card__image health-card__image--concession" src="/docs/images/concession-card-seniors-back.jpg" alt="Commonwealth Senior Health Card">
-              <p class="health-card__card-number card-text"><%- card.crnNumber %></p>
-              <p class="health-card__card-expiry card-text"><%- card.expiry %></p>
-              <p class="health-card__card-name card-text"><%- card.name %></p>
+      
+
+      <div class="health-card__image-container <%- !card.available ? "health-card__image--on-its-way" : "" %>">
+        <% if (card.available) { %>
+          <% if (card.type === "Veteran Card") {
+            if (card.class === "White") { %>
+                <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-white--edited.png" alt="White veterans card">
+            <% } else if (card.class === "Gold") {
+                if (card.TPI) { %>
+                    <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold-tpi--edited.png" alt="Gold TPI veterans card">
+                <% } else { %>
+                    <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold--edited.png" alt="Gold veterans card">
+                <% } %>
             <% } %>
-          <% } else if (card.available === false) { %>
-            <img class="health-card__image" src="/docs/images/health-card-white--edited.png" alt="lightgray background">
+            <p class="health-card__card-number card-text"><%- card.fileNumber %></p>
+            <p class="health-card__card-expiry card-text"><%- card.expiryShort %></p>
+            <p class="health-card__card-name card-text"><%- card.name %></p>
+            <p class="health-card__file-no-text card-text">File No.</p>
+            <p class="health-card__expiry-text card-text">Card expires<br>or on recall</p>
+          <% } else if (card.type === "Commonwealth Senior Health Card") { %>
+            <img class="health-card__image health-card__image--concession" src="/docs/images/concession-card-seniors-back.jpg" alt="Commonwealth Senior Health Card">
+            <p class="health-card__card-number card-text"><%- card.crnNumber %></p>
+            <p class="health-card__card-expiry card-text"><%- card.expiry %></p>
+            <p class="health-card__card-name card-text"><%- card.name %></p>
           <% } %>
-        </div>
-      <% } %>
+        <% } else { %>
+          <img class="health-card__image" src="/docs/images/health-card-white--edited.png" alt="lightgray background">
+        <% } %>
+      </div>
       <div class="health-card__inner-card-info">
         <button class="uikit-btn health-card__card-toggle health-card__card-toggle--inside" aria-expanded="false"><i class="far fa-times-circle"></i></button>
 
         <div class="health-card__details-wrapper">
         <h3 class="health-card__header-text"><%- card.type %></h3>
 
-          <% if (card.available === true) { %>
+          <% if (card.available) { %>
 
             <hr class="non-breaking-hr">
             <div class="health-card__detail">
@@ -105,27 +104,15 @@
               <a href="/">Order replacement</a>
             </div>
 
-          <% } else if (card.available === false) { %>
+          <% } else { %>
             <div class="health-card__on-its-way">
 
               <hr class="non-breaking-hr margin-below--mid">
               <div class="health-card__detail">
-                <p>Your card is on its way. </p>
-                <p>Your card details will be availalbe here when it has been processed.</p>
+                <p>Your card is on its way. Your card details will be availalbe here when it has been issued.</p>
               </div>
               <hr class="non-breaking-hr margin-above--mid">
               
-            </div>
-          <% } else if (card.available === null) { %>
-            <div class="health-card__no-card">
-              <hr class="non-breaking-hr margin-below--mid">
-                <div class="health-card__detail">
-                  <p><strong>Our records show you do not currently have a Veteran Card</strong></p>
-                  <p>You can <a href="/auth/claim/veterancard/veteran-card-start">request a Vetaran Card here</a> as part of the Australian Defence Veterans' Covenant.</p>
-                  <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Please continue to visit your local defence health centre. A card will be sent to you when you discharge.</p>
-                </div>
-
-              <hr class="non-breaking-hr margin-below--mid">
             </div>
           <% } %>
         </div>
@@ -137,15 +124,11 @@
         <% if (card.conditions && card.conditions.length > 0 ) { %>
           <div class="health-card__detail">
             <div class="accordion">
-              <button class="style-less-button accordion-button health-card__label--big <%- card.available === null ? "rotate-90" : "" %>"><i class="transition fas fa-chevron-right"></i> Conditions listed</button>
-              <div class="accordion-content" <%- card.available !== null ? "hidden" : "" %>>
-                <% if (card.available !== null) { %>
-                  <p class="is-currently-serving accordion-content__sub-heading">As a currently serving member, any medical treatment is the responsibility of the ADF. Plase continue to visit your local defence health centre.</p>
-                <% } %>
+              <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Conditions listed</button>
+              <div class="accordion-content" hidden>
                 <p class="accordion-content__sub-heading">The following conditions are listed on this card:</p>
                   <div class="health-card__conditions-list margin-below--mid">
                     <% card.conditions.forEach((condition, c_index) => { %>
-
                       <div class="health-card__condition">
                         <i class="far fa-check-circle health-card__condition-icon"></i>
                         <div class="health-card__condition-info">
@@ -161,12 +144,11 @@
                 <p>Last updated on <%- card.lastUpdated %>. If incorrect try logging in again later or contact us.</p>
               </div>
             </div>
-            <% } %>
 
           </div>
         <% } %>
 
-        <% if (card.type === "Veteran Card" && card.available !== null) { %>
+        <% if (card.type === "Veteran Card" ) { %>
           <div class="health-card__detail margin-above--small">
             <div class="accordion">
               <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> How to use</button>
@@ -194,7 +176,6 @@
       </div>
     </div>
   </div>
-
   </main>
   <%- include(partials+"components/layout/footer") %>
   <script type="text/javascript">
@@ -213,3 +194,4 @@
 </body>
 
 </html>
+
