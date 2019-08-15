@@ -2,41 +2,36 @@
 
 if (typeof id === "undefined") var id = formPartialsID("gender");
 
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+
 %>
 
-
 <fieldset
-    id="<%- id %>"
-    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container"
+  <%- modifiers.includes("disabled") ? "disabled" : "" %>
   >
 
-    <legend class="uikit-text-input__label legend-override">
-        <%- typeof label !== "undefined" ? label : "Gender" %>
+    <%
 
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } else { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: "Gender help",
-              content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.",
-              id,
-              modifiers: ["tooltipIconOnly"]
-            })
-          %>
-        <% } %>
+      if (typeof tooltip === "undefined") {
+        var tooltip = {
+          screenreaderText: "Gender help",
+          content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.",
+        }
+        modifiers.push("tooltipIconOnly")
+      }
 
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </legend>
+    %>
+
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : "Gender",
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
 
     <div class="radio-toggle">
       <label class="label-left"

@@ -8,8 +8,8 @@
           "forms": [
             {
               "type": "radio",
-              "id": "card-states",
               "config": {
+                "id": "card-states",
                 "label": "Card States",
                 "boxes": [
                   {
@@ -23,8 +23,24 @@
                   },
                   {
                     "text": "Gold TPI + CSHC (2 cards)"
+                  },
+                  {
+                    "text": "No cards"
                   }
                 ]
+              }
+            },
+            {
+              "type": "checkbox",
+              "config": {
+                "id": "state-is-currently-serving",
+                "label": "Individual toggles",
+                "boxes": [
+                {
+                  "label": "User is currently serving ",
+                  "hint": "(toggles text in conditions listed)",
+                  "toggle": ".is-currently-serving"
+                }]
               }
             }
           ]
@@ -47,14 +63,16 @@ $(document).ready(function () {
     }
   });
 
-  $("#radiocardstates-2").prop("checked", true);
+  $("#card-states-2").prop("checked", true);
+  $("#veteran-no-card").hide();
   $("#veteran-white-on-way").hide();
   $("#veteran-gold").hide();
   $("#veteran-white").show();
   $("#veteran-gold-tpi").hide();
   $("#cshc").hide();
 
-  $("#radiocardstates-1").on("click", () => { // Gold
+  $("#card-states-1").on("click", function() { // Gold
+    $("#veteran-no-card").hide();
     $("#veteran-white-on-way").hide();
     $("#veteran-gold").show();
     $("#veteran-white").hide();
@@ -62,7 +80,8 @@ $(document).ready(function () {
     $("#cshc").hide();
   });
 
-  $("#radiocardstates-2").on("click", () => { // White
+  $("#card-states-2").on("click", function() { // White
+    $("#veteran-no-card").hide();
     $("#veteran-white-on-way").hide();
     $("#veteran-gold").hide();
     $("#veteran-white").show();
@@ -70,8 +89,8 @@ $(document).ready(function () {
     $("#cshc").hide();
   });
 
-
-  $("#radiocardstates-3").on("click", () => { // White card on the way
+  $("#card-states-3").on("click", function() { // White card on the way
+    $("#veteran-no-card").hide();
     $("#veteran-white-on-way").show();
     $("#veteran-gold").hide();
     $("#veteran-white").hide();
@@ -79,13 +98,32 @@ $(document).ready(function () {
     $("#cshc").hide();
   });
 
-  $("#radiocardstates-4").on("click", () => { // Gold TPI + CSHC (2 cards)
+  $("#card-states-4").on("click", function() { // Gold TPI + CSHC (2 cards)
+    $("#veteran-no-card").hide();
     $("#veteran-white-on-way").hide();
     $("#veteran-gold").hide();
     $("#veteran-white").hide();
     $("#veteran-gold-tpi").show();
     $("#cshc").show();
   });
+
+  $("#card-states-5").on("click", function() { // No card
+    $("#veteran-no-card").show();
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").hide();
+    $("#veteran-gold-tpi").hide();
+    $("#cshc").hide();
+  });
+
+
+  let person = JSON.parse(localStorage.getItem('person'));
+
+  if (!person.isCurrentlyServing) {
+    $(".is-currently-serving").hide();
+  } else {
+    $("#state-is-currently-serving-1").prop("checked", true);
+  }
 
 
 });
