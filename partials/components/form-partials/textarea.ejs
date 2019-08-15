@@ -1,37 +1,28 @@
 <%
 
 if (typeof id === "undefined") var id = formPartialsID("textarea");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
-<div class="form-group" >
-    <label
-      for="<%- id %>"
-      class="uikit-text-input__label">
-        <%- label %>
-
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </label>
+<div class="form-group"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
+  <%- generateLabel({
+      id,
+      modifiers,
+      label: typeof label !== "undefined" ? label : null,
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
     <textarea 
       class="uikit-text-input"
       name="<%- id %>"
       id="<%- id %>"
       <%- typeof placholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
       <%- typeof rows !== "undefined" ? `rows="${rows}"` : `rows="5"` %>
-      <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+      <%- modifiers.includes("disabled") ? "disabled" : "" %>
     >
     <%- typeof value !== "undefined" ? value : "" %>
     </textarea>

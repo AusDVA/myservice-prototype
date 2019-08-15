@@ -1,6 +1,6 @@
-const replaceNonAlphanumeric = require('../helpers/replaceNonAlphanumeric');
+const replaceNonAlphanumeric = require('./replaceNonAlphanumeric');
 
-module.exports = (option) => {
+module.exports = option => {
   let { modifiers, 
         text, 
         toggle,

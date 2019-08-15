@@ -1,32 +1,24 @@
 <%
 if (typeof id === "undefined") var id = formPartialsID("checkbox");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 let boxCounter = 0;
 %>
 
-<div class="form-group check-radio" >
+<div class="form-group check-radio">
   <fieldset
-    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
-    id="<%- id %>"
+    <%- modifiers.includes("disabled") ? "disabled" : "" %>
+    <%- modifiers.includes("hidden") ? "hidden" : "" %>
+    id="<%- id %>-container"
   >
 
-    <legend class="uikit-text-input__label legend-override">
-        <%- typeof label !== "undefined" ? label : "" %>
-
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-        
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </legend>
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
 
     <% const boxs = boxes.map(box => {
       boxCounter++;
@@ -36,13 +28,24 @@ let boxCounter = 0;
           text: box,
           baseID: id,
           type: "checkbox",
-          boxID: boxCounter 
+          boxID: boxCounter,
+          modifiers: []
         }
 
       } else if (typeof box === "object") {
+
         box.baseID = id;
+        if (typeof box.modifiers === "undefined") box.modifiers = [];
+
+        if (typeof box.id !== "undefined") {
+          box.boxID = box.id;
+          box.suppliedID = true;
+        } else {
+          box.boxID = boxCounter;
+          box.suppliedID = false;
+        }
+
         box.type = "checkbox";
-        box.boxID = boxCounter;
       }
 
       %>
@@ -66,13 +69,15 @@ let boxCounter = 0;
 
   <% if (boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined || box.inject !== undefined).length > 0) { %>
     <script type="text/javascript">
-      $("#<%- id %>").change("input[type=checkbox]", function() {
+      $("#<%- id %>-container").change("input[type=checkbox]", function() {
         $("input[type=checkbox]:checked", this).each(function() {
           $($(this).data("toggle")).show();
           $($(this).data("r-toggle")).hide();
           $(this).closest("fieldset").find($(this).data("inject")).remove();
           $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitCheckBox"));
-          $($(this).data("inject")).addClass("injected");
+          if ($(this).data("inject-indent") !== false) {
+            $($(this).data("inject")).addClass("injected");
+          }
           $(this).closest("fieldset").find($($(this).data("inject"))).show();
         });
 

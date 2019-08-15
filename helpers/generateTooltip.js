@@ -2,7 +2,7 @@ module.exports = tooltip => {
 
 	let { screenreaderText, content, id, modifiers } = tooltip;
 
-	if (!screenreaderText || !content || !id) return "All fields mandatory";
+	// if (!screenreaderText || !content || !id) return "All fields mandatory";
 
 	let tooltipHtml = `
 	<div class="tooltip">

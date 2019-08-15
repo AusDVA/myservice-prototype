@@ -1,33 +1,25 @@
 <%
 
 if (typeof id === "undefined") var id = formPartialsID("yes_no");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
-<div class="form-group" >
+<div class="form-group"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
   <fieldset
-    id="<%- id %>"
-    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
+    <%- modifiers.includes("disabled") ? "disabled" : "" %>
   >
 
-    <legend class="uikit-text-input__label legend-override">
-        <%- label %>
-
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </legend>
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
 
     <div class="radio-toggle">
       <label class="label-left"
@@ -55,7 +47,7 @@ if (typeof id === "undefined") var id = formPartialsID("yes_no");
 
   <% if (typeof no_toggle !== "undefined" || typeof no_rToggle !== "undefined" || typeof yes_toggle !== "undefined" || typeof yes_rToggle !== "undefined") { %>
     <script type="text/javascript">
-      $("#<%- id %>").change("input[type=radio]", function() {
+      $("#<%- id %>-container").change("input[type=radio]", function() {
         $("input[type=radio]:checked", this).each(function() {
           $($(this).data("toggle")).show();
           $($(this).data("r-toggle")).hide();

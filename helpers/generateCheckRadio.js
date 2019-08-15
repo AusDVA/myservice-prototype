@@ -1,3 +1,5 @@
+const generateTooltip = require('./generateTooltip');
+
 module.exports = box => {
   let { modifiers, 
         text, 
@@ -7,9 +9,21 @@ module.exports = box => {
         inject,
         type,
         baseID,
-        boxID
+        boxID,
+        suppliedID,
+        tooltip
        } = box;
 
+  let generatedID = suppliedID ? boxID : `${baseID}-${boxID}`;
+
+  if (tooltip) {
+    tooltip = generateTooltip({
+      content: tooltip.content,
+      screenreaderText: tooltip.screenreaderText,
+      id: generatedID,
+      modifiers
+    })
+  }
 
   let html = `
     <div class="uiToolKitCheckBox">
@@ -17,19 +31,21 @@ module.exports = box => {
         <input 
           type="${type}" 
           class="uikit-control-input__input" 
-          id="${baseID}-${boxID}" 
+          id="${generatedID}" 
           name="${baseID}"
           ${toggle ? `data-toggle="${toggle}"` : ""}
           ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
           ${inject ? `data-inject="${inject}"` : ""}
-          ${modifiers && modifiers.includes("disabled") ? "disabled" : ""}
-          ${modifiers && modifiers.includes("hidden") ? "hidden" : ""}
-          ${modifiers && modifiers.includes("checked") ? "checked" : ""}
+          ${inject && modifiers.includes("noInjectIndent") ? `data-inject-indent="false"` : ""}
+          ${modifiers.includes("disabled") ? "disabled" : ""}
+          ${modifiers.includes("hidden") ? "hidden" : ""}
+          ${modifiers.includes("checked") ? "checked" : ""}
         >
         <span 
           class="uikit-control-input__text">
             ${text}
-            ${hint ? `${modifiers && modifiers.includes("hintNewLine") ? "<br>" : ""} <span class="hint">${hint}</span>` : ""}
+            ${hint ? `${modifiers.includes("hintNewLine") ? "<br>" : ""} <span class="hint">${hint}</span>` : ""}
+            ${tooltip ? tooltip : ""}
           </span>
       </label>
     </div>
