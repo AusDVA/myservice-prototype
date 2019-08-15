@@ -5,12 +5,12 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 let boxCounter = 0;
 %>
 
-<div class="form-group check-radio"
-  <%- modifiers.includes("hidden") ? "hidden" : "" %>
-  id="<%- id %>-container">
+<div class="form-group check-radio">
   <fieldset
     <%- modifiers.includes("disabled") ? "disabled" : "" %>
-    >
+    <%- modifiers.includes("hidden") ? "hidden" : "" %>
+    id="<%- id %>-container"
+  >
 
     <%- generateLabel({
         id,
@@ -55,19 +55,24 @@ let boxCounter = 0;
       <% 
 
 
-        let { toggle, rToggle, inject } = generateCheckRadio(box);
+        let { toggle, rToggle, inject, hintAfterTick, tooltip, tooltipOnHint } = generateCheckRadio(box);
         return {
           toggle,
           rToggle,
-          inject
+          inject,
+          hintAfterTick,
+          tooltip,
+          tooltipOnHint
         }
 
       });
+
       %>
 
   </fieldset>
 
-  <% if (boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined || box.inject !== undefined).length > 0) { %>
+  <% if (boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) { 
+    %>
     <script type="text/javascript">
       $("#<%- id %>-container").change("input[type=radio]", function() {
         $("input[type=radio]:checked", this).each(function() {
@@ -78,6 +83,7 @@ let boxCounter = 0;
           if ($(this).data("inject-indent") !== false) {
             $($(this).data("inject")).addClass("injected");
           }
+          $(this).parent().find(".hidden-hint").show();
           $(this).closest("fieldset").find($($(this).data("inject"))).show();
         });
 
@@ -85,8 +91,13 @@ let boxCounter = 0;
           $($(this).data("toggle")).hide();
           $($(this).data("r-toggle")).show();
           $(this).closest("fieldset").find($(this).data("inject")).remove();
+          $(this).parent().find(".hidden-hint").hide();
         });
       })
+
+      $("#<%- id %>-container").on("click", ".tooltip", function(e) {
+        e.preventDefault();
+      });
     </script>
   <% } %>
 
