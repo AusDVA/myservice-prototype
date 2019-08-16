@@ -3,7 +3,7 @@
 
 <head>
   <title>Add claim: Incapacity Payments | MyService</title>
-<%- include(partials+"components/layout/head") %>
+  <%- include(partials+"components/layout/head") %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -23,33 +23,43 @@
         <div class="col-xs-12">
           <nav>
             <ul class="progress-container">
-              <li class="progress-step progress-step--done ongoing-only">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Your conditions</p>
-              </li>
-              <li class="progress-step progress-step--done">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Service history</p>
-              </li>
-              <li class="progress-step progress-step--done ongoing-only employed">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Employment</p>
-              </li>
-              <li class="progress-step progress-step--done ongoing-only">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Medical practitioners</p>
-              </li>
-              <li class="progress-step progress-step--done">
-                <span class="progress-step__icon"></span>
-                <p class="progress-step-label">Nominated representative</p>
-              </li>
-              <li class="progress-step progress-step--done ongoing-only">
-                <a href="/auth/claim/incap/b-5">
+              <!-- <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-1">
                   <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Compensation damages action</p>
+                  <p class="progress-step-label">Cause of incapacity</p>
+                </a>
+              </li> -->
+              <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-2">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Service history</p>
                 </a>
               </li>
-              <li class="progress-step progress-step--active progress-step--last">
+              <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-3">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Civilian employment</p>
+                </a>
+              </li>
+              <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-4">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Medical practitioners</p>
+                </a>
+              </li>
+              <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-5">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Nominated representative</p>
+                </a>
+              </li>
+              <li class="progress-step progress-step--done">
+                <a href="/auth/claim/incap/b-6">
+                  <span class="progress-step__icon"></span>
+                  <p class="progress-step-label">Other details</p>
+                </a>
+              </li>
+              <li class="progress-step progress-step--last progress-step--active">
                 <span class="progress-step__icon"></span>
                 <p class="progress-step-label">Bank&nbsp;details</p>
               </li>
@@ -66,33 +76,52 @@
     <div class="container">
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
-
           <div class="margin-above--extra margin-below--extra">
 
-            <p class="text-fullwidth">Provide your bank details. If your claim is approved your Incapacity Payments will go into this&nbsp;account.</p>
+            <p>Provide your bank details. If your claim is approved your Incapacity Payments will go into this account</p>
 
-            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
-              <p class="margin-below--mid">This will be your nominated bank account for all DVA payments</p>
+            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below--none-small">
+              <p>This will be your nominated bank account for all DVA payments</p>
             </div>
 
-
-            <%- include(partials+"bank-account-details") %>
-
-          </div>
-
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+            <div id="bank-details">
+              <%- include(partials+"components/form-groups/bank-details") %>
             </div>
+
+            <%- include(partials+"components/form-partials/checkbox", {
+              boxes: [
+                { 
+                  text: "I would like to nominate an overseas bank account",
+                  hint: `To nominate an overseas account please complete the <a href="https://www.dva.gov.au/about-dva/forms/dva-forms-keyword" rel="external">appropriate form</a>.`,
+                  modifiers: ["hintAfterTick", "tooltipOnHint"],
+                  tooltip: {
+                    screenreaderText: "Overseas payments redirection help",
+                    content: `This link will take you to the DVA website forms page. Click on "B" from the alphabetical listing at the top of the page. Look under the heading "Bank accounts" to find the appropriate form based on country.`
+                  },
+                }
+              ],
+              id: "nominate"
+            }); %>
+
+
+
           </div>
 
         </div>
 
+        <div class="pagination pagination--ss-reverse-order">
+          <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+          </div>
+        </div>
 
       </div>
+
+
+    </div>
     </div>
 
     <%- include(partials+"content/modals/claims-cancel-modal") %>
@@ -104,7 +133,19 @@
 
 
   <script>
-    $(Document).ready(function () {
+    $(document).ready(function () {
+
+      $("input:radio").prop("checked", false);
+      $("input:checkbox").prop("checked", false);
+
+      $("#nominate").change(function () {
+        var mySelection = $('#nominate :checked').val();
+        if (mySelection == "on") {
+          $('#bank-details').css({ opacity: 0.5 });
+        } else {
+          $('#bank-details').css({ opacity: 1 });
+        }
+      });
 
       // Check to see if user is only claiming for loss of allowance or loss of career progression. If they are, they should only see three steps in the progress bar and go to the 'Nominated Rep' page when they click the 'Previous' button.
       if ("flow1" in localStorage) {
@@ -131,6 +172,12 @@
         $(".employed").hide();
       };
 
+      //toggle save and next
+      $("#save-next-toggle-yes, #save-next-toggle-no").click(function () {
+        $('#save-and-next').removeClass("hidden");
+        console.log('working');
+      });
+
 
       // Show and hide needs list
       $("#leaving-yes").click(function () {
@@ -143,6 +190,7 @@
       });
 
     });
+
   </script>
 
 </body>

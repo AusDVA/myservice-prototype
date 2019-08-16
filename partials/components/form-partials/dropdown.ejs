@@ -1,36 +1,26 @@
 <%
 
 if (typeof id === "undefined") var id = formPartialsID("dropdown");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
-<div class="form-group" <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hidden") ? "hidden" : "" %>>
-  <label 
-    for="<%- id %>"
-    class="uikit-text-input__label"
-  >
-      <%- label %>
-
-      <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-        <%- 
-          generateTooltip({
-            screenreaderText: tooltip.screenreaderText,
-            content: tooltip.content,
-            id,
-            modifiers
-          })
-        %>
-      <% } %>
-
-      <% if (typeof hint !== "undefined") { %>
-        <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-      <% } %>
-  </label>
+<div class="form-group"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
+  <%- generateLabel({
+      id,
+      modifiers,
+      label: typeof label !== "undefined" ? label : null,
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
 
   <select
-    class="uikit-text-input <%- modifiers && modifiers.includes("inputFullLength") ? "" : "input-half" %>"
+    class="uikit-text-input <%- modifiers.includes("inputFullLength") ? "" : "input-half" %>"
     id="<%- id %>"
-    <%- typeof modifiers !== "undefined" && modifiers.includes("disabled") ? "disabled" : "" %>
+    <%- modifiers.includes("disabled") ? "disabled" : "" %>
   >
 
   <% const opts = options.map(opt => {
@@ -55,14 +45,20 @@ if (typeof id === "undefined") var id = formPartialsID("dropdown");
     %>
 
   </select>
-
-  <% if (!opts.includes(undefined)) { %>
+ 
+  <% if (opts.filter(opt => opt.toggle !== undefined || opt.rToggle !== undefined).length > 0) { %>
     <script type="text/javascript">
         $("#<%- id %>").change(function() {
-          $($("option:selected", this).data("toggle")).show();
-          $($("option:selected", this).data("r-toggle")).hide();
-          $($("option:not(:selected)", this).data("r-toggle")).show();
-          $($("option:not(:selected)", this).data("toggle")).hide();
+
+          $("option:selected", this).each(function() {
+            $($(this).data("toggle")).show();
+            $($(this).data("r-toggle")).hide();
+          });
+
+          $("option:not(:selected)", this).each(function() {
+            $($(this).data("toggle")).hide();
+            $($(this).data("r-toggle")).show();
+          });
         })
     </script>
   <% } %>

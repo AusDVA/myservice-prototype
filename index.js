@@ -47,7 +47,9 @@ app.use(function (req, res, next) {
   res.locals.generateOption = require('./helpers/generateOption');
   res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
   res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
+  res.locals.generateCheckRadioIcons = require('./helpers/generateCheckRadioIcons');
   res.locals.generateTooltip = require('./helpers/generateTooltip');
+  res.locals.generateLabel = require('./helpers/generateLabel');
   next();
 });
 
