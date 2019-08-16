@@ -52,8 +52,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
   <script>
     <% if (!(modifiers.includes("noDay"))) { %>
-      $("#<%- id %>-dd")
-        .on("keyup", function(e) {
+      $("#<%- id %>-dd").on("keyup", function(e) {
           if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
             if ($(this).val().length === 2) {
               $("#<%- id %>-mm").focus();
@@ -62,11 +61,8 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         })
     <% } %> 
 
-    <% if (!(modifiers.includes("noDay"))) { %>
-    <% } %> 
-
     $("#<%- id %>-mm").on("keyup", function(e) {
-      if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+      if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 8 || e.which === 46) {
         <% if (!(modifiers.includes("noDay"))) { %>
           if ($(this).val().length === 0) {
             $("#<%- id %>-dd").focus();
@@ -78,8 +74,8 @@ if (typeof modifiers === "string") modifiers = [modifiers];
       }
     })
 
-    $("#<%- id %>-yyyy").on("keyup", function() {
-      if ($(this).val().length === 0) {
+    $("#<%- id %>-yyyy").on("keyup", function(e) {
+      if ($(this).val().length === 0 && (e.which === 46 || e.which === 8) ) {
         $("#<%- id %>-mm").focus();
       }
     })
