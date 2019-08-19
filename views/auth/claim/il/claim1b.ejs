@@ -108,10 +108,11 @@
                   </span>
 
                   <%# show if only 1 cbd doc found %>
-                  <span class="pt-il-claim-required-mono-doc">
-                    Do you have a <span class="pt-il-claim-required-docs-list"></span>
-                    document?
-                    </legend>
+                  <legend class="legend-label">
+                    <span class="pt-il-claim-required-mono-doc">
+                      Do you have a <span class="pt-il-claim-required-docs-list"></span>
+                      document?
+                  </legend>
                   </span>
 
                 </div>
@@ -248,7 +249,7 @@
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
               <div class="floated">
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button>
-                <button id="btnNext" class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/il/claim2'">Save and next</button>
+                <button id="btnNext" class="uikit-btn btnNext">Save and next</button>
               </div>
             </div>
 
@@ -334,7 +335,13 @@
     $("#no-cbd-upload-no").on("click", function () {
       $(".pt-required-docs").hide("fast");
     });
-
+    var user = JSON.parse(localStorage.getItem('person'));
+    console.log('pMKeyS: ' + user.pMKeyS);
+    if (user.pMKeyS !== '') {
+      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/il/claim3'");
+    } else {
+      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/il/claim2'");
+    }
 
 
   </script>

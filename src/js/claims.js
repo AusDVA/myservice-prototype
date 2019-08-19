@@ -20,28 +20,30 @@ function setClaimCondition() {
 
   const claimDataAll = JSON.parse(localStorage.getItem('claimIlStraightThrough'));
 
+  if ($("#tags").length) {
 
-  $("#tags").autocomplete({
-    // source: availableTags,
-    source: claimDataAll,
-    select: function (event, ui) {
+    $("#tags").autocomplete({
+      // source: availableTags,
+      source: claimDataAll,
+      select: function (event, ui) {
 
-      console.log('selected = ' + ui.item.value);
+        console.log('selected = ' + ui.item.value);
 
 
 
-      sessionStorage.setItem('claimCondition', JSON.stringify(ui.item));
+        sessionStorage.setItem('claimCondition', JSON.stringify(ui.item));
 
-      if (ui.item.value === "Tinnitus") {
-        $('#pt-tinnitus-severity').show();
-      } else {
-        $('#pt-tinnitus-severity').hide();
+        if (ui.item.value === "Tinnitus") {
+          $('#pt-tinnitus-severity').show();
+        } else {
+          $('#pt-tinnitus-severity').hide();
+        }
+        // $('.pt-type-ahead-type').hide();
+
       }
-      // $('.pt-type-ahead-type').hide();
 
-    }
-
-  });
+    });
+  }
 
 }
 
@@ -58,12 +60,15 @@ function getClaimCondition() {
     $docType.empty();
     $docType.append('<option>-- Select type --</option>');
 
+    // var $claimReason = $('.pt-claim-reason');
+
     $.each(claimDataAll, function (index, condition) {
 
       if (claimDataClaim.label === condition.label) {
         console.log('element found');
 
         var requiredDocsHtml = '';
+        var claimReasonHtml = '';
 
         if (this.documentTypeRequired.length === 1) {
 
@@ -84,8 +89,6 @@ function getClaimCondition() {
           $('.pt-il-claim-required-multi-doc').show();
         }
 
-        // console.log("requiredDocsHtml");
-        // console.log(requiredDocsHtml);
         $('.pt-il-claim-required-docs-list').html(requiredDocsHtml);
         if (requiredDocsHtml != '') {
           // console.log("doc loaded");
@@ -100,6 +103,19 @@ function getClaimCondition() {
           // $('.pt-il-claim-required-multi-doc').hide();
 
         }
+
+        // TODO: hook this up to https://sopapi.govlawtech.com.au/api/getSopFactors?conditionName=sensorineural%20hearing%20loss&standardOfProof=RH&incidentType=onset
+        console.log('his.conditionCause.length ' + this.conditionCause.length)
+        if (this.conditionCause.length >= 1) {
+          $('.pt-claim-reason').empty();
+          $.each(this.conditionCause, function (index, claimReason) {
+            claimReasonHtml += ' <p class="uiToolKitCheckBox sop-checkbox"> <label class="uikit-control-input uikit-control-input--full"><input class="uikit-control-input__input" type="checkbox" id="sop';
+            claimReasonHtml += index + '" name="sop"><span class="uikit-control-input__text">' + claimReason.reason + '</span></label></p>';
+          });
+          $('.pt-claim-reason').html(claimReasonHtml);
+        }
+
+
       }
     });
 

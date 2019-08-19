@@ -363,28 +363,132 @@ jQuery(document).ready(function ($) {
         var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
 
         // option with jquery
-        if (claimData.label === 'Tinnitus') {
+        if ((claimData.label === 'Tinnitus') || (claimData.label = 'Sensorineural hearing loss')) {
 
           $('.pt-tinnitus-response').show();
           $("#btnNext").attr("disabled", true);
 
           var formData = new FormData();
-          var jsonObj = {
-            "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate'), "level": sessionStorage.getItem('claimTinnitusSeverity')
-          };
+
+
+
+
+
+          if (claimData.label === 'Tinnitus') {
+            var jsonObj = {
+              "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate'),
+              "level": sessionStorage.getItem('claimTinnitusSeverity')
+            };
+            var apiURL = 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck';
+          } else if (claimData.label === 'Sensorineural hearing loss') {
+            var user = JSON.parse(localStorage.getItem('person'));
+            var birthDate = new Date(user.dob);
+            var birthDateFormatted = birthDate.getFullYear() + '-' + ('0' + (birthDate.getMonth() + 1)).slice(-2) + '-' + ('0' + birthDate.getDate()).slice(-2);
+
+            if (!sessionStorage.getItem('claimTinnitusSeverity')) {
+              sessionStorage.setItem('claimTinnitusSeverity', '');
+            }
+            if (!sessionStorage.getItem('claimDiagnosisDate')) {
+              sessionStorage.setItem('claimDiagnosisDate', '2018-01-01');
+            }
+            // var jsonObj = {
+            //   "dateOfBirth": birthDateFormatted,
+            //   "snhlInfo": sessionStorage.getItem('claimDiagnosisDate')
+            // };
+            // "tinnitusInfo": {
+            //   "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate'),
+            //   "severity": sessionStorage.getItem('claimTinnitusSeverity')
+            // },
+
+
+            var jsonObj = {
+              "dateOfBirth": birthDateFormatted,
+              "sex": user.gender,
+              "snhlInfo": {
+                "diagnosisDate": sessionStorage.getItem('claimDiagnosisDate')
+              },
+              "serviceHistory": {
+                "serviceSummaryInformation": {
+                  "originalHireDate": user.serviceHistory.serviceSummaryInformation.originalHireDate
+                },
+                "serviceDetails": [
+                  {
+                    "serviceType": user.serviceHistory.serviceDetails[0].serviceType,
+                    "startDate": user.serviceHistory.serviceDetails[0].startDate,
+                    "endDate": user.serviceHistory.serviceDetails[0].endDate,
+                    "rank": user.serviceHistory.serviceDetails[0].rank,
+                    "operationalService": [
+                      {
+                        "assigned": user.serviceHistory.serviceDetails[0].operationalService[0].assigned,
+                        "description": user.serviceHistory.serviceDetails[0].operationalService[0].description,
+                        "event": user.serviceHistory.serviceDetails[0].operationalService[0].event,
+                        "startDate": user.serviceHistory.serviceDetails[0].operationalService[0].startDate,
+                        "endDate": user.serviceHistory.serviceDetails[0].operationalService[0].endDate
+                      }
+                    ],
+                    "service": user.serviceHistory.serviceDetails[0].service
+                  }
+                ]
+              }
+            }
+
+
+            // var jsonObj = {
+            //   "dateOfBirth": "1985-01-01",
+            //   "sex": "female",
+            //   "tinnitusInfo": {
+            //     "diagnosisDate": "2018-01-01",
+            //     "severity": 3
+            //   },
+            //   "snhlInfo": {
+            //     "diagnosisDate": "2018-01-01"
+            //   },
+            //   "serviceHistory": {
+            //     "serviceSummaryInformation": {
+            //       "originalHireDate": "2004-07-01"
+            //     },
+            //     "serviceDetails": [
+            //       {
+            //         "serviceType": "Regular/Permanent Force",
+            //         "startDate": "2004-07-01",
+            //         "endDate": "2015-01-01",
+            //         "rank": "other rank",
+            //         "operationalService": [
+            //           {
+            //             "assigned": "2005-07-01",
+            //             "description": "Peace is Our Profession",
+            //             "event": "Within specified area",
+            //             "startDate": "2005-07-01",
+            //             "endDate": "2006-07-01"
+            //           }
+            //         ],
+            //         "service": "Australian Army"
+            //       }
+            //     ]
+            //   }
+            // }
+            var apiURL = 'https://hearinglossai.govlawtech.com.au/api/startAssessment';
+          }
+
+
           // jQuery.each(jQuery('.file-upload-default__input')[0].files, function (i, file) {
           //   // data.append('file-' + i, file);
           //   formData.append('audiogramDocument', file);
           // });
 
+          console.log('jsonObj:');
+          console.log(JSON.stringify(jsonObj));
+          // console.log(jsonObj);
+
           // only 1 file for now 
           var fileData = $('#file-0').prop('files')[0];
 
-          formData.append('tinnitusData', JSON.stringify(jsonObj));
+          // formData.append('tinnitusData', JSON.stringify(jsonObj));
+          formData.append('veteranData', JSON.stringify(jsonObj));
           formData.append('audiogramDocument', fileData);
 
           $.ajax({
-            url: 'https://hearinglossai.govlawtech.com.au/api/tinnitusCheck',
+            url: apiURL,
             data: formData,
             cache: false,
             contentType: false,
@@ -392,8 +496,8 @@ jQuery(document).ready(function ($) {
             type: 'POST',
             success: function (data, textStatus, jqXHR) {
               console.log(data);
-              sessionStorage.setItem('hearingLossApiUrl', data.statusQueryGetUri);
-              $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusQueryGetUri));
+              sessionStorage.setItem('hearingLossApiUrl', data.statusUri);
+              $('.pt-tinnitus-response p').html('Response from API = ' + JSON.stringify(data.statusUri));
               $("#btnNext").attr("disabled", false);
             },
             error: function (error) {
@@ -1071,7 +1175,7 @@ if (typeof module !== 'undefined') {
 }
 
 $(document).ready(() => {
-  $(".accordion").on("click", ".accordion-button", function() {
+  $(".accordion").on("click", ".accordion-button", function () {
     if ($(this).hasClass("rotate-90")) {
       $(this).removeClass("rotate-90");
     } else {

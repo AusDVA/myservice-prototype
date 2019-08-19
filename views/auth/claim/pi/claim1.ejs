@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Condition | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+
+  <style>
+    .pt-required-docs,
+    .pt-no-required-docs,
+    .pt-upload-list,
+    .pt-upload-list-optional,
+    .pt-upload-other-docs,
+    .pt-medical-prac {
+      display: none;
+    }
+
+  </style>
+
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+    <div class="container margin-above--none">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Permanent Impairment</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="margin-above--extra margin-below--extra">
+          <h2 class="margin-below--none">Below are the details for your <span class="pt-claim-condition"></span> claim
+          </h2>
+
+
+
+
+
+
+          <div class="margin-above margin-below--extra">
+
+            <div class="currency-box currency-box--bottom">
+              <div class="row">
+                <div class="col-sm-4">
+                  <span class="hint">Your impairment points</span> </div>
+                <div class="col-sm-8">
+                  <legend class="legend-label">
+
+                    <strong> <span class="pt-claim-impairment-points"></span></strong>
+                  </legend>
+                </div>
+              </div>
+
+              <div class="row ">
+                <div class="col-sm-4">
+                  <span class="hint">The reason your claim was approved</span> </div>
+                <div class="col-sm-8">
+                  <legend class="legend-label"> <strong> <span class="pt-claim-returned-reason"></span></strong> </legend>
+                </div>
+              </div>
+
+              <div class="row ">
+                <div class="col-sm-4">
+                  <span class="hint"> Your fortnightly payments</span> </div>
+                <div class="col-sm-8">
+                  <legend class="legend-label"><strong> $<span class="pt-claim-fortnightly-payment"></span></strong></legend>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="margin-above margin-above--extra margin-below--extra">
+
+
+              <h2 class="margin-below--none">The payments will be made in to the following bank account:</h2>
+
+              <%- include(partials+"content/bank-account-details-summary") %>
+
+              <div class=" pagination">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel </button>
+                <div class="floated">
+                  <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/il/claim1a'">Accept and claim</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+
+      <%- include(partials+"content/modals/claims-removefile-modal") %>
+
+    </div>
+  </div>
+  </div>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+
+  <script src="/docs/js/jquery-ui.min.js"></script>
+
+  <script src="/docs/js/claims.js"></script>
+
+  <script>
+    $('.pt-claim-impairment-points').html(sessionStorage.getItem('claimImpairmentPoints'));
+    $('.pt-claim-fortnightly-payment').html(sessionStorage.getItem('claimFortnightlyPayment'));
+    $('.pt-claim-returned-reason').html(sessionStorage.getItem('claimReturnedReason'));
+
+    var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+
+    $('.pt-claim-condition').html(claimData.label);
+  </script>
+</body>
+
+</html>
