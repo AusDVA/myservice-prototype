@@ -1,10 +1,17 @@
 <%
 locals.el = {};
-locals.el.items = ["Home", "Tasks","Claims","Payments","Cards","Transport","Profile","My Account"];
-locals.el.itemID = ["home","tasks","claim","payments","healthcard","travel","profile","myaccount"];
-locals.el.itemLink = ["/auth", "/auth/tasks", "/auth/claim","/auth/payments","/auth/cards","/auth/travel","/auth/profile","#open-myaccount-modal"];
-locals.el.icons = ["fa-home","fa-tasks","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+locals.el.items = ["Home","Claims","Payments","Cards","Transport","Profile","My Account"];
+locals.el.itemID = ["home","claim","payments","healthcard","travel","profile","myaccount"];
+locals.el.itemLink = ["/auth", "/auth/claim","/auth/payments","/auth/cards","/auth/travel","/auth/profile","#open-myaccount-modal"];
+locals.el.icons = ["fa-home","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
 locals.el.taskAmount = 3;
+
+if (locals.liveFeature.includes("tasks")) {
+  locals.el.items.splice(2, 0, "Tasks");
+  locals.el.itemID.splice(2, 0, "tasks");
+  locals.el.itemLink.splice(2, 0, "/auth/tasks");
+  locals.el.icons.splice(2, 0, "fa-tasks");
+}
 %>
 
 <header class="uikit-header">
@@ -30,7 +37,6 @@ locals.el.taskAmount = 3;
           }
           link += '">';
           %>
-
       <li class="menu__item <%- external %>" id=<%- itemID %>>
         <%- link %>
         <div class="fal <%= locals.el.icons[index] %> fa-2x fa-fw"></div>
