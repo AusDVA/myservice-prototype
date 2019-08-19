@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Medical practitioner | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <style type="text/css">
+    div.table {
+      border: 0;
+      display: table;
+    }
+
+    div.tr {
+      border: 0;
+      display: table-row;
+    }
+
+    div.td {
+      border: 0;
+      display: table-cell;
+      padding-right: 15px;
+    }
+
+    hr {
+      margin: 0;
+    }
+
+    .ledger-rule {
+      margin: 15px 0 15px 0;
+      background-color: #ddd;
+      height: 1px;
+    }
+
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../partials/header-topbar.ejs %>
+  <% include ../../../partials/header-claims.ejs %>
+  <% include ../../../partials/header-nom-rep.ejs %>
+
+
+  <main>
+    <!-- <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Medical practitioner</span>
+        </h1>
+      </div>
+    </div> -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+          <div class="margin-above--extra margin-below--extra">
+
+            <div id="progressbar">
+              <div id="percentage">
+                <p id="percentage_value"></p>
+              </div>
+            </div>
+
+            <h1>Medical practitioner</h1>
+
+            <div id="gp-pre-pop" class="form-group" style="display: none;">
+              <legend class="legend-label">Is this your General Practitioner for this condition?</legend>
+              <div class="table">
+                <div class="tr">
+                  <div class="td"><b>Doctor's name</b></div>
+                  <div class="td">Jan Citizen</div>
+                </div>
+                <div class="tr">
+                  <div class="td"><b>Medical practice</b></div>
+                  <div class="td">Ocean road doctors</div>
+                </div>
+              </div>
+              <div class="radio-toggle margin-above">
+                <label class="on label-left" for="gp-confirm-yes">
+                  <input id="gp-confirm-yes" type="radio" name="gp-confirm">
+                  <span>Yes</span>
+                </label>
+                <label class="off label-right" for="gp-confirm-no">
+                  <input id="gp-confirm-no" type="radio" name="gp-confirm">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+
+            <% 
+      locals.el = {};
+      locals.el.question = 'Do you have a General Practitioner for this condition?'; 
+      locals.el.optionalID = 'gp'; 
+      locals.el.optionalHide = false;
+      %>
+            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+
+            <div id="medical-practitioner-details" class="margin-above--extra" style="display:none;">
+
+              <h2>General Practitioner details</h2>
+
+              <% 
+            locals.el = {};
+            locals.el.question = "Doctor's name"; 
+            %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+            locals.el = {};
+            locals.el.question = 'Phone number'; 
+            locals.el.optionalShort = true; 
+            %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <h3>Practice address</h3>
+
+              <% 
+        locals.el = {};
+        locals.el.question = "Medical practice"; 
+        %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+            locals.el = {};
+            locals.el.question = 'Building name or address prefix'; 
+            %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+            locals.el = {};
+            locals.el.question = 'Address line 1'; 
+            %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+        locals.el = {};
+        locals.el.question = 'Address line 2'; 
+        %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+
+              <% 
+        locals.el = {};
+        locals.el.question = 'Suburb or town'; 
+        %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+        locals.el = {};
+        locals.el.question = 'Postcode'; 
+        locals.el.optionalShort = true; 
+        %>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
+              <% 
+            locals.el = {};
+            locals.el.question = 'State or territory'; 
+            locals.el.items = ['Australian Capital Territory', 'Queensland', 'New South Wales', 'Northern Territory', 'South Australia', 'Tasmania', 'Victoria', 'Western Australian'];
+            locals.el.optionalID = "state-location";
+            %>
+              <%- include(partials+"components/form-elements/select", locals) %>
+
+            </div>
+
+            <div id="save-next" hidden>
+              <p>Choose <b>save and next</b> to continue</p>
+            </div>
+
+            <div class=" pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+              <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button><button class="uikit-btn btnNext"
+                  onclick="window.location.href = '/auth/claim/il/claim1b'">Save and next</button>
+              </div>
+            </div>
+
+            <%- include(partials+"content/modals/claims-cancel-modal") %>
+
+            <%- include(partials+"content/modals/claims-removefile-modal") %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <%- include("claim1a-state-switcher") %>
+  </main>
+
+  <% include ../../../partials/footer.ejs %>
+
+</body>
+
+</html>
+
+<script>
+
+  document.getElementById("percentage").style.width = "10%";
+  document.getElementById("percentage_value").textContent = "10%";
+
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $("#gp-confirm-no").click(function () {
+      $("input:radio[name=gp]").prop("checked", false);
+      $("#gp").show("fast");
+      $("#save-next").hide();
+    });
+    $("#gp-confirm-yes").click(function () {
+      $("#save-next").show("fast");
+      $("#gp").hide();
+      $("#medical-practitioner-details").hide();
+    });
+
+    $('input[name=gp]').change(function () {
+      var gp = $('input[name=gp]:checked').val();
+      if (gp == "yes") {
+        $("#medical-practitioner-details").show("fast");
+        $("#save-next").hide();
+      } else {
+        $("#medical-practitioner-details").hide();
+        $("#save-next").show("fast");
+      }
+    });
+
+    $("#state-location").change(function () {
+      mySelection = $('#state-location :selected').val();
+      $("#save-next").show("fast");
+    });
+
+  });
+
+</script>

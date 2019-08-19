@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Incapacity Payments | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../../partials/header-topbar.ejs %>
+  <% include ../../../partials/header-nom-rep.ejs %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Claim for Incapacity Payments</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+          <div class="margin-above--extra margin-below--extra">
+
+            <h2>All done! You can now review and submit your claim.</h2>
+
+            <div class="margin-above--large margin-below--extra">
+              <div id="progressbar">
+                <div id="percentage">
+                  <p id="percentage_value">50% complete</p>
+                </div>
+              </div>
+              <p style="padding-top:0.4em;">50% complete</p>
+            </div>
+
+            <div class="claim-progress-category">
+
+              <!-- Part A -->
+              <div class="claim-progress-category__item claim-progress-category--done">
+                <a id="part-a" class="claim-progress-category__link" href="/auth/claim/incap-a-1">
+                  <div class="claim-progress-category__wrapper">
+                    <div class="claim-progress-category__status">
+                      <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                        <div class="mys-file-uploads__status-icon"></div>
+                        <div class="mys-file-uploads__status-sr">Done</div>
+                      </div>
+                    </div>
+
+                    <div class="claim-progress-category__label">
+                      <h3 class="claim-progress-category__heading"><span class="claim-progress-category__heading--active">Part A - Loss of earnings</span></h3>
+                      <p class="claim-progress-category__description">Tell us how your work has been affected.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Part B -->
+              <div class="claim-progress-category__item claim-progress-category--incomplete">
+                <a id="part-b" class="claim-progress-category__link--incomplete">
+                  <div class="claim-progress-category__wrapper">
+                    <div class="claim-progress-category__status">
+                      <div class="mys-file-uploads__status mys-file-uploads__status--incomplete">
+                        <div class="mys-file-uploads__status-icon"></div>
+                        <div class="mys-file-uploads__status-sr">Incomplete</div>
+                      </div>
+                    </div>
+                    <div class="claim-progress-category__label">
+
+                      <h3 class="claim-progress-category__heading"><span class="claim-progress-category__heading--active">Part B - Personal details</span></h3>
+
+                      <p class="claim-progress-category__description">Tell us more about your circumstances.</p>
+                    </div>
+                  </div>
+                </a>
+              </div>
+
+              <!-- Part C -->
+              <div class="claim-progress-category__item claim-progress-category--disabled">
+                <div class="claim-progress-category__wrapper">
+                  <div class="claim-progress-category__status">
+                    <div class="mys-file-uploads__status mys-file-uploads__status--pending">
+                      <div class="mys-file-uploads__status-icon"></div>
+                      <div class="mys-file-uploads__status-sr">Incomplete</div>
+                    </div>
+                  </div>
+                  <div class="claim-progress-category__label">
+                    <h3 class="claim-progress-category__heading"><span class="claim-progress-category__heading--active">Part C - Required documents</span></h3>
+                    <p class="claim-progress-category__description">Upload supporting documents for your&nbsp;claim.</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="pagination pagination--ss-reverse-order">
+            <!-- <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/incap-start'">Previous</button> -->
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+            <div class="floated">
+              <button class="uikit-btn btnNext" id="btnNext">Review and submit</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <% include ../../../partials/claims-cancel-modal.ejs %>
+
+  </main>
+
+  <% include ../../../partials/footer.ejs %>
+
+
+  <script>
+    $(Document).ready(function () {
+      localStorage.clear();
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/incap-review"
+      });
+
+      // Progress percentage
+      document.getElementById("percentage").style.width = "50%";
+      document.getElementById("percentage_value").textContent = "50%";
+
+      $("#part-a").click(function () {
+        localStorage.setItem('datachange', true);
+      });
+
+      if ("flow1" in localStorage) {
+        $("#part-b").click(function () {
+          window.location.href = "/auth/claim/incap-b-2"
+        });
+      } else {
+        $("#part-b").click(function () {
+          window.location.href = "/auth/claim/incap/b-2"
+        });
+      };
+
+    });
+  </script>
+
+</body>
+
+</html>

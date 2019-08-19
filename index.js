@@ -1,12 +1,8 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-  {
-    promisify
-  } = require('util'),
-  {
-    resolve
-  } = require('path'),
+  { promisify } = require('util'),
+  { resolve } = require('path'),
   fs = require('fs'),
   path = require('path'),
   // featuretoggleapi = require('feature-toggle-api'),
@@ -41,7 +37,7 @@ app.get('/favicon.ico', (req, res) => {
 //   feature2: true
 // });
 
-app.use(function (req, res, next) {
+app.use(function(req, res, next) {
   res.locals.partials = __dirname + '/partials/';
   res.locals.formPartialsID = require('./helpers/formPartialsID');
   res.locals.generateOption = require('./helpers/generateOption');
@@ -60,16 +56,11 @@ app.use('/files', serveIndex('views', {
   'icons': true
 }));
 
-app.use(function(req, res, next) {
-  res.locals.partials = __dirname + '/partials/';
+// rewrite create sitemap 
+app.get('/files/**.ejs', function (request, response, next) {
+  request.url = request.url.substring(6);
   next();
 });
-
-
-// create sitemap 
-app.use('/files', serveIndex('views', {
-  'icons': true
-}));
 
 // using body parser to parse the body of incoming post requests
 app.use(require('body-parser').urlencoded({
@@ -134,29 +125,27 @@ app.get('/sitemap', (req, res) => {
   var pages = []
   getFiles("./views")
     .then(files => {
-      files.forEach((file, index) => {
-        file = path.normalize(file);
-        file = file.replace(__dirname, "");
-        file = file.replace(/\\/g, "/");
-        file = file.replace("/views", "");
-        var data = fs.readFileSync('./views/' + file, "utf8");
-        data = data.match(/<title>(.*)<\/title>/);
-        if (data === null) {
-          data = "(No Title)";
-        } else {
-          data = data[1];
-        }
-        pages.push({
-          page: file,
-          title: data
-        });
-      });
-      res.render('sitemap', {
-        pages
-      })
+       files.forEach((file, index) => {
+         file = path.normalize(file);
+         file = file.replace(__dirname, "");
+         file = file.replace(/\\/g, "/");
+         file = file.replace("/views", "");
+         var data = fs.readFileSync('./views/'+file, "utf8");
+         data = data.match(/<title>(.*)<\/title>/);
+         if (data === null) {
+           data = "(No Title)";
+         } else {
+           data = data[1];
+         }
+         pages.push({
+           page: file,
+           title: data
+         });
+       });
+       res.render('sitemap', {pages})
     })
     .catch(e => console.error(e));
-
+  
 
 });
 
@@ -194,7 +183,7 @@ app.get('/:id0/:id1/:id2/:id3', function (request, response) {
 
 app.get('/',
   function (request, response) {
-    response.render('unauth/index-loading', {
+    response.render('unauth/', {
       layout: 'login',
       user: request.user,
       liveFeature: liveFeatureEnv
@@ -216,14 +205,6 @@ app.get('/logout',
     response.redirect('/');
   });
 
-
-app.post('/styleguide/new_forms_preview', (req, res) => {
-  let form_preview = req.body.form_preview;
-  console.log(form_preview);
-  res.render('styleguide/new_forms_preview', {
-    form_preview
-  });
-});
 
 app.listen(port, function () {
   console.log('listening on port: ' + port);

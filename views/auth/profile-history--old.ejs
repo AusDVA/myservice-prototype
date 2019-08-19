@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+
+  <title>My profile | MyService</title>
+  <% include ../../partials/head.ejs %>
+  <style>
+    #templates {
+      display: none;
+    }
+
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <% include ../../partials/header-topbar.ejs %>
+  <% include ../../partials/header-authenticated.ejs %>
+  <% include ../../partials/header-nom-rep.ejs %>
+  <main>
+    <section>
+      <div class="container" id="main-content">
+        <div class="row margin-above margin-below--extra">
+          <div class="col-sm-3">
+            <ul class="secondary-navigation">
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="profile">Personal details</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="profile-contact">Contact details</a>
+              </li>
+              <li class="secondary-navigation__item secondary-navigation__item--active">
+                <a class="secondary-navigation__link" href="profile-history">Service history</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="profile-relationships">Relationships</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="profile-payment">Payment destination</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="nr-list">Representation</a>
+              </li>
+              <li class="secondary-navigation__item">
+                <a class="secondary-navigation__link" href="profile-account">Change password</a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-sm-9">
+            <h1 class="margin-above--none">Service history</h1>
+            <p>Some text about service history. Some text about service history. Some text about service history. Some text about service history. </p>
+            <div class="mys-datalist" role="list">
+              <div class="mys-datalist__item" role="listitem">
+                <div class="mys-datalist__title">Service ID</div>
+                <div class="mys-datalist__value">20122550</div>
+                <div class="mys-datalist__action">
+                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small">Change</button>
+                </div>
+              </div>
+              <div class="mys-datalist__item" role="listitem">
+                <div class="mys-datalist__title">Enlistment date</div>
+                <div class="mys-datalist__value">13 / 10 / 2006</div>
+                <div class="mys-datalist__action">
+                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small">Change</button>
+                </div>
+              </div>
+              <div class="mys-datalist__item" role="listitem">
+                <div class="mys-datalist__title">Highest rank achieved</div>
+                <div class="mys-datalist__value">Wing Commander</div>
+                <div class="mys-datalist__action">
+                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small">Change</button>
+                </div>
+              </div>
+            </div>
+            <section class="widget">
+              <div class="widget-header">
+                <h2>
+                  <span class="widget-header__title">Service history</span>
+                  <span class="widget-actions floated">
+                    <button id="add-period" class="uikit-btn small widget-btn">Add period</button>
+                  </span>
+                </h2>
+              </div>
+              <div class="row widget-content widget--justclaims">
+                <div class="col-md-12">
+                  <table class="table-claims table-responsive">
+                    <thead>
+                      <tr>
+                        <th class="widget-activity">Service period</th>
+                        <th class="widget-actions">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="period-history"></tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="toast-container"></div>
+  </main>
+  </div>
+  <% include ../../partials/footer.ejs %>
+  <div id="modal" class="modal-window">
+    <div>
+      <a href="#modal-close" title="Close" class="modal-close">Close</a>
+      <h2>Delete service period?</h2>
+      <p>Are you sure?</p>
+      <div class="modal-buttons">
+        <button id="modal-confirm" class="uikit-btn">OK</button>
+        <button id="modal-cancel" class="uikit-btn uikit-btn--tertiary">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div id="templates">
+    <button id="toast-template" class="uikit-btn toast" role="alert" type="button">
+      <div class="toast__type toast__type--success">
+        <span class="sr">Success</span>
+      </div>
+      <div class="toast__message">
+        <p>Success message goes here.</p>
+      </div>
+    </button>
+    <table>
+      <tbody>
+        <tr id="period-template">
+          <td>
+            <p class="status-icon status-incomplete">
+              <span class="branch"></span>
+              <span class="range"></span>
+              <br />
+              <span class="status"></span>
+            </p>
+          </td>
+          <td class="widget-actions">
+            <button class="uikit-btn small uikit-btn--tertiary view">View</button>
+            <button class="uikit-btn small uikit-btn--tertiary edit">Edit</button>
+            <button class="uikit-btn small uikit-btn--tertiary delete">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <script>
+    var SERVICE_HISTORY = 'serviceHistory';
+    var SERVICE_HISTORY_DEFAULT = {
+      periods: []
+    };
+    var PERIOD_DEFAULT = {
+      branch: null,
+      startDay: null,
+      startMonth: null,
+      startYear: null,
+      endDay: null,
+      endMonth: null,
+      endYear: null,
+      operations: [],
+      documents: [],
+      details: null
+    };
+
+    function urlParameter(pName) {
+      var name = pName.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+      var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+      var results = regex.exec(window.location.search);
+      return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+    };
+
+    function getServiceHistory() {
+      return JSON.parse(localStorage.getItem(SERVICE_HISTORY));
+    }
+
+    function setServiceHistory(pData) {
+      return localStorage.setItem(SERVICE_HISTORY, JSON.stringify(pData));
+    }
+
+    function addPeriod() {
+      var serviceHistory = getServiceHistory();
+      var nextIndex = serviceHistory.periods.length
+      serviceHistory.periods[nextIndex] = Object.assign({}, PERIOD_DEFAULT);
+      setServiceHistory(serviceHistory);
+      return nextIndex;
+    }
+
+    function getDate(pDay, pMonth, pYear) {
+      var filtered = [pDay, pMonth, pYear].filter(function (pItem) {
+        return pItem;
+      })
+      return filtered.join('/');
+    }
+
+    function renderToast(pType, pMessage) {
+      var toastElement = document.getElementById('toast-template').cloneNode(true);
+      toastElement.removeAttribute('id');
+      toastElement.getElementsByClassName('toast__type')[0].classList.add('toast__type--' + pType.toLowerCase());
+      toastElement.getElementsByClassName('sr')[0].innerText = pType;
+
+      toastElement.getElementsByClassName('toast__message')[0].innerHTML = '<p>' + pMessage + '</p>';
+      document.getElementsByClassName('toast-container')[0].appendChild(toastElement);
+
+      toastElement.onclick = function () {
+        toastElement.parentElement.removeChild(toastElement);
+      }
+    }
+
+    function renderLayout() {
+      if (!urlParameter('continue')) {
+        localStorage.removeItem(SERVICE_HISTORY);
+      }
+
+      var serviceHistory = localStorage.getItem(SERVICE_HISTORY);
+      if (serviceHistory) {
+        serviceHistory = getServiceHistory();
+      } else {
+        serviceHistory = Object.assign({}, SERVICE_HISTORY_DEFAULT);
+        setServiceHistory(serviceHistory);
+      }
+
+      var periodTemplate = document.getElementById('period-template');
+      var periodHistoryContainer = document.getElementById('period-history');
+      serviceHistory.periods.forEach(function (pPeriod, pIndex) {
+        var periodElement = periodTemplate.cloneNode(true);
+        periodElement.removeAttribute('id');
+
+        periodElement.getElementsByClassName('branch')[0].innerText = pPeriod.branch || '';
+
+        periodElement.getElementsByClassName('status')[0].innerText = pPeriod.status || 'Unconfirmed';
+
+        var startDate = getDate(pPeriod.startDay, pPeriod.startMonth, pPeriod.startYear);
+        var endDate = getDate(pPeriod.endDay, pPeriod.endMonth, pPeriod.endYear);
+        var filtered = [startDate, endDate].filter(function (pItem) {
+          return pItem;
+        })
+        var dateRange = filtered.join(' – ');
+        if (dateRange) {
+          periodElement.getElementsByClassName('range')[0].innerText = dateRange;
+        }
+
+        periodElement.getElementsByClassName('view')[0].onclick = function () {
+          window.location.href = '/service-period-overview?period=' + pIndex;
+        };
+
+        periodElement.getElementsByClassName('edit')[0].onclick = function () {
+          window.location.href = '/service-period-1?period=' + pIndex;
+        };
+
+        periodElement.getElementsByClassName('delete')[0].onclick = function () {
+          document.getElementById('modal-confirm').onclick = function () {
+            serviceHistory.periods.splice(pIndex, 1);
+            setServiceHistory(serviceHistory);
+            var toastMessage = encodeURIComponent('Service period successfully deleted');
+            window.location.href = '/profile-history?continue=true&toastType=success&toastMessage=' + toastMessage;
+          }
+
+          document.getElementById('modal').classList.add('modal-visible');
+        };
+
+        periodHistoryContainer.appendChild(periodElement);
+      });
+
+      var toastType = urlParameter('toastType');
+      var toastMessage = urlParameter('toastMessage');
+      if (toastType && toastMessage) {
+        renderToast(toastType, toastMessage);
+      }
+    }
+
+    document.getElementById('add-period').onclick = function () {
+      var nextIndex = addPeriod();
+      window.location.href = '/service-period-1?period=' + nextIndex;
+    }
+
+    document.getElementById('modal-cancel').onclick = function () {
+      document.getElementById('modal').classList.remove('modal-visible');
+    }
+
+    renderLayout();
+
+  </script>
+</body>
+
+</html>

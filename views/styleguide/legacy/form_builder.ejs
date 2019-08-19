@@ -4,584 +4,583 @@
 <head>
 
   <title>Style Guide | Form Builder | MyService</title>
-  <%- include(partials+"components/styleguide/styleguide-styles-and-scripts") %>
+  <% include ../../partials/styleguide-styles-and-scripts.ejs %>
   <style>
     .bordered tr td:first-of-type {
       border-right: 1px solid lightgray;
       font-weight: bold;
     }
+
     .bordered td {
       vertical-align: middle;
       border-bottom: 1px solid lightgray;
     }
 
-    .bordered th, .bordered td {
+    .bordered th,
+    .bordered td {
       padding-right: 0px;
     }
 
     .red {
       color: red;
     }
-    
+
   </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
 
-  <%- include(partials+"components/styleguide/styleguide-header") %>
+  <% include ../../partials/styleguide-header.ejs %>
 
-    <main>
-      <div class="container" id="main-content">
-        <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
-          <ul class="uikit-link-list uikit-link-list--inline">
-            <li>
-              <a href="/styleguide">Home</a>
-            </li>
-            <li>Callouts</li>
-          </ul>
-        </nav>
+  <main>
+    <div class="container" id="main-content">
+      <nav class="uikit-breadcrumbs" aria-label="breadcrumb">
+        <ul class="uikit-link-list uikit-link-list--inline">
+          <li>
+            <a href="/styleguide">Home</a>
+          </li>
+          <li>Callouts</li>
+        </ul>
+      </nav>
 
-        <div class="row">
-          <div class="col-sm-9">
-            <h1>Form Builder</h1>
+      <div class="row">
+        <div class="col-sm-9">
+          <h1>Form Builder</h1>
 
-            <h2>Generate New Component</h2>
-            <div class="form-group">
-              <label for="select_component" class="uikit-text-input__label">Select component type
-              </label>
-              <select name="select_component" id="select_component" class="uikit-text-input input-half">
-                <option value=" ">Select type...</option>
-                <option data-toggle="#component-select" value="select">Select (Drop Down)</option>
-                <option data-toggle="#component-text" value="text">Text Input</option>
-                <option data-toggle="#component-textarea" value="textarea">Text Area</option>
-                <option data-toggle="#component-date" value="date">Date</option>
-                <option data-toggle="#component-yes_no" value="yes_no">Yes/No</option>
-                <option data-toggle="#component-checkbox" value="checkbox">Checkbox/Radio</option>
-                <script>
-                $("#select_component").on("change", function() {
+          <h2>Generate New Component</h2>
+          <div class="form-group">
+            <label for="select_component" class="uikit-text-input__label">Select component type
+            </label>
+            <select name="select_component" id="select_component" class="uikit-text-input input-half">
+              <option value=" ">Select type...</option>
+              <option data-toggle="#component-select" value="select">Select (Drop Down)</option>
+              <option data-toggle="#component-text" value="text">Text Input</option>
+              <option data-toggle="#component-textarea" value="textarea">Text Area</option>
+              <option data-toggle="#component-date" value="date">Date</option>
+              <option data-toggle="#component-yes_no" value="yes_no">Yes/No</option>
+              <option data-toggle="#component-checkbox" value="checkbox">Checkbox/Radio</option>
+              <script>
+                $("#select_component").on("change", function () {
                   $($("#select_component :selected").data("toggle")).show();
-                  $("#select_component :not(:selected)").each(function(index, elem) {
+                  $("#select_component :not(:selected)").each(function (index, elem) {
                     $($(elem).data("toggle")).hide();
                   });
                 });
-                </script>
-              </select>
+              </script>
+            </select>
+          </div>
+
+
+
+          <div id="component-select" hidden>
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="select-label" placeholder="Please select your title"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="select-hint" placeholder="(pick the most relevant)"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="select-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#select-tooltip-options"}]}}]}); %>
+                    <div id="select-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="select-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="select-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Disabled <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-disabled","boxes": [{"text": ""}]}}]}); %>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" id="options">
+                    <button style="text-align: center; margin: 0.5em auto 1em auto;" id="select-toggle-extra" class="display-block uikit-btn uikit-btn--tertiary">Toggle Advanced
+                      Options</button>
+
+
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <button id="add-another-option" style="text-align: center; margin: 0.5em auto 1em auto;" class="display-block uikit-btn">Add Another</button>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
+
+            <div id="select-code">
+              <pre>
+                    <code class="language-ejs">
+                      
+                    </code>
+                  </pre>
             </div>
+          </div>
 
+          <div id="component-text" hidden>
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="text-label" placeholder="Please enter your name"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="text-hint" placeholder="(pick the most relevant)"></td>
+                </tr>
+                <tr>
+                  <td>Placeholder <span class="red">*</span></td>
+                  <td><input type="text" id="text-placeholder" placeholder="Greyed out text to fill the box"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="text-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "text-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#text-tooltip-options"}]}}]}); %>
+                    <div id="text-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="text-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="text-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Disabled <span class="red">*</span></td>
+                  <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "text-disabled","boxes": [{"text": ""}]}}]}); %>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
 
-
-              <div id="component-select" hidden>
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="select-label" placeholder="Please select your title"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="select-hint" placeholder="(pick the most relevant)"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="select-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#select-tooltip-options"}]}}]}); %>
-                      <div id="select-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="select-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="select-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Disabled <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "select-disabled","boxes": [{"text": ""}]}}]}); %></td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" id="options">
-                        <button style="text-align: center; margin: 0.5em auto 1em auto;" id="select-toggle-extra" class="display-block uikit-btn uikit-btn--tertiary">Toggle Advanced Options</button>
-
-                        
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2">
-                        <button id="add-another-option" style="text-align: center; margin: 0.5em auto 1em auto;" class="display-block uikit-btn">Add Another</button>
-                      </td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-
-                <h2>Code</h2>
-                <div id="select-code">
-                  <pre>
+            <div id="text-code">
+              <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
-                </div>
+            </div>
+          </div>
 
-                <h2>Preview</h2>
-                <div id="select-preview">
-                </div>
-              </div>
+          <div hidden id="component-textarea">
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="textarea-label" placeholder="Please enter your name"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="textarea-hint" placeholder="(pick the most relevant)"></td>
+                </tr>
+                <tr>
+                  <td>Placeholder <span class="red">*</span></td>
+                  <td><input type="text" id="textarea-placeholder" placeholder="Greyed out text to fill the box"></td>
+                </tr>
+                <tr>
+                  <td>Rows <span class="red">*</span></td>
+                  <td><input type="text" id="textarea-rows" placeholder="Height of box (default 5 rows)"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="textarea-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "textarea-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#textarea-tooltip-options"}]}}]}); %>
+                    <div id="textarea-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="textarea-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="textarea-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Disabled <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "textarea-disabled","boxes": [{"text": ""}]}}]}); %>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
 
-              <div id="component-text" hidden>
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="text-label" placeholder="Please enter your name"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="text-hint" placeholder="(pick the most relevant)"></td>
-                    </tr>
-                    <tr>
-                      <td>Placeholder <span class="red">*</span></td>
-                      <td><input type="text" id="text-placeholder" placeholder="Greyed out text to fill the box"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="text-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "text-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#text-tooltip-options"}]}}]}); %>
-                      <div id="text-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="text-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="text-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Disabled <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "text-disabled","boxes": [{"text": ""}]}}]}); %></td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-                <h2>Code</h2>
-                <div id="text-code">
-                  <pre>
+            <div id="textarea-code">
+              <pre>
                     <code class="language-ejs">
                       
                     </code>
                   </pre>
-                </div>
-                <h2>Preview</h2>
-                <div id="text-preview">
-                </div>
-
-              </div>
-
-              <div hidden id="component-textarea">
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="textarea-label" placeholder="Please enter your name"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="textarea-hint" placeholder="(pick the most relevant)"></td>
-                    </tr>
-                    <tr>
-                      <td>Placeholder <span class="red">*</span></td>
-                      <td><input type="text" id="textarea-placeholder" placeholder="Greyed out text to fill the box"></td>
-                    </tr>
-                    <tr>
-                      <td>Rows <span class="red">*</span></td>
-                      <td><input type="text" id="textarea-rows" placeholder="Height of box (default 5 rows)"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="textarea-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "textarea-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#textarea-tooltip-options"}]}}]}); %>
-                      <div id="textarea-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="textarea-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="textarea-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Disabled <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "textarea-disabled","boxes": [{"text": ""}]}}]}); %></td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-                <h2>Code</h2>
-                <div id="textarea-code">
-                  <pre>
-                    <code class="language-ejs">
-                      
-                    </code>
-                  </pre>
-                </div>
-                <h2>Preview</h2>                
-                <div id="textarea-preview">
-                </div>
-
-              </div>
-
-              <div hidden id="component-date">
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="date-label" placeholder="Please enter your name"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="date-hint" placeholder="Default is (DD / MM / YYYY)"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="date-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "date-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#date-tooltip-options"}]}}]}); %>
-                      <div id="date-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="date-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="date-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Disabled <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "date-disabled","boxes": [{"text": ""}]}}]}); %></td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-                <h2>Code</h2>
-
-                <div id="date-code">
-                  <pre>
-                    <code class="language-ejs">
-                      
-                    </code>
-                  </pre>
-                </div>
-
-                <h2>Preview</h2>                
-                <div id="date-preview">
-                </div>
-              </div>
-
-              <div hidden id="component-yes_no">
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="yes_no-label" placeholder="Do you agree to the terms and conditions?"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="yes_no-hint" placeholder="Optional hint"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="yes_no-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Yes Toggle <span class="red">*</span></td>
-                      <td><input type="text" id="yes_no-yes-toggle" placeholder="CSS selector element to toggle if yes"></td>
-                    </tr>
-                    <tr>
-                      <td>No Toggle <span class="red">*</span></td>
-                      <td><input type="text" id="yes_no-no-toggle" placeholder="CSS selector element to toggle if no"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "yes_no-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#yes_no-tooltip-options"}]}}]}); %>
-                      <div id="yes_no-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="yes_no-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="yes_no-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-                <h2>Code</h2>
-                <div id="yes_no-code">
-                  <pre>
-                    <code class="language-ejs">
-                      
-                    </code>
-                  </pre>
-                </div>
-                <h2>Preview</h2>                
-                <div id="yes_no-preview">
-                </div>
-              </div>
-
-              <div id="component-checkbox" hidden>
-                <table class="table-responsive bordered">
-                  <thead>
-                    <tr>
-                      <th>Config Item</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Type</td>
-                      <td>
-                        <select id="checkbox-or-radio">
-                          <option value="checkbox">Checkbox</option>
-                          <option value="radio">Radio</option>
-                        </select>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>Label</td>
-                      <td><input type="text" id="checkbox-label" placeholder="Please choose from the list below"></td>
-                    </tr>
-                    <tr>
-                      <td>Hint <span class="red">*</span></td>
-                      <td><input type="text" id="checkbox-hint" placeholder="(pick the most relevant)"></td>
-                    </tr>
-                    <tr>
-                      <td>ID <span class="red">*</span></td>
-                      <td><input type="text" id="checkbox-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
-                    </tr>
-                    <tr>
-                      <td>Tooltip <span class="red">*</span></td>
-                      <td><%- include(partials+"components/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "checkbox-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#checkbox-tooltip-options"}]}}]}); %>
-                      <div id="checkbox-tooltip-options" hidden>
-                        <label>Tooltip Screen-reader Label<input type="text" id="checkbox-tooltip-label" placeholder="Gender help"></label>
-                        <label>Tooltip Text Content<input type="text" id="checkbox-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
-                      </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2" id="checkboxes">
-                        <button style="text-align: center; margin: 0.5em auto 1em auto;" id="checkbox-toggle-extra" class="display-block uikit-btn uikit-btn--tertiary">Toggle Advanced Options</button>
-
-                        
-                      </td>
-                    </tr>
-                    <tr>
-                      <td colspan="2">
-                        <button id="add-another-checkbox" style="text-align: center; margin: 0.5em auto 1em auto;" class="display-block uikit-btn">Add Another</button>
-                      </td>
-                    </tr>
-                </table>
-                <h2 class="display-inline"><span class="red">*</span></h2> <h3 class="display-inline">Denotes optional field</h3>
-                <h2>Code</h2>
-                <div id="checkbox-code">
-                  <pre>
-                    <code class="language-ejs">
-                      
-                    </code>
-                  </pre>
-                </div>
-                <h2>Preview</h2>
-                <div id="checkbox-preview">
-                </div>
-              </div>
-
-              <div hidden id="component-pagination">
-
-              </div>
-
+            </div>
 
           </div>
-          <%- include(partials+"components/styleguide/styleguide-sidenav") %>
+
+          <div hidden id="component-date">
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="date-label" placeholder="Please enter your name"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="date-hint" placeholder="Default is (DD / MM / YYYY)"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="date-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "date-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#date-tooltip-options"}]}}]}); %>
+                    <div id="date-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="date-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="date-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Disabled <span class="red">*</span></td>
+                  <td><%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "date-disabled","boxes": [{"text": ""}]}}]}); %>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
+
+            <div id="date-code">
+              <pre>
+                    <code class="language-ejs">
+                      
+                    </code>
+                  </pre>
+            </div>
+          </div>
+
+          <div hidden id="component-yes_no">
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="yes_no-label" placeholder="Do you agree to the terms and conditions?"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="yes_no-hint" placeholder="Optional hint"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="yes_no-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Yes Toggle <span class="red">*</span></td>
+                  <td><input type="text" id="yes_no-yes-toggle" placeholder="CSS selector element to toggle if yes"></td>
+                </tr>
+                <tr>
+                  <td>No Toggle <span class="red">*</span></td>
+                  <td><input type="text" id="yes_no-no-toggle" placeholder="CSS selector element to toggle if no"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "yes_no-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#yes_no-tooltip-options"}]}}]}); %>
+                    <div id="yes_no-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="yes_no-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="yes_no-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
+
+            <div id="yes_no-code">
+              <pre>
+                    <code class="language-ejs">
+                      
+                    </code>
+                  </pre>
+            </div>
+          </div>
+
+          <div id="component-checkbox" hidden>
+            <table class="table-responsive bordered">
+              <thead>
+                <tr>
+                  <th>Config Item</th>
+                  <th>Value</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Type</td>
+                  <td>
+                    <select id="checkbox-or-radio">
+                      <option value="checkbox">Checkbox</option>
+                      <option value="radio">Radio</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Label</td>
+                  <td><input type="text" id="checkbox-label" placeholder="Please choose from the list below"></td>
+                </tr>
+                <tr>
+                  <td>Hint <span class="red">*</span></td>
+                  <td><input type="text" id="checkbox-hint" placeholder="(pick the most relevant)"></td>
+                </tr>
+                <tr>
+                  <td>ID <span class="red">*</span></td>
+                  <td><input type="text" id="checkbox-id" placeholder="(optional ID - only specify if extra functionality is needed)"></td>
+                </tr>
+                <tr>
+                  <td>Tooltip <span class="red">*</span></td>
+                  <td>
+                    <%- include("../../partials/form_partials.ejs", {"forms": [{"type": "checkbox","config": {"label": " ","id": "checkbox-tooltip","boxes": [{"text": "Add tooltip?","toggle": "#checkbox-tooltip-options"}]}}]}); %>
+                    <div id="checkbox-tooltip-options" hidden>
+                      <label>Tooltip Screen-reader Label<input type="text" id="checkbox-tooltip-label" placeholder="Gender help"></label>
+                      <label>Tooltip Text Content<input type="text" id="checkbox-tooltip-text" placeholder="Tooltip text (some <strong>HTML</strong> OK)"></label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" id="checkboxes">
+                    <button style="text-align: center; margin: 0.5em auto 1em auto;" id="checkbox-toggle-extra" class="display-block uikit-btn uikit-btn--tertiary">Toggle Advanced
+                      Options</button>
+
+
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2">
+                    <button id="add-another-checkbox" style="text-align: center; margin: 0.5em auto 1em auto;" class="display-block uikit-btn">Add Another</button>
+                  </td>
+                </tr>
+            </table>
+            <h2 class="display-inline"><span class="red">*</span></h2>
+            <h3 class="display-inline">Denotes optional field</h3>
+
+            <div id="checkbox-code">
+              <pre>
+                    <code class="language-ejs">
+                      
+                    </code>
+                  </pre>
+            </div>
+          </div>
+
+          <div hidden id="component-pagination">
+
+          </div>
+
+
         </div>
+        <% include ../../partials/styleguide-sidenav.ejs %>
       </div>
-    </main>
-    <%- include(partials+"components/styleguide/styleguide-footer") %>
+    </div>
+  </main>
+  <% include ../../partials/styleguide-footer.ejs %>
 
-    <table class="checkbox" id="checkbox-template" hidden>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody class="checkbox-basic">
-        <tr>
-          <td>Box Text <span class="red">*</span></td>
-          <td>
-            <input type="text" class="option-text" placeholder="What the user sees next to the box">
-          </td>
-        </tr>
-      </tbody>
-      <tbody class="checkbox-advanced" hidden>
-        <tr>
-          <td>Individual Box Hint <span class="red">*</span></td>
-          <td><input type="text" class="option-value" placeholder='(choose all that apply)'></td>
-        </tr>
-        <tr>
-          <td>Toggle Element <span class="red">*</span></td>
-          <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to toggle if selected"></td>
-        </tr>
-        <tr>
-          <td>Inject Element <span class="red">*</span></td>
-          <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to inject if selected"></td>
-        </tr>
-        <tr>
-          <td>Disabled Option <span class="red">*</span></td>
-          <td>
-            <div class="form-group">
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input type="checkbox" class="uikit-control-input__input option-disabled">
-                  <span class="uikit-control-input__text"></span>
-                </label>
-              </div>
+  <table class="checkbox" id="checkbox-template" hidden>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody class="checkbox-basic">
+      <tr>
+        <td>Box Text <span class="red">*</span></td>
+        <td>
+          <input type="text" class="option-text" placeholder="What the user sees next to the box">
+        </td>
+      </tr>
+    </tbody>
+    <tbody class="checkbox-advanced" hidden>
+      <tr>
+        <td>Individual Box Hint <span class="red">*</span></td>
+        <td><input type="text" class="option-value" placeholder='(choose all that apply)'></td>
+      </tr>
+      <tr>
+        <td>Toggle Element <span class="red">*</span></td>
+        <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to toggle if selected"></td>
+      </tr>
+      <tr>
+        <td>Inject Element <span class="red">*</span></td>
+        <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to inject if selected"></td>
+      </tr>
+      <tr>
+        <td>Disabled Option <span class="red">*</span></td>
+        <td>
+          <div class="form-group">
+            <div class="uiToolKitCheckBox">
+              <label class="uikit-control-input">
+                <input type="checkbox" class="uikit-control-input__input option-disabled">
+                <span class="uikit-control-input__text"></span>
+              </label>
             </div>
-          </td>
-        </tr>
-      </tbody>
-      <tbody>
-        <tr>
-          <td colspan="2" style="margin: 0 auto; text-align: center;"><button class="uikit-btn uikit-btn--tertiary delete-option">Delete Option</button></td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td colspan="2" style="margin: 0 auto; text-align: center;"><button class="uikit-btn uikit-btn--tertiary delete-option">Delete Option</button></td>
+      </tr>
+    </tbody>
+  </table>
 
-    <table class="option" id="opt-template" data-option-no="0" hidden>
-      <thead>
-        <tr>
-          <th>Item</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody select-basic>
-        <tr>
-          <td>Option Text <span class="red">*</span></td>
-          <td>
-            <input type="text" class="option-text" placeholder="What the user sees in the dropdown">
-          </td>
-        </tr>
-      </tbody>
-      <tbody class="select-advanced" hidden>
-        <tr>
-          <td>Custom Value Attribute <span class="red">*</span></td>
-          <td><input type="text" class="option-value" placeholder='value="option"'></td>
-        </tr>
-        <tr>
-          <td>Toggle Element <span class="red">*</span></td>
-          <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to toggle if selected"></td>
-        </tr>
-        <tr>
-          <td>Selected by Default<span class="red">*</span></td>
-          <td>
-            <div class="form-group">
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input type="checkbox" name="select-opt-selected" class="select-opt-selected option-selected uikit-control-input__input">
-                  <span class="uikit-control-input__text"></span>
-                </label>
-              </div>
+  <table class="option" id="opt-template" data-option-no="0" hidden>
+    <thead>
+      <tr>
+        <th>Item</th>
+        <th>Value</th>
+      </tr>
+    </thead>
+    <tbody select-basic>
+      <tr>
+        <td>Option Text <span class="red">*</span></td>
+        <td>
+          <input type="text" class="option-text" placeholder="What the user sees in the dropdown">
+        </td>
+      </tr>
+    </tbody>
+    <tbody class="select-advanced" hidden>
+      <tr>
+        <td>Custom Value Attribute <span class="red">*</span></td>
+        <td><input type="text" class="option-value" placeholder='value="option"'></td>
+      </tr>
+      <tr>
+        <td>Toggle Element <span class="red">*</span></td>
+        <td><input type="text" class="option-toggle" placeholder="CSS Selector for element to toggle if selected"></td>
+      </tr>
+      <tr>
+        <td>Selected by Default<span class="red">*</span></td>
+        <td>
+          <div class="form-group">
+            <div class="uiToolKitCheckBox">
+              <label class="uikit-control-input">
+                <input type="checkbox" name="select-opt-selected" class="select-opt-selected option-selected uikit-control-input__input">
+                <span class="uikit-control-input__text"></span>
+              </label>
             </div>
-          </td>
-        </tr>
-        <tr>
-          <td>Disabled Option <span class="red">*</span></td>
-          <td>
-            <div class="form-group">
-              <div class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input type="checkbox" class="uikit-control-input__input option-disabled">
-                  <span class="uikit-control-input__text"></span>
-                </label>
-              </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Disabled Option <span class="red">*</span></td>
+        <td>
+          <div class="form-group">
+            <div class="uiToolKitCheckBox">
+              <label class="uikit-control-input">
+                <input type="checkbox" class="uikit-control-input__input option-disabled">
+                <span class="uikit-control-input__text"></span>
+              </label>
             </div>
-          </td>
-        </tr>
-      </tbody>
-      <tbody>
-        <tr>
-          <td colspan="2" style="margin: 0 auto; text-align: center;"><button class="uikit-btn uikit-btn--tertiary delete-option">Delete Option</button></td>
-        </tr>
-      </tbody>
-    </table>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+    <tbody>
+      <tr>
+        <td colspan="2" style="margin: 0 auto; text-align: center;"><button class="uikit-btn uikit-btn--tertiary delete-option">Delete Option</button></td>
+      </tr>
+    </tbody>
+  </table>
 
 
 
 
-    <script>
+  <script>
 
-      /* 
+    /* 
 
-            SELECT
+          SELECT
 
-      */
-     
-      $("#add-another-option").on("click", function() {
-        $("#opt-template").clone().attr("id", "").attr("hidden", false).appendTo("#options");
+    */
+
+    $("#add-another-option").on("click", function () {
+      $("#opt-template").clone().attr("id", "").attr("hidden", false).appendTo("#options");
+    });
+
+    $("#select-toggle-extra").on("click", function () {
+      $(".select-advanced").each(function () {
+        $(this).toggle();
       });
+    });
 
-      $("#select-toggle-extra").on("click", function() {
-        $(".select-advanced").each(function() {
-          $(this).toggle();
-        });
-      });
+    $(document).ready(function () {
+      $("#opt-template").clone().attr("id", "").appendTo("#options");
+      $("#options .option").show();
+    });
 
-      $(document).ready(function() {
-        $("#opt-template").clone().attr("id", "").appendTo("#options");
-        $("#options .option").show();
-      });
-
-      $("#options").on("change", ".select-opt-selected", function() {
-        if($(this).prop("checked")) {
-         $(".select-opt-selected").not($(this)).each(function() {
+    $("#options").on("change", ".select-opt-selected", function () {
+      if ($(this).prop("checked")) {
+        $(".select-opt-selected").not($(this)).each(function () {
           $(this).prop("disabled", true);
-         });
-       } else {
-         $(".select-opt-selected").each(function() {
+        });
+      } else {
+        $(".select-opt-selected").each(function () {
           $(this).prop("disabled", false);
-         });
+        });
       }
     });
 
     var select_json = {
       "forms": [
-      {
-        "type": "select",
-        "config": {
-          "label": "",
-          "options": [
-          ]
-        }
-      }]
+        {
+          "type": "select",
+          "config": {
+            "label": "",
+            "options": [
+            ]
+          }
+        }]
     };
 
 
@@ -615,10 +614,10 @@
       } else {
         delete select_json.forms[0].config.tooltip;
       }
-      
+
       select_json.forms[0].config.options = [];
 
-      $("#options .option").each(function() {
+      $("#options .option").each(function () {
 
         option = {};
 
@@ -629,33 +628,19 @@
         if ($(this).find(".option-selected").prop("checked") != "") option.selected = true;
 
         select_json.forms[0].config.options.push(option);
-
-        $.ajax({
-          url: '/styleguide/new_forms_preview',
-          type: 'POST',
-          dataType: 'html',
-          data: {form_preview: JSON.stringify(select_json)},
-        })
-        .done(function(data) {
-  
-          $("#select-preview").html("");
-          $("#select-preview").html(data);
-
-        });
-
       });
 
       $("#select-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#select-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(select_json, null, 2 )+"); %&gt;")
+      $("#select-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(select_json, null, 2) + "); %&gt;")
     }
 
-    $("#options").on("click", ".delete-option", function() {
+    $("#options").on("click", ".delete-option", function () {
       $(this).parent().parent().parent().parent().remove();
       generateSelect();
     });
 
-    $("#component-select table").on("change", "input", generateSelect);
+    $("#component-select").on("change", "input", generateSelect);
 
     /* 
 
@@ -665,16 +650,16 @@
 
     var text_json = {
       "forms": [
-      {
-        "type": "text",
-        "config": {
-          "label": ""
-        }
-      }]
+        {
+          "type": "text",
+          "config": {
+            "label": ""
+          }
+        }]
     };
 
 
-    $("#component-text table").on("change", "input", function() {
+    $("#component-text table").on("change", "input", function () {
       if ($("#text-label").val() != undefined && $("#text-label").val() != "") {
         text_json.forms[0].config.label = $("#text-label").val();
       }
@@ -713,21 +698,7 @@
 
       $("#text-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#text-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(text_json, null, 2 )+"); %&gt;");
-
-      $.ajax({
-        url: '/styleguide/new_forms_preview',
-        type: 'POST',
-        dataType: 'html',
-        data: {form_preview: JSON.stringify(text_json)},
-      })
-      .done(function(data) {
-        $("#text-preview").html("");
-        $("#text-preview").html(data);
-
-      });
-      
-
+      $("#text-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(text_json, null, 2) + "); %&gt;");
     });
 
     /* 
@@ -738,16 +709,16 @@
 
     var textarea_json = {
       "forms": [
-      {
-        "type": "textarea",
-        "config": {
-          "label": ""
-        }
-      }]
+        {
+          "type": "textarea",
+          "config": {
+            "label": ""
+          }
+        }]
     };
 
 
-    $("#component-textarea table").on("click", function() {
+    $("#component-textarea table").on("click", function () {
       if ($("#textarea-label").val() != undefined && $("#textarea-label").val() != "") {
         textarea_json.forms[0].config.label = $("#textarea-label").val();
       }
@@ -792,19 +763,7 @@
 
       $("#textarea-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#textarea-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(textarea_json, null, 2 )+"); %&gt;");
-
-      $.ajax({
-        url: '/styleguide/new_forms_preview',
-        type: 'POST',
-        dataType: 'html',
-        data: {form_preview: JSON.stringify(textarea_json)},
-      })
-      .done(function(data) {
-        $("#textarea-preview").html("");
-        $("#textarea-preview").html(data);
-
-      });
+      $("#textarea-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(textarea_json, null, 2) + "); %&gt;");
     });
 
     /* 
@@ -815,16 +774,16 @@
 
     var date_json = {
       "forms": [
-      {
-        "type": "date",
-        "config": {
-          "label": ""
-        }
-      }]
+        {
+          "type": "date",
+          "config": {
+            "label": ""
+          }
+        }]
     };
 
 
-    $("#component-date table").on("click", function() {
+    $("#component-date table").on("click", function () {
       if ($("#date-label").val() != undefined && $("#date-label").val() != "") {
         date_json.forms[0].config.label = $("#date-label").val();
       }
@@ -857,19 +816,7 @@
 
       $("#date-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#date-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(date_json, null, 2 )+"); %&gt;");
-
-      $.ajax({
-        url: '/styleguide/new_forms_preview',
-        type: 'POST',
-        dataType: 'html',
-        data: {form_preview: JSON.stringify(date_json)},
-      })
-      .done(function(data) {
-        $("#date-preview").html("");
-        $("#date-preview").html(data);
-
-      });
+      $("#date-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(date_json, null, 2) + "); %&gt;");
     });
 
 
@@ -881,16 +828,16 @@
 
     var yes_no_json = {
       "forms": [
-      {
-        "type": "y_n_toggle",
-        "config": {
-          "label": ""
-        }
-      }]
+        {
+          "type": "y_n_toggle",
+          "config": {
+            "label": ""
+          }
+        }]
     };
 
 
-    $("#component-yes_no table").on("click", function() {
+    $("#component-yes_no table").on("click", function () {
       if ($("#yes_no-label").val() != undefined && $("#yes_no-label").val() != "") {
         yes_no_json.forms[0].config.label = $("#yes_no-label").val();
       }
@@ -929,20 +876,7 @@
 
       $("#yes_no-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#yes_no-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(yes_no_json, null, 2 )+"); %&gt;");
-
-      $.ajax({
-        url: '/styleguide/new_forms_preview',
-        type: 'POST',
-        dataType: 'html',
-        data: {form_preview: JSON.stringify(yes_no_json)},
-      })
-      .done(function(data) {
-
-        $("#yes_no-preview").html("");
-        $("#yes_no-preview").html(data);
-
-      });
+      $("#yes_no-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(yes_no_json, null, 2) + "); %&gt;");
     });
 
     /* 
@@ -950,32 +884,32 @@
       CHECKBOX/RADIO
 
     */
-   
 
-      $("#add-another-checkbox").on("click", function() {
-        $("#checkbox-template").clone().attr("id", "").attr("hidden", false).appendTo("#checkboxes");
-      });
 
-      $("#checkbox-toggle-extra").on("click", function() {
-        $(".checkbox-advanced").each(function() {
-          $(this).toggle();
-        });
-      });
+    $("#add-another-checkbox").on("click", function () {
+      $("#checkbox-template").clone().attr("id", "").attr("hidden", false).appendTo("#checkboxes");
+    });
 
-      $(document).ready(function() {
-        $("#checkbox-template").clone().attr("id", "").appendTo("#checkboxes");
-        $("#checkboxes .checkbox").show();
+    $("#checkbox-toggle-extra").on("click", function () {
+      $(".checkbox-advanced").each(function () {
+        $(this).toggle();
       });
+    });
+
+    $(document).ready(function () {
+      $("#checkbox-template").clone().attr("id", "").appendTo("#checkboxes");
+      $("#checkboxes .checkbox").show();
+    });
 
     var checkbox_json = {
       "forms": [
-      {
-        "type": "checkbox",
-        "config": {
-          "label": "",
-          "boxes": []
-        }
-      }]
+        {
+          "type": "checkbox",
+          "config": {
+            "label": "",
+            "boxes": []
+          }
+        }]
     };
 
 
@@ -1010,10 +944,10 @@
       } else {
         delete checkbox_json.forms[0].config.tooltip;
       }
-      
+
       checkbox_json.forms[0].config.boxes = [];
 
-      $("#checkboxes .checkbox").each(function() {
+      $("#checkboxes .checkbox").each(function () {
 
         checkbox = {};
 
@@ -1028,42 +962,29 @@
 
       $("#checkbox-code").html(`<div class="code-toolbar"><pre class="language-ejs"><code class=" language-ejs"></code></pre><div class="toolbar"><div class="toolbar-item"><a>Copy</a></div></div></div>`);
 
-      $("#checkbox-code .code-toolbar pre code").html(`&lt;%- include(partials+"components/form_partials", ` + JSON.stringify(checkbox_json, null, 2 )+"); %&gt;");
-
-      $.ajax({
-        url: '/styleguide/new_forms_preview',
-        type: 'POST',
-        dataType: 'html',
-        data: {form_preview: JSON.stringify(checkbox_json)},
-      })
-      .done(function(data) {
-
-        $("#checkbox-preview").html("");
-        $("#checkbox-preview").html(data);
-
-      });
+      $("#checkbox-code .code-toolbar pre code").html(`&lt;% include(partials+"form_partials", ` + JSON.stringify(checkbox_json, null, 2) + "); %&gt;")
     }
 
-    $("#checkboxes").on("click", ".delete-option", function() {
+    $("#checkboxes").on("click", ".delete-option", function () {
       $(this).parent().parent().parent().parent().remove();
       generateCheckbox();
     });
 
-    $("#checkbox-or-radio").on("change", function() {
+    $("#checkbox-or-radio").on("change", function () {
       generateCheckbox();
     });
 
-    $("#component-checkbox table").on("change", "input", generateCheckbox);
+    $("#component-checkbox").on("change", "input", generateCheckbox);
 
 
     /*
-    
+
         PAGINATION
 
      */
 
 
-    </script>    
+  </script>
 
 
 </body>
