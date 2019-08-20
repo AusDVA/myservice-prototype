@@ -10,7 +10,7 @@
     locals.el = {};
     locals.el.message = 'This account will be used for all DVA payments.'
   %>
-  <%- include(partials+"components/form-elements/notice") %> 
+  <%- include(partials+"components/form-elements/notice") %>
 </div>
 <div id="mandatory_read_only_message" style="display: none;">
   <h2><strong>Review your bank account details</strong></h2>
@@ -19,7 +19,7 @@
 
 <div id="bank_details_empty" style="display: none;">
   <form id="myForm2">
-    <%- include(partials+"content/bank-account-details") %>  
+    <%- include(partials+"content/bank-account-details") %>
   </form>
 </div>
 
@@ -48,107 +48,107 @@
 </div>
 
 <div id="state-switcher">
-    <h3>Page info</h3>
-    <div class="review__table">
-      <div class="tr">
-        <div class="td"><b>Page name</b></div>
-        <div class="td">Bank details</div>
-      </div>
+  <h3>Page info</h3>
+  <div class="review__table">
+    <div class="tr">
+      <div class="td"><b>Page name</b></div>
+      <div class="td">Bank details</div>
     </div>
-   
-    <h3>Scenarios</h3>
-    <% 
+  </div>
+
+  <h3>Scenarios</h3>
+  <% 
         locals.el = new Object();
         locals.el.question = 'Scenarios:';
         locals.el.optionalID = 'ss-scenario';
         locals.el.items = ["Mandatory","Mandatory read only"];
     %>
-    <%- include(partials+"components/form-elements/radio") %>
-</div>        
+  <%- include(partials+"components/form-elements/radio") %>
+</div>
 
-   <script>
-    $(Document).ready(function () {
+<script>
+  $(document).ready(function () {
 
-             /* State switcher */
+    /* State switcher */
 
-              $(document).keypress(function (e) {
-                switch (e.which) {
-                  case 96: //tilda
-                    $('#state-switcher').toggle();
-                    break;
-                  default:
-                }
-              });
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
 
-              hideAll();
-              myScenario = '<%-myScenario%>';         
-              showScenario();
+    hideAll();
+    myScenario = '<%-myScenario%>';
+    showScenario();
 
-              $("#ss-scenario").change(function () {
-                myScenario = $('input[name=ss-scenario]:checked').val();
-                showScenario()
-              });
+    $("#ss-scenario").change(function () {
+      myScenario = $('input[name=ss-scenario]:checked').val();
+      showScenario()
+    });
 
-              function showScenario(){
-                hideAll();
-                $("#myForm").trigger("reset");
-                $("#myForm2").trigger("reset");
-                switch (myScenario) {
-                  case "mandatory":
-                    showMandatory();
-                    $("#mandatory").prop("checked", true);
-                    break;
-                  case "mandatory_read_only":
-                    showMandatoryReadOnly();
-                    $("#mandatory_read_only").prop("checked", true);
-                    break;
-                  default:
-                    break;
-                }
+    function showScenario() {
+      hideAll();
+      $("#myForm").trigger("reset");
+      $("#myForm2").trigger("reset");
+      switch (myScenario) {
+        case "mandatory":
+          showMandatory();
+          $("#mandatory").prop("checked", true);
+          break;
+        case "mandatory_read_only":
+          showMandatoryReadOnly();
+          $("#mandatory_read_only").prop("checked", true);
+          break;
+        default:
+          break;
+      }
 
-              }
+    }
 
-              function showMandatory() {
-                hideAll();
-                $("#mandatory_message").show();
-                // $("#divider").show();
-                $("#bank_details_empty").show();
-              }
+    function showMandatory() {
+      hideAll();
+      $("#mandatory_message").show();
+      // $("#divider").show();
+      $("#bank_details_empty").show();
+    }
 
-              function showMandatoryReadOnly() {
-                hideAll();
-                $("#mandatory_read_only_message").show();
-                // $("#divider").show();
-                $("#bank_details_read_only").show();
-              }
+    function showMandatoryReadOnly() {
+      hideAll();
+      $("#mandatory_read_only_message").show();
+      // $("#divider").show();
+      $("#bank_details_read_only").show();
+    }
 
     /* End state switcher */
 
-      $("#myForm").trigger("reset");
+    $("#myForm").trigger("reset");
 
-      /* Yes to add bank details */
+    /* Yes to add bank details */
 
-      var add_bank_details;
-      $('input[name=bank_details_toggle]').change(function () {
-        add_bank_details = $('input[name=bank_details_toggle]:checked').val();
-        $("#myForm2").trigger("reset");
-         $("#bsb").hide();
-        if (add_bank_details == "yes") {
-          $("#bank_details_empty").show("fast");
-        } else {
-          $("#bank_details_empty").hide("fast");
-        }
-      });
-
-      function hideAll(){
-        $("#bsb").hide();
-$("#mandatory_message").hide();
-$("#mandatory_read_only_message").hide();
-$("#bank_details_toggle").hide();
-$("#bank_details_empty").hide();
-$("#bank_details_read_only").hide();
+    var add_bank_details;
+    $('input[name=bank_details_toggle]').change(function () {
+      add_bank_details = $('input[name=bank_details_toggle]:checked').val();
+      $("#myForm2").trigger("reset");
+      $("#bsb").hide();
+      if (add_bank_details == "yes") {
+        $("#bank_details_empty").show("fast");
+      } else {
+        $("#bank_details_empty").hide("fast");
       }
-
     });
 
-  </script>
+    function hideAll() {
+      $("#bsb").hide();
+      $("#mandatory_message").hide();
+      $("#mandatory_read_only_message").hide();
+      $("#bank_details_toggle").hide();
+      $("#bank_details_empty").hide();
+      $("#bank_details_read_only").hide();
+    }
+
+  });
+
+</script>

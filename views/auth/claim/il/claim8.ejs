@@ -158,10 +158,11 @@
     if (claimData && claimData.label === 'Sensorineural hearing loss') {
 
       $('.pt-hearing-api-response').show();
+      // call the api every 3 seconds until it returns 'compleated'
+
       (function poll() {
         var continuePolling = true;
-        // $('.submitted-animation').hide();
-        // $('.success-animation').show();
+
         setTimeout(function () {
 
           $.ajax({
@@ -176,27 +177,36 @@
 
               console.log('Running:' + continuePolling);
               if (data.status === 'Running') {
-                // call the api again in 5 seconds 
+
                 $('.pt-hearing-api-response p').html('Response from API: <br>' + data.status);
+
               } else if (data.status === 'Completed') {
                 console.log('API returned completed');
                 continuePolling = false;
+                $(".pt-claim-animation-start").toggleClass("transition-content--open");
+                $(".pt-claim-animation-end").toggleClass("transition-content--open");
+                $('.thinking-animation').hide();
                 if (data.result.mrcaResult !== null) {
 
                   $('.success-animation').show();
-                  $('.submitted-animation').hide();
-                  $('.thinking-animation').hide();
+
+
                   $('.pt-hearing-loss-next-steps').show();
                   $('.pt-general-next-steps').hide();
                   $('.pt-claim-status').html('approved');
                   $('.pt-hearing-api-response p').html('Response from API: <br>' + (data.result.snhlDiagnosis.reasons));
-                  $(".pt-claim-animation-start").toggleClass("transition-content--open");
-                  $(".pt-claim-animation-end").toggleClass("transition-content--open");
+
                   $('.pt-claim-condition').html(claimData.label);
 
                   sessionStorage.setItem('claimImpairmentPoints', data.result.mrcaResult.impairmentPoints);
                   sessionStorage.setItem('claimFortnightlyPayment', data.result.mrcaResult.fortnightlyPayment);
                   sessionStorage.setItem('claimReturnedReason', data.result.mrcaResult.reasons);
+                } else {
+
+                  $('.submitted-animation').show();
+                  $('.pt-claim-status').html('submitted');
+                  $('.pt-hearing-api-response p').html('Response from API: <br>' + (JSON.stringify(data.result.errors)));
+
                 }
 
               } else if (data.status === 'Failed') {

@@ -30,6 +30,7 @@ function setClaimCondition() {
 
         console.log('selected = ' + ui.item.value);
 
+        sessionStorage.removeItem('claimCondition');
         sessionStorage.setItem('claimCondition', JSON.stringify(ui.item));
 
         if (ui.item.value === "Tinnitus") {
@@ -99,8 +100,8 @@ function getClaimCondition() {
         // $('.pt-il-claim-required-multi-doc').hide();
 
         // TODO: hook this up to https://sopapi.govlawtech.com.au/api/getSopFactors?conditionName=sensorineural%20hearing%20loss&standardOfProof=RH&incidentType=onset
-        console.log('his.conditionCause.length ' + this.conditionCause.length);
-        if (this.conditionCause.length >= 1) {
+        console.log('his.conditionCause.length ' + this.conditionCause);
+        if (this.conditionCause && this.conditionCause.length >= 1) {
           $('.pt-claim-reason').empty();
           $.each(this.conditionCause, function (index, claimReason) {
             claimReasonHtml += ' <p class="uiToolKitCheckBox sop-checkbox"> <label class="uikit-control-input uikit-control-input--full"><input class="uikit-control-input__input" type="checkbox" id="sop';

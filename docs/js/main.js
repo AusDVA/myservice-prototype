@@ -354,6 +354,9 @@ jQuery(document).ready(function ($) {
         // option with jquery
         if (claimData.label === 'Tinnitus' || (claimData.label = 'Sensorineural hearing loss')) {
 
+          console.log('claim is hearinging related');
+          console.log(claimData.label);
+
           $('.pt-tinnitus-response').show();
           $("#btnNext").attr("disabled", true);
 
