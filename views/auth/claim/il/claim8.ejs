@@ -186,7 +186,9 @@
                 $(".pt-claim-animation-start").toggleClass("transition-content--open");
                 $(".pt-claim-animation-end").toggleClass("transition-content--open");
                 $('.thinking-animation').hide();
-                if (data.result.mrcaResult !== null) {
+                // if (data.result.mrcaResult !== null) {
+                if ((data.result.snhlDiagnosis) && (data.result.snhlDiagnosis.verified === true)) {
+
 
                   $('.success-animation').show();
                   $('.success-animation').load('/partials/components/animations/success.ejs');
@@ -194,7 +196,9 @@
                   $('.pt-hearing-loss-next-steps').show();
                   $('.pt-general-next-steps').hide();
                   $('.pt-claim-status').html('approved');
-                  $('.pt-hearing-api-response p').html('Response from API: <br>' + (data.result.snhlDiagnosis.reasons));
+                  $('.pt-hearing-api-response p').html('Response from API: <br> Verified = ' +
+                    (data.result.snhlDiagnosis.verified) +
+                    '<br> Reasons = ' + (data.result.snhlDiagnosis.reasons));
 
                   $('.pt-claim-condition').html(claimData.label);
 
@@ -206,8 +210,13 @@
                   $('.submitted-animation').show();
                   $('.submitted-animation').load('/partials/components/animations/submitted.ejs');
                   $('.pt-claim-status').html('submitted');
-
-                  $('.pt-hearing-api-response p').html('Response from API: <br>' + (JSON.stringify(data.result.errors)));
+                  if ((data.result.snhlDiagnosis) && (data.result.snhlDiagnosis.verified === false)) {
+                    $('.pt-hearing-api-response p').html('Response from API: <br> Verified = ' +
+                      (data.result.snhlDiagnosis.verified) +
+                      '<br> Reasons = ' + (data.result.snhlDiagnosis.reasons));
+                  } else {
+                    $('.pt-hearing-api-response p').html('Response from API: <br>' + (JSON.stringify(data.result.errors)));
+                  }
 
                 }
 
