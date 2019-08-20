@@ -1,0 +1,85 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("leave-dates");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="multi-date">
+  <fieldset class="multi-date__row multi-date--start">
+    <legend id="<%- id %>-start" class="multi-date__label legend-override">Start Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <input class="multi-date__input multi-date__input--short multi-date__day" type="number" aria-labelledby="<%- id %>-start">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--short  multi-date__month" type="number" aria-labelledby="<%- id %>-start">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--long multi-date__year" type="number" aria-labelledby="<%- id %>-start">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="multi-date__row multi-date--end">
+    <legend id="<%- id %>-end" class="multi-date__label legend-override">End Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <input class="multi-date__input multi-date__input--short multi-date__day" type="number" aria-labelledby="<%- id %>-end">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--short multi-date__month" type="number" aria-labelledby="<%- id %>-end">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--long multi-date__year" type="number"aria-labelledby="<%- id %>-end">
+      </div>
+      <%- generateCheckRadio({
+        text: "Ongoing",
+        boxID: `${id}-ongoing`,
+        baseID: `${id}-ongoing`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customClass: "multi-date__input--checkbox multi-date__input multi-date__checkbox"
+      }).html %>
+      <button class="uikit-btn multi-date__button" disabled>Add</button>
+    </div>
+  </fieldset>
+</div>
+
+<script>
+
+$(".multi-date__day").on("keyup", function(e) {
+  if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+    if ($(this).val().length === 2) {
+      $(this).parent().find(".multi-date__month").focus();
+    }
+  }
+})
+
+
+$(".multi-date__month").on("keyup", function(e) {
+  if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105)) {
+    if ($(this).val().length === 0) {
+      $(this).parent().find(".multi-date__day").focus();
+    }
+    if ($(this).val().length === 2) {
+      $(this).parent().find(".multi-date__year").focus();
+    }
+  }
+})
+
+$(".multi-date__year").on("keyup", function() {
+  if ($(this).val().length === 0) {
+    $(this).parent().find(".multi-date__month").focus();
+  }
+})
+
+$(".multi-date").on("change", "input", function() {
+  var origElem = $(this);
+  function elemVal(elem, pos) {
+    return origElem.closest(".multi-date").find(`.multi-date--${pos}`).find(`.multi-date__${elem}`).val()
+  }
+
+  if ((elemVal("day", "start") && elemVal("month", "start") && elemVal("year", "start")) && (origElem.closest(".multi-date").find(".multi-date__checkbox").prop("checked") || (elemVal("day", "end") && elemVal("month", "end") && elemVal("year", "end"))) ) {
+      origElem.closest(".multi-date").find(".multi-date__button").removeAttr("disabled")
+  }
+})
+
+</script>
