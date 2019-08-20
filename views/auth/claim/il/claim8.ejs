@@ -90,7 +90,7 @@
 
                   </div>
                   <div class="col-sm-6 ">
-                    <button class="uikit-btn small " onclick="window.location.href = '/auth/claim/pi/claim1'">Make a permanent impairment claim</button>
+                    <button class="uikit-btn" onclick="window.location.href = '/auth/claim/pi/claim1'">Make a permanent impairment claim</button>
                   </div>
                 </div>
                 <div class="pagination">
@@ -154,6 +154,7 @@
 
 
     var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+    var timeDelay = 3000;
 
     if (claimData && claimData.label === 'Sensorineural hearing loss') {
 
@@ -189,22 +190,20 @@
                 // if (data.result.mrcaResult !== null) {
                 if ((data.result.snhlDiagnosis) && (data.result.snhlDiagnosis.verified === true)) {
 
-
                   $('.success-animation').show();
                   $('.success-animation').load('/partials/components/animations/success.ejs');
-
                   $('.pt-hearing-loss-next-steps').show();
                   $('.pt-general-next-steps').hide();
                   $('.pt-claim-status').html('approved');
+                  $('.pt-claim-condition').html(claimData.label);
                   $('.pt-hearing-api-response p').html('Response from API: <br> Verified = ' +
                     (data.result.snhlDiagnosis.verified) +
                     '<br> Reasons = ' + (data.result.snhlDiagnosis.reasons));
 
-                  $('.pt-claim-condition').html(claimData.label);
-
                   sessionStorage.setItem('claimImpairmentPoints', data.result.mrcaResult.impairmentPoints);
                   sessionStorage.setItem('claimFortnightlyPayment', data.result.mrcaResult.fortnightlyPayment);
                   sessionStorage.setItem('claimReturnedReason', data.result.mrcaResult.reasons);
+
                 } else {
 
                   $('.submitted-animation').show();
@@ -223,9 +222,6 @@
               } else if (data.status === 'Failed') {
                 $('.pt-claim-status').html('submitted');
               }
-
-
-
             },
             error: function (error) {
               console.log("Error:");
@@ -239,14 +235,14 @@
             },
 
           });
-        }, 3000);
+        }, timeDelay);
       })();
 
     } else {
       $('.pt-claim-status').html('submitted');
       $('.submitted-animation').show();
       $('.thinking-animation').hide();
-      var timeDelay = 3000;
+
       setTimeout(
         function () {
           $(".pt-claim-animation-start").toggleClass("transition-content--open");
