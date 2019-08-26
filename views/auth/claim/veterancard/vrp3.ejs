@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Veteran Recognition | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Veteran supplement payment</span>
+        </h1>
+      </div>
+    </div>
+    <section class="veteran-card">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="margin-above--extra margin-below--extra">
+            <h2><strong>You may be entitled to the Veteran supplement payment</strong></h2>
+
+            <p class="margin-below--mid">If you choose to provide your bank details, we will check you are <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">eligible for this payment.</a> We will pay this into the account you provide below.</p>
+
+            <p class="margin-below--large">If eligible, you will receive a letter from us to confirm your first payment.</p>
+
+            <button class="uikit-btn uikit-btn--tertiary" id="add-bank-details">Add bank details</button> <span class="hint" id="add-bank-details-hint">(optional)</span>
+
+            <form id="bank-details" class="boxed" hidden>
+              <%- include(partials+"components/form-groups/bank-details", {
+                legend: "Add bank details",
+                hint: "(all fields are required)"
+              }) %>
+
+              <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">This will also be your nominated bank account for all DVA payments</div>
+
+              <button class="uikit-btn uikit-btn--tertiary" id="cancel-bank-details">Cancel</button> 
+            </form>
+
+          </div>
+  
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" id="btnPrev" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn" onclick="window.location.href = '/auth/claim/veterancard/vrp4'">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
+  </main>
+
+  <script type="text/javascript">
+
+    function stateSwitcher() {
+      if (sessionStorage.getItem("vrp-flow") === "known") {
+        $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp1"`);
+      } else {
+        $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp2"`);
+      }
+    }
+
+    $("#add-bank-details").on("click", function() {
+      $("#bank-details").show();
+      $("#add-bank-details").hide();
+      $("#add-bank-details-hint").hide();
+    })
+
+    $("#cancel-bank-details").on("click", function() {
+      $("#bank-details").hide();
+      $("#bank-details").trigger("reset");
+      $("#add-bank-details").show();
+      $("#add-bank-details-hint").show();
+    })
+
+    $("#bank-details").on("submit", function(e) {
+      e.preventDefault();
+    })
+  </script>
+
+  <%- include("vrp-state-switcher") %>
+
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
