@@ -1,0 +1,176 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("leave-dates");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+
+<div class="multi-date__container">
+</div>
+
+<div class="multi-date" id="multi-date__template" style="display: none">
+  <fieldset class="multi-date__row multi-date--start">
+    <legend id="<%- id %>-start" class="multi-date__label legend-override">Start Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <input class="multi-date__input multi-date__input--short multi-date__day" type="number" aria-labelledby="<%- id %>-start">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--short  multi-date__month" type="number" aria-labelledby="<%- id %>-start">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--long multi-date__year" type="number" aria-labelledby="<%- id %>-start">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="multi-date__row multi-date--end">
+    <legend id="<%- id %>-end" class="multi-date__label legend-override">End Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <input class="multi-date__input multi-date__input--short multi-date__day" type="number" aria-labelledby="<%- id %>-end">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--short multi-date__month" type="number" aria-labelledby="<%- id %>-end">
+        <span aria-hidden="true" class="multi-date__slash">/</span>
+        <input class="multi-date__input multi-date__input--long multi-date__year" type="number"aria-labelledby="<%- id %>-end">
+        <button class="uikit-btn multi-date__button multi-date__button--add multi-date__button--inside" disabled>Add</button>
+      </div>
+      <button class="uikit-btn multi-date__button multi-date__button--add multi-date__button--outside" disabled>Add</button>
+      <%- generateCheckRadio({
+        text: "Ongoing",
+        boxID: `${id}-ongoing`,
+        baseID: `${id}-ongoing`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customClass: "multi-date__input--checkbox multi-date__input multi-date__checkbox"
+      }).html %>
+    </div>
+  </fieldset>
+</div>
+
+
+<script>
+
+var checkbox;
+var ongoing = false;
+
+$(document).ready(function() {
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").appendTo(".multi-date__container");
+  checkbox = $(".uiToolKitCheckBox").first().clone();
+})
+
+
+
+$(".multi-date__container").on("keyup", ".multi-date__day", function(e) {
+  if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
+    if ($(this).val().length === 2) {
+      $(this).parent().find(".multi-date__month").focus();
+    }
+  }
+})
+
+
+$(".multi-date__container").on("keyup", ".multi-date__month", function(e) {
+  if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
+    if ($(this).val().length === 0) {
+      $(this).parent().find(".multi-date__day").focus();
+    }
+    if ($(this).val().length === 2) {
+      $(this).parent().find(".multi-date__year").focus();
+    }
+  }
+})
+
+$(".multi-date__container").on("keyup", ".multi-date__year", function(e) {
+  if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
+    if ($(this).val().length === 0) {
+      $(this).parent().find(".multi-date__month").focus();
+    }
+  }
+})
+
+$(".multi-date__container").on("change keyup", ".multi-date input", function() {
+  var origElem = $(this);
+  function elemVal(elem, pos) {
+    return origElem.closest(".multi-date").find(`.multi-date--${pos}`).find(`.multi-date__${elem}`).val().length
+  }
+
+  if ((elemVal("day", "start") === 2 && elemVal("month", "start") === 2 && elemVal("year", "start") === 4) && (origElem.closest(".multi-date").find(".multi-date__checkbox").prop("checked") || (elemVal("day", "end") === 2 && elemVal("month", "end") === 2 && elemVal("year", "end") === 4)) ) {
+      origElem.closest(".multi-date").find(".multi-date__button--add").removeAttr("disabled")
+  } else {
+      origElem.closest(".multi-date").find(".multi-date__button--add").attr("disabled", "true")
+
+  }
+})
+
+$(".multi-date__container").on("click", ".multi-date__checkbox", function() {
+  if ($(this).prop("checked")) {
+    $(this).closest(".multi-date__row").find(".multi-date__day").attr("disabled", "true");
+    $(this).closest(".multi-date__row").find(".multi-date__day").val("");
+    $(this).closest(".multi-date__row").find(".multi-date__month").attr("disabled", "true");
+    $(this).closest(".multi-date__row").find(".multi-date__month").val("");
+  $(this).closest(".multi-date__row").find(".multi-date__year").attr("disabled", "true");
+    $(this).closest(".multi-date__row").find(".multi-date__year").val("");
+  } else {
+    $(this).closest(".multi-date__row").find(".multi-date__day").removeAttr("disabled");
+    $(this).closest(".multi-date__row").find(".multi-date__month").removeAttr("disabled");
+    $(this).closest(".multi-date__row").find(".multi-date__year").removeAttr("disabled");
+  }
+});
+
+$(".multi-date__container").on("click", ".multi-date__button--add", function() {
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").appendTo(".multi-date__container");
+  $(this).removeClass("multi-date__button--add").addClass("multi-date__button--remove");
+  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
+  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
+
+  var dates = {
+    startDay: $(this).closest(".multi-date").find(".multi-date--start").find(".multi-date__day").val(),
+    startMonth: $(this).closest(".multi-date").find(".multi-date--start").find(".multi-date__month").val(),
+    startYear: $(this).closest(".multi-date").find(".multi-date--start").find(".multi-date__year").val(),
+    endDay: $(this).closest(".multi-date").find(".multi-date--end").find(".multi-date__day").val(),
+    endMonth: $(this).closest(".multi-date").find(".multi-date--end").find(".multi-date__month").val(),
+    endYear: $(this).closest(".multi-date").find(".multi-date--end").find(".multi-date__year").val(),
+    ongoing: $(this).closest(".multi-date").find(".multi-date__checkbox").prop("checked")
+}
+
+  $(this).closest(".multi-date").addClass("multi-date__row").html(`
+    <div class="multi-date__added">
+      <span class="multi-date__label multi-date__label--added legend-override">Start Date</span> 
+      <span class="multi-date__text">${dates.startDay}</span>
+      <span class="multi-date__slash multi-date__slash--added">/</span>
+      <span class="multi-date__text">${dates.startMonth}</span>
+      <span class="multi-date__slash multi-date__slash--added">/</span>
+      <span class="multi-date__text">${dates.startYear}</span>
+    </div>
+    <div class="multi-date__added">
+      <span class="multi-date__label multi-date__label--added legend-override">End Date</span> 
+      <span class="multi-date__text">${dates.endDay || "<pre>  </pre>"}</span>
+      <span class="multi-date__slash multi-date__slash--added">/</span>
+      <span class="multi-date__text">${dates.endMonth || "<pre>  </pre>"}</span>
+      <span class="multi-date__slash multi-date__slash--added">/</span>
+      <span class="multi-date__text">${dates.endYear || "<pre>  </pre>"}</span>
+    </div>
+    ${dates.ongoing ? checkbox.clone().removeClass("uiToolKitCheckBox").addClass("multi-date__checkbox--padding").prop("outerHTML") : ""}
+    <button class="uikit-btn multi-date__button multi-date__button--remove uikit-btn--tertiary">Remove</button>
+  `);
+
+  if (dates.ongoing) {
+    ongoing = true;
+    $(".multi-date__container").find(".multi-date__checkbox--padding").find(".multi-date__checkbox").attr("disabled", "true")
+    $(".multi-date__container").find(".multi-date__checkbox--padding").find(".multi-date__checkbox").prop("checked", "true")
+    $(".multi-date__container").find(".multi-date__checkbox--padding").find(".uikit-control-input__text").addClass("multi-date__checkbox-text--disabled-override")
+  }
+
+  if (ongoing) $(".multi-date__container").find(".uiToolKitCheckBox").remove();
+})
+
+$(".multi-date__container").on("click", ".multi-date__button--remove", function() {
+  if ($(this).closest(".multi-date").find(".multi-date__checkbox").prop("checked")) {
+    ongoing = false;
+    checkbox.insertBefore($(".multi-date__container").find(".multi-date").last().find(".multi-date--end").find(".multi-date__button"));
+  }
+  $(this).closest(".multi-date").remove();
+});
+
+</script>
