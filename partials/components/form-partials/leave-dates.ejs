@@ -10,7 +10,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 <div class="multi-date__container">
 </div>
 
-<div class="multi-date" id="multi-date__template" style="display: none">
+<div class="multi-date" id="multi-date__template" hidden>
   <fieldset class="multi-date__row multi-date--start">
     <legend id="<%- id %>-start" class="multi-date__label legend-override">Start Date <span class="hint"> (dd / mm / yyyy)</span></legend>
     <div class="multi-date__input-group">
@@ -23,6 +23,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
       </div>
     </div>
   </fieldset>
+  <div class="multi-date__row multi-date__date-separator">—</div>
   <fieldset class="multi-date__row multi-date--end">
     <legend id="<%- id %>-end" class="multi-date__label legend-override">End Date <span class="hint"> (dd / mm / yyyy)</span></legend>
     <div class="multi-date__input-group">
@@ -33,17 +34,17 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         <span aria-hidden="true" class="multi-date__slash">/</span>
         <input class="multi-date__input multi-date__input--long multi-date__year" type="number"aria-labelledby="<%- id %>-end">
       </div>
+      <button class="uikit-btn multi-date__button multi-date__button--add" disabled>Add</button>
+      <%- generateCheckRadio({
+        text: "Ongoing",
+        boxID: `${id}-ongoing`,
+        baseID: `${id}-ongoing`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customClass: "multi-date__input--checkbox multi-date__input multi-date__checkbox"
+      }).html %>
     </div>
-    <button class="uikit-btn multi-date__button multi-date__button--add" disabled>Add</button>
-    <%- generateCheckRadio({
-      text: "Ongoing",
-      boxID: `${id}-ongoing`,
-      baseID: `${id}-ongoing`,
-      suppliedID: true,
-      modifiers: [],
-      type: "checkbox",
-      customClass: "multi-date__input--checkbox multi-date__input multi-date__checkbox"
-    }).html %>
   </fieldset>
 </div>
 
@@ -54,7 +55,7 @@ var checkbox;
 var ongoing = false;
 
 $(document).ready(function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").appendTo(".multi-date__container");
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("hidden").appendTo(".multi-date__container");
   checkbox = $(".uiToolKitCheckBox").first().clone();
 })
 
@@ -118,7 +119,7 @@ $(".multi-date__container").on("click", ".multi-date__checkbox", function() {
 });
 
 $(".multi-date__container").on("click", ".multi-date__button--add", function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").appendTo(".multi-date__container");
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("hidden").appendTo(".multi-date__container");
   $(this).removeClass("multi-date__button--add").addClass("multi-date__button--remove");
   $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
   $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
