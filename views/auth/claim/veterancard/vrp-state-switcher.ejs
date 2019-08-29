@@ -1,14 +1,13 @@
 <div id="state-switcher">
   <h3>VRP State Switcher</h3>
-  <%- include(partials+"components/form-partials/radio", {
+  <%- include(partials+"components/form-partials/checkbox", {
     id: "vrp-state-switcher",
     label: "Service history state",
     boxes: [
       {
         text: "Known service history",
         modifiers: ["checked"]
-      },
-      "Unknown service history"
+      }
     ]
   }) %>
 
@@ -17,6 +16,16 @@
     label: "Bank details previously provided",
     boxes: [
       "Provided"
+    ]
+  }) %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    id: "vrp-show-apod",
+    label: "APOD consent previously provided",
+    boxes: [
+      {
+        text: "Provided"
+      }
     ]
   }) %>
 </div>
@@ -29,36 +38,57 @@
       break;
       default:
     }
-
   });
 
   $(document).ready(function() {
-    $("#vrp-state-switcher-container").on("change", "input[type=radio]", function() {
-      if ($(this).attr("id") === "vrp-state-switcher-1") sessionStorage.setItem("vrp-flow", "known");
-      if ($(this).attr("id") === "vrp-state-switcher-2") sessionStorage.setItem("vrp-flow", "unknown");
-    })
-
-    if (sessionStorage.getItem("vrp-bank-details") === true) $("#vrp-bank-provided-1").prop("checked", true);
-    
-    $("#vrp-bank-provided-container").on("change", "input[type=checkbox]", function() {
-      if ($("#vrp-bank-provided-1").prop("checked")) {
-        sessionStorage.setItem("vrp-bank-details", true);
+    $("#vrp-state-switcher-container").on("change", "input[type=checkbox]", function() {
+      if ($("#vrp-state-switcher-1").prop("checked")) {
+        sessionStorage.setItem("vrp-known-service-history", "true");
       } else {
-        sessionStorage.setItem("vrp-bank-details", false);
+        sessionStorage.setItem("vrp-known-service-history", "false");
       }
     })
 
+    if (sessionStorage.getItem("vrp-bank-details") === "true") $("#vrp-bank-provided-1").prop("checked", "true");
+    
+    $("#vrp-bank-provided-container").on("change", "input[type=checkbox]", function() {
+      if ($("#vrp-bank-provided-1").prop("checked")) {
+        sessionStorage.setItem("vrp-bank-details", "true");
+      } else {
+        sessionStorage.setItem("vrp-bank-details", "false");
+      }
+    })
 
-    if (sessionStorage.getItem("vrp-flow") === "unknown") {
+    $("#vrp-show-apod-container").on("change", "input[type=checkbox]", function() {
+      if ($("#vrp-show-apod-1").prop("checked")) {
+        sessionStorage.setItem("vrp-show-apod", "true");
+      } else {
+        sessionStorage.setItem("vrp-show-apod", "false");
+      }
+    })
+
+    if (sessionStorage.getItem("vrp-known-service-history") === "false") {
       $("#vrp-state-switcher-1").prop("checked", false);
-      $("#vrp-state-switcher-2").prop("checked", true);
-    } else if (sessionStorage.getItem("vrp-flow") === null) {
-      sessionStorage.setItem("vrp-flow", "known");
+    } else if (sessionStorage.getItem("vrp-known-service-history") === null) {
+      sessionStorage.setItem("vrp-known-service-history", "true");
+    }
+
+    if (sessionStorage.getItem("vrp-bank-details") === "false") {
+      $("#vrp-bank-details-1").prop("checked", false);
+    } else if (sessionStorage.getItem("vrp-bank-details") === null) {
+      sessionStorage.setItem("vrp-bank-details", "true");
+    }
+
+
+    if (sessionStorage.getItem("vrp-show-apod") === "true") {
+      $("#vrp-show-apod-1").prop("checked", true);
+    } else if (sessionStorage.getItem("vrp-show-apod") === null) {
+      sessionStorage.setItem("vrp-show-apod", "true");
     }
 
     stateSwitcher();
 
-    $("#state-switcher").on("change", "input", stateSwitcher);
+    $("#state-switcher").on("change", "input", function() { stateSwitcher() });
   })
 
 </script>

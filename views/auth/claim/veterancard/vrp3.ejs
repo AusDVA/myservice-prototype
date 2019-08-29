@@ -53,7 +53,7 @@
             <button class="uikit-btn uikit-btn--tertiary" id="btnPrev" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
             <div class="floated">
-              <button class="uikit-btn" onclick="window.location.href = '/auth/claim/veterancard/vrp4'">Next</button>
+              <button class="uikit-btn" id="btnNext">Next</button>
             </div>
           </div>
         </div>
@@ -66,12 +66,21 @@
   <script type="text/javascript">
 
     function stateSwitcher() {
-      if (sessionStorage.getItem("vrp-flow") === "known") {
+      if (sessionStorage.getItem("vrp-known-service-history") === "true") {
         $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp1"`);
       } else {
         $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp2"`);
       }
+
+      console.log(sessionStorage.getItem("vrp-show-apod"));
+
+      if (sessionStorage.getItem("vrp-show-apod") === "true") {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp5"`);
+      } else {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp4"`);
+      }
     }
+
 
     $("#add-bank-details").on("click", function() {
       $("#bank-details").show();
