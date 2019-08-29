@@ -53,7 +53,7 @@
       }
     })
 
-    if (sessionStorage.getItem("vrp-bank-details") === "true") $("#vrp-bank-provided-1").prop("checked", "true");
+    if (sessionStorage.getItem("vrp-bank-details") === "true") $("#vrp-bank-provided-1").prop("checked", true);
     
     $("#vrp-bank-provided-container").on("change", "input[type=checkbox]", function() {
       if ($("#vrp-bank-provided-1").prop("checked")) {
@@ -63,36 +63,36 @@
       }
     })
 
-    $("#vrp-show-apod-container").on("change", "input[type=checkbox]", function() {
-      if ($("#vrp-show-apod-1").prop("checked")) {
-        sessionStorage.setItem("vrp-show-apod", "true");
-      } else {
-        sessionStorage.setItem("vrp-show-apod", "false");
-      }
-    })
-
     if (sessionStorage.getItem("vrp-known-service-history") === "false") {
       $("#vrp-state-switcher-1").prop("checked", false);
     } else if (sessionStorage.getItem("vrp-known-service-history") === null) {
       sessionStorage.setItem("vrp-known-service-history", "true");
     }
 
-    if (sessionStorage.getItem("vrp-bank-details") === "false") {
-      $("#vrp-bank-details-1").prop("checked", false);
-    } else if (sessionStorage.getItem("vrp-bank-details") === null) {
-      sessionStorage.setItem("vrp-bank-details", "true");
-    }
-
-
-    if (sessionStorage.getItem("vrp-show-apod") === "true") {
+    if (sessionStorage.getItem("vrp-show-apod") === "false") {
       $("#vrp-show-apod-1").prop("checked", true);
     } else if (sessionStorage.getItem("vrp-show-apod") === null) {
-      sessionStorage.setItem("vrp-show-apod", "true");
+      sessionStorage.setItem("vrp-show-apod", "false")
+    }
+
+    $("#vrp-show-apod-container").on("change", "input[type=checkbox]", function() {
+      if ($("#vrp-show-apod-1").prop("checked")) {
+        sessionStorage.setItem("vrp-show-apod", "false");
+      } else {
+        sessionStorage.setItem("vrp-show-apod", "true");
+      }
+    })
+
+
+    if (sessionStorage.getItem("vrp-bank-details") === "false") {
+      $("#vrp-bank-details-1").prop("checked", false);
+    } else {
+
     }
 
     stateSwitcher();
 
-    $("#state-switcher").on("change", "input", function() { stateSwitcher() });
+    $("#state-switcher").on("change", "input", stateSwitcher);
   })
 
 </script>
