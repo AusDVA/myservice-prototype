@@ -7,6 +7,7 @@ let boxCounter = 0;
 
 <div class="form-group check-radio"
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
   id="<%- id %>-container">
   <fieldset
     <%- modifiers.includes("disabled") ? "disabled" : "" %>
@@ -71,10 +72,11 @@ let boxCounter = 0;
 
   </fieldset>
 
-  <% if (boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) { 
+  <% if ((boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) || typeof all_toggle !== "undefined" ) { 
     %>
     <script type="text/javascript">
       $("#<%- id %>-container").change("input[type=checkbox]", function() {
+
         $("input[type=checkbox]:checked", this).each(function() {
           $($(this).data("toggle")).removeAttr("hidden").show();
           $($(this).data("r-toggle")).hide();
@@ -93,6 +95,9 @@ let boxCounter = 0;
           $(this).closest("fieldset").find($(this).data("inject")).remove();
           $(this).parent().find(".hidden-hint").hide();
         });
+
+        $($(this).data("all-toggle")).show();
+
       })
 
       $("#<%- id %>-container").on("click", ".tooltip", function(e) {

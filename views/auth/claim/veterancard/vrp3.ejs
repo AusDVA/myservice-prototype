@@ -28,24 +28,49 @@
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
           <div class="margin-above--extra margin-below--extra">
-            <h2><strong>You may be entitled to the Veteran supplement payment</strong></h2>
 
-            <p class="margin-below--mid">If you choose to provide your bank details, we will check you are <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">eligible for this payment.</a> We will pay this into the account you provide below.</p>
+            <h2><strong>You may be eligible for the veteran supplement payment</strong></h2>
 
-            <p class="margin-below--large">If eligible, you will receive a letter from us to confirm your first payment.</p>
+            <p class="pre-pop-off" hidden>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to your nominated account. You will also receive a letter from us to confirm your first payment.</p>
 
-            <button class="uikit-btn uikit-btn--tertiary" id="add-bank-details">Add bank details</button> <span class="hint" id="add-bank-details-hint">(optional)</span>
+            <p class="pre-pop-on" hidden>If eligible, payments will be made to the bank account shown below. You can update this in your profile. You will also receive a letter from us to confirm your first payment.</p>
 
-            <form id="bank-details" class="boxed" hidden>
+            <p>Find out more about the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">veteran supplement payment</a>.</p>
+
+            <hr>
+
+            <div class="pre-pop-off" hidden>            
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Would you like to provide your bank account details?",
+                yes_toggle: "#bank-details-container" 
+              })  %>
+
               <%- include(partials+"components/form-groups/bank-details", {
-                legend: "Add bank details",
-                hint: "(all fields are required)"
+                modifiers: ["hidden"],
+                id: "bank-details",
+                label: ""
               }) %>
+            </div>
 
-              <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">This will also be your nominated bank account for all DVA payments</div>
+            <div class="pre-pop-on" hidden>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Account Name:</span>
+                <span class="kv-pair__value">Rebecca Orange</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Account number:</span>
+                <span class="kv-pair__value">7123 8876 0023</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">BSB:</span>
+                <span class="kv-pair__value">654 - 788</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Financial Institution:</span>
+                <span class="kv-pair__value">ANZ Bank</span>
+              </div>
+            </div>
 
-              <button class="uikit-btn uikit-btn--tertiary" id="cancel-bank-details">Cancel</button> 
-            </form>
 
           </div>
   
@@ -72,7 +97,11 @@
         $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp2"`);
       }
 
-      console.log(sessionStorage.getItem("vrp-show-apod"));
+      if (sessionStorage.getItem("vrp-bank-details") === "true") {
+        $(".pre-pop-on").show();
+      } else {
+        $(".pre-pop-off").show();
+      }
 
       if (sessionStorage.getItem("vrp-show-apod") === "true") {
         $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp5"`);
