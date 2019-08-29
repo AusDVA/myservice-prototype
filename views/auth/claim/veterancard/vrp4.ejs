@@ -30,18 +30,23 @@
           <div class="margin-above--extra margin-below--extra">
             <h2>Connect with the Australian community by accessing offers and benefits</h2>
 
-            <p class="margin-below--mid">To do this you will need to register with the <a href="https://apod.com.au/">Australian Partners of Defence (APOD)</a>. We will need to supply your name and a details to APOD.</p>
+            <p class="margin-below--large">To do this you will need to register with the Australian Partners of Defence (APOD). We will need to supply your name and a details to APOD.</p>
 
             <%- include(partials+"components/form-partials/yes_no", {
-              label: "Would you like us to pre-register you with APOD?",
+              label: "Would you like us to pre-register you with APOD",
               tooltip: {
                 screenreaderText: "APOD help",
                 content: "APOD is an Australian owned organisation which is run and founded by Defence families. It delivers special offers and benefits for the veteran community"
               },
-              id: "apod"
+              id: "apod",
+              no_toggle: "#sign-up-later,#next-no",
+              yes_toggle: "#next-yes"
             })  %>
 
-            <p>You can sign up at a later date through the APOD website to access offers.</p>
+            <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below" id="sign-up-later" hidden>You can sign up at a later date through the APOD website to access offers.</div>
+
+            <p id="next-no" hidden>Choose <strong>Next</strong> to continue.</p>
+            <p id="next-yes" hidden>Choose <strong>Next</strong> to continue.</p>
 
           </div>
   
@@ -60,10 +65,6 @@
   </main>
 
   <script type="text/javascript">
-
-    $(document).ready(function() {
-      $("#apod-yes").prop("checked", true);
-    })
 
     function stateSwitcher() {
       if (sessionStorage.getItem("vrp-known-service-history") === "true" && sessionStorage.getItem("vrp-bank-details") === "true") {
