@@ -16,7 +16,7 @@ module.exports = formLabel => {
 
   if (legend || legendLabel) {
     html += `
-      <legend class="uikit-text-input__label ${legendLabel ? "legend-override" : ""}">
+      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""}">
     `
   } else {
     html += `

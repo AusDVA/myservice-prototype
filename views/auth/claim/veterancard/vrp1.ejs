@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Add claim: Veteran Card | MyService</title>
+  <title>Veteran Recognition - Access | MyService</title>
 <%- include(partials+"components/layout/head") %>
 </head>
 
@@ -67,9 +67,9 @@
             </div>
             <div class="pagination">
               <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
               <div class="floated">
-                <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veterancard/veteran-card-service-history'">Okay, I've got it</button>
+                <button class="uikit-btn" id="btnNext">Okay, I've got it</button>
               </div>
             </div>
           </div>
@@ -78,6 +78,19 @@
     </section>
     <%- include(partials+"content/modals/claims-cancel-modal") %>
   </main>
+
+  <script type="text/javascript">
+    function stateSwitcher() {
+      if (sessionStorage.getItem("vrp-known-service-history") === "true") {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp3"`);
+      } else {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp2"`);
+      }
+    }
+  </script>
+  
+  <%- include("vrp-state-switcher") %>
+
 
   <%- include(partials+"components/layout/footer") %>
 </body>
