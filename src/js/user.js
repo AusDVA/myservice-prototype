@@ -677,3 +677,9 @@ function readRep() {
     $('.pt-rep-list-full').html(repListFullHtml);
   }
 }
+
+let currentPerson = JSON.parse(localStorage.getItem('person'));
+
+if (!currentPerson.cards || currentPerson.cards.length < 1) {
+  $("#healthcard").hide();
+}
