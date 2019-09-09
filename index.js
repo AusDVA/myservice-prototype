@@ -60,7 +60,7 @@ app.use('/files', serveIndex('views', {
   'icons': true
 }));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
   next();
 });
@@ -215,7 +215,6 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
-
 
 app.post('/styleguide/new_forms_preview', (req, res) => {
   let form_preview = req.body.form_preview;
