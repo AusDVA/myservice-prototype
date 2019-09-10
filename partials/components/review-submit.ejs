@@ -1,0 +1,31 @@
+<div class="rev-sub <%- claim.options && claim.options.includes("marginTop") ? "margin-above--extra" : "" %>">
+  <h3 class="rev-sub__claim-title"><%- claim.title %></h3>
+
+  <% claim.categories.map(category => { %>
+    <div class="rev-sub__category">
+      <div class="rev-sub__header">
+        <h2 class="rev-sub__header--category"><%- category.header %></h2>
+        <% if (category.editUrl !== undefined) { %>
+          <a href="<%- category.editUrl %>" class="rev-sub__edit">Edit</a>
+        <% } %>
+      </div>
+
+      <% category.elements.map(elem => { 
+        if (elem.type === "subcategory") { %>
+          <div class="rev-sub__sub-header">
+            <h3 class="rev-sub__header--subcategory"><%- elem.text %></h3>
+          </div>
+        <% } else if (elem.type === "questions") { %>
+          <div class="rev-sub__questions">
+          <% elem.data.map(question => { %>
+            <div class="rev-sub__item">
+              <p class="rev-sub__item-question"><%- question.question %></p>
+              <p class="rev-sub__item-answer"><%- question.answer %></p>
+            </div>
+          <% }); %>
+          </div>
+        <% } %>
+      <% })  %>
+    </div>
+  <% }); %>
+</div>

@@ -58,7 +58,7 @@
                 ] 
               }); %>
 
-            <div id="conditions" class="form-group" style="display: none; margin-top: -25px;">
+            <!-- <div id="conditions" class="form-group" style="display: none; margin-top: -25px;">
 
               <div class="borderless-table">
                 <div class="borderless-table__row">
@@ -100,11 +100,13 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display: none;">
-            <p><b>List any periods of lost earnings and/or allowances you are claiming:</b></p>
+
+            <p><b>List any periods of lost earnings and/or allowances you are claiming:</b><BR /><span class="hint">Do not include periods prior to the onset of your selected
+                condition &mdash; 12/03/2016.</span></p>
 
             <table class="mys-table table-responsive border-all border-top__thick--blue">
               <tr>
@@ -136,25 +138,26 @@
               </tr>
               <tr class="padding-above--none">
                 <td colspan=4 class="padding-above--none">
-                  <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
+                  <button class="uikit-btn uikit-btn--tertiary small" id="add-date" onclick="cloneme()">Add another date</button>
                 </td>
               </tr>
             </table>
+
           </div>
 
           <%- include(partials+"components/form-partials/checkbox", {
-              label: "Select any other conditions that are affecting your capacity to work",
-              hint: "<BR/>(select all that apply)",
-              id: "other-conditions",
-              boxes: [
-                "Depression",
-                "Lumbar spondylosis",
-                "Tinnitus",
-                "Osteoarthritis (DRCA)",
-                "Osteoarthritis (MRCA)"
-              ],
-              modifiers: ["hidden"]
-            }); %>
+            label: "Select any other conditions that are affecting your capacity to work",
+            hint: "<BR/>(select all that apply)",
+            id: "other-conditions",
+            boxes: [
+              "Depression",
+              "Lumbar spondylosis",
+              "Tinnitus",
+              "Osteoarthritis (DRCA)",
+              "Osteoarthritis (MRCA)"
+            ],
+            modifiers: ["hidden"]
+          }); %>
 
         </div>
       </div>
@@ -192,8 +195,6 @@
       $("#btnNext").click(function () {
         window.location.href = "/auth/claim/incap/progress-b"
       });
-
-      // $("#other-conditions").hide();
 
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
@@ -259,31 +260,9 @@
         $(".employed").show();
       };
 
-      $('input[name=checkbox-5]').change(function () {
-        if ($(this).is(':checked')) {
-          $("#condition-not-in-list").show();
-        } else {
-          $("#condition-not-in-list").hide();;
-        }
+      $("#add-date").click(function () {
+        $("#alert-prior").show("fast");
       });
-      $("#addanotherbtn").click(function () {
-        $("#addanothercondition").show();
-        $("#addanotherbtn").hide();
-      });
-      $("#btnSave").click(function () {
-        $("#addanothercondition").hide();
-        $("#addanotherbtn").show();
-        $("#customcondition").show();
-      });
-      $("#btnCancel").click(function () {
-        $("#addanothercondition").hide();
-        $("#addanotherbtn").show();
-      });
-      $("#btnRemove").click(function () {
-        $("#customcondition").hide();
-      });
-
-
 
     });
   </script>

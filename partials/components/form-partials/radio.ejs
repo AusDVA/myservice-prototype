@@ -6,6 +6,7 @@ let boxCounter = 0;
 %>
 
 <div class="form-group check-radio"
+  <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
   id="<%- id %>-container">
   <fieldset
@@ -71,15 +72,16 @@ let boxCounter = 0;
 
   </fieldset>
 
-  <% if (boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) { 
+  <% if ((boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) || typeof all_toggle !== "undefined" ) { 
     %>
     <script type="text/javascript">
       $("#<%- id %>-container").change("input[type=radio]", function() {
+
         $("input[type=radio]:checked", this).each(function() {
-          $($(this).data("toggle")).show();
+          $($(this).data("toggle")).removeAttr("hidden").show();
           $($(this).data("r-toggle")).hide();
           $(this).closest("fieldset").find($(this).data("inject")).remove();
-          $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitCheckBox"));
+          $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitradio"));
           if ($(this).data("inject-indent") !== false) {
             $($(this).data("inject")).addClass("injected");
           }
@@ -93,6 +95,9 @@ let boxCounter = 0;
           $(this).closest("fieldset").find($(this).data("inject")).remove();
           $(this).parent().find(".hidden-hint").hide();
         });
+
+        $($(this).data("all-toggle")).show();
+
       })
 
       $("#<%- id %>-container").on("click", ".tooltip", function(e) {
