@@ -4,6 +4,7 @@
 <head>
   <title>Add claim: Incapacity Payments | MyService</title>
   <%- include(partials+"components/layout/head") %>
+  <script src="/docs/js/incap.js"></script>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -23,12 +24,6 @@
         <div class="col-xs-12">
           <nav>
             <ul class="progress-container">
-              <!-- <li class="progress-step progress-step--done">
-                <a href="/auth/claim/incap/b-1">
-                  <span class="progress-step__icon"></span>
-                  <p class="progress-step-label">Cause of incapacity</p>
-                </a>
-              </li> -->
               <li class="progress-step progress-step--done">
                 <a href="/auth/claim/incap/b-2">
                   <span class="progress-step__icon"></span>
@@ -68,238 +63,61 @@
     <div class="container">
       <div class="row">
         <div class="col-md-offset-2 col-md-8">
+          <div class="margin-below--extra">
+
+            <h3 class="margin-above--extra margin-below--large hide-on-load">Tell us about any civilian jobs you currently hold or have held within the last 12 months.<span
+                class="hint display-block">You can list
+                more than one
+                job.</span></h3>
 
 
-          <h3 class="margin-above--extra margin-below--large">Tell us about the civilian job that has been affected by your condition.<span class="hint display-block">You can list
-              more than one
-              job.</span></h3>
 
+            <%- include("employment-card") %>
 
-          <div class="plain-text-info" style="display:none;">
-            <div class="review__wrapper">
-              <div class="review__content--item boxed row">
-                <div class="review__content--label col-sm-10">
-                  <h3 class="margin-above--none margin-below--none">Body Crafters - Personal Training</h3>
-                  <p class="margin-below--mid">Self-employed<br>+61 412 345 678</p>
-                  <p>How many hours do you work per week? &nbsp;&nbsp;20<br>What are your total weekly earnings?
-                    &nbsp;&nbsp;$640<br>When
-                    did you start working here? &nbsp;&nbsp;23 / 09 / 2018 - present day</p>
-                </div>
-                <div class="col-sm-2"><button class="uikit-btn uikit-btn--tertiary" id="">&nbsp;Edit &nbsp;</button><br><button
-                    class="uikit-btn uikit-btn--tertiary small margin-above--mid" id="">Remove</button></div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12 margin-above ss-align--center">
-                  <button class="uikit-btn uikit-btn--tertiary" id="addAnother">Add another job</button>
-                </div>
-              </div>
+            <button class="uikit-btn hide-on-load" id="add-service" onClick="showNewCard('employment')">Add employment</button>
+
+            <div id="alert-no-service" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error margin-above" role="alert">
+              <span class="uikit-display-1">You need to add at least one period of employment.</span>
             </div>
           </div>
 
-
-          <div id="set1" class="boxed margin-above margin-below--large">
-
-            <div id="employment-details-current">
-              <div id="employment-type" class="form-group margin-below">
-                <label class="uikit-text-input__label" for="rank">Type of employment</label>
-                <select class="uikit-text-input input-half" id="employment" name="employment">
-                  <option>-- Select your type of employment --</option>
-                  <option>Full-time</option>
-                  <option>Part-time</option>
-                  <option>Self-employed</option>
-                  <option>Partnership</option>
-                  <option>Contract</option>
-                  <option>Casual</option>
-                </select>
-              </div>
-
-              <div id="employer" class="form-group">
-                <label class="uikit-text-input__label" for="employer-name">Name of employer <span class="hint">(business name)</span></label>
-                <input class="uikit-text-input input-half" name="employer-name" id="employer-name" type="text" value="">
-              </div>
-
-              <div class="form-group margin-above">
-                <label class="uikit-text-input__label" for="employer-phone">Contact phone number <span class="hint display-block">Include your area code (for example,
-                    '03' for Victoria)</span>
-                </label>
-                <input class="uikit-text-input input-half" name="employer-phone" id="employer-phone" type="text" value="" required="" aria-required="true">
-              </div>
-
-              <div class="form-group margin-above">
-                <label class="uikit-text-input__label" for="employment-hours-worked">
-                  How many hours do you work per week?
-                  <span class="hint display-block">If your hours change, average them out over a 4 week period</span>
-                </label>
-                <input class="uikit-text-input yyyy" type="number" name="hours-worked" id="hours-worked" maxlength="3" required aria-required="true" aria-label="2 digit hours">
-                &nbsp;hours&nbsp;per&nbsp;week
-              </div>
-
-              <div class="form-group margin-above">
-                <label class="uikit-text-input__label" for="employment-earnings">
-                  What are you total weekly earnings? <span class="hint">(before tax)</span>
-                  <span class="hint display-block">If your earnings change, average them out over a 4 week period</span>
-                </label>
-                &nbsp;<input class="uikit-text-input input-half" name="employment-earnings" id="employment-earnings" type="text" value="" required="" aria-required="true">
-              </div>
-
-              <div class="form-group current-job">
-                <legend class="legend-label">Is this your current job?</legend>
-                <div class="radio-toggle">
-                  <label class="on label-left" for="currentjob-yes">
-                    <input id="currentjob-yes" type="radio" name="currentjob">
-                    <span>Yes</span>
-                  </label>
-                  <label class="off label-right" for="currentjob-no">
-                    <input id="currentjob-no" type="radio" name="currentjob">
-                    <span>No</span>
-                  </label>
-                </div>
-              </div>
-
-              <div class="form-group date-started margin-above" style="display:none;">
-                <label class="uikit-text-input__label" for="dd-employmentstart">When did you start working here?
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="number" name="dd-employmentstart" id="dd-employmentstart" maxlength="2" required aria-required="true"
-                  aria-label="2 digit day">
-                /
-                <input class="uikit-text-input mm" type="number" name="mm-employmentstart" id="mm-employmentstart" maxlength="2" required aria-required="true"
-                  aria-label="2 digit month">
-                /
-                <input class="uikit-text-input yyyy" type="number" name="yyyy-employmentstart" id="yyyy-employmentstart" maxlength="4" required aria-required="true"
-                  aria-label="4 digit year">
-              </div>
-
-              <div class="form-group date-started-ended margin-above" style="display:none;">
-                <label class="uikit-text-input__label" for="dd-employmentstart">What dates did you work here?
-                  <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <div>
-                  Start date &nbsp;&nbsp;<input class="uikit-text-input dd" type="number" name="dd-employmentstart" maxlength="2" required aria-required="true"
-                    aria-label="2 digit day">
-                  /
-                  <input class="uikit-text-input mm" type="number" name="mm-employmentstart" maxlength="2" required aria-required="true" aria-label="2 digit month">
-                  /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-employmentstart" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-
-                <div>
-                  End date &nbsp;&nbsp;&nbsp;&nbsp;<input class="uikit-text-input dd" type="number" name="dd-employmentend" maxlength="2" required aria-required="true"
-                    aria-label="2 digit day">
-                  /
-                  <input class="uikit-text-input mm" type="number" name="mm-employmentend" maxlength="2" required aria-required="true" aria-label="2 digit month">
-                  /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-employmentend" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-              </div>
-
-              <div id="buttonset1" class="form-group margin-above--extra">
-                <button class="uikit-btn" id="saveDetails1">&nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;</button>
-              </div>
-
-              <div id="buttonset2" class="form-group margin-above--extra" style="display:none;">
-                <button class="uikit-btn" id="saveDetails2">&nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary"
-                  id="cancelDetails">&nbsp;&nbsp;&nbsp;
-                  Cancel &nbsp;&nbsp;&nbsp;</button>
-              </div>
-
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+              <button class="uikit-btn btnNext" id="btnNext" onclick="checkSaveAndNext()">Save and next</button>
             </div>
           </div>
 
-
-
-          <!-- Save and next -->
-
-          <div id="prototype" class="form-group margin-above--extra" style="display:none;">
-            <p>This is the limit of jobs you can add using this prototype. Choose <b>save and next</b> to continue.</p>
-          </div>
-
-        </div>
-
-
-        <div class="pagination pagination--ss-reverse-order">
-          <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-            <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-          </div>
         </div>
 
       </div>
 
-
-    </div>
-    </div>
-
-    <%- include(partials+"content/modals/claims-cancel-modal") %>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
     </div>
 
   </main>
 
   <%- include(partials+"components/layout/footer") %>
 
-
   <script>
     $(Document).ready(function () {
       $("#btnPrev").click(function () {
         window.location.href = "/auth/claim/incap/b-2"
       });
-      $("#btnNext").click(function () {
-        window.location.href = "/auth/claim/incap/b-4"
-      });
     });
 
-    // Show and hide employment dates
-    $("#currentjob-yes").click(function () {
-      $(".more-employment").show("fast");
-      $(".date-started").show("fast");
-      $(".date-started-ended").hide();
-    });
-    $("#currentjob-no").click(function () {
-      $(".more-employment").show("fast");
-      $(".date-started").hide();
-      $(".date-started-ended").show("fast");
-    });
+    function checkSaveAndNext() {
+      console.log("dfgdfgfd" + userEntries.length)
+      if (userEntries.length == 0) {
+        $("#alert-no-service").show("fast");
+      } else {
+        myNav = "/auth/claim/incap/b-4"
+        window.location.href = myNav;
+      }
+    }
 
-    $('#saveDetails1').click(function () { // When arrow is clicked
-      $('body,html').animate({
-        scrollTop: 0 // Scroll to top of body
-      }, 500);
-      // hack to reset focus to top of page
-      document.body.setAttribute('tabindex', '0');
-      document.body.focus();
-      document.body.removeAttribute('tabindex');
-      $(".plain-text-info").show("fast");
-      $("#set1").hide("fast");
-    });
-
-    $('#addAnother').click(function () {
-      $("#addAnother").hide();
-      $("#set1").show("fast");
-      $("#buttonset1").hide();
-      $("#buttonset2").show();
-    });
-
-    $('#cancelDetails').click(function () {
-      $("#addAnother").show();
-      $("#set1").hide();
-    });
-
-
-    $('#saveDetails2').click(function () {
-      $("#prototype").show("fast");
-    });
-
-    // Show and hide bespoke message for usability testing
-    $("#moredetails3-yes").click(function () {
-      $("#prototype").show("fast");
-      $(".save-and-next").hide();
-    });
-    $("#moredetails3-no").click(function () {
-      $("#prototype").hide();
-      $(".save-and-next").show("fast");
-    });
   </script>
 
 </body>
