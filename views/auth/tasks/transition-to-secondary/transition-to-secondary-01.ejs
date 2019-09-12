@@ -43,8 +43,6 @@
 
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Will the student be studying in Australia?",
-        yes_toggle: ["#state-container","#name-of-school-container"],
-        no_toggle: "#country-container",
         id: "country-question",
         modifiers: ["hidden"]
       }); %>
@@ -110,8 +108,17 @@
       }
     });
 
-    $('input[name=country-question]').change(function () {
-      $("#myForm").trigger("reset");
+
+    $('input[name=country-question]').click(function () {
+      var studyingInAus = $('input[name=country-question]:checked').parent().find("span").text();
+      $("#name-of-school-container").show();
+      if (studyingInAus === "Yes") {
+        $("#country-container").hide();
+        $("#state-container").show();
+      } else {
+        $("#state-container").hide();
+        $("#country-container").show();
+      }
     });
 
     function hideAll() {
