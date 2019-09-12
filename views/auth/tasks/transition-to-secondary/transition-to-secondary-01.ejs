@@ -18,26 +18,42 @@
   <%- include(partials+"components/layout/header-nom-rep") %>
 
   <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Transition to secondary school</span>
+      </h1>
+    </div>
     <div class="container container--8-column" id="main-content">
 
-
-      <h1>Transition to secondary school</h1>
-      <h2>Provide details for John Smith</h2>
+      <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
 
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Will the student start secondary school in 2020?",
         id: "start-studying-question"
       }); %>
 
+      <% 
+        locals.el = {};
+        locals.el.message = "Our records indicate that your child will be entering secondary school in 2020. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+        locals.el.optionalType = "warning";
+        locals.el.optionalID = "not-continuing";
+        locals.el.optionalHide = true;
+      %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
+
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Will the student be studying in Australia?",
-        yes_toggle: "#state-container",
+        yes_toggle: ["#state-container","#name-of-school-container"],
         no_toggle: "#country-container",
         id: "country-question",
         modifiers: ["hidden"]
       }); %>
 
-      <%- include(partials+"components/form-partials/dropdown", {
+      <form id="myForm">
+
+        <input type="reset" style="display:none">
+
+        <%- include(partials+"components/form-partials/dropdown", {
         label: "State of study",
         options: [
           " -- Select state or territory -- ",
@@ -52,32 +68,24 @@
         ], id: "state", modifiers: ["hidden"]
       }); %>
 
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "Country of study",
-        options: [
-          " -- Select country -- ",
-          " Australian Capital Territory ",
-          " New South Wales ",
-          " Northern Territory ",
-          " Queensland ",
-          " South Australia ",
-          " Tasmania ",
-          " Victoria ",
-          " Western Australia "
-        ], id: "country", modifiers: ["hidden"]
-      }); %>
+        <div id="country-container" class="form-group" style="display: none;">
+          <label class="uikit-text-input__label" for="rank">Country of study</label>
+          <%- include(partials+"content/auth-select-list-country") %>
+        </div>
 
-      <%- include(partials+"components/form-partials/text", {
+        <%- include(partials+"components/form-partials/text", {
         label: "Name of school",
         id: "name-of-school",
         modifiers: ["hidden"]
       }); %>
 
+      </form>
+
       <div class="pagination pagination--tasks">
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
         <div class="floated">
-          <a href="auth/tasks/transition-to-secondary/transition-to-secondary"><button class="uikit-btn" id="submit">Next</button></a>
+          <a href="/auth/tasks/transition-to-secondary/transition-to-secondary-02"><button class="uikit-btn" id="submit">Next</button></a>
         </div>
       </div>
   </main>
@@ -93,11 +101,17 @@
     $('input[name=start-studying-question]').change(function () {
       var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
       if (mySelection == "Yes") {
-        $("input:radio").prop("checked", false);
+        $("#country-question-container input:radio").prop("checked", false);
         $("#country-question-container").show();
+        $("#not-continuing").hide();
       } else {
+        $("#not-continuing").show();
         hideAll();
       }
+    });
+
+    $('input[name=country-question]').change(function () {
+      $("#myForm").trigger("reset");
     });
 
     function hideAll() {
@@ -106,10 +120,6 @@
       $("#country-container").hide();
       $("#name-of-school-container").hide();
     }
-
-    // Progress percentage
-    document.getElementById("percentage").style.width = "20%";
-    document.getElementById("percentage_value").textContent = "20%";
 
   });
 </script>

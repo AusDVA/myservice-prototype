@@ -2,7 +2,9 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Tasks | MyService</title>
+  <meta charset="utf-8" />
+  <meta content="width=device-width" name="viewport" />
+  <title>Review and submit: Service History | MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
 
@@ -14,49 +16,79 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
   <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-claims") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
-
   <main>
-    <div class="container container--8-column" id="main-content">
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Review and submit</span>
+      </h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
 
-
-      <h1>Transition to secondary school</h1>
-      <h2>Provide details for John Smith</h2>
-
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Will the student start secondary school in 2020?"
-      }); %>
-
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "State of study",
-        options: [
-          " -- Select state or territory -- ",
-          " Australian Capital Territory ",
-          " New South Wales ",
-          " Northern Territory ",
-          " Queensland ",
-          " South Australia ",
-          " Tasmania ",
-          " Victoria ",
-          " Western Australia "
+          <%- include(partials+"components/review-submit", {
+  "claim": {
+    "title": "Review details for John Smith's transition to secondary school",
+    "options": [
+      "marginTop"
+    ],
+    "categories": [
+      {
+        "header": "Transition to secondary school",
+        "elements": [
+          {
+            "type": "questions",
+            "data": [
+              {
+                "question": "Will the student start secondary school in 2020?",
+                "answer": "Yes"
+              },
+              {
+                "question": "Will the student be studying in Australia?",
+                "answer": "Yes"
+              },
+              {
+                "question": "State of study",
+                "answer": "A.C.T"
+              },
+              {
+                "question": "Name of school",
+                "answer": "Campbell High School"
+              }
+            ]
+          }
         ]
-      }); %>
+      }
+   
+    ]
+  }
+}) %>
 
-      <%- include(partials+"components/form-partials/text", {
-        label: "Name of school"
-      }); %>
-
-      <div class="pagination pagination--tasks">
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
-        <div class="floated">
-          <button class="uikit-btn" id="submit">Next</button>
+          <div class="pagination margin-above--extra">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/tasks/transition-to-secondary/transition-to-secondary-01'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/tasks/transition-to-secondary/transition-to-secondary-03'">Submit</button>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
   </main>
-
+  <%- include(partials+"components/layout/footer") %>
 </body>
-<%- include(partials+"components/layout/footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    if (sessionStorage.getItem('commonwealth-allied') != 'yes') {
+      $("#adf").show();
+    } else {
+      $("#commonwealth").show();
+    }
+  });
+</script>
 
 </html>
