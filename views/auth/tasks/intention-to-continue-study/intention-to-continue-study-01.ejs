@@ -28,14 +28,22 @@
       <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
 
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Does the student intend to continue to study in 2020?",
+        label: "Does the student intend to continue study in 2020?",
         id: "continue-studying-question"
       }); %>
+
+      <% 
+      locals.el = {};
+      locals.el.message = "Add message here. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+      locals.el.optionalID = "not-continuing";
+      locals.el.optionalHide = true;
+    %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
 
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Do you have a copy of the confirmation of enrolment document?",
         id: "document-question",
-        yes_toggle: "#yes-have-document",
+        yes_toggle: ["#yes-have-document","#save-and-next"],
         no_toggle: "#save-and-next",
         modifiers: ["hidden"]
       }); %>
@@ -50,7 +58,7 @@
       <%- include(partials+"components/form-elements/notice", locals) %>
 
       <div id="save-and-next" class="margin-above" style="display: none">
-        <p>Choose <b>save and next</b> to continue.</p>
+        <p>Choose <b>next</b> to continue.</p>
       </div>
 
       <div class="pagination pagination--tasks">
@@ -71,11 +79,14 @@
     $("input:radio").prop("checked", false);
 
     $('input[name=continue-studying-question]').change(function () {
+      $("#save-and-next").hide();
       var mySelection = $('input[name=continue-studying-question]:checked').parent().find("span").text();
       if (mySelection == "Yes") {
         $("#document-question-container input:radio").prop("checked", false);
         $("#document-question-container").show();
+        $("#not-continuing").hide();
       } else {
+        $("#not-continuing").show();
         $("#document-question-container").hide();
         $("#yes-have-document").hide();
       }

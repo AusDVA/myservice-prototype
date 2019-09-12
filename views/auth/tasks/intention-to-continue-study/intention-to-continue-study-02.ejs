@@ -27,6 +27,11 @@
 
       <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
 
+      <div id="country-container" class="form-group">
+        <label class="uikit-text-input__label" for="rank">Country of study</label>
+        <%- include(partials+"content/auth-select-list-country") %>
+      </div>
+
       <%- include(partials+"components/form-partials/dropdown", {
         label: "Level of study",
         options: [
@@ -39,17 +44,12 @@
         ], id: "level"
       }); %>
 
-      <form id="myForm" style="display: none;">
+      <form id="myForm">
 
         <input type="reset" style="display:none">
 
-        <div id="country-container" class="form-group">
-          <label class="uikit-text-input__label" for="rank">Country of study</label>
-          <%- include(partials+"content/auth-select-list-country") %>
-        </div>
-
         <%- include(partials+"components/form-partials/dropdown", {
-          label: "State or territory of <span class='institute-name'>school</span>",
+          label: "State or territory of institution or school</span>",
           options: [
             " -- Select state or territory -- ",
             " Australian Capital Territory ",
@@ -64,11 +64,9 @@
         }); %>
 
         <%- include(partials+"components/form-partials/text", {
-          label: "Name of <span class='institute-name'>school</span>",
+          label: "Name of institution or school</span>",
           id: "name-of-school"
         }); %>
-
-
 
         <%- include(partials+"components/form-partials/text", {
           label: "Course / degree name",
@@ -77,11 +75,12 @@
         }); %>
 
         <%- include(partials+"components/form-partials/date", {
-          label: "Anticipated commencement date"
+          label: "Commencement date"
         }); %>
 
         <%- include(partials+"components/form-partials/date", {
-          label: "Anticipated completion date"
+          label: "Completion date",
+          hint: "<BR/>If you don't know the exact date you may enter an approximate date."
         }); %>
 
         <%- include(partials+"components/form-partials/yes_no", {
@@ -136,17 +135,17 @@
       $("#myForm").trigger("reset");
       var mySelection = $('#level-container').find(":selected").text().trim();
       switch (mySelection) {
+        case "-- Select level of study --":
+          $("#course-name-container").hide();
+          break;
         case "Primary":
-          $(".institute-name").text("school");
           $("#course-name-container").hide();
           break;
         case "Secondary":
-          $(".institute-name").text("school");
           $("#course-name-container").hide();
           break;
         default:
           $("#course-name-container").show();
-          $(".institute-name").text("institution");
           break;
       }
       $("#myForm").show();
