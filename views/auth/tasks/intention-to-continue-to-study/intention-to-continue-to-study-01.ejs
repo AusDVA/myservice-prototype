@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Tasks | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Intention to continue to study</span>
+      </h1>
+    </div>
+    <div class="container container--8-column" id="main-content">
+
+      <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does the student intent to continue to study in 2020?",
+        id: "continue-studying-question"
+      }); %>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Do you have a copy of the confirmation of enrolment document?",
+        id: "document-question",
+        yes_toggle: "#yes-have-document",
+        no_toggle: "#save-and-next",
+        modifiers: ["hidden"]
+      }); %>
+
+      <% 
+        locals.el = {};
+        locals.el.message = "You will need to upload this document in the documents section."; 
+        locals.el.optionalType = "warning";
+        locals.el.optionalID = "yes-have-document";
+        locals.el.optionalHide = true;
+      %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
+
+      <div id="save-and-next" class="margin-above" style="display: none">
+        <p>Choose <b>save and next</b> to continue.</p>
+      </div>
+
+      <div class="pagination pagination--tasks">
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <div class="floated">
+          <a href="/auth/tasks/transition-to-secondary/intention-to-continue-to-study-02"><button class="uikit-btn" id="submit">Next</button></a>
+        </div>
+      </div>
+  </main>
+
+</body>
+<%- include(partials+"components/layout/footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=continue-studying-question]').change(function () {
+      var mySelection = $('input[name=continue-studying-question]:checked').parent().find("span").text();
+      if (mySelection == "Yes") {
+        $("#document-question-container input:radio").prop("checked", false);
+        $("#document-question-container").show();
+      } else {
+        $("#document-question-container").hide();
+        $("#yes-have-document").hide();
+      }
+    });
+
+  });
+</script>
+
+</html>
