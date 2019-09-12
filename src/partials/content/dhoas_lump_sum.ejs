@@ -1,0 +1,223 @@
+<% 
+          locals.el = {};
+          locals.el.message = "<p>If you intend to request a lump sum payment you should do so as part of this application. The assessment of your lump sum eligibility is made at payment commencement time after you confirm your request.</p><p><ul><li>You must request the lump sum before you purchase or complete building your home.</li><li>The lump sum can only be paid on the Subsidy Certificate you requested before your home was purchased or completed.</li><li>If that Subsidy Certificate expires, and you are required to request a new Certificate after the home is purchased or completed, you will not be eligible for a lump sum.</li></ul></p>"; 
+          locals.el.optionalType = "content";
+          %>
+<%- include(partials+"components/form-elements/notice", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'Would you like to you check your eligibility for a lump sum payment?';
+          locals.el.optionalID = "check_eligibility";
+          %>
+<%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'Do you expect to leave the ADF within 12 months of your subsidy payment being authorised?';
+          locals.el.optionalID = "expect_to_leave";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+<%
+          locals.el = {};
+          locals.el.message = "You are not eligible to receive a lump sum payment if you expect to leave the ADF within 12 months of your subsidy payment being authorised."; 
+          locals.el.optionalType = "warning";
+          locals.el.optionalID = "expect_to_leave_notice";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/notice", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'While serving in the ADF have you, or you and your co-owner/borrower, previously owned a 50% or greater stake in a home, either to live in or for an investment?';
+          locals.el.optionalID = "fifty_percent";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+<%
+          locals.el = {};
+          locals.el.message = "You are not eligible to receive a lump sum payment if you and your co-owner/borrower have owned a 50% or greater stake in a home, either to live in or for an investment."; 
+          locals.el.optionalType = "warning";
+          locals.el.optionalID = "fifty_percent_notice";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/notice", locals) %>
+
+<%
+          locals.el = {};
+          locals.el.message = "<h3>You may be eligible to receive a lump sum payment</h3><ul><li>The maximum lump sum amount cannot exceed 48 months of payments.</li><li>Your monthly DHOAS payments may cease if you transfer to the Reserves and have less than 12 months of entitlement remaining after your lump sum payment is received.</li><li>You can find out more about DHOAS lump sum payments on the <a href='http://dhoas.gov.au/8.-lump-sum.html' rel='external' target='_blank'>DHOAS website</a></li></ul>"; 
+          locals.el.optionalID = "fifty_percent_no_notice";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/notice", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'Would you like to request a lump sum payment';
+          locals.el.optionalID = "lump_sum";
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'How much of your total entitlement would you like to request as a lump sum?'; 
+          locals.el.items = ['I would like to request the maximum amount available','I would like to request a partial amount...'];
+          locals.el.optionalItemID = ['max','partial'];
+          locals.el.optionalID = 'request_amount';
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/radio", locals) %>
+
+<% 
+          locals.el = {};
+          locals.el.question = 'How many months would you like to request?'; 
+          locals.el.optionalID = 'partial_input';
+          locals.el.optionalShort = true;
+          locals.el.optionalHide = true;
+          %>
+<%- include(partials+"components/form-elements/field", locals) %>
+
+<%# 
+          locals.el = {};
+          locals.el.question = 'You must agree with the following before your lump sum payment request can be submitted:'; 
+          locals.el.items = ['I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.','I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.'];
+          locals.el.optionalItemID = ['a','b'];
+          locals.el.optionalID = 'lump_sum_agreement';
+          locals.el.optionalHide = true;
+          %>
+<%#- include(partials+"components/form-elements/checkbox", locals) %>
+
+<div class="form-group" id="lump_sum_agreement" style="display: none;">
+  <h2>Declaration</h2>
+  <div style="border: 1px solid #d8d8d8; padding: 30px;">
+    <div class="uiToolKitCheckBox">
+      <label class="uikit-control-input">
+        <input class="uikit-control-input__input" type="checkbox" id="lump_sum_agreement_checked" name="lump_sum_agreement_checked">
+        <span class="uikit-control-input__text">I acknowledge and agree with the following statements:</span>
+      </label>
+    </div>
+    <ol style="padding-left: 35px;">
+      <li style="padding-left: 7px;">I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease
+        to be a member of the ADF within 12 months after payment is authorised.</li>
+      <li style="padding-left: 7px;">I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.</li>
+    </ol>
+  </div>
+</div>
+
+
+<div id="save-next" hidden>
+  <p>Choose <b>save and next</b> to continue</p>
+</div>
+
+
+<script>
+
+  $(document).ready(function() {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=check_eligibility]').change(function () {
+      var mySelection = $('input[name=check_eligibility]:checked').val();
+      $("input[name=expect_to_leave").prop("checked", false);
+      hideAll();
+      if (mySelection == "yes") {
+        $("#expect_to_leave").show("fast");
+      } else {
+        $("#save-next").show("fast");
+      }
+    });
+
+    $('input[name=expect_to_leave]').change(function () {
+      var mySelection = $('input[name=expect_to_leave]:checked').val();
+      $("input[name=fifty_percent").prop("checked", false);
+      $("#fifty_percent").hide();
+      $("#fifty_percent_notice").hide();
+      $("#fifty_percent_no_notice").hide();
+      $("#lump_sum").hide();
+      $("#save-next").hide();
+      if (mySelection == "yes") {
+        $("#expect_to_leave_notice").show("fast");
+        $("#save-next").show("fast");
+      } else {
+        $("#expect_to_leave_notice").hide();
+        $("#fifty_percent").show("fast");
+      }
+    });
+
+    $('input[name=fifty_percent]').change(function () {
+      var mySelection = $('input[name=fifty_percent]:checked').val();
+      $("input[name=lump_sum").prop("checked", false);
+      $("#request_amount").hide();
+      $("#save-next").hide();
+      $("#fifty_percent_no_notice").hide();
+      $("#lump_sum").hide();
+      $("#fifty_percent_notice").hide();
+      $("#partial_input").hide();
+      $("#lump_sum_agreement").hide();
+      if (mySelection == "yes") {
+        $("#fifty_percent_notice").show("fast");
+        $("#save-next").show("fast");
+      } else {
+        $("#fifty_percent_no_notice").show("fast");
+        $("#may-be-eligible").show("fast");
+        $("#lump_sum").show("fast");
+      }
+    });
+
+    $('input[name=lump_sum]').change(function () {
+      var mySelection = $('input[name=lump_sum]:checked').val();
+      $("input[name=request_amount").prop("checked", false);
+      $("#partial_input").hide();
+      $("#lump_sum_agreement").hide();
+      if (mySelection == "yes") {
+        $("#request_amount").show("fast");
+        $("#save-next").hide();
+      } else {
+        $("#request_amount").hide("fast");
+        $("#save-next").show("fast");
+      }
+    });
+
+    $('input[name=request_amount]').change(function () {
+      var mySelection = $('input[name=request_amount]:checked').val();
+      $("input[name=a").prop("checked", false);
+      $("input[name=b").prop("checked", false);
+      $('#partial_input').find('input[type=text]').val("");
+      if (mySelection == "partial") {
+        $("#partial_input").show("fast");
+        $("#lump_sum_agreement").show("fast");
+        $("#save-next").hide();
+      } else {
+        $("#lump_sum_agreement").show("fast");
+        $("#partial_input").hide("fast");
+      }
+    });
+
+    $('input[name=lump_sum_agreement_checked]').change(function () {
+      var mySelection = $('input[name=lump_sum_agreement_checked]:checked').val();
+      if (mySelection == "on") {
+        $("#save-next").show("fast");
+      } else {
+        $("#save-next").hide("fast");
+      }
+    });
+
+    function hideAll() {
+      $("#expect_to_leave").hide();
+      $("#expect_to_leave_notice").hide();
+      $("#fifty_percent").hide();
+      $("#fifty_percent_notice").hide();
+      $("#fifty_percent_no_notice").hide();
+      $("#lump_sum").hide();
+      $("#request_amount").hide();
+      $("#lump_sum_agreement").hide();
+      $("#save-next").hide();
+    }
+
+  });
+
+</script>

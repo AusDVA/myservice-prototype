@@ -1,0 +1,188 @@
+
+    <!-- don't worry about this JS stuff - the behaviour is already implemented in React codebase -->
+    <script language="javascript">
+      var starRadioGroup = starRadio = null;
+      var ratingLimit = 5; // arbitrary for now - backported from React code
+      var currentValue = -1;
+
+      $(document).ready(function() {
+
+        var updateCallback = function(value) {
+          // real code sends the value to server for retention.
+          // at this point, if it hasn't been displayed already,
+          // then display the comments box.
+          currentValue = value;
+          $(".star-rating-feedback").addClass("visible");
+          setTimeout(function() {
+            $('.star-rating-feedback textarea').focus();
+          }, 10);
+        };
+
+        var getFieldValue = function(e) {
+
+          return parseInt(
+            (e.target.htmlFor !== undefined) ? this[e.target.htmlFor].value : // label type
+            (e.target.parentNode.htmlFor != null) ? this[e.target.parentNode.htmlFor].value : // svg or img
+            (e.target.tagName.toLowerCase() == 'g') ? this[e.target.parentNode.parentNode.htmlFor].value : // g
+            (e.target.tagName.toLowerCase() == 'path') ? this[e.target.parentNode.parentNode.parentNode.htmlFor].value : // path
+            (e.target.childNodes.length == 2) ? e.target.childNodes[0].value : // span/div to input type
+            e.target.value // input type
+          );
+        }
+
+        var updateStarRatingVisuals = function(ratingVal) {
+
+          // select the rating labels and set the checked class appropriately
+          for (var i = 1; i <= ratingLimit; ++i) {
+            var label = $('#rating-'+i).next();
+            if (ratingVal >= i) {
+              label.removeClass('star-rating--unchecked');
+              label.addClass('star-rating--checked');
+            } else {
+              label.removeClass('star-rating--checked');
+              label.addClass('star-rating--unchecked');
+            }
+          }
+        }
+
+        starRadioGroup = $('.star-rating');
+        starRadio = $('.star-rating-input');
+
+        //starRadio.on('mouseover', function(e) {
+        $('.star-rating label').on('mouseover', function(e) {
+
+          var value = getFieldValue(e);
+
+          console.log(e.target.tagName + ':' + value);
+
+          if (value != null && !isNaN(value)) {
+            updateStarRatingVisuals(value);
+          }
+        });
+
+        $('.star-rating label').on('mouseout', function(e) {
+          updateStarRatingVisuals(currentValue);
+        });
+
+        // selection behaviours
+
+        starRadio.on('focus', function(e) {
+          updateStarRatingVisuals(parseInt(e.target.value));
+        });
+
+        starRadio.on('blur', function(e) {
+          updateStarRatingVisuals(currentValue);
+        });
+
+        starRadio.keydown(function(e) {
+          console.log('test ' + e.key);
+
+          var value = parseInt(
+            (e.target.childNodes.length == 2) ? e.target.childNodes[0].value : // span/div to input type
+            e.target.value  // input type
+          );
+
+          switch (e.key) {
+            case ' ':
+            case 'Enter':
+              //e.target.click();
+              updateCallback(value);
+              break;
+
+            // case 'ArrowUp':
+            case 'Home':
+              $('#rating-1').focus();
+              updateStarRatingVisuals(1);
+              break;
+            // case 'ArrowDown':
+            case 'End':
+              $('#rating-'+(ratingLimit)).focus();
+              updateStarRatingVisuals(ratingLimit);
+              break;
+
+            case 'ArrowDown':
+            case 'ArrowLeft':
+            case 'Subtract':
+            case '-':
+              if (value > 1) {
+                $('#rating-'+(value-1)).focus();
+                updateStarRatingVisuals(value-1);
+              } else {
+                $('#rating-'+(ratingLimit)).focus();
+                updateStarRatingVisuals(ratingLimit);
+              }
+              break;
+
+            case 'ArrowUp':
+            case 'ArrowRight':
+            case 'Add':
+            case '+':
+              if (value < ratingLimit) {
+                $('#rating-'+(value+1)).focus();
+                updateStarRatingVisuals(value+1);
+              } else {
+                $('#rating-1').focus();
+                updateStarRatingVisuals(1);
+              }
+              break;
+          }
+        });
+
+        $('.star-rating label').on('mousedown', function(e) {
+          if (e.button == 0) {
+            var value = getFieldValue(e);
+
+            if (value != null && !isNaN(value)) {
+              updateCallback(value);
+            }
+          }
+        });
+
+        // final state
+        $('#submitComment').on('click', function(e) {
+
+          $('.star-rating-feedback--endstate').addClass('visible');
+          $('.star-rating-feedback').removeClass('visible');
+          $('.star-rating').removeClass('visible');
+          $('.star-rating--wrapper').children().first().removeClass('visible');
+        });
+
+        // initial load
+        setTimeout(function() {
+          $(".star-rating--wrapper").addClass('visible');
+          $(".star-rating--wrapper").children().first().addClass('visible');
+          $(".star-rating").addClass("visible");
+        }, 250);
+
+      });
+
+
+    </script>
+
+    <div class="star-rating--wrapper centred-item">
+      <h4>How would you rate your experience using MyService?</h4>
+      <div class="star-rating">
+        <!-- we have React code to auto-generate the permutations (to support n-star ratings) -->
+        <input type="radio" class="star-rating-input" id="rating-1" value="1" name="ratingStar" /><label for="rating-1" class="star-rating--unchecked"><span class="hidden">1 star</span><svg viewBox="0 0 512 512"><title>ratingStar-1</title><g stroke="#666"><path stroke-width="20" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></g></svg></label>
+        <input type="radio" class="star-rating-input" id="rating-2" value="2" name="ratingStar" /><label for="rating-2" class="star-rating--unchecked"><span class="hidden">2 stars</span><svg viewBox="0 0 512 512"><title>ratingStar-2</title><g stroke="#666"><path stroke-width="20" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></g></svg></label>
+        <input type="radio" class="star-rating-input" id="rating-3" value="3" name="ratingStar" /><label for="rating-3" class="star-rating--unchecked"><span class="hidden">3 stars</span><svg viewBox="0 0 512 512"><title>ratingStar-3</title><g stroke="#666"><path stroke-width="20" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></g></svg></label>
+        <input type="radio" class="star-rating-input" id="rating-4" value="4" name="ratingStar" /><label for="rating-4" class="star-rating--unchecked"><span class="hidden">4 stars</span><svg viewBox="0 0 512 512"><title>ratingStar-4</title><g stroke="#666"><path stroke-width="20" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></g></svg></label>
+        <input type="radio" class="star-rating-input" id="rating-5" value="5" name="ratingStar" /><label for="rating-5" class="star-rating--unchecked"><span class="hidden">5 stars</span><svg viewBox="0 0 512 512"><title>ratingStar-5</title><g stroke="#666"><path stroke-width="20" d="M512 198.525l-176.89-25.704-79.11-160.291-79.108 160.291-176.892 25.704 128 124.769-30.216 176.176 158.216-83.179 158.216 83.179-30.217-176.176 128.001-124.769z"></path></g></svg></label>
+      </div>
+
+      <!-- This dynamically appears if a star has been checked at least once -->
+      <div class="star-rating-feedback">
+        <p>Thanks for your feedback.</p>
+        <label for="userComment">
+          <p>Why did you give that rating? (optional)</p>
+        </label>
+        <form id="userComment">
+          <textarea class="uikit-text-input"></textarea>
+        </form>
+        <button id="submitComment" class="uikit-btn">Submit</button>
+      </div>
+
+      <div class="star-rating-feedback--endstate">
+        <p>We appreciate your feedback!</p>
+      </div>
+    </div>

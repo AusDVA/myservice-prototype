@@ -1,0 +1,80 @@
+<fieldset>
+  <%
+    locals.el = {};
+    locals.el.question = 'Account name'; 
+    %>
+  <%- include(partials+"components/form-elements/field", locals) %>
+
+  <div class="form-group">
+    <label class="uikit-text-input__label" for="bsb">BSB
+      <span class="hint">(XXX - XXX)</span>
+    </label>
+    <input class="uikit-text-input bsb" type="text" name="bsb" id="bsb-1" maxlength="3" required aria-required="true" aria-label="3 digit BSB" maxlength="3" value="" size="3"> -
+    <input class="uikit-text-input bsb" type="text" name="bsb" id="bsb-1" maxlength="3" required aria-required="true" aria-label="3 digit BSB" maxlength="3" value="" size="3">
+  </div>
+  <div class="form-group" style="display: none;" id="bsb">
+    <label class="uikit-text-input__label" for="Input field">Financial institution</label>
+    <div class="fa-2x" id="spinner"><i class="fas fa-spinner fa-pulse" style="color:#1057a7;"></i><span class="hint"> Looking up BSB...</span>
+    </div>
+    <p id="financial-institution-amp">AMP</p>
+    <p id="financial-institution-none">BSB not found.</p>
+  </div>
+
+  <%
+    locals.el = {};
+    locals.el.question = 'Account number'; 
+    %>
+  <%- include(partials+"components/form-elements/field", locals) %>
+</fieldset>
+
+
+
+<script>
+
+  $(Document).ready(function () {
+
+    $("#spinner").hide();
+    $("#financial-institution-none").hide();
+    $("#financial-institution-amp").hide();
+
+    // Automatic tab feature for BSB 
+    $(".bsb").keyup(function () {
+      if (this.value.length == this.maxLength) {
+        $(this).next('.bsb').focus();
+      }
+    });
+
+    //Loading icon feature
+    $(".bsb").keyup(function () {
+
+      $("#financial-institution-none").hide();
+      $("#financial-institution-amp").hide();
+      $("#spinner").show();
+      $("#bsb").show();
+
+      if (this.value == 333) {
+
+        var showInstitution = window.setTimeout(function () {
+          $('#spinner').fadeOut(180);
+          $("#financial-institution-none").fadeIn(200);
+        }, 1500);
+
+        while (showInstitution--) {
+    window.clearTimeout(showInstitution); // will do nothing if no timeout with id is present
+}
+
+      } else {
+
+          while (showBSBFail--) {
+    window.clearTimeout(showBSBFail); // will do nothing if no timeout with id is present
+}
+
+        var showBSBFail = window.setTimeout(function () {
+          $('#spinner').fadeOut(180);
+          $("#financial-institution-amp").fadeIn(200);
+        }, 1500);
+
+      }
+    });
+  }); 
+</script>
