@@ -1,0 +1,48 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+          label: "User",
+          boxes: [
+            "Student",
+            "Parent/guardian"
+          ],
+          id: "user"
+        }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#user-1").prop("checked", true);
+
+    $('#user-container').change(function () {
+      var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
+      switch (mySelection) {
+        case "Student":
+          $(".user-label-a").text("you");
+          $("#provide-details").hide();
+          break;
+        case "Parent/guardian":
+          $(".user-label-a").text("the student");
+          $("#provide-details").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+  });
+</script>
