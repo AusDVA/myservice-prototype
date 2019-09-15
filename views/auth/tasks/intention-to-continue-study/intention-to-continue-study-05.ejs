@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Submitted: Transition to secondary school</title>
+  <title>Submitting Documents | MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
 
@@ -17,31 +17,59 @@
   <%- include(partials+"components/layout/header-claims") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
   <main>
-    <div class="container">
+    <div class="container" id="main-content">
       <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-
-          <h1 class="margin-above">
-            <icon class="fal fa-check" style="font-size: 1.3em; vertical-align: -15%; color: green;"></icon>&nbsp;Task complete
-          </h1>
-
-          <hr class="orange-divider">
-
-          <div class="margin-below--extra">
-            <p>Thank you for completing this task. If you have any questions call 1800 555 254.
-          </div>
-
-          <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/'">Go to home</button>
+        <div class="col-md-offset-1 col-md-10">
+          <div class="claim-end">
+            <div class="pt-claim-type--normal">
+              <div class="margin-above ie-success-animation">
+                <img src="/docs/images/ico-submitted.svg" alt="Submitted icon">
+              </div>
+              <div class="margin-above submitted-animation">
+                <%- include(partials+"components/animations/submitted") %>
+              </div>
+              <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
+                <h1>We're submitting your documents </h1>
+              </div>
+            </div>
+            <div class="transition-content pt-claim-animation-end margin-below--extra">
+              <div class="pt-claim-type--normal">
+                <h1 class="centred-item">Your documents have been <strong>submitted</strong>
+                </h1>
+              </div>
+              <hr class="orange-divider">
+              <h2 class="ss-align--center"><b>What's next?</b></h2>
+              <div class="container">
+                <div class="col-sm-offset-1 col-sm-8">
+                  <ul class="next-steps">
+                    <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.</li>
+                    <li>You will receive an email confirmation and be contacted about your claim.</li>
+                    <li>If your claim is accepted you will be able to view your accepted conditions on your MyService Cards page.</li>
+                  </ul>
+                </div>
+                <div class="pagination">
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Add another claim</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </main>
-
   <%- include(partials+"components/layout/footer") %>
+  <form class="pt-submit-form">
+    <input type="hidden" name="submittedApplication" id="submittedApplication" value="true">
+  </form>
+  <script>
+    readRep();
 
-  <!-- <script>
+    var data = ($('.pt-submit-form'));
+
+    writeRep(data);
+
+
     var timeDelay = 3000;
     setTimeout(
       function () {
@@ -49,8 +77,34 @@
         $(".pt-claim-animation-end").toggleClass("transition-content--open");
       }, timeDelay);
 
-  </script> -->
+    var queryString = new Array();
+    $(function () {
+      if (queryString.length == 0) {
+        if (window.location.search.split('?').length > 1) {
+          var params = window.location.search.split('?')[1].split('&');
+          for (var i = 0; i < params.length; i++) {
+            var key = params[i].split('=')[0];
+            var value = decodeURIComponent(params[i].split('=')[1]);
+            queryString[key] = value;
+          }
+        }
+      }
+      if (queryString["name"] != null && queryString["technology"] != null) {
+        var newAmount = "";
+        var requestAmount = "";
+        newAmount += queryString["name"];
+        requestAmount += queryString["technology"];
+        $("#lblData").html(newAmount);
+        $("#lblData2").html(requestAmount);
+        if (requestAmount.indexOf('.') != -1) {
+          $("#lblData2").html(requestAmount);
+        } else {
+          $("#lblData2").html(requestAmount);
+        }
+      }
+    });
 
+  </script>
 </body>
 
 </html>

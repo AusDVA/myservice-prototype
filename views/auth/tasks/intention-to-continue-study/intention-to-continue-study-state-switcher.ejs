@@ -26,23 +26,39 @@
       }
     });
 
-    $("#user-1").prop("checked", true);
+    if (sessionStorage.getItem('student-coc-user') == "parent") {
+      updateContent("Parent/guardian");
+      $("#user-2").prop("checked", true);
+    } else {
+      updateContent("Student");
+      $("#user-1").prop("checked", true);
+    }
 
     $('#user-container').change(function () {
       var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
-      switch (mySelection) {
+      updateContent(mySelection)
+    });
+
+    function updateContent(myUser) {
+      switch (myUser) {
         case "Student":
           $(".user-label-a").text("you");
+          $(".user-label-b").text("Do you");
+          $(".user-label-c").text("your");
           $("#provide-details").hide();
+          sessionStorage.setItem('student-coc-user', "student");
           break;
         case "Parent/guardian":
           $(".user-label-a").text("the student");
+          $(".user-label-b").text("Does the student");
+          $(".user-label-c").text("John Smith's");
           $("#provide-details").show();
+          sessionStorage.setItem('student-coc-user', "parent");
           break;
         default:
           break;
       }
-    });
+    }
 
   });
 </script>
