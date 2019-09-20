@@ -25,16 +25,19 @@
     </div>
     <div class="container container--8-column" id="main-content">
 
-      <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
+      <div class="margin-above--extra"></div>
+
+      <h2 id="provide-details" class="margin-below" style="display: none;">Provide details for John Smith</h2>
 
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Does the student intend to continue study in 2020?",
+        label: "<span class='user-label-b'>Do you</span> intend to continue study in 2020?",
         id: "continue-studying-question"
       }); %>
 
       <% 
       locals.el = {};
-      locals.el.message = "Add message here. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+      locals.el.message = "Eligibility for Education Allowance is dependent upon the student continuing in full time study. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+      locals.el.optionalType = "warning";
       locals.el.optionalID = "not-continuing";
       locals.el.optionalHide = true;
     %>
@@ -43,16 +46,14 @@
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Do you have a copy of the confirmation of enrolment document?",
         id: "document-question",
-        yes_toggle: ["#yes-have-document","#save-and-next"],
-        no_toggle: "#save-and-next",
         modifiers: ["hidden"]
       }); %>
 
       <% 
         locals.el = {};
-        locals.el.message = "You will need to upload this document in the documents section."; 
+        locals.el.message = "You will need to upload confirmation of enrolment in the documents section."; 
         locals.el.optionalType = "warning";
-        locals.el.optionalID = "yes-have-document";
+        locals.el.optionalID = "yes-document";
         locals.el.optionalHide = true;
       %>
       <%- include(partials+"components/form-elements/notice", locals) %>
@@ -65,7 +66,7 @@
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
         <div class="floated">
-          <a href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-02"><button class="uikit-btn" id="submit">Next</button></a>
+          <a id="next-link" href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-02"><button class="uikit-btn" id="submit">Next</button></a>
         </div>
       </div>
   </main>
@@ -85,14 +86,31 @@
         $("#document-question-container input:radio").prop("checked", false);
         $("#document-question-container").show();
         $("#not-continuing").hide();
+        $("#save-and-next").hide();
       } else {
         $("#not-continuing").show();
         $("#document-question-container").hide();
-        $("#yes-have-document").hide();
+        $("#save-and-next").show();
+        $("#save-and-next").hide();
+        $("#yes-document").hide();
+      }
+    });
+
+    $('input[name=document-question]').change(function () {
+      var mySelection = $('input[name=document-question]:checked').parent().find("span").text();
+      var link = document.getElementById("next-link");
+      if (mySelection == "Yes") {
+        link.setAttribute("href", "intention-to-continue-study-03");
+        $("#save-and-next").show();
+      } else {
+        $("#save-and-next").show();
+        link.setAttribute("href", "intention-to-continue-study-02");
       }
     });
 
   });
 </script>
+
+<%- include("intention-to-continue-study-state-switcher.ejs") %>
 
 </html>

@@ -34,47 +34,40 @@
 
       <% 
         locals.el = {};
-        locals.el.message = "Our records indicate that your child will be entering secondary school in 2020. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+        locals.el.message = "Our records indicate that your child will commence secondary school in 2020. If this is not the case, please contact us on 1800 555 254 to discuss."; 
         locals.el.optionalType = "warning";
         locals.el.optionalID = "not-continuing";
         locals.el.optionalHide = true;
       %>
       <%- include(partials+"components/form-elements/notice", locals) %>
 
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Will the student be studying in Australia?",
-        id: "country-question",
-        modifiers: ["hidden"]
-      }); %>
-
-      <form id="myForm">
+      <form id="myForm" style="display: none;">
 
         <input type="reset" style="display:none">
 
-        <div id="country-container" class="form-group" style="display: none;">
+        <div id="country-container" class="form-group">
           <label class="uikit-text-input__label" for="rank">Country of study</label>
           <%- include(partials+"content/auth-select-list-country") %>
         </div>
 
+        <%- include(partials+"components/form-partials/dropdown", {
+          label: "State or territory of school",
+          options: [
+            " -- Select state or territory -- ",
+            " Australian Capital Territory ",
+            " New South Wales ",
+            " Northern Territory ",
+            " Queensland ",
+            " South Australia ",
+            " Tasmania ",
+            " Victoria ",
+            " Western Australia "
+          ], id: "state"
+        }); %>
+
         <%- include(partials+"components/form-partials/text", {
         label: "Name of school",
-        id: "name-of-school",
-        modifiers: ["hidden"]
-      }); %>
-
-        <%- include(partials+"components/form-partials/dropdown", {
-        label: "State or territory of school",
-        options: [
-          " -- Select state or territory -- ",
-          " Australian Capital Territory ",
-          " New South Wales ",
-          " Northern Territory ",
-          " Queensland ",
-          " South Australia ",
-          " Tasmania ",
-          " Victoria ",
-          " Western Australia "
-        ], id: "state", modifiers: ["hidden"]
+        id: "name-of-school"
       }); %>
 
       </form>
@@ -96,37 +89,31 @@
 
     $("input:radio").prop("checked", false);
 
+    $("#country-select option[value=AU]").attr('selected', 'selected');
+
     $('input[name=start-studying-question]').change(function () {
       var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
       if (mySelection == "Yes") {
-        $("#country-question-container input:radio").prop("checked", false);
-        $("#country-question-container").show();
+        $("#country-container input:radio").prop("checked", false);
+        $("#myForm").show();
         $("#not-continuing").hide();
       } else {
         $("#not-continuing").show();
-        hideAll();
+        $("#myForm").hide();
       }
     });
 
-
-    $('input[name=country-question]').click(function () {
-      var studyingInAus = $('input[name=country-question]:checked').parent().find("span").text();
-      $("#name-of-school-container").show();
-      if (studyingInAus === "Yes") {
-        $("#country-container").hide();
-        $("#state-container").show();
-      } else {
-        $("#state-container").hide();
-        $("#country-container").show();
+    $('#country-container').change(function () {
+      var mySelection = $('#country-container').find(":selected").text().trim();
+      switch (mySelection) {
+        case "Australia":
+          $("#state-container").show();
+          break;
+        default:
+          $("#state-container").hide();
+          break;
       }
     });
-
-    function hideAll() {
-      $("#country-question-container").hide();
-      $("#state-container").hide();
-      $("#country-container").hide();
-      $("#name-of-school-container").hide();
-    }
 
   });
 </script>
