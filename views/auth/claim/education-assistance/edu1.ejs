@@ -25,14 +25,15 @@
           label: "Select an option to get started",
           boxes: [
             {
-              text: "Invalidity service pension",
+              text: "I'm a student",
+              toggle: ["#edu-student-alert", "#edu-student-alert-u16"],
               icon: {
                 icon: "fa-user",
                 weight: "fal"
               }
             },
             {
-              text: "Age service pension",
+              text: "I'm a parent / guardian of a student",
               icon: {
                 icon: "fa-user",
                 weight: "fal"
@@ -40,10 +41,72 @@
             }
           ]
         }); %>
+      <div class="uikit-page-alerts uikit-page-alerts--info" role="alert" id="edu-student-alert" hidden>
+        <p>You must be a dependent child of an eligible veteran to be able to claim education assistance. For further information, <a href="" rel="external">see eligibility
+            rules.</a></p>
+        <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
+        <ul>
+          <li>Proof of your relationship to the eligible veteran</li>
+          <li>Proof of your relationship to parent/guardian</li>
+          <li>Proof of your enrolment</li>
+        </ul>
+        <p>Further documents may be required dpeneding on your circumstances.</p>
+      </div>
+      <div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="edu-student-alert-u16" hidden>
+        <span>Students under the age of 16 need their parent or guardian to make the claim.</span>
+      </div>
       <%- include(partials+"components/form-partials/yes_no", {
-          label: "Does a parent/guardian receive Family Tax Benefit for your care?"
+          label: "Are you employed full time?",
+          hint: "The does not include apprenticeships.",
+          unsure: false,
+          modifiers: [
+          "hintNewLine"
+          ]
         }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+          label: "Does a parent/guardian receive Family Tax Benefit for your care?",
+          unsure: true
+        }); %>
+      <p><b>Please provide details of the parent / guardian receiving Family Tax Benefit for your care.</b></p>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Given name",
+        hint: "(first name)"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Surname",
+        hint: "(last name)"
+      }); %>
+      <div class="form-group">
+        <label class="uikit-text-input__label" for="phoneHome">Home phone number
+          <span class="hint">(optional)</span>
+          <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
+          <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
+            <%- include(partials+"content/phone-areacode") %>
+          </select>
+          <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+        </label>
+      </div>
+      <div class="form-group">
+        <label class="uikit-text-input__label" for="phoneHome">Mobile phone number
+          <span class="hint">(optional)</span>
+          <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
+          <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
+            <%- include(partials+"content/phone-areacode") %>
+          </select>
+          <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+        </label>
+      </div>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Email address",
+        hint: "(if known)"
+      }); %>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu2'">Next</button>
+      </div>
     </div>
+
   </main>
 
   <%- include(partials+"components/layout/footer") %>
