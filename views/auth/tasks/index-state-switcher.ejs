@@ -1,25 +1,21 @@
 <div id="state-switcher">
-  <h3>Page states</h3>
+  <h3>State switcher</h3>
+
   <%- include(partials+"components/form-partials/radio", {
-      boxes: [
-        {
-          text: "Parent and Guardian",
-          toggle: "#review-table__toggle",
-          modifiers: ["checked"]
-        },
-        {
-          text: "Student",
-        }
-      ],
-      id: "user"
-    }) %>
+          label: "User",
+          boxes: [
+            "Student",
+            "Parent/guardian"
+          ],
+          id: "user"
+        }); %>
+
 </div>
 
 <script>
+
   $(document).ready(function () {
-
     /* --- State switcher --- */
-
     /* Toggle switcher */
     $(document).keypress(function (e) {
       switch (e.which) {
@@ -30,20 +26,39 @@
       }
     });
 
+    if (sessionStorage.getItem('student-coc-user') == "parent") {
+      updateContent("Parent/guardian");
+      $("#user-2").prop("checked", true);
+    } else {
+      updateContent("Student");
+      $("#user-1").prop("checked", true);
+    }
+
     $('#user-container').change(function () {
       var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
-      switch (mySelection) {
-        case "Parent and Guardian":
-          document.getElementById("intention-to-study").innerHTML = 'In order to continue receiving education assistance scheme benefits, please provide details of John Smith\'s intention to continue study.';
-          document.getElementById("confirmation-of-enrolment").innerHTML = 'We’ll need you to upload a copy of John Smiths Confirmation of Enrolment (COE) document to continue receiving education assistance scheme benefits.';
-          break;
+      updateContent(mySelection)
+    });
+
+    function updateContent(myUser) {
+      switch (myUser) {
         case "Student":
-          document.getElementById("intention-to-study").innerHTML = 'In order to continue receiving education assistance scheme benefits, please provide details of your intention to continue study.';
-          document.getElementById("confirmation-of-enrolment").innerHTML = 'We’ll need you to upload a copy of you Confirmation of Enrolment (COE) document to continue receiving education assistance scheme benefits.';
+          $(".user-label-a").text("you");
+          $(".user-label-b").text("Do you");
+          $(".user-label-c").text("your");
+          $("#provide-details").hide();
+          sessionStorage.setItem('student-coc-user', "student");
+          break;
+        case "Parent/guardian":
+          $(".user-label-a").text("the student");
+          $(".user-label-b").text("Does the student");
+          $(".user-label-c").text("John Smith's");
+          $("#provide-details").show();
+          sessionStorage.setItem('student-coc-user', "parent");
           break;
         default:
           break;
       }
-    });
+    }
+
   });
 </script>
