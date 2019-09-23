@@ -1,0 +1,51 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+      id: "edu-assist-state-switcher",
+      boxes: [
+        {
+          text: "Student",
+          modifiers: ["checked"]
+        },
+        {
+          text: "Parent/Guardian"
+        },
+        {
+          text: "Veteran"
+        },
+      ]
+    }) %>
+</div>
+
+<script>
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+  $(document).ready(function () {
+    var mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    initFlow();
+    $("#state-switcher").on("change", "input[type=radio]", function () {
+      initFlow();
+    });
+  })
+
+  function initFlow() {
+    var mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    console.log(mySelection);
+    if (mySelection.substr() === "Student") {
+      $(".parent-veteran").hide();
+      $(".student").show();
+    }
+    else {
+      $(".parent-veteran").show();
+      $(".student").hide();
+    }
+  }
+
+</script>

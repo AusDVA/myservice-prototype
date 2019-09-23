@@ -20,9 +20,58 @@
 
   <main>
     <div class="container container--8-column" id="main-content">
+
+
       <h1>Getting Started</h1>
+      <!-- parent and veteran fields begin -->
+      <div class="parent-veteran uikit-page-alerts" role="alert">
+        <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
+        <ul>
+          <li>Proof of your relationship to the student</li>
+          <li>Proof of student's enrolment</li>
+        </ul>
+        <p>Further documents may be required depending on your circumstances</p>
+      </div>
+      <%- include(partials+"components/form-partials/date", {
+        label: "Student's date of birth",
+        class: "parent-veteran"
+      }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "The student is my",
+        class: "parent-veteran",
+        options: [
+          "child",
+          "sister",
+          "brother",
+          "nephew"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Do you receive Family Tax Benefit for the student?",
+        class: "parent-veteran"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+          label: "What percentage of care do you have for the student?",
+          class: "parent-veteran"
+        }); %>
+      <!-- parent and veteran fields end -->
+      <!-- veteran fields begin -->
+      <p class="parent-veteran"><b>About the other parent/guardian</b></p>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Given name",
+        hint: "(first name)",
+        class: "parent-veteran"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Surname",
+        hint: "(last name)",
+        class: "parent-veteran"
+      }); %>
+      <!-- veteran fields end -->
+      <!-- student fields begin -->
       <%- include(partials+"components/form-partials/radio-icon", {
           label: "Select an option to get started",
+          class: "student",
           boxes: [
             {
               text: "I'm a student",
@@ -41,7 +90,7 @@
             }
           ]
         }); %>
-      <div class="uikit-page-alerts uikit-page-alerts--info" role="alert" id="edu-student-alert" hidden>
+      <div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="edu-student-alert" hidden>
         <p>You must be a dependent child of an eligible veteran to be able to claim education assistance. For further information, <a href="" rel="external">see eligibility
             rules.</a></p>
         <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
@@ -57,6 +106,7 @@
       </div>
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Are you employed full time?",
+          class: "student",
           hint: "The does not include apprenticeships.",
           unsure: false,
           modifiers: [
@@ -65,15 +115,18 @@
         }); %>
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Does a parent/guardian receive Family Tax Benefit for your care?",
+          class: "student",
           unsure: true
         }); %>
-      <p><b>Please provide details of the parent / guardian receiving Family Tax Benefit for your care.</b></p>
+      <p class="student"><b>Please provide details of the parent / guardian receiving Family Tax Benefit for your care.</b></p>
       <%- include(partials+"components/form-partials/text", {
         label: "Given name",
+        class: "student",
         hint: "(first name)"
       }); %>
       <%- include(partials+"components/form-partials/text", {
         label: "Surname",
+        class: "student",
         hint: "(last name)"
       }); %>
       <div class="form-group">
@@ -100,6 +153,67 @@
         label: "Email address",
         hint: "(if known)"
       }); %>
+      <!-- student fields end -->
+
+      <!-- veteran fields begin -->
+      <p class="parent-veteran"><b>About the veteran</b></p>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "The veteran is the student's",
+        class: "parent-veteran",
+        options: [
+          "parent",
+          "child",
+          "sister",
+          "brother",
+          "nephew"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Do you have shared care arrangements in place for this student?",
+        class: "parent-veteran"
+      }); %>
+      <p class="parent-veteran"><b>Is the veteran significantly injured or deceased as a result of their service?</b></p>
+      <p class="parent-veteran margin-below--none"><b>For example:</b></p>
+      <ul class="parent-veteran">
+        <li>the veteran has 80 impairment points</li>
+        <li>the veteran is totally and permanently impaired</li>
+        <li>the veteran is eligible for an extreme disablement adjustment rate</li>
+        <li>the veteran is, or was eligible for the special rate disability pension</li>
+      </ul>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does a parent/guardian receive Family Tax Benefit for your care?",
+        class: "parent-veteran",
+        unsure: true
+      }); %>
+      <p class="parent-veteran"><b>About you</b></p>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "The student is my",
+        class: "parent-veteran",
+        options: [
+          "parent",
+          "child",
+          "sister",
+          "brother",
+          "nephew"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Do you have shared care arrangements in place for this student?",
+        class: "parent-veteran"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+          label: "What percentage of care do you have for the student?",
+          class: "parent-veteran"
+        }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+          label: "Does a parent/guardian receive Family Tax Benefit for your care?",
+          class: "parent-veteran"
+        }); %>
+      <div class="uikit-page-alerts uikit-page-alerts--warning parent-veteran" role="alert">
+        <p>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16. Based on your circumstances it may be better to choose
+          FTB over the DVA benefit or vice versa. For more information on these options, contact Education Assistance on <a href="">1800 555 254</a>.</p>
+      </div>
+      <!-- veteran fields end -->
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
@@ -108,7 +222,7 @@
     </div>
 
   </main>
-
+  <%- include("education-assistance--state-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
 </body>
 
