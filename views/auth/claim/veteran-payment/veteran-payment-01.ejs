@@ -21,7 +21,7 @@
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
       <div class="container margin-above--none">
         <h1 class="margin-above--none ss-align--center">
-          <span class="heading">About you</span>
+          <span class="heading">Claim details</span>
         </h1>
       </div>
     </div>
@@ -32,19 +32,37 @@
           <div class="margin-above--extra margin-below--extra">
 
             <%- include(partials+"components/form-partials/yes_no", {
-                label: "Are you currently unable to work more than 8 hours per week?",
-                yes_toggle: "not-unable-container"
+                label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+                id: "unable-question",
+                yes_toggle: ["#unable-container","#centrelink-container"],
+                no_toggle: "#not-unable-container"
               }); %>
 
             <%- include(partials+"components/form-partials/notice", {
-                message: "You may not be eligible.",
-                type: "warning",
-                id: "not-unable"
+                message: "You may not be eligible for Veteran Payment. For more information call 1800 555 254.",
+                type: "error",
+                id: "not-unable",
+                modifiers: ["hidden"]
+              }); %>
+
+            <%- include(partials+"components/form-partials/notice", {
+                message: "<p>You will need to provide a medical certificate as evidence of your incapacity for work.</p><p>You can attach this document at the end of your claim.</p>",
+                id: "unable",
+                modifiers: ["hidden"]
               }); %>
 
             <%- include(partials+"components/form-partials/yes_no", {
                 label: "Do you currently receive payments from Centrelink?",
-                id: "test"
+                id: "centrelink",
+                yes_toggle: "#crn-container",
+                no_toggle: "#save-next",
+                modifiers: ["hidden"]
+              }); %>
+
+            <%- include(partials+"components/form-partials/text", {
+                label: "What is your Customer Reference Number (CRN)?",
+                id: "crn",
+                modifiers: ["hidden"]
               }); %>
 
           </div>
@@ -57,8 +75,9 @@
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#auth'">Previous</button>
             <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
             <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-02'">Save and next</button>
+              <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Save and exit</button>
+              <button id="save-and-next-button" class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-02'">Save and
+                next</button>
             </div>
           </div>
 
@@ -71,6 +90,21 @@
 
   <script>
     $(document).ready(function () {
+
+      $("input:radio").prop("checked", false);
+
+      $('input[name=unable-question]').change(function () {
+        var mySelection = $('input[name=unable-question]:checked').parent().find("span").text();
+        if (mySelection == "Yes") {
+          $("#save-and-next-button").prop('disabled', false);
+        } else {
+          $("#save-and-next-button").prop('disabled', true);
+          $("#centrelink-container").hide();
+          $("#crn-container").hide();
+          $("#centrelink-container input:radio").prop("checked", false);
+          $("#save-next").hide();
+        }
+      });
 
 
     });
