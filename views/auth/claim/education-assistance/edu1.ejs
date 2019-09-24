@@ -23,8 +23,31 @@
 
 
       <h1>Getting Started</h1>
+      <%- include(partials+"components/form-partials/radio-icon", {
+        label: "Select an option to get started",
+        class: "student parent-guardian",
+        id: "student-or-parent-radio",
+        boxes: [
+          {
+            text: "I'm a student",
+            toggle: ["#edu-student-alert", "#edu-student-alert-u16"],
+            icon: {
+              icon: "fa-user",
+              weight: "fal"
+            }
+          },
+          {
+            text: "I'm a parent / guardian of a student",
+            toggle: ["#parent-guardian-alert", "#about-student-heading"],
+            icon: {
+              icon: "fa-user",
+              weight: "fal"
+            }
+          }
+        ]
+      }); %>
       <!-- parent and veteran fields begin -->
-      <div class="parent-veteran uikit-page-alerts" role="alert">
+      <div id="veteran-notification" class="parent-veteran uikit-page-alerts" role="alert">
         <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
         <ul>
           <li>Proof of your relationship to the student</li>
@@ -32,13 +55,36 @@
         </ul>
         <p>Further documents may be required depending on your circumstances</p>
       </div>
+      <div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="parent-guardian-alert" hidden>
+        <p>The student you are applying for needs to be a child of an eligible veteran. For further information, see <a href="" rel="external">eligibility rules.</a></p>
+        <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
+        <ul>
+          <li>Proof of student's relationship to the eligible veteran</li>
+          <li>Proof of student's relationship to you</li>
+          <li>Proof of student's enrolment</li>
+        </ul>
+        <p>Further documents may be required dpeneding on your circumstances.</p>
+      </div>
+      <p id="about-student-heading"><b>About the student</b></p>
       <%- include(partials+"components/form-partials/date", {
         label: "Student's date of birth",
-        class: "parent-veteran"
+        class: "parent-veteran",
+        id: "students-dob"
       }); %>
+
+      <div id="over25-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert">
+        <p>Students over the age of 25 may not be eligible for education assistance. For further information please call DVA on <a href="">1800 555 254</a>. </p>
+      </div>
+      <div id="over18-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert">
+        <p>Students 18 years old and above need to complete the claim themselves.</p>
+      </div>
+      <div id="under4-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert">
+        <p>The student must be at least 4 years old to claim for education assistance.</p>
+      </div>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "The student is my",
         class: "parent-veteran",
+        id: "student-dropdown",
         options: [
           "child",
           "sister",
@@ -52,48 +98,32 @@
       }); %>
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Do you have shared care arrangements in place for this student?",
-        class: "parent-veteran"
+        class: "parent-veteran",
+        id: "shared-care-arrangement",
+        yes_toggle: "#percentage-of-care-container",
+        no_rToggle: ".other-parent"
       }); %>
       <%- include(partials+"components/form-partials/text", {
           label: "What percentage of care do you have for the student?",
-          class: "parent-veteran"
+          class: "parent-veteran",
+          id: "percentage-of-care"
         }); %>
       <!-- parent and veteran fields end -->
       <!-- veteran fields begin -->
-      <p class="parent-veteran"><b>About the other parent/guardian</b></p>
+      <p class="parent-veteran other-parent"><b>About the other parent/guardian</b></p>
       <%- include(partials+"components/form-partials/text", {
         label: "Given name",
         hint: "(first name)",
-        class: "parent-veteran"
+        class: "parent-veteran other-parent"
       }); %>
       <%- include(partials+"components/form-partials/text", {
         label: "Surname",
         hint: "(last name)",
-        class: "parent-veteran"
+        class: "parent-veteran other-parent"
       }); %>
       <!-- veteran fields end -->
       <!-- student fields begin -->
-      <%- include(partials+"components/form-partials/radio-icon", {
-          label: "Select an option to get started",
-          class: "student",
-          boxes: [
-            {
-              text: "I'm a student",
-              toggle: ["#edu-student-alert", "#edu-student-alert-u16"],
-              icon: {
-                icon: "fa-user",
-                weight: "fal"
-              }
-            },
-            {
-              text: "I'm a parent / guardian of a student",
-              icon: {
-                icon: "fa-user",
-                weight: "fal"
-              }
-            }
-          ]
-        }); %>
+
       <div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="edu-student-alert" hidden>
         <p>You must be a dependent child of an eligible veteran to be able to claim education assistance. For further information, <a href="" rel="external">see eligibility
             rules.</a></p>
@@ -111,12 +141,18 @@
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Are you employed full time?",
           class: "student",
+          id: "full-time-employment",
           hint: "The does not include apprenticeships.",
           unsure: false,
+          no_toggle: "#pg-about-veteran",
+          yes_toggle: ".parent-guardian-alert, #about-the-veteran-drop-container, #shared-care-arrangement-container",
           modifiers: [
           "hintNewLine"
           ]
         }); %>
+      <div class="uikit-page-alerts uikit-page-alerts--warning parent-guardian-alert" role="alert">
+        <p>Students who are working full time may not be eligible for education assistance. For more information call 1800 555 254.</p>
+      </div>
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Does a parent/guardian receive Family Tax Benefit for your care?",
           class: "student",
@@ -133,7 +169,7 @@
         class: "student",
         hint: "(last name)"
       }); %>
-      <div class="form-group">
+      <div class="form-group phone-number other-parent">
         <label class="uikit-text-input__label" for="phoneHome">Home phone number
           <span class="hint">(optional)</span>
           <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
@@ -143,7 +179,7 @@
           <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
         </label>
       </div>
-      <div class="form-group">
+      <div class="form-group phone-number other-parent">
         <label class="uikit-text-input__label" for="phoneHome">Mobile phone number
           <span class="hint">(optional)</span>
           <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
@@ -155,15 +191,17 @@
       </div>
       <%- include(partials+"components/form-partials/text", {
         label: "Email address",
-        hint: "(if known)"
+        hint: "(if known)",
+        class: "email-address other-parent"
       }); %>
       <!-- student fields end -->
 
       <!-- veteran fields begin -->
-      <p class="parent-veteran"><b>About the veteran</b></p>
+      <p class="parent-veteran" id="pg-about-veteran"><b>About the veteran</b></p>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "The veteran is the student's",
         class: "parent-veteran",
+        id: "about-the-veteran-drop", 
         options: [
           "parent",
           "child",
@@ -174,7 +212,8 @@
       }); %>
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Do you have shared care arrangements in place for this student?",
-        class: "parent-veteran"
+        class: "parent-veteran",
+        id: "shared-care-arrangement"
       }); %>
       <p class="parent-veteran"><b>Is the veteran significantly injured or deceased as a result of their service?</b></p>
       <p class="parent-veteran margin-below--none"><b>For example:</b></p>
@@ -221,11 +260,14 @@
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
-        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu2'">Next</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu2'">Save and Next</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'index'">Save and Exit</button>
+
       </div>
     </div>
 
   </main>
+
   <%- include("education-assistance--state-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
 </body>

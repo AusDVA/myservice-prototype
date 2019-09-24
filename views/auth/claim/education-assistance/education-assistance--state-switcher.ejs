@@ -4,11 +4,11 @@
       id: "edu-assist-state-switcher",
       boxes: [
         {
-          text: "Student",
-          modifiers: ["checked"]
+          text: "Student"
         },
         {
-          text: "Parent/Guardian"
+          text: "Parent/Guardian",
+          modifiers: ["checked"]
         },
         {
           text: "Veteran"
@@ -33,10 +33,47 @@
     $("#state-switcher").on("change", "input[type=radio]", function () {
       initFlow();
     });
-  })
+  });
 
+  function veteranFlow() {
+    $(".parent-veterean").hide();
+    $(".student").hide();
+    $(".veteran").hide();
+    $("#veteran-notification").show();
+    $("#students-dob-container").show();
+    $(".phone-number").hide();
+    $(".email-address").hide();
+
+    $("#student-dropdown").click(function () {
+      $("#shared-care-arrangement-container").show();
+    });
+
+    $('#percentage-of-care').keyup(function () {
+      $('.other-parent').show();
+    });
+
+  };
+
+  function hideAll() {
+    $(".phone-number").hide();
+    $(".email-address").hide();
+    $(".parent-veteran").hide();
+    $(".student").hide();
+    $("#about-student-heading").hide();
+    $(".veteran").hide();
+    $(".parent-guardian-alert").hide();
+  }
+
+  function parentGuardianFlow() {
+    $(".parent-guardian").show();
+    $("#student-or-parent-radio-container input").click(function () {
+      $("#students-dob-container").show();
+    });
+  }
+
+  var mySelection;
   function initFlow() {
-    var mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
     console.log(mySelection);
     switch (mySelection) {
       case "Student":
@@ -45,17 +82,53 @@
         $(".veteran").hide();
         break;
       case "Parent/Guardian":
-        $(".parent-veteran").show();
-        $(".student").hide();
-        $(".veteran").hide();
+        hideAll();
+        parentGuardianFlow();
         break;
       case "Veteran":
-        $(".veteran").show();
-        $(".student").hide();
+        hideAll();
+        veteranFlow();
         break;
       default:
       // code block
     }
   }
 
+  var year, month, day, dob, currentAge;
+  $("#students-dob-container input").keyup(function () {
+    //get the year month and day after each input change
+    year = $("#students-dob-yyyy").val();
+    month = $("#students-dob-mm").val();
+    day = $("#students-dob-mm").val();
+
+    //calculate dob if inputs are filled in and parse to executable format
+    year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+    dob ? currentAge = getAge(dob) : currentAge = null;
+
+    //check if the user older than 25
+    if (dob !== null) {
+      currentAge > 25 ? $("#over25-notification").show() : $("#over25-notification").hide();
+      currentAge > 18 && currentAge < 25 ? $("#over18-notification").show() : $("#over18-notification").hide();
+      currentAge <= 4 ? $("#under4-notification").show() : $("#under4-notification").hide();
+
+      if (mySelection == "Veteran") {
+        currentAge > 4 && currentAge < 18 ? $("#student-dropdown-container").show() : $("#student-dropdown-container").hide();
+      }
+      if (mySelection == "Parent/Guardian") {
+        currentAge > 4 && currentAge < 18 ? $("#full-time-employment-container").show() : $("#full-time-employment-container").hide();
+      }
+    }
+  });
+
+  function getAge(dateString) {
+    var today = new Date();
+    console.log(today);
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
 </script>
