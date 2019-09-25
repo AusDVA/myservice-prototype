@@ -4,11 +4,14 @@
       id: "edu-assist-state-switcher",
       boxes: [
         {
-          text: "Student"
+          text: "Student over 16"
         },
         {
-          text: "Parent/Guardian",
+          text: "Student under 16",
           modifiers: ["checked"]
+        },
+        {
+          text: "Parent/Guardian"
         },
         {
           text: "Veteran"
@@ -33,6 +36,68 @@
     $("#state-switcher").on("change", "input[type=radio]", function () {
       initFlow();
     });
+
+    // Veteran logic
+    $('#about-the-veteran-drop').change(function () {
+      let drop = document.getElementById("about-the-veteran-drop");
+      let selectedOption = drop.options[drop.selectedIndex].value;
+      console.log(selectedOption);
+      selectedOption === "parent" ? $('#parent-selected-message').show() : $('#parent-selected-message').hide();
+      selectedOption === "stepparent" ? $('#step-parent-selected-message-option-container').show() : $('#step-parent-selected-message-option-container').hide();
+    })
+
+    $('#full-time-employment-parent-container label').click(function () {
+      let toggleInput1 = this.childNodes[3].innerHTML;
+      if (toggleInput1 === "No") {
+        $("#parent-selected-message").hide();
+        $('#about-the-veteran-drop option').prop('selected', function () {
+          return this.defaultSelected;
+        });
+        $("#about-the-veteran-drop-container").show();
+      }
+      else {
+        $("#shared-care-arrangement2-container").show();
+      }
+    });
+
+    $('.parent-selected-message-option label').click(function () {
+      let toggleInput2 = this.childNodes[3].innerHTML;
+      console.log(toggleInput2);
+      if (toggleInput2 === "Yes" || toggleInput2 === "Unsure") {
+        $("#about-you-heading").show();
+        $("#student-dropdown2-container").show();
+        $("#family-tax-benefit-container").show();
+        // do you receive family tax benefit for student
+      } else {
+        $("#about-you-heading").hide();
+        $("#student-dropdown2-container").hide();
+        $("#family-tax-benefit-container").hide();
+      }
+    });
+
+    $('#family-tax-benefit-container label').click(function () {
+      let toggleInput3 = this.childNodes[3].innerHTML;
+      if (toggleInput3 === "Yes") {
+        $(".family-tax-benefit-yes").show();
+      } else {
+        $(".family-tax-benefit-yes").hide();
+      }
+    })
+
+    $('#shared-care-arrangement2-container').click(function () {
+      let toggleInput4 = this.childNodes[3].innerHTML;
+
+      if (toggleInput4 === "Yes") {
+        ("#percentage-of-care2-container").show();
+      } else {
+        ("#percentage-of-care2-container").hide();
+      }
+    });
+
+    // Student logic
+
+    // Parent/Guardian logic
+
   });
 
   function veteranFlow() {
@@ -51,8 +116,11 @@
     $('#percentage-of-care').keyup(function () {
       $('.other-parent').show();
     });
-
   };
+
+  function studentFlow() {
+    $("#student-or-parent-radio-container").show();
+  }
 
   function hideAll() {
     $(".phone-number").hide();
@@ -62,12 +130,30 @@
     $("#about-student-heading").hide();
     $(".veteran").hide();
     $(".parent-guardian-alert").hide();
+    $(".parent-guardian").hide();
+    $(".uikit-page-alerts").hide();
+    $("#student-or-parent-radio-container").hide();
+  }
+
+  function resetInputs() {
+    document.getElementById("student-or-parent-radio-2").checked = false;
+    document.getElementById("student-or-parent-radio-1").checked = false;
+    console.log('working');
+    $("label[for='student-or-parent-radio-2']").removeClass("cursor-disabled");
   }
 
   function parentGuardianFlow() {
-    $(".parent-guardian").show();
+    $(".parent-guardian-start").show();
     $("#student-or-parent-radio-container input").click(function () {
       $("#students-dob-container").show();
+    });
+  }
+
+  function studentU16Flow() {
+    $("label[for='student-or-parent-radio-2']").addClass("cursor-disabled");
+    $(".parent-guardian-start").show();
+    $("#student-or-parent-radio-1").click(function () {
+      $("#edu-student-alert-u16").show();
     });
   }
 
@@ -76,10 +162,15 @@
     mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
     console.log(mySelection);
     switch (mySelection) {
-      case "Student":
-        $(".parent-veteran").hide();
-        $(".student").show();
-        $(".veteran").hide();
+      case "Student over 16":
+        resetInputs();
+        hideAll();
+        studentFlow();
+        break;
+      case "Student under 16":
+        resetInputs();
+        hideAll();
+        studentU16Flow();
         break;
       case "Parent/Guardian":
         hideAll();
@@ -115,7 +206,7 @@
         currentAge > 4 && currentAge < 18 ? $("#student-dropdown-container").show() : $("#student-dropdown-container").hide();
       }
       if (mySelection == "Parent/Guardian") {
-        currentAge > 4 && currentAge < 18 ? $("#full-time-employment-container").show() : $("#full-time-employment-container").hide();
+        currentAge > 4 && currentAge < 18 ? $("#full-time-employment-parent-container").show() : $("#full-time-employment-parent-container").hide();
       }
     }
   });
