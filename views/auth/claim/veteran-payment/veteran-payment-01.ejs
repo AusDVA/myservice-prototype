@@ -54,7 +54,7 @@
             <%- include(partials+"components/form-partials/yes_no", {
                 label: "Do you currently receive payments from Centrelink?",
                 id: "centrelink",
-                yes_toggle: "#crn-container",
+                yes_toggle: ["#crn-container","#warning-container"],
                 no_toggle: "#save-next",
                 modifiers: ["hidden"]
               }); %>
@@ -62,6 +62,13 @@
             <%- include(partials+"components/form-partials/text", {
                 label: "What is your Customer Reference Number (CRN)?",
                 id: "crn",
+                modifiers: ["hidden"]
+              }); %>
+
+            <%- include(partials+"components/form-partials/notice", {
+                message: "You will lose your Health Care Card or Pensioner Concession Card on transfer to Veteran Payment.",
+                type: "warning",
+                id: "warning",
                 modifiers: ["hidden"]
               }); %>
 
@@ -101,6 +108,7 @@
           $("#save-and-next-button").prop('disabled', true);
           $("#centrelink-container").hide();
           $("#crn-container").hide();
+          $("#warning").hide();
           $("#centrelink-container input:radio").prop("checked", false);
           $("#save-next").hide();
         }
