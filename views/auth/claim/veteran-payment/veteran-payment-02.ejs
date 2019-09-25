@@ -34,13 +34,15 @@
             <%- include(partials+"components/form-partials/dropdown", {
               label: "What is your relationship status?",
               options: [
+                "-- Select an option --",
                 "Single",
                 "Married and currently living together",
                 "Living in a marriage-like relationship"
-              ]
+              ],
+              id: "relationship-status"
             }); %>
 
-            <div id="partner-details">
+            <div id="partner-details" hidden>
 
               <h3>Partner details</h3>
 
@@ -53,9 +55,6 @@
             }); %>
 
             </div>
-
-
-
 
           </div>
 
@@ -82,29 +81,23 @@
   <script>
     $(document).ready(function () {
 
-      $('input[name=postal]').change(function () {
-        var postal = $('input[name=postal]:checked').val();
-        if (postal == "yes") {
-          $("#postal-reason").show("fast");
-          $("#save-next").hide();
-        } else {
-          $("#postal-reason").hide();
-          $("#save-next").hide();
+      // $("input:radio").prop("checked", false);
+      $('#relationship-status').prop('selectedIndex', 0);
+
+      $('#relationship-status-container').change(function () {
+        var mySelection = $('#relationship-status-container').find(":selected").text().trim();
+        switch (mySelection) {
+          case "-- Select an option --":
+            $("#partner-details").hide();
+            break;
+          case "Single":
+            $("#partner-details").hide();
+            break;
+          default:
+            $("#partner-details").show();
+            break;
         }
       });
-
-      $('input[name=update_address]').change(function () {
-        var updateAddress = $('input[name=update_address]:checked').val();
-        if (updateAddress == "yes") {
-          $("#save-next").show("fast");
-        } else {
-          $("#save-next").show("fast");
-        }
-      });
-
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
 
     });
   </script>
