@@ -4,6 +4,9 @@
       id: "edu-assist-state-switcher",
       boxes: [
         {
+          text: "Student over 21"
+        },
+        {
           text: "Student over 16"
         },
         {
@@ -96,6 +99,25 @@
 
     // Student logic
 
+    $("#full-time-employment-student-container label").click(function () {
+      let toggleInput5 = this.childNodes[3].innerHTML;
+      if (toggleInput5 === "Yes") {
+        $(".parent-guardian-alert").show();
+        $("#parent-guardian-benefit-container").show();
+      } else {
+        $(".parent-guardian-alert").hide();
+        $("#parent-guardian-benefit-container").hide();
+      }
+    })
+
+    $('.parent-selected-message-option label').click(function () {
+      let toggleInput6 = this.childNodes[3].innerHTML;
+      if (toggleInput6 === "Yes") {
+        alert("working");
+      }
+    })
+
+
     // Parent/Guardian logic
 
   });
@@ -118,10 +140,6 @@
     });
   };
 
-  function studentFlow() {
-    $("#student-or-parent-radio-container").show();
-  }
-
   function hideAll() {
     $(".phone-number").hide();
     $(".email-address").hide();
@@ -133,6 +151,8 @@
     $(".parent-guardian").hide();
     $(".uikit-page-alerts").hide();
     $("#student-or-parent-radio-container").hide();
+    $("edu-student-alert-u16").hide();
+    $(".parent-guardian-alert").hide();
   }
 
   function resetInputs() {
@@ -157,11 +177,32 @@
     });
   }
 
+  function studentFlow() {
+    $("#student-or-parent-radio-container").show();
+    $("label[for='student-or-parent-radio-2']").addClass("cursor-disabled");
+    $("#student-or-parent-radio-1").click(function () {
+      $("#edu-student-alert-u16").hide();
+      $("#about-the-veteran-drop-container").hide();
+      $("#shared-care-arrangement-container").hide();
+      $("#edu-student-alert").show();
+      $("#full-time-employment-student-container").show();
+    });
+  }
+
+  function studentOver21Flow() {
+
+  }
+
   var mySelection;
   function initFlow() {
     mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
     console.log(mySelection);
     switch (mySelection) {
+      case "Student over 21":
+        resetInputs();
+        hideAll();
+        studentFlow();
+        break;
       case "Student over 16":
         resetInputs();
         hideAll();
@@ -174,6 +215,7 @@
         break;
       case "Parent/Guardian":
         hideAll();
+        resetInputs();
         parentGuardianFlow();
         break;
       case "Veteran":
