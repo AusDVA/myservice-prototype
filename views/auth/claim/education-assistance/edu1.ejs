@@ -85,31 +85,27 @@
         class: "parent-veteran",
         id: "student-dropdown",
         options: [
+          "select an option...",
           "child",
           "sister",
           "brother",
           "nephew"
         ]
       }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+              label: "Do you have shared care arrangements in place for this student?",
+              class: "parent-veteran",
+              id: "shared-care-arrangement",
+              yes_toggle: "#percentage-of-care-container",
+              no_rToggle: ".other-parent"
+            }); %>
       <%- include(partials+"components/form-partials/text", {
-          label: "What percentage of care do you have for the student?",
-          class: "parent-veteran",
-          id: "percentage-of-care"
-        }); %>
+              label: "What percentage of care do you have for the student?",
+              class: "parent-veteran",
+              id: "percentage-of-care"
+            }); %>
       <!-- parent and veteran fields end -->
-      <!-- veteran fields begin -->
-      <p class="parent-veteran other-parent"><b>About the other parent/guardian</b></p>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Given name",
-        hint: "(first name)",
-        class: "parent-veteran other-parent"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Surname",
-        hint: "(last name)",
-        class: "parent-veteran other-parent"
-      }); %>
-      <!-- veteran fields end -->
+
       <!-- student fields begin -->
 
       <div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="edu-student-alert" hidden>
@@ -155,7 +151,7 @@
             hint: "The does not include apprenticeships.",
             unsure: false,
             no_toggle: "#pg-about-veteran",
-            yes_toggle: ".parent-guardian-alert, #about-the-veteran-drop-container",
+            yes_toggle: ".parent-guardian-alert",
             modifiers: [
             "hintNewLine"
             ]
@@ -224,6 +220,7 @@
 
       <!-- veteran fields begin -->
       <p class="parent-veteran student-parent-details" id="pg-about-veteran"><b>About the veteran</b></p>
+      <p class="parent-veteran" id="about-veteran-header"><b>About the veteran</b></p>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "The veteran is the student's",
         class: "parent-veteran",
@@ -315,19 +312,13 @@
         label: "The student is my",
         class: "parent-veteran",
         options: [
+          "select an option...",
           "parent",
           "child",
           "sister",
           "brother",
           "nephew"
         ]
-      }); %>
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Do you have shared care arrangements in place for this student?",
-        class: "parent-veteran",
-        id: "shared-care-arrangement",
-        yes_toggle: "#percentage-of-care-container",
-        no_rToggle: ".other-parent"
       }); %>
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Do you have shared care arrangements in place for this student?",
@@ -339,6 +330,47 @@
           id: "percentage-of-care2",
           class: "parent-veteran"
         }); %>
+      <!-- veteran fields begin -->
+      <div id="about-other-parent-guardian">
+        <p class="parent-veteran other-parent"><b>About the other parent/guardian</b></p>
+        <%- include(partials+"components/form-partials/text", {
+              label: "Given name",
+              hint: "(first name)",
+              class: "parent-veteran other-parent"
+            }); %>
+        <%- include(partials+"components/form-partials/text", {
+              label: "Surname",
+              hint: "(last name)",
+              class: "parent-veteran other-parent"
+            }); %>
+        <div class="form-group phone-number other-parent student-parent-details">
+          <label class="uikit-text-input__label" for="phoneHome">Home phone number
+            <span class="hint">(optional)</span>
+            <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
+            <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
+              <%- include(partials+"content/phone-areacode") %>
+            </select>
+            <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+          </label>
+        </div>
+        <div class="form-group phone-number other-parent student-parent-details">
+          <label class="uikit-text-input__label" for="phoneHome">Mobile phone number
+            <span class="hint">(optional)</span>
+            <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
+            <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
+              <%- include(partials+"content/phone-areacode") %>
+            </select>
+            <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+          </label>
+        </div>
+        <%- include(partials+"components/form-partials/text", {
+                  label: "Email address",
+                  hint: "(if known)",
+                  class: "email-address other-parent student-parent-details"
+                }); %>
+      </div>
+      <!-- veteran fields end -->
+
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Does a parent/guardian receive Family Tax Benefit for your care?",
           class: "parent-veteran"
