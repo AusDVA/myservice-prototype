@@ -1,0 +1,83 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("radioIcon");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+let boxCounter = 0;
+
+%>
+
+<fieldset class=" <%- locals.class %>" <%- modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
+  <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container" class="mys-radio-group">
+  <%- generateLabel({
+      id,
+      modifiers: modifiers.concat(["legendLabel"]),
+      label: typeof label !== "undefined" ? label : null,
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
+  <div class="radio-icons">
+    <% const boxs = boxes.map(box => {
+      boxCounter++;
+      if (typeof box.modifiers === "undefined") box.modifiers = [];
+
+      box.baseID = id;
+
+      if (typeof box.id !== "undefined") {
+        box.boxID = box.id;
+        box.suppliedID = true;
+      } else {
+        box.boxID = boxCounter;
+        box.suppliedID = false;
+      }
+
+      box.type = "radio";
+    %>
+
+    <%- generateCheckRadioIcons(box).html; %>
+
+    <% 
+      let { toggle, rToggle, inject } = generateCheckRadioIcons(box);
+      return {
+        toggle,
+        rToggle,
+        inject
+      }
+    });
+    %>
+  </div>
+
+</fieldset>
+
+<% if ((boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined || box.inject !== undefined).length > 0) || typeof all_toggle !== "undefined") { %>
+<script type="text/javascript">
+  $("#<%- id %>-container").change("input[type=radio]", function () {
+
+    $("input[type=radio]:checked", this).each(function () {
+      $($(this).data("toggle")).removeAttr("hidden").show();
+      $($(this).data("r-toggle")).hide();
+      $(this).closest("fieldset").find($(this).data("inject")).remove();
+      $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitradio"));
+      if ($(this).data("inject-indent") !== false) {
+        $($(this).data("inject")).addClass("injected");
+      }
+      $(this).parent().find(".hidden-hint").show();
+      $(this).closest("fieldset").find($($(this).data("inject"))).show();
+    });
+
+    $("input[type=radio]:not(:checked)", this).each(function () {
+      $($(this).data("toggle")).hide();
+      $($(this).data("r-toggle")).show();
+      $(this).closest("fieldset").find($(this).data("inject")).remove();
+      $(this).parent().find(".hidden-hint").hide();
+    });
+
+    $($(this).data("all-toggle")).show();
+
+  })
+
+  $("#<%- id %>-container").on("click", ".tooltip", function (e) {
+    e.preventDefault();
+  });
+</script>
+<% } %>
