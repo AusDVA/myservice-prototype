@@ -1,4 +1,5 @@
 const generateTooltip = require('./generateTooltip');
+const replaceNonAlphanumeric = require('./replaceNonAlphanumeric');
 
 module.exports = box => {
   let { modifiers, 
@@ -35,6 +36,7 @@ module.exports = box => {
   let html =  `
   <div class="radio-icon">
     <input type="${type}" name="${baseID}" id="${generatedID}" class="radio-icon__control"
+      value="${replaceNonAlphanumeric(text)}"
       ${toggle ? `data-toggle="${toggle}"` : ""}
       ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
       ${inject ? `data-inject="${inject}"` : ""}

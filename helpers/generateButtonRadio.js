@@ -1,3 +1,5 @@
+const replaceNonAlphanumeric = require('./replaceNonAlphanumeric');
+
 module.exports = box => {
   let { modifiers, 
         text, 
@@ -17,6 +19,7 @@ module.exports = box => {
         type="radio"
         id="${generatedID}"
         name="${baseID}"
+        value="${replaceNonAlphanumeric(text)}"
         ${toggle ? `data-toggle="${toggle}"` : ""}
         ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
         ${modifiers.includes("checked") ? "checked" : ""}
