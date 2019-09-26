@@ -1,29 +1,35 @@
 <%
-taskList = [{
-		"description": "Provide tax file number",
-    "date": "11 Oct 2019",
-		"reference": "Providing us with your tax file number will help us to complete your education assistance application and resume your payments.",
-		"link": "/auth/tasks/task-edu-assistance-details",
+taskList = [
+  {
+    "id": "transition-to-secondary",
+		"description": "Transition to secondary school",
+    "date": "Due 12 November 2019",
+    "reference": "In order to continue receiving education assistance scheme benefits, please provide details of John Smith's transition to secondary school.",
+		"link": "/auth/tasks/transition-to-secondary/transition-to-secondary-01",
     "category": "education-assistance"
 	},
 	{
-		"description": "Upload documents",
-    "date": "18 Sept 2019",
-		"reference": "Uploading  documents will help us to complete your education assistance application.",
-		"link": "/auth/tasks/task-edu-assistance-details",
+    "id": "intention-to-study",
+    "description": "Intention to continue study",
+    "date": "Due 18 November 2019",
+    "reference": "In order to continue receiving education assistance scheme benefits, please provide details of <span class='user-label-c'>John Smith\'s</span> intention to continue study.",
+		"link": "/auth/tasks/intention-to-continue-study/intention-to-continue-study-01",
     "category": "education-assistance"
-	},
-	{
-		"description": "Upload GP report documents",
-    "date": "12 Sept 2019",
-		"reference": "Uploading your GP Report document will help us to complete Initial Liability claim.",
-		"link": "/auth/tasks/task-edu-assistance-details",
-    "category": "initial-liability"
-	}]
+  },
+  {
+    "id": "confirmation-of-enrolment",
+		"description": "Confirmation of Enrolment",
+    "date": "Due 12 November 2019",
+    "reference": "In order to continue receiving education assistance scheme benefits, please upload a copy of <span class='user-label-c'>John Smith\'s</span> Confirmation of Enrolment (COE) document.",
+		"link": "/auth/tasks/confirmation-of-enrolment/confirmation-of-enrolment-01",
+    "category": "education-assistance"
+	}
+]
 %>
-  
+
 <!DOCTYPE html>
 <html class="js" lang="en">
+
 <head>
   <title>Tasks | MyService</title>
   <%- include(partials+"components/layout/head") %>
@@ -42,46 +48,39 @@ taskList = [{
 
   <main class="section-feature">
     <div class="tasks-page container tasks-page__container">
-    <h2 class="margin-above--none">
-        <span class="heading font-weight-heavy">Your tasks</span>
-    </h2>
-    <h3 class="tasks-list__header margin-below--small">Education Assistance</h3>
-    <section class="tasks-list">
-    <% taskList.forEach(function(task, index) { %>
-      <% if(task.category === "education-assistance") { %>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="margin-below--mid margin-above--none container">
+            <span class="heading">Tasks</span>
+          </h1>
+        </div>
+      </div>
+
+      <section class="tasks-list">
+        <% taskList.forEach(function(task, index) { %>
+        <% if(task.category === "education-assistance") { %>
         <div class="task">
           <div class="task__description">
             <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
             <div class="task__link-wrapper">
               <a href="<%= task.link %>" class="task__link"><%= task.description %></a>
-              <div class="task__date">Active since <%= task.date %></div>
+              <div class="task__date"><%= task.date %></div>
             </div>
           </div>
-          <div class="task__reference"><%= task.reference %></div>
+          <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
         </div>
-      <% } %>
-    <% }); %>
-    </section>
-    <h3 class="tasks-list__header margin-below--small">Initial Liability</h3>
-    <section class="tasks-list">
-    <% taskList.forEach(function(task, index) { %>
-      <% if(task.category === "initial-liability") { %>
-        <div class="task">
-          <div class="task__description">
-            <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-            <div class="task__link-wrapper">
-              <a href="<%= task.link %>" class="task__link"><%= task.description %></a>
-              <div class="task__date">Active since <%= task.date %></div>
-            </div>
-          </div>
-          <div class="task__reference"><%= task.reference %></div>
-        </div>
-      <% } %>
-    <% }); %>
-    </section>
-    <hr class="margin-above--medium">
+        <% } %>
+        <% }); %>
+      </section>
+      <hr class="margin-above--medium">
     </div>
   </main>
   <%- include(partials+"components/layout/footer") %>
+  <%- include("index-state-switcher.ejs") %>
+  <script>
+
+  </script>
 </body>
+
 </html>

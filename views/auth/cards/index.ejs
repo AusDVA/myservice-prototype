@@ -36,11 +36,8 @@
                 <% if (card.type === "Veteran Card") {
             if (card.class === "White") { %>
                 <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-white--edited.png" alt="White veterans card">
-                <% } else if (card.class === "Gold") {
                 if (card.TPI) { %>
-                <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold-tpi--edited.png" alt="Gold TPI veterans card">
                 <% } else { %>
-                <img class="health-card__image health-card__image--veteran" src="/docs/images/health-card-gold--edited.png" alt="Gold veterans card">
                 <% } %>
                 <% } %>
                 <p class="health-card__card-number card-text"><%- card.fileNumber %></p>
@@ -58,7 +55,7 @@
                 <img class="health-card__image" src="/docs/images/health-card-white--edited.png" alt="lightgray background">
                 <% } %>
               </div>
-              <% if (card.type === "Veteran Card" ) { %>
+              <% if (card.type === "Veteran Card" && locals.liveFeature.includes('VRPbarcode') ) { %>
               <div class="health-card__barcode-wrapper health-card__barcode-wrapper--mobile">
                 <img class="health-card__barcode-image" src="/docs/images/barcode.gif" alt="Barcode for card with a number">
               </div>
@@ -123,7 +120,7 @@
                 </div>
               </div>
             </div>
-            <% if (card.type === "Veteran Card" ) { %>
+            <% if (card.type === "Veteran Card" && locals.liveFeature.includes('VRPbarcode')) { %>
             <div class="health-card__barcode-wrapper">
               <img class="health-card__barcode-image" src="/docs/images/barcode.gif" alt="Barcode for card with a number">
             </div>
@@ -143,7 +140,7 @@
                         <i class="far fa-check-circle health-card__condition-icon"></i>
                         <div class="health-card__condition-info">
                           <span class="health-card__condition-name"><%- condition.condition %></span><br>
-                          <span class="health-card__condition-status">Approved</span>
+                          <span class="health-card__condition-status">Approved - </span>
                           <% if (condition.approvedDate) { %>
                           <span class="health-card__condition-date"><%- condition.approvedDate %></span>
                           <% } %>
@@ -207,14 +204,17 @@
   </main>
   <%- include(partials+"components/layout/footer") %>
   <script type="text/javascript">
-    $(document).ready(function () {
-      $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function () {
-        if ($(this).closest(".health-card").hasClass("toggled-open")) {
-          $(this).closest(".health-card").removeClass("toggled-open");
-        } else {
-          $(this).closest(".health-card").addClass("toggled-open");
-        }
-      });
+    function openModal() {
+      $('#help-panel').toggleClass("is-visible");
+    }
+    $(document).ready(() => {
+        $("#health-cards").on("click", ".health-card__image-container, .health-card__card-toggle", function() {
+          if ($(this).closest(".health-card").hasClass("toggled-open")) {
+            $(this).closest(".health-card").removeClass("toggled-open");
+          } else {
+            $(this).closest(".health-card").addClass("toggled-open");
+          }
+        });
     });
 
   </script>

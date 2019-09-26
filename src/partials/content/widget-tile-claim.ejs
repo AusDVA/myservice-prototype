@@ -1,0 +1,63 @@
+<%
+locals.el = {};     
+locals.el.body_text_incomplete = "Incomplete";
+locals.el.body_text_submitted = "Submitted";
+locals.el.button_text = "Claims";
+locals.el.link = "/auth/claim";
+%>
+
+<div class="widget-tile widget-tile--blue widget-tile--loading" id="widget-claims">
+  <a href="/auth/claim">
+    <div class="widget-tile__title">
+      <span class="widget-tile__title-text"><%- locals.el.button_text %></span>
+      <span class="widget-tile__title-icon fa fa-angle-right"></span>
+    </div>
+    <div class="widget-tile__content claims-tile">
+      <span id="claims-incomplete" class="widget-tile__stats"><span class="widget-number" id="text-reflect-incomplete">0</span><%- locals.el.body_text_incomplete %></span>
+      <span id="claims-submitted" class="widget-tile__stats"><span class="widget-number" id="text-reflect-submitted">0</span><%- locals.el.body_text_submitted  %></span>
+    </div>
+  </a>
+</div>
+
+
+<script>
+  $(window).resize(function () {
+    // var myWidth = $("#widget-claims").width();
+    // if (myWidth < 210) {
+    //   $("#widget-claims .hide-on-small").hide();
+    // } else {
+    //   // if ( myWidth < 200 ) {
+    //   $("#widget-claims .hide-on-small").show();
+    // }
+  });
+
+  function updateClaimsWidget() {
+    var incomplete = $("#text-input-incomplete").val();
+    $("#text-reflect-incomplete").html(incomplete);
+    sessionStorage.setItem('claims-incomplete', incomplete);
+    var submitted = $("#text-input-submitted").val();
+    $("#text-reflect-submitted").html(submitted);
+    sessionStorage.setItem('claims-submitted', submitted);
+    if (incomplete > 0) {
+      $("#claims-incomplete").css('display', 'flex');
+    } else {
+      $("#claims-incomplete").hide();
+    }
+    if (submitted > 0) {
+      $("#claims-submitted").css('display', 'flex');
+    } else {
+      $("#claims-submitted").hide();
+    }
+    if (incomplete > 0 || submitted > 0) {
+      $("#widget-claims").show("fast");
+    } else {
+      $("#widget-claims").hide("fast");
+    }
+    if (incomplete == 0 && submitted == 0) {
+      $("#claim").hide();
+    } else {
+      $("#claim").show();
+    }
+  }
+
+</script>

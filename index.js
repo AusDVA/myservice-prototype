@@ -44,6 +44,8 @@ app.get('/favicon.ico', (req, res) => {
 app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
   res.locals.templates = __dirname + '/partials/templates/';
+  res.locals.components = __dirname + '/partials/components/';
+  res.locals.content = __dirname + '/partials/content/';
   res.locals.formPartialsID = require('./helpers/formPartialsID');
   res.locals.generateOption = require('./helpers/generateOption');
   res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
@@ -51,6 +53,7 @@ app.use(function (req, res, next) {
   res.locals.generateCheckRadioIcons = require('./helpers/generateCheckRadioIcons');
   res.locals.generateTooltip = require('./helpers/generateTooltip');
   res.locals.generateLabel = require('./helpers/generateLabel');
+  res.locals.generateButtonRadio = require('./helpers/generateButtonRadio');
   next();
 });
 
@@ -61,7 +64,7 @@ app.use('/files', serveIndex('views', {
   'icons': true
 }));
 
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
   next();
 });
@@ -216,7 +219,6 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
-
 
 app.post('/styleguide/new_forms_preview', (req, res) => {
   let form_preview = req.body.form_preview;
