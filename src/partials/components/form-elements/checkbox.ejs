@@ -1,0 +1,61 @@
+<% if (locals.el.optionalID) { 
+  var id = locals.el.optionalID;
+} else {
+    var id = locals.el.question.replace(/ +/g, '_').replace(/\?/g, "").toLowerCase(); 
+}
+
+// if (localsLabel) { 
+//   var radioLabel = localsLabel;
+// } else {
+//   var radioLabel = ''; 
+// }
+
+%>
+<% if (locals.el.optionalHide === true) { %>
+<style>
+  #<%=id %> {
+    display: none;
+  }
+
+</style>
+<% } %>
+
+<div class="form-group" id="<%= id %>">
+  <label class="uikit-text-input__label" for="sop"><%= locals.el.question %>
+
+    <% if (locals.el.optionalHint) { %>
+    <span class="hint display-block"><%= locals.el.optionalHint %></span>
+    <% } %>
+
+  </label>
+  <%  locals.el.items.forEach(function(element, index) { 
+    var itemID = element.replace(/ +/g, '_').toLowerCase() + index; 
+     if (locals.el.optionalItemID) { 
+      itemID = locals.el.optionalItemID[index];
+    }
+    %>
+
+  <div class="uiToolKitCheckBox">
+    <label class="uikit-control-input">
+      <input class="uikit-control-input__input" type="checkbox" id="<%= itemID %>" name="<%= itemID %>">
+      <span class="uikit-control-input__text"><%= element %></span>
+    </label>
+    <% 
+    if ( element == "Other" ) { %>
+
+    <script>
+      $("#other<%= index %>").click(function () {
+        $("#<%= id %>-other").toggleClass("pt-hide");
+      });
+
+    </script>
+
+    <div class="form-group pt-hide" id="<%= id %>-other">
+      <label class="uikit-text-input__label margin-above--mid" for="Input field">Please specify</label>
+      <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+    </div>
+    <% } %>
+
+  </div>
+  <% }); %>
+</div>
