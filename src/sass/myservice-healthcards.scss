@@ -1,3 +1,11 @@
+.heading--light {
+  font-weight: 400;
+}
+
+.bg-white, .bg-white:hover, .bg-white:focus {
+  background: $white;
+}
+
 .health-card__on-its-way {
   hr.non-breaking-hr, p {
     width: 70%;
@@ -177,6 +185,7 @@
   flex-direction: row;
   align-items: center;
   white-space: pre;
+  -webkit-print-color-adjust: exact !important;
 
   &.health-card__card-toggle--outside {
     margin: 0.25em 0 0 0;
@@ -227,7 +236,6 @@
 }
 
 .health-card__inner-card-info, .health-card__extras {
-  width: 100%;
   margin: 0 auto;
   display: none;
   padding: 1em 1.5em;
@@ -318,8 +326,16 @@ hr.non-breaking-hr {
 @media screen and (min-width: $AU-media-sm) {
 
   .health-card__on-its-way {
+    display: flex;
+    flex-direction: column;
     hr.non-breaking-hr, p {
       width: 90%;
+    }
+  }
+
+  .health-card__no-card {
+    p {
+      width: 65%;
     }
   }
 
@@ -333,7 +349,7 @@ hr.non-breaking-hr {
   }
 
   hr.non-breaking-hr {
-    width:  92%;
+    width:  125%;
   }
 
   .health-card__inner-card-info {
@@ -349,7 +365,7 @@ hr.non-breaking-hr {
 
   .health-card__card-info {
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     padding: 1.5em 2em 1.2em;
   }
 
@@ -357,6 +373,8 @@ hr.non-breaking-hr {
     height: auto;
     width: 352px;
     order: 2;
+    margin: 0;
+    min-width: 352px;
 
     &:after {
       cursor: default;
@@ -402,23 +420,16 @@ hr.non-breaking-hr {
     }
     
     .health-card__image {
-      width: inherit;
-      height: inherit;
+      width: 100%;
+      height: 100%;
     }
   }
 
 .health-card__image--on-its-way {
-  // .health-card__image,
-  // .card-text {
-  //   opacity: 0.5;
-  // }
 
   &:before {
-    font-size: 1.3em;
+    font-size: 1.3rem;
     padding: 0.5em 1em;
-    position: absolute;
-    left: 50px;
-    transform: translateY(-50%);
   }
 }
 
@@ -437,7 +448,13 @@ hr.non-breaking-hr {
 
   .health-card__inner-card-info, .health-card__extras {
     display: flex !important;
+    margin-left: 0;
+    margin-right: 0; 
   }
+
+    .health-card__inner-card-info {
+      max-width: 500px;
+    }
 
   .health-card__condition {
     padding: 1.3em 1.5em;
@@ -451,16 +468,23 @@ hr.non-breaking-hr {
 
 .health-card__details-wrapper {
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 @media screen and (min-width: $AU-media-md) {
-  hr.non-breaking-hr {
-    width:  65%;
-  }
 
   .health-card__on-its-way {
     hr.non-breaking-hr, p {
       width: 50%;
+    }
+
+    hr.non-breaking-hr:first-child {
+      margin-bottom: 0;
+    }
+
+    p {
+      margin: 0;
     }
   }
 }
@@ -563,6 +587,7 @@ hr.non-breaking-hr {
 
     .health-card__inner-card-info {
       display: flex;
+      width: 100%;
     }
   }
 
@@ -570,3 +595,174 @@ hr.non-breaking-hr {
     display: flex;
   }
 }
+
+.toggled-open--no-card {
+  .health-card__card-toggle {
+    display: none;
+  }
+}
+
+//Barcode display
+.health-card__barcode-wrapper {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  padding: 1em 0;
+}
+
+.health-card__barcode-image {
+  width: 100%;
+  display: block;
+  padding: 1em 1.5em 0;
+}
+
+.health-card__barcode-wrapper {
+  display: none;
+}
+
+@media(min-width: 768px) {
+  .health-card__barcode-image {
+    display: block;
+    max-width: 200px;
+    margin: auto;
+    padding: 0;
+  }
+
+  .health-card__details-wrapper {
+    width: auto;
+  }
+
+  .health-card__barcode-wrapper {
+    padding: 0 2em 0.5em;
+    display: block;
+    width: 352px;
+    margin-left: auto;
+    margin-right: 2em;
+  }
+
+  .toggled-open .health-card__barcode-wrapper--mobile {
+    display: none !important;
+  }
+}
+
+
+
+.toggled-open .health-card__barcode-image {
+  display: block;
+}
+
+.health-card__barcode-wrapper--mobile {
+  display: none;
+}
+
+.toggled-open {
+  .health-card__barcode-wrapper--mobile {
+    display: block;
+  }
+}
+// Barcode display ends
+
+// Print friendly barcode/cards page
+@media print {
+  header,
+  footer,
+  .health-card__order-replacement,
+  .health-card .health-card__card-toggle,
+  .accordion-toppanel--wrapper,
+  .non-breaking-hr {
+    display: none !important;
+  }
+
+  .health-card__image {
+    border: 1px solid $black;
+    position: relative !important;
+    float: left;
+    margin-left: 15px !important;
+  }
+
+  .health-card__barcode-image {
+    display: block;
+    top: 20px;
+    position: relative;
+  }
+
+  .health-card__barcode-wrapper {
+    display: block;
+  }
+
+  .health-card__card-info {
+    page-break-before: always;
+
+    .health-card__barcode-wrapper {
+      display: none;
+    }
+  }
+
+  .card-text {
+    background: transparent !important;
+    left: 30px !important;
+    position: absolute;
+  }
+
+  .health-card {
+    display: block;
+    float: left !important;
+    width: 100%;
+    left: 0;
+    position: relative;
+    
+  }
+
+  .health-card__image {
+    width: 352px !important;
+  }
+
+  .health-card__card-number {
+    right: 100px !important;
+  }
+
+  h1 {
+    margin-bottom: 40px;
+  }
+
+  .health-card__details-wrapper {
+    margin-top: 30px;
+  }
+  
+  .health-card__card-info {
+    page-break-before: always;
+    display: block;
+    margin-bottom: 15px !important;
+  }
+  
+  // Positioning card text
+  .health-card__file-no-text {
+    left: -50px !important;
+  }
+
+  .health-card__expiry-text {
+    top: 130px !important;
+    left: -50px !important;
+  }
+
+  .health-card__card-expiry {
+    left: -50px !important;
+    top: 160px !important;
+  }
+  
+  .health-card__image-container  {
+    position: relative;
+    float: left;
+    background: red !important;
+  }
+
+  body { 
+    overflow: visible; 
+  }
+}
+
+@page {
+  margin-top: 50px;
+  size: auto;
+}
+// Print friendly ends

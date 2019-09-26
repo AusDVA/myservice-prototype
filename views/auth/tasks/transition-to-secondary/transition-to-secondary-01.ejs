@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Tasks | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Transition to secondary school</span>
+      </h1>
+    </div>
+    <div class="container container--8-column" id="main-content">
+
+      <h2 class="margin-above--large margin-below">Provide details for John Smith</h2>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Will the student start secondary school in 2020?",
+        id: "start-studying-question"
+      }); %>
+
+      <% 
+        locals.el = {};
+        locals.el.message = "Our records indicate that your child will commence secondary school in 2020. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+        locals.el.optionalType = "warning";
+        locals.el.optionalID = "not-continuing";
+        locals.el.optionalHide = true;
+      %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
+
+      <form id="myForm" style="display: none;">
+
+        <input type="reset" style="display:none">
+
+        <div id="country-container" class="form-group">
+          <label class="uikit-text-input__label" for="rank">Country of study</label>
+          <%- include(partials+"content/auth-select-list-country") %>
+        </div>
+
+        <%- include(partials+"components/form-partials/dropdown", {
+          label: "State or territory of school",
+          options: [
+            " -- Select state or territory -- ",
+            " Australian Capital Territory ",
+            " New South Wales ",
+            " Northern Territory ",
+            " Queensland ",
+            " South Australia ",
+            " Tasmania ",
+            " Victoria ",
+            " Western Australia "
+          ], id: "state"
+        }); %>
+
+        <%- include(partials+"components/form-partials/text", {
+        label: "Name of school",
+        id: "name-of-school"
+      }); %>
+
+      </form>
+
+      <div class="pagination pagination--tasks">
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <div class="floated">
+          <a href="/auth/tasks/transition-to-secondary/transition-to-secondary-02"><button class="uikit-btn" id="submit">Next</button></a>
+        </div>
+      </div>
+  </main>
+
+</body>
+<%- include(partials+"components/layout/footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $("#country-select option[value=AU]").attr('selected', 'selected');
+
+    $('input[name=start-studying-question]').change(function () {
+      var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
+      if (mySelection == "Yes") {
+        $("#country-container input:radio").prop("checked", false);
+        $("#myForm").show();
+        $("#not-continuing").hide();
+      } else {
+        $("#not-continuing").show();
+        $("#myForm").hide();
+      }
+    });
+
+    $('#country-container').change(function () {
+      var mySelection = $('#country-container').find(":selected").text().trim();
+      switch (mySelection) {
+        case "Australia":
+          $("#state-container").show();
+          break;
+        default:
+          $("#state-container").hide();
+          break;
+      }
+    });
+
+  });
+</script>
+
+</html>

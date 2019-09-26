@@ -1,72 +1,17 @@
-<%
-
-if (typeof id === "undefined") var id = formPartialsID("yes_no");
-
-%>
-
-<div class="form-group" >
-  <fieldset
-    id="<%- id %>"
-    <%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("disabled") ? "disabled" : "" %>
-  >
-
-    <legend class="uikit-text-input__label legend-override">
-        <%- label %>
-
-        <% if (typeof tooltip !== "undefined" && typeof tooltip.screenreaderText !== "undefined" && typeof tooltip.content !== "undefined") { %>
-          <%- 
-            generateTooltip({
-              screenreaderText: tooltip.screenreaderText,
-              content: tooltip.content,
-              id,
-              modifiers
-            })
-          %>
-        <% } %>
-
-        <% if (typeof hint !== "undefined") { %>
-          <span class="hint"><%- typeof modifiers !== "undefined" && modifiers && modifiers.includes("hintNewLine") ? "<br>" : "" %><%- hint %></span>
-        <% } %>
-    </legend>
-
-    <div class="radio-toggle">
-      <label class="label-left"
-        for="<%- id %>-yes">
-        <input 
-          <%- typeof yes_toggle !== "undefined" ? `data-toggle="${yes_toggle}"` : "" %>
-          <%- typeof yes_rToggle !== "undefined" ? `data-r-toggle="${yes_rToggle}"` : "" %>
-          type="radio" 
-          name="<%- id %>" 
-          id="<%- id %>-yes">
-          <span>Yes</span>
-      </label>
-      <label class="label-right"
-        for="<%- id %>-no">
-        <input 
-          <%- typeof no_toggle !== "undefined" ? `data-toggle="${no_toggle}"` : "" %>
-          <%- typeof no_rToggle !== "undefined" ? `data-r-toggle="${no_rToggle}"` : "" %>
-          type="radio" 
-          name="<%- id %>" 
-          id="<%- id %>-no">
-          <span>No</span>
-      </label>
-    </div>
-  </fieldset>
-
-  <% if (typeof no_toggle !== "undefined" || typeof no_rToggle !== "undefined" || typeof yes_toggle !== "undefined" || typeof yes_rToggle !== "undefined") { %>
-    <script type="text/javascript">
-      $("#<%- id %>").change("input[type=radio]", function() {
-        $("input[type=radio]:checked", this).each(function() {
-          $($(this).data("toggle")).show();
-          $($(this).data("r-toggle")).hide();
-        });
-
-        $("input[type=radio]:not(:checked)", this).each(function() {
-          $($(this).data("toggle")).hide();
-          $($(this).data("r-toggle")).show();
-        });
-      })
-    </script>
-  <% } %>
-
-</div>
+<%- include(components+"form-partials/button_radio", {
+  label,
+  tooltip: typeof tooltip !== "undefined" ? tooltip : null,
+  modifiers: typeof modifiers !== "undefined" ? modifiers : [],
+  boxes: [
+    {
+      text: "Yes",
+      toggle: typeof yes_toggle !== "undefined" ? yes_toggle : null,
+      rToggle: typeof yes_rToggle !== "undefined" ? yes_rToggle : null,
+    },
+    {
+      text: "No",
+      toggle: typeof no_toggle !== "undefined" ? no_toggle : null,
+      rToggle: typeof no_rToggle !== "undefined" ? no_rToggle : null,
+    }
+  ]
+}) %>

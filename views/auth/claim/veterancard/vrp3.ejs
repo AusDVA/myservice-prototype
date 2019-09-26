@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Veteran Recognition | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Veteran supplement</span>
+        </h1>
+      </div>
+    </div>
+    <section class="veteran-card">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="margin-above--extra margin-below--extra">
+
+            <h2>You may be eligible for the veteran supplement</h2>
+
+            <p class="pre-pop-off" hidden>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to your nominated account. You will also receive a letter from us to confirm your first payment.</p>
+
+            <p class="pre-pop-on" hidden>If eligible, payments will be made to the bank account shown below. You can update this in your profile. You will also receive a letter from us to confirm your first payment.</p>
+
+            <p>Find out more about the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">veteran supplement</a>.</p>
+
+            <hr>
+
+            <div class="pre-pop-off" hidden>            
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Would you like to provide your bank account details?",
+                yes_toggle: "#bank-details-container" 
+              })  %>
+
+              <%- include(partials+"components/form-groups/bank-details", {
+                modifiers: ["hidden"],
+                id: "bank-details",
+                label: ""
+              }) %>
+            </div>
+
+            <div class="pre-pop-on" hidden>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Account Name:</span>
+                <span class="kv-pair__value">Rebecca Orange</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Account number:</span>
+                <span class="kv-pair__value">7123 8876 0023</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">BSB:</span>
+                <span class="kv-pair__value">654 - 788</span>
+              </div>
+              <div class="kv-pair">
+                <span class="kv-pair__key">Financial Institution:</span>
+                <span class="kv-pair__value">ANZ Bank</span>
+              </div>
+            </div>
+
+
+          </div>
+  
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" id="btnPrev" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn" id="btnNext">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </section>
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
+  </main>
+
+  <script type="text/javascript">
+
+    function stateSwitcher() {
+      if (sessionStorage.getItem("vrp-known-service-history") === "true") {
+        $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp1"`);
+      } else {
+        $("#btnPrev").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp2"`);
+      }
+
+      if (sessionStorage.getItem("vrp-bank-details") === "true") {
+        $(".pre-pop-on").show();
+      } else {
+        $(".pre-pop-off").show();
+      }
+
+      if (sessionStorage.getItem("vrp-show-apod") === "false") {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp5"`);
+      } else {
+        $("#btnNext").attr("onclick", `window.location.href="/auth/claim/veterancard/vrp4"`);
+      }
+    }
+
+
+    $("#add-bank-details").on("click", function() {
+      $("#bank-details").show();
+      $("#add-bank-details").hide();
+      $("#add-bank-details-hint").hide();
+    })
+
+    $("#cancel-bank-details").on("click", function() {
+      $("#bank-details").hide();
+      $("#bank-details").trigger("reset");
+      $("#add-bank-details").show();
+      $("#add-bank-details-hint").show();
+    })
+
+    $("#bank-details").on("submit", function(e) {
+      e.preventDefault();
+    })
+  </script>
+
+  <%- include("vrp-state-switcher") %>
+
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
