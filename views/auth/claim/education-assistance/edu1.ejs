@@ -184,18 +184,18 @@
           </div>
         </fieldset>
       </div>
-      <p class="student"><b>Please provide details of the parent / guardian receiving Family Tax Benefit for your care.</b></p>
+      <p class="student" id="please-provide-details-message"><b>Please provide details of the parent / guardian receiving Family Tax Benefit for your care.</b></p>
       <%- include(partials+"components/form-partials/text", {
         label: "Given name",
-        class: "student",
+        class: "student student-parent-details",
         hint: "(first name)"
       }); %>
       <%- include(partials+"components/form-partials/text", {
         label: "Surname",
-        class: "student",
+        class: "student student-parent-details",
         hint: "(last name)"
       }); %>
-      <div class="form-group phone-number other-parent">
+      <div class="form-group phone-number other-parent student-parent-details">
         <label class="uikit-text-input__label" for="phoneHome">Home phone number
           <span class="hint">(optional)</span>
           <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
@@ -205,7 +205,7 @@
           <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
         </label>
       </div>
-      <div class="form-group phone-number other-parent">
+      <div class="form-group phone-number other-parent student-parent-details">
         <label class="uikit-text-input__label" for="phoneHome">Mobile phone number
           <span class="hint">(optional)</span>
           <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
@@ -218,12 +218,12 @@
       <%- include(partials+"components/form-partials/text", {
         label: "Email address",
         hint: "(if known)",
-        class: "email-address other-parent"
+        class: "email-address other-parent student-parent-details"
       }); %>
       <!-- student fields end -->
 
       <!-- veteran fields begin -->
-      <p class="parent-veteran" id="pg-about-veteran"><b>About the veteran</b></p>
+      <p class="parent-veteran student-parent-details" id="pg-about-veteran"><b>About the veteran</b></p>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "The veteran is the student's",
         class: "parent-veteran",
@@ -234,6 +234,23 @@
           "step-parent"
         ]
       }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+          label: "The veteran is my",
+          class: "student-parent-details",
+          id: "about-the-veteran-drop-student", 
+          options: [
+            "select relationship",
+            "parent",
+            "step-parent"
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+              label: "Is the student dependant on the veteran? Or were they previously?",
+              hint: "Completely or substantially.",
+              id: "step-parent-selected-message-option",
+              class: "parent-guardian",
+              unsure: false
+            }); %>
       <div class="parent-veteran" id="parent-selected-message">
         <p><b>Is the veteran significantly injured or deceased as a result of their service?</b></p>
         <p class="margin-below--none"><b>For example:</b></p>
@@ -259,13 +276,10 @@
           </label>
         </div>
       </div>
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Is the student dependant on the veteran? Or were they previously?",
-        hint: "Completely or substantially.",
-        id: "step-parent-selected-message-option",
-        class: "parent-guardian",
-        unsure: false
-      }); %>
+      <p id="save-and-next-message" class="hidden-field">Choose <b>save and next</b> to continue.</p>
+      <div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="maybe-not-eligible" hidden>
+        <span>You may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</span>
+      </div>
       <%- include(partials+"components/form-partials/yes_no", {
         label: "Does a parent/guardian receive Family Tax Benefit for your care?",
         class: "parent-veteran",
@@ -337,8 +351,8 @@
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
-        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu2'">Save and Next</button>
-        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'index'">Save and Exit</button>
+        <button class="uikit-btn  floated btnNext" onclick="window.location.href = 'edu2'">Save and next</button>
+        <button class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = 'index'">Save and exit</button>
 
       </div>
     </div>
