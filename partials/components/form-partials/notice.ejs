@@ -1,0 +1,30 @@
+<!-- variants are
+	optionalType = info (blue - default)
+	optionalType = warning (orange)
+	optionalType = error (red)
+  optionalType = success (green)
+  optionalType = content (white)
+	may need to put p tags around locals.el.message when not html
+-->
+
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("textarea");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="form-group" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+
+  <% if (typeof type !== "undefined" ) {
+    type = "uikit-page-alerts uikit-page-alerts--"+type;
+  } else { 
+    type = "uikit-page-alerts uikit-page-alerts--info";
+  }
+  %>
+  <div class="<%- type %>"" role=" alert" id="<%- id %>">
+    <%-message%>
+  </div>
+
+</div>
