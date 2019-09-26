@@ -1,0 +1,101 @@
+<%
+if (typeof id === "undefined") var id = formPartialsID("buttonradio");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+let boxCounter = 0;
+%>
+
+<div class="form-group"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
+  id="<%- id %>-container">
+  <fieldset
+    <%- modifiers.includes("disabled") ? "disabled" : "" %>
+  >
+
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
+
+    <div class="radio-toggle">
+    <% const boxs = boxes.map((box, index) => {
+      boxCounter++;
+
+      if (typeof box === "string") {
+        box = {
+          text: box,
+          baseID: id,
+          type: "checkbox",
+          boxID: boxCounter,
+          modifiers: [],
+        }
+
+      } else if (typeof box === "object") {
+        box.baseID = id;
+        if (typeof box.modifiers === "undefined") box.modifiers = [];
+
+        if (typeof box.id !== "undefined") {
+          box.boxID = box.id;
+          box.suppliedID = true;
+        } else {
+          box.boxID = boxCounter;
+          box.suppliedID = false;
+        }
+      }
+
+      let labelPos;
+
+      if (index === 0) {
+        labelPos = "label-left";
+      } else if (index === (boxes.length - 1)) {
+        labelPos = "label-right";
+      } else {
+        labelPos = "label-middle";
+      }
+
+      box.labelPos = labelPos;
+
+      %>
+
+      <%- generateButtonRadio(box).html; %>
+
+      <% 
+
+        let { toggle, rToggle } = generateButtonRadio(box);
+        return {
+          toggle,
+          rToggle,
+        }
+
+      });
+
+      %>
+    </div>
+  </fieldset>
+
+  <% if ((boxs.filter(box => box.toggle !== undefined || box.rToggle !== undefined).length > 0) || typeof all_toggle !== "undefined" ) { 
+    %>
+    <script type="text/javascript">
+      $("#<%- id %>-container").change("input[type=radio]", function() {
+
+        $("input[type=radio]:checked", this).each(function() {
+          $($(this).data("toggle")).removeAttr("hidden").show();
+          $($(this).data("r-toggle")).hide();
+        });
+
+        $("input[type=radio]:not(:checked)", this).each(function() {
+          $($(this).data("toggle")).hide();
+          $($(this).data("r-toggle")).show();
+        });
+
+        $($(this).data("all-toggle")).show();
+
+      })
+    </script>
+  <% } %>
+
+</div>

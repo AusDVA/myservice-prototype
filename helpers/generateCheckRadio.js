@@ -1,4 +1,5 @@
 const generateTooltip = require('./generateTooltip');
+const replaceNonAlphanumeric = require('./replaceNonAlphanumeric');
 
 module.exports = box => {
   let { modifiers, 
@@ -11,7 +12,8 @@ module.exports = box => {
         baseID,
         boxID,
         suppliedID,
-        tooltip
+        tooltip,
+        customClass
        } = box;
 
   let generatedID = suppliedID ? boxID : `${baseID}-${boxID}`;
@@ -30,9 +32,10 @@ module.exports = box => {
       <label class="uikit-control-input">
         <input 
           type="${type}" 
-          class="uikit-control-input__input" 
+          class="uikit-control-input__input ${customClass ? customClass : ""}" 
           id="${generatedID}" 
           name="${baseID}"
+          value="${replaceNonAlphanumeric(text)}"
           ${toggle ? `data-toggle="${toggle}"` : ""}
           ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
           ${inject ? `data-inject="${inject}"` : ""}

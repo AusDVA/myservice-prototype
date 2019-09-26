@@ -1,0 +1,63 @@
+<%
+locals.el = {};
+locals.el.items = ["Home","Claims","Payments","Cards","Transport","Profile","My Account"];
+locals.el.itemID = ["home","claim","payments","healthcard","travel","profile","myaccount"];
+locals.el.itemLink = ["/auth", "/auth/claim","/auth/payments","/auth/cards","/auth/travel","/auth/profile","#open-myaccount-modal"];
+locals.el.icons = ["fa-home","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
+locals.el.taskAmount = 3;
+
+if (locals.liveFeature.includes("tasks")) {
+  locals.el.items.splice(2, 0, "Tasks");
+  locals.el.itemID.splice(2, 0, "tasks");
+  locals.el.itemLink.splice(2, 0, "/auth/tasks");
+  locals.el.icons.splice(2, 0, "fa-tasks");
+}
+%>
+
+<header class="uikit-header">
+  <div class="container">
+    <a id="mys-logo" data-long-press-delay="2000" class="nounderline" href="/auth">
+      <img class="logo-myservice" src="/docs/images/logo-myservice.svg" alt="Auth link - MyService beta - logo" />
+    </a>
+    <button class="toggle" aria-expanded="false">Menu</button>
+    <ul class="menu">
+      <% locals.el.items.forEach(function(element, index) {
+          var itemID = locals.el.itemID[index];
+          var itemLink = locals.el.itemLink[index];
+          var link = '<a href="' + itemLink + '" class="';
+          var external = '';
+
+          if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
+            link += 'menu__item-link nav-active'; 
+          } else {
+            link += 'menu__item-link'; 
+          }
+          if (itemID === 'myaccount') { 
+            external = 'menu__item--external'; 
+          }
+          link += '">';
+          %>
+      <li class="menu__item <%- external %>" id=<%- itemID %>>
+        <%- link %>
+        <div class="fal <%= locals.el.icons[index] %> fa-2x fa-fw"></div>
+        <% if(itemID == "tasks"){ %>
+        <div class="tasks-badge"><%= locals.el.taskAmount%></div>
+        <% } %>
+        <div class="menu__item-name"><%= element %></div>
+        </a>
+      </li>
+      <%});%>
+    </ul>
+  </div>
+</header>
+
+<script>
+  $("#travel").mouseenter(function () {
+    $(this).find('.fal').removeClass("fa-car-alt");
+    $(this).find('.fal').addClass("fa-car-bump");
+  });
+  $("#travel").mouseleave(function () {
+    $(this).find('.fal').addClass("fa-car-alt");
+    $(this).find('.fal').removeClass("fa-car-bump");
+  });
+</script>
