@@ -1,0 +1,274 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+        id: "edu-assist-state-switcher",
+        boxes: [
+          {
+            text: "Parent/Guardian",
+            modifiers: ["checked"]
+          },
+          {
+            text: "Veteran"
+          },
+          {
+            text: "Student"
+          },
+          {
+            text: "Student over 21"
+          },
+          {
+            text: "Student under 17"
+          },
+        ]
+      }) %>
+</div>
+
+<script>
+
+  // set state switcher toggle
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+  // initialise state switcher
+  $(document).ready(function () {
+    var mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    initFlow();
+    $("#state-switcher").on("change", "input[type=radio]", function () {
+      initFlow();
+    });
+  });
+
+  var mySelection;
+  function initFlow() {
+    mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    console.log(mySelection);
+    switch (mySelection) {
+      case "Student over 21":
+        hideall();
+        break;
+      case "Student over 16":
+        hideall();
+        break;
+      case "Student under 16":
+        hideall();
+        break;
+      case "Parent/Guardian":
+        hideall();
+        parentGuardianFlow();
+        break;
+      case "Veteran":
+        hideall();
+        veteranFlow();
+        break;
+      default:
+      // code block
+    }
+  }
+
+
+  // utility functions
+
+  function hideall() {
+    $(".flow-container > p").hide();
+    $(".flow-container > div").hide();
+    $(".flow-container > h3").hide();
+  }
+
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  // FUNCTIONS FOR EACH FLOW
+  function parentGuardianFlow() {
+    $(".flow--parent-guardian").show();
+    $(".flow--veteran").hide();
+    $("#student-or-parent-radio-container").show();
+
+    if (mySelection === "Parent/Guardian") {
+      $("#student-or-parent-radio-1").click(function () {
+        $("#parent-guardian-alert").hide();
+        $("#about-student-heading").hide();
+        $("#students-dob-container").hide();
+      });
+
+      $("#student-or-parent-radio-2").click(function () {
+        $("#parent-guardian-alert").show();
+        $("#about-student-heading").show();
+        $("#students-dob-container").show();
+      });
+    }
+    $("#students-dob-container input").keyup(function () {
+      //get the year month and day after each input change
+      year = $("#students-dob-yyyy").val();
+      month = $("#students-dob-mm").val();
+      day = $("#students-dob-mm").val();
+
+      //calculate dob if inputs are filled in and parse to executable format
+      year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+      dob ? currentAge = getAge(dob) : currentAge = null;
+
+      currentAge < 4 ? $("#under4-notification").show() : $("#under4-notification").hide(); if (currentAge > 4 && currentAge <= 17) {
+        $("#over18-notification").hide();
+        $("#over26-notification").hide(); $("#about-veteran-header").show(); $("#about-the-veteran-drop").show(); $("#about-the-veteran-drop-container").show();
+        $("#about-you-heading").show(); $("#family-tax-benefit-container").show();
+      } else {
+        $("#about-the-veteran-drop").hide(); $("#about-veteran-header").hide();
+        $("#about-the-veteran-drop-container").hide(); $("#about-you-heading").hide(); $("#family-tax-benefit").hide();
+      } if (currentAge === 16 || currentAge === 17) {
+        $("#full-time-employment-parent-container").show()
+      } else { $("#full-time-employment-parent-container").hide(); $("#full-time-alert").hide(); } currentAge >= 18 && currentAge <=
+        25 ? $("#over18-notification").show() : $("#over18-notification").hide(); currentAge >= 26 ? $("#over26-notification").show() : $("#over26-notification").hide();
+
+    });
+
+    $("#full-time-employment-parent-yes").click(function () {
+      $("#full-time-alert").show();
+    });
+
+    $("#full-time-employment-parent-no").click(function () {
+      $("#full-time-alert").hide();
+    });
+
+    $('#about-the-veteran-drop').change(function () {
+      let drop = document.getElementById("about-the-veteran-drop");
+      let selectedOption = drop.options[drop.selectedIndex].value;
+      console.log(selectedOption);
+      if (selectedOption === "parent") {
+        $("#student-veteran-dependant-container").hide();
+        $("#parent-selected-message").show();
+        $("#maybe-not-eligible").hide();
+
+      }
+      if (selectedOption === "guardian") {
+        $("#parent-selected-message").hide();
+        $("#student-veteran-dependant-container").show();
+      }
+    })
+
+    $("#student-veteran-dependant-no").click(function () {
+      $("#parent-selected-message").hide();
+      $("#maybe-not-eligible").show();
+    });
+
+    $("#student-veteran-dependant-yes").click(function () {
+      $("#maybe-not-eligible").hide();
+      $("#parent-selected-message").show();
+    });
+
+    $("#yes_no719-no").click(function () {
+      $("#maybe-not-eligible-2").show();
+    });
+
+    $("#yes_no719-yes").click(function () {
+      $("#maybe-not-eligible-2").hide();
+    });
+
+    $("#yes_no719-unsure").click(function () {
+      $("#maybe-not-eligible-2").hide();
+    });
+
+    $("#family-tax-benefit-yes").click(function () {
+      $("#family-tax-benefit-else-container").hide();
+      $("#crn-number-container").show();
+      if (currentAge === 16 || currentAge === 17) {
+        $("#ftb-alert").show();
+      } else {
+        $("#ftb-alert").hide();
+      }
+    });
+
+    $("#family-tax-benefit-no").click(function () {
+      $("#crn-number-container").hide();
+      $("#family-tax-benefit-else-container").show();
+    });
+
+    $("#family-tax-benefit-else-no").click(function () {
+      $("#ftb-complete-claim").hide();
+    });
+
+    $("#family-tax-benefit-else-yes").click(function () {
+      $("#ftb-complete-claim").show();
+    });
+  }
+
+  function veteranFlow() {
+    $(".flow--parent-guardian").hide();
+    $(".flow--veteran").show();
+    $("#vet-students-dob-container").show();
+  }
+
+  // click events for each element running down the page.
+  $("#vet-students-dob-container input").keyup(function () {
+    //get the year month and day after each input change
+    year = $("#vet-students-dob-yyyy").val();
+    month = $("#vet-students-dob-mm").val();
+    day = $("#vet-students-dob-mm").val();
+
+    //calculate dob if inputs are filled in and parse to executable format
+    year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+    dob ? currentAge = getAge(dob) : currentAge = null;
+
+    currentAge < 4 ? $("#vet-under4-notification").show() : $("#vet-under4-notification").hide();
+
+    if (currentAge > 4 && currentAge <= 17) {
+      $("#vet-family-tax-benefit-container").show();
+    } else {
+      $("#vet-family-tax-benefit-container").hide();
+    }
+
+    if (currentAge === 16 || currentAge === 17) {
+      $("#vet-full-time-employment-parent-container").show();
+    } else {
+      $("#vet-full-time-employment-parent-container").hide();
+    }
+
+    currentAge >= 18 && currentAge <= 25 ? $("#vet-over18-notification").show() : $("#vet-over18-notification").hide();
+    currentAge >= 26 ? $("#vet-over26-notification").show() : $("#vet-over26-notification").hide();
+
+  });
+
+  $("#vet-family-tax-benefit-yes").click(function () {
+    if (currentAge === 16 || currentAge === 17) {
+      $("#vet-ftb-alert").show();
+    } else {
+      $("#vet-ftb-alert").hide();
+    }
+    $("#vet-family-tax-benefit-else-container").hide();
+    $("#vet-crn-number-container").show();
+  });
+
+  $("#vet-family-tax-benefit-no").click(function () {
+    $("#vet-ftb-alert").hide();
+    $("#vet-crn-number-container").hide();
+    $("#vet-family-tax-benefit-else-container").show();
+  });
+
+  $("#vet-family-tax-benefit-else-yes").click(function () {
+    $("#vet-ftb-complete-claim").show();
+  })
+  $("#vet-family-tax-benefit-else-no").click(function () {
+    $("#vet-ftb-complete-claim").hide();
+  })
+
+  $("#vet-full-time-employment-parent-yes").click(function () {
+    $("#vet-full-time-alert").show();
+  })
+
+  $("#vet-full-time-employment-parent-no").click(function () {
+    $("#vet-full-time-alert").hide();
+  })
+
+</script>
