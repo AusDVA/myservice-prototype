@@ -19,6 +19,23 @@ boxes: [
 ]
 }); %>
 
+<div class="uikit-page-alerts uikit-page-alerts--warning" role="alert" id="over25-eligible" hidden>
+  <span>You may not be eligible if you havn't started your course. If you enrolled after you turned 25 you are not eligible for education assistance. For more information call <a
+      href="">1800 555 254</a>.</span>
+</div>
+
+<div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="dependant-child-alert" hidden>
+  <p>You must be a dependent child of an eligible veteran to be able to claim education assistance. For further information, <a href="" rel="external">see eligibility
+      rules.</a></p>
+  <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
+  <ul>
+    <li>Proof of your relationship to the eligible veteran</li>
+    <li>Proof of your relationship to parent/guardian</li>
+    <li>Proof of your enrolment</li>
+  </ul>
+  <p>Further documents may be required dpeneding on your circumstances.</p>
+</div>
+
 <div class="uikit-page-alerts uikit-page-alerts--info student" role="alert" id="parent-guardian-alert">
   <p>The student you are applying for needs to be a child of an eligible veteran. For further information, see <a href="" rel="external">eligibility rules.</a></p>
   <p>As part of your claim, you may be asked to provide the following supporting documents:</p>
@@ -63,7 +80,7 @@ boxes: [
 }); %>
 
 <div id="full-time-alert" class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-  <p>Students who are working full time may not be eligible for education assistance. For more information call 1800 555 254.</p>
+  <p>Students who are working full time may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</p>
 </div>
 
 <h3 class="parent-veteran" id="about-veteran-header">About the veteran</h3>
@@ -76,29 +93,6 @@ boxes: [
     "guardian"
   ]
 }); %>
-
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Is the student employed full time?",
-  class: "parent-guardian",
-  id: "full-time-employment-parent",
-  hint: "The does not include apprenticeships.",
-  unsure: false,
-  no_toggle: "#pg-about-veteran",
-  yes_toggle: ".parent-guardian-alert",
-  modifiers: [
-  "hintNewLine"
-  ]
-}); %>
-
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Is the student or was the student dependant on the veteran?",
-  id: "student-veteran-dependant",
-  unsure: false,
-}); %>
-
-<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="maybe-not-eligible" hidden>
-  <span>You may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</span>
-</div>
 
 <div id="parent-selected-message">
   <p><b>Is the veteran significantly injured or deceased as a result of their service?</b></p>
@@ -126,11 +120,18 @@ boxes: [
   </div>
 </div>
 
-<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="maybe-not-eligible-2" hidden>
-  <span>You may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</span>
-</div>
-
 <h3 id="about-you-heading">About you</h3>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "The student is my",
+  id: "parent-student-dropdown",
+  options: [
+    "select an option...",
+    "child",
+    "step-child",
+    "grand-child"
+  ]
+}); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you receive Family Tax Benefit for the student?",
@@ -142,16 +143,43 @@ boxes: [
   id: "crn-number"
 }); %>
 
-<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="ftb-alert" hidden>
-  <span>You can't get both education allowance and Family Tax Benefit (FTB) payments if the student is over 16. Often it is best to choose FTB. For advice call <a href="">133
-      254</a>.</span>
+<div class="uikit-page-alerts uikit-page-alerts--warning" role="alert" id="ftb-alert" hidden>
+  <span>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16. Based on your circumstances it may be better to choose FTB
+    over the DVA benefit or vice versa. For more information on these options, contact Education Assistance on <a href="">1800 555 254</a>.</span>
+</div>
+
+<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="maybe-not-eligible-2" hidden>
+  <span>You may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</span>
 </div>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Does someone else receive Family tax benefit for the student?",
-  id: "family-tax-benefit-else"
+  label: "Do you have shared care arrangements in place for this student?",
+  id: "parent-shared-care-arrangement"
 }); %>
 
-<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="ftb-complete-claim" hidden>
-  <span>The person receiving Family Tax Benefit will need to complete this claim.</span>
+<%- include(partials+"components/form-partials/text", {
+  label: "What percentage of care do you have for the student?",
+  id: "parent-percentage-of-care"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Is the student employed full time?",
+  id: "full-time-employment-parent",
+  hint: "The does not include apprenticeships.",
+  unsure: false,
+  no_toggle: "#pg-about-veteran",
+  yes_toggle: ".parent-guardian-alert",
+  modifiers: [
+  "hintNewLine"
+  ]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Is the student or was the student dependant on the veteran?",
+  id: "student-veteran-dependant",
+  unsure: false,
+}); %>
+
+<div class="uikit-page-alerts uikit-page-alerts--error" role="alert" id="maybe-not-eligible" hidden>
+  <span>You may not be eligible for education assistance. For more information call <a href="">1800 555 254</a>.</span>
 </div>
