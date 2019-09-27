@@ -2,13 +2,21 @@
   <h3>State switcher</h3>
 
   <%- include(partials+"components/form-partials/radio", {
-              label: "User",
-              boxes: [
-                "Fail",
-                "Success"
-              ],
-              id: "user"
-            }); %>
+          label: "User",
+          boxes: [
+            "Student",
+            "Parent/guardian"
+          ],
+          id: "user"
+        }); %>
+
+
+  <%- include(partials+"components/form-partials/checkbox", {
+          boxes: [
+            "Confirmation of enrolment provided"
+          ],
+          id:"confirmation"
+        }); %>
 
 </div>
 
@@ -26,26 +34,58 @@
       }
     });
 
-    $("#submitted").prop("checked", true);
+    if (sessionStorage.getItem('student-coc-user') == "parent") {
+      updateContent("Parent/guardian");
+      $("#user-2").prop("checked", true);
+    } else {
+      updateContent("Student");
+      $("#user-1").prop("checked", true);
+    }
 
     $('#user-container').change(function () {
       var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
-      switch (mySelection) {
-        case "Fail":
-          console.log('working');
-          $('#submitted').hide();
-          $('#submitting').hide();
-          $('#failed').removeClass('transition-content');
+      updateContent(mySelection)
+    });
+
+    if (sessionStorage.getItem('student-coc-confirmation') == "yes") {
+      $("#confirmation").prop("checked", true);
+    } else {
+      $("#confirmation").prop("checked", false);
+    }
+
+    $('#confirmation-1').change(function () {
+      if ($(this).is(":checked")) {
+        sessionStorage.setItem('student-coc-confirmation', 'yes')
+      } else {
+        sessionStorage.setItem('student-coc-confirmation', 'no')
+      }
+      location.reload();
+    });
+
+    function updateContent(myUser) {
+      switch (myUser) {
+        case "Student":
+          $(".user-label-a").text("you");
+          $(".user-label-b").text("Do you");
+          $(".user-label-c").text("your");
+          $(".user-label-d").text("you expect to complete your");
+          $(".user-label-e").text("you do not");
+          $(".user-label-f").text("your");
+          sessionStorage.setItem('student-coc-user', "student");
           break;
-        case "Success":
-          $('#failed').addClass('transition-content');
-          $('#submitted').show();
-          ('#submitting').hide();
+        case "Parent/guardian":
+          $(".user-label-a").text("the student");
+          $(".user-label-b").text("Does the student");
+          $(".user-label-c").text("John Smith's");
+          $(".user-label-d").text("the student expects to complete their");
+          $(".user-label-e").text("the student does not");
+          $(".user-label-f").text("the student's");
+          sessionStorage.setItem('student-coc-user', "parent");
           break;
         default:
           break;
       }
-    });
+    }
 
   });
 </script>
