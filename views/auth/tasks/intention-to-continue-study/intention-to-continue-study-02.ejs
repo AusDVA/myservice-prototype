@@ -55,7 +55,6 @@
         label: "Intended level of study",
         options: [
           " -- Select level of study -- ",
-          "Primary",
           "Secondary",
           "Secondary - TAFE",
           "Tertiary - TAFE / Other",
@@ -64,7 +63,7 @@
       }); %>
 
       <%- include(partials+"components/form-partials/text", {
-          label: "Proposed study institution or school",
+          label: "Name of proposed study institution or school",
           id: "name-of-school"
         }); %>
 
@@ -82,7 +81,7 @@
       <div id="tertiary-details" hidden>
 
         <%- include(partials+"components/form-partials/text", {
-          label: "Preferred course or degree name",
+          label: "Name of preferred course or degree",
           id: "course-name"
         }); %>
 
@@ -117,12 +116,17 @@
 
       <div class="pagination pagination--tasks">
         <a href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-01"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button></a>
         <div class="floated">
           <a href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-04"><button class="uikit-btn" id="submit">Next</button></a>
         </div>
       </div>
+
+      <%- include(partials+"content/modals/tasks-cancel-modal") %>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+
   </main>
+
 
 </body>
 <%- include(partials+"components/layout/footer") %>
@@ -507,10 +511,6 @@
       var mySelection = $('#level-container').find(":selected").text().trim();
       switch (mySelection) {
         case "-- Select level of study --":
-          $("#tertiary-details").hide();
-          break;
-        case "Primary":
-          $("#grade-container").show();
           $("#tertiary-details").hide();
           break;
         case "Secondary":
