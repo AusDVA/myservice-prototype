@@ -49,20 +49,36 @@
 
     if (sessionStorage.getItem('student-coc-confirmation') == "yes") {
       $("#confirmation").prop("checked", true);
+      updateState(true);
     } else {
       $("#confirmation").prop("checked", false);
+      updateState(false)
     }
 
     $('#confirmation-1').change(function () {
       if ($(this).is(":checked")) {
-        sessionStorage.setItem('student-coc-confirmation', 'yes')
+        updateState(true)
       } else {
-        sessionStorage.setItem('student-coc-confirmation', 'no')
+        updateState(false)
       }
-      location.reload();
     });
 
+    function updateState(conf) {
+      if (conf) {
+        sessionStorage.setItem('student-coc-confirmation', 'yes')
+        $("#no-doc").hide();
+        $("#doc").show();
+      } else {
+        sessionStorage.setItem('student-coc-confirmation', 'no')
+        $("#no-doc").show();
+        $("#doc").hide();
+
+      }
+
+    }
+
     function updateContent(myUser) {
+
       switch (myUser) {
         case "Student":
           $(".user-label-a").text("you");
