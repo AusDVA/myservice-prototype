@@ -27,7 +27,9 @@
 
       <div class="margin-above--extra"></div>
 
-      <h2 id="provide-details" class="margin-below" style="display: none;">Provide details for John Smith</h2>
+      <h2 id="provide-details" class="margin-below">Provide details for <span class='user-label-c'>your</span> proposed study in 2020</h2>
+
+      <p>If these details change you can update them later when providing confirmation of enrollment.</p>
 
       <div id="country-container" class="form-group">
         <label class="uikit-text-input__label" for="rank">Country of study</label>
@@ -35,7 +37,7 @@
       </div>
 
       <%- include(partials+"components/form-partials/dropdown", {
-        label: "State or territory of institution or school</span>",
+        label: "State or territory of institution or school",
         options: [
           " -- Select state or territory -- ",
           " Australian Capital Territory ",
@@ -50,7 +52,7 @@
       }); %>
 
       <%- include(partials+"components/form-partials/dropdown", {
-        label: "What level of study will <span class='user-label-a'>you</span> be undertaking?",
+        label: "Intended level of study",
         options: [
           " -- Select level of study -- ",
           "Primary",
@@ -62,34 +64,45 @@
       }); %>
 
       <%- include(partials+"components/form-partials/text", {
-          label: "Name of institution or school</span>",
+          label: "Proposed study institution or school",
           id: "name-of-school"
         }); %>
 
-      <div id="tertiary-details">
+      <%- include(partials+"components/form-partials/dropdown", {
+          label: "Grade",
+          options: [
+            " -- Select grade -- ",
+            "Year 10",
+            "Year 11",
+            "Year 12",
+          ], id: "grade",
+          modifiers: ["hidden"]
+        }); %>
+
+      <div id="tertiary-details" hidden>
 
         <%- include(partials+"components/form-partials/text", {
-          label: "Course / degree name",
+          label: "Preferred course or degree name",
           id: "course-name"
         }); %>
 
         <%- include(partials+"components/form-partials/date", {
-          label: "Course commencement date",
+          label: "Date <span class='user-label-a'>you</span> started studying, or will start studying",
           id: "commencement",
           hint: "(dd / mm / yyyy)"
         }); %>
 
         <%- include(partials+"components/form-partials/date", {
-          label: "Course completion date",
+          label: "Date <span class='user-label-d'>you expect to complete your</span> course / degree",
           id: "completion",
-          hint: "(dd / mm / yyyy)<BR/>If you don't know the exact date you may enter an approximate date."
+          hint: "(dd / mm / yyyy)<BR/>Enter an approximate date if you don't know the exact date."
         }); %>
 
       </div>
 
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Will <span class='user-label-a'>you</span> be studying externally?",
-          hint: "<BR/>For example a correspondence course or distance education.",
+          hint: "<BR/>For example online, correspondence or distance education.",
           id: "external-question"
         }); %>
 
@@ -497,12 +510,19 @@
           $("#tertiary-details").hide();
           break;
         case "Primary":
+          $("#grade-container").show();
           $("#tertiary-details").hide();
           break;
         case "Secondary":
+          $("#grade-container").show();
+          $("#tertiary-details").hide();
+          break;
+        case "Secondary - TAFE":
+          $("#grade-container").show();
           $("#tertiary-details").hide();
           break;
         default:
+          $("#grade-container").hide();
           $("#tertiary-details").show();
           break;
       }

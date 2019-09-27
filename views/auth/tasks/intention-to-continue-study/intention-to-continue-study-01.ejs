@@ -44,19 +44,31 @@
       <%- include(partials+"components/form-elements/notice", locals) %>
 
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Do you have a copy of the confirmation of enrolment document?",
+        label: "Do you have confirmation of <span class='user-label-c'>your</span> enrolment?",
+        hint: "<BR/>For example a letter of acceptance or Confirmation of Enrolment (COE) document from the institution.",
         id: "document-question",
         modifiers: ["hidden"]
       }); %>
 
-      <% 
-        locals.el = {};
-        locals.el.message = "You will need to upload confirmation of enrolment in the documents section."; 
-        locals.el.optionalType = "warning";
-        locals.el.optionalID = "yes-document";
-        locals.el.optionalHide = true;
-      %>
-      <%- include(partials+"components/form-elements/notice", locals) %>
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to upload confirmation of enrolment in the documents section.",
+        type: "alert",
+        id: "yes-document",
+        modifiers: ["hidden"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Briefly tell us why <span class='user-label-e'>you do not</span> intend to continue study in 2020:",
+        modifiers: ["hidden"],
+        id: "tell-us-why"
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will be asked to provide confirmation of enrolment at a later date.",
+        type: "alert",
+        id: "no-document",
+        modifiers: ["hidden"]
+      }); %>
 
       <div id="save-and-next" class="margin-above" style="display: none">
         <p>Choose <b>next</b> to continue.</p>
@@ -82,17 +94,14 @@
     $('input[name=continue-studying-question]').change(function () {
       $("#save-and-next").hide();
       var mySelection = $('input[name=continue-studying-question]:checked').parent().find("span").text();
+      hideAll();
       if (mySelection == "Yes") {
         $("#document-question-container input:radio").prop("checked", false);
         $("#document-question-container").show();
-        $("#not-continuing").hide();
-        $("#save-and-next").hide();
       } else {
-        $("#not-continuing").show();
         $("#document-question-container").hide();
-        $("#save-and-next").show();
-        $("#save-and-next").hide();
-        $("#yes-document").hide();
+        $("#not-continuing").show();
+        $("#tell-us-why-container").show();
       }
     });
 
@@ -101,12 +110,24 @@
       var link = document.getElementById("next-link");
       if (mySelection == "Yes") {
         link.setAttribute("href", "intention-to-continue-study-03");
+        $("#yes-document-container").show();
+        $("#no-document-container").hide();
         $("#save-and-next").show();
       } else {
+        $("#yes-document-container").hide();
+        $("#no-document-container").show();
         $("#save-and-next").show();
         link.setAttribute("href", "intention-to-continue-study-02");
       }
     });
+
+    function hideAll() {
+      $("#not-continuing").hide();
+      $("#tell-us-why-container").hide();
+      $("#save-and-next").hide();
+      $("#yes-document-container").hide();
+      $("#no-document").hide();
+    }
 
   });
 </script>
