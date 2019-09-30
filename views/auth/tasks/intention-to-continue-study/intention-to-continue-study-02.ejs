@@ -27,7 +27,9 @@
 
       <div class="margin-above--extra"></div>
 
-      <h2 id="provide-details" class="margin-below" style="display: none;">Provide details for John Smith</h2>
+      <h2 id="provide-details" class="margin-below">Provide details for <span class='user-label-c'>your</span> proposed study in 2020</h2>
+
+      <p>If these details change you can update them later when providing confirmation of enrollment.</p>
 
       <div id="country-container" class="form-group">
         <label class="uikit-text-input__label" for="rank">Country of study</label>
@@ -35,7 +37,7 @@
       </div>
 
       <%- include(partials+"components/form-partials/dropdown", {
-        label: "State or territory of institution or school</span>",
+        label: "State or territory of institution or school",
         options: [
           " -- Select state or territory -- ",
           " Australian Capital Territory ",
@@ -50,10 +52,9 @@
       }); %>
 
       <%- include(partials+"components/form-partials/dropdown", {
-        label: "What level of study will <span class='user-label-a'>you</span> be undertaking?",
+        label: "Intended level of study",
         options: [
           " -- Select level of study -- ",
-          "Primary",
           "Secondary",
           "Secondary - TAFE",
           "Tertiary - TAFE / Other",
@@ -62,29 +63,45 @@
       }); %>
 
       <%- include(partials+"components/form-partials/text", {
-          label: "Name of institution or school</span>",
+          label: "Name of proposed study institution or school",
           id: "name-of-school"
         }); %>
 
-      <%- include(partials+"components/form-partials/text", {
-          label: "Course / degree name",
-          id: "course-name",
+      <%- include(partials+"components/form-partials/dropdown", {
+          label: "Grade",
+          options: [
+            " -- Select grade -- ",
+            "Year 10",
+            "Year 11",
+            "Year 12",
+          ], id: "grade",
           modifiers: ["hidden"]
         }); %>
 
-      <%- include(partials+"components/form-partials/date", {
-          label: "Course commencement date",
+      <div id="tertiary-details" hidden>
+
+        <%- include(partials+"components/form-partials/text", {
+          label: "Name of preferred course or degree",
+          id: "course-name"
+        }); %>
+
+        <%- include(partials+"components/form-partials/date", {
+          label: "Date <span class='user-label-a'>you</span> started studying, or will start studying",
+          id: "commencement",
           hint: "(dd / mm / yyyy)"
         }); %>
 
-      <%- include(partials+"components/form-partials/date", {
-          label: "Course completion date",
-          hint: "(dd / mm / yyyy)<BR/>If you don't know the exact date you may enter an approximate date."
+        <%- include(partials+"components/form-partials/date", {
+          label: "Date <span class='user-label-d'>you expect to complete your</span> course / degree",
+          id: "completion",
+          hint: "(dd / mm / yyyy)<BR/>Enter an approximate date if you don't know the exact date."
         }); %>
+
+      </div>
 
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Will <span class='user-label-a'>you</span> be studying externally?",
-          hint: "<BR/>For example a correspondence course or distance education.",
+          hint: "<BR/>For example online, correspondence or distance education.",
           id: "external-question"
         }); %>
 
@@ -99,12 +116,16 @@
 
       <div class="pagination pagination--tasks">
         <a href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-01"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <a><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Exit task</button></a>
         <div class="floated">
           <a href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-04"><button class="uikit-btn" id="submit">Next</button></a>
         </div>
       </div>
+
+      <%- include(partials+"content/modals/tasks-cancel-modal") %>
+
   </main>
+
 
 </body>
 <%- include(partials+"components/layout/footer") %>
@@ -489,16 +510,19 @@
       var mySelection = $('#level-container').find(":selected").text().trim();
       switch (mySelection) {
         case "-- Select level of study --":
-          $("#course-name-container").hide();
-          break;
-        case "Primary":
-          $("#course-name-container").hide();
+          $("#tertiary-details").hide();
           break;
         case "Secondary":
-          $("#course-name-container").hide();
+          $("#grade-container").show();
+          $("#tertiary-details").hide();
+          break;
+        case "Secondary - TAFE":
+          $("#grade-container").show();
+          $("#tertiary-details").hide();
           break;
         default:
-          $("#course-name-container").show();
+          $("#grade-container").hide();
+          $("#tertiary-details").show();
           break;
       }
       $("#myForm").show();
