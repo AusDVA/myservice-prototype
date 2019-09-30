@@ -21,6 +21,9 @@
   <main>
     <div class="container container--8-column" id="main-content">
       <h1>Financial details</h1>
+      <div class="uikit-page-alerts uikit-page-alerts--alert" id="parents-got-paid">
+        If you are earning other income, such as salary or wages, you may have to pay additional tax at the end of the financial year.
+      </div>
       <%- include(partials+"components/form-groups/bank-details", {
         legend: "Bank details"
       }); %>
@@ -69,6 +72,7 @@
       </div>
     </div>
   </main>
+  <%- include("edu-switcher.ejs") %>
   <script>
     function hideAll() {
       $("#tax-file-number-input-container").hide();
@@ -77,6 +81,12 @@
       $("#withhold-tax-container").hide();
       $("#withhold-how-much-container").hide();
       $("#additional-tax-alert").hide();
+    }
+
+    if (mySelection === "Student - 17") {
+      $("#parents-got-paid").show();
+    } else {
+      $("#parents-got-paid").hide();
     }
 
     $("#tax-file-number-decide-yes").click(function () {
@@ -105,7 +115,6 @@
 
     hideAll();
   </script>
-  <%- include("edu-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
 </body>
 

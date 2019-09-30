@@ -64,7 +64,29 @@
               modifiers: [ "hintNewLine" ]
             }); %>
       </div>
-
+      <div class="primary-flow">
+        <div class="primary-flow--intro">
+          <label for=""><b>Where are you studying?</b></label>
+          <%- include(partials+"components/form-partials/dropdown", {
+                  label: "Country",
+                  options: [
+                    "Australia",
+                    "Singapore"
+                  ]
+                }); %>
+          <%- include(partials+"components/form-partials/text", {
+                  label: "Name of school",
+                  id: "name-of-school"
+                }); %>
+          <%- include(partials+"components/form-partials/dropdown", {
+                  label: "Grade this year",
+                  options: [
+                    "1",
+                    "2"
+                  ]
+                }); %>
+        </div>
+      </div>
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu3'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
@@ -75,13 +97,31 @@
   <%- include("edu-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
   <script>
+
+    if (sessionStorage.getItem("studyLevel") === "primary") {
+      hideFields();
+      $("#are-you-enrolled-container").hide();
+      $(".primary-flow").show();
+    }
+
+    if (sessionStorage.getItem("studyLevel") === "secondary") {
+      hideFields();
+      tertiaryFlow();
+    }
+
+
     function hideFields() {
       $("#study-enrollment-details").hide();
       $("#studying-full-time-no").hide();
       $("#proof-of-enrollment").hide();
+      $(".primary-flow").hide();
     }
 
-    function studyDetailsFlow() {
+    function secondaryFlow() {
+
+    }
+
+    function tertiaryFlow() {
       $("#are-you-enrolled-yes").click(function () {
         $("#study-enrollment-details").show();
         $("#proof-of-enrollment").hide();
@@ -98,15 +138,7 @@
       $("#studying-full-time-toggle-no").click(function () {
         $("#studying-full-time-no").show();
       })
-
-      if (mySelection === "Student - 17") {
-        hideFields();
-        $("#are-you-enrolled-container").hide();
-      }
     }
-
-    hideFields();
-    studyDetailsFlow();
   </script>
 </body>
 

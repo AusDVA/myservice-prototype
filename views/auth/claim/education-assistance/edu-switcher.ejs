@@ -13,8 +13,7 @@
             text: "Student - 17"
           },
           {
-            text: "Student - 21",
-            modifiers: ["checked"]
+            text: "Student - 21"
           },
           {
             text: "Student - under 17"
@@ -37,53 +36,68 @@
 
   // initialise state switcher
   $(document).ready(function () {
-    if (sessionStorage.getItem("eduFlow")) {
-      mySelection = sessionStorage.getItem("eduFlow");
-      console.log("this selection is stored: ".mySelection);
-    } else {
-      var mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
-      sessionStorage.setItem("eduFlow", mySelection);
-      console.log(sessionStorage.getItem("eduFlow"))
+    if (sessionStorage.getItem('eduFlow') == "Guardian/Student 25 +") {
+      initFlow("Guardian/Student 25 +");
+      $("#edu-assist-state-switcher-1").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - 21") {
+      initFlow("Student - 21");
+      $("#edu-assist-state-switcher-4").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - 17") {
+      initFlow("Student - 17");
+      $("#edu-assist-state-switcher-3").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - under 17") {
+      initFlow("Student - under 17");
+      $("#edu-assist-state-switcher-5").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Veteran") {
+      initFlow("Veteran");
+      $("#edu-assist-state-switcher-2").prop("checked", true);
     }
 
-    initFlow();
+    initFlow(mySelection);
     $("#state-switcher").on("change", "input[type=radio]", function () {
-      initFlow();
+      initFlow(mySelection);
     });
   });
 
   var mySelection;
-  function initFlow() {
-    if (sessionStorage.getItem("eduFlow") === true) {
-      mySelection = sessionStorage.getItem("eduFlow");
-    } else {
-      mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
-      sessionStorage.setItem("eduFlow", mySelection);
-      console.log(sessionStorage.getItem("eduFlow"))
-    }
-
+  function initFlow(mySelection) {
+    mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
     console.log(mySelection);
     switch (mySelection) {
       case "Guardian/Student 25 +":
         hideall();
         parentGuardianFlow();
+        sessionStorage.setItem('eduFlow', "Guardian/Student 25 +");
+        $("#edu-assist-state-switcher-1").prop("checked", true);
         break;
       case "Student - 21":
         hideall();
         student21Flow();
+        sessionStorage.setItem('eduFlow', "Student - 21");
+        $("#edu-assist-state-switcher-4").prop("checked", true);
         break;
       case "Student - 17":
         hideall();
         student17Flow();
+        sessionStorage.setItem('eduFlow', "Student - 17");
+        $("#edu-assist-state-switcher-3").prop("checked", true);
         break;
       case "Student - under 17":
         hideall();
         studentUnder17Flow();
+        sessionStorage.setItem('eduFlow', "Student - under 17");
+        $("#edu-assist-state-switcher-5").prop("checked", true);
         break;
 
       case "Veteran":
         hideall();
         veteranFlow();
+        sessionStorage.setItem('eduFlow', "Veteran");
+        $("#edu-assist-state-switcher-2").prop("checked", true);
         break;
       default:
       // code block
@@ -324,6 +338,7 @@
     $(".flow--parent-guardian").hide();
     $(".flow--student-under-17").hide();
     $(".flow--student-21").hide();
+    $(".flow--student-17").hide();
     $(".flow--veteran").show();
     $("#veteran-notification").show();
     $("#vet-students-dob-container").show();
