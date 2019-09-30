@@ -27,13 +27,15 @@
       }); %>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "Your level of study",
+        id: "level-of-study",
         options: [
-          "Secondary",
-          "Tertiary"
+          "Primary",
+          "Secondary"
         ]
       }); %>
       <%- include(partials+"components/form-partials/radio", {
         label: "Where are you living?",
+        id: "where-are-you-living",
         boxes: [
           "At family home",
           "Away from home",
@@ -42,6 +44,7 @@
       }); %>
       <%- include(partials+"components/form-partials/radio", {
           label: "Select the statement that best describes why you are living away from home:",
+          id: "living-away-statement",
           boxes: [
             "Academic needs not mey by local secondary school",
             "Disability",
@@ -55,6 +58,7 @@
         }); %>
       <%- include(partials+"components/form-partials/radio", {
           label: "Select the statement that best describes your living situation:",
+          id: "living-situation-statement",
           boxes: [
             "Parents don't allow the child to live in the family home",
             "The student doesn't have a family home",
@@ -68,7 +72,39 @@
       </div>
     </div>
   </main>
+  <script>
+    $("#where-are-you-living-container").hide();
+    $("#living-situation-statement-container").hide();
+    $("#living-away-statement-container").hide();
 
+    function yourDetailsFlow() {
+      $('#level-of-study').change(function () {
+        let drop = document.getElementById("level-of-study");
+        let selectedOption = drop.options[drop.selectedIndex].value;
+        console.log(selectedOption);
+        if (selectedOption === "primary") {
+          $("#where-are-you-living-container").hide();
+
+        }
+        if (selectedOption === "secondary") {
+          $("#where-are-you-living-container").show();
+        }
+      })
+
+      $("#where-are-you-living-2").click(function () {
+        $("#living-away-statement-container").show();
+        $("#living-situation-statement-container").hide();
+      })
+
+      $("#where-are-you-living-3").click(function () {
+        $("#living-away-statement-container").hide();
+        $("#living-situation-statement-container").show();
+      })
+    }
+
+    yourDetailsFlow();
+  </script>
+  <%- include("edu-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
 </body>
 

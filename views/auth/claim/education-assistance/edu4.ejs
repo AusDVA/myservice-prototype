@@ -22,39 +22,49 @@
     <div class="container container--8-column" id="main-content">
       <h1>Your study details</h1>
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Are you enrolled?"
+        label: "Are you enrolled?",
+        id: "are-you-enrolled"
       }); %>
-      <label for=""><b>Where are you studying?</b></label>
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "Country",
-        options: [
-          "Australia",
-          "Singapore"
-        ]
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Institution name"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Course name / degree name"
-      }); %>
-      <%- include(partials+"components/form-partials/date", {
-        label: "Date that you started studying, or will start studying"
-      }); %>
-      <%- include(partials+"components/form-partials/date", {
-        label: "Approximate date that you expect to complete your course / degree"
-      }); %>
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Are you studying full time?"
-      }); %>
-      <div class="uikit-page-alerts" role="alert">
-        <p>You may be contacted by a DVA representative for clarification regarding this claim.</p>
+      <div id="proof-of-enrollment" class="uikit-page-alerts" role="alert">
+        <p>This claim will not be finalised until proof of enrolment is received.</p>
       </div>
-      <%- include(partials+"components/form-partials/textarea", {
-        label: "Tell us more about your situation. Why will you be studying part time? (optional)",
-        hint: "For example, health reasons, isolated location, family situation.",
-        modifiers: [ "hintNewLine" ]
-      }); %>
+      <div id="study-enrollment-details">
+        <label for=""><b>Where are you studying?</b></label>
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "Country",
+            options: [
+              "Australia",
+              "Singapore"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Institution name"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Course name / degree name"
+          }); %>
+        <%- include(partials+"components/form-partials/date", {
+            label: "Date that you started studying"
+          }); %>
+        <%- include(partials+"components/form-partials/date", {
+            label: "Approximate date that you expect to complete your course / degree"
+          }); %>
+        <%- include(partials+"components/form-partials/yes_no", {
+            label: "Will you be studying full time?",
+            id: "studying-full-time-toggle"
+          }); %>
+      </div>
+      <div id="studying-full-time-no">
+        <div class="uikit-page-alerts" role="alert">
+          <p>You may be contacted by a DVA representative for clarification regarding this claim.</p>
+        </div>
+        <%- include(partials+"components/form-partials/textarea", {
+              label: "Tell us more about your situation. Why will you be studying part time? (optional)",
+              hint: "For example, health reasons, isolated location, family situation.",
+              modifiers: [ "hintNewLine" ]
+            }); %>
+      </div>
+
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu3'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
@@ -62,8 +72,42 @@
       </div>
     </div>
   </main>
-
+  <%- include("edu-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
+  <script>
+    function hideFields() {
+      $("#study-enrollment-details").hide();
+      $("#studying-full-time-no").hide();
+      $("#proof-of-enrollment").hide();
+    }
+
+    function studyDetailsFlow() {
+      $("#are-you-enrolled-yes").click(function () {
+        $("#study-enrollment-details").show();
+        $("#proof-of-enrollment").hide();
+      })
+      $("#are-you-enrolled-no").click(function () {
+        $("#study-enrollment-details").show();
+        $("#proof-of-enrollment").show();
+      })
+
+      $("#studying-full-time-toggle-yes").click(function () {
+        $("#studying-full-time-no").hide();
+      })
+
+      $("#studying-full-time-toggle-no").click(function () {
+        $("#studying-full-time-no").show();
+      })
+
+      if (mySelection === "Student - 17") {
+        hideFields();
+        $("#are-you-enrolled-container").hide();
+      }
+    }
+
+    hideFields();
+    studyDetailsFlow();
+  </script>
 </body>
 
 </html>

@@ -24,60 +24,64 @@
       <p><b>Do you wish to nominate a claim representative to receive updates and query about this claim on your behalf?</b></p>
       <p>They will not be able to access your account, view other claim statuses or access other personal information.</p>
       <%- include(partials+"components/form-partials/yes_no", {
+        id: "claim-rep-decision"
       }); %>
-      <p><b>Representative details</b></p>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Given name",
-        hint: "(first name)"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Surname",
-        hint: "(last name)"
-      }); %>
-      <div class="form-group">
-        <label class="uikit-text-input__label" for="phoneHome">Phone number
-          <span class="hint">(optional)</span>
-          <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
-          <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
-            <%- include(partials+"content/phone-areacode") %>
-          </select>
-          <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
-        </label>
+      <div class="claim-rep-details">
+        <p><b>Representative details</b></p>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Given name",
+            hint: "(first name)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Surname",
+            hint: "(last name)"
+          }); %>
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="phoneHome">Phone number
+            <span class="hint">(optional)</span>
+            <span class="hint display-block">Please include your area code (for example, '03' for Victoria)</span>
+            <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home" id="countryCode-home">
+              <%- include(partials+"content/phone-areacode") %>
+            </select>
+            <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+          </label>
+        </div>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Email address",
+            hint: "(optional)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Relationship to you",
+            hint: "Sister"
+          }); %>
+        <p><b>Representative postal address</b></p>
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "Country",
+            options: [
+              "Australia",
+              "Singapore"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Address line 1",
+            hint: "(start typing your address)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Address line 2",
+            hint: "(optional)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Postcode"
+          }); %>
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "State or territory",
+            options: [
+              "ACT",
+              "South Australia"
+            ]
+          }); %>
       </div>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Email address",
-        hint: "(optional)"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Relationship to you",
-        hint: "Sister"
-      }); %>
-      <p><b>Representative postal address</b></p>
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "Country",
-        options: [
-          "Australia",
-          "Singapore"
-        ]
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Address line 1",
-        hint: "(start typing your address)"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Address line 2",
-        hint: "(optional)"
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Postcode"
-      }); %>
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "State or territory",
-        options: [
-          "ACT",
-          "South Australia"
-        ]
-      }); %>
+
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu5'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
@@ -85,7 +89,16 @@
       </div>
     </div>
   </main>
-
+  <script>
+    $(".claim-rep-details").hide();
+    $("#claim-rep-decision-yes").click(function () {
+      $(".claim-rep-details").show();
+    })
+    $("#claim-rep-decision-no").click(function () {
+      $(".claim-rep-details").hide();
+    })
+  </script>
+  <%- include("edu-switcher.ejs") %>
   <%- include(partials+"components/layout/footer") %>
 </body>
 
