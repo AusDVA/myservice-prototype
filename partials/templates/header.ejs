@@ -13,7 +13,7 @@
   </nav>
   <%- include(partials+"components/layout/header-topbar") %>
   <% if (typeof type === "undefined" || type === "claim") { %>
-      <%#- include(partials+"components/layout/header-claims") %>
+      <%- include(partials+"components/layout/header-claims") %>
     <% } else if (type === "default") { %>
       <%- include(partials+"components/layout/header-authenticated") %>
     <% } %>
@@ -21,13 +21,27 @@
 
   <main id="main-content" class="<%- typeof modifiers !== "undefined" && modifiers.includes("bg-gray") ? "section-feature" : "" %>">
     <% if (typeof type === "undefined" || type === "claim") { %>
-      <div class="page-heading">
+      <div class="page-heading margin-below--extra">
+        <% if (typeof progress !== "undefined") { %>
+          <div class="container">
+            
+          <% if (typeof progress === "number") { %>
+            <%- include(components+"form-partials/progress-simple", {percent: progress}) %>
+          <% } else if (typeof progress === "object") { %>
+            <%- include(components+"form-partials/progress-advanced", progress) %>
+          <% } %>
+          </div>
+        <% } %>
         <h1 class="orange-underline"><%- typeof heading !== "undefined" ? heading : "" %></h1>
       </div>
     <% } %>
 
+<<<<<<< Updated upstream
     <div class="container container--8-column">
 
     <% if (typeof type !== "undefined" && type === "default") { %>
       
     <% } %>
+=======
+    <div class="container container--8-column">
+>>>>>>> Stashed changes
