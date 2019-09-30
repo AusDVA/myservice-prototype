@@ -43,6 +43,7 @@ app.get('/favicon.ico', (req, res) => {
 
 app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
+  res.locals.forms = __dirname + '/partials/components/form-partials/';
   res.locals.components = __dirname + '/partials/components/';
   res.locals.templates = __dirname + '/partials/templates/';
   res.locals.content = __dirname + '/partials/content/';

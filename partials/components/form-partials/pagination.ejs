@@ -1,0 +1,23 @@
+<%
+  
+if (typeof id === "undefined") var id = formPartialsID("pagination");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+
+%>
+
+<div class="pagination <%- modifiers.includes("noBorder") ? "border-top--none" : "" %> <%- modifiers.includes("noMargin") ? "margin-above--none" : "" %>" id="<%- id %>">
+  <% pagination.map(button => { %>
+    <% if (!(typeof button.modifiers !== "undefined" && button.modifiers.includes("floated"))) { %>
+      <a href="<%- button.link %>" <%- typeof id !== "undefined" ? `id="${id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("disabled") ? "disabled" : "" %>><%- button.text %></a>
+    <% } %>
+  <% }) %>
+
+  <div class="floated">
+    <% pagination.map(button => { %>
+      <% if (typeof button.modifiers !== "undefined" && button.modifiers.includes("floated")) { %>
+        <a href="<%- button.link %>" <%- typeof id !== "undefined" ? `id="${id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("disabled") ? "disabled" : "" %>><%- button.text %></a>
+      <% } %>
+    <% }) %>
+  </div>
+</div>
