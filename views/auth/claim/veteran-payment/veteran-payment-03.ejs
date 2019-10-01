@@ -31,10 +31,10 @@
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
 
-
             <%- include(partials+"components/form-partials/yes_no", {
-              label: "Do you and/or your partner have any dependent children under 16 years of age?",
+              label: "Do <span class='partnered'>you</span> have any dependent children under 16 years of age?",
               yes_toggle: "#dependent-details",
+              no_toggle: "#save-next",
               tooltip: {
                 screenreaderText: "Definition of dependent",
                content: "Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care."
@@ -43,11 +43,11 @@
 
             <div id="dependent-details" hidden>
 
-              <B>Provide details of your YOUNGEST dependent child:</b>
+              <B>Provide details of the youngest dependent child:</b>
 
               <BR /><BR />
 
-              <%- include(partials+"components/form-partials/field", {
+              <%- include(partials+"components/form-partials/text", {
               label: "Full name"
             }); %>
 
@@ -55,14 +55,11 @@
               label: "Date of birth"
             }); %>
 
-              <%- include(partials+"components/form-partials/yes_no", {
-              label: "Gender"
-            }); %>
+              <%- include(partials+"components/form-groups/gender"); %>
+
+              <BR />
 
             </div>
-
-
-
 
           </div>
 
@@ -89,17 +86,6 @@
   <script>
     $(document).ready(function () {
 
-      $('input[name=postal]').change(function () {
-        var postal = $('input[name=postal]:checked').val();
-        if (postal == "yes") {
-          $("#postal-reason").show("fast");
-          $("#save-next").hide();
-        } else {
-          $("#postal-reason").hide();
-          $("#save-next").hide();
-        }
-      });
-
       $('input[name=update_address]').change(function () {
         var updateAddress = $('input[name=update_address]:checked').val();
         if (updateAddress == "yes") {
@@ -109,12 +95,10 @@
         }
       });
 
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
-
     });
   </script>
+
+  <%- include("veteran-payment-03-state-switcher.ejs") %>
 
 </body>
 
