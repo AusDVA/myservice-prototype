@@ -22,12 +22,14 @@
     <div class="container container--8-column" id="main-content">
       <h1>Your details</h1>
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Are you married or in a de facto relationship?"
+        label: "Are you married or in a de facto relationship?",
+        id: "is-married"
       }); %>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "Your level of study",
         id: "level-of-study",
         options: [
+          "-- Select a level --",
           "Primary",
           "Secondary"
         ]
@@ -65,12 +67,13 @@
           ]
         }); %>
       <%- include(partials+"components/form-partials/yes_no", {
-            label: "Are you living with your partner?"
+            label: "Are you living with your partner?",
+            id: "living-with-partner-question"
           }); %>
       <div class="pagination">
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu2'">Previous</button>
         <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
-        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu4'">Next</button>
+        <a id="next-button3" href="edu4"><button class="uikit-btn floated btnNext">Next</button><a>
       </div>
     </div>
   </main>
@@ -78,6 +81,19 @@
     $("#where-are-you-living-container").hide();
     $("#living-situation-statement-container").hide();
     $("#living-away-statement-container").hide();
+
+    function livingArrangementCheck() {
+      if (sessionStorage.getItem("awayFromHome") === "true") {
+        console.log('its working');
+        document.getElementById("next-button3").href = "living-arrangements";
+      }
+
+      if (sessionStorage.getItem("awayFromHome") === "false") {
+        console.log('its working');
+        document.getElementById("next-button3").href = "edu4";
+      }
+    }
+
 
     function yourDetailsFlow() {
       $('#level-of-study').change(function () {
@@ -95,15 +111,61 @@
         }
       })
 
+      if (sessionStorage.getItem("parentFlow") === "false") {
+        $("#living-with-partner-question-container").hide();
+      }
+
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#living-with-partner-question-container").show();
+      }
+
+      $("#is-married-yes").click(function () {
+        isMarried = true;
+        console.log(isMarried);
+      });
+
+      $("#is-married-no").click(function () {
+        isMarried = false;
+      });
+
+      $("#where-are-you-living-1").click(function () {
+        sessionStorage.setItem("awayFromHome", false);
+        $("#living-away-statement-1-container").hide();
+        $("#living-with-partner-question-container").hide();
+        livingArrangementCheck()
+      })
+
       $("#where-are-you-living-2").click(function () {
+        sessionStorage.setItem("awayFromHome", true);
         $("#living-away-statement-container").show();
         $("#living-situation-statement-container").hide();
+        livingArrangementCheck()
       })
 
       $("#where-are-you-living-3").click(function () {
+        sessionStorage.setItem("awayFromHome", true);
         $("#living-away-statement-container").hide();
         $("#living-situation-statement-container").show();
+        livingArrangementCheck()
       })
+
+      $('input[name="living-away-statement"]').on('click', function (e) {
+        livingArrangementCheck()
+        if (isMarried) {
+          $("#living-with-partner-question-container").show();
+        } else {
+          $("#living-with-partner-question-container").hide();
+        }
+      });
+
+      $("#living-with-partner-question-no").click(function () {
+        sessionStorage.setItem("livingWithPartner", true);
+      })
+
+      $("#living-with-partner-question-yes").click(function () {
+        sessionStorage.setItem("livingWithPartner", false);
+      })
+      livingArrangementCheck()
     }
 
     yourDetailsFlow();

@@ -21,9 +21,15 @@
   <main>
     <div class="container container--8-column" id="main-content">
       <h1>Financial details</h1>
-      <p><b>John Smith's tax details</b></p>
+      <div id="your-details-parent">
+        <%- include(partials+"components/form-groups/bank-details", {
+            legend: "Bank details"
+          }); %>
+      </div>
+
+      <p><b>John's tax details</b></p>
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Does John Smith have a tax file number?",
+        label: "Does John have a tax file number?",
         id: "tax-file-number-decide"
       }); %>
 
@@ -79,11 +85,18 @@
       $("#parents-got-paid").hide();
       $("#parents-got-paid2").hide();
       $("#contact-parents-alert").hide();
+      $("#your-details-parent").hide();
     }
     hideAll();
 
     if (mySelection === "Student - 17") {
       $("#contact-parents-alert").show();
+    }
+
+    if (sessionStorage.getItem("studyLevel") === "secondary") {
+      $("#your-details-parent").show();
+    } else {
+      $("#your-details-parent").hide();
     }
 
     $("#tax-file-number-decide-yes").click(function () {
