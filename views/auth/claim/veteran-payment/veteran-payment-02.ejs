@@ -70,7 +70,7 @@
 
                 <%- include(partials+"components/form-partials/yes_no", {
                   label: "Is your partner an Australian citizen?",
-                  yes_toggle: "#partner-visa-container"
+                  no_toggle: ["#partner-visa-container","#visa-doc-container"]
                 }); %>
 
                 <%- include(partials+"components/form-partials/radio", {
@@ -81,6 +81,12 @@
                     "The holder of a special category visa"
                   ],
                   id: "partner-visa",
+                  modifiers: ["hidden"]
+                }); %>
+
+                <%- include(partials+"components/form-partials/notice", {
+                  message: "You will need to provide a copy of your visa or special category visa that shows you hold the ability to remain in Australia.",
+                  id: "visa-doc",
                   modifiers: ["hidden"]
                 }); %>
 
@@ -134,12 +140,15 @@
         switch (mySelection) {
           case "-- Select an option --":
             $("#partner-details").hide();
+            $("#save-next").hide();
             break;
           case "Single":
             $("#partner-details").hide();
+            $("#save-next").show();
             break;
           default:
             $("#partner-details").show();
+            $("#save-next").hide();
             break;
         }
       });
