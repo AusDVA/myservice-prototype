@@ -31,10 +31,9 @@
         <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
           <div class="margin-above--extra margin-below--extra">
 
-            <%- include(partials+"components/form-partials/dropdown", {
+            <%- include(partials+"components/form-partials/radio", {
               label: "What is your relationship status?",
-              options: [
-                "-- Select an option --",
+              boxes: [
                 "Single",
                 "Married and currently living together",
                 "Living in a marriage-like relationship"
@@ -47,18 +46,20 @@
               <h3>Partner details</h3>
 
               <%- include(partials+"components/form-partials/text", {
-              label: "First name"
+              label: "Given name",
+              hint: "(first name)"
             }); %>
 
               <%- include(partials+"components/form-partials/text", {
-              label: "Surname"
+              label: "Surname",
+              hint: "(last name)"
             }); %>
 
               <%- include(partials+"components/form-groups/gender"); %>
 
               <BR />
               <%- include(partials+"components/form-partials/date", {
-                label: "Partners date of birth"
+                label: "Date of birth"
               }); %>
 
               <%- include(partials+"components/form-partials/yes_no", {
@@ -85,7 +86,7 @@
                 }); %>
 
                 <%- include(partials+"components/form-partials/notice", {
-                  message: "You will need to provide a copy of your visa or special category visa that shows you hold the ability to remain in Australia.",
+                  message: "You will need to provide a copy of your current visa or special category visa.</p><p>You can attach this document at the end of your claim.</p>",
                   id: "visa-doc",
                   modifiers: ["hidden"]
                 }); %>
@@ -135,8 +136,17 @@
       $("input:radio").prop("checked", false);
       $('#relationship-status').prop('selectedIndex', 0);
 
+      // $('input[name=relationship-status-container]').change(function () {
+
+      //   mySelection = $('input[name=relationship-status-container]:checked').text().trim();
+      //   console.log(mySelection);
+
+      // });
+
       $('#relationship-status-container').change(function () {
-        var mySelection = $('#relationship-status-container').find(":selected").text().trim();
+
+        var mySelection = $('#relationship-status-container').find(":checked").text().trim();
+        console.log(mySelection);
         switch (mySelection) {
           case "-- Select an option --":
             $("#partner-details").hide();
