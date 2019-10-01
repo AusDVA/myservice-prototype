@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>John's living arrangements</h1>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Country",
+        id: "liv-arr-country",
+        options: [
+          "Australia",
+          "Singapore"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+            label: "Address line 1",
+            hint: "(start typing your address)"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+              label: "Address line 2",
+              hint: "(optional)"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+              label: "Suburb or town"
+      }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+                    label: "State or territory",
+                    id: "liv-arr-state",
+                    options: [
+                      "ACT",
+                      "NSW"
+                    ]
+      }); %>
+      <h3>john's postal address</h3>
+      <%- include(partials+"components/form-partials/checkbox", {
+        id: "same-as-residential",
+        boxes: [
+          "Same as residential address"
+        ]
+      }); %>
+      <div id="postal-address">
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "Country",
+            id: "liv-arr-country",
+            options: [
+              "Australia",
+              "Singapore"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+                label: "Address line 1",
+                hint: "(start typing your address)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+                  label: "Address line 2",
+                  hint: "(optional)"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+                  label: "Suburb or town"
+          }); %>
+        <%- include(partials+"components/form-partials/dropdown", {
+                        label: "State or territory",
+                        id: "liv-arr-state",
+                        options: [
+                          "ACT",
+                          "NSW"
+                        ]
+          }); %>
+      </div>
+      <div id="rental-info">
+        <%- include(partials+"components/form-partials/radio", {
+            label: "What is John's living situation?",
+            id: "rent-situation",
+            boxes: [
+              "Boarding / lodging",
+              "Renting",
+              "Other"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/date", {
+            label: "When did john start boarding / lodging?",
+            id: "board-date"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "How much does john pay in board every 2 weeks?",
+            id: "board-rent-amount",
+            hint: "This does not include meals."
+        }); %>
+        <%- include(partials+"components/form-partials/date", {
+        label: "When did john start renting?",
+        id: "rent-date"
+        }); %>
+        <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does john share the cost of rent with anyone else?",
+        id: "rent-share"
+        }); %>
+        <%- include(partials+"components/form-partials/text", {
+        label: "How much does john pay every 2 weeks?",
+        id: "rent-weekly"
+        }); %>
+        <%- include(partials+"components/form-partials/textarea", {
+        label: "Tell us more about john's living situation",
+        id: "optional-tell-more",
+        hint: "(optional)"
+        }); %>
+      </div>
+    </div>
+    <div class="pagination">
+      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu3'">Previous</button>
+      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+      <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu4parent'">Next</button>
+    </div>
+    </div>
+  </main>
+  <%- include("edu-switcher.ejs") %>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(document).ready(function () {
+      $("#postal-address").hide();
+      $("#rental-info").hide();
+      $("#board-date-container").hide();
+      $("#board-rent-amount-container").hide();
+      $("#rent-date-container").hide();
+      $("#rent-weekly-container").hide();
+      $("#rent-share-container").hide();
+      $("#optional-tell-more-container").hide();
+
+      $("#same-as-residential-1").click(function () {
+        $("#postal-address").toggle();
+      })
+
+      if (sessionStorage.getItem("awayFromHome") === "true") {
+
+      }
+
+      if (sessionStorage.getItem("awayFromHome") === "false") {
+
+      }
+
+      if (sessionStorage.getItem("livingWithPartner") === "true") {
+        $("#rental-info").show();
+      } else {
+        $("#rental-info").hide();
+      }
+
+      $("#rent-situation-1").click(function () {
+        $("#rent-date-container").hide();
+        $("#rent-weekly-container").hide();
+        $("#rent-share-container").hide();
+        $("#board-date-container").show();
+        $("#board-rent-amount-container").show();
+        $("#optional-tell-more-container").hide();
+      })
+
+      $("#rent-situation-2").click(function () {
+        $("#board-date-container").hide();
+        $("#board-rent-amount-container").hide();
+        $("#rent-date-container").show();
+        $("#rent-share-container").show();
+        $("#optional-tell-more-container").hide();
+      })
+
+      $("#rent-share-yes").click(function () {
+        $("#rent-weekly-container").show();
+      })
+
+      $("#rent-share-no").click(function () {
+        $("#rent-weekly-container").show();
+      })
+
+      $("#rent-situation-3").click(function () {
+        $("#board-date-container").hide();
+        $("#rent-weekly-container").hide();
+        $("#rent-date-container").hide();
+        $("#board-rent-amount-container").hide();
+        $("#rent-share-container").hide();
+        $("#optional-tell-more-container").show();
+      })
+
+    });
+
+
+  </script>
+</body>
+
+</html>

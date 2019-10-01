@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Student's details</h1>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Student's title",
+        id: "level-of-study",
+        options: [
+          "Miss",
+          "Mr",
+          "Mrs",
+          "Ms"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Student's name",
+        hint: "(first name)"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Student's surname",
+        hint: "(last name)"
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Student's gender",
+        tooltip: "Currently our system only allows us to record the student's gender as male or female. If they don't identify as either, you can discuss this with a DVA staff member on <a href='#'>1800 555 254</a>"
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Is the student married or in a de facto relationship?",
+        id: "is-married",
+        tooltip: "content here"
+      }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Student's level of study",
+        id: "level-of-study2",
+        options: [
+          "Select a level",
+          "Primary",
+          "Secondary",
+          "Tertiary"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/radio", {
+        label: "Where are you living?",
+        id: "where-are-you-living",
+        boxes: [
+          "At family home",
+          "Away from home",
+          "Homeless"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/radio", {
+          label: "Select the statement that best describes why you are living away from home:",
+          id: "living-away-statement",
+          boxes: [
+            "Academic needs not mey by local secondary school",
+            "Disability",
+            "Resides overseas",
+            "Can't access educational facilities from home",
+            "Home environment is detrimental to educational progress",
+            "Member of a family that moves often",
+            "Requires specialised remedial tuition",
+            "Enrolled in a course approved for living away from home"
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/radio", {
+          label: "Select the statement that best describes your living situation:",
+          id: "living-situation-statement",
+          boxes: [
+            "Parents don't allow the child to live in the family home",
+            "The student doesn't have a family home",
+            "Student can't live at home for risk of domestic violence"
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+          label: "Is the student living with their partner?",
+          id: "living-with-partner"
+        }); %>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu2'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <a id="next-button2" href="edu4parent"><button class="uikit-btn floated btnNext">Next</button></a>
+      </div>
+    </div>
+  </main>
+  <script>
+    var isMarried = false;
+    $(document).ready(function () {
+      $("#where-are-you-living-container").hide();
+      $("#living-situation-statement-container").hide();
+      $("#living-away-statement-container").hide();
+      $("#living-with-partner-container").hide();
+
+      function livingArrangementCheck() {
+        if (sessionStorage.getItem("awayFromHome") === "true") {
+          console.log('its working');
+          document.getElementById("next-button2").href = "living-arrangements";
+        }
+
+        if (sessionStorage.getItem("awayFromHome") === "false") {
+          console.log('its working');
+          document.getElementById("next-button2").href = "edu4parent";
+        }
+      }
+
+      function yourDetailsFlow() {
+        $('#level-of-study2').change(function () {
+          console.log('it ran');
+          let drop = document.getElementById("level-of-study2");
+          let selectedOption = drop.options[drop.selectedIndex].value;
+          console.log(selectedOption);
+          if (selectedOption === "primary") {
+            $("#where-are-you-living-container").hide();
+            sessionStorage.setItem("studyLevel", "primary");
+
+          }
+          if (selectedOption === "secondary") {
+            console.log('picked secondary');
+            $("#where-are-you-living-container").show();
+            sessionStorage.setItem("studyLevel", "secondary");
+          }
+          if (selectedOption === "tertiary") {
+            console.log('picked secondary');
+            $("#where-are-you-living-container").show();
+            sessionStorage.setItem("studyLevel", "tertiary");
+          }
+        })
+
+        $("#is-married-yes").click(function () {
+          isMarried = true;
+          console.log(isMarried);
+        });
+
+        $("#is-married-no").click(function () {
+          isMarried = false;
+          console.log(isMarried);
+        });
+
+        $("#where-are-you-living-1").click(function () {
+          sessionStorage.setItem("awayFromHome", false);
+          livingArrangementCheck()
+        })
+
+        $("#where-are-you-living-2").click(function () {
+          $("#living-away-statement-container").show();
+          $("#living-situation-statement-container").hide();
+          sessionStorage.setItem("awayFromHome", true);
+          livingArrangementCheck()
+        })
+
+        $("#where-are-you-living-3").click(function () {
+          $("#living-away-statement-container").hide();
+          $("#living-situation-statement-container").show();
+          sessionStorage.setItem("awayFromHome", false);
+          livingArrangementCheck()
+        })
+
+        $('input[name="living-away-statement"]').on('click', function (e) {
+          livingArrangementCheck();
+          if (isMarried) {
+            $("#living-with-partner-container").show();
+          } else {
+            $("#living-with-partner-container").hide();
+          }
+        });
+
+        $("#living-with-partner-no").click(function () {
+          sessionStorage.setItem("livingWithPartner", true);
+        })
+
+        $("#living-with-partner-yes").click(function () {
+          sessionStorage.setItem("livingWithPartner", false);
+        })
+        livingArrangementCheck()
+      }
+
+
+
+
+      yourDetailsFlow();
+    });
+  </script>
+  <%- include("edu-switcher.ejs") %>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
