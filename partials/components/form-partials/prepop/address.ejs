@@ -19,48 +19,87 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         tooltip: typeof tooltip !== "undefined" ? tooltip : null
       }) %>
 
-    <div class="form-group">
-      <label for="<%- id %>-country" class="uikit-text-input__label">Country</label>
-      <select name="<%- id %>-country" id="<%- id %>-country" class="uikit-text-input input-half">
-        <option value="australia" selected>Australia</option>
-        <option value="nz">New Zealand</option>
-      </select>
-    </div>
-    
-    <div class="form-group">
-      <label for="<%- id %>-building" class="uikit-text-input__label">Building name or address prefix <span class="hint">optional</span></label>
-      <input type="text" name="<%- id %>-building" id="<%- id %>-building" class="uikit-text-input">
-    </div>
-    
-    <div class="form-group">
-      <label for="<%- id %>-address-1" class="uikit-text-input__label">Address line 1</label>
-      <input type="text" name="<%- id %>-address-1" id="<%- id %>-address-1" class="uikit-text-input">
-    </div>
-    
-    <div class="form-group">
-      <label for="<%- id %>-address-2" class="uikit-text-input__label">Address line 2 <span class="hint">optional</span></label>
-      <input type="text" name="<%- id %>-address-2" id="<%- id %>-address-2" class="uikit-text-input">
-    </div>
-    
-    <div class="form-group">
-      <label for="<%- id %>-suburb" class="uikit-text-input__label">Suburb or town</label>
-      <input type="text" name="<%- id %>-suburb" id="<%- id %>-suburb" class="uikit-text-input">
-    </div>
-    
-    <div class="form-group" id="<%- id %>-postcode-wrapper">
-      <label for="<%- id %>-postcode" class="uikit-text-input__label">Postcode</label>
-      <input type="text" name="<%- id %>-postcode" id="<%- id %>-postcode" class="uikit-text-input input-small yyyy">
-    </div>
+    <% if (!modifiers.includes("australiaOnly")) { %>
+      <%- include(forms+"dropdown", {
+        label: "Country",
+        id: `${id}-country`,
+        options: [
+          {
+            text: "Australia",
+            toggle: `#${id}-postcode-wrapper, #${id}-state-container`
+          },
+          "New Zealand"
+        ]
 
+      }) %>
+    <% } %>
 
+    <%- include(forms+"text", {
+      label: "Building name or address prefix",
+      hint: " (optional)",
+      id: `${id}-building`
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Address line 1",
+      id: `${id}-address-1`
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Address line 2",
+      id: `${id}-address-2`,
+      hint: " (optional)"
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Suburb or town",
+      id: `${id}-suburb`
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Postcode",
+      modifiers: ["inputShort"],
+      id: `${id}-postcode`
+    }) %>
+
+    <%- include(forms+"dropdown", {
+      label: "State or territory",
+      id: `${id}-state`,
+      options: [
+        "-- Select state or territory --",
+        {
+          text: "Australian Capital Territory",
+          value: "act"
+        },
+        {
+          text: "New South Wales",
+          value: "nsw"
+        },
+        {
+          text: "Northern Territory",
+          value: "nt"
+        },
+        {
+          text: "Queensland",
+          value: "qld"
+        },
+        {
+          text: "South Australia",
+          value: "sa"
+        },
+        {
+          text: "Tasmania",
+          value: "tas"
+        },
+        {
+          text: "Victoria",
+          value: "vic"
+        },
+        {
+          text: "Western Australia",
+          value: "wa"
+        }
+      ]
+    }) %>
+    
 </fieldset>
-
-<script>
-  $("#<%- id %>-country").on("change", function() {
-    if ($(":selected", this).val() === "nz") {
-      $("#<%- id %>-postcode-wrapper").hide();
-    } else {
-      $("#<%- id %>-postcode-wrapper").show();
-    }
-  })
-</script>
