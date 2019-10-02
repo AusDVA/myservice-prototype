@@ -20,7 +20,8 @@
 
   <main>
     <div class="container container--8-column" id="main-content">
-      <h1>John's living arrangements</h1>
+      <h1 id="living-page-header">John's living arrangements</h1>
+      <h3 id="residential-address-header">Residential address</h3>
       <%- include(partials+"components/form-partials/dropdown", {
         label: "Country",
         id: "liv-arr-country",
@@ -48,7 +49,7 @@
                       "NSW"
                     ]
       }); %>
-      <h3>john's postal address</h3>
+      <h3 id="postal-add-header">john's postal address <span class="hint">(used for correspondence</span></h3>
       <%- include(partials+"components/form-partials/checkbox", {
         id: "same-as-residential",
         boxes: [
@@ -125,8 +126,8 @@
     <div class="pagination">
       <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu3'">Previous</button>
       <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
-      <a id="next-living" href="edu4parent"><button class="uikit-btn floated btnNext">Save and Next</button></a>
-      <button class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = '/auth/'">Save and Exit</button>
+      <a id="next-living" href="edu4parent"><button class="uikit-btn floated btnNext">Save and next</button></a>
+      <button class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = '/auth/'">Save and exit</button>
     </div>
     </div>
   </main>
@@ -194,6 +195,15 @@
         $("#rent-share-container").hide();
         $("#optional-tell-more-container").show();
       })
+
+      if (sessionStorage.getItem('parentFlow') === "false") {
+        $("#living-page-header").text("Your living arrangements")
+        $("#postal-add-header").text("Postal address");
+        $("#rent-situation-container legend").text("What is your living situation?")
+      } else {
+        $("#living-page-header").text("John's living arrangements")
+        $("#postal-add-header").text("John's postal address");
+      }
 
     });
 
