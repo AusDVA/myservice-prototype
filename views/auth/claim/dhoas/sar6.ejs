@@ -1,35 +1,7 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
-
-<head>
-
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-claims") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main id="main-content">
-    <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Review and Submit</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-        <div id="factor" class="form-group margin-above--extra">
+<%- include(templates+"header", {
+  title: "Subsidy authorisation request",
+  heading: "Declaration"
+}) %>
 
           <table class="cover-detail margin-above">
             <caption class="padding-below">Property and loan details
@@ -206,22 +178,27 @@
               </tr>
           </table>
 
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/sar5' ">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar-submitted'">Submit application</button>
-            </div>
-          </div>
+   <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/sar4"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Submit application",
+        link: "/auth/claim/dhoas/sar7",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>

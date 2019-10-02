@@ -1,161 +1,47 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Subsidy authorisation request", 
+  heading: "Property details"
+}) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(forms+"prepop/address", {
+    label: "Address of mortgaged and subsidised property",
+    modifiers: ["australiaOnly"]
+  }) %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"yes_no", {
+    label: "Is your postal address different to the subsidised property address?",
+    yes_toggle: "#why-different-container"
+  }) %>
 
-  <main id="main-content">
+  <%- include(forms+"textarea", {
+    label: "Please provide a reason",
+    id: "why-different",
+    modifiers: ["hidden"]
+  }) %>
 
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Property details</span>
-        </h1>
-      </div>
-    </div>
+  <%- include(forms+"yes_no", {
+    label: "Would you like us to update your postal address to your subsidised property address from the date of occupancy?",
+    hint: "This will only update your postal address for DHOAS correspondence.",
+    modifiers: ["hintNewLine"]
+  }) %>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/sar2",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
-            <h2 class="margin-above--large">Address of mortgaged and subsidised property</h2>
-
-            <div class="postalAddressAustralia">
-              <div class="form-group">
-                <div class="field">
-                  <label class="uikit-text-input__label" for="postalAddressPrefix">
-                    Building name or address prefix
-                    <span class="hint">(optional)
-                    </span>
-                  </label>
-                  <input type="text" id="postalAddressPrefix" name="postalAddressPrefix" class="uikit-text-input" aria-required="false" maxlength="38" value="">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="postalAddressLine1">Address line 1</label>
-                <input class="uikit-text-input" id="postalAddressLine1" name="postalAddressLine1" type="text" value="">
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="postalAddressLine2">Address line 2
-                  <span class="hint">(optional)</span>
-                </label>
-                <input class="uikit-text-input" id="postalAddressLine2" name="postalAddressLine2" type="text" value="">
-              </div>
-
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="postalAddressTown">Suburb or town</label>
-                <input class="uikit-text-input" id="postalAddressTown" name="postalAddressTown" type="text" value="">
-              </div>
-              <div class="form-group">
-                <label class="uikit-text-input__label" for="postalAddressPostcode">Postcode
-                </label>
-                <input class="uikit-text-input input-small yyyy" id="postalAddressPostcode" maxlength="4" name="postalAddressPostcode" type="text">
-              </div>
-
-              <div class="form-group postalAddressInAus">
-                <label class="uikit-text-input__label" for="postalAddressState">State or territory</label>
-                <select class="uikit-text-input input-half" id="postalAddressState" name="postalAddressState">
-                  <option> -- Select state or territory -- </option>
-                  <option> Australian Capital Territory </option>
-                  <option> New South Wales </option>
-                  <option> Northern Territory </option>
-                  <option> Queensland </option>
-                  <option> South Australia </option>
-                  <option> Tasmania </option>
-                  <option> Victoria </option>
-                  <option> Western Australia </optionf>
-                </select>
-              </div>
-            </div>
-            <div>
-
-              <% 
-              locals.el = {};
-              locals.el.question = 'Is your postal address different to the subsidised property address?'; 
-              locals.el.optionalID = 'postal'; %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-              <% 
-              locals.el = {};
-              locals.el.question = "Please provide a reason:"; 
-              locals.el.optionalHide = true;
-              locals.el.optionalLong = true;
-              locals.el.optionalID = "postal-reason";
-              %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-
-              <% 
-              locals.el = {};
-              locals.el.question = 'Would you like us to update your postal address to your subsidised property address from the date of occupancy?'; 
-              locals.el.optionalID = 'update_address'; 
-              locals.el.optionalHint = '<BR/>This will only update your postal address for DHOAS correspondence.'; 
-              %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-            </div>
-
-            <div id="save-next" hidden>
-              <p>Choose <b>save and next</b> to continue</p>
-            </div>
-
-            <div class="pagination margin-above--extra">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar2'">Save and next</button>
-              </div>
-            </div>
-
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-  <script>
-    $(document).ready(function() {
-
-      $('input[name=postal]').change(function () {
-        var postal = $('input[name=postal]:checked').val();
-        if (postal == "yes") {
-          $("#postal-reason").show("fast");
-          $("#save-next").hide();
-        } else {
-          $("#postal-reason").hide();
-          $("#save-next").hide();
-        }
-      });
-
-      $('input[name=update_address]').change(function () {
-        var updateAddress = $('input[name=update_address]:checked').val();
-        if (updateAddress == "yes") {
-          $("#save-next").show("fast");
-        } else {
-          $("#save-next").show("fast");
-        }
-      });
-
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
-
-    });
-  </script>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>
