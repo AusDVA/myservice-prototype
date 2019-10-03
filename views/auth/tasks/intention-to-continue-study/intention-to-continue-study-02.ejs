@@ -111,8 +111,8 @@
           modifiers: ["hidden"]
         }); %>
 
-      <div id="save-and-next" class="margin-above" style="display: none">
-        <p>Choose <b>save and next</b> to continue.</p>
+      <div id="save-and-next" class="margin-above" hidden>
+        <p>Choose <b>next</b> to continue.</p>
       </div>
 
       <div class="pagination pagination--tasks">
@@ -494,8 +494,10 @@
     $("input:radio").prop("checked", false);
     $("#country-select option[value=AU]").attr('selected', 'selected');
 
+    var myCountry = "Australia";
     $('#country-container').change(function () {
       var mySelection = $('#country-container').find(":selected").text().trim();
+      myCountry = mySelection;
       switch (mySelection) {
         case "Australia":
           $("#state-container").show();
@@ -514,14 +516,19 @@
           $("#tertiary-details").hide();
           break;
         case "Secondary":
-          $("#grade-container").show();
           $("#tertiary-details").hide();
           $("#tertiary-details").hide();
           $("#fulltime-question-container").hide();
+          if (myCountry == "Australia") {
+            $("#grade-container").show();
+          } else {
+            $("#grade-container").hide();
+          }
           break;
         case "Secondary - TAFE":
           $("#grade-container").show();
           $("#tertiary-details").hide();
+          $("#fulltime-question-container").hide();
           break;
         default:
           $("#fulltime-question-container").show();
@@ -566,6 +573,22 @@
         });
       }
     });
+
+    $('input[name=external-question]').change(function () {
+      $("#save-and-next").hide();
+      var mySelection = $('input[name=external-question]:checked').parent().find("span").text();
+      if ($("#fulltime-question-container").is(":visible")) {
+        $("#save-and-next").hide();
+      } else {
+        $("#save-and-next").show();
+      }
+    });
+
+    $('input[name=fulltime-question]').change(function () {
+      $("#save-and-next").show();
+    });
+
+
 
   });
 </script>
