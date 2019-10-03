@@ -13,7 +13,8 @@ module.exports = box => {
         boxID,
         suppliedID,
         tooltip,
-        customClass
+        customClass,
+        value
        } = box;
 
   let generatedID = suppliedID ? boxID : `${baseID}-${boxID}`;
@@ -35,7 +36,7 @@ module.exports = box => {
           class="uikit-control-input__input ${customClass ? customClass : ""}" 
           id="${generatedID}" 
           name="${baseID}"
-          value="${replaceNonAlphanumeric(text)}"
+          value="${value || replaceNonAlphanumeric(text)}"
           ${toggle ? `data-toggle="${toggle}"` : ""}
           ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
           ${inject ? `data-inject="${inject}"` : ""}

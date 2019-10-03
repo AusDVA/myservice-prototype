@@ -1,536 +1,163 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Application for a DHOAS Subsidy Certificate", 
+  heading: "Co-owner or borrower"
+}) %>
 
-<head>
+  <%- include(forms+"yes_no", {
+    label: "Will there be a co-owner/borrower of the property?",
+    tooltip: {
+      content: `<p>A <strong>co-owner</strong> is someone who shares ownership of the property, their name will be on the property title deed.</p><p>A <strong>co-borrower</strong> is someone you plan to sign the loan with, their name will appear on the mortgage documents.</p>`,
+      screenreaderText: "Help"
+    },
+    yes_toggle: "#co-owner--yes",
+    no_toggle: "#save-next"
+  }) %>
 
-  <title>DHOAS Application for a subsidy certificate | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <div id="co-owner--yes" hidden>
+    <h3 class="margin-below">Contact details of co-owner/borrower</h3>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Co-owner or borrower</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
-            <div class="uikit-text-input__label-wrapper--inline-block">
-            </div>
-
-            <%- include(partials+"components/forms.ejs", {
-              "forms": [
-                {
-                  "type": "y_n_toggle",
-                  "config": {
-                    "id": "co_owner",
-                    "label": "Will there be a co-owner/borrower of the property?",
-                    "yes_toggle": "#coOwnerDetails",
-                    "no_toggle": "#coOwner__no",
-                    "tooltip": {
-                      "label": "What is a co-owner/borrower?",
-                      "text": "<p>A <strong>co-owner</strong> is someone who shares ownership of the property, their name will be on the property title deed.</p><p>A <strong>co-borrower</strong> is someone you plan to sign the loan with, their name will appear on the mortgage documents.</p>"
-                    }
-                  }
-                }
-              ]
-            }); %>
-
-            <div id="coOwner__no" class="margin-above" hidden>
-              <p>Choose
-                <b>save and next</b> to continue.</p>
-            </div>
-
-            <div id="coOwnerDetails" hidden>
-              <!-- <div class="uikit-page-alerts" role="alert">
-                <p>To be eligble for the Subsidy Certificate, either you, or you and your co-owner/borrower together, must have at least 50% ownership in the property.</p>
-              </div> -->
-              <h3 class="margin-below">
-                <span>Contact details of co-owner/borrower</span>
-              </h3>
-
-
-
-              <!-- Co-owner/borrower contact details -->
-
-              <!-- PRE POPULATE FORM -->
-              <%# <div class="form-group" id="prepopulate" style="display: none;">
-                  <label class="uikit-text-input__label" for="prepopulate-list">Pre populate co-owner/borrower's details
-                    <br>
-                    <span class="hint display-block">Used previously saved details to pre populate parts of the form</span>
-                  </label>
-                  <select class="uikit-text-input input-half" id="prepopulate-list" name="prepopulate-list">
-                    <option>Pre populate form...</option>
-                  </select>
-                </div> %>
-              <!-- -->
-
-
-              <div id="contactdetails">
-
-                <%- include(partials+"components/forms.ejs", {
-                  "forms": [
-                    {
-                      "type": "text",
-                      "config": {
-                        "label": "Title/Rank"
-                      }
-                    }
-                  ]
-                }); %>
-
-                <div class="form-group" id="PartnerGivenName">
-                  <label class="uikit-text-input__label" for="GivenName">Given name
-                    <span class="hint">(first name)</span>
-                  </label>
-                  <input class="uikit-text-input input-half" name="GivenName" id="GivenName" type="text" value="" required aria-required="true">
-                </div>
-
-                <div class="form-group" id="PartnerOtherGivenName">
-                  <label class="uikit-text-input__label" for="OtherGivenName">Middle name
-                    <span class="hint">(optional)</span>
-                  </label>
-                  <input class="uikit-text-input input-half" name="OtherGivenName" id="OtherGivenName" type="text" value="" required aria-required="true">
-                </div>
-
-                <div class="form-group" id="PartnerFamilyName">
-                  <label class="uikit-text-input__label" for="FamilyName">Surname
-                    <span class="hint">(last name)</span>
-                  </label>
-                  <input class="uikit-text-input input-half" name="FamilyName" id="FamilyName" type="text" value="" required aria-required="true">
-                </div>
-
-                <%- include(partials+"components/forms.ejs", {
-                  "forms": [
-                    {
-                      "type": "y_n_toggle",
-                      "config": {
-                        "label": "Has this co-owner/borrower ever used or been known by any other names?",
-                        "hint": "<br>For example, name at birth, maiden name, previous married name",
-                        "yes_toggle": "#former-names-list"
-                      }
-                    }
-                  ]
-                }); %>
-
-                <div id="former-names-list" hidden class="form-group">
-                    <table class="mys-table table-responsive border-all border-top__thick--blue">
-                        <tbody>
-                            <tr>
-                                <th class="border-left__thin--white">
-                                    <label class="uikit-text-input__label" for="date">Given name (first name)</label>
-                                </th>
-                                <th>
-                                    <label class="uikit-text-input__label" for="date">Surname (last name)</label>
-                                </th>
-                                <th class="border-right__thin--white"></th>
-                            </tr>
-                            <tr id="date-template">
-                                <td>
-                                    <input class="uikit-text-input" type="text">
-                                </td>
-                                <td>
-                                    <input class="uikit-text-input" type="text">
-                                </td>
-                                <td>
-                                    <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
-                                </td>
-                            </tr>
-                            <tr class="padding-above--none">
-                                <td colspan="4" class="padding-above--none ss-align">
-                                    <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
-                                        <span class="icon far fa-plus-circle"></span>
-                                        <span class="link">Add another name</span>
-                                    </button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <script>
-                    function cloneMe() {
-                        var newOne = $('#date-template').clone(true)
-                            .find("input:text").val("").end();
-                        $("#removeDateRow").show();
-                        newOne.insertAfter($('#date-template'));
-                    }
-                    </script>
-                </div>
-
-                <div class="form-group" id="PartnerDOB">
-                  <label class="uikit-text-input__label" for="date">Date of birth
-                    <span class="hint">(dd / mm / yyyy)</span>
-                  </label>
-                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-                </div>
-
-
-                <div class="form-group" id="PartnerEmail">
-                  <label class="uikit-text-input__label" for="Email">Email
-                    <span class="hint onlyifconsent">(if known)</span>
-                  </label>
-                  <input class="uikit-text-input input-half" name="Email" id="Email" type="text" value="" required aria-required="true">
-                </div>
-
-                <div class="form-group" id="PartnerContactNumber">
-                  <label class="uikit-text-input__label" for="ContactNumber">Contact phone number
-                    <span class="hint onlyifconsent">(if known)</span>
-                  </label>
-                  <input class="uikit-text-input input-half" name="ContactNumber" id="ContactNumber" type="text" value="" required aria-required="true">
-                </div>
-              </div>
-
-              <h3>Relationship to co-owner/borrower</h3>
-              
-              <%- include(partials+"components/forms.ejs", {
-                "forms": [
-                  {
-                    "type": "radio",
-                    "config": {
-                      "label": " ",
-                      "id": "relation-to-coowner-borrower",
-                      "boxes": [
-                        {
-                          "text": "Partner (co-owner and/or co-borrower)",
-                        },
-                        {
-                          "text": "Non-partner co-owner",
-                          "inject": "#non-partner-co-owner"
-                        },
-                        {
-                          "text": "Non-partner co-borrower",
-                          "inject": "#non-partner-co-borrower"
-                        },
-                        {
-                          "text": "Guarantor on loan"
-                        }, 
-                        {
-                          "text": "Non-partner point of contact"
-                        }
-                      ]
-                    }
-                  }
-                ]
-              }); %>
-
-              <div id="non-partner-co-owner" hidden>
-                <fieldset class="form-group form-group--secondary">
-                  <span class="input-support-text">
-                    <span class="hint">My non-partner co-owner has</span>
-                  </span>
-                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
-                  <span class="input-support-text">%
-                    <span class="hint">Interest in the property</span>
-                  </span>
-                </fieldset>
-              </div>
-
-
-              <div id="non-partner-co-borrower" hidden>
-                <fieldset class="form-group form-group--secondary">
-                  <span class="input-support-text">
-                    <span class="hint">My non-partner co-borrower has</span>
-                  </span>
-                  <input class="uikit-text-input input-small yyyy" name="InterestInProp" id="InterestAmt" type="number">
-                  <span class="input-support-text">%
-                    <span class="hint">Interest in the property</span>
-                  </span>
-                </fieldset>
-              </div>
-
-              <%- include(partials+"components/forms.ejs", {
-                "forms": [
-                  {
-                    "type": "radio",
-                    "config": {
-                      "label": "Is this person also applying for a DHOAS Subsidy Certificate?",
-                      "boxes": [
-                        "Yes, to use on this property",
-                        "Yes, to use on another property",
-                        "No"
-                      ]
-                    }
-                  }
-                ]
-              }); %>
-
-
-              <%# <div class="form-group" id="anotherCoOwner">
-                <fieldset>
-                  <legend class="legend-label">Is there another co-owner/borrower of the property?</legend>
-                  <div class="radio-toggle">
-                    <label class="on label-left">
-                      <input id="anotherCoOwner-yes" type="radio" name="anotherCoOwner" value="anotherCoOwner-yes">
-                      <span>Yes</span>
-                    </label>
-                    <label class="off label-right">
-                      <input id="anotherCoOwner-no" type="radio" name="anotherCoOwner" value="anotherCoOwner-no">
-                      <span>No</span>
-                    </label>
-                  </div>
-                </fieldset>
-              </div> %>
-
-
-              <div class="form-group">
-                <%# <legend class="legend-label margin-below" for="agreement">Consent
-                  <span class="hint">(optional)</span>
-                </legend> %>
-                <div id="consent">
-                  <%# <p class="text-fullwidth">
-                    <label class="uikit-control-input">
-                      <input id="agreementOne" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-                      <span class="uikit-control-input__text">I agree that DVA can discuss my application with this co-owner/borrower.</span>
-                    </label>
-                  </p>
-                  <p class="text-fullwidth">
-                    <label class="uikit-control-input">
-                      <input id="agreementTwo" class="uikit-control-input__input agreement" type="checkbox" name="agreement">
-                      <span class="uikit-control-input__text">I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my&nbsp;behalf.</span>
-                    </label>
-                  </p> %>
-
-
-                  <%
-                  locals.el = {};
-                  locals.el.question = 'I agree that DVA can discuss my application with this co-owner/borrower.';
-                  %>
-                  <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-                  <%
-                  locals.el = {};
-                  locals.el.question = 'I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my behalf.';
-                  %>
-                  <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-                </div>
-              </div>
-
-
-              <%
-                  locals.el = {};
-                  locals.el.question = 'Is there another co-owner/borrower of the property?';
-                  locals.el.optionalID = 'anotherCoOwner';
-                  %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-              <div id="no-coowner" class="margin-above" style="display:none;">
-                <p>Choose
-                  <b>save and next</b> to continue.</p>
-              </div>
-            </div>
-
-            <div class="pagination margin-above--large">
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/asc1' ">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='#open-modal ' ">Cancel application</button>
-              <div class="floated ">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claims ' ">Save and exit</button>
-                <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-              </div>
-            </div>
-
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    // Javascript Rules
+    <%- include(forms+"text", {
+      label: "Title/Rank",
+      id: "title-rank"
+    }) %>
     
-    // $("#relation-to-coowner-borrower").on("click", "input[type=radio]", function() {
-    //   if ($(this).attr("id") === "relation-to-coowner-borrower-1") {
-    //     $("#")
-    //   }
-    // });
+    <%- include(forms+"text", {
+      label: "Given name",
+      hint: " (first name)",
+      id: "firstname"
+    }) %>
 
-    $("#anotherCoOwner-yes").on("click", function() {
-      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc2b'");
-    });
-    $("#anotherCoOwner-no, #co_owner-no").on("click", function() {
-      $("#btnNext").attr("onclick", "window.location.href='/auth/claim/dhoas/asc3'");
-    });
+    <%- include(forms+"text", {
+      label: "Middle name",
+      hint: " (optional)",
+      id: "middlename"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Surname",
+      hint: " (last name)",
+      id: "lastname"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "Has this co-owner/borrower ever used or been known by any other names?",
+      hint: "For example, name at birth, maiden name, previous married name",
+      modifiers: ["hintNewLine"],
+      yes_toggle: "#previous-names-container",
+      id: "previous-names-q"
+    }) %>
+
+    <%- include(forms+"previous-names", {
+      id: "previous-names",
+      modifiers: ["hidden"]
+    }) %>
+
+    <%- include(forms+"date", {
+      label: "Date of birth",
+      id: "dob"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Email",
+      hint: " (if known)",
+      id: "email"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Contact phone number",
+      hint: " (if known)",
+      id: "phone"
+    }) %>
+
+    <%- include(forms+"radio", {
+      label: "Relationship to co-owner/borrower",
+      id: "relationship",
+      boxes: [
+        "Partner (co-owner and/or co-borrower)",
+        {
+          text: "Non-partner co-owner",
+          inject: "#non-partner-co-owner"
+        },
+        {
+          text: "Non-partner co-borrower",
+          inject: "#non-partner-co-borrower"
+        },
+        "Guarantor on loan",
+        "Non-partner point of contact"
+      ]
+    }) %>
+
+    <%- include(forms+"radio", {
+      label: "Is this person also applying for a DHOAS Subsidy Certificate?",
+      id: "also-applying",
+      boxes: [
+        "Yes, to use on this property",
+        "Yes, to use on another property",
+        "No"
+      ]
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "I agree that DVA can discuss my application with this co-owner/borrower.",
+      id: "discuss-with"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my behalf.",
+      id: "make-decisions"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "Is there another co-owner/borrower of the property?",
+      id: "another-person",
+      both_toggle: "#save-next"
+    }) %>
+
+  </div>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue.</p>
 
 
-    $("#coOwnerDetails").hide();
 
-    $("#coOwner-no").click(function () {
-      $("#coOwner__no").show();
-    });
-    $("#coOwner-yes").click(function () {
-      $("#coOwner__no").hide();
-    });
+  <div class="margin-below form-group--secondary" id="non-partner-co-owner" hidden>
+    <label>
+      <span class="hint">My non-partner co-owner has</span>
+      <input class="uikit-text-input input-small yyyy" type="number" id="percent-interest"><span class="input-support-text hint">&nbsp;%</span>
+      <span class="hint">interest in the property</span>
+    </label>
+  </div>
 
-    $("#co-ownerQuestion label").click(function () {
-      if ($(this).children('input').val() == "no") {
-        $("#coOwnerDetails").hide();
-      } else {
-        $("#coOwnerDetails").show();
+  <div class="margin-below form-group--secondary" id="non-partner-co-borrower" hidden>
+    <label>
+      <span class="hint">My non-partner co-borrower has</span>
+      <input class="uikit-text-input input-small yyyy" type="number" id="percent-interest"><span class="input-support-text hint">&nbsp;%</span>
+      <span class="hint">interest in the property</span>
+    </label>
+  </div>
+  
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/asc1"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/asc3",
+        modifiers: ["floated", "primary"]
       }
-    });
+    ]
+  }) %>
 
-    $("#non-partnerCo-owner").click(function () {
-      if ($(this).prop('checked')) {
-        $("#InterestInProp").show();
-      } else {
-        $("#InterestInProp").hide();
-      }
-    });
-
-    $(document).ready(function () {
-      var checkboxes = $("input[name='agreement']"),
-        actions = $(".onlyifconsent");
-      checkboxes.click(function () {
-        if (!checkboxes.is(":checked")) {
-          actions.hide();
-        } else if (checkboxes.not(":checked")) {
-          actions.show();
-        } else {
-          actions.hide();
-        }
-      });
-    });
-
-    $("#anotherCoOwner-yes").click(function () {
-      $("#no-coowner").show();
-    });
-
-    $("#anotherCoOwner-no").click(function () {
-      $("#no-coowner").show();
-    });
-
-    $.ajax({
-      url: '/docs/data/rank.json',
-      async: false,
-      dataType: 'json'
-    }).done(function (data) {
-
-      console.log('Content data back');
-
-      var amrSet = [];
-      var armArmy = [];
-      var armNavy = [];
-      var armAirforce = [];
-
-      $.each(data.arm, function (index, element) {
-        if (element.army) {
-          armArmy = element.army;
-        }
-        if (element.navy) {
-          armNavy = element.navy;
-        }
-        if (element.airforce) {
-          armAirforce = element.airforce;
-        }
-        console.log(armArmy);
-      });
-
-      $select = $('#highest-rank');
-
-      $('input[type=radio][name=arm]').change(function () {
-        // alert(this.value);
-        $select.empty();
-        if (this.value === 'army') {
-          amrSet = armArmy;
-        }
-        if (this.value === 'navy') {
-          amrSet = armNavy;
-        }
-        if (this.value === 'airforce') {
-          amrSet = armAirforce;
-        }
-
-        $.each(amrSet, function (key, value) {
-          $select.append('<option value=' + key + '>' + value + '</option>');
-        });
-
-      });
-
-      $("#highest-rank").change(function () {
-        // if (500 < windowsize && windowsize < 600) {
-
-        if (22 < this.value && this.value < 30) {
-          console.log(this);
-          // console.log($(this.text()));
-
-          console.log($("#highest-rank option:selected").text());
-          // $("#highest-rank option:selected").text();
-          var content = $("#highest-rank option:selected").text();;
-
-
-          $("#rank-info-chosen").html(content);
-
-          $("#rank-info").show();
-        } else {
-          $("#rank-info").hide();
-        }
-      });
-    });
-
-    var relationships = {};
-
-    $(document).ready(function () {
-      $.ajax({
-        url: '/docs/data/user.json',
-        async: false,
-        dataType: 'json'
-      }).done(function (data) {
-        let person = JSON.parse(localStorage.person)._id;
-        $.each(data["person"], function (a, b) {
-          if (data["person"][a]["_id"] == person) {
-            if (Object.keys(data["person"][a]["_id"]).length > 0) {
-              $("#prepopulate").css("display", "block");
-              $.each(data["person"][a]["relationships"], function (i, q) {
-                relationships = data["person"][a]["relationships"];
-                $("#prepopulate-list").append(`<option>${q.name}</option>`);
-              });
-            }
-          }
-        })
-      });
-    });
-
-    $("#prepopulate-list").on("change", function () {
-      $.each(relationships, function (i, q) {
-        if (q["name"] == $("#prepopulate-list :selected").val()) {
-          console.log(q["name"]);
-          $("#GivenName").val(q["name"].split(" ")[0]);
-          $("#FamilyName").val(q["name"].split(" ")[1]);
-        }
-      });
-    });
-
-    $("#gs-serving").on("click", function () {
-      $("#rank").html("Co-owner/borrower's current branch of service");
-      $("#service-details").show();
-    });
-    $("#gs-served").on("click", function () {
-      $("#rank").html("Co-owner/borrower's most recent branch of service");
-      $("#service-details").show();
-    });
-    $("#gs-neverserved").on("click", function () {
-      $("#service-details").hide();
-    });
-
-  </script>
-</body>
-
-</html>
+<%- include(templates+"footer") %>
