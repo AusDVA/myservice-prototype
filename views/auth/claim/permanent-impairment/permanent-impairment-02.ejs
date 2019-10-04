@@ -1,29 +1,33 @@
 <%- include(templates+"header", {
   title: "Permanent impairment", 
-  heading: "Accepted conditions"
+  heading: "Conditions"
 }) %>
 
 <%- include(partials+"components/form-partials/checkbox", {
-  label: "Select the conditions that are affecting your capacity to work",
-  hint: "You can add a condition if you can't see it below",
+  label: "Select the accepted conditions that are impacting your lifestyle:",
   boxes: [
     "Depression",
     "Lumbar spondylosis",
+    "Osteoarthritis",
+    "Ankle sprain",
+    "Lumbar strain"
+  ],
+  modifiers: [ "hintNewLine"]
+}); %>
+
+<%- include(partials+"components/form-partials/checkbox", {
+  label: "Select any already assesed conditions you would like to have reassessed:",
+  hint: "The following are conditions you have already had assessed for impairment.",
+  boxes: [
     "Tinnitus"
   ],
   modifiers: [ "hintNewLine"]
 }); %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Have any of your other accepted condition changed?",
-  yes_toggle: "#capture-change-container",
-  no_toggle: "#save-next"
-}); %>
-
-<%- include(partials+"components/form-partials/textarea", {
-  label: "Briefly describe which conditions and the nature of the changes:",
-  id: "capture-change",
-  modifiers: ["hidden"]
+<%- include(partials+"components/form-partials/notice", {
+  message: "For assessment of the following (VEA) conditions, apply for an increase to disability pension (AFI):<ul><li>Osteoarthritis of the right knee</li></ul>",
+  type: "alert",
+  id: "no-doctors"
 }); %>
 
 <div id="save-next" class="margin-above" hidden>
@@ -38,11 +42,11 @@
     },
     {
       text: "Exit application",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-02"
+      link: "#open-modal"
     },
     {
       text: "Save and exit",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-03",
+      link: "/auth",
       modifiers: ["floated"]
     },
     {
@@ -52,5 +56,7 @@
     }
   ]
 }) %>
+
+<%- include(partials+"content/modals/application-cancel-modal") %>
 
 <%- include(templates+"footer") %>

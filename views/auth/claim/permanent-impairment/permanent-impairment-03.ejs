@@ -1,26 +1,32 @@
 <%- include(templates+"header", {
   title: "Permanent impairment", 
-  heading: "Medical details"
+  heading: "Condition details"
 }) %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Are you currently undergoing treatment or have you recently had surgery for any of your accepted conditions?",
-  yes_toggle: "#save-next",
-  no_toggle: ["#no-doctors-container","#arrange-question-container"]
+  label: "Are you and your doctor expecting any further improvement in your condition within the next two years?",
+  yes_toggle: "#not-stable-container",
+  no_toggle: ["#stable-container","#save-next"]
+}); %>
+
+<%#- include(partials+"components/form-partials/yes_no", {
+  label: "Has your practitioner determined that treatment or surgery will not improve your condition?",
+  yes_toggle: "#not-stable",
+  no_toggle: "#stable`"
 }); %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will need to have at least one assessment to help us to work out your level of impairment or lifestyle restriction. DVA can seek an assessment on your behalf should you wish; alternatively you may seek your own assessment via a medicalegal company.</p><p>If you are a serving member be aware that on-base doctors may not be willing to provide an assessment.</p> ",
-  type: "alert",
-  id: "no-doctors",
+  message: "Contact DVA again when your condition has stabilised.",
+  type: "warning",
+  id: "not-stable",
   modifiers: ["hidden"]
 }); %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Would you like DVA to seek an assessment on your behalf?",
-  hint: "DVA will contact you to arrange appointments and other details.",
-  id: "arrange-question",
-  modifiers: ["hintNewLine","hidden"]
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>Where possible DVA will use your treating medical practitioners to provide an assessment. If we cannot use your treating practitioner we will arrange an assessment for you.</p><p>If you are a serving member be aware that on-base doctors will not be able to provide an assessment.</p><p></p> ",
+  type: "alert",
+  id: "stable",
+  modifiers: ["hidden"]
 }); %>
 
 <div id="save-next" class="margin-above" hidden>
@@ -35,11 +41,11 @@
     },
     {
       text: "Exit application",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-02"
+      link: "#open-modal"
     },
     {
       text: "Save and exit",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-04",
+      link: "/auth",
       modifiers: ["floated"]
     },
     {
@@ -49,6 +55,8 @@
     }
   ]
 }) %>
+
+<%- include(partials+"content/modals/application-cancel-modal") %>
 
 <%- include(templates+"footer") %>
 
