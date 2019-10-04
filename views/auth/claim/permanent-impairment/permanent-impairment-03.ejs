@@ -5,17 +5,25 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you currently undergoing treatment or have you recently had surgery for any of your accepted conditions?",
-  yes_toggle: "#save-and-next",
-  no_toggle: "#no-doctors"
+  yes_toggle: "#save-next",
+  no_toggle: ["#no-doctors-container","#arrange-question-container"]
 }); %>
 
-<div id="no-doctors" hidden>
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You will need to have at least one assessment to help us to work out your level of impairment or lifestyle restriction. DVA can seek an assessment on your behalf should you wish; alternatively you may seek your own assessment via a medicalegal company.</p><p>If you are a serving member be aware that on-base doctors may not be willing to provide an assessment.</p> ",
+  type: "alert",
+  id: "no-doctors",
+  modifiers: ["hidden"]
+}); %>
 
-  dsdsds
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Would you like DVA to seek an assessment on your behalf?",
+  hint: "DVA will contact you to arrange appointments and other details.",
+  id: "arrange-question",
+  modifiers: ["hintNewLine","hidden"]
+}); %>
 
-</div>
-
-<div id="save-and-next" class="margin-above" hidden>
+<div id="save-next" class="margin-above" hidden>
   <p>Choose <b>save and next</b> to continue.</p>
 </div>
 
@@ -45,6 +53,22 @@
 <%- include(templates+"footer") %>
 
 <script>
+
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=arrange-question]').change(function () {
+      var mySelection = $('input[name=arrange-question]:checked').parent().find("span").text();
+      if (mySelection == "Yes") {
+        $("#save-next").show();
+      } else {
+        $("#save-next").show();
+      }
+    });
+
+  });
+
   /* On page scrolling */
 
   function scrollToAdd() {
