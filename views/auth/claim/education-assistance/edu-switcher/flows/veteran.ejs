@@ -1,0 +1,69 @@
+<script>
+  function veteranFlow() {
+    $(".flow--parent-guardian").hide();
+    $(".flow--student-under-17").hide();
+    $(".flow--student-21").hide();
+    $(".flow--student-17").hide();
+    $(".flow--veteran").show();
+    $("#veteran-notification").show();
+    $("#vet-students-dob-container").show();
+
+    // click events for each element running down the page.
+    $("#vet-students-dob-container input").keyup(function () {
+      //get the year month and day after each input change
+      year = $("#vet-students-dob-yyyy").val();
+      month = $("#vet-students-dob-mm").val();
+      day = $("#vet-students-dob-mm").val();
+
+      //calculate dob if inputs are filled in and parse to executable format
+      year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+      dob ? currentAge = getAge(dob) : currentAge = null;
+
+      currentAge < 4 ? $("#vet-under4-notification").show() : $("#vet-under4-notification").hide(); if (currentAge > 4 && currentAge <= 17) {
+        $("#vet-shared-care-arrangement-container").show(); $("#vet-student-dropdown-container").show();
+      } else {
+        $("#vet-shared-care-arrangement-container").hide();
+        $("#vet-student-dropdown-container").hide();
+      } if (currentAge === 16 || currentAge === 17) { $("#vet-family-tax-benefit-container").show(); } else {
+        $("#vet-family-tax-benefit-container").hide();
+      } currentAge >= 18 && currentAge <= 25 ? $("#vet-over18-notification").show() : $("#vet-over18-notification").hide(); currentAge >=
+        26 ? $("#vet-over26-notification").show() : $("#vet-over26-notification").hide();
+
+    });
+
+    $("#vet-family-tax-benefit-yes").click(function () {
+      if (currentAge === 16 || currentAge === 17) {
+        $("#vet-ftb-alert").show();
+      } else {
+        $("#vet-ftb-alert").hide();
+      }
+      $("#vet-family-tax-benefit-else-container").hide();
+      $("#vet-crn-number-container").show();
+      $("#vet-full-time-employment-parent-container").show();
+
+    });
+
+    $("#vet-family-tax-benefit-no").click(function () {
+      $("#vet-ftb-alert").hide();
+      $("#vet-crn-number-container").hide();
+      $("#vet-full-time-employment-parent-container").hide();
+      $("#vet-family-tax-benefit-else-container").show();
+    });
+
+    $("#vet-full-time-employment-parent-yes").click(function () {
+      $("#vet-full-time-alert").show();
+    })
+
+    $("#vet-full-time-employment-parent-no").click(function () {
+      $("#vet-full-time-alert").hide();
+    })
+
+    $("#vet-shared-care-arrangement-yes").click(function () {
+      $("#about-other-parent-guardian").show();
+    })
+
+    $("#vet-shared-care-arrangement-no").click(function () {
+      $("#about-other-parent-guardian").hide();
+    })
+  }
+</script>

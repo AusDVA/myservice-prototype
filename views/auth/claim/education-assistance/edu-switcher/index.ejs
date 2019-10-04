@@ -1,0 +1,131 @@
+<!-- Importing the logic for each flow -->
+<%- include("./flows/parent.ejs") %>
+<%- include("./flows/student-17.ejs") %>
+<%- include("./flows/student-21.ejs") %>
+<%- include("./flows/student-under-17.ejs") %>
+<%- include("./flows/veteran.ejs") %>
+
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+        id: "edu-assist-state-switcher",
+        boxes: [
+          {
+            text: "Guardian/Student 25 +"
+          },
+          {
+            text: "Veteran"
+          },
+          {
+            text: "Student - 17"
+          },
+          {
+            text: "Student - 21"
+          },
+          {
+            text: "Student - under 17"
+          },
+        ]
+      }) %>
+</div>
+<script>
+
+  // utility functions
+  function hideall() {
+    $(".flow-container > p").hide();
+    $(".flow-container > div").hide();
+    $(".flow-container > h3").hide();
+  }
+
+  // using this to calculate the age from the birthdate input in each flow
+  function getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  // set state switcher toggle
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+  // initialise state switcher
+  $(document).ready(function () {
+    if (sessionStorage.getItem('eduFlow') == "Guardian/Student 25 +") {
+      initFlow("Guardian/Student 25 +");
+      $("#edu-assist-state-switcher-1").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - 21") {
+      initFlow("Student - 21");
+      $("#edu-assist-state-switcher-4").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - 17") {
+      initFlow("Student - 17");
+      $("#edu-assist-state-switcher-3").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Student - under 17") {
+      initFlow("Student - under 17");
+      $("#edu-assist-state-switcher-5").prop("checked", true);
+    }
+    if (sessionStorage.getItem('eduFlow') == "Veteran") {
+      initFlow("Veteran");
+      $("#edu-assist-state-switcher-2").prop("checked", true);
+    }
+
+    initFlow(mySelection);
+    $("#state-switcher").on("change", "input[type=radio]", function () {
+      initFlow(mySelection);
+    });
+  });
+
+  // function to init state switcher
+  var mySelection;
+  function initFlow(mySelection) {
+    mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+    console.log(mySelection);
+    switch (mySelection) {
+      case "Guardian/Student 25 +":
+        hideall();
+        parentGuardianFlow();
+        sessionStorage.setItem('eduFlow', "Guardian/Student 25 +");
+        $("#edu-assist-state-switcher-1").prop("checked", true);
+        break;
+      case "Student - 21":
+        hideall();
+        student21Flow();
+        sessionStorage.setItem('eduFlow', "Student - 21");
+        $("#edu-assist-state-switcher-4").prop("checked", true);
+        break;
+      case "Student - 17":
+        hideall();
+        student17Flow();
+        sessionStorage.setItem('eduFlow', "Student - 17");
+        $("#edu-assist-state-switcher-3").prop("checked", true);
+        break;
+      case "Student - under 17":
+        hideall();
+        studentUnder17Flow();
+        sessionStorage.setItem('eduFlow', "Student - under 17");
+        $("#edu-assist-state-switcher-5").prop("checked", true);
+        break;
+
+      case "Veteran":
+        hideall();
+        veteranFlow();
+        sessionStorage.setItem('eduFlow', "Veteran");
+        $("#edu-assist-state-switcher-2").prop("checked", true);
+        break;
+      default:
+    }
+  }
+</script>

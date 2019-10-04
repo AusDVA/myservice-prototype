@@ -1,0 +1,150 @@
+<script>
+  function student21Flow() {
+    $(".flow--veteran").hide();
+    $(".flow--student-17").hide();
+    $(".flow--student-under-17").hide();
+    $(".flow--parent-guardian").hide();
+    $(".flow--student-21").show();
+
+    $("#stud21-student-or-parent-radio-2").click(function () {
+      hideall();
+      $("#parent-guardian-alert3").show();
+      $("#about-student-heading3").show();
+      $("#students-dob3-container").show();
+      parentFlow = true;
+      sessionStorage.setItem("parentFlow", true);
+    })
+
+    $("#stud21-student-or-parent-radio-1").click(function () {
+      hideall();
+      $("#stud21-dependant-child-alert").show();
+      $("#stud21-are-you-employed-container").show();
+      parentFlow = false;
+      sessionStorage.setItem("parentFlow", false);
+    })
+
+    $("#students-dob3-container input").keyup(function () {
+      //get the year month and day after each input change
+      year = $("#students-dob3-yyyy").val();
+      month = $("#students-dob3-mm").val();
+      day = $("#students-dob3-mm").val();
+
+      //calculate dob if inputs are filled in and parse to executable format
+      year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+      dob ? currentAge = getAge(dob) : currentAge = null;
+      sessionStorage.setItem("studentAge", currentAge);
+      currentAge < 4 ? $("#stud-under4-notification").show() : $("#stud-under4-notification").hide(); if (currentAge > 4 && currentAge <= 17) {
+        $("#full-time-employment-parent-stud-container").show();
+      } else { $("#full-time-employment-parent-stud-container").hide(); } if (currentAge === 16 || currentAge === 17) {
+        $("#vet-family-tax-benefit-container").show();
+      } else { $("#vet-family-tax-benefit-container").hide(); } currentAge >= 18 && currentAge <= 25 ?
+        $("#stud-over18-notification").show() : $("#stud-over18-notification").hide(); currentAge >= 26 ? $("#stud-over26-notification").show() :
+          $("#stud-over26-notification").hide();
+
+    });
+
+    $("#full-time-employment-parent-stud-yes").click(function () {
+      $("#stud-full-time-alert").show();
+      $("#stud-about-veteran-header").show();
+      $("#stud-about-the-veteran-drop-container").show();
+      $("#stud-shared-care-container").show();
+    })
+
+    $("#full-time-employment-parent-stud-no").click(function () {
+      $("#stud-full-time-alert").hide();
+      $("#stud-about-veteran-header").show();
+      $("#stud-about-the-veteran-drop-container").show();
+      $("#stud-shared-care-container").show();
+    })
+
+    $('#stud-about-the-veteran-drop').change(function () {
+      let drop = document.getElementById("stud-about-the-veteran-drop");
+      let selectedOption = drop.options[drop.selectedIndex].value;
+      console.log(selectedOption);
+      if (selectedOption === "parent") {
+        $("#stud-parent-selected-message").show();
+
+      }
+      if (selectedOption === "guardian") {
+        $("#maybe-not-eligible-3").hide();
+        $("#stud-parent-selected-message").hide();
+        $("#student-veteran-dependant3-container").show();
+
+      }
+    })
+
+    $("#yes_no722-no").click(function () {
+      $("#maybe-not-eligible-3").show();
+      $("#about-you-stud21").hide();
+    })
+
+    $("#yes_no722-yes").click(function () {
+      if (parentFlow) {
+        $("#about-you-stud21").show();
+      }
+      $("#maybe-not-eligible-3").hide();
+
+    })
+
+    $("#yes_no722-unsure").click(function () {
+      $("#maybe-not-eligible-3").hide();
+      if (parentFlow) {
+        $("#about-you-stud21").show();
+      }
+    })
+
+    $("#stud-family-tax-benefit-yes").click(function () {
+      $("#stud-crn-number-container").show();
+      $("#stud-ftb-alert").show();
+    })
+
+    $("#stud-family-tax-benefit-no").click(function () {
+      $("#stud-crn-number-container").hide();
+      $("#stud-ftb-alert").hide();
+    })
+
+    $("#student-veteran-dependant3-yes").click(function () {
+      $("#stud-parent-selected-message").show();
+    })
+
+    $("#student-veteran-dependant3-no").click(function () {
+      if (parentFlow) {
+        $("#maybe-not-eligible-3").show();
+      } else {
+        $("#stud-parent-selected-message").hide();
+        $("#maybe-not-eligible-3").show();
+      }
+
+    })
+
+    $("#stud-shared-care-yes").click(function () {
+      $("#stud-care-percent-container").show();
+    })
+
+    $("#stud-shared-care-no").click(function () {
+      $("#stud-care-percent-container").hide();
+    })
+
+    $("#stud21-are-you-employed-yes").click(function () {
+      $("#stud-full-time-alert").show();
+      $("#stud-about-veteran-header").show();
+      $("#stud-about-the-veteran-drop-container").show();
+      if (parentFlow) {
+        $("label[for=stud-about-the-veteran-drop]").text("the veteran is the student's");
+      } else {
+        $("label[for=stud-about-the-veteran-drop]").text('the veteran is my');
+      }
+    })
+
+    $("#stud21-are-you-employed-no").click(function () {
+      $("#stud-full-time-alert").hide();
+      $("#stud-about-veteran-header").show();
+      $("#stud-about-the-veteran-drop-container").show();
+      if (parentFlow) {
+        $("label[for=stud-about-the-veteran-drop]").text("the veteran is the student's");
+      } else {
+        $("label[for=stud-about-the-veteran-drop]").text('the veteran is my');
+      }
+    })
+  }
+</script>
