@@ -4,6 +4,13 @@
 <head>
   <title>Add claim: Upload supporting documents | MyService</title>
   <%- include(partials+"components/layout/head") %>
+
+  <style>
+    .pt-claim-reason {
+      display: none;
+    }
+
+  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -40,23 +47,25 @@
                   <span class="hint display-block">Select all that apply.</span>
                   <br />
                 </label>
-                <p class="uiToolKitCheckBox sop-checkbox">
-                  <label class="uikit-control-input uikit-control-input--full">
-                    <input class="uikit-control-input__input" type="checkbox" id="sop1" name="sop">
-                    <span class="uikit-control-input__text">having a lumbar intervertebral disc prolapse before the clinical onset of lumbar spondylosis at the level of the
-                      intervertebral disc
-                      prolapse</span>
-                  </label>
-                </p>
-                <p class="uiToolKitCheckBox sop-checkbox">
-                  <label class="uikit-control-input uikit-control-input--full">
-                    <input class="uikit-control-input__input" type="checkbox" id="sop1" name="sop">
-                    <span class="uikit-control-input__text">lifting loads of at least 25 kilograms while bearing weight through the lumbar spine to a cumulative total of at least
-                      120 000
-                      kilograms
-                      within any ten year period before the clinical onset of lumbar spondylosis</span>
-                  </label>
-                </p>
+                <div class="pt-claim-reason">
+                  <p class="uiToolKitCheckBox sop-checkbox">
+                    <label class="uikit-control-input uikit-control-input--full">
+                      <input class="uikit-control-input__input" type="checkbox" id="sop1" name="sop">
+                      <span class="uikit-control-input__text">having a lumbar intervertebral disc prolapse before the clinical onset of lumbar spondylosis at the level of the
+                        intervertebral disc
+                        prolapse</span>
+                    </label>
+                  </p>
+                  <p class="uiToolKitCheckBox sop-checkbox">
+                    <label class="uikit-control-input uikit-control-input--full">
+                      <input class="uikit-control-input__input" type="checkbox" id="sop1" name="sop">
+                      <span class="uikit-control-input__text">lifting loads of at least 25 kilograms while bearing weight through the lumbar spine to a cumulative total of at least
+                        120 000
+                        kilograms
+                        within any ten year period before the clinical onset of lumbar spondylosis</span>
+                    </label>
+                  </p>
+                </div>
               </div>
             </fieldset>
 
@@ -94,15 +103,16 @@
 
   <%- include(partials+"components/layout/footer") %>
 
-
+  <script src="/docs/js/claims.js"></script>
   <script>
+
+
     // Progress percentage
     // document.getElementById("percentage").style.width = "50%";
     document.getElementById("percentage").style.width = "37.5%";
     document.getElementById("percentage_value").textContent = "37.5%";
 
     // Show alternative (and required) text in Story block if 'other' checkbox in SOP block is selected
-
     $("#sop2").click(function () {
       if ($("#sop2").is(':checked')) {
         $(".optional-field").hide();
@@ -112,6 +122,12 @@
         $(".optional-field").show();
         $(".required-hint").hide();
       }
+    });
+
+    getClaimCondition();
+
+    $(document).ready(function () {
+      $(".pt-claim-reason").show();
     });
 
   </script>

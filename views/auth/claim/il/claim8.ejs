@@ -4,6 +4,14 @@
 <head>
   <title>Add claim: Review and submit | MyService</title>
   <%- include(partials+"components/layout/head") %>
+
+  <style>
+    .pt-hearing-loss-next-steps,
+    .pt-hearing-api-response {
+      display: none
+    }
+
+  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -22,11 +30,25 @@
         <div class="col-md-offset-1 col-md-10">
           <div class="claim-end">
             <div class="pt-claim-type--normal">
+
               <div class="margin-above ie-success-animation">
                 <img src="/docs/images/ico-submitted.svg" alt="Submitted icon">
               </div>
-              <div class="margin-above submitted-animation">
-                <%- include(partials+"components/animations/submitted") %>
+
+              <div class="margin-above submitted-animation" style="display: none;">
+                <!-- animation loaded in jquery below -->
+              </div>
+
+              <div class="margin-above success-animation" style="display: none;">
+                <!-- animation loaded in jquery below -->
+              </div>
+
+              <div class="margin-above thinking-animation">
+                <%- include(partials+"components/animations/thinking") %>
+              </div>
+
+              <div class="uikit-page-alerts pt-hearing-api-response" role="alert">
+                <p style="Word-Wrap: break-word">Checking Hearing loss API... </p>
               </div>
               <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
                 <h1>We're submitting your claim for Initial Liability </h1>
@@ -34,18 +56,42 @@
             </div>
             <div class="transition-content pt-claim-animation-end margin-below--extra">
               <div class="pt-claim-type--normal">
-                <h1 class="centred-item">Your claim has been <strong>submitted</strong>
+                <h1 class="centred-item">Your claim has been <strong> <span class="pt-claim-status"></span> </strong>
                 </h1>
               </div>
               <hr class="orange-divider">
               <h2 class="ss-align--center"><b>What's next?</b></h2>
               <div class="container">
-                <div class="col-sm-offset-1 col-sm-8">
-                  <ul class="next-steps">
-                    <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.</li>
-                    <li>You will receive an email confirmation and be contacted about your claim.</li>
-                    <li>If your claim is accepted you will be able to view your accepted conditions on your MyService Cards page.</li>
-                  </ul>
+                <div class="row">
+                  <div class="col-sm-offset-1 col-sm-8">
+                    <ul class="next-steps pt-general-next-steps">
+                      <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.</li>
+                      <li>You will receive an email confirmation and be contacted about your claim.</li>
+                      <li>If your claim is accepted you will be able to view your accepted conditions on your MyService Cards page.</li>
+                    </ul>
+
+                    <ul class="next-steps pt-hearing-loss-next-steps">
+                      <li>You can now access Department of Health’s Hearing Services Program (HSP).</li>
+                      <li> The HSP provides support and access to hearing assessments and a range of hearing services. </li>
+                      <li>In addition to the HSP, we can offer additional help with hearing services and support to Gold Card and some White Card holders who have a clinical need.
+                        This help includes:
+                        <ul class="next-steps">
+                          <li>medical aids and appliances</li>
+                          <li> the Tinnitus Program</li>
+                        </ul>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+                <div class="row pt-hearing-loss-next-steps">
+                  <div class="col-sm-6 ">
+                    You’re now eligible to make a permanent impairment claim based on your <span class="pt-claim-condition"></span> claim.
+
+                  </div>
+                  <div class="col-sm-6 ">
+                    <button class="uikit-btn" onclick="window.location.href = '/auth/claim/pi/claim1'">Make a permanent impairment claim</button>
+                  </div>
                 </div>
                 <div class="pagination">
                   <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>
@@ -69,13 +115,9 @@
 
     writeRep(data);
 
+    // testing heroku
 
-    var timeDelay = 3000;
-    setTimeout(
-      function () {
-        $(".pt-claim-animation-start").toggleClass("transition-content--open");
-        $(".pt-claim-animation-end").toggleClass("transition-content--open");
-      }, timeDelay);
+
 
     var queryString = new Array();
     $(function () {
@@ -103,6 +145,114 @@
         }
       }
     });
+
+
+    // if ((localStorage.getItem('repFlow') == 'representing')) {
+    //   localStorage.setItem('repFlow', 'both');
+    // } else {
+    //   localStorage.setItem('repFlow', 'represented');
+    // }
+
+
+    var claimData = JSON.parse(sessionStorage.getItem('claimCondition'));
+    var timeDelay = 3000;
+
+    if (claimData && claimData.label === 'Sensorineural hearing loss') {
+
+      $('.pt-hearing-api-response').show();
+      // call the api every 3 seconds until it returns 'compleated'
+
+      (function poll() {
+        var continuePolling = true;
+
+        setTimeout(function () {
+
+          $.ajax({
+            url: sessionStorage.getItem('hearingLossApiUrl'),
+            data: '',
+            cache: false,
+            contentType: false,
+            processData: false,
+            type: 'GET',
+            success: function (data, textStatus, jqXHR) {
+              console.log(data);
+
+              console.log('Running:' + continuePolling);
+              if (data.status === 'Running') {
+
+                $('.pt-hearing-api-response p').html('Response from API: <br>' + data.status);
+
+              } else if (data.status === 'Completed') {
+                console.log('API returned completed');
+                continuePolling = false;
+                $(".pt-claim-animation-start").toggleClass("transition-content--open");
+                $(".pt-claim-animation-end").toggleClass("transition-content--open");
+                $('.thinking-animation').hide();
+                // if (data.result.mrcaResult !== null) {
+                if ((data.result.snhlDiagnosis) && (data.result.snhlDiagnosis.verified === true)) {
+
+                  $('.success-animation').show();
+                  $('.success-animation').load('/partials/components/animations/success.ejs');
+                  $('.pt-hearing-loss-next-steps').show();
+                  $('.pt-general-next-steps').hide();
+                  $('.pt-claim-status').html('approved');
+                  $('.pt-claim-condition').html(claimData.label);
+                  $('.pt-hearing-api-response p').html('Response from API: <br> Verified = ' +
+                    (data.result.snhlDiagnosis.verified) +
+                    '<br> Reasons = ' + (data.result.snhlDiagnosis.reasons));
+
+                  sessionStorage.setItem('claimImpairmentPoints', data.result.mrcaResult.impairmentPoints);
+                  sessionStorage.setItem('claimFortnightlyPayment', data.result.mrcaResult.fortnightlyPayment);
+                  sessionStorage.setItem('claimReturnedReason', data.result.mrcaResult.reasons);
+
+                } else {
+
+                  $('.submitted-animation').show();
+                  $('.submitted-animation').load('/partials/components/animations/submitted.ejs');
+                  $('.pt-claim-status').html('submitted');
+                  if ((data.result.snhlDiagnosis) && (data.result.snhlDiagnosis.verified === false)) {
+                    $('.pt-hearing-api-response p').html('Response from API: <br> Verified = ' +
+                      (data.result.snhlDiagnosis.verified) +
+                      '<br> Reasons = ' + (data.result.snhlDiagnosis.reasons));
+                  } else {
+                    $('.pt-hearing-api-response p').html('Response from API: <br>' + (JSON.stringify(data.result.errors)));
+                  }
+
+                }
+
+              } else if (data.status === 'Failed') {
+                $('.pt-claim-status').html('submitted');
+              }
+            },
+            error: function (error) {
+              console.log("Error:");
+              console.log(error);
+              $('.pt-hearing-api-response p').html(JSON.stringify(error));
+            },
+            complete: function () {
+              if (continuePolling) {
+                poll();
+              }
+            },
+
+          });
+        }, timeDelay);
+      })();
+
+    } else {
+      $('.pt-claim-status').html('submitted');
+      $('.submitted-animation').show();
+      $('.thinking-animation').hide();
+
+      setTimeout(
+        function () {
+          $(".pt-claim-animation-start").toggleClass("transition-content--open");
+          $(".pt-claim-animation-end").toggleClass("transition-content--open");
+
+        }, timeDelay);
+    }
+
+
 
   </script>
 </body>
