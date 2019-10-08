@@ -7,7 +7,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 %>
 
 
-<div class="multi-date__container">
+<div class="multi-date__container" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
   <button class="uikit-btn multi-date__button multi-date__button--add">Add</button>
 </div>
 
@@ -16,7 +16,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     <legend id="<%- id %>-start" class="multi-date__label legend-override">Start Date <span class="hint"> (dd / mm / yyyy)</span></legend>
     <div class="multi-date__input-group">
       <div class="multi-date__date-group">
-        <%- include(partials+"components/form-partials/date", {hint: ""}) %>
+        <%- include(partials+"components/form-partials/date", {hint: "", modifiers: []}) %>
       </div>
     </div>
   </fieldset>
@@ -24,7 +24,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     <legend id="<%- id %>-end" class="multi-date__label legend-override">End Date <span class="hint"> (dd / mm / yyyy)</span></legend>
     <div class="multi-date__input-group">
       <div class="multi-date__date-group">
-        <%- include(partials+"components/form-partials/date", {hint: ""}) %>
+        <%- include(partials+"components/form-partials/date", {hint: "", modifiers: []}) %>
       </div>
       <button class="uikit-btn uikit-btn--tertiary multi-date__button multi-date__button--remove">Remove</button>
       <%- generateCheckRadio({
@@ -44,10 +44,10 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 <script>
 
 $(document).ready(function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore(".multi-date__button--add");
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
 })
 
-$(".multi-date__container").on("click", ".multi-date__checkbox", function() {
+$("#<%- id %>-container").on("click", ".multi-date__container .multi-date__checkbox", function() {
   if ($(this).prop("checked")) {
     $(this).closest(".multi-date__row").find(".dd").attr("disabled", "true");
     $(this).closest(".multi-date__row").find(".dd").val("");
@@ -62,13 +62,13 @@ $(".multi-date__container").on("click", ".multi-date__checkbox", function() {
   }
 });
 
-$(".multi-date__button--add").on("click", function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore(".multi-date__button--add");
+$("#<%- id %>-container").on("click", ".multi-date__button--add", function() {
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
   $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
   $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
 })
 
-$(".multi-date__container").on("click", ".multi-date__button--remove", function() {
+$("#<%- id %>-container ").on("click", ".multi-date__button--remove", function() {
   if ($(this).closest(".multi-date").find(".multi-date__checkbox").prop("checked")) {
     ongoing = false;
     checkbox.insertBefore($(".multi-date__container").find(".multi-date").last().find(".multi-date--end").find(".multi-date__button"));

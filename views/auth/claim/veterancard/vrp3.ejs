@@ -3,7 +3,7 @@
 
 <head>
   <title>Veteran Recognition | MyService</title>
-<%- include(partials+"components/layout/head") %>
+  <%- include(partials+"components/layout/head") %>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -24,66 +24,68 @@
       </div>
     </div>
     <section class="veteran-card">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-          <div class="margin-above--extra margin-below--extra">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-offset-2 col-md-8">
+            <div class="margin-above--extra margin-below--extra">
 
-            <h2>You may be eligible for the veteran supplement</h2>
+              <h2>You may be eligible for the veteran supplement</h2>
 
-            <p class="pre-pop-off" hidden>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to your nominated account. You will also receive a letter from us to confirm your first payment.</p>
+              <p class="pre-pop-off" hidden>If you provide your bank account details we will check your eligibility. If eligible, payments will be made to your nominated account.
+                You will also receive a letter from us to confirm your first payment.</p>
 
-            <p class="pre-pop-on" hidden>If eligible, payments will be made to the bank account shown below. You can update this in your profile. You will also receive a letter from us to confirm your first payment.</p>
+              <p class="pre-pop-on" hidden>If eligible, payments will be made to the bank account shown below. You can update this in your profile. You will also receive a letter
+                from us to confirm your first payment.</p>
 
-            <p>Find out more about the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">veteran supplement</a>.</p>
+              <p>Find out more about the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement">veteran supplement</a>.</p>
 
-            <hr>
+              <hr>
 
-            <div class="pre-pop-off" hidden>            
-              <%- include(partials+"components/form-partials/yes_no", {
+              <div class="pre-pop-off" hidden>
+                <%- include(partials+"components/form-partials/yes_no", {
                 label: "Would you like to provide your bank account details?",
                 yes_toggle: "#bank-details-container" 
               })  %>
 
-              <%- include(partials+"components/form-groups/bank-details", {
+              <%- include(partials+"components/form-partials/prepop/bank-details", {
                 modifiers: ["hidden"],
                 id: "bank-details",
                 label: ""
               }) %>
+              </div>
+
+              <div class="pre-pop-on" hidden>
+                <div class="kv-pair">
+                  <span class="kv-pair__key">Account Name:</span>
+                  <span class="kv-pair__value">Rebecca Orange</span>
+                </div>
+                <div class="kv-pair">
+                  <span class="kv-pair__key">Account number:</span>
+                  <span class="kv-pair__value">7123 8876 0023</span>
+                </div>
+                <div class="kv-pair">
+                  <span class="kv-pair__key">BSB:</span>
+                  <span class="kv-pair__value">654 - 788</span>
+                </div>
+                <div class="kv-pair">
+                  <span class="kv-pair__key">Financial Institution:</span>
+                  <span class="kv-pair__value">ANZ Bank</span>
+                </div>
+              </div>
+
+
             </div>
 
-            <div class="pre-pop-on" hidden>
-              <div class="kv-pair">
-                <span class="kv-pair__key">Account Name:</span>
-                <span class="kv-pair__value">Rebecca Orange</span>
+            <div class="pagination">
+              <button class="uikit-btn uikit-btn--tertiary" id="btnPrev" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+              <div class="floated">
+                <button class="uikit-btn" id="btnNext">Next</button>
               </div>
-              <div class="kv-pair">
-                <span class="kv-pair__key">Account number:</span>
-                <span class="kv-pair__value">7123 8876 0023</span>
-              </div>
-              <div class="kv-pair">
-                <span class="kv-pair__key">BSB:</span>
-                <span class="kv-pair__value">654 - 788</span>
-              </div>
-              <div class="kv-pair">
-                <span class="kv-pair__key">Financial Institution:</span>
-                <span class="kv-pair__value">ANZ Bank</span>
-              </div>
-            </div>
-
-
-          </div>
-  
-          <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" id="btnPrev" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn" id="btnNext">Next</button>
             </div>
           </div>
         </div>
       </div>
-    </div>
     </section>
     <%- include(partials+"content/modals/claims-cancel-modal") %>
   </main>
@@ -111,20 +113,20 @@
     }
 
 
-    $("#add-bank-details").on("click", function() {
+    $("#add-bank-details").on("click", function () {
       $("#bank-details").show();
       $("#add-bank-details").hide();
       $("#add-bank-details-hint").hide();
     })
 
-    $("#cancel-bank-details").on("click", function() {
+    $("#cancel-bank-details").on("click", function () {
       $("#bank-details").hide();
       $("#bank-details").trigger("reset");
       $("#add-bank-details").show();
       $("#add-bank-details-hint").show();
     })
 
-    $("#bank-details").on("submit", function(e) {
+    $("#bank-details").on("submit", function (e) {
       e.preventDefault();
     })
   </script>
