@@ -148,9 +148,41 @@
             <!-- Partner details -->
             <div class="form-group" id="partner-details">
               <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
-              <!-- Names -->
-              <%- include(partials+"content/name") %>
+
+              <!-- Title -->
+              <%#- include(partials+"components/form-elements/title-list") %>
+
+              <%- include(partials+"components/form-partials/dropdown", {
+                label: "Partner title",
+                options: [
+                  "--Select title--",
+                  "Mr",
+                  "Mrs",
+                  "Master",
+                  "Miss",
+                  "Dr"
+                ]
+              }); %>
+              <!-- Given name -->
+              <%
+locals.el = {};
+locals.el.question = "Given name";
+locals.el.optionalHint = '(first name)';
+%>
+              <%- include(partials+"components/form-elements/field", locals) %>
+              <!-- Surname name -->
+              <%
+locals.el = {};
+locals.el.question = "Surname";
+locals.el.optionalHint = '(last name)';
+%>
+              <%- include(partials+"components/form-elements/field", locals) %>
+
               <!-- Former names -->
+              <%
+              locals.el = {};
+              locals.el.optionalQuestion = "Has your partner ever been known by an other names?";
+              %>
               <%- include(partials+"content/former_names") %>
               <!-- Partner DOB -->
               <% 

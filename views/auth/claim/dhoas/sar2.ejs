@@ -1,212 +1,128 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Subsidy authorisation request",
+  heading: "Property details"
+}) %>
 
-<head>
+  <%- include(forms+"radio", {
+    label: "I declare that I am using this home loan solely to:",
+    boxes: [
+      {
+        text: "Purchase a new home",
+        inject: "#purchase-new-home-container"
+      },
+      {
+        text: "Construct and/or renovate on land purchased with this loan",
+        inject: "#construct-new-container"
+      },
+      {
+        text: "Construct and/or renovate on previously purchased land",
+        inject: "#construct-previous-container"
+      },
+      {
+        text: "Refinance an existing home",
+        inject: "#refinance-container",
+        rToggle: "#expected-settlement-container"
+      }
+    ]
+  }) %>
 
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    type: "content",
+    id: "purchase-new-home",
+    message: "<p>Buy an interest in the property detailed, which contains a habitable house.</p>"
+  }) %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    type: "content",
+    id: "construct-new",
+    message: `<p>Buy an interest in the property detailed and undertake building work consisting of either:</p>
+                <ol>
+                  <li>Construction or completion of a house (excluding a unit) on the property; or</li>
+                  <li>Enlargement, renovation or repair of a house on the property; or</li>
+                  <li>Construction of another permanent improvement on the property, that is primarily for private or domestic purposes in association with an existing or proposed house.</li>
+                </ol>`
+  }) %>
 
-  <main id="main-content">
-    <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Home loan details</span>
-        </h1>
-      </div>
-    </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  <%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    type: "content",
+    id: "construct-previous",
+    message: `<p>I have an interest in the land at the property and will undertake building work on that land consisting of either:</p>
+                <ol>
+                  <li>Construction or completion of a house (excluding a unit) on the property; or</li>
+                  <li>Enlargement, renovation or repair of a house on the property; or</li>
+                  <li>Construction of another permanent improvement on the property, that is primarily for private or domestic purposes in association with an existing or proposed house.</li>
+                </ol>`
+  }) %>
 
-            <div class="form-group" id="use-of-loan">
-              <label class="uikit-text-input__label" for="radio-buttons">I declare that I am using this home loan solely to:</label>
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="use-of-loan-purchase" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Purchase a new home</span>
-                </label>
-              </p>
+  <%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    type: "content",
+    id: "refinance",
+    message: "<p>To refinance an existing loan the balance of which is solely related to the repayment of a previous loan made for one of the above purchase or building work purposes.</p>"
+  }) %>
 
-              <% 
-              locals.el = {};
-              locals.el.message = "<p>Buy an interest in the property detailed, which contains a habitable house.</p>"; 
-              locals.el.optionalType = "content";
-              locals.el.optionalHide = true;
-              locals.el.optionalID = "use-of-loan-purchase-desc";
-              %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
+  <%- include(forms+"radio", {
+    label: "I declare that:",
+    boxes: [
+      "I own/will own a 100% interest in the property",
+      "I and my partner own/will own a 100% interest in the property",
+      {
+        text: "I (or I and my partner, together) own/will own 50% or greater interest in the property. The remaining interest is owned/will be owned by another person/s",
+        inject: "#list-of-names-container"
+      },
+      {
+        text: "Other",
+        inject: "#other-container"
+      }
+    ]
+  }) %>
 
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="use-of-loan-construction-exi" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Construct and/or renovate on land purchased with this loan</span>
-                </label>
-              </p>
+  <%- include(forms+"textarea", {
+    label: "Provide a list of names and their relationship to you.",
+    modifiers: ["hidden"],
+    id: "list-of-names"
+  }) %>
 
-              <% 
-              locals.el = {};
-              locals.el.message = "<p>Buy an interest in the property detailed and undertake building work consisting of either:</p><ol><li>Construction or completion of a house (excluding a unit) on the property; or</li><li>Enlargement, renovation or repair of a house on the property; or</li><li>Construction of another permanent improvement on the property, that is primarily for private or domestic purposes in association with an existing or proposed house.</li></ol>"; 
-              locals.el.optionalType = "content";
-              locals.el.optionalID = "use-of-loan-construction-exi-desc";
-              locals.el.optionalHide = true;
-              %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
+  <%- include(forms+"textarea", {
+    label: "Provide details of the interest that you own/will own in the property. DVA will contact you regarding your eligibility.",
+    modifiers: ["hidden"],
+    id: "other"
+  }) %>
 
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="use-of-loan-construction-pre" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Construct and/or renovate on previously purchased land</span>
-                </label>
-              </p>
+  <%- include(forms+"date", {
+    label: "Expected settlement date",
+    modifiers: ["hidden"],
+    id: "expected-settlement"
+  }) %>
 
-              <% 
-              locals.el = {};
-              locals.el.message = "<p>I have an interest in the land at the property and will undertake building work on that land consisting of either:</p><ol><li>Construction or completion of a house (excluding a unit) on the property; or</li><li>Enlargement, renovation or repair of a house on the property; or</li><li>Construction of another permanent improvement on the property, that is primarily for private or domestic purposes in association with an existing or proposed house.</li></ol>"; 
-              locals.el.optionalType = "content";
-              locals.el.optionalID = "use-of-loan-construction-pre-desc";
-              locals.el.optionalHide = true;
-              %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
+  <%- include(forms+"prepop/bank-details", {
+    label: "Loan account details"
+  }) %>
 
-              <p class="uiToolKitCheckBox">
-                <label class="uikit-control-input">
-                  <input id="use-of-loan-refinance" class="uikit-control-input__input" type="radio" name="radio-ex">
-                  <span class="uikit-control-input__text">Refinance an existing home</span>
-                </label>
-              </p>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/sar1"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/sar3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
-              <% 
-              locals.el = {};
-              locals.el.message = "<p>To refinance an existing loan the balance of which is solely related to the repayment of a previous loan made for one of the above purchase or building work purposes.</p>"; 
-              locals.el.optionalType = "content";
-              locals.el.optionalID = "use-of-loan-refinance-desc";
-              locals.el.optionalHide = true;
-              %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-
-            </div>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'I declare that:'; 
-            locals.el.items = ['I own/will own a 100% interest in the property','I and my partner own/will own a 100% interest in the property','I (or I and my partner, together) own/will own 50% or greater interest in the property. The remaining interest is owned/will be owned by another person/s','Other'];
-            locals.el.optionalItemID = ['a','b','borrower-other','percentage-other'];
-            locals.el.optionalHelp = "This question does not relate to your equity in the property. It relates to the parties on the Certificate of Title and what percentage is owned by those parties. The eligible person must be one of the parties on the title for the subsidy to be payable on the property/loan."
-            locals.el.optionalID = "percentage_owned";
-            %>
-            <%- include(partials+"components/form-elements/radio", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = "Provide details of the interest that you own/will own in the property. DVA will contact you regarding your eligibility."; 
-            locals.el.optionalHide = true;
-            locals.el.optionalLong = true;
-            locals.el.optionalID = "percentage-other-details";
-            %>
-            <%- include(partials+"components/form-elements/field", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = "Provide a list of names and their relationship to you."; 
-            locals.el.optionalHide = true;
-            locals.el.optionalLong = true;
-            locals.el.optionalID = "borrower-other-details";
-            %>
-            <%- include(partials+"components/form-elements/field", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Expected settlement date'; 
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-
-            <h2>Loan account details</h2>
-
-            <%- include(partials+"content/bank-account-details") %>
-
-
-            <div class="pagination margin-above--extra">
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/sar1 ' ">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar3'">Save and next</button>
-              </div>
-            </div>
-
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-  <script type="text/javascript">
-
-    $(document).ready(function() {
-
-      $("input:radio").prop("checked", false);
-
-      $('input[name=percentage_owned]').change(function () {
-        mySelection = $('input[name=percentage_owned]:checked').val();
-        switch (mySelection) {
-          case "borrower-other":
-            $("#borrower-other-details").show("fast");
-            $("#percentage-other-details").hide();
-            break;
-          case "percentage-other":
-            $("#percentage-other-details").show("fast");
-            $("#borrower-other-details").hide();
-            break;
-          default:
-        }
-      });
-
-      $("#use-of-loan").on("change", "input", function () {
-        if ($("#use-of-loan-purchase").prop("checked")) {
-          $("#use-of-loan-purchase-desc").css("display", "block");
-          $("#use-of-loan-construction-exi-desc").css("display", "none");
-          $("#use-of-loan-construction-pre-desc").css("display", "none");
-          $("#use-of-loan-refinance-desc").css("display", "none");
-        } else if ($("#use-of-loan-construction-exi").prop("checked")) {
-          $("#use-of-loan-purchase-desc").css("display", "none");
-          $("#use-of-loan-construction-exi-desc").css("display", "block");
-          $("#use-of-loan-construction-pre-desc").css("display", "none");
-          $("#use-of-loan-refinance-desc").css("display", "none");
-        } else if ($("#use-of-loan-construction-pre").prop("checked")) {
-          $("#use-of-loan-purchase-desc").css("display", "none");
-          $("#use-of-loan-construction-exi-desc").css("display", "none");
-          $("#use-of-loan-construction-pre-desc").css("display", "block");
-          $("#use-of-loan-refinance-desc").css("display", "none");
-        } else if ($("#use-of-loan-refinance").prop("checked")) {
-          $("#use-of-loan-purchase-desc").css("display", "none");
-          $("#use-of-loan-construction-exi-desc").css("display", "none");
-          $("#use-of-loan-construction-pre-desc").css("display", "none");
-          $("#use-of-loan-refinance-desc").css("display", "block");
-        } else {
-          $("#use-of-loan-purchase-desc").css("display", "none");
-          $("#use-of-loan-construction-exi-desc").css("display", "none");
-          $("#use-of-loan-construction-pre-desc").css("display", "none");
-          $("#use-of-loan-refinance-desc").css("display", "none");
-        }
-      });
-
-    });
-
-  </script>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>
