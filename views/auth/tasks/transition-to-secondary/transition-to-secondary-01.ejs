@@ -82,7 +82,8 @@
 
         <%- include(partials+"components/form-partials/text", {
         label: "Name of school",
-        id: "name-of-school"
+        id: "name-of-school",
+        modifiers: ["inputFullLength"]
       }); %>
 
       </form>
@@ -95,7 +96,7 @@
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
         <a><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Exit task</button></a>
         <div class="floated">
-          <a href="/auth/tasks/transition-to-secondary/transition-to-secondary-02"><button class="uikit-btn" id="submit">Next</button></a>
+          <button class="uikit-btn" id="btnNext">Next</button>
         </div>
       </div>
 
@@ -113,6 +114,7 @@
 
     $("#country-select option[value=AU]").attr('selected', 'selected');
 
+    var startingSecondary = false;
     $('input[name=start-studying-question]').change(function () {
       var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
       if (mySelection == "Yes") {
@@ -120,10 +122,12 @@
         $("#myForm").show();
         $("#not-continuing").hide();
         $("#save-and-next").hide();
+        startingSecondary = true;
       } else {
         $("#not-continuing").show();
         $("#myForm").hide();
         $("#save-and-next").show();
+        startingSecondary = false;
       }
     });
 
@@ -136,6 +140,14 @@
         default:
           $("#state-container").hide();
           break;
+      }
+    });
+
+    $("#btnNext").click(function () {
+      if (startingSecondary) {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-02"
+      } else {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-03"
       }
     });
 
