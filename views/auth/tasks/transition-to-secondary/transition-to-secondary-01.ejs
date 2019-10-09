@@ -32,14 +32,14 @@
         id: "start-studying-question"
       }); %>
 
-      <% 
-        locals.el = {};
-        locals.el.message = "Our records indicate that your child will commence secondary school in 2020. If this is not the case, please contact us on 1800 555 254 to discuss."; 
-        locals.el.optionalType = "warning";
-        locals.el.optionalID = "not-continuing";
-        locals.el.optionalHide = true;
-      %>
-      <%- include(partials+"components/form-elements/notice", locals) %>
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Briefly tell us why the student will not be starting secondary school",
+        hint: "(optional)",
+        id: "reason-of-no",
+        modifiers: [
+          "hidden"
+        ]
+      }); %>
 
       <form id="myForm" style="display: none;">
 
@@ -120,11 +120,11 @@
       if (mySelection == "Yes") {
         $("#country-container input:radio").prop("checked", false);
         $("#myForm").show();
-        $("#not-continuing").hide();
+        $("#reason-of-no-container").hide();
         $("#save-and-next").hide();
         startingSecondary = true;
       } else {
-        $("#not-continuing").show();
+        $("#reason-of-no-container").show();
         $("#myForm").hide();
         $("#save-and-next").show();
         startingSecondary = false;
