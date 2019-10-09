@@ -2,7 +2,7 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Tasks | MyService</title>
+  <title>Provide details: Transition to secondary school</title>
   <%- include(partials+"components/layout/head") %>
 </head>
 
@@ -65,20 +65,43 @@
           ], id: "state"
         }); %>
 
+        <%- include(partials+"components/form-partials/dropdown", {
+          label: "Grade of study",
+          tooltip: {
+            screenreaderText: "Grade of study help",
+            content: "Secondary school commencement grade varies across states."
+          },
+          options: [
+            " -- Select grade -- ",
+            { text: "7",
+              modifers: ["selected"]
+            },
+            "8"
+          ], id: "grade"
+        }); %>
+
         <%- include(partials+"components/form-partials/text", {
         label: "Name of school",
-        id: "name-of-school"
+        id: "name-of-school",
+        modifiers: ["inputFullLength"]
       }); %>
 
       </form>
 
+      <div id="save-and-next" class="margin-above" style="display: none">
+        <p>Choose <b>next</b> to continue.</p>
+      </div>
+
       <div class="pagination pagination--tasks">
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <a><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Exit task</button></a>
         <div class="floated">
-          <a href="/auth/tasks/transition-to-secondary/transition-to-secondary-02"><button class="uikit-btn" id="submit">Next</button></a>
+          <button class="uikit-btn" id="btnNext">Next</button>
         </div>
       </div>
+
+      <%- include(partials+"content/modals/tasks-cancel-modal") %>
+
   </main>
 
 </body>
@@ -91,15 +114,20 @@
 
     $("#country-select option[value=AU]").attr('selected', 'selected');
 
+    var startingSecondary = false;
     $('input[name=start-studying-question]').change(function () {
       var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
       if (mySelection == "Yes") {
         $("#country-container input:radio").prop("checked", false);
         $("#myForm").show();
         $("#not-continuing").hide();
+        $("#save-and-next").hide();
+        startingSecondary = true;
       } else {
         $("#not-continuing").show();
         $("#myForm").hide();
+        $("#save-and-next").show();
+        startingSecondary = false;
       }
     });
 
@@ -112,6 +140,14 @@
         default:
           $("#state-container").hide();
           break;
+      }
+    });
+
+    $("#btnNext").click(function () {
+      if (startingSecondary) {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-02"
+      } else {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-03"
       }
     });
 

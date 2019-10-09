@@ -27,7 +27,7 @@
 
       <div class="margin-above--extra"></div>
 
-      <h2 id="provide-details" class="margin-below" style="display: none;">Provide details for John Smith</h2>
+      <h2 id="provide-details" class="margin-below">Provide details for <span class='user-label-c'>your</span> proposed study in 2020</h2>
 
       <%- include(partials+"components/form-partials/yes_no", {
         label: "<span class='user-label-b'>Do you</span> intend to continue study in 2020?",
@@ -44,19 +44,25 @@
       <%- include(partials+"components/form-elements/notice", locals) %>
 
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Do you have a copy of the confirmation of enrolment document?",
+        label: "Do you have confirmation of <span class='user-label-f'>your</span> enrolment?",
+        hint: "<BR/>For example a letter of acceptance or Confirmation of Enrolment (COE) document from the institution.",
         id: "document-question",
         modifiers: ["hidden"]
       }); %>
 
-      <% 
-        locals.el = {};
-        locals.el.message = "You will need to upload confirmation of enrolment in the documents section."; 
-        locals.el.optionalType = "warning";
-        locals.el.optionalID = "yes-document";
-        locals.el.optionalHide = true;
-      %>
-      <%- include(partials+"components/form-elements/notice", locals) %>
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Briefly tell us why <span class='user-label-a'>you</span> will not continue to study",
+        hint: "(optional)",
+        modifiers: ["hidden"],
+        id: "tell-us-why"
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will be asked to provide confirmation of enrolment at a later date.",
+        type: "alert",
+        id: "no-document",
+        modifiers: ["hidden"]
+      }); %>
 
       <div id="save-and-next" class="margin-above" style="display: none">
         <p>Choose <b>next</b> to continue.</p>
@@ -64,11 +70,14 @@
 
       <div class="pagination pagination--tasks">
         <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
-        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Cancel</button></a>
+        <a><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Exit task</button></a>
         <div class="floated">
           <a id="next-link" href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-02"><button class="uikit-btn" id="submit">Next</button></a>
         </div>
       </div>
+
+      <%- include(partials+"content/modals/tasks-cancel-modal") %>
+
   </main>
 
 </body>
@@ -82,17 +91,15 @@
     $('input[name=continue-studying-question]').change(function () {
       $("#save-and-next").hide();
       var mySelection = $('input[name=continue-studying-question]:checked').parent().find("span").text();
+      hideAll();
       if (mySelection == "Yes") {
         $("#document-question-container input:radio").prop("checked", false);
         $("#document-question-container").show();
-        $("#not-continuing").hide();
         $("#save-and-next").hide();
       } else {
-        $("#not-continuing").show();
         $("#document-question-container").hide();
-        $("#save-and-next").show();
-        $("#save-and-next").hide();
-        $("#yes-document").hide();
+        $("#not-continuing").show();
+        $("#tell-us-why-container").show();
       }
     });
 
@@ -101,12 +108,24 @@
       var link = document.getElementById("next-link");
       if (mySelection == "Yes") {
         link.setAttribute("href", "intention-to-continue-study-03");
+        $("#no-document-container").hide();
         $("#save-and-next").show();
+        sessionStorage.setItem('student-coc-confirmation', 'yes')
       } else {
+        $("#no-document-container").show();
         $("#save-and-next").show();
+        sessionStorage.setItem('student-coc-confirmation', 'no')
+        // $("#no-document-container").hide();
         link.setAttribute("href", "intention-to-continue-study-02");
       }
     });
+
+    function hideAll() {
+      $("#not-continuing").hide();
+      $("#tell-us-why-container").hide();
+      $("#save-and-next").hide();
+      $("#no-document-container").hide();
+    }
 
   });
 </script>

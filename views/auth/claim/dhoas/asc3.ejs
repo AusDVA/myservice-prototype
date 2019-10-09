@@ -1,221 +1,72 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Application for a DHOAS Subsidy Certificate", 
+  heading: "Your service history"
+}) %>
 
-<head>
-  <title>DHOAS Application for a subsidy certificate | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <p>Your service and operational history is retrieved from PMKeyS and will be used to calculate your DHOAS entitlements. You can view your full service history in <a href="/auth/profile/history">your profile</a>.</p>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(forms+"yes_no", {
+    label: "Did you have any period of ADF leave without pay?",
+    yes_toggle: "#leave-dates-container"
+  }) %>
+  
+  <%- include(forms+"leave-dates", {
+    modifiers: ["hidden"],
+    id: "leave-dates"
+  }) %>
 
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"yes_no", {
+    label: "Do you have effective reservist service?",
+    yes_toggle: "#effective-reservist"
+  }) %>
 
-  <main id="main-content">
-    <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Your service history</span>
-        </h1>
-      </div>
+  <div id="effective-reservist" hidden>
+    <h3>Upload evidence of your Effective Reservist service</h3>
+    <div class="uikit-page-alerts" role="alert">
+      <p>To accrue a years entitlement to DHOAS you will need to have completed 20 days of paid Reserve service within the financial year. </p>
+      <p>Evidence for this can be a Statement of Reserve Service, CENRES pay printout or other supporting evidence.</p>
+      <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
     </div>
+    <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
+  </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below">
-            <p>Your service and operational history is retrieved from PMKeyS and will be used to calculate your DHOAS entitlements. You can view your full service history in <a href="/auth/profile/history">your profile</a>.</p>
+  <%- include(forms+"yes_no", {
+    label: "Were you medically discharged?",
+    yes_toggle: "#medically-discharged"
+  }) %>
 
-          </div>
+  <div id="medically-discharged" hidden>
+    <h3>Provide evidence of your medical discharge</h3>
+      <span class="hint display-block">This will ensure our calculations for your entitlements under DHOAS are correct.</span>
+    <div class="uikit-page-alerts" role="alert">
 
-        </div>
-      </div>
-
-
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-
-          <%- include(partials+"components/form_partials.ejs", {
-            "forms": [
-              {
-                "type": "y_n_toggle",
-                "config": {
-                  "label": "Did you have any period of ADF leave without pay?",
-                  "yes_toggle": "#leaveWithoutPay-dates",
-                  "no_toggle": "#save-next"
-                }
-              }
-            ]
-          }); %>
-
-          <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display:none;">
-            <table class="mys-table table-responsive border-all border-top__thick--blue">
-              <tr>
-                <th style="border-left:1px solid #cccccc;">
-                  <label class="uikit-text-input__label" for="date">Start Date
-                    <span class="hint">(dd / mm / yyyy)</span>
-                  </label>
-                </th>
-                <th></th>
-                <th>
-                  <label class="uikit-text-input__label" for="date">End Date
-                    <span class="hint">(dd / mm / yyyy)</span>
-                  </label>
-                </th>
-                <th style="border-right:1px solid #cccccc;"></th>
-              </tr>
-              <tr id="date-template">
-                <td>
-                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                </td>
-                <td>&mdash;</td>
-                <td>
-                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                </td>
-                <td>
-                  <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-                <td></td>
-                <td class="padding-above--none">
-                  <div class="display-block">
-                    <label class="uikit-control-input margin-above--none">
-                      <input class="uikit-control-input__input" type="checkbox" name="agreement">
-                      <span class="uikit-control-input__text">Currently on leave</span>
-                    </label>
-                  </div>
-                </td>
-                <td></td>
-              </tr>
-              <tr class="padding-above--none">
-                <td colspan=4 class="padding-above--none ss-align--center">
-                  <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
-                </td>
-              </tr>
-            </table>
-          </div>
-
-          <div id="reservist-question">
-            <%- include(partials+"components/form_partials.ejs", {
-              "forms": [
-                {
-                  "type": "y_n_toggle",
-                  "config": {
-                    "label": "Do you have effective reservist service?",
-                    "yes_toggle": "#reservist-yes"
-                  }
-                }
-              ]
-            }); %>
-          </div>
-
-          <div id="reservist-yes" class="margin-below--extra margin-above" hidden>
-            <h3>Upload evidence of your Effective Reservist service</h3>
-            <div class="uikit-page-alerts" role="alert">
-              <p>To accrue a years entitlement to DHOAS you will need to have completed 20 days of paid Reserve service within the financial year. </p>
-              <p>Evidence for this can be a Statement of Reserve Service, CENRES pay printout or other supporting evidence.</p>
-              <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-            </div>
-            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
-          </div>
-
-        <div id="medically-discharged">
-            <%- include(partials+"components/form_partials.ejs", {
-                "forms": [
-                  {
-                    "type": "y_n_toggle",
-                    "config": {
-                      "label": "Were you medically discharged?",
-                      "yes_toggle": "#medically-discharged-upload"
-                    }
-                  }
-                ]
-              }); %>
-          </div>
-          <div id="medically-discharged-upload" hidden>
-            <h4>Provide evidence of your medical discharge
-              <span class="hint display-block">This will ensure our calculations for your entitlements under DHOAS are correct.</span>
-            </h4>
-            <div class="uikit-page-alerts" role="alert">
-
-              <p>For example, a copy of your DM42, SHE, MERCRB documents or other evidence.</p>
-              <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
-            </div>
-            <button class="uikit-btn uikit-btn--tertiary margin-below">Upload document</button>
-          </div>
-
-          <p id="save-next" hidden="">Choose <b>save and next</b> to continue.</p>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/dhoas/asc2'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/asc4'">Save and next</button>
-            </div>
-          </div>
-
-
-        </div>
-      </div>
-
-      <%- include(partials+"content/modals/claims-cancel-modal") %>
+      <p>For example, a copy of your DM42, SHE, MERCRB documents or other evidence.</p>
+      <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
     </div>
+    <button class="uikit-btn uikit-btn--tertiary margin-below">Upload document</button>
+  </div>
 
-  </main>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/asc2"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/asc4",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
-  <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    $(document).ready(function() {
-      $.ajax({
-          url: '/docs/data/user.json',
-          type: 'GET',
-          dataType: 'json'
-        })
-        .done((data) => {
-          let user = JSON.parse(localStorage.person)._id;
-          let person;
-
-          $.each(data.person, function () {
-            if (this._id == user) {
-              person = this;
-            }
-          });
-
-          if (person.isCurrentlyServing === false) {
-            console.log("not currently serving");
-            $("#medically-discharged").show();
-          }
-        });
-    });
-
-
-
-    function cloneme() {
-      var newOne = $('#date-template').clone();;
-      newOne.insertAfter($('#date-template'));
-    }
-
-    $("#removeDateRow").click(function () {
-      $("#date-template:not(first-child)").remove();
-    });
-
-  </script>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>

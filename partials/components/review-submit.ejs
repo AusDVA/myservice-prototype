@@ -1,38 +1,79 @@
-<div class="rev-sub margin-below--extra <%- claim.options && claim.options.includes("marginTop") ? "margin-above--extra" : "" %>">
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("rev-sub");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="rev-sub <%- modifiers.includes("noMarginBelow") ? "margin-below--none" : "margin-below--extra" %> <%- modifiers.includes("noMarginAbove") ? "margin-above--none" : "margin-above--extra" %>"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
   <div class="rev-sub__title">
-    <span class="rev-sub__claim-title"><b><%- claim.title %></b></span>
-    <span class="rev-sub__claim-id"><b><%- claim.id ? 'Claim id:' : '' %><%- claim.id %></b></span>
+    <div class="rev-sub__claim-title"><b><%- claim_title %></b></div>
   </div>
-  <% claim.categories.map(category => { %>
-  <div>
+  <% if (modifiers.includes("claimDetails")) { %>
     <div class="rev-sub__category">
       <div>
         <div class="rev-sub__header">
-          <h2 class="rev-sub__header--category"><%- category.header %></h2>
-          <a href="<%- category.editUrl %>" class="rev-sub__edit">Edit</a>
+          <h2 class="rev-sub__header--category">Claim details</h2>
         </div>
       </div>
-
-
-      <% category.elements.map(elem => { 
-        if (elem.type === "subcategory") { %>
-      <div class="rev-sub__sub-header">
-        <h3 class="rev-sub__header--subcategory"><%- elem.text %></h3>
-      </div>
-      <% } else if (elem.type === "questions") { %>
       <div class="rev-sub__questions">
-        <% elem.data.map(question => { %>
         <div class="rev-sub__item">
-          <p class="rev-sub__item-question"><%- question.question %></p>
-          <p class="rev-sub__item-answer"><%- question.answer %></p>
+          <p class="rev-sub__item-question">Date submitted</p>
+          <p class="rev-sub__item-answer">10 Jan 2019</p>
         </div>
-        <% }); %>
+        <div class="rev-sub__item">
+          <p class="rev-sub__item-question">Claim ID</p>
+          <p class="rev-sub__item-answer">123456789</p>
+        </div>
       </div>
-      <% } %>
-      <% })  %>
     </div>
+  <% } %>
+
+  <div class="rev-sub__category">
+    <% categories.map((cat, index) => { %>
+      <div class="rev-sub__header">
+        <h2 class="rev-sub__header--category"><%- cat.title %></h2>
+        <% if (typeof cat.edit_url !== "undefined") { %>
+          <a href="<%- cat.edit_url %>" class="rev-sub__edit">Edit</a>
+        <% } %> 
+      </div>
+
+      <% cat.data.map((d, i) => { %>
+        <% if (typeof d === "string") { %>
+          <div class="rev-sub__sub-header">
+            <h3 class="rev-sub__header--subcategory"><%- d %></h3>
+          </div>
+        <% } else if (typeof d === "object") { %>
+          <% if (typeof categories[index].data[i-1] === "string" || typeof categories[index].data[i-1] === "undefined") { %>
+            <div class="rev-sub__questions">
+          <% } %>
+
+          <div class="rev-sub__item">
+            <div class="rev-sub__item-question"><%- d.q %></div>
+            <div class="rev-sub__item-answer"><%- d.a %></div>
+          </div>
+
+          <% if (typeof categories[index].data[i+1] === "string" || typeof categories[index].data[i+1] === "undefined") { %>
+            </div>
+          <% } %>
+        <% } %>
+      <% }) %>
+
+
+
+
+
+
+
+
+
+
+
+    <% }) %>
 
   </div>
 
-  <% }); %>
 </div>

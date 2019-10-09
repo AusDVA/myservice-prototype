@@ -1,243 +1,90 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Add claim: Application for a DHOAS Subsidy Certificate", 
+  heading: "Application for Subsidy Certificate"
+}) %>
 
-<head>
-
-  <title>Application for a DHOAS Subsidy Certificate | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-
-  <style>
-    .pt-subsidised_loan_yes {
-      display: none;
-    }
-
-  </style>
-
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-claims") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Application for Subsidy Certificate</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
-
-            <%- include(partials+"components/form_partials.ejs", {
-            "forms": [
-              {
-                "type": "radio",
-                "config": {
-                  "label": "What is the purpose of this loan?",
-                  "boxes": [
-                    {
-                      "text": "Purchasing a new home"
-                    },
-                    {
-                      "text": "Purchasing land and/or constructing a home"
-                    },
-                    {
-                      "text": "Enlarging, repairing, renovating, or creating a permanent improvement to a home"
-                    },
-                    {
-                      "text": "Refinancing an existing home loan that was used for one or more of the above purposes",
-                      "inject": "#why-refinance"
-                    }
-                  ]
-                }
-              }
-            ]
-          }); %>
-
-            <%- include(partials+"components/form_partials.ejs", {
-            "forms": [
-              {
-                "type": "radio",
-                "config": {
-                  "label": "Where do you currently live?",
-                  "boxes": [
-                    {
-                      "text": "Service residence"
-                    },
-                    {
-                      "text": "Rental accommodation property"
-                    },
-                    {
-                      "text": "On base accommodation"
-                    },
-                    {
-                      "text": "Own home"
-                    },
-                    {
-                      "text": "Other",
-                      "inject": "#other-accomodation"
-                    }
-                  ]
-                }
-              }
-            ]
-          }); %>
-
-            <%- include(partials+"components/form_partials.ejs", {
-            "forms": [
-              {
-                "type": "y_n_toggle",
-                "config": {
-                  "label": "Have you ever had a Defence subsidised loan?",
-                  "yes_toggle": "#defence-subsidised-loan"
-                }
-              }
-            ]
-          }); %>
-
-            <div id="defence-subsidised-loan" hidden>
-              <%- include(partials+"components/form_partials.ejs", {
-              "forms": [
-                {
-                  "type": "checkbox",
-                  "config": {
-                    "label": "Select all that apply",
-                    "id": "defence-loan-opts",
-                    "boxes": [
-                      {
-                        "text": "Defence Service Home Loan Scheme (DSH)"
-                      },
-                      {
-                        "text": "Defence Home Owner Scheme (DHOS)"
-                      },
-                      {
-                        "text": "Defence Home Ownership Assistance Scheme (DHOAS)",
-                        "inject": "#dhoas-loan"
-                      }
-                    ]
-                  }
-                }
-              ]
-            }); %>
-            </div>
-
-
-
-
-            <%- include(partials+"components/form_partials.ejs", {"forms": [    {
-                "type": "pagination",
-                "config": {
-                  "normal": [
-                    {
-                      "link": "/auth/claim/",
-                      "primary": false,
-                      "text": "Previous",
-                      "disabled": false
-                    },
-                    {
-                      "link": "/auth/claim/",
-                      "primary": false,
-                      "text": "Cancel application",
-                      "disabled": false
-                    }
-                  ],
-                  "floated": [
-                    {
-                      "link": "/auth/claim/",
-                      "text": "Save and exit",
-                      "primary": false,
-                      "disabled": false
-                    },
-                    {
-                      "link": "/auth/claim/dhoas/asc2",
-                      "text": "Save and next",
-                      "primary": true,
-                      "disabled": false
-                    }
-                  ]
-                }
-              }]}) %>
-
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    $("#defence-loan-opts__wrapper").on("change", function () {
-      if ($("#defence-loan-opts-4").prop("checked") == true) {
-        $("#defence-loan-opts-1").prop("disabled", true);
-        $("#defence-loan-opts-2").prop("disabled", true);
-        $("#defence-loan-opts-3").prop("disabled", true);
-        $("#defence-loan-opts-1").prop("checked", false);
-        $("#defence-loan-opts-2").prop("checked", false);
-        $("#defence-loan-opts-3").prop("checked", false);
-        $("#dhoas-loan").hide();
-      } else {
-        $("#defence-loan-opts-1").prop("disabled", false);
-        $("#defence-loan-opts-2").prop("disabled", false);
-        $("#defence-loan-opts-3").prop("disabled", false);
-      }
-    });
-
-  </script>
-
-  <div id="why-refinance" class="form-group--secondary" hidden>
-    <%- include(partials+"components/form_partials.ejs", {
-    "forms": [
+  <%- include(forms+"radio", {
+    label: "What is the purpose of this loan?",
+    boxes: [
+      "Purchasing a new home",
+      "Purchasing land and/or constructing a home",
+      "Enlarging, repairing, renovating, or creating a permanent improvement to a home",
       {
-        "type": "textarea",
-        "config": {
-          "label": "Please detail why you are refinancing your existing home loan, including any non DHOAS purposes",
-          "rows": "3"
-        }
+        text: "Refinancing an existing home loan that was used for one or more of the above purposes",
+        inject: "#why-refinance-container"
       }
     ]
-  }); %>
-  </div>
+  }) %>
 
-  <div id="other-accomodation" class="form-group--secondary" hidden>
-    <%- include(partials+"components/form_partials.ejs", {
-    "forms": [
-      {
-        "type": "text",
-        "config": {
-          "label": "Please specify"
+  <%- include(forms+"textarea", {
+    label: "Please detail why you are refinancing your existing home loan, including any non DHOAS purposes",
+    modifiers: ["hidden"],
+    id: "why-refinance"
+  }) %>
+
+
+    <%- include(forms+"radio", {
+      label: "Where do you currently live?",
+      boxes: [
+        "Service residence",
+        "Rental accommodation property",
+        "On base accommodation",
+        "Own home",
+        {
+          text: "Other",
+          inject: "#please-specify-container"
         }
+      ]
+    }) %>
+
+  <%- include(forms+"text", {
+    label: "Please specify",
+    modifiers: ["hidden"],
+    id: "please-specify"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Have you ever had a Defence subsidised loan?",
+    yes_toggle: "#defence-subsidised-loan-container"
+  }) %>
+
+  <%- include(forms+"checkbox", {
+    label: "Select all that apply",
+    id: "defence-subsidised-loan",
+    modifiers: ["hidden"],
+    boxes: [
+      "Defence Service Home Loan Scheme (DSH)",
+      "Defence Home Owner Scheme (DHOS)",
+      {
+        text: "Defence Home Ownership Assistance Scheme (DHOAS)",
+        inject: "#dhoas-loan-container"
       }
     ]
-  }); %>
-  </div>
+  }) %>
 
-  <div id="dhoas-loan" class="form-group--secondary" hidden>
-    <%- include(partials+"components/form_partials.ejs", {
-    "forms": [
+  <%- include(forms+"text", {
+    label: "Why are you lodging an additional application for DHOAS?",
+    modifiers: ["hidden"],
+    id: "dhoas-loan"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
       {
-        "type": "text",
-        "config": {
-          "label": "Why are you lodging an additional application for DHOAS?"
-        }
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/asc2",
+        modifiers: ["floated", "primary"]
       }
     ]
-  }); %>
-  </div>
+  }) %>
 
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>

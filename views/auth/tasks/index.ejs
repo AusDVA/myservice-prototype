@@ -3,26 +3,29 @@ taskList = [
   {
     "id": "transition-to-secondary",
 		"description": "Transition to secondary school",
-    "date": "Due 12 November 2019",
-    "reference": "In order to continue receiving education assistance scheme benefits, please provide details of John Smith's transition to secondary school.",
+    "date": "Overdue",
+    "reference": "Provide details of <span class='user-label-c'>John Smith's</span> transition to secondary school to continue receiving Education Assistance Scheme (EAS) benefits.",
 		"link": "/auth/tasks/transition-to-secondary/transition-to-secondary-01",
-    "category": "education-assistance"
+    "category": "education-assistance",
+    "overDue": true
 	},
 	{
     "id": "intention-to-study",
     "description": "Intention to continue study",
-    "date": "Due 18 November 2019",
-    "reference": "In order to continue receiving education assistance scheme benefits, please provide details of John Smith's intention to continue study.",
+    "date": "Complete by 1 Dec 2019",
+    "reference": "Provide details of <span class='user-label-c'>John Smith\'s</span> intention to continue study to continue receiving Education Assistance Scheme (EAS) benefits.",
 		"link": "/auth/tasks/intention-to-continue-study/intention-to-continue-study-01",
-    "category": "education-assistance"
+    "category": "education-assistance",
+    "overDue": false
   },
   {
     "id": "confirmation-of-enrolment",
-		"description": "Confirmation of Enrolment",
-    "date": "Due 12 November 2019",
-    "reference": "We’ll need you to upload a copy of John Smiths Confirmation of Enrolment (COE) document to continue receiving education assistance scheme benefits.",
+		"description": "Confirmation of enrolment",
+    "date": "Complete by 1 Jan 2020",
+    "reference": "Upload confirmation of <span class='user-label-c'>John Smith\'s</span> enrolment document to continue receiving Education Assistance Scheme (EAS) benefits.",
 		"link": "/auth/tasks/confirmation-of-enrolment/confirmation-of-enrolment-01",
-    "category": "education-assistance"
+    "category": "education-assistance",
+    "overDue": false
 	}
 ]
 %>
@@ -60,20 +63,22 @@ taskList = [
       <section class="tasks-list">
         <% taskList.forEach(function(task, index) { %>
         <% if(task.category === "education-assistance") { %>
-        <div class="task">
-          <div class="task__description">
-            <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-            <div class="task__link-wrapper">
-              <a href="<%= task.link %>" class="task__link"><%= task.description %></a>
-              <div class="task__date"><%= task.date %></div>
+        <a class="task__wrapper--link" href="<%= task.link %>">
+          <div class="task">
+            <div class="task__description">
+              <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
+              <div class="task__link-wrapper">
+                <span class="task__link"><%= task.description %></span>
+
+                <div class="task__date <%= task.overDue ? "task__date--overdue" : "" %>"><%= task.date%></div>
+              </div>
             </div>
+            <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
           </div>
-          <div class="task__reference" id="<%- task.id %>"><%= task.reference %></div>
-        </div>
+        </a>
         <% } %>
         <% }); %>
       </section>
-
       <hr class="margin-above--medium">
     </div>
   </main>
