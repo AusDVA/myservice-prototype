@@ -1,101 +1,72 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Claim details"
+}) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(forms+"yes_no", {
+      label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+      id: "unable-question",
+      yes_toggle: "#unable-container, #centrelink-container",
+      no_toggle: "#not-unable-container"
+    }); %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"notice", {
+      message: "You may not be eligible for Veteran Payment. For more information call 1800 555 254.",
+      type: "error",
+      id: "not-unable",
+      modifiers: ["hidden"]
+    }); %>
 
-  <main id="main-content">
+  <%- include(forms+"notice", {
+      message: "<p>You will need to provide a medical certificate as evidence of your incapacity for work.</p><p>You can attach this document at the end of your claim.</p>",
+      id: "unable",
+      modifiers: ["hidden"]
+    }); %>
 
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Claim details</span>
-        </h1>
-      </div>
-    </div>
+  <%- include(forms+"yes_no", {
+      label: "Do you currently receive payments from Centrelink?",
+      id: "centrelink",
+      yes_toggle: "#crn-container, #warning-container",
+      no_toggle: "#save-next",
+      modifiers: ["hidden"]
+    }); %>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  <%- include(forms+"text", {
+      label: "What is your Customer Reference Number (CRN)?",
+      id: "crn",
+      modifiers: ["hidden"]
+    }); %>
 
-            <%- include(partials+"components/form-partials/yes_no", {
-                label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
-                id: "unable-question",
-                yes_toggle: ["#unable-container","#centrelink-container"],
-                no_toggle: "#not-unable-container"
-              }); %>
+  <%- include(forms+"notice", {
+      message: "You will lose your Health Care Card or Pensioner Concession Card on transfer to Veteran Payment.",
+      type: "warning",
+      id: "warning",
+      modifiers: ["hidden"]
+    }); %>
 
-            <%- include(partials+"components/form-partials/notice", {
-                message: "You may not be eligible for Veteran Payment. For more information call 1800 555 254.",
-                type: "error",
-                id: "not-unable",
-                modifiers: ["hidden"]
-              }); %>
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-            <%- include(partials+"components/form-partials/notice", {
-                message: "<p>You will need to provide a medical certificate as evidence of your incapacity for work.</p><p>You can attach this document at the end of your claim.</p>",
-                id: "unable",
-                modifiers: ["hidden"]
-              }); %>
-
-            <%- include(partials+"components/form-partials/yes_no", {
-                label: "Do you currently receive payments from Centrelink?",
-                id: "centrelink",
-                yes_toggle: ["#crn-container","#warning-container"],
-                no_toggle: "#save-next",
-                modifiers: ["hidden"]
-              }); %>
-
-            <%- include(partials+"components/form-partials/text", {
-                label: "What is your Customer Reference Number (CRN)?",
-                id: "crn",
-                modifiers: ["hidden"]
-              }); %>
-
-            <%- include(partials+"components/form-partials/notice", {
-                message: "You will lose your Health Care Card or Pensioner Concession Card on transfer to Veteran Payment.",
-                type: "warning",
-                id: "warning",
-                modifiers: ["hidden"]
-              }); %>
-
-          </div>
-
-          <div id="save-next" hidden>
-            <p>Choose <b>save and next</b> to continue</p>
-          </div>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#auth'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Save and exit</button>
-              <button id="save-and-next-button" class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-02'">Save and
-                next</button>
-            </div>
-          </div>
-
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
   <script>
+
     $(document).ready(function () {
 
       $("input:radio").prop("checked", false);
@@ -116,8 +87,6 @@
 
 
     });
+
   </script>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>
