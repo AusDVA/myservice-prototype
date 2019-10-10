@@ -38,7 +38,7 @@ module.exports = formLabel => {
     })
   }
 
-  if (typeof hint !== "undefined") {
+  if (hint) {
     html += `<span class="hint`;
 
     if (modifiers.includes("hintNewline")) html += " display-block margin-above--none margin-below--none";
