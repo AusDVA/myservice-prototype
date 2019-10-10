@@ -38,7 +38,7 @@ module.exports = formLabel => {
 
   let hintNewLine = typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? true : false;
 
-  if (hint !== null) html += `${hintNewLine ? "<br>" : ""}<span class="hint"> ${hint}</span>`;
+  if (hint !== null) html += `${hintNewLine ? "<br>" : ""}<span class="hint display-block margin-above--none margin-below--none"> ${hint}</span>`;
 
   if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
     html += generateTooltip({
