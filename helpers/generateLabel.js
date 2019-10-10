@@ -1,4 +1,6 @@
 const generateTooltip = require('./generateTooltip');
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 module.exports = formLabel => {
   var {
@@ -12,7 +14,7 @@ module.exports = formLabel => {
   var html = "";
 
   let legend = modifiers.includes("legend") ? true : false;
-  let legendLabel = typeof modifiers !== "undefined" && modifiers.includes("legendLabel") ? true : false;
+  let legendLabel = modifiers.includes("legendLabel") ? true : false;
 
   if (legend || legendLabel) {
     html += `
@@ -36,9 +38,13 @@ module.exports = formLabel => {
     })
   }
 
-  let hintNewLine = typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? true : false;
+  if (hint) {
+    html += `<span class="hint`;
 
-  if (hint !== null) html += `${hintNewLine ? "<br>" : ""}<span class="hint"> ${hint}</span>`;
+    if (modifiers.includes("hintNewline")) html += " display-block margin-above--none margin-below--none";
+
+    html += `"> ${hint} </span>`
+  }
 
   if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
     html += generateTooltip({
@@ -54,6 +60,8 @@ module.exports = formLabel => {
   } else {
     html += "</label>";
   }
+
+  console.log(html)
 
   return html;
 }
