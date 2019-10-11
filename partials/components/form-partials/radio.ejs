@@ -75,7 +75,7 @@ let boxCounter = 0;
   <% if ((boxs.filter(box => box.toggle !== undefined || box.tooltipOnHint || box.tooltip !== undefined || box.hintAfterTick || box.rToggle !== undefined || box.inject !== undefined).length > 0) || typeof all_toggle !== "undefined" ) { 
     %>
     <script type="text/javascript">
-      $("#<%- id %>-container").change("input[type=radio]", function() {
+      $("#<%- id %>-container").change("input[type=radio]", function(e) {
         $($(this).data("all-toggle")).show();
 
         $("input[type=radio]:checked", this).each(function() {
@@ -86,6 +86,10 @@ let boxCounter = 0;
           if ($(this).data("inject-indent") !== false) {
             $($(this).data("inject")).addClass("injected");
           }
+          $($(this).data("inject")).addClass("injected-elem");
+          $(".injected-elem").change("input, select", function(e) {
+            e.stopPropagation();
+          })
           $(this).parent().find(".hidden-hint").show();
           $(this).closest("fieldset").find($($(this).data("inject"))).show();
         });
@@ -96,7 +100,6 @@ let boxCounter = 0;
           $(this).closest("fieldset").find($(this).data("inject")).remove();
           $(this).parent().find(".hidden-hint").hide();
         });
-
 
       })
 

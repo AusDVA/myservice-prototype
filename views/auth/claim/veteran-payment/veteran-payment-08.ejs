@@ -1,58 +1,246 @@
 <%- include(templates+"header", {
-  title: "Veteran Payment"
+  title: "Veteran Payment", 
+  heading: "Review and submit"
 }) %>
 
-  <div class="claim-end">
-    <div class="pt-claim-type--normal">
-      <div class="margin-above ie-success-animation">
-        <img src="/docs/images/ico-tick-green-outline.svg" alt="Success tick icon">
-      </div>
-      <div class="margin-above submitted-animation">
-        <%- include(partials+"components/animations/submitted") %>
-      </div>
-      <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
-        <h1>We're submitting your claim for Veteran Payment</h1>
-      </div>
-    </div>
-    <div class="transition-content pt-claim-animation-end margin-below--extra">
-      <div class="pt-claim-type--normal">
-        <h1 class="cantered-item">Your claim for Veteran Payment has been
-          <span class="font-weight-heavy"> submitted</span>
-        </h1>
-      </div>
-      <hr class="orange-divider">
-      <h2 class="ss-align--center"><b>What's next?</b></h2>
-      <div class="container">
-        <div class="col-sm-offset-1 col-sm-8">
-          <ul class="next-steps">
-            <li>TBA</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
+  <%- include(components+"review-submit", {
+    claim_title: "Application for veteran payment",
+    categories: [
+      {
+        title: "Claim details",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-01",
+        data: [
+          {
+            q: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+            a: "Yes"
+          },
+          {
+            q: "Do you currently receive payments from Centrelink?",
+            a: "Yes"
+          },
+          {
+            q: "What is your Customer Reference Number (CRN)?",
+            a: "123 456 789"
+          }
+        ]
+      },
+      {
+        title: "Relationship status",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["hidden"],
+        categoryClass: "single",
+        data: [
+          {
+            q: "What is your relationship status?",
+            a: "Single"
+          }
+        ]
+      },
+      {
+        title: "Relationship status",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["hidden"],
+        categoryClass: "partnered",
+        data: [
+          {
+            q: "What is your relationship status?",
+            a: "Married and currently living together"
+          },
+          {
+            q: "Partner's given name",
+            a: "Frank"
+          },
+          {
+            q: "Partner's surname",
+            a: "Sinatra"
+          },
+          {
+            q: "Partner's gender",
+            a: "Female"
+          },
+          {
+            q: "Partner's date of birth",
+            a: "16 / 06 / 1969"
+          },
+          {
+            q: "Does your partner wish to receive payment?",
+            a: "Yes"
+          },
+          {
+            q: "Is your partner an Australian citizen?",
+            a: `<span class="citizen" hidden>Yes</span><span class="immigrant" hidden>No</span>`
+          },
+          {
+            q: "Is your partner?",
+            a: "The holder of a permanent visa",
+            modifiers: ["hidden"],
+            questionClass: "immigrant"
+          },
+          {
+            q: "Does your partner currently receive payments from Centrelink?",
+            a: "No"
+          }
+        ]
+      },
+      {
+        title: "Dependent children",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-03",
+        data: [
+          {
+            q: `Do you <span class="partnered" hidden>you and/or your partner </span>have any dependent children under 16 years of age?`,
+            a: "Yes"
+          },
+          {
+            q: "Youngest dependent child's full name",
+            a: "Frank Sinatra Jr"
+          },
+          {
+            q: "Youngest dependent child's date of birth",
+            a: "12 / 09 / 2005"
+          },
+          {
+            q: "Youngest dependent child's Gender",
+            a: "Female"
+          }
+        ]
+      },
+      {
+        title: "Living arrangements",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-04",
+        data: [
+          {
+            q: "Which of the following best describes your current living arrangements?",
+            a: "Private rental"
+          },
+          {
+            q: "How much rent do you pay?",
+            a: "$125 per week"
+          }
+        ]
+      },
+      {
+        title: "Income & assets",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-05",
+        data: [
+          "Financial assets",
+          {
+            q: "Estimated total value",
+            a: "$0.00"
+          },
+          "Other assets",
+          {
+            q: "Estimated total value",
+            a: "$0.00"
+          },
+          "Other income received",
+          {
+            q: "Estimated total value",
+            a: "$0.00"
+          }
+        ]
+      },
+      {
+        titie: "Bank details",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-06",
+        data: [
+          {
+            q: "Account name",
+            a: "Miss Frank Sinatra"
+          },
+          {
+            q: "BSB",
+            a: "019 983"
+          },
+          {
+            q: "Account number",
+            a: "123 456 789"
+          },
+          {
+            q: "Do you have a tax file number?",
+            a: "Yes"
+          },
+          {
+            q: "Tax file number",
+            a: "123 456 789"
+          },
+          {
+            q: "Does your partner have a tax file number?",
+            a: "Yes",
+            modifiers: ["hidden"],
+            questionClass: "partnered"
+          },
+          {
+            q: "Partner's tax file number",
+            a: "987 654 321",
+            modifiers: ["hidden"],
+            questionClass: "partnered"
+          }
+        ]
+      },
+      {
+        title: "Partner's immigration documents",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-06",
+        modifiers: ["hidden"],
+        categoryClass: "immigrant",
+        data: [
+          {
+            q: "Uploaded documents",
+            a: "scan of visa.pdf"
+          }
+        ]
+      }
+    ]
+  }) %>
+  
+          
   <%- include(forms+"pagination", {
     pagination: [
       {
-        text: "Back to home",
-        link: "/auth"
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-06",
+        id: "pagination-previous"
       },
       {
-        text: "See your claims",
-        link: "/auth/claim"
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Submit claim",
+        link: "/auth/claim/veteran-payment/veteran-payment-09",
+        modifiers: ["floated", "primary"]
       }
     ]
   }) %>
 
+  <%- include("veteran-payment-state-switcher") %>
+
   <script>
-    var timeDelay = 3000;
-    setTimeout(
-      function () {
-        $(".pt-claim-animation-start").toggleClass("transition-content--open");
-        $(".pt-claim-animation-end").toggleClass("transition-content--open");
-      }, timeDelay);
+    function stateSwitcher() {
+      if (immigrationStatus === "citizen") {
+        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-06")
+        $(".immigrant").hide();
+        $(".citizen").show();
+      } else {
+        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-07")
+        $(".citizen").hide();
+        $(".immigrant").show();
+      }
 
+      if (relationshipStatus === "single") {
+        $(".partnered").hide();
+        $(".single").show();
+        $(".citizen").hide();
+        $(".immigrant").hide();
+      } else {
+        $(".single").hide();
+        $(".partnered").show();
+      }
+    }
   </script>
-
+  
 <%- include(templates+"footer") %>

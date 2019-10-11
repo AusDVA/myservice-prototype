@@ -1,23 +1,23 @@
 <%- include(templates+"header", {
   title: "Veteran Payment", 
-  heading: "Review and submit"
+  heading: "Upload visa documents"
 }) %>
 
-  <%- include(components+"review-submit", {
-    claim_title: "Application for veteran payment",
-    modifiers: ["claimDetails"],
-    categories: [
-      {
-        title: "blah",
-        edit_url: "/auth/claim/veteran-payment/veteran-payment-01",
-        data: [
-          
-        ]
-      }
-    ]
-  }) %>
-  
-          
+  <h3>Upload your partner's visa documents</h3>
+
+  <section class="mys-file-uploads">
+    <div class="mys-file-uploads__items">
+      <div class="mys-file-uploads__item-border">
+        <div class="mys-file-uploads__item mys-file-uploads__item--message">
+          <div class="mys-file-uploads__message">No documents uploaded</div>
+          <div>
+            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <%- include(forms+"pagination", {
     pagination: [
       {
@@ -25,7 +25,7 @@
         link: "/auth/claim/veteran-payment/veteran-payment-06"
       },
       {
-        text: "Cancel application",
+        text: "Cancel",
         link: "#open-modal"
       },
       {
@@ -34,11 +34,23 @@
         modifiers: ["floated"]
       },
       {
-        text: "Submit claim",
+        text: "Save and review",
         link: "/auth/claim/veteran-payment/veteran-payment-08",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
-  
+
+  <%- include("veteran-payment-state-switcher") %>
+
+  <script>
+
+    function stateSwitcher() {
+      if (immigrationStatus === "citizen") {
+        window.location.href = "/auth/claim/veteran-payment/veteran-payment-08";
+      }
+    }
+    
+  </script>
+
 <%- include(templates+"footer") %>
