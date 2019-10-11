@@ -1,63 +1,58 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Bank details"
+}) %>
+  
+  <%- include(forms+"notice", {
+    message: "<p>This will be your nominated bank account for all DVA payments</p>"
+  }) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(partials+"components/form-partials/prepop/bank-details", {
+    label: "Provide bank details"
+  }); %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"yes_no", {
+    label: "Do you have a tax file number",
+    yes_toggle: "#tfn-container",
+    no_toggle: "#need-tfn-container"
+  }) %>
 
-  <main id="main-content">
+  <%- include(forms+"notice", {
+    message: `<p>You need to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a> to avoid their payment being taxed at a higher rate.</p>`,
+    id: "need-tfn",
+    modifiers: ["hidden"]
+  }) %>
 
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Bank details</span>
-        </h1>
-      </div>
-    </div>
+  <%- include(forms+"text", {
+    label: "Tax file number",
+    id: "tfn",
+    modifiers: ["hidden"]
+  }) %>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-           <%- include(partials+"components/form-partials/prepop/bank-details", {
-  label: "Provide bank details"
-}); %>
-
-            </div>
-
-          <div id="save-next" hidden>
-            <p>Choose <b>save and next</b> to continue</p>
-          </div>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-05'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-07'">Save and next</button>
-            </div>
-          </div>
-
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
-
-
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-05"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and review",
+        link: "/auth/claim/veteran-payment/veteran-payment-07",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
   <script>
     $(document).ready(function () {
@@ -82,13 +77,7 @@
         }
       });
 
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
-
     });
   </script>
 
-</body>
-
-</html>
+<%- include(templates+"footer") %>

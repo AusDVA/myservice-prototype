@@ -1,104 +1,87 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Income & assets"
+}) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main id="main-content">
-
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Income & assets</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  <style>
+    
+  </style>
           
-            <h2>Details of the total value of your financial income and assets</h2> 
+  <h2>Details of the total value of your financial income and assets</h2> 
 
-            <h3 class="margin-below--none">Financial assets</h3>
-            <p class="hint margin-above--none">Financial assets include money in the bank, building society and credit union accounts, cash holdings, shares and other securities, bonds
-              and debentures, money you have loaned and managed investments.</p>
+  <h3 class="margin-below--none">Financial assets</h3>
+  <p class="hint margin-above--none">Financial assets include money in the bank, building society and credit union accounts, cash holdings, shares and other securities, bonds
+    and debentures, money you have loaned and managed investments.</p>
 
-            <%- include(forms+"text", {
-  label: "Estimated total value",
-  modifiers: ["dollarSign", "hintNewline", "inputShort"],
-  placeholder: "0.00",
-}) %>
+  <%- include(forms+"text", {
+    label: "Estimated total value",
+    modifiers: ["dollarSign", "hintNewline", "inputShort"],
+    placeholder: "0.00",
+  }) %>
 
-            <hr>
-            <h3 class="margin-below--none">Other assets</h3>
-            <p class="hint margin-above--none"> Other assets include real estate property (not including your home), a company, trust or business, vehicles, life insurance
-              policies and valuables or collectible items.
-            </p>
+  <hr>
+  <h3 class="margin-below--none">Other assets</h3>
+  <p class="hint margin-above--none"> Other assets include real estate property (not including your home), a company, trust or business, vehicles, life insurance
+    policies and valuables or collectible items.
+  </p>
 
-            <%- include(forms+"text", {
-  label: "Estimated total value",
-  modifiers: ["dollarSign", "hintNewline", "inputShort"],
-  placeholder: "0.00",
-}) %>
+  <%- include(forms+"text", {
+    label: "Estimated total value",
+    modifiers: ["dollarSign", "hintNewline", "inputShort"],
+    placeholder: "0.00",
+  }) %>
 
-            <hr>
+  <hr>
 
-            <h3 class="margin-below--none">Other Income received</h3>
-            <p class="hint margin-above--none"> Other income received Includes <strong>GROSS income </strong>from
-              employment, superannuation pensions, foreign income, rental income, boarders and
-              lodgers (Net income after expenses), business income (Net income after expenses), annuities and other income streams and any other income you have not included
-              elsewhere on this form.
-            </p>
+  <h3 class="margin-below--none">Other Income received</h3>
+  <p class="hint margin-above--none"> Other income received Includes <strong>GROSS income </strong>from
+    employment, superannuation pensions, foreign income, rental income, boarders and
+    lodgers (Net income after expenses), business income (Net income after expenses), annuities and other income streams and any other income you have not included
+    elsewhere on this form.
+  </p>
 
-
-            <%- include(forms+"text", {
-  label: "Estimated total value",
-  modifiers: ["dollarSign", "hintNewline", "inputShort"],
-  placeholder: "0.00",
-}) %>
-
-            <div class="uikit-page-alerts uikit-page-alerts--warning" role="alert">
-              <p>If you currently receive payments from Centrelink or the Department of Veterans’ Affairs, do not include these in your estimated income amount.
-              </p>
-            </div>
-
-          </div>
-
-          <div id="save-next" hidden>
-            <p>Choose <b>save and next</b> to continue</p>
-          </div>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-04'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-06'">Save and next</button>
-            </div>
-          </div>
-
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
+  <%- include(forms+"notice", {
+    type: "warning",
+    message: "<p>If you currently receive payments from Centrelink or the Department of Veterans’ Affairs, do not include these in your estimated income amount.</p>"
+  }) %>
+  
+  <div class="hint-after-box">
+    <%- include(forms+"text", {
+      label: "Estimated total value",
+      modifiers: ["dollarSign", "hintNewline", "inputShort"],
+      placeholder: "0.00",
+    }) %>
+    
+    <span class="hint">per fortnight</span>
+  </div>
 
 
 
-  </main>
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(partials+"components/layout/footer") %>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-04"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-06",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
 
   <script>
     $(document).ready(function () {
@@ -123,14 +106,8 @@
         }
       });
 
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
-
     });
 
   </script>
 
-</body>
-
-</html>
+<%- include(templates+"footer") %>

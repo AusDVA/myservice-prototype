@@ -1,80 +1,81 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Living arrangements"
+}) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Which of the following best describes your current living arrangements?",
+    boxes: [
+      {
+        text: "Home",
+        toggle: "#save-next"
+      },
+      {
+        text: "Private rental",
+        inject: "#rent",
+      },
+      {
+        text: "Other",
+        inject: "#other-living-arrangements-container"
+      }
+    ]
+  }); %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <%- include(forms+"textarea", {
+    id: "other-living-arrangements",
+    label: "Please describe:",
+    modifiers: ["hidden"],
+    rows: 3
+  }) %>
 
-  <main id="main-content">
+  <div id="rent" class="text-and-select" hidden>
+    <%- include(forms+"text", {
+      customClass: "display-inline text-and-select__text",
+      modifiers: ["dollarSign", "inputShort"],
+      label: "How much rent do you pay?",
+      placeholder: "0.00"
+    }) %>
 
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Living arrangements</span>
-        </h1>
-      </div>
-    </div>
+    <%- include(forms+"dropdown", {
+      customClass: "display-inline text-and-select__select",
+      modifiers: ["inputShort"],
+      label: `<span class="hint">&nbsp;&nbsp;per&nbsp;&nbsp;</span>`,
+      options: [
+        "-- Select frequency --",
+        "Weekly",
+        "Fortnightly",
+        "Monthly",
+        "Annually"
+      ]
+    }) %>
+    
+  </div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
 
-            <%- include(partials+"components/form-partials/radio", {
-                label: "Which of the following best describes your current living arrangements?",
-                boxes: [
-                  "Home",
-                  {
-                    text: "Private rental",
-                    inject: "#rent"
-                  },
-                  {
-                  text: "Other",
-                  inject: "other-text"
-                  }
-                ]
-              }); %>
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-            <div id="rent">
-              dsdfsdfsdfds
-            </div>
-
-            <%- include(partials+"components/form-partials/text", {
-              label: "Please enter your name"
-            }); %>
-
-          </div>
-
-          <div id="save-next" hidden>
-            <p>Choose <b>save and next</b> to continue</p>
-          </div>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-03'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-05'">Save and next</button>
-            </div>
-          </div>
-
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-03"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-05",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
   <script>
     $(document).ready(function () {
@@ -99,13 +100,6 @@
         }
       });
 
-      // Progress percentage
-      document.getElementById("percentage").style.width = "20%";
-      document.getElementById("percentage_value").textContent = "20%";
-
     });
   </script>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>

@@ -1,87 +1,65 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Dependent children"
+}) %>
 
-<head>
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Do <span class='partnered'>you</span> have any dependent children under 16 years of age?",
+    yes_toggle: "#dependent-details",
+    no_toggle: "#save-next",
+    tooltip: {
+      screenreaderText: "Definition of dependent",
+     content: "Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care."
+    }
+  }); %>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+  <div id="dependent-details" class="padding-above--none padding-below--none" hidden>
 
-  <main id="main-content">
+      <b>Provide details of the youngest dependent child:</b>
 
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Dependent children</span>
-        </h1>
-      </div>
-    </div>
+      <br>
+      <br>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+    <%- include(partials+"components/form-partials/text", {
+      label: "Full name"
+    }); %>
 
-            <%- include(partials+"components/form-partials/yes_no", {
-              label: "Do <span class='partnered'>you</span> have any dependent children under 16 years of age?",
-              yes_toggle: "#dependent-details",
-              no_toggle: "#save-next",
-              tooltip: {
-                screenreaderText: "Definition of dependent",
-               content: "Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care."
-              }
-            }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth"
+    }); %>
 
-            <div id="dependent-details" hidden>
+    <%- include(partials+"components/form-partials/prepop/gender", {
+      both_toggle: "#save-next"
+    }); %>
 
-              <B>Provide details of the youngest dependent child:</b>
+    <br>
 
-              <BR /><BR />
+  </div>
 
-              <%- include(partials+"components/form-partials/text", {
-              label: "Full name"
-            }); %>
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-              <%- include(partials+"components/form-partials/date", {
-              label: "Date of birth"
-            }); %>
-
-              <%- include(partials+"components/form-partials/prepop/gender"); %>
-
-              <BR />
-
-            </div>
-
-          </div>
-
-          <div id="save-next" hidden>
-            <p>Choose <b>save and next</b> to continue</p>
-          </div>
-
-          <div class="pagination margin-above--extra">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-02'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/veteran-payment/veteran-payment-04'">Save and next</button>
-            </div>
-          </div>
-
-          <%- include(partials+"content/modals/claims-cancel-modal") %>
-        </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-02"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-04",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
   <script>
     $(document).ready(function () {
@@ -97,9 +75,4 @@
 
     });
   </script>
-
-  <%- include("veteran-payment-03-state-switcher.ejs") %>
-
-</body>
-
-</html>
+<%- include(templates+"footer") %>
