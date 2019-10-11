@@ -6,7 +6,10 @@
   <%- include(partials+"components/form-partials/radio", {
     label: "What is your relationship status?",
     boxes: [
-      "Single",
+      {
+        text: "Single",
+        rToggle: "#partner-details"
+      },
       "Married and currently living together",
       "Living in a marriage-like relationship"
     ],
@@ -105,30 +108,15 @@
     ]
   }) %>
 
+  <%- include("veteran-payment-state-switcher") %>
+
   <script>
-    $(document).ready(function () {
-
-      $("input:radio").prop("checked", false);
-      $('#relationship-status').prop('selectedIndex', 0);
-
-      $('#relationship-status-container').change(function () {
-        var mySelection = $('input[name=relationship-status]:checked').parent().find("span").text().trim();
-        switch (mySelection) {
-          case "-- Select an option --":
-            $("#partner-details").hide();
-            $("#save-next").hide();
-            break;
-          case "Single":
-            $("#partner-details").hide();
-            $("#save-next").show();
-            break;
-          default:
-            $("#partner-details").show();
-            $("#save-next").hide();
-            break;
-        }
-      });
-
-    });
+    $("#relationship-status-container").on("change", "input", function() {
+      if ($(this).val() === "single") {
+        localStorage.setItem("relationship-status", "single");
+      } else {
+        localStorage.setItem("relationship-status", "couple");
+      }
+    })
   </script>
 <%- include(templates+"footer") %>

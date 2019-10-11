@@ -2,12 +2,8 @@
   title: "Veteran Payment", 
   heading: "Income & assets"
 }) %>
-
-  <style>
-    
-  </style>
           
-  <h2>Details of the total value of your financial income and assets</h2> 
+  <h2>Details of the total value of your<span class="partnered" hidden>'s and your partners</span> financial income and assets</h2> 
 
   <h3 class="margin-below--none">Financial assets</h3>
   <p class="hint margin-above--none">Financial assets include money in the bank, building society and credit union accounts, cash holdings, shares and other securities, bonds
@@ -59,6 +55,8 @@
 
   <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
+  <%- include("veteran-payment-state-switcher") %>
+
   <%- include(forms+"pagination", {
     pagination: [
       {
@@ -83,31 +81,16 @@
   }) %>
 
 
+
+  <%- include("veteran-payment-state-switcher") %>
+
   <script>
-    $(document).ready(function () {
-
-      $('input[name=postal]').change(function () {
-        var postal = $('input[name=postal]:checked').val();
-        if (postal == "yes") {
-          $("#postal-reason").show("fast");
-          $("#save-next").hide();
-        } else {
-          $("#postal-reason").hide();
-          $("#save-next").hide();
-        }
-      });
-
-      $('input[name=update_address]').change(function () {
-        var updateAddress = $('input[name=update_address]:checked').val();
-        if (updateAddress == "yes") {
-          $("#save-next").show("fast");
-        } else {
-          $("#save-next").show("fast");
-        }
-      });
-
-    });
-
+    function stateSwitcher() {
+      if (relationshipStatus === "single") {
+        $(".partnered").hide();
+      } else {
+        $(".partnered").show();
+      }
+    }
   </script>
-
 <%- include(templates+"footer") %>

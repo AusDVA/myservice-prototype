@@ -4,7 +4,7 @@
 }) %>
 
   <%- include(partials+"components/form-partials/yes_no", {
-    label: "Do <span class='partnered'>you</span> have any dependent children under 16 years of age?",
+    label: `Do you <span class="partnered" style="display: none;">you and/or your partner </span>have any dependent children under 16 years of age?`,
     yes_toggle: "#dependent-details",
     no_toggle: "#save-next",
     tooltip: {
@@ -15,10 +15,7 @@
 
   <div id="dependent-details" class="padding-above--none padding-below--none" hidden>
 
-      <b>Provide details of the youngest dependent child:</b>
-
-      <br>
-      <br>
+    <p><b>Provide details of the youngest dependent child:</b></p>
 
     <%- include(partials+"components/form-partials/text", {
       label: "Full name"
@@ -31,8 +28,6 @@
     <%- include(partials+"components/form-partials/prepop/gender", {
       both_toggle: "#save-next"
     }); %>
-
-    <br>
 
   </div>
 
@@ -61,18 +56,15 @@
     ]
   }) %>
 
+  <%- include("veteran-payment-state-switcher") %>
   <script>
-    $(document).ready(function () {
-
-      $('input[name=update_address]').change(function () {
-        var updateAddress = $('input[name=update_address]:checked').val();
-        if (updateAddress == "yes") {
-          $("#save-next").show("fast");
-        } else {
-          $("#save-next").show("fast");
-        }
-      });
-
-    });
+    function stateSwitcher() {
+      if (relationshipStatus === "partnered") {
+        $(".partnered").show();
+      } else {
+        $(".partnered").hide();
+      }
+    }
   </script>
+
 <%- include(templates+"footer") %>
