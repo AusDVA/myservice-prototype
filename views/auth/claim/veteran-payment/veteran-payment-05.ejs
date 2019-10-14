@@ -2,55 +2,49 @@
   title: "Veteran Payment", 
   heading: "Income & assets"
 }) %>
-          
-  <h2>Details of the total value of your<span class="partnered" hidden>'s and your partners</span> financial income and assets</h2> 
 
-  <h3 class="margin-below--none">Financial assets</h3>
-  <p class="hint margin-above--none">Financial assets include money in the bank, building society and credit union accounts, cash holdings, shares and other securities, bonds
-    and debentures, money you have loaned and managed investments.</p>
+<p><b>Total estimated gross income received <span class="user-label-b">by you and/or your partner</span> including:</b></p>
+<ul>
+   <li>Employment income, superannuation pensions, foreign income.</li>
+   <li>Rental income, boarders and lodgers (net income after expenses).</li>
+   <li>Annuities and other income streams.</li>
+   <li>Any other income not included elsewhere on this form.</li>
+ </ul>
+ <p class="margin-below--small"><b>Do not</b> include any payments your are currently receiving from Centrelink or DVA.</p>
+
+  <div class="hint-after-box margin-above">
+<%- include(forms+"text", {
+  modifiers: ["dollarSign", "hintNewline", "inputShort"],
+  placeholder: "0.00",
+}) %>   
+  <span class="hint">per fortnight</span>
+</div>
+
+<p><b>Total estimated value of <span class="user-label-a">you and/or your partner's</span> financial assets including:</b></p>
+ <ul>
+    <li>Money in bank, building society and credit union accounts.</li>
+    <li>Managed investments, bonds and debentures, shares and other securities.</li>
+    <li>Money loaned, cash holdings.</li>
+  </ul>
 
   <%- include(forms+"text", {
-    label: "Estimated total value",
     modifiers: ["dollarSign", "hintNewline", "inputShort"],
     placeholder: "0.00",
   }) %>
 
-  <hr>
-  <h3 class="margin-below--none">Other assets</h3>
-  <p class="hint margin-above--none"> Other assets include real estate property (not including your home), a company, trust or business, vehicles, life insurance
-    policies and valuables or collectible items.
-  </p>
+  <p><b>Total estimated value of  <span class="user-label-a">you and/or your partner's</span> other assets including:</b></p>
+  <ul>
+     <li>Real estate property (not including own home).</li>
+     <li>Companies, trusts or businesses.</li>
+     <li>Vehicles.</li>
+     <li>Life insurance policies.</li>
+     <li>Valuables or collectible items.</li>
+   </ul>
 
   <%- include(forms+"text", {
-    label: "Estimated total value",
     modifiers: ["dollarSign", "hintNewline", "inputShort"],
     placeholder: "0.00",
   }) %>
-
-  <hr>
-
-  <h3 class="margin-below--none">Other Income received</h3>
-  <p class="hint margin-above--none"> Other income received Includes <strong>GROSS income </strong>from
-    employment, superannuation pensions, foreign income, rental income, boarders and
-    lodgers (Net income after expenses), business income (Net income after expenses), annuities and other income streams and any other income you have not included
-    elsewhere on this form.
-  </p>
-
-  <%- include(forms+"notice", {
-    type: "warning",
-    message: "<p>If you currently receive payments from Centrelink or the Department of Veterans’ Affairs, do not include these in your estimated income amount.</p>"
-  }) %>
-  
-  <div class="hint-after-box">
-    <%- include(forms+"text", {
-      label: "Estimated total value",
-      modifiers: ["dollarSign", "hintNewline", "inputShort"],
-      placeholder: "0.00",
-    }) %>
-    
-    <span class="hint">per fortnight</span>
-  </div>
-
 
 
   <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
@@ -82,10 +76,18 @@
 
   <script>
     function stateSwitcher() {
-      if (relationshipStatus === "single") {
-        $(".partnered").hide();
-      } else {
-        $(".partnered").show();
+      console.log( relationshipStatus );
+      switch (relationshipStatus) {
+        case "single":
+          $(".user-label-a").text("your");
+          $(".user-label-b").text("");
+          break;
+        case "partnered":
+          $(".user-label-a").text("you and/or your partner's");
+          $(".user-label-b").text("by you and/or your partner");
+          break;
+        default:
+          break;
       }
     }
   </script>
