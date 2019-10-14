@@ -69,7 +69,14 @@
         $("#maybe-not-eligible-3").hide();
         $("#stud-parent-selected-message").hide();
         $("#student-veteran-dependant3-container").show();
+      }
 
+      if(sessionStorage.getItem("parentFlow") =="true") {
+        $("#student-veteran-dependant3-container legend").text("Is the student dependant on the veteran? Or were they previously?");
+        $("#student-veteran-dependant3-container legend").append("<span class='hint'> Completely or substantially.</span>");
+      } else {
+        $("#student-veteran-dependant3-container legend").text("Are you dependant on the veteran? Or were you previously?");
+        $("#student-veteran-dependant3-container legend").append("<span class='hint'> Completely or substantially.</span>");
       }
     })
 
@@ -105,6 +112,7 @@
 
     $("#student-veteran-dependant3-1").click(function () {
       $("#stud-parent-selected-message").show();
+      $("#maybe-not-eligible-3").hide();
     })
 
     $("#student-veteran-dependant3-2").click(function () {
@@ -146,5 +154,22 @@
         $("label[for=stud-about-the-veteran-drop]").text('the veteran is my');
       }
     })
+
+    $("#yes_no722-yes, #yes_no722-unsure").click(function () {
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#maybe-not-eligible-3").hide();
+        $("#about-you-stud21").show();
+        $("#about-you-heading").show();
+        $("#parent-student-dropdown-container").show();
+        $("#family-tax-benefit-container").show();
+      } else {
+        $("#about-you-heading, #parent-student-dropdown-container, #family-tax-benefit-container, #about-you-stud21").hide();
+      }
+    });
+
+    $("#yes_no722-no").click(function () {
+        $("#maybe-not-eligible-3").show();
+        $("#about-you-stud21").hide();
+    });
   }
 </script>
