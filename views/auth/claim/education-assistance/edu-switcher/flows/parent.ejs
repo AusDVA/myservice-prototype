@@ -7,8 +7,9 @@
     $(".flow--student-under-17").hide();
     $("#student-or-parent-radio-container").show();
 
-    if (mySelection === "Guardian/Student 25 +") {
+    if (sessionStorage.getItem("eduFlow") === "Guardian/Student 25 +") {
       $("#student-or-parent-radio-1").click(function () {
+        sessionStorage.setItem("parentFlow", "false");
         hideall();
         $("#over25-eligible").show();
         $("#dependant-child-alert").show();
@@ -30,7 +31,6 @@
       $('#student-about-the-veteran-drop').change(function () {
         let drop = document.getElementById("student-about-the-veteran-drop");
         let selectedOption = drop.options[drop.selectedIndex].value;
-        console.log(selectedOption);
         if (selectedOption === "parent") {
           $("#student-veteran-dependant-container").hide();
           $("#parent-selected-message").show();
@@ -44,15 +44,15 @@
         }
       })
 
-      $("#yes_no719-2").click(function () {
+      $("#yes_no719-no").click(function () {
         $("#maybe-not-eligible-2").show();
       })
 
-      $("#yes_no719-1").click(function () {
+      $("#yes_no719-yes").click(function () {
         $("#maybe-not-eligible-2").hide();
       })
 
-      $("#yes_no719-1").click(function () {
+      $("#yes_no719-unsure").click(function () {
         $("#maybe-not-eligible-2").hide();
       })
 
@@ -66,14 +66,20 @@
       })
 
       $("#student-or-parent-radio-2").click(function () {
+        sessionStorage.setItem("parentFlow", "true");
         $("#parent-guardian-alert").show();
         $("#about-student-heading").show();
         $("#students-dob-container").show();
-        $("#over25-eligible").hide();
-        $("#dependant-child-alert").hide();
-        $("#are-you-employed-container").hide();
+        $("#over25-eligible, #maybe-not-eligible-2").hide();
+        $("#are-you-employed-container, #parent-selected-message, #dependant-child-alert").hide();
+        $("#full-time-alert, #about-veteran-header, #student-about-the-veteran-drop-container, #student-veteran-dependant2-container").hide();
       });
     }
+
+    if (sessionStorage.getItem("parentFlow") === "false") {
+      $("#student-veteran-dependant2-container legend").text("Are you dependent on the veteran? Or were you previously?");
+    }
+
     $("#students-dob-container input").keyup(function () {
       //get the year month and day after each input change
       year = $("#students-dob-yyyy").val();
@@ -152,59 +158,60 @@
       $("#maybe-not-eligible").hide();
       $("#parent-selected-message").show();
     });
-    if (mySelection !== "Guardian/Student 25 +") {
-      $("#yes_no719-2").click(function () {
+
+    $("#yes_no719-no").click(function () {
+      if (sessionStorage.getItem("parentFlow") === "true") {
         $("#maybe-not-eligible-2").show();
-        $("#about-you-heading").hide();
+        $("#about-you-heading, #crn-number-container, #ftb-alert").hide();
         $("#parent-student-dropdown-container").hide();
         $("#family-tax-benefit-container").hide();
-      });
-
-      $("#yes_no719-1").click(function () {
-        $("#maybe-not-eligible-2").hide();
-        $("#about-you-heading").show();
-        $("#parent-student-dropdown-container").show();
-        $("#family-tax-benefit-container").show();
-      });
-
-      $("#yes_no719-1").click(function () {
-        $("#maybe-not-eligible-2").hide();
-        $("#parent-student-dropdown-container").show();
-        $("#about-you-heading").show();
-        $("#family-tax-benefit-container").show();
-      });
-    }
-
-    $("#family-tax-benefit-1").click(function () {
-      $("#family-tax-benefit-else-container").hide();
-      $("#crn-number-container").show();
-      if (currentAge === 16 || currentAge === 17) {
-        $("#ftb-alert").show();
       } else {
-        $("#ftb-alert").hide();
+        $("#about-you-heading, #parent-student-dropdown-container, #family-tax-benefit-container").hide();
+      }
+
+    });
+
+    $("#yes_no719-yes, #yes_no719-unsure").click(function () {
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#maybe-not-eligible-2").hide();
+        $("#about-you-heading").show();
+        $("#parent-student-dropdown-container").show();
+        $("#family-tax-benefit-container").show();
+      } else {
+        $("#about-you-heading, #parent-student-dropdown-container, #family-tax-benefit-container").hide();
       }
     });
-
-    $("#family-tax-benefit-2").click(function () {
-      $("#crn-number-container").hide();
-      $("#ftb-alert").hide();
-      $("#family-tax-benefit-else-container").show();
-    });
-
-    $("#family-tax-benefit-else-2").click(function () {
-      $("#ftb-complete-claim").hide();
-    });
-
-    $("#family-tax-benefit-else-1").click(function () {
-      $("#ftb-complete-claim").show();
-    });
-
-    $("#parent-shared-care-arrangement-1").click(function () {
-      $("#parent-percentage-of-care-container").show();
-    });
-
-    $("#parent-shared-care-arrangement-2").click(function () {
-      $("#parent-percentage-of-care-container").hide();
-    });
   }
+
+  $("#family-tax-benefit-1").click(function () {
+    $("#family-tax-benefit-else-container").hide();
+    $("#crn-number-container").show();
+    if (currentAge === 16 || currentAge === 17) {
+      $("#ftb-alert").show();
+    } else {
+      $("#ftb-alert").hide();
+    }
+  });
+
+  $("#family-tax-benefit-2").click(function () {
+    $("#crn-number-container").hide();
+    $("#ftb-alert").hide();
+    $("#family-tax-benefit-else-container").show();
+  });
+
+  $("#family-tax-benefit-else-2").click(function () {
+    $("#ftb-complete-claim").hide();
+  });
+
+  $("#family-tax-benefit-else-1").click(function () {
+    $("#ftb-complete-claim").show();
+  });
+
+  $("#parent-shared-care-arrangement-1").click(function () {
+    $("#parent-percentage-of-care-container").show();
+  });
+
+  $("#parent-shared-care-arrangement-2").click(function () {
+    $("#parent-percentage-of-care-container").hide();
+  });
 </script>
