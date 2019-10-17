@@ -1,0 +1,70 @@
+<%- include(templates+"header", {
+  title: "16th birthday review | Title", 
+  heading: "Title"
+}) %>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      link: "/auth"
+    },
+    {
+      text: "Next",
+      link: "/auth/claim/permanent-impairment/permanent-impairment-02",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(partials+"content/modals/task-cancel-modal") %>
+<%- include(templates+"footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $("#country-select option[value=AU]").attr('selected', 'selected');
+
+    var startingSecondary = false;
+    $('input[name=start-studying-question]').change(function () {
+      var mySelection = $('input[name=start-studying-question]:checked').parent().find("span").text();
+      if (mySelection == "Yes") {
+        $("#country-container input:radio").prop("checked", false);
+        $("#myForm").show();
+        $("#reason-of-no-container").hide();
+        $("#save-and-next").hide();
+        startingSecondary = true;
+      } else {
+        $("#reason-of-no-container").show();
+        $("#myForm").hide();
+        $("#save-and-next").show();
+        startingSecondary = false;
+      }
+    });
+
+    $('#country-container').change(function () {
+      var mySelection = $('#country-container').find(":selected").text().trim();
+      switch (mySelection) {
+        case "Australia":
+          $("#state-container").show();
+          break;
+        default:
+          $("#state-container").hide();
+          break;
+      }
+    });
+
+    $("#btnNext").click(function () {
+      if (startingSecondary) {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-02"
+      } else {
+        window.location.href = "/auth/tasks/transition-to-secondary/transition-to-secondary-03"
+      }
+    });
+
+  });
+</script>
+
+</html>
