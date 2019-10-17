@@ -12,7 +12,7 @@ var header = require('gulp-header');
 var fs = require("fs");
 
 
-d = new Date(),
+d = new Date().toLocaleString("en-US", {timeZone: "Australia/Sydney"}),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
 
 var config = {
