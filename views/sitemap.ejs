@@ -1,29 +1,45 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>MyService Sitemap</title>
-	<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MyService Sitemap</title>
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-nn4HPE8lTHyVtfCBi5yW9d20FjT8BJwUXyWZT9InLYax14RDjBj46LmSztkmNP9w" crossorigin="anonymous">
 </head>
 <body>
-	<table class="pure-table">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Link</th>
-			</tr>
-		</thead>
-		<tbody>
-<% pages.forEach((page, index) => { %>
-			<tr>
-				<td><%= page.title %></td>
-				<td><a href="<%= page.page %>"><%= page.page %></a></td>
-			</tr>
-<% }) %>
-		</tbody>
-	</table>
+  <table class="pure-table" style="width: 100%;">
+    <thead>
+      <tr>
+        <th scope="colgroup" colspan="3" style=" font-size: 1.5rem; background: #2d2c2c; color: white;">Claim Title (If specified)</th>
+      </tr>
+      <tr>
+        <th scope="row" style="">Title</th>
+        <th scope="row" style="">Heading</th>
+        <th scope="row" style="">Location/Link</th>
+      </tr>
+    </thead>  
+    <% sortedClaims.map((claims, index) => { %>
+      <% claims.map((claim, i) => { %>
+        <% if (i === 0) { %>
+          <tbody>
+            <tr>
+              <th scope="col" colspan="3" style="text-align: left; background: #2d2c2c; color: white;"><%- claim.claim !== null ? claim.claim : "Other" %></th>
+            </tr>
+        <% } %>
+
+        <tr>
+          <td><%- claim.title !== null ? claim.title : (claim.heading !== null && claim.claim !== null ? `${claim.claim} | ${claim.heading}` : "(No Title Found)") %></td>
+          <td><%- claim.heading !== null ? claim.heading : "(No Heading Found)" %></td>
+          <td><a href="<%- claim.file %>"><%- claim.file %></a></td>
+        </tr>
+
+        <% if (i === (claims.length - 1)) { %>
+          </tbody>
+        <% } %>
+      <% }) %>
+    <% }) %>
+  </table>
 </body>
 </html>
-
