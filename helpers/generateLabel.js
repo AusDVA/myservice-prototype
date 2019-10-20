@@ -61,7 +61,5 @@ module.exports = formLabel => {
     html += "</label>";
   }
 
-  console.log(html)
-
   return html;
 }
