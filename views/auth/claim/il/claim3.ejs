@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
-
-<head>
-  <title>Initial Liability | How did it happen?</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-claims") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+<%- include(templates+"header", {
+  title: "Initial Liability"
+})%>
 
             <div id="progressbar">
               <div id="percentage">
@@ -74,15 +53,28 @@
               </div>
             </fieldset>
 
-
-            <div class="pagination">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/il/claim4'">Save and next</button>
-              </div>
-            </div>
+            <%- include(forms+"pagination", {
+              pagination: [
+                {
+                  text: "Previous",
+                  link: "/auth/claim1"
+                },
+                {
+                  text: "Cancel claim",
+                  link: "#open-modal"
+                },
+                {
+                  text: "Save and exit",
+                  link: "/auth/claim",
+                  modifiers: ["floated"]
+                },
+                {
+                  text: "Save and next",
+                  link: "/auth/claim/il/claim4",
+                  modifiers: ["floated", "primary"]
+                }
+              ]
+            }) %>
             <%- include(partials+"content/modals/claims-cancel-modal") %>
             <%- include(partials+"content/modals/claims-removefile-modal") %>
           </div>
