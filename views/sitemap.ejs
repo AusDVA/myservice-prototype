@@ -22,21 +22,25 @@
     </thead>  
     <% sortedClaims.map((claims, index) => { %>
       <% claims.map((claim, i) => { %>
-        <% if (i === 0) { %>
-          <tbody>
-            <tr>
-              <th scope="col" colspan="3" style="text-align: left; background: #2d2c2c; color: white;"><%- claim.claim !== null ? claim.claim : "Other" %></th>
-            </tr>
-        <% } %>
+        <% if (!(claim.file.includes("state-switcher") || claim.file.includes("stateswitcher"))) { %>
 
-        <tr>
-          <td><%- claim.title !== null ? claim.title : (claim.heading !== null && claim.claim !== null ? `${claim.claim} | ${claim.heading}` : "(No Title Found)") %></td>
-          <td><%- claim.heading !== null ? claim.heading : "(No Heading Found)" %></td>
-          <td><a href="<%- claim.file %>"><%- claim.file %></a></td>
-        </tr>
+          <% if (i === 0) { %>
+            <tbody>
+              <tr>
+                <th scope="col" colspan="3" style="text-align: left; background: #2d2c2c; color: white;"><%- claim.claim !== null ? claim.claim : "Other" %></th>
+              </tr>
+          <% } %>
 
-        <% if (i === (claims.length - 1)) { %>
-          </tbody>
+          <tr>
+            <td><%- claim.title !== null ? claim.title : (claim.heading !== null && claim.claim !== null ? `${claim.claim} | ${claim.heading}` : "(No Title Found)") %></td>
+            <td><%- claim.heading !== null ? claim.heading : "(No Heading Found)" %></td>
+            <td><a href="<%- claim.file %>"><%- claim.file %></a></td>
+          </tr>
+
+          <% if (i === (claims.length - 1)) { %>
+            </tbody>
+          <% } %>
+
         <% } %>
       <% }) %>
     <% }) %>
