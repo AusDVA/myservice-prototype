@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Diagnosis | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <style>
+    .pt-requigulred-docs,
+    .pt-no-required-docs,
+    .pt-upload-list,
+    .pt-upload-list-optional,
+    .pt-upload-other-docs,
+    .pt-medical-prac {
+      display: none;
+    }
+
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+          <div class="margin-above--extra margin-below--extra">
+            <div id="progressbar">
+              <div id="percentage">
+                <p id="percentage_value"></p>
+              </div>
+
+            </div>
+            <h1>Veteran Payment</h1>
+
+            <div class="margin-above--extra margin-below--extra">
+
+              <%- include(partials+"components/form-partials/notice", {
+                message: "The veteran payment provides interim financial support to veterans who lodge a claim for a mental health condition and are unable to work more than eight hours per week."
+              }); %>
+
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+                yes_toggle: "#assistance-container",
+                no_toggle: ["#no-notice-container","#save-and-next"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Do you require financial assistance whilst your Initial Liability claim is being processed?",
+                id: "assistance",
+                yes_toggle: ["#yes-notice-container","#save-and-next"],
+                no_toggle: ["#no-notice-container","#save-and-next"],
+                modifiers: ["hidden"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/notice", {
+                message: "If you would like DVA to assess your eligibility for interim payments complete the Veteran Payment application within MyService. This will be made available after you submit your application.",
+                id: "yes-notice",
+                modifiers: ["hidden"]
+              }); %>
+<!-- follow the prompts on the homepage to complete your Veteran Payment application -->
+              <%- include(partials+"components/form-partials/notice", {
+                message: "If your circumstances change in the future you may complete the Veteran Payment application within MyService. This will be made available after you submit your application.",
+                id: "no-notice",
+                modifiers: ["hidden"]
+              }); %>
+
+              <div id="save-and-next" class="margin-above--extra" style="display: none">
+                <p>Choose <b>save and next</b> to continue.</p>
+              </div>
+            </div>
+
+            <div class=" pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+              <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button><button class="uikit-btn btnNext"
+                  onclick="window.location.href = '/auth/claim/il/claim7'">Save and next</button>
+              </div>
+            </div>
+
+            <%- include(partials+"content/modals/claims-cancel-modal") %>
+            <%- include(partials+"content/modals/claims-removefile-modal") %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+  <script>
+
+$("input:radio").prop("checked", false);
+
+
+    // Progress percentage
+    document.getElementById("percentage").style.width = "95%";
+    document.getElementById("percentage_value").textContent = "95%";
+
+  </script>
+
+</body>
+
+</html>
