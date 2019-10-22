@@ -1,90 +1,44 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", { title: "Incapacity Payments", heading:
+"Whoops" })%>
 
-<head>
-  <title>Incapacity Payments | Whoops</title>
-<%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Whoops</span>
-        </h1>
-      </div>
+<div class="container container--8-column">
+  <div class="margin-above--extra margin-below--extra">
+    <div class="uikit-page-alerts uikit-page-alerts--error">
+      <p><strong>You are not eligible for Incapacity Payments.</strong></p>
     </div>
+    <p>You may wish to claim for a Disability Pension</p>
+  </div>
+  <%- include(forms+"pagination", { pagination: [ { text: "Previous", link:
+  "/auth/claim/incap/progress-b" }, { text: "Cancel claim", link: "#open-modal"
+  }, { text: "Save and exit", link: "/auth/claim", modifiers: ["floated"] }, {
+  text: "Save and next", link: "/auth/claim/incap/b-2", modifiers: ["floated",
+  "primary"] } ] }) %>
+</div>
 
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-
-          <div class="margin-above--extra margin-below--extra">
-
-            <div class="uikit-page-alerts uikit-page-alerts--error">
-              <p><strong>You are not eligible for Incapacity Payments.</strong></p>
-            </div>
-
-            <p>You may wish to claim for a Disability Pension</p>
-          </div>
-
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-          </div>
-
-        </div>
-
-
-      </div>
-    </div>
-
-    <%- include(partials+"content/modals/claims-cancel-modal") %>
-    </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    $(Document).ready(function () {
-      $("#btnPrev").click(function () {
-        window.location.href = "/auth/claim/incap/progress-b"
-      });
-      $("#btnNext").click(function () {
-        window.location.href = "/auth/claim/incap/b-2"
-      });
-
-      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
-      if ("flow2" in localStorage) {
-        $(".employed").hide();
-      } else {
-        $(".employed").show();
-      };
-
-      $('input[name=checkbox-5]').change(function () {
-        if ($(this).is(':checked')) {
-          $("#condition-not-in-list").show();
-        } else {
-          $("#condition-not-in-list").hide();;
-        }
-      });
-
-
+<%- include(partials+"content/modals/claims-cancel-modal") %> <%-
+include(partials+"components/layout/footer") %>
+<script>
+  $(Document).ready(function() {
+    $("#btnPrev").click(function() {
+      window.location.href = "/auth/claim/incap/progress-b";
     });
-  </script>
+    $("#btnNext").click(function() {
+      window.location.href = "/auth/claim/incap/b-2";
+    });
 
-</body>
+    // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
+    if ("flow2" in localStorage) {
+      $(".employed").hide();
+    } else {
+      $(".employed").show();
+    }
 
-</html>
+    $("input[name=checkbox-5]").change(function() {
+      if ($(this).is(":checked")) {
+        $("#condition-not-in-list").show();
+      } else {
+        $("#condition-not-in-list").hide();
+      }
+    });
+  });
+</script>

@@ -1,68 +1,40 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
-
-<head>
-  <title>Incapacity Payments | Document upload</title>
-<%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Incapacity Payment document upload</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container margin-above">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-          <div class="uikit-page-alerts uikit-page-alerts--info ss-align--center">
-            <p class="ss-align margin-below--mid">At the time you submitted this claim there were <b>two</b> more documents required to determine your claim:</p>
-            <ul class="ss-align margin-below--mid">
-              <li>Discharge certificate</li>
-              <li>Proof of military earnings</li>
-            </ul>
-            <p class="ss-align">Documents can be emailed to <a href="">myservicesupport@dva.gov.au</a></p>
-          </div>
-
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/claims-manage'">Back to claims</button>
-            <div class="floated">
-              <button class="uikit-btn btnNext" id="btnNext">Submit claim</button>
+            <%- include(templates+"header", {
+              title: "Incapacity Payments",
+              heading: "Incapacity Payment document upload"
+            })%>
+            <div class="container container--8-column margin-above">
+              <div class="uikit-page-alerts uikit-page-alerts--info ss-align--center">
+                <p class="ss-align margin-below--mid">At the time you submitted this claim there were <b>two</b> more documents
+                  required to determine your claim:</p>
+                <ul class="ss-align margin-below--mid">
+                  <li>Discharge certificate</li>
+                  <li>Proof of military earnings</li>
+                </ul>
+                <p class="ss-align">Documents can be emailed to <a href="">myservicesupport@dva.gov.au</a></p>
+              </div>
+              <%- include(forms+"pagination", {
+                pagination: [
+                  {
+                    text: "Previous",
+                    link: "/auth/claim?user=INCAPuser-incomplete"
+                  },
+                  {
+                    text: "Cancel claim",
+                    link: "#open-modal"
+                  },
+                  {
+                    text: "Save and exit",
+                    link: "/auth/claim",
+                    modifiers: ["floated"]
+                  },
+                  {
+                    text: "Save and next",
+                    link: "/auth/claim?user=INCAPuser-submitted",
+                    modifiers: ["floated", "primary"]
+                  }
+                ]
+              }) %>
             </div>
-          </div>
+            <%- include(partials+"components/layout/footer") %>
 
-        </div>
-      </div>
-    </div>
-  </main>
-
-
-  <%- include(partials+"components/layout/footer") %>
-
-  <script>
-    $(Document).ready(function () {
-      $("#btnPrev").click(function () {
-        window.location.href = "/auth/claim?user=INCAPuser-incomplete"
-      });
-      $("#btnNext").click(function () {
-        window.location.href = "/auth/claim?user=INCAPuser-submitted"
-      });
-    });
-  </script>
-
-</body>
-
-</html>
+            </html>
