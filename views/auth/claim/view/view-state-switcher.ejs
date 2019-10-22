@@ -1,0 +1,70 @@
+<div id="state-switcher">
+  <h3>View State Switcher</h3>
+  <%- include(forms+"radio", {
+    label: "Claim status",
+    id: "view-state-switcher",
+    boxes: [
+      {
+        text: "Submitted",
+        modifiers: ["checked"]
+      },
+      "Incomplete",
+      "Rejected",
+      "Approved",
+      "In-progress",
+      "Withdrawn",
+
+    ]
+  }) %>
+</div>
+
+<span id="claim-status-text" class="font-inherit"></span>
+
+<script>
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+  $(document).ready(function() {
+    $("#sw-content").replaceWith(`<h2 id="claim-status" class="status-icon status-icon--large status-submitted page-header">Your Application for a <%- claim %> <span id="claim-status-text" class="font-inherit">has been submitted</span></h2>
+
+      <p class="ss-align--center mys-centred-item" id="claim-rejected" hidden>If you don't understand this decision made by DVA or have questions call 1800 555 254. Alternatively, visit the <a href="https://www.dva.gov.au/benefits-and-payments/appeals" rel="external">appeals page</a> for more information.</p>`)
+  })
+
+  $("#view-state-switcher-container").on("change", "input", function() {
+    $("#claim-status").attr("class", "status-icon status-icon--large page-header");
+    $("#claim-rejected").hide();
+
+    if ($(this).val() === "incomplete") {
+      $("#claim-status").addClass("status-incomplete");
+      $("#claim-status-text").text("is incomplete");
+    }
+    if ($(this).val() === "rejected") {
+      $("#claim-status").addClass("status-rejected");
+      $("#claim-status-text").text("has been rejected");
+      $("#claim-rejected").show();
+    }
+    if ($(this).val() === "approved") {
+      $("#claim-status").addClass("status-approved");
+      $("#claim-status-text").text("has been approved");
+    }
+    if ($(this).val() === "submitted") {
+      $("#claim-status").addClass("status-submitted");
+      $("#claim-status-text").text("has been submitted");
+    }
+    if ($(this).val() === "inprogress") {
+      $("#claim-status").addClass("status-in-progress");
+      $("#claim-status-text").text("is in progress");
+    }
+    if ($(this).val() === "withdrawn") {
+      $("#claim-status").addClass("status-withdrawn");
+      $("#claim-status-text").text("has been withdrawn");
+    }
+
+  })
+</script>

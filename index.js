@@ -110,11 +110,11 @@ app.get('/sitemap', (req, res) => {
 
         var title = data.match(/<title>(.*)<\/title>/) || data.split("%>")[0].match(/title: "(.*)"/) || null;
         var heading = data.match(/<span class="heading">(.*)<\/span>/) || data.split("%>")[0].match(/heading: "(.*)"/) || null;
-        var claim = data.match(/templates([\S\s]*)claim: "(.*?)"([\S\s]*)%>/) || null;
+        var claim = data.includes('<%- include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
 
         if (title !== null) title = JSON.parse(JSON.stringify(title))[1];
         if (heading !== null) heading = JSON.parse(JSON.stringify(heading))[1];
-        if (claim !== null) claim = JSON.parse(JSON.stringify(claim))[2]
+        if (claim !== null) claim = JSON.parse(JSON.stringify(claim))[1]
 
         return {
           file,
