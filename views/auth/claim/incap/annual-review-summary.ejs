@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
-
-<head>
-  <title>Incapacity Payments | Document upload</title>
-<%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
+<%- include(templates+"header", {
+  title: "Incapacity Payments"
+})%>
+    </div>
   <main>
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
       <div class="container margin-above--none">
@@ -197,39 +184,6 @@
                   </div>
                 </div>
               </div>
-
-              <!-- Uploaded already
-              <div id="doc-civilian-earnings-uploaded" class="mys-file-uploads__item-border mys-file-uploads__item-uploaded employed">
-                <div class="mys-file-uploads__item">
-                  <div class="mys-file-uploads__l-status">
-                    <div class="mys-file-uploads__status mys-file-uploads__status--success">
-                      <div class="mys-file-uploads__status-icon"></div>
-                      <div class="mys-file-uploads__status-sr">Success</div>
-                    </div>
-                  </div>
-                  <div class="mys-file-uploads__info">
-                    <div class="mys-file-uploads__info-item">
-                      <label class="mys-file-uploads__label">File name</label>
-                      <div class="mys-file-uploads__value">
-                        <a href="#" class="">My document 222 AAA .png</a>
-                      </div>
-                    </div>
-                    <div class="mys-file-uploads__info-item">
-                      <div class="mys-file-uploads__label">Document type</div>
-                      <div class="mys-file-uploads__value">
-                        <div><b>Proof of civilian earnings</b></div>
-                        <div>For example payslips, financial statments or current/last work contract.</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="mys-file-uploads__item-actions">
-                    <button class="mys-file-uploads__item-button uikit-btn uikit-btn--tertiary small">Remove</button>
-                  </div>
-                </div>
-              </div> -->
-
-
-
               <!-- Proof of military earnings -->
               <div id="doc-military-earnings" class="mys-file-uploads__item-border">
                 <div class="mys-file-uploads__item mys-file-uploads__item--required">
@@ -318,10 +272,6 @@
               <p class="ss-align">You can still submit this claim without providing the documents above, but we will need them before we can determine
                 your&nbsp;claim.</p>
             </div>
-            <!-- <div class="ss-align--center margin-above--extra">
-              <button class="uikit-btn uikit-btn--tertiary">Print a list of required documents</button>
-            </div> -->
-
             <div id="document-information" class="margin-above--extra">
               <fieldset class="form-group">
                 <h4 class="uikit-text-input__label margin-above--none" for="textArea">Is there anything you wanted to tell us about the documents we need? <span
@@ -329,52 +279,36 @@
                 <textarea id="textArea" name="statementText" rows="4"></textarea>
               </fieldset>
             </div>
-
-
           </div>
-
-          <div class="pagination pagination--ss-reverse-order">
-            <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-              <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-            </div>
-          </div>
-
+          <%- include(forms+"pagination", {
+            pagination: [
+              {
+                text: "Previous",
+                link: "/auth/claim/incap/prgoress-d"
+              },
+              {
+                text: "Cancel claim",
+                link: "#open-modal"
+              },
+              {
+                text: "Save and exit",
+                link: "/auth/claim",
+                modifiers: ["floated"]
+              },
+              {
+                text: "Save and next",
+                link: "/auth/claim/incap/progress-c",
+                modifiers: ["floated", "primary"]
+              }
+            ]
+          }) %>
         </div>
-
-
       </div>
     </div>
-
     <%- include(partials+"content/modals/claims-cancel-modal") %>
     </div>
-
   </main>
-
   <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    $(Document).ready(function () {
-
-      // $("#btnNext").click(function () { window.location.href = "/auth/claim/incap/progress-d" });
-      // $("#btnPrev").click(function () { window.location.href = "/auth/claim/incap/progress-c" });
-
-      // if ("flow1" in localStorage) {
-      //   $("#doc-medical").hide();
-      //   $("#doc-discharge").hide();
-      //   $("#doc-civilian-earnings").hide();
-      // };
-
-      // if ("flow2" in localStorage) {
-      //   $(".employed").hide();
-      // };
-
-    });
-  </script>
-
 </body>
 
 </html>
