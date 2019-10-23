@@ -1,18 +1,10 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-  {
-    promisify
-  } = require('util'),
-  {
-    resolve
-  } = require('path'),
+  { promisify } = require('util'),
+  { resolve } = require('path'),
   fs = require('fs'),
   path = require('path'),
-  // featuretoggleapi = require('feature-toggle-api'),
-
-  // not so secret secret
-  secret = 'eeeek',
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
@@ -33,13 +25,6 @@ app.set('view engine', 'ejs');
 app.get('/favicon.ico', (req, res) => {
   res.send();
 })
-
-// this is a pretty nice feature toggle. might be cool to do something like this in the future
-// https://www.npmjs.com/package/feature-toggle-api
-// var api = featuretoggleapi({
-//   feature1: false,
-//   feature2: true
-// });
 
 app.use(function (req, res, next) {
   res.locals.partials = __dirname + '/partials/';
@@ -65,41 +50,17 @@ app.use('/files', serveIndex('views', {
   'icons': true
 }));
 
-app.use(function (req, res, next) {
-  res.locals.partials = __dirname + '/partials/';
-  next();
-});
-
-
-// create sitemap 
-app.use('/files', serveIndex('views', {
-  'icons': true
-}));
-
 // using body parser to parse the body of incoming post requests
-app.use(require('body-parser').urlencoded({
-  extended: true // must give a value for extended
-}));
+app.use(require('body-parser').urlencoded({ extended: true }));
 
-// using express-session for session cookies
 app.use(
-
-  require('express-session')(
-
-    {
-      name: 'site_cookie',
-      secret: secret,
-      resave: false,
-      saveUninitialized: false,
-      cookie: {
-
-        // make session cookies only last 15 seconds
-        // for the sake of this demo
-        maxAge: 15000
-
-      }
-    }
-  )
+  require('express-session')({
+    name: 'site_cookie',
+    secret: 'eeeek',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 15000 }
+  })
 );
 
 console.log('build env:', app.settings.env);
@@ -136,34 +97,44 @@ app.get('/sitemap', (req, res) => {
     }));
     return files.reduce((a, f) => a.concat(f), []);
   }
-  var pages = []
-  getFiles("./views")
-    .then(files => {
-      files.forEach((file, index) => {
+
+  (async () => {
+    getFiles("./views").then(async files => {
+      const allFiles = files.map(file => {
         file = path.normalize(file);
         file = file.replace(__dirname, "");
         file = file.replace(/\\/g, "/");
         file = file.replace("/views", "");
-        var data = fs.readFileSync('./views/' + file, "utf8");
-        data = data.match(/<title>(.*)<\/title>/);
-        if (data === null) {
-          data = "(No Title)";
-        } else {
-          data = data[1];
+
+        const data = fs.readFileSync(`./views/${file}`, "utf8")
+
+        var title = data.match(/<title>(.*)<\/title>/) || data.split("%>")[0].match(/title: "(.*)"/) || null;
+        var heading = data.match(/<span class="heading">(.*)<\/span>/) || data.split("%>")[0].match(/heading: "(.*)"/) || null;
+        var claim = data.includes('<%- include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
+
+        if (title !== null) title = JSON.parse(JSON.stringify(title))[1];
+        if (heading !== null) heading = JSON.parse(JSON.stringify(heading))[1];
+        if (claim !== null) claim = JSON.parse(JSON.stringify(claim))[1]
+
+        return {
+          file,
+          title,
+          claim,
+          heading
         }
-        pages.push({
-          page: file,
-          title: data
-        });
-      });
+      })
+
+      const sortedClaims = [...new Set(allFiles.map(file => file.claim))]
+        .map(claim => allFiles
+          .filter(files => files.claim === claim
+        )).reverse();
+
       res.render('sitemap', {
-        pages
+        sortedClaims
       })
     })
-    .catch(e => console.error(e));
-
-
-});
+  })();
+})
 
 // folder level renders 
 app.get('/:id0', function (request, response) {
@@ -220,14 +191,6 @@ app.get('/logout',
     request.logout();
     response.redirect('/');
   });
-
-app.post('/styleguide/new_forms_preview', (req, res) => {
-  let form_preview = req.body.form_preview;
-  console.log(form_preview);
-  res.render('styleguide/new_forms_preview', {
-    form_preview
-  });
-});
 
 app.listen(port, function () {
   console.log('listening on port: ' + port);

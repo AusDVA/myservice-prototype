@@ -1,0 +1,217 @@
+<script>
+  function parentGuardianFlow() {
+    $(".flow--parent-guardian").show();
+    $(".flow--veteran").hide();
+    $(".flow--student-17").hide();
+    $(".flow--student-21").hide();
+    $(".flow--student-under-17").hide();
+    $("#student-or-parent-radio-container").show();
+
+    if (sessionStorage.getItem("eduFlow") === "Guardian/Student 25 +") {
+      $("#student-or-parent-radio-1").click(function () {
+        sessionStorage.setItem("parentFlow", "false");
+        hideall();
+        $("#over25-eligible").show();
+        $("#dependant-child-alert").show();
+        $("#are-you-employed-container").show();
+      });
+
+      $("#are-you-employed-1").click(function () {
+        $("#full-time-alert").show();
+        $("#about-veteran-header").show();
+        $("#student-about-the-veteran-drop-container").show();
+      });
+
+      $("#are-you-employed-2").click(function () {
+        $("#full-time-alert").hide();
+        $("#about-veteran-header").show();
+        $("#student-about-the-veteran-drop-container").show();
+      });
+
+      $('#student-about-the-veteran-drop').change(function () {
+        let drop = document.getElementById("student-about-the-veteran-drop");
+        let selectedOption = drop.options[drop.selectedIndex].value;
+        if (selectedOption === "parent") {
+          $("#student-veteran-dependant-container").hide();
+          $("#parent-selected-message").show();
+          $("#maybe-not-eligible").hide();
+
+        }
+        if (selectedOption === "guardian") {
+          $("#parent-selected-message").hide();
+          $("#maybe-not-eligible-2").hide();
+          $("#student-veteran-dependant2-container").show();
+        }
+      })
+
+      $("#yes_no719-no").click(function () {
+        $("#maybe-not-eligible-2").show();
+      })
+
+      $("#yes_no719-yes").click(function () {
+        $("#maybe-not-eligible-2").hide();
+      })
+
+      $("#yes_no719-unsure").click(function () {
+        $("#maybe-not-eligible-2").hide();
+      })
+
+      $("#student-veteran-dependant2-1").click(function () {
+        $("#parent-selected-message").show();
+      })
+
+      $("#student-veteran-dependant2-2").click(function () {
+        $("#parent-selected-message").hide();
+        $("#maybe-not-eligible-2").hide();
+      })
+
+      $("#student-or-parent-radio-2").click(function () {
+        sessionStorage.setItem("parentFlow", "true");
+        $("#parent-guardian-alert").show();
+        $("#about-student-heading").show();
+        $("#students-dob-container").show();
+        $("#over25-eligible, #maybe-not-eligible-2").hide();
+        $("#are-you-employed-container, #parent-selected-message, #dependant-child-alert").hide();
+        $("#full-time-alert, #about-veteran-header, #student-about-the-veteran-drop-container, #student-veteran-dependant2-container").hide();
+      });
+    }
+
+    if (sessionStorage.getItem("parentFlow") === "false") {
+      $("#student-veteran-dependant2-container legend").text("Are you dependent on the veteran? Or were you previously?");
+    }
+
+    $("#students-dob-container input").keyup(function () {
+      //get the year month and day after each input change
+      year = $("#students-dob-yyyy").val();
+      month = $("#students-dob-mm").val();
+      day = $("#students-dob-mm").val();
+
+      //calculate dob if inputs are filled in and parse to executable format
+      year.length >= 4 && month && day ? dob = year + "/" + month + "/" + day : dob = null;
+      dob ? currentAge = getAge(dob) : currentAge = null;
+
+      currentAge < 4 ? $("#under4-notification").show() : $("#under4-notification").hide();
+      if (currentAge > 4 && currentAge <= 17) {
+        $("#over18-notification").hide();
+        $("#over26-notification").hide();
+        $("#about-veteran-header").show();
+        $("#about-the-veteran-drop").show();
+        $("#about-the-veteran-drop-container").show();
+        $("#about-you-heading").show();
+        $("#family-tax-benefit-container").show();
+      } else {
+        $("#about-the-veteran-drop").hide(); $("#about-veteran-header").hide();
+        $("#about-the-veteran-drop-container").hide(); $("#about-you-heading").hide(); $("#family-tax-benefit").hide();
+        $("#family-tax-benefit-container").hide();
+      } if (currentAge === 16 || currentAge === 17) {
+        $("#full-time-employment-parent-container").show();
+        $("#about-the-veteran-drop-container").hide();
+        $("#about-veteran-header").hide();
+        $("#about-you-heading").hide();
+        $("#family-tax-benefit-container").hide();
+        $("#parent-shared-care-arrangement-container").hide();
+        $("#parent-selected-message").hide();
+        $("#maybe-not-eligible-2").hide();
+      } else {
+        $("#full-time-employment-parent-container").hide();
+        $("#full-time-alert").hide();
+      }
+      currentAge >= 18 && currentAge <= 25 ? $("#over18-notification").show() :
+        $("#over18-notification").hide(); currentAge >= 26 ? $("#over26-notification").show() : $("#over26-notification").hide();
+    });
+
+    $("#full-time-employment-parent-1").click(function () {
+      $("#full-time-alert").show();
+      $("#about-the-veteran-drop-container").show();
+      $("#about-veteran-header").show();
+      $("#parent-shared-care-arrangement-container").show();
+      $("#stud-shared-care-container").show();
+    });
+
+    $("#full-time-employment-parent-2").click(function () {
+      $("#full-time-alert").hide();
+      $("#stud-shared-care-container").show();
+    });
+
+    $('#about-the-veteran-drop').change(function () {
+      let drop = document.getElementById("about-the-veteran-drop");
+      let selectedOption = drop.options[drop.selectedIndex].value;
+      console.log(selectedOption);
+      if (selectedOption === "parent") {
+        $("#student-veteran-dependant-container").hide();
+        $("#parent-selected-message").show();
+        $("#maybe-not-eligible").hide();
+
+      }
+      if (selectedOption === "guardian") {
+        $("#parent-selected-message").hide();
+        $("#student-veteran-dependant-container").show();
+      }
+    })
+
+    $("#student-veteran-dependant-2").click(function () {
+      $("#parent-selected-message").hide();
+      $("#maybe-not-eligible").show();
+    });
+
+    $("#student-veteran-dependant-1").click(function () {
+      $("#maybe-not-eligible").hide();
+      $("#parent-selected-message").show();
+    });
+
+    $("#yes_no719-no").click(function () {
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#maybe-not-eligible-2").show();
+        $("#about-you-heading, #crn-number-container, #ftb-alert").hide();
+        $("#parent-student-dropdown-container").hide();
+        $("#family-tax-benefit-container").hide();
+      } else {
+        $("#about-you-heading, #parent-student-dropdown-container, #family-tax-benefit-container").hide();
+      }
+
+    });
+
+    $("#yes_no719-yes, #yes_no719-unsure").click(function () {
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#maybe-not-eligible-2").hide();
+        $("#about-you-heading").show();
+        $("#parent-student-dropdown-container").show();
+        $("#family-tax-benefit-container").show();
+      } else {
+        $("#about-you-heading, #parent-student-dropdown-container, #family-tax-benefit-container").hide();
+      }
+    });
+  }
+
+  $("#family-tax-benefit-1").click(function () {
+    $("#family-tax-benefit-else-container").hide();
+    $("#crn-number-container").show();
+    if (currentAge === 16 || currentAge === 17) {
+      $("#ftb-alert").show();
+    } else {
+      $("#ftb-alert").hide();
+    }
+  });
+
+  $("#family-tax-benefit-2").click(function () {
+    $("#crn-number-container").hide();
+    $("#ftb-alert").hide();
+    $("#family-tax-benefit-else-container").show();
+  });
+
+  $("#family-tax-benefit-else-2").click(function () {
+    $("#ftb-complete-claim").hide();
+  });
+
+  $("#family-tax-benefit-else-1").click(function () {
+    $("#ftb-complete-claim").show();
+  });
+
+  $("#parent-shared-care-arrangement-1").click(function () {
+    $("#parent-percentage-of-care-container").show();
+  });
+
+  $("#parent-shared-care-arrangement-2").click(function () {
+    $("#parent-percentage-of-care-container").hide();
+  });
+</script>

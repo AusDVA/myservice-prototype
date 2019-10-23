@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim | Financial Details</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Financial details</h1>
+      <div id="your-details-parent">
+        <%- include(partials+"components/form-partials/prepop/bank-details", {
+            legend: "Bank details"
+          }); %>
+      </div>
+
+      <p><b>John's tax details</b></p>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does John have a tax file number?",
+        id: "tax-file-number-decide"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "Tax file number",
+        id: "tax-file-number-input"
+      }); %>
+      <div class="uikit-page-alerts uikit-page-alerts--alert" id="taxable-income-alert">
+        <p class='margin-below margin-below--mid'>This payment is considered taxable income. If the student is approved for this payment and this is your only income this financial
+          year,
+          you may not have to pay any tax.</p>
+        <p class='margin-below margin-below--mid'>However, you may have to pay tax if you have other income this financial year, such as salary or wages.</p>
+        <p class='margin-below margin-below--mid'>If you think you will have to pay tax, you can ask us to deduct tax instalments from your payment. You can change this amount at
+          any time.</p>
+        <p class='margin-below margin-below--mid'>If you're not sure how much tax to have taken out of your payment, go to the <a class='external-link'
+            href='https://www.ato.gov.au/individuals/working/working-as-an-employee/claiming-the-tax-free-threshold/'>Australian Taxation Office website</a> or call the ATO
+          Personal Tax Enquiries Line on <a href='tel:132861'>13 28 61</a>.</p>
+      </div>
+
+      <div class="uikit-page-alerts uikit-page-alerts--alert" id="taxable-income-alert-no">
+        You need to apply for a tax file number from the <a href="" rel="external">Australian Taxation Office</a> to avoid the payment being taxed at a higher amount.
+      </div>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Would you like DVA to withhold tax from this payment?",
+        id: "withhold-tax"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "How much would you like to withhold per fortnight for tax?",
+        hint: "For more information about payments go to <a href='#' rel='external'>the DVA website</a>.",
+        id: "withhold-how-much"
+      }); %>
+      <div class="uikit-page-alerts uikit-page-alerts--alert" id="additional-tax-alert">
+        If the student is earning other income, such as salary or wages, you may have to pay additional tax at the end of the financial year.
+      </div>
+
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu4'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu6'">Save and next</button>
+        <button class="uikit-btn uikit-btn--tertiary floated btnNext" onclick="window.location.href = '/auth/'">Save and exit</button>
+      </div>
+    </div>
+  </main>
+  <%- include("edu-switcher/index.ejs") %>
+  <script>
+    function hideAll() {
+      $("#tax-file-number-input-container").hide();
+      $("#taxable-income-alert").hide();
+      $("#taxable-income-alert-no").hide();
+      $("#withhold-tax-container").hide();
+      $("#withhold-how-much-container").hide();
+      $("#additional-tax-alert").hide();
+      $("#parents-got-paid").hide();
+      $("#parents-got-paid2").hide();
+      $("#contact-parents-alert").hide();
+      $("#your-details-parent").hide();
+    }
+    hideAll();
+
+    if (mySelection === "Student - 17") {
+      $("#contact-parents-alert").show();
+    }
+
+    if (sessionStorage.getItem("studyLevel") === "secondary") {
+      $("#your-details-parent").show();
+    } else {
+      $("#your-details-parent").hide();
+    }
+
+    // $(document).ready(function () {
+    //   if (sessionStorage.getItem("eduFlow") === "Veteran") {
+    //     $(".btnNext").attr("onclick", "window.location.href = 'edu6'")
+    //   }
+    // });
+
+    $("#tax-file-number-decide-1").click(function () {
+      $("#tax-file-number-input-container").show();
+      $("#taxable-income-alert").show();
+      $("#taxable-income-alert-no").hide();
+      $("#withhold-tax-container").show();
+    })
+
+    $("#tax-file-number-decide-2").click(function () {
+      $("#tax-file-number-input-container").hide();
+      $("#taxable-income-alert").hide();
+      $("#taxable-income-alert-no").show();
+      $("#withhold-tax-container").hide();
+      $("#additional-tax-alert").hide();
+      $("#withhold-how-much-container").hide();
+    })
+
+    $("#withhold-tax-1").click(function () {
+      $("#withhold-how-much-container").show();
+      $("#additional-tax-alert").hide();
+    })
+
+    $("#withhold-tax-2").click(function () {
+      $("#withhold-how-much-container").hide();
+      $("#additional-tax-alert").show();
+    })
+  </script>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
