@@ -4,11 +4,17 @@
   <div class="form-group review__table">
     <h4>Build your own</h4>
     <p class="uiToolKitCheckBox">
-      <label class="uikit-control-input" for="message-box">
-        <input class="uikit-control-input__input" type="checkbox" id="message-box" name="message box">
-        <span class="uikit-control-input__text">Message box (veteran payment)</span>
+      <label class="uikit-control-input" for="vp_eligible">
+        <input class="uikit-control-input__input" type="checkbox" id="vp_eligible" name="message box">
+        <span class="uikit-control-input__text">Veteran Payment eligible</span>
       </label>
     </p>
+    <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="il_mental_health_being_processed">
+          <input class="uikit-control-input__input" type="checkbox" id="il_mental_health_being_processed" name="message box">
+          <span class="uikit-control-input__text">IL mental health being processed</span>
+        </label>
+      </p>
     <div class="tr">
       <div class="ss-box">
         <input id="text-input-incomplete" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
@@ -84,11 +90,16 @@
 
     /* Message */
 
-    var message_box = sessionStorage.getItem('message-box');
-    if (!message_box) message_box = false;
-    $('#message_box').prop("checked", message_box);
+    var vp_message = sessionStorage.getItem('vp_eligible');
+    if (!vp_message) vp_message = false;
+    if (vp_message == "true") {
+      $("#vp_eligible").prop("checked", true);
+    } else {
+      $("#vp_eligible").prop("checked", false);
+    }
+
     updateMessageBox();
-    $("#message-box").click(function (e) {
+    $("#vp_eligible").click(function (e) {
       updateMessageBox();
     });
 
@@ -97,9 +108,24 @@
     });
 
     function closeMessageBox() {
-      $('#message-box').prop("checked", false);
+      $('#vp_eligible').prop("checked", false);
       updateMessageBox();
     }
+
+    /* VP tile */
+
+    var vp_tile = sessionStorage.getItem('il_mental_health_being_processed');
+    if (!vp_tile) vp_tile = false;
+    if (vp_tile == "true") {
+      $("#il_mental_health_being_processed").prop("checked", true);
+    } else {
+      $("#il_mental_health_being_processed").prop("checked", false);
+    }
+
+    updateVPTile();
+    $("#il_mental_health_being_processed").click(function (e) {
+      updateVPTile();
+    });
 
     /* Tasks widget */
 
@@ -215,18 +241,32 @@
       document.getElementById('lblGreetings').innerHTML = greet;
     }
 
-    /* message box */$
+    /* message box */
 
     function updateMessageBox() {
-      if ($("#message-box").prop("checked") == true) {
-        sessionStorage.setItem('message-box', true);
+     
+      if ($("#vp_eligible").prop("checked") == true) {
+        sessionStorage.setItem('vp_eligible', true);
         $("#message-box-veteran-payment").show();
       } else {
-
-        sessionStorage.setItem('message-box', false);
+        sessionStorage.setItem('vp_eligible', false);
+        $("#il_mental_health_being_processed").prop("checked", false);
+        updateVPTile();
         $("#message-box-veteran-payment").hide();
       }
     }
+
+    /* message box */
+
+    function updateVPTile() {
+     if ($("#il_mental_health_being_processed").prop("checked") == true) {
+       sessionStorage.setItem('il_mental_health_being_processed', true);
+       $("#vp").show();
+     } else {
+       sessionStorage.setItem('il_mental_health_being_processed', false);
+       $("#vp").hide();
+     }
+   }
 
     /* First login */
 
