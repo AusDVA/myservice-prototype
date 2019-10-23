@@ -1,0 +1,259 @@
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Review and submit"
+}) %>
+
+  <%- include(components+"review-submit", {
+    claim_title: "Application for veteran payment",
+    categories: [
+      {
+        title: "Claim details",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-01",
+        data: [
+          {
+            q: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+            a: "Yes"
+          },
+          {
+            q: "Do you currently receive payments from Centrelink?",
+            a: "Yes"
+          },
+          {
+            q: "What is your Customer Reference Number (CRN)?",
+            a: "123 456 789"
+          }
+        ]
+      },
+      {
+        title: "Relationship status",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["hidden"],
+        categoryClass: "single",
+        data: [
+          {
+            q: "What is your relationship status?",
+            a: "Single"
+          }
+        ]
+      },
+      {
+        title: "Relationship status",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["hidden"],
+        categoryClass: "partnered",
+        data: [
+          {
+            q: "What is your relationship status?",
+            a: "Married and currently living together"
+          },
+          "Partner details",
+          {
+            q: "Given name",
+            a: "Frank"
+          },
+          {
+            q: "Surname",
+            a: "Sinatra"
+          },
+          {
+            q: "Gender",
+            a: "Female"
+          },
+          {
+            q: "Date of birth",
+            a: "16 / 06 / 1969"
+          },
+          {
+            q: "Does your partner wish to receive payment?",
+            a: "Yes"
+          },
+          {
+            q: "Is your partner an Australian citizen?",
+            a: `<span class="citizen" hidden>Yes</span><span class="immigrant" hidden>No</span>`
+          },
+          {
+            q: "What type of visa does your partner hold?",
+            a: "Permanent visa",
+            modifiers: ["hidden"],
+            questionClass: "immigrant"
+          },
+          {
+            q: "Does your partner currently receive payments from Centrelink?",
+            a: "No"
+          }
+        ]
+      },
+      {
+        title: "Dependent children",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-03",
+        data: [
+          {
+            q: `Do you <span class="partnered" hidden>you and/or your partner </span>have any dependent children under 16 years of age?`,
+            a: "Yes"
+          },
+          "Provide details of the youngest dependent child",
+          {
+            q: "Full name",
+            a: "Frank Sinatra Jr"
+          },
+          {
+            q: "Date of birth",
+            a: "12 / 09 / 2005"
+          },
+          {
+            q: "Gender",
+            a: "Female"
+          }
+        ]
+      },
+      {
+        title: "Living arrangements",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-04",
+        data: [
+          {
+            q: "Which of the following best describes your current living arrangements?",
+            a: "Private rental"
+          },
+          {
+            q: "How much rent do you pay?",
+            a: "$125 per week"
+          }
+        ]
+      },
+      {
+        title: "Income & assets",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-05",
+        data: [
+          {
+            q: "Total estimated gross income received <span class='user-label-b'>by you and/or your partner</span>",
+            a: "$13,670.00 per fortnight"
+          },
+          {
+            q: "Total estimated value of <span class='user-label-a'>you and/or your partner's</span> financial assets",
+            a: "$134,000.00"
+          },
+          {
+            q: "Total estimated value of  <span class='user-label-a'>you and/or your partner's</span> other assets",
+            a: "$78,000.00"
+          }
+        ]
+      },
+      {
+        title: "Bank details",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-06",
+        data: [
+          {
+            q: "Account name",
+            a: "Miss Frank Sinatra"
+          },
+          {
+            q: "BSB",
+            a: "019 983"
+          },
+          {
+            q: "Account number",
+            a: "123 456 789"
+          },
+          {
+            q: "Do you have a tax file number?",
+            a: "Yes"
+          },
+          {
+            q: "Tax file number",
+            a: "123 456 789"
+          },
+          {
+            q: "Does your partner have a tax file number?",
+            a: "Yes",
+            modifiers: ["hidden"],
+            questionClass: "partnered"
+          },
+          {
+            q: "Partner's tax file number",
+            a: "987 654 321",
+            modifiers: ["hidden"],
+            questionClass: "partnered"
+          }
+        ]
+      },
+      {
+        title: "Partner's immigration documents",
+        edit_url: "/auth/claim/veteran-payment/veteran-payment-06",
+        modifiers: ["hidden"],
+        categoryClass: "immigrant",
+        data: [
+          {
+            q: "Uploaded documents",
+            a: "scan of visa.pdf"
+          }
+        ]
+      }
+    ]
+  }) %>
+  
+          
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-06",
+        id: "pagination-previous"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Submit claim",
+        link: "/auth/claim/veteran-payment/veteran-payment-09",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include("veteran-payment-state-switcher") %>
+
+  <script>
+    function stateSwitcher() {
+      if (immigrationStatus === "citizen") {
+        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-06")
+        $(".immigrant").hide();
+        $(".citizen").show();
+      } else {
+        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-07")
+        $(".citizen").hide();
+        $(".immigrant").show();
+      }
+
+      if (relationshipStatus === "single") {
+        $(".partnered").hide();
+        $(".single").show();
+        $(".citizen").hide();
+        $(".immigrant").hide();
+      } else {
+        $(".single").hide();
+        $(".partnered").show();
+      }
+
+      switch (relationshipStatus) {
+        case "single":
+          $(".user-label-a").text("your");
+          $(".user-label-b").text("");
+          break;
+        case "partnered":
+          $(".user-label-a").text("you and/or your partner's");
+          $(".user-label-b").text("by you and/or your partner");
+          break;
+        default:
+          break;
+      }
+
+    }
+  </script>
+  
+<%- include(templates+"footer") %>

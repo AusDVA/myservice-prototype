@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Diagnosis | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <style>
+    .pt-requigulred-docs,
+    .pt-no-required-docs,
+    .pt-upload-list,
+    .pt-upload-list-optional,
+    .pt-upload-other-docs,
+    .pt-medical-prac {
+      display: none;
+    }
+
+  </style>
+</head>
+
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+          <div class="margin-above--extra margin-below--extra">
+            <div id="progressbar">
+              <div id="percentage">
+                <p id="percentage_value"></p>
+              </div>
+
+            </div>
+            <h1>Veteran Payment</h1>
+
+            <div class="margin-above--extra margin-below--extra">
+              
+              <p>The veteran payment provides interim financial support to veterans who lodge a claim for a mental health condition and are unable to work more than eight hours per week.</p>
+<hr>
+
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Does your medical condition prevent you from working more than 8 hours per week?",
+                id:"unable"
+              }); %>
+
+              <%- include(partials+"components/form-partials/yes_no", {
+                label: "Do you require financial support whilst your claim is being processed?",
+                id: "assistance",
+                modifiers: ["hidden"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/notice", {
+                message: "If you would like DVA to assess your eligibility for interim payments, you can apply for 'Veteran Payment' from your MyService home page. This will remain available while this claim is being processed.",
+                id: "eligible",
+                modifiers: ["hidden"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/notice", {
+                message: "You are not currently not eligible as you are able to work more than 8 hours per week. If this changes and you reqire financial support, you can apply for 'Veteran Payment' from your MyService home page. This will remain available while this claim is being processed.",
+                id: "not-eligible-hours",
+                modifiers: ["hidden"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/notice", {
+                message: "If this changes and you reqire financial support, you can apply for 'Veteran Payment' from your MyService home page. This will remain available while this claim is being processed.",
+                id: "not-eligible-need",
+                modifiers: ["hidden"]
+              }); %>
+
+              <div id="save-next" class="margin-above--extra" style="display: none">
+                <p>Choose <b>save and next</b> to continue.</p>
+              </div>
+            </div>
+
+            <div class=" pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Previous</button>
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+              <div class="floated">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button><button class="uikit-btn btnNext"
+                  onclick="window.location.href = '/auth/claim/il/claim7'">Save and next</button>
+              </div>
+            </div>
+
+            <%- include(partials+"content/modals/claims-cancel-modal") %>
+            <%- include(partials+"content/modals/claims-removefile-modal") %>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+  <script>
+
+    $(document).ready(function () {
+
+      $("input:radio").prop("checked", false);
+
+      $('input[name=unable]').change(function () {
+        hideAll();
+        var mySelection = $('input[name=unable]:checked').parent().find("span").text();
+        $("#assistance-container input:radio").prop("checked", false);
+        if (mySelection == "Yes") {
+          $("#assistance-container").show();
+        } else {
+          $("#not-eligible-hours-container").show();
+          $("#save-next").show();        }
+      });
+
+      $('input[name=assistance]').change(function () {
+        var mySelection = $('input[name=assistance]:checked').parent().find("span").text();
+        $("#save-next").show();
+        if (mySelection == "Yes") {
+          $("#not-eligible-need-container").hide();
+          $("#eligible-container").show();
+          sessionStorage.setItem('vp_eligible', true);
+        } else {
+          $("#not-eligible-need-container").show();
+          $("#eligible-container").hide();
+          sessionStorage.setItem('vp_eligible', false);
+        }
+      });
+
+      function hideAll(){
+        $("#assistance-container").hide();
+        $("#not-eligible-need-container").hide();
+        $("#not-eligible-hours-container").hide();
+        $("#eligible-container").hide();
+        $("#save-next").hide();
+      }
+
+    });
+
+    // Progress percentage
+    document.getElementById("percentage").style.width = "95%";
+    document.getElementById("percentage_value").textContent = "95%";
+
+  </script>
+
+</body>
+
+</html>

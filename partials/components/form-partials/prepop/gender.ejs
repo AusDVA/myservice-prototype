@@ -1,12 +1,35 @@
-<%- include(components+"form-partials/button_radio", {
-  label: typeof label !== "undefined" ? label : "Gender",
-  tooltip: {
-    content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.",
-    screenreaderText: "Gender help"
-  },
-  modifiers: ["tooltipIconOnly"],
-  boxes: [
-    "Male",
-    "Female"
-  ]
-}) %>
+<%
+  const removeEmpty = (obj) => 
+    Object.entries(obj).forEach(([key, val]) => {
+      if (val && typeof val === 'object') removeEmpty(val)
+      else if (val == null) delete obj[key]
+  })
+
+  var gender = {
+    label: typeof label !== "undefined" ? label : "Gender",
+    tooltip: typeof tooltip !== "undefined" ? tooltip : {
+      content: "Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.",
+      screenreaderText: "Gender help"
+    },
+    modifiers: typeof modifiers !== "undefined" ? modifiers : ["tooltipIconOnlyp"],
+    all_toggle: typeof both_toggle !== "undefined" ? both_toggle : null,
+    customClass: typeof customClass !== "undefined" ? customClass : null,
+    boxes: [
+      {
+        text: "Male",
+        toggle: typeof male_toggle !== "undefined" ? male_toggle : null,
+        rToggle: typeof male_rToggle !== "undefined" ? male_rToggle : null,
+      },
+      {
+        text: "Female",
+        toggle: typeof female_toggle !== "undefined" ? female_toggle : null,
+        rToggle: typeof female_rToggle !== "undefined" ? female_rToggle : null,
+      }
+    ]
+  }
+
+  removeEmpty(gender)
+
+%>
+
+<%- include(components+"form-partials/button_radio", gender) %>
