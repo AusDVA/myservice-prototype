@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service history - about your claim | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">About your claim</span>
+      </h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8 ">
+          <div class="margin-above--extra margin-below--extra">
+            <!-- What are you applying for -->
+            <div class="form-group margin-above--extra" id="sp-start-pension-type">
+              <legend class="legend-label">What are you applying as?</legend>
+              <div class="radio-tile--group">
+                <label class="radio-tile">
+                  <input id="veteran-adf" class="sr" type="radio" name="veteranType" value="veteran-adf">
+                  <span>
+                    <i class="radio_tile__icon fal fa-user fa-icon-large fa-3x"></i>Australian Defence<br />Force veteran
+                  </span>
+                </label>
+                <label class="radio-tile">
+                  <input id="veteran-commonwealth" class="sr" type="radio" name="veteranType" value="veteran-commonwealth">
+                  <span>
+                    <i class="radio_tile__icon fal fa-user fa-icon-large fa-3x"></i>Commonwealth<br />veteran
+                  </span>
+                </label>
+                <label class="radio-tile">
+                  <input id="veteran-allied" class="sr" type="radio" name="veteranType" value="veteran-allied">
+                  <span>
+                    <i class="radio_tile__icon fal fa-user fa-icon-large fa-3x"></i>Allied<br />veteran
+                  </span>
+                </label>
+              </div>
+            </div>
+            <form id="myForm" novalidate>
+              <input type="reset" style="display:none">
+              <!-- Other name -->
+              <div style="display: none;" class="form-group margin-above--large" id="former_name_question">
+                <label class="uikit-text-input__label" for="toggle-buttons">Did you serve under any other names?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="former_yes">
+                    <input id="former_yes" type="radio" name="toggle-buttons">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="former_no">
+                    <input id="former_no" type="radio" name="toggle-buttons">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+              <div id="former_name" style="display: none;">
+                <table class="mys-table table-responsive border-all border-top__thick--blue">
+                  <tbody>
+
+                    <tr>
+                      <th class="border-left__thin--white">
+                        <label class="uikit-text-input__label" for="date">Given name (first name)</label>
+                      </th>
+                      <th>
+                        <label class="uikit-text-input__label" for="date">Surname (last name)</label>
+                      </th>
+                      <th class="border-right__thin--white"></th>
+                    </tr>
+
+                    <tr id="date-template">
+                      <td>
+                        <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                      </td>
+                      <td>
+                        <input class="uikit-text-input" name="first-name" id="first-name" type="text" value="" required="" aria-required="true">
+                      </td>
+                      <td>
+                        <button id="removeDateRow" class="uikit-btn uikit-btn--tertiary small">Remove</button>
+                      </td>
+                    </tr>
+
+                    <tr class="padding-above--none">
+                      <td colspan="4" class="padding-above--none ss-align">
+                        <button id="add-another-name" onclick="cloneMe()" class="icon-link-button">
+                          <span class="icon far fa-plus-circle"></span>
+                          <span class="link">Add another name</span>
+                        </button>
+                      </td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+              <!-- Australian Defence Force veteran -->
+              <div style="display: none;" id="adf">
+                <div class="form-group">
+                  <label class="uikit-text-input__label margin-above--large" for="ww2">Did you serve during World War 2?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="ww2-yes">
+                      <input id="ww2-yes" type="radio" name="ww2" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="ww2-no">
+                      <input id="ww2-no" type="radio" name="ww2" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="ww2-alert">
+                  <p>You will need to complete the following forms and send to DVA:</p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506A.pdf">Qualifying Service Details - Service during World War 2 form (D0506A)</a></p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0506.pdf">Claim to Determine Qualifying Service by a Current or ex-Member of the ADF (D0506)</a></p>
+                </div>
+                <div id="save-and-next" class="margin-above--extra" style="display: none">
+                  <p>Choose <b>save and next</b> to continue.</p>
+                </div>
+              </div>
+              <!-- Commonwealth -->
+              <div style="display: none;" id="commonwealth">
+                <div class="form-group display-block margin-above--large" id="country-of-enlistment">
+                  <label class="uikit-text-input__label" for="date">Country of enlistment</label>
+                  <%- include(partials+"content/auth-select-list-country") %>
+                </div>
+                <!-- <div class="form-group">
+                  <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="enemy-yes-comm">
+                      <input id="enemy-yes-comm" type="radio" name="enemy">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="enemy-no-comm">
+                      <input id="enemy-no-comm" type="radio" name="enemy">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert-comm">
+                  <p>You do not meet the basic eligibility to apply for this claim.</p>
+                </div> -->
+                <div id="save-and-next-comm" class="margin-above--extra" style="display: none">
+                  <p>Choose <b>save and next</b> to continue.</p>
+                </div>
+              </div>
+              <!-- Allied -->
+              <div style="display: none;" id="allied">
+                <div class="form-group display-block margin-above--large" id="country-of-enlistment">
+                  <label class="uikit-text-input__label" for="date">Country of enlistment</label>
+                  <%- include(partials+"content/auth-select-list-country") %>
+                </div>
+                <div class="form-group">
+                  <label class="uikit-text-input__label margin-above--large" for="qs">Did you serve with or assist forces of the enemy or a country at war with Australia?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="enemy-yes">
+                      <input id="enemy-yes" type="radio" name="enemy">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="enemy-no">
+                      <input id="enemy-no" type="radio" name="enemy">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="enemy-alert">
+                  <p>You do not meet the basic eligibility to apply for this claim.</p>
+                </div>
+                <div style="display: none;" class="form-group" id="yugoslavia">
+                  <label class="uikit-text-input__label margin-above--large" for="yugoslavia">Did you serve with forces in Yugoslavia during World War 2?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="yugoslavia-yes">
+                      <input id="yugoslavia-yes" type="radio" name="yugoslavia">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="yugoslavia-no">
+                      <input id="yugoslavia-no" type="radio" name="yugoslavia">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="yugoslavia-alert">
+                  <p>You will need to complete the following forms and send to DVA:</p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507B.pdf">Qualifying Service details - Service with Forces in Yugoslavia during the Second World War
+                      (D0507A)</a></p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507.pdf">Claim to Determine Qualifying Service by a Commonwealth or Allied Veteran (D0507)</a></p>
+                </div>
+                <div style="display: none;" class="form-group" id="vietnam">
+                  <label class="uikit-text-input__label margin-above--large" for="vietnam">Did you serve with the armed forces of the Republic of Vietnam?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="vietnam-yes">
+                      <input id="vietnam-yes" type="radio" name="vietnam">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="vietnam-no">
+                      <input id="vietnam-no" type="radio" name="vietnam">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </div>
+                <div style="display: none;" class="uikit-page-alerts uikit-page-alerts--warning margin-above--large" role="alert" id="vietnam-alert">
+                  <p>You will need to complete the following forms and send to DVA:</p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507A.pdf">Qualifying Service Details - Service with the Armed Forces of the Republic of Vietnam
+                      (D0507A)</a></p>
+                  <p><a href="https://www.dva.gov.au/dvaforms/Documents/D0507.pdf">Claim to Determine Qualifying Service by a Commonwealth or Allied Veteran (D0507)</a></p>
+                </div>
+                <div id="save-and-next-allied" class="margin-above--extra" style="display: none">
+                  <p>Choose <b>save and next</b> to continue.</p>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <!-- col-md-12 end -->
+        <div class="pagination">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+          <div class="floated">
+            <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
+            <button id="save-and-next-button" class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include(partials+"content/modals/claims-cancel-modal") %>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+      // select type
+      $("#veteran-adf").click(function () {
+        hideAll();
+        restoreUI();
+        $(myForm).trigger("reset");
+        $("#former_name_question").show("fast");
+        $("#adf").show("fast");
+        sessionStorage.setItem('commonwealth-allied', 'no');
+      });
+
+      $("#veteran-commonwealth").click(function () {
+        hideAll();
+        restoreUI();
+        $(myForm).trigger("reset");
+        $("#former_name_question").show("fast");
+        $("#commonwealth").show("fast");
+        sessionStorage.setItem('commonwealth-allied', 'yes');
+      });
+
+      $("#veteran-allied").click(function () {
+        hideAll();
+        restoreUI();
+        $(myForm).trigger("reset");
+        $("#former_name_question").show("fast");
+        $("#allied").show("fast");
+        sessionStorage.setItem('commonwealth-allied', 'yes');
+      });
+
+      // general
+
+      $("#former_yes").click(function () {
+        hideAlerts();
+        $("#former_name").show("fast");
+        $("#save-and-next").hide();
+      });
+      $("#former_no").click(function () {
+        hideAlerts();
+        $("#former_name").hide("fast");
+        $("#save-and-next").hide();
+      });
+
+      // adf
+
+      $("#ww2-yes").click(function () {
+        $("#ww2-alert").show("fast");
+        $("#save-and-next").hide();
+        footerNavExit();
+      });
+      $("#ww2-no").click(function () {
+        $("#ww2-alert").hide();
+        $("#save-and-next").show("fast");
+        footerNavRestore();
+      });
+
+      // commonwealth
+
+      $("#enemy-yes-comm").click(function () {
+        hideAlerts();
+        footerNavExit();
+        $("#enemy-alert-comm").show("fast");
+      });
+      $("#enemy-no-comm").click(function () {
+        hideAlerts();
+        footerNavRestore();
+        $("#save-and-next-comm").show("fast");
+      });
+
+      // allied
+
+      $("#enemy-yes").click(function () {
+        hideAlerts();
+        $("#yugoslavia").hide();
+        $("#vietnam").hide();
+        $("#enemy-alert").show("fast");
+      });
+      $("#enemy-no").click(function () {
+        hideAlerts();
+        $("#yugoslavia").show("fast");
+      });
+
+      $("#yugoslavia-yes").click(function () {
+        hideAlerts();
+        $("#yugoslavia-alert").show("fast");
+        $("#vietnam").hide();
+        footerNavExit();
+      });
+      $("#yugoslavia-no").click(function () {
+        hideAlerts();
+        $("#vietnam").show("fast");
+        footerNavRestore();
+      });
+
+      $("#vietnam-yes").click(function () {
+        hideAlerts();
+        $("#vietnam-alert").show("fast");
+        footerNavExit();
+      });
+      $("#vietnam-no").click(function () {
+        hideAlerts();
+        $("#save-and-next-allied").show("fast");
+        footerNavRestore();
+      });
+
+      function hideAll() {
+        $("#adf").hide();
+        $("#former_name_question").hide();
+        $("#former_name").hide();
+        $("#save-and-next").hide();
+        $("#ww2-alert").hide();
+        $("#commonwealth").hide();
+        $("#allied").hide();
+      }
+
+      function hideAlerts() {
+        $("#enemy-alert").hide();
+        $("#enemy-alert-comm").hide();
+        $("#vietnam-alert").hide();
+        $("#yugoslavia-alert").hide();
+        $("#save-and-next-comm").hide();
+        $("#save-and-next-allied").hide();
+        $("#save-and-next").hide();
+      }
+
+      function restoreUI() {
+        hideAlerts();
+        footerNavRestore();
+      }
+
+      window.checkSaveAndNext = function () {
+        myNav = "/auth/claim/qualifying_service/qs-2";
+        navTest = $('input[name=ww2]:checked').val();
+        if (navTest == "yes") myNav = "/auth/claim/claims";
+        window.location.href = myNav;
+      }
+
+      function footerNavExit() {
+        $("#save-and-next-button").prop('disabled', true);
+        $("#save-and-exit-button").prop('disabled', true);
+      }
+
+      function footerNavRestore() {
+        $("#save-and-next-button").prop('disabled', false);
+        $("#save-and-exit-button").prop('disabled', false);
+      }
+
+      $("#removeDateRow").click(function () {
+        $(this).closest('tr').remove();
+        // $("#date-template:not(first-child)").remove();
+      });
+
+    });
+
+    function cloneMe() {
+      var newOne = $('#date-template').clone(true)
+        .find("input:text").val("").end();
+      $("#removeDateRow").show();
+      newOne.insertAfter($('#date-template'));
+    }
+
+  </script>
+</body>
+
+</html>

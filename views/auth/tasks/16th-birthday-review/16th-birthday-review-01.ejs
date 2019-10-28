@@ -1,0 +1,69 @@
+<%- include(templates+"header", {
+  title: "MyService - 16th birthday review", 
+  heading: "16th birthday review"
+}) %>
+
+<h2 class="margin-below">Provide details for John Smith</h2>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is the student's Tax File Number?"
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is the student's Centrelink Customer Reference Number?",
+  hint: "(optional)",
+  id: "crn"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you receiving Family Tax Benefit for this student?",
+  yes_toggle: ["#notice-container","#cease-container"],
+  no_toggle: "#next"
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16.</p>If you wish to continue receiving DVA education assistance you will need to cancel your Family Tax Benefit with Centrelink.</p><p></p>For more information on your options, contact Education Assistance on <a>1800 555 254</a>.",
+  id: "notice",
+  modifiers: ["hidden"]
+}); %>
+
+<%#- include(partials+"components/form-partials/yes_no", {
+  label: "Do you intend to cease Family Tax Benefits?",
+  id: "cease",
+  modifiers: ["hidden"]
+}); %>
+
+<div id="next" class="margin-above" style="display: none">
+  <p>Choose <b>next</b> to continue.</p>
+</div>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      link: "/auth/tasks"
+    },
+    {
+      text: "Exit task",
+      link: "#open-modal"
+    },
+    {
+      text: "Next",
+      link: "16th-birthday-review-02",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(partials+"content/modals/tasks-cancel-modal") %>
+<%- include(templates+"footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+  });
+</script>
+
+</html>

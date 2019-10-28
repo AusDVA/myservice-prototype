@@ -1,15 +1,20 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
 
-  <%
-      locals.el = {};
-      locals.el.optionalID = "user-scenario";
-      locals.el.question = "User scenario:";
-      locals.el.items = ["First time user","Tasks, Claims, Payment and Profile","User with service pension and claims","Never served"];
-    %>
-
   <div class="form-group review__table">
     <h4>Build your own</h4>
+    <p class="uiToolKitCheckBox">
+      <label class="uikit-control-input" for="vp_eligible">
+        <input class="uikit-control-input__input" type="checkbox" id="vp_eligible" name="message box">
+        <span class="uikit-control-input__text">Veteran Payment eligible</span>
+      </label>
+    </p>
+    <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="il_mental_health_being_processed">
+          <input class="uikit-control-input__input" type="checkbox" id="il_mental_health_being_processed" name="message box">
+          <span class="uikit-control-input__text">IL mental health being processed</span>
+        </label>
+      </p>
     <div class="tr">
       <div class="ss-box">
         <input id="text-input-incomplete" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
@@ -28,6 +33,7 @@
       </div>
       <div class="ss-text">Tasks to complete</div>
     </div>
+
     <div class="form-group review__table">
       <h4>Overrides</h4>
       <p class="uiToolKitCheckBox">
@@ -80,6 +86,47 @@
           break;
         default:
       }
+    });
+
+    /* Message */
+
+    var vp_message = sessionStorage.getItem('vp_eligible');
+    console.log( "vp_message--" + vp_message );
+    if (!vp_message) vp_message = false;
+    if (vp_message == true) {
+      $("#vp_eligible").prop("checked", true);
+    } else {
+      $("#vp_eligible").prop("checked", false);
+    }
+
+    updateMessageBox();
+    $("#vp_eligible").click(function (e) {
+      updateMessageBox();
+    });
+
+    $("#close-message").click(function (e) {
+      closeMessageBox();
+    });
+
+    function closeMessageBox() {
+      $('#vp_eligible').prop("checked", false);
+      updateMessageBox();
+    }
+
+    /* VP tile */
+
+    var vp_tile = sessionStorage.getItem('il_mental_health_being_processed');
+    console.log( "vp -- " +  vp_tile)
+    if (!vp_tile) vp_tile = false;
+    if (vp_tile == true) {
+      $("#il_mental_health_being_processed").prop("checked", true);
+    } else {
+      $("#il_mental_health_being_processed").prop("checked", false);
+    }
+
+    updateVPTile();
+    $("#il_mental_health_being_processed").click(function (e) {
+      updateVPTile();
     });
 
     /* Tasks widget */
@@ -179,7 +226,6 @@
       }
     });
 
-
     /* --- End State switcher --- */
 
     /* Greeting */
@@ -196,6 +242,33 @@
         greet = 'Good evening';
       document.getElementById('lblGreetings').innerHTML = greet;
     }
+
+    /* message box */
+
+    function updateMessageBox() {
+     
+      if ($("#vp_eligible").prop("checked") == true) {
+        sessionStorage.setItem('vp_eligible', true);
+        $("#message-box-veteran-payment").show();
+      } else {
+        sessionStorage.setItem('vp_eligible', false);
+        $("#il_mental_health_being_processed").prop("checked", false);
+        updateVPTile();
+        $("#message-box-veteran-payment").hide();
+      }
+    }
+
+    /* message box */
+
+    function updateVPTile() {
+     if ($("#il_mental_health_being_processed").prop("checked") == true) {
+       sessionStorage.setItem('il_mental_health_being_processed', true);
+       $("#vp").show();
+     } else {
+       sessionStorage.setItem('il_mental_health_being_processed', false);
+       $("#vp").hide();
+     }
+   }
 
     /* First login */
 
@@ -235,7 +308,7 @@
       updateClaimsWidget();
       updatePaymentsWidget();
       updateProfileWidget();
-      updateLayout();
+      // updateLayout();
 
       /* Over ride for first login */
       updateLoadingState();
@@ -280,6 +353,7 @@
     });
 
     function updateLayout() {
+
       totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
       var mobile = $(window).width() < 679;
       var tablet = $(window).width() > 679 && $(window).width() < 1200;
