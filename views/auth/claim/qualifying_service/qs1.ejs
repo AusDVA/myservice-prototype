@@ -3,7 +3,6 @@
   heading: "About your claim"
 }) %>
 
-
     <%- include(forms+"radio-icon", {
       label: "What are you applying as?",
       id: "applying-as",
@@ -57,7 +56,7 @@
       no_toggle: "#save-next",
       modifiers: ["hidden"]
     }) %>
-    
+
     <%- include(forms+"notice", {
       type: "warning",
       modifiers: ["hidden"],
@@ -130,30 +129,42 @@
 
   <p id="save-next" hidden>Choose <b>Save and next</b> to continue</p>
 
-
   <%- include(forms+"pagination", {
     pagination: [
       {
-        text: "Cancel application",
-        link: "#open-modal"
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
       },
       {
         text: "Save and exit",
         link: "/auth/claim",
-        modifiers: ["floated"]
+        modifiers: ["floated"],
+        id: "pag-save-exit"
       },
       {
         text: "Save and next",
         link: "/auth/claim/qualifying_service/qs2",
-        modifiers: ["floated", "primary"]
+        modifiers: ["floated", "primary"],
+        id: "pag-save-next"
       }
     ]
   }) %>
 
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <%- include("qs-state-switcher") %>
+
   <script>
     $("#applying-as-container").on("change", "input", function() {
-      $("#formBody").trigger("reset");
+      if ($("#applying-as-container :checked").val() === "australiandefenceforceveteran") {
+        sessionStorage.setItem("commonwealth-allied", "no");
+      } else {
+        sessionStorage.setItem("commonwealth-allied", "yes");
+      }
 
+      $("#pag-save-exit").removeAttr("disabled");
+      $("#pag-save-next").removeAttr("disabled");
+      $("#formBody").trigger("reset");
       $("#other-names-container").hide();
       $("#old-names-container").hide();
       $("#assist-enemy-container").hide();
@@ -166,21 +177,29 @@
       $("#serve-vietnam-container").hide();
       $("#country-of-enlistment-container").hide();
       $("#save-next").hide();
+      $("#assist-enemy-container").on("change", "input[type='radio']", function() {
+        if ($(this).val() === "yes") {
+          $("#serve-vietnam-container").hide();
+          $("#save-next").hide();
+          $("#serve-yugoslavia-info-container").hide();
+        } 
+      })
+      $("#serve-yugoslavia-container").on("change", "input[type='radio']", function() {
+        if ($(this).val() === "yes")  {
+          $("#save-next").hide();
+          $("#serve-vietnam-info-container").hide();
+        }
+      })
 
-    $("#assist-enemy-container").on("change", "input[type='radio']", function() {
-      if ($(this).val() === "yes") {
-        $("#serve-vietnam-container").hide();
-        $("#save-next").hide();
-        $("#serve-yugoslavia-info-container").hide();
-      } 
-    })
-
-    $("#serve-yugoslavia-container").on("change", "input[type='radio']", function() {
-      if ($(this).val() === "yes")  {
-        $("#save-next").hide();
-        $("#serve-vietnam-info-container").hide();
-      }
-    })
+      $("#serve-ww2-container").on("change", "input", function() {
+        if ($("#serve-ww2-1").prop("checked")) {
+          $("#pag-save-exit").attr("disabled", "true");
+          $("#pag-save-next").attr("disabled", "true");
+        } else {
+          $("#pag-save-exit").removeAttr("disabled");
+          $("#pag-save-next").removeAttr("disabled");
+        }
+      })
     })
 
     $("#formBody").on("click submit", "button", function(e) {

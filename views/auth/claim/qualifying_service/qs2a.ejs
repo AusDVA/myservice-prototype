@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Add claim: Qualifying service", 
+  heading: "Incurred danger"
+}) %>
 
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width" name="viewport" />
-  <title>Qualifying service - Incurred danger | MyService</title>
-<%- include(partials+"components/layout/head") %>
-  <style>
-  </style>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <h1 class="margin-above--none ss-align--center">
-        <span class="heading">Incurred Danger</span>
-      </h1>
-    </div>
-    <div class="container" style="background:transparent;">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <div class="margin-above--extra margin-below--extra">
-            <!-- Page content -->
             <div id="alert-no-danger" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
               <span class="uikit-display-1">You need to add an incident of incurred Danger.</span>
             </div>
@@ -130,24 +103,47 @@
           </div>
         </div>
         <!-- end of page content -->
-        <!-- bottom page navigation -->
-        <div class="pagination" style="position: relative;">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/qualifying_service/qs-2'"> Previous </button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">
-            Cancel claim </button>
-          <div class="floated">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">
-              Save and exit </button>
-            <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">
-              Save and next </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </main>
-  <%- include(partials+"content/modals/claims-cancel-modal") %>
-  <%- include(partials+"components/layout/footer") %>
-</body>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/qualifying_service/qs2"
+      },
+      {
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "pag-save-next",
+        link: "/auth/claim/qualifying_service/qs3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <%- include("qs-state-switcher") %>
+
+  <script>
+    function stateSwitcher() {
+      if (commonwealthAllied === "yes") {
+        $("#pag-save-next").attr("href", "/auth/claim/qualifying_service/qs2a");
+      } else {
+        $("#pag-save-next").attr("href", "/auth/claim/qualifying_service/qs3");
+      }
+    }
+  </script>
+
+<%- include(templates+"footer") %>
+
 <script>
   $(Document).ready(function () {
 
@@ -195,19 +191,17 @@
       $("#alert-no-danger").hide();
     }
 
-    window.checkSaveAndNext = function () {
-      if (incidentsAdded == 0) {
+    $("#pag-save-next").on("click", function(e) {
+      if (incidentsAdded === 0) {
+        e.preventDefault();
         $("#alert-no-danger").show("fast");
         $("body,html").animate({
             scrollTop: 0
           },
           700
         );
-        return;
       }
-      myNav = "/auth/claim/qualifying_service/qs-3";
-      window.location.href = myNav;
-    }
+    })
 
   });
 </script>
