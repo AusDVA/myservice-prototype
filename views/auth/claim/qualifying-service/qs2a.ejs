@@ -1,0 +1,201 @@
+<%- include(templates+"header", {
+  claim: "Qualifying Service",
+  heading: "Incurred danger"
+}) %>
+
+  <div id="alert-no-danger" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
+    <span class="uikit-display-1">You need to add an incident of incurred Danger.</span>
+  </div>
+  <div id="message">
+    <h2 class="margin-below--none">Tell us about any incidents of incurred danger.</h2>
+    <p>Add an incident of direct incurred danger from hostile forces to proceed with the claim.
+    </p>
+  </div>
+  <div class="review__content--item boxed margin-above" id="summary-1">
+    <div class="review__content--label margin-below">
+      <h2 class="margin-above--none" style="display: inline-block;">
+        <span class="fal fa-map-marker-alt fa-icons"></span>
+        <span class="font-weight-heavy">Incurred danger incident</span>
+      </h2>
+      <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('boarders-and-lodgers');">&nbsp;Edit&nbsp;</button>
+    </div>
+    <div class="review__table">
+      <div class="tr">
+        <div class="td"><b>Start date</b></div>
+        <div class="td">05/08/1967</div>
+      </div>
+      <div class="tr">
+        <div class="td"><b>Location</b></div>
+        <div class="td">Vietnam</div>
+      </div>
+    </div>
+  </div>
+  <div class="review__content--item boxed margin-above" id="summary-2">
+    <div class="review__content--label margin-below">
+      <h2 class="margin-above--none" style="display: inline-block;">
+        <span class="fal fa-map-marker-alt fa-icons"></span>
+        <span class="font-weight-heavy">Incurred danger incident</span>
+      </h2>
+      <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('boarders-and-lodgers');">&nbsp;Edit&nbsp;</button>
+    </div>
+    <div class="review__table">
+      <div class="tr">
+        <div class="td"><b>Date</b></div>
+        <div class="td">05/08/1968</div>
+      </div>
+      <div class="tr">
+        <div class="td"><b>Location</b></div>
+        <div class="td">Vietnam</div>
+      </div>
+    </div>
+  </div>
+  <div class="row" id="addAnotherIncidentWrapper">
+    <div class="col-sm-12 margin-above ss-align--center">
+      <button class="uikit-btn uikit-btn--tertiary" id="addAnotherIncident">Add another incident</button>
+    </div>
+  </div>
+  <button class="uikit-btn uikit-btn--primary" id="addIncident">Add incident</button>
+  <!-- open card -->
+  <div class="form-group margin-above">
+    <div class="boxed" id="incident-details">
+      <h2 class="margin-above--none" style="display: inline-block;">
+        <span class="fal fa-map-marker-alt fa-icons"></span><span class="font-weight-heavy">Incident of incurred danger</span>
+      </h2>
+      <!-- <button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeSummary('boarders-and-lodgers');">&nbsp;Delete item&nbsp;</button> -->
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="date">Start date
+          <span class="hint">(mm / yyyy)</span>
+        </label>
+        <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month" />
+        /
+        <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year" />
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="date">End date
+          <span class="hint">(mm / yyyy)</span>
+        </label>
+        <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month" />
+        /
+        <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year" />
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="Input field">Location</label>
+        <input class="uikit-text-input input-half" name="service_number" id="service_number" type="text" />
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="textArea">Incident details<br>
+          <span class="hint">Describe the nature of the enemy activity and your role at the time.</span>
+        </label>
+        <textarea id="textArea" name="textArea" rows="3"></textarea>
+      </div>
+      <hr />
+      <div class="form-group margin-above--none">
+        <button id="danger-period-save" class="uikit-btn">
+          &nbsp;&nbsp;&nbsp; Save &nbsp;&nbsp;&nbsp;
+        </button>
+        &nbsp;<button id="danger-period-cancel" class="uikit-btn uikit-btn--tertiary">
+          &nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/qualifying-service/qs2"
+      },
+      {
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "pag-save-next",
+        link: "/auth/claim/qualifying-service/qs3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <%- include("qs-state-switcher") %>
+
+  <script>
+    function stateSwitcher() {
+      if (commonwealthAllied === "yes") {
+        $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs2a");
+      } else {
+        $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs3");
+      }
+    }
+
+  $(document).ready(function () {
+
+    hideAll();
+
+    // initiate add
+
+    $("#addIncident").click(function () {
+      hideAll();
+      $("#incident-details").show("fast");
+      $("#addIncident").hide();
+    });
+
+    $("#addAnotherIncident").click(function () {
+      hideAll();
+      $("#incident-details").show("fast");
+    });
+
+    // Done
+
+    var incidentsAdded = 0;
+    $("#danger-period-save").click(function () {
+      $("body,html").animate({
+          scrollTop: 0
+        },
+        700
+      );
+      hideAll();
+      $("#addAnotherIncidentWrapper").show("fast");
+      if (incidentsAdded == 0) {
+        $("#summary-1").show("fast");
+      }
+      if (incidentsAdded == 1) {
+        $("#summary-1").show("fast");
+        $("#summary-2").show("fast");
+      }
+      incidentsAdded++;
+    });
+
+    function hideAll() {
+      $("#addAnotherIncidentWrapper").hide();
+      $("#summary-1").hide();
+      $("#summary-2").hide();
+      $("#incident-details").hide();
+      $("#alert-no-danger").hide();
+    }
+
+    $("#pag-save-next").on("click", function(e) {
+      if (incidentsAdded === 0) {
+        e.preventDefault();
+        $("#alert-no-danger").show("fast");
+        $("body,html").animate({
+            scrollTop: 0
+          },
+          700
+        );
+      }
+    })
+
+  });
+</script>
+
+<%- include(templates+"footer") %>
