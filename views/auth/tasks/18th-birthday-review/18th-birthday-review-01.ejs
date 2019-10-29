@@ -3,19 +3,16 @@
   heading: "Payment destination"
 }) %>
 
+<h2 id="provide-details" class="parent-info">Provide details for John Smith</h2>
+
 <%- include(partials+"components/form-partials/notice", {
-  message: "As you are turning 18 years we need to confirm your preferred future payment destination."
+  message: "As <span class='user-label-a'>you are</span> turning 18 years we need to confirm your preferred future payment destination."
 }); %>
 
 <%- include(partials+"components/form-partials/prepop/bank-details", {
-  label: "Provide your bank details",
+  label: "Bank details",
   id: "bank"
 }); %>
-
-
-<div id="next" class="margin-above" style="display: none">
-  <p>Choose <b>next</b> to continue.</p>
-</div>
 
 <%- include(forms+"pagination", {
   pagination: [
@@ -29,7 +26,8 @@
     },
     {
       text: "Next",
-      link: "18th-birthday-review-02",
+      id: "next",
+      link: "#",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -43,7 +41,17 @@
 
     $("input:radio").prop("checked", false);
 
+    $("#next").on("click", function() {
+      if ( sessionStorage.getItem('student-coc-user') == "parent" ) {
+        window.location.href = "18th-birthday-review-02a";
+      } else {
+        window.location.href = "18th-birthday-review-03";
+      }
+    })
+
   });
 </script>
+
+<%- include("18th-birthday-review-state-switcher.ejs") %>
 
 </html>
