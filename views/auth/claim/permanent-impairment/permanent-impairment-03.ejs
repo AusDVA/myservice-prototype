@@ -1,43 +1,32 @@
 <%- include(templates+"header", {
-  title: "Condition details | Permanent impairment", 
-  heading: "Condition details"
+  title: "Medical practitioners | Permanent impairment", 
+  heading: "Medical practitioners"
 }) %>
 
-<%#- include(partials+"components/form-partials/yes_no", {
-  label: "Are you and your doctor expecting any further improvement in your condition within the next two years?",
-  yes_toggle: "#not-stable-container",
-  no_toggle: ["#stable-container","#save-next"]
-}); %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Does your medical practitioner expect that further treatment will improve your condition?",
-  yes_toggle: "#not-stable-container",
-  no_toggle: ["#stable-container","#save-next"]
-}); %>
-
-<%- include(partials+"components/form-partials/notice", {
-  message: "Permanent impairment claims can only be considered where a condition has stabilised after appropriate treatment.",
-  type: "warning",
-  id: "not-stable",
-  modifiers: ["hidden"]
-}); %>
-
-<%- include(partials+"components/form-partials/notice", {
-  message: "<p>Where possible DVA will use your treating medical practitioners to provide an assessment. If we cannot use your treating practitioner we will arrange an assessment for you.</p><p>If you are a serving member be aware that on-base doctors will not be able to provide an assessment.</p><p></p> ",
-  type: "alert",
-  id: "stable",
-  modifiers: ["hidden"]
-}); %>
-
-<div id="save-next" class="margin-above" hidden>
-  <p>Choose <b>save and next</b> to continue.</p>
+<div id="add-medical-practitioner">
+  <p><b>List all medical practitioners you are currently being treated by for your accepted conditions.</b><BR />Include general practioners and specialists.</p>
 </div>
+
+      
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>Where possible DVA will use your treating medical practitioners to provide an assessment. If we cannot use your treating practitioner we will arrange an assessment for you.</p><p>If you are a serving member be aware that on-base doctors may not be able to provide an assessment.</p><p></p> ",
+  type: "alert",
+  id: "treating-doctor"
+}); %>
+
+<div id="user-list">
+  <%- include("medical-practitioner-card") %>
+</div>
+
+<button id="add-button" class="uikit-btn margin-below--extra" onclick="showNewCard('medical-practitioner');">Add medical practitioner</button>
+
 
 <%- include(forms+"pagination", {
   pagination: [
     {
       text: "Previous",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-02"
+      link: "/auth/claim/permanent-impairment/permanent-impairment-03"
     },
     {
       text: "Exit application",
@@ -50,7 +39,7 @@
     },
     {
       text: "Save and next",
-      link: "/auth/claim/permanent-impairment/permanent-impairment-04",
+      link: "/auth/claim/permanent-impairment/permanent-impairment-05",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -61,22 +50,6 @@
 <%- include(templates+"footer") %>
 
 <script>
-
-  $(document).ready(function () {
-
-    $("input:radio").prop("checked", false);
-
-    $('input[name=arrange-question]').change(function () {
-      var mySelection = $('input[name=arrange-question]:checked').parent().find("span").text();
-      if (mySelection == "Yes") {
-        $("#save-next").show();
-      } else {
-        $("#save-next").show();
-      }
-    });
-
-  });
-
   /* On page scrolling */
 
   function scrollToAdd() {
@@ -171,7 +144,9 @@
   /* Generic hide all */
 
   function hideAll() {
+    console.log("fhfghgfhgfh")
     $("#add-medical-practitioner").hide();
+    $("#treating-doctor-container").hide();
     $("#add-button").hide();
     $("#medical-practitioner-card").hide();
     $("#medical-practitioner-summary").hide();
