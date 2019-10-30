@@ -1,34 +1,36 @@
 <%- include(templates+"header", {
   title: "Initial Liability"
 })%>
-    <div class="claim-end">
-        <div class="pt-claim-type--normal">
-            <div class="margin-above ie-success-animation">
-                <img src="/docs/images/ico-submitted.svg" alt="Submitted icon">
-            </div>
-            <div class="margin-above submitted-animation">
-                <%- include(partials+"components/animations/submitted") %>
-            </div>
-            <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
-                <h1>We're submitting your claim for Initial Liability </h1>
-            </div>
+<div class="claim-end">
+    <div class="pt-claim-type--normal">
+        <div class="margin-above ie-success-animation">
+            <img src="/docs/images/ico-submitted.svg" alt="Submitted icon">
         </div>
-        <div class="transition-content pt-claim-animation-end margin-below--extra">
-            <div class="pt-claim-type--normal">
-                <h1 class="centred-item">Your claim has been <strong>submitted</strong>
-                </h1>
+        <div class="margin-above submitted-animation">
+            <%- include(partials+"components/animations/submitted") %>
+        </div>
+        <div class="cantered-item transition-content transition-content--open pt-claim-animation-start">
+            <h1>We're submitting your claim for Initial Liability </h1>
+        </div>
+    </div>
+    <div class="transition-content pt-claim-animation-end margin-below--extra">
+        <div class="pt-claim-type--normal">
+            <h1 class="centred-item">Your claim has been <strong>submitted</strong>
+            </h1>
+        </div>
+        <hr class="orange-divider">
+        <h2 class="ss-align--center"><b>What's next?</b></h2>
+        <div class="container">
+            <div class="col-sm-offset-1 col-sm-8">
+                <ul class="next-steps">
+                    <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.
+                    </li>
+                    <li>You will receive an email confirmation and be contacted about your claim.</li>
+                    <li>If your claim is accepted you will be able to view your accepted conditions on your MyService
+                        Cards page.</li>
+                </ul>
             </div>
-            <hr class="orange-divider">
-            <h2 class="ss-align--center"><b>What's next?</b></h2>
-            <div class="container">
-                <div class="col-sm-offset-1 col-sm-8">
-                    <ul class="next-steps">
-                        <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.</li>
-                        <li>You will receive an email confirmation and be contacted about your claim.</li>
-                        <li>If your claim is accepted you will be able to view your accepted conditions on your MyService Cards page.</li>
-                    </ul>
-                </div>
-                <%- include(forms+"pagination", {
+            <%- include(forms+"pagination", {
                   pagination: [
                     {
                       text: "Back to home",
@@ -40,59 +42,56 @@
                     }
                   ]
                 }) %>
-            </div>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
-    </main>
-    <%- include(partials+"components/layout/footer") %>
-        <form class="pt-submit-form">
-            <input type="hidden" name="submittedApplication" id="submittedApplication" value="true">
-        </form>
-        <script>
-            readRep();
+</div>
+</div>
+</div>
+</div>
+</main>
+<form class="pt-submit-form">
+    <input type="hidden" name="submittedApplication" id="submittedApplication" value="true">
+</form>
+<script>
+    readRep();
 
-            var data = ($('.pt-submit-form'));
+    var data = ($('.pt-submit-form'));
 
-            writeRep(data);
+    writeRep(data);
 
 
-            var timeDelay = 3000;
-            setTimeout(
-                function() {
-                    $(".pt-claim-animation-start").toggleClass("transition-content--open");
-                    $(".pt-claim-animation-end").toggleClass("transition-content--open");
-                }, timeDelay);
+    var timeDelay = 3000;
+    setTimeout(
+        function () {
+            $(".pt-claim-animation-start").toggleClass("transition-content--open");
+            $(".pt-claim-animation-end").toggleClass("transition-content--open");
+        }, timeDelay);
 
-            var queryString = new Array();
-            $(function() {
-                if (queryString.length == 0) {
-                    if (window.location.search.split('?').length > 1) {
-                        var params = window.location.search.split('?')[1].split('&');
-                        for (var i = 0; i < params.length; i++) {
-                            var key = params[i].split('=')[0];
-                            var value = decodeURIComponent(params[i].split('=')[1]);
-                            queryString[key] = value;
-                        }
-                    }
+    var queryString = new Array();
+    $(function () {
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
                 }
-                if (queryString["name"] != null && queryString["technology"] != null) {
-                    var newAmount = "";
-                    var requestAmount = "";
-                    newAmount += queryString["name"];
-                    requestAmount += queryString["technology"];
-                    $("#lblData").html(newAmount);
-                    $("#lblData2").html(requestAmount);
-                    if (requestAmount.indexOf('.') != -1) {
-                        $("#lblData2").html(requestAmount);
-                    } else {
-                        $("#lblData2").html(requestAmount);
-                    }
-                }
-            });
-        </script>
-        </body>
-
-        </html>
+            }
+        }
+        if (queryString["name"] != null && queryString["technology"] != null) {
+            var newAmount = "";
+            var requestAmount = "";
+            newAmount += queryString["name"];
+            requestAmount += queryString["technology"];
+            $("#lblData").html(newAmount);
+            $("#lblData2").html(requestAmount);
+            if (requestAmount.indexOf('.') != -1) {
+                $("#lblData2").html(requestAmount);
+            } else {
+                $("#lblData2").html(requestAmount);
+            }
+        }
+    });
+</script>
+<%- include(templates+"footer") %>

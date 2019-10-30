@@ -1,40 +1,11 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Incapacity Payments",
+  heading: "Cause of incapacity"
+})%>
 
-<head>
-  <title>Incapacity Payments | Cause of incapacity</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+<div class="container">
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-
-      <div class="container margin-above--none">
-
-
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Cause of incapacity</span>
-        </h1>
-      </div>
-    </div>
-
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-
-          <div class="margin-above--extra margin-below--extra">
-
-            <%- include(partials+"components/form-partials/dropdown", {
+  <%- include(partials+"components/form-partials/dropdown", {
                 label: "Select the primary cause of your incapacity",
                 hint: "<BR/>This list shows your accepted conditions",
                 tooltip: {
@@ -57,14 +28,14 @@
                   "Osteoarthritis (MRCA)"
                 ] 
               }); %>
-          </div>
+</div>
 
-        <%- include(forms+"leave-dates", {
+<%- include(forms+"leave-dates", {
           id: "leave-dates",
           modifiers: ["hidden"]
         }) %>
 
-          <%- include(partials+"components/form-partials/checkbox", {
+<%- include(partials+"components/form-partials/checkbox", {
             label: "Select any other conditions that are affecting your capacity to work",
             hint: "<BR/>(select all that apply)",
             id: "other-conditions",
@@ -78,114 +49,119 @@
             modifiers: ["hidden"]
           }); %>
 
-        </div>
-      </div>
+</div>
+</div>
+<div class="container container--8-column">
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/incap/a-1"
+      },
+      {
+        text: "Cancel claim",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/incap/progress-b",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+</div>
 
-      <div class="pagination pagination--ss-reverse-order">
-        <button class="uikit-btn uikit-btn--tertiary btnPrev" id="btnPrev">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-        <div class="floated">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
-          <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
-        </div>
-      </div>
 
-    </div>
+<%- include(partials+"content/modals/claims-cancel-modal") %>
+</div>
 
-    </div>
-    </div>
+</main>
+<script>
+  $(Document).ready(function () {
 
-    <%- include(partials+"content/modals/claims-cancel-modal") %>
-    </div>
+    $("input:checkbox").prop("checked", false);
 
-  </main>
+    $("#btnPrev").click(function () {
+      window.location.href = "/auth/claim/incap/a-1"
+    });
+    $("#btnNext").click(function () {
+      window.location.href = "/auth/claim/incap/progress-b"
+    });
 
-  <%- include(partials+"components/layout/footer") %>
-
-
-  <script>
-    $(Document).ready(function () {
-
+    $('#primary').prop('selectedIndex', 0);
+    $("#primary").change(function () {
       $("input:checkbox").prop("checked", false);
-
-      $("#btnPrev").click(function () {
-        window.location.href = "/auth/claim/incap/a-1"
-      });
-      $("#btnNext").click(function () {
-        window.location.href = "/auth/claim/incap/progress-b"
-      });
-
-      $('#primary').prop('selectedIndex', 0);
-      $("#primary").change(function () {
-        $("input:checkbox").prop("checked", false);
-        $("#other-conditions-container").hide();
-        var mySelection = $('#primary :selected').val();
-        $("#other-conditions-1").parent().parent().show();
-        $("#other-conditions-2").parent().parent().show();
-        $("#other-conditions-3").parent().parent().show();
-        $("#other-conditions-4").parent().parent().show();
-        $("#other-conditions-5").parent().parent().show();
-        switch (mySelection) {
-          case "selectacondition":
-            $("#conditions").hide();
-            break;
-          case "depression":
-            $("#other-conditions-1").parent().parent().hide();
-            $("#conditions").show();
-            $("#selected-label").text("Depression");
-            $("#date-label").text("21/05/2014");
-            $("#act-label").text("MRCA");
-            break;
-          case "lumbarspondylosis":
-            $("#other-conditions-2").parent().parent().hide();
-            $("#conditions").show();
-            $("#selected-label").text("Lumbar spondylosis");
-            $("#date-label").text("18/11/2008");
-            $("#act-label").text("MRCA");
-            break;
-          case "tinnitus":
-            $("#other-conditions-3").parent().parent().hide();
-            $("#conditions").show();
-            $("#selected-label").text("Tinnitus");
-            $("#date-label").text("03/06/2003");
-            $("#act-label").text("MRCA");
-            break;
-          case "osteoarthritisdrca":
-            $("#other-conditions-4").parent().parent().hide();
-            $("#conditions").show();
-            $("#selected-label").text("Osteoarthritis");
-            $("#date-label").text("12/03/2011");
-            $("#act-label").text("DRCA");
-            break;
-          case "osteoarthritismrca":
-            $("#other-conditions-5").parent().parent().hide();
-            $("#conditions").show();
-            $("#selected-label").text("Osteoarthritis");
-            $("#date-label").text("12/03/2011");
-            $("#act-label").text("MRCA");
-            break;
-          default:
-            break;
-        }
-        $("#leave-dates-container").show("fast");
-        $("#other-conditions-container").show("fast");
-
-      });
-
-      // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
-      if ("flow2" in localStorage) {
-        $(".employed").hide();
-      } else {
-        $(".employed").show();
-      };
-
-      $("#add-date").click(function () {
-        $("#alert-prior").show("fast");
-      });
+      $("#other-conditions-container").hide();
+      var mySelection = $('#primary :selected').val();
+      $("#other-conditions-1").parent().parent().show();
+      $("#other-conditions-2").parent().parent().show();
+      $("#other-conditions-3").parent().parent().show();
+      $("#other-conditions-4").parent().parent().show();
+      $("#other-conditions-5").parent().parent().show();
+      switch (mySelection) {
+        case "selectacondition":
+          $("#conditions").hide();
+          break;
+        case "depression":
+          $("#other-conditions-1").parent().parent().hide();
+          $("#conditions").show();
+          $("#selected-label").text("Depression");
+          $("#date-label").text("21/05/2014");
+          $("#act-label").text("MRCA");
+          break;
+        case "lumbarspondylosis":
+          $("#other-conditions-2").parent().parent().hide();
+          $("#conditions").show();
+          $("#selected-label").text("Lumbar spondylosis");
+          $("#date-label").text("18/11/2008");
+          $("#act-label").text("MRCA");
+          break;
+        case "tinnitus":
+          $("#other-conditions-3").parent().parent().hide();
+          $("#conditions").show();
+          $("#selected-label").text("Tinnitus");
+          $("#date-label").text("03/06/2003");
+          $("#act-label").text("MRCA");
+          break;
+        case "osteoarthritisdrca":
+          $("#other-conditions-4").parent().parent().hide();
+          $("#conditions").show();
+          $("#selected-label").text("Osteoarthritis");
+          $("#date-label").text("12/03/2011");
+          $("#act-label").text("DRCA");
+          break;
+        case "osteoarthritismrca":
+          $("#other-conditions-5").parent().parent().hide();
+          $("#conditions").show();
+          $("#selected-label").text("Osteoarthritis");
+          $("#date-label").text("12/03/2011");
+          $("#act-label").text("MRCA");
+          break;
+        default:
+          break;
+      }
+      $("#leave-dates-container").show("fast");
+      $("#other-conditions-container").show("fast");
 
     });
-  </script>
 
-</body>
+    // check to see if user is claiming for ongoing payments but not interested in 'loss of civilian earnings'. This user should not see 'Employment' page in their progress bar.
+    if ("flow2" in localStorage) {
+      $(".employed").hide();
+    } else {
+      $(".employed").show();
+    };
 
-</html>
+    $("#add-date").click(function () {
+      $("#alert-prior").show("fast");
+    });
+
+  });
+</script>
+
+<%- include(templates+"footer") %>
