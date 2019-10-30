@@ -1,4 +1,12 @@
+<% 
 
+var dontInclude = [
+  "state-switcher",
+  "stateswitcher",
+  "email"
+]
+
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +31,7 @@
     </thead>  
     <% sortedClaims.map((claims, index) => { %>
       <% claims.map((claim, i) => { %>
-        <% if (!(claim.file.includes("state-switcher") || claim.file.includes("stateswitcher"))) { %>
+        <% if (!(dontInclude.some(substr => claim.file.includes(substr)))) { %>
 
           <% if (i === 0) { %>
             <tbody>
@@ -35,7 +43,6 @@
           <tr>
             <% if (claim.claim !== null && claim.claim.includes("Style Guide")) { %>
               <td><%- claim.heading %> | <%- claim.claim %> | MyService</td>
-              <% console.log("not styleguide") %>
             <% } else { %>
               <td><%- claim.title !== null ? claim.title : (claim.heading !== null && claim.claim !== null ? `${claim.claim} | ${claim.heading}` : "(No Title Found)") %></td>
             <% } %>
