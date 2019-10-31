@@ -119,6 +119,8 @@ if (typeof modifiers === "string") modifiers = [modifiers];
   $("#<%- id %>-address-1").on("keyup", function() {
     if ($(this).val().length > 0) {
       $("#<%- id %>-typeahead").show()
+      $(".s-typeahead-list-item:not(#<%- id %>-cant-find)").remove();
+      $(addresses.filter(addr => addr.toLowerCase().includes($("#<%- id %>-address-1").val().toLowerCase())).map(i => `<li class="s-typeahead-list-item">${i.replace($("#<%- id %>-address-1").val().toUpperCase(), `<b>${$("#<%- id %>-address-1").val().toUpperCase()}</b>`)}</li>`).join("")).insertBefore("#<%- id %>-cant-find")
     } else {
       $("#<%- id %>-typeahead").hide()
     }
@@ -129,6 +131,14 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     $(".<%- id %>-single-field").hide()
     $("#<%- id %>-typeahead").hide()
     $("#<%- id %>-address-1").focus()
+  })
+
+  $("#<%- id %>-typeahead").on("click", ".s-typeahead-list-item:not(#<%- id %>-cant-find)", function() {
+    $(".<%- id %>-full-address").hide()
+    $(".<%- id %>-single-field").show()
+    $("#<%- id %>-typeahead").hide()
+    $("#<%- id %>-address-1").val($(this).text())
+    $("#<%- id %>-typeahead").hide();
   })
 
   var addresses = [
