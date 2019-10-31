@@ -35,33 +35,47 @@ if (typeof modifiers === "string") modifiers = [modifiers];
       }) %>
     <% } %>
     
-    <%- include(forms+"text", {
-      label: "Address line 1",
-      modifiers: ["inputFullLength"],
-      id: `${id}-address-1`
-    }) %>
+    <div class="form-group">
+      <label for="<%- id %>-address-1" class="uikit-text-input__label">Address <span class="<%- id %>-single-field hint">(start typing your address)</span><span class="<%- id %>-full-address" hidden>line 1</span></label>
+      <input type="search" class="uikit-text-input" id="<%- id %>-address-1">
+
+      <div id="<%- id %>-typeahead" class="s-typeahead-wrapper" hidden>
+        <div class="s-typeahead-list--wrapper">
+          <ul class="s-typeahead-list">
+            
+            <li class="s-typeahead-list-item" id="<%- id %>-cant-find">I can't find my address</li>
+          </ul>
+        </div>
+      </div>
+    </div>
     
     <%- include(forms+"text", {
       label: "Address line 2",
+      customClass: `${id}-full-address`,
       id: `${id}-address-2`,
       hint: " (optional)",
-      modifiers: ["inputFullLength"]
+      modifiers: ["inputFullLength", "hidden"]
     }) %>
     
     <%- include(forms+"text", {
       label: "Suburb or town",
-      modifiers: ["inputFullLength"],
+      customClass: `${id}-full-address`,
+      modifiers: ["inputFullLength", "hidden"],
       id: `${id}-suburb`
     }) %>
     
     <%- include(forms+"text", {
       label: "Postcode",
-      modifiers: ["inputShort"],
+      modifiers: ["hidden"],
+      customClass: `${id}-full-address`,
+      modifiers: ["inputShort", "hidden"],
       id: `${id}-postcode`
     }) %>
 
     <%- include(forms+"dropdown", {
       label: "State or territory",
+      modifiers: ["hidden"],
+      customClass: `${id}-full-address`,
       id: `${id}-state`,
       options: [
         "-- Select state or territory --",
@@ -101,3 +115,19 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     }) %>
     
 </fieldset>
+<script>
+  $("#<%- id %>-address-1").on("keyup", function() {
+    console.log("change")
+    if ($(this).val().length > 0) {
+      $("#<%- id %>-typeahead").show()
+    } else {
+      $("#<%- id %>-typeahead").hide()
+    }
+  })
+
+  $("#<%- id %>-cant-find").on("click", function() {
+    $(".<%- id %>-full-address").show()
+    $(".<%- id %>-single-field").hide()
+    $("#<%- id %>-typeahead").hide()
+  })
+</script>

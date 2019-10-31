@@ -10,13 +10,15 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 <fieldset
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
   id="<%- id %>-container"
-  class="form-group">
+  class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>">
+
 
     <%- include(forms+"dropdown", {
       label: `${typeof label !== "undefined" ? label : "Phone number" }`,
       hint: `${typeof hint !== "undefined" ? hint : "" }`,
       customClass: "margin-below--mid",
       id: `${id}-country-code`,
+      modifiers: [],
       options: [
         "-- Select country --",
         {
@@ -906,6 +908,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     <%- include(forms+"text", {
       label: "",
       hint: `Please include area code (for example, "03" for Victoria or "04" for Mobile)`,
+      modifiers: [],
       id: `${id}-phone-number`,
       customClass: "margin-below--none"
     }) %>

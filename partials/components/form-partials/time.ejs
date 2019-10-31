@@ -1,0 +1,72 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("time");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="form-group time <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+  <%- generateLabel({
+      id,
+      modifiers,
+      label: typeof label !== "undefined" ? label : "Time",
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
+
+  <div class="time__dropdowns">
+    <%- include(forms+"dropdown", {
+      label: `<span class="sr">Hour</span>`,
+      id: `${id}-hh`,
+      customClass: "display-inline",
+      options: [
+        "hh",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "12"
+      ]
+    }) %>
+
+    <%- include(forms+"dropdown", {
+      label: `<span class="sr">Minute</span>`,
+      id: `${id}-mm`,
+      customClass: "display-inline",
+      options: [
+        "mm",
+        "00",
+        "05",
+        "10",
+        "15",
+        "20",
+        "25",
+        "30",
+        "35",
+        "40",
+        "45",
+        "50",
+        "55"
+      ]
+    }) %>
+
+    <%- include(forms+"dropdown", {
+      label: `<span class="sr">am / pm</span>`,
+      id: `${id}-timeday`,
+      customClass: "display-inline",
+      options: [
+        "am",
+        "pm"
+      ]
+    }) %>
+  </div>
+
+</div>

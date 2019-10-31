@@ -1,0 +1,46 @@
+<div id="state-switcher">
+  <h3>Book Car With Driver State Switchetr</h3>
+  <%- include(partials+"components/form-partials/radio", {
+    id: "bcwd-appointment-direction",
+    label: "Travelling from:",
+    boxes: [
+      {
+        text: "Medical appointment"
+      },
+      {
+        text: "Home"
+      }
+    ]
+  }) %>
+</div>
+
+<script>
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+  $(document).ready(function () {
+    if (sessionStorage.getItem("appointment-direction") === "medicalappointment") {
+      $("#bcwd-appointment-direction-1").prop("checked", true);
+    } else if (sessionStorage.getItem("appointment-direction") === "home") {
+      $("#bcwd-appointment-direction-2").prop("checked", true);
+    } else {
+      $("#bcwd-appointment-direction-1").prop("checked", true);
+      sessionStorage.setItem("appointment-direction", $("#bcwd-appointment-direction-container :checked").val());
+    }
+
+    $("#bcwd-appointment-direction-container").on("change", "input[type=radio]", function () {
+      sessionStorage.setItem("appointment-direction", $("#bcwd-appointment-direction-container :checked").val());
+    })
+
+    if (typeof stateSwitcher === "function") stateSwitcher()
+
+    $("#state-switcher").on("change", "input", function() { if (typeof stateSwitcher === "function") stateSwitcher() });
+  })
+
+</script>

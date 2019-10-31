@@ -1,0 +1,79 @@
+<%- include(templates+"header", {
+  claim: "Book Car With Driver",
+  heading: "Pick-up address"
+}) %>
+
+  <h2>Where are you travelling from?</h2>
+
+  <h3 class="medicalappointment" hidden>Practitioner details</h3>
+
+  <%- include(forms+"text", {
+    label: "Doctor's name",
+    id: "doctor-name",
+    customClass: "medicalappointment",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Phone number",
+    id: "doctor-name",
+    customClass: "medicalappointment",
+    modifiers: ["hidden"]
+  }) %>
+
+  <h3 class="medicalappointment">Practice address</h3>
+
+  <%- include(forms+"text", {
+    label: "Practice name",
+    id: "practice-name",
+    customClass: "medicalappointment",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"prepop/address", {
+    label: "",
+    id: "pickup-address",
+    modifiers: ["australiaOnly"]
+  }) %>
+
+  <%- include(forms+"prepop/phone-number", {
+    label: "Contact number",
+    id: "contact-number",
+    customClass: "home"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/transport/book-car-with-driver/ad1",
+      },
+      {
+        text: "Cancel booking",
+        link: "#bcwd-modal"
+      },
+      {
+        text: "Next",
+        link: "/auth/transport/book-car-with-driver/ad3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/bcwd-modal") %>
+
+  <%- include("bcwd-state-switcher") %>
+
+  <script>
+    function stateSwitcher() {
+      if (sessionStorage.getItem("appointment-direction") === "medicalappointment") {
+        $(".medicalappointment").show();
+        $(".home").hide();
+      } else {
+        $(".medicalappointment").hide();
+        $(".home").show();
+      }
+    }
+  </script>
+
+<%- include(templates+"footer") %>

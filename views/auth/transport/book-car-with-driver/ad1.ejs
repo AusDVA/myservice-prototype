@@ -1,0 +1,66 @@
+<%- include(templates+"header", {
+  claim: "Book Car With Driver",
+  heading: "Appointment details"
+}) %>
+
+  <%- include(forms+"radio", {
+    id: "travelling-to",
+    label: "Where are you travelling to?",
+    boxes: [
+      {
+        text: "Medical appointment",
+        toggle: "#book-return-container"
+      },
+      {
+        text: "Home"
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"date", {
+    label: "What is the date of your appointment?",
+    id: "appointment-date"
+  }) %>
+
+  <%- include(forms+"time", {
+    id: "appointment-time",
+    label: "What is the time of your appointment?"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Would you like to book a return trip following your appointment?",
+    id: "book-return",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel booking",
+        link: "#bcwd-modal"
+      },
+      {
+        text: "Next",
+        link: "/auth/transport/book-car-with-driver/ad2",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/bcwd-modal") %>
+
+  <%- include("bcwd-state-switcher") %>
+
+  <script>
+    $("#travelling-to-container").on("change", "input[type=radio]", function () {
+      sessionStorage.setItem("appointment-direction", $("#travelling-to-container :checked").val());
+
+      if (sessionStorage.getItem("appointment-direction") === "medicalappointment") {
+        $("#bcwd-appointment-direction-1").prop("checked", true);
+      } else if (sessionStorage.getItem("appointment-direction") === "home") {
+        $("#bcwd-appointment-direction-2").prop("checked", true);
+      }
+    })
+  </script>
+
+<%- include(templates+"footer") %>
