@@ -1,29 +1,56 @@
 <%
-taskList = [{
-		"description": "Provide tax file number",
-    "date": "11 Oct 2019",
-		"reference": "Providing us with your tax file number will help us to complete your education assistance application and resume your payments.",
-		"link": "/auth/tasks/task-edu-assistance-details",
-    "category": "education-assistance"
-	},
-	{
-		"description": "Upload documents",
-    "date": "18 Sept 2019",
-		"reference": "Uploading  documents will help us to complete your education assistance application.",
-		"link": "/auth/tasks/task-edu-assistance-details",
-    "category": "education-assistance"
-	},
-	{
-		"description": "Upload GP report documents",
-    "date": "12 Sept 2019",
-		"reference": "Uploading your GP Report document will help us to complete Initial Liability claim.",
-		"link": "/auth/tasks/task-edu-assistance-details",
-    "category": "initial-liability"
-	}]
+taskList = [
+  {
+    id: "18th-birthday-review",
+    description: "18th birthday review",
+    date: "Complete by 8 Oct 2020",
+    reference: `Complete this review to keep receiving <span class="non-link-span user-label-e">your</span> Education Assistance Scheme (EAS) benefits<span class="non-link-span user-label-d"> for John Smith</span>.`,
+    link: "/auth/tasks/18th-birthday-review/18th-birthday-review-01",
+    category: "education-assistance",
+    overDue: false
+  },
+  {
+    id: "16th-birthday-review",
+    description: "16th birthday review",
+    date: "Complete by 8 Oct 2020",
+    reference: "Complete this review to keep receiving Education Assistance Scheme (EAS) benefits for John Smith.",
+    link: "/auth/tasks/16th-birthday-review/16th-birthday-review-01",
+    category: "education-assistance",
+    overDue: false
+  },
+  {
+    id: "transition-to-secondary",
+    description: "Transition to secondary school",
+    date: "Overdue",
+    reference: `Provide details of John Smith's transition to secondary school to keep receiving Education Assistance Scheme (EAS) benefits.`,
+    link: "/auth/tasks/transition-to-secondary/transition-to-secondary-01",
+    category: "education-assistance",
+    overDue: true
+  },
+  {
+    id: "intention-to-study",
+    description: "Intention to continue study",
+    date: "Complete by 1 Dec 2019",
+    reference: `Provide details of <span class="non-link-span user-label-c">John Smith's</span> intention to continue study to keep receiving <span class="non-link-span user-label-e">your</span> Education Assistance Scheme (EAS) benefits.`,
+    link: "/auth/tasks/intention-to-continue-study/intention-to-continue-study-01",
+    category: "education-assistance",
+    overDue: false
+  },
+  {
+    id: "confirmation-of-enrolment",
+    description: "Confirmation of enrolment",
+    date: "Complete by 1 Jan 2020",
+    reference: `Upload confirmation of <span class="non-link-span user-label-c">John Smith's</span> enrolment document to keep receiving <span class="non-link-span user-label-e">your</span> Education Assistance Scheme (EAS) benefits.`,
+    link: "/auth/tasks/confirmation-of-enrolment/confirmation-of-enrolment-01",
+    category: "education-assistance",
+    overDue: false
+  }
+]
 %>
-  
+
 <!DOCTYPE html>
 <html class="js" lang="en">
+
 <head>
   <title>Tasks | MyService</title>
   <%- include(partials+"components/layout/head") %>
@@ -42,46 +69,44 @@ taskList = [{
 
   <main class="section-feature">
     <div class="tasks-page container tasks-page__container">
-    <h2 class="margin-above--none">
-        <span class="heading font-weight-heavy">Your tasks</span>
-    </h2>
-    <h3 class="tasks-list__header margin-below--small">Education Assistance</h3>
-    <section class="tasks-list">
-    <% taskList.forEach(function(task, index) { %>
-      <% if(task.category === "education-assistance") { %>
-        <div class="task">
-          <div class="task__description">
-            <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-            <div class="task__link-wrapper">
-              <a href="<%= task.link %>" class="task__link"><%= task.description %></a>
-              <div class="task__date">Active since <%= task.date %></div>
-            </div>
-          </div>
-          <div class="task__reference"><%= task.reference %></div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <h1 class="margin-below--mid margin-above--none container">
+            <span class="heading">Tasks</span>
+          </h1>
         </div>
-      <% } %>
-    <% }); %>
-    </section>
-    <h3 class="tasks-list__header margin-below--small">Initial Liability</h3>
-    <section class="tasks-list">
-    <% taskList.forEach(function(task, index) { %>
-      <% if(task.category === "initial-liability") { %>
-        <div class="task">
-          <div class="task__description">
-            <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-            <div class="task__link-wrapper">
-              <a href="<%= task.link %>" class="task__link"><%= task.description %></a>
-              <div class="task__date">Active since <%= task.date %></div>
+      </div>
+
+      <h3>Education assistance</h3>
+
+      <section class="tasks-list">
+        <% taskList.forEach(function(task, index) { %>
+        <% if(task.category === "education-assistance") { %>
+        <a class="task__wrapper--link" href="<%= task.link %>">
+          <div class="task">
+            <div class="task__description">
+              <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
+              <div class="task__link-wrapper">
+                <span class="task__link"><%- task.description %></span>
+
+                <div class="task__date <%= task.overDue ? "task__date--overdue" : "" %>"><%- task.date %></div>
+              </div>
             </div>
+            <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
           </div>
-          <div class="task__reference"><%= task.reference %></div>
-        </div>
-      <% } %>
-    <% }); %>
-    </section>
-    <hr class="margin-above--medium">
+        </a>
+        <% } %>
+        <% }); %>
+      </section>
+      <hr class="margin-above--medium">
     </div>
   </main>
   <%- include(partials+"components/layout/footer") %>
+  <%- include("index-state-switcher.ejs") %>
+  <script>
+
+  </script>
 </body>
+
 </html>

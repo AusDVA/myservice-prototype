@@ -26,22 +26,17 @@
       <% if (locals.el.optionalHint) { %>
       <span class="hint"><%-locals.el.optionalHint%></span>
       <% } %>
+
     </label>
   </div>
-  <% if (locals.el.optionalHelp ) { 
-          var myHelp = locals.el.optionalHelp; %>
-  <div class="tooltip">
-    <div id="tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="message" aria-expanded="false">
-      <div class="tooltip__label tooltip__label--icon-only">
-        <a>Help</a>
-      </div>
-      <div class="tooltip__tab"></div>
-    </div>
-    <div id="tt-message" class="tooltip__content" aria-labelledby="tt-label" role="region" tabindex="-1" aria-hidden="true">
-      <div class="tooltip__message"><%- myHelp %></div>
-      <div class="tooltip__close" role="button" tabindex="0">Close</div>
-    </div>
-  </div>
+  <% if (locals.el.optionalHelp ) { %>
+
+          <%- include(components+"tooltip", {
+            content: locals.el.optionalHelp,
+            screenreaderText: "Help",
+            id
+          }) %>
+
   <% } %>
   <div class="radio-toggle">
     <label class="on label-left" for="<%= id %>-yes">

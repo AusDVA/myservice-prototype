@@ -1,0 +1,204 @@
+<%- include(components+"styleguide/styleguide-header", {
+  heading: "Template partials",
+  claim: "Style Guide"
+}) %>
+
+  <style>
+    .inline-code {
+      padding: 3px; 
+      background: #f5f2f0;
+    }
+  </style>
+
+  <%- include(components+"styleguide/terminology-used") %>
+
+
+  <p class="margin-above--extra">The prototype includes a partial to generate the entire header and footer, including headings and progress bars (if specified)</p>
+
+  <ul>
+    <li><a href="#header">Header</a></li>
+    <li><a href="#footer">Footer</a></li>
+  </ul>
+
+  <h2 id="header">Header</h2>
+  <div class="example-box">
+    <img src="/docs/styleguide/header_template.png" alt="Image of header partial" style="width: 100%;">
+  </div>
+  <div class="accordion">
+    <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Code example</button>
+    <div class="accordion-content" style="display: none;">
+      <pre class="language-ejs">
+        <code>
+          <%%- include(templates+"header", {
+            heading: "Review and submit",
+            claim: "Initial Liability"
+          }) %%>
+        </code>
+      </pre>
+    </div>
+  </div>
+  <div class="template" data-field="header"></div>
+
+  <h2 id="footer">Footer</h2>
+  <div class="example-box">
+    <img src="/docs/styleguide/footer_template.png" alt="Image of header partial" style="width: 100%;">
+  </div>
+  <div class="accordion">
+    <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Code example</button>
+    <div class="accordion-content" style="display: none;">
+      <pre class="language-ejs">
+        <code>
+          <%%- include(templates+"footer") %%>
+        </code>
+      </pre>
+    </div>
+  </div>
+
+  <hr>
+
+<script>
+
+  var properties = {
+    footer: [
+    ],
+    header: [
+      {
+        property: "heading",
+        desc: `Heading text displayed in a grey heading box, also used in &lt;title&gt; element on some pages`,
+        type: "string",
+        req: true
+      },
+      {
+        property: "claim",
+        desc: "A claim type (e.g. DHOAS), or category if used outside claim (also used for categorizing sitemap)",
+        type: "string",
+        req: false
+      },
+      {
+        property: "progress",
+        desc: "Puts a multi-stage progress bar in the header box. <a href='/styleguide/progress#progress-advanced'>See here for details</a>",
+        type: "object",
+        req: false
+      },
+      {
+        property: "type",
+        desc: `The type of header to render. 
+          Accepted values: 
+            <ul>
+               <li><code class="inline-code">claim</code> (used by default if not specified)</li>
+               <li><code class="inline-code">default</code> (used on pages pages outside claim)</li>
+             </ul>`,
+        type: "string",
+        req: false
+      }
+    ]
+  }
+
+  var modifiers = {
+    header: [
+      {
+        text: "bg-gray",
+        desc: "Puts a gray background on the main content"
+      },
+      {
+        text: "noMarginAbove",
+        desc: "Removes upper margina around main content"
+      },
+      {
+        text: "noMarginBelow",
+        desc: "Removes upper margina around main content" 
+      },
+      {
+        text: "noClaimInTitle",
+        desc: "Does not put claim type in title. Primarily used for categorizing styleguide."
+      }
+    ]
+  }
+
+  var mapArr = arr => {
+    var mappedArr = arr.map(elem => {            
+      return `
+      <tr>
+        <td><pre class="language-json">${elem.property}:<code></code></pre></td>
+        <td>${elem.desc}</td>
+        <td><pre class="language-text"><code>${elem.type}</code></pre></td>
+        <td>${elem.req ? "Yes" : "No" }</td>
+      </tr>`
+    });
+
+    return `
+        <table class="margin-above">
+          <thead>
+            <tr>
+              <th>Property</th>
+              <th>Description</th>
+              <th>Data type</th>
+              <th>Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${mappedArr.join("")}
+          </tbody>
+        </table>
+    `
+
+  };
+
+  var mapMods = mods => {
+    var mappedMods = mods.map(mod => {
+      return `
+        <tr>
+          <td><pre class="language-json"><code>"${mod.text}"</code></pre></td>
+          <td>${mod.desc}</td>
+        </tr>
+      `
+    });
+    return `
+      <table class="margin-above">
+        <thead>
+          <tr>
+            <th>Modifier</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${mappedMods.join("")}
+        </tbody>
+      </table>`
+
+  }
+
+  $(document).ready(function() {
+ 
+  $(".template").each(function() {
+   
+    $(this).append(`
+      <div class="accordion properties">
+        <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Properties</button>
+        <div class="accordion-content" hidden>
+          ${mapArr(properties[$(this).data("field")])}
+          <div style="margin-left: 1em;" class="accordion">
+            <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
+              <div class="accordion-content" hidden>
+                ${mapMods(modifiers[$(this).data("field")])}
+              </div>
+          </div>
+        </div>
+      </div>`);
+  });
+
+  $(".template").on("click", ".accordion-button", function () {
+    if ($(this).hasClass("rotate-90")) {
+      $(this).removeClass("rotate-90");
+    } else {
+      $(this).addClass("rotate-90");
+    }
+
+    $(this).parent().find("> .accordion-content").toggle();
+  });
+
+  })
+
+</script>
+
+<%- include(partials+"components/styleguide/styleguide-footer") %>

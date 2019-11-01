@@ -7,12 +7,9 @@ let boxCounter = 0;
 
 %>
 
-<fieldset
-  <%- modifiers.includes("disabled") ? "disabled" : "" %>
-  <%- modifiers.includes("hidden") ? "hidden" : "" %>
-  id="<%- id %>-container"
-  class="mys-radio-group"
->
+<fieldset class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
+  <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container" class="mys-radio-group">
+  
   <%- generateLabel({
       id,
       modifiers: modifiers.concat(["legendLabel"]),
@@ -41,11 +38,10 @@ let boxCounter = 0;
     <%- generateCheckRadioIcons(box).html; %>
 
     <% 
-      let { toggle, rToggle, inject } = generateCheckRadioIcons(box);
+      let { toggle, rToggle } = generateCheckRadioIcons(box);
       return {
         toggle,
-        rToggle,
-        inject
+        rToggle
       }
     });
     %>
@@ -53,22 +49,28 @@ let boxCounter = 0;
 
 </fieldset>
 
-<% if (boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined || box.inject !== undefined).length > 0) { %>
-  <script type="text/javascript">
-    $("#<%- id %>-container").change("input[type=radio]", function() {
-      $("input[type=radio]:checked", this).each(function() {
-        $($(this).data("toggle")).show();
-        $($(this).data("r-toggle")).hide();
-        $(this).closest("fieldset").find($(this).data("inject")).remove();
-        $($(this).data("inject")).clone().insertAfter($(this).closest(".uiToolKitCheckBox"));
-        $(this).closest("fieldset").find($($(this).data("inject"))).show();
-      });
+<% if ((boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined).length > 0) || typeof all_toggle !== "undefined") { %>
+<script type="text/javascript">
+  $("#<%- id %>-container").change("input[type=radio]", function () {
+    $($(this).data("all-toggle")).show();
 
-      $("input[type=radio]:not(:checked)", this).each(function() {
-        $($(this).data("toggle")).hide();
-        $($(this).data("r-toggle")).show();
-        $(this).closest("fieldset").find($(this).data("inject")).remove();
-      });
-    })
-  </script>
+    $("input[type=radio]:checked", this).each(function () {
+      $($(this).data("toggle")).removeAttr("hidden").show();
+      $($(this).data("r-toggle")).hide();
+      $(this).parent().find(".hidden-hint").show();
+    });
+
+    $("input[type=radio]:not(:checked)", this).each(function () {
+      $($(this).data("toggle")).hide();
+      $($(this).data("r-toggle")).show();
+      $(this).parent().find(".hidden-hint").hide();
+    });
+
+
+  })
+
+  $("#<%- id %>-container").on("click", ".tooltip", function (e) {
+    e.preventDefault();
+  });
+</script>
 <% } %>

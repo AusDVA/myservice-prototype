@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Tasks | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Intention to continue study</span>
+      </h1>
+    </div>
+    <div class="container container--8-column" id="main-content">
+
+      <div class="margin-above--extra"></div>
+
+      <h2 id="provide-details" class="margin-below">Provide details for <span class='user-label-c'>your</span> proposed study in 2020</h2>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "<span class='user-label-b'>Do you</span> intend to continue study in 2020?",
+        id: "continue-studying-question"
+      }); %>
+
+      <% 
+      locals.el = {};
+      locals.el.message = "Eligibility for Education Allowance is dependent upon the student continuing in full time study. If this is not the case, please contact us on 1800 555 254 to discuss."; 
+      locals.el.optionalType = "warning";
+      locals.el.optionalID = "not-continuing";
+      locals.el.optionalHide = true;
+    %>
+      <%- include(partials+"components/form-elements/notice", locals) %>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Do you have confirmation of <span class='user-label-f'>your</span> enrolment?",
+        hint: "<BR/>For example, a letter of enrolment or Confirmation of Enrolment (COE) document from the institution.",
+        id: "document-question",
+        modifiers: ["hidden"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Briefly tell us why <span class='user-label-a'>you</span> will not continue to study",
+        hint: "(optional)",
+        modifiers: ["hidden"],
+        id: "tell-us-why"
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will be asked to provide confirmation of enrolment at a later date.",
+        type: "alert",
+        id: "no-document",
+        modifiers: ["hidden"]
+      }); %>
+
+      <div id="save-and-next" class="margin-above" style="display: none">
+        <p>Choose <b>next</b> to continue.</p>
+      </div>
+
+      <div class="pagination pagination--tasks">
+        <a href="/auth/tasks"><button class="uikit-btn uikit-btn--tertiary">Previous</button></a>
+        <a><button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Exit task</button></a>
+        <div class="floated">
+          <a id="next-link" href="/auth/tasks/intention-to-continue-study/intention-to-continue-study-02"><button class="uikit-btn" id="submit">Next</button></a>
+        </div>
+      </div>
+
+      <%- include(partials+"content/modals/tasks-cancel-modal") %>
+
+  </main>
+
+</body>
+<%- include(partials+"components/layout/footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=continue-studying-question]').change(function () {
+      $("#save-and-next").hide();
+      var mySelection = $('input[name=continue-studying-question]:checked').parent().find("span").text();
+      hideAll();
+      if (mySelection == "Yes") {
+        $("#document-question-container input:radio").prop("checked", false);
+        $("#document-question-container").show();
+        $("#save-and-next").hide();
+      } else {
+        $("#document-question-container").hide();
+        $("#not-continuing").show();
+        $("#tell-us-why-container").show();
+      }
+    });
+
+    $('input[name=document-question]').change(function () {
+      var mySelection = $('input[name=document-question]:checked').parent().find("span").text();
+      var link = document.getElementById("next-link");
+      if (mySelection == "Yes") {
+        link.setAttribute("href", "intention-to-continue-study-03");
+        $("#no-document-container").hide();
+        $("#save-and-next").show();
+        sessionStorage.setItem('student-coc-confirmation', 'yes')
+      } else {
+        $("#no-document-container").show();
+        $("#save-and-next").show();
+        sessionStorage.setItem('student-coc-confirmation', 'no')
+        // $("#no-document-container").hide();
+        link.setAttribute("href", "intention-to-continue-study-02");
+      }
+    });
+
+    function hideAll() {
+      $("#not-continuing").hide();
+      $("#tell-us-why-container").hide();
+      $("#save-and-next").hide();
+      $("#no-document-container").hide();
+    }
+
+  });
+</script>
+
+<%- include("intention-to-continue-study-state-switcher.ejs") %>
+
+</html>

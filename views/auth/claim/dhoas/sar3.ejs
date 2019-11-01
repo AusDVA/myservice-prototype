@@ -1,212 +1,114 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  claim: "Subsidy authorisation request",
+  heading: "Occupancy"
+}) %>
 
-<head>
+  <%- include(forms+"notice", {
+    type: "content",
+    message: `
+      <p>You must be occupying your subsidised property for DHOAS subsidy to commence.</p>
+      <p>I understand that subsidy may cease if I stop occupying the property within 12 months following the commencement of subsidy payments or the completion of building work.</p>
+      <p>If I am unable to occupy the home for the 12 month occupancy period, I understand that I must be approved for a shorter period of occupancy to be eligible for continued subsidy payments.</p>
+      <p>I also understand that I must apply for a reduced occupancy period within a reasonable period of time of vacating the DHOAS subsidised property.</p>`
+  }) %>
 
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main id="main-content">
-    <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Occupancy</span>
-        </h1>
-      </div>
-    </div>
-    <div class="container">
-
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
-
-            <% 
-          locals.el = {};
-          locals.el.message = "<p>You must be occupying your subsidised property for DHOAS subsidy to commence.</p><p>I understand that subsidy may cease if I stop occupying the property within 12 months following the commencement of subsidy payments or the completion of building work.</p><p>If I am unable to occupy the home for the 12 month occupancy period, I understand that I must be approved for a shorter period of occupancy to be eligible for continued subsidy payments.</p><p>I also understand that I must apply for a reduced occupancy period within a reasonable period of time of vacating the DHOAS subsidised property.</p>"; 
-          locals.el.optionalType = "content";
-          %>
-            <%- include(partials+"components/form-elements/notice", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'I declare that:'; 
-            locals.el.items = ['I (or I and my dependent/s) will be occupying the property','I (or I and my dependent/s) currently occupy the property','My dependent/s will be occupying the property','My dependent/s currently occupy the property','I will not be occupying the property until the completion of building work'];
-            locals.el.optionalItemID = ['date_a','date_b','date_c','date_d','date_e'];
-            locals.el.optionalHelp = "This question does not relate to your equity in the property. It relates to the parties on the Certificate of Title and what percentage is owned by those parties. The eligible person must be one of the parties on the title for the subsidy to be payable on the property/loan."
-            locals.el.optionalID = "occupancy_date";
-            %>
-            <%- include(partials+"components/form-elements/radio", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Date occupancy will commence'; 
-            locals.el.optionalID = "date_will_commence";
-            locals.el.optionalHide = true;
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Date occupancy commenced'; 
-            locals.el.optionalID = "date_commenced";
-            locals.el.optionalHide = true;
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Expected occupancy start date'; 
-            locals.el.optionalID = "date_expected";
-            locals.el.optionalHide = true;
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-
-            <%# 
-            locals.el = {};
-            locals.el.question = 'Occupancy declaration'; 
-            locals.el.items = ['I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of subsidy payments.']
-            %>
-            <%#- include(partials+"components/form-elements/checkbox", locals) %>
-
-            <div class="form-group" id="lump-sum-previous-yes-div">
-              <h2>Occupancy declaration</h2>
-              <div style="border: 1px solid #d8d8d8; padding: 30px;">
-                <div class="uiToolKitCheckBox">
-                  <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="checkbox" id="declaration_checked" name="declaration_checked">
-                    <span class="uikit-control-input__text">I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of
-                      subsidy payments.</span>
-                  </label>
-                </div>
-              </div>
-            </div>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Do you currently hold a posting order which will prevent you from meeting the 12 month occupancy requirement?';
-            locals.el.optionalID = "posting_order";
-            %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = "Provide details of the posting order:"; 
-            locals.el.optionalHide = true;
-            locals.el.optionalLong = true;
-            locals.el.optionalID = "posting_order_explain";
-            %>
-            <%- include(partials+"components/form-elements/field", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = 'Will the land or any building on the land be used for the purpose of carrying on a business, trade or profession?';
-            locals.el.optionalID = "using_for_work";
-            %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-            <% 
-            locals.el = {};
-            locals.el.question = "Describe the nature of the business, trade or profession:"; 
-            locals.el.optionalHide = true;
-            locals.el.optionalLong = true;
-            locals.el.optionalID = "using_for_work_explain";
-            %>
-            <%- include(partials+"components/form-elements/field", locals) %>
-
-
-
-            <div class="pagination margin-above--extra">
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/sar2' ">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" id="btnNext" onclick="window.location.href = '/auth/claim/dhoas/sar4'">Save and next</button>
-              </div>
-            </div>
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-</body>
-
-<script type="text/javascript">
-
-  $(document).ready(function() {
-
-    $("input:radio").prop("checked", false);
-
-    $('input[name=occupy_understand]').change(function () {
-      var occupy_understand = $('input[name=occupy_understand]:checked').val();
-      if (occupy_understand == "yes") {
-        $("#occupy_understand_no").hide("fast");
-      } else {
-        $("#occupy_understand_no").show("fast");
+  <%- include(forms+"radio", {
+    label: "I declare that:",
+    id: "commencement",
+    all_toggle: "#date-commence-container",
+    boxes: [
+      {
+        text: "I (or I and my dependent/s) will be occupying the property",
+        value: "will"
+      },
+      {
+        text: "I (or I and my dependent/s) currently occupy the property",
+        value: "currently"
+      },
+      {
+        text: "My dependent/s will be occupying the property",
+        value: "will"
+      },
+      {
+        text: "My dependent/s currently occupy the property",
+        value: "currently"
+      },
+      {
+        text: "I will not be occupying the property until the completion of building work",
+        value: "expected"
       }
-    });
+    ]
+  }) %>
 
-    $('input[name=posting_order]').change(function () {
-      var mySelection = $('input[name=posting_order]:checked').val();
-      if (mySelection == "yes") {
-        $("#posting_order_explain").show("fast");
-      } else {
-        $("#posting_order_explain").hide("fast");
+  <%- include(forms+"date", {
+    label: `<span id="commencement-date"></span>`,
+    modifiers: ["hidden"],
+    id: "date-commence"
+  }) %>
+
+  <div class="declaration margin-below--extra">
+    <%- include(forms+"checkbox", {
+      modifiers: ["noMargin"],
+      boxes: [
+        {
+          text: "I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of subsidy payments.",
+          toggle: "#save-next"
+        }
+      ]
+    }) %>
+  </div>
+
+  <%- include(forms+"yes_no", {
+    label: "Do you currently hold a posting order which will prevent you from meeting the 12 month occupancy requirement?",
+    yes_toggle: "#posting-order-container"
+  }) %>
+
+  <%- include(forms+"textarea", {
+    label: "Provide details of the posting order:",
+    modifiers: ["hidden"],
+    id: "posting-order"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Will the land or any building on the land be used for the purpose of carrying on a business, trade or profession?",
+    yes_toggle: "#describe-business-container"
+  }) %>
+
+  <%- include(forms+"textarea", {
+    label: "Describe the nature of the business, trade or profession:",
+    modifiers: ["hidden"],
+    id: "describe-business"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/sar2"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/sar4",
+        modifiers: ["floated", "primary"]
       }
-    });
+    ]
+  }) %>
 
-    $('input[name=using_for_work]').change(function () {
-      var mySelection = $('input[name=using_for_work]:checked').val();
-      if (mySelection == "yes") {
-        $("#using_for_work_explain").show("fast");
-      } else {
-        $("#using_for_work_explain").hide("fast");
-      }
-    });
+  <script>
+    $("#commencement-container").on("change", "input[type='radio']", function() {
+      if ($(this).val() === "will") $("#commencement-date").html("Date occupancy will commence");
+      if ($(this).val() === "currently") $("#commencement-date").html("Date occupancy commenced");
+      if ($(this).val() === "expected") $("#commencement-date").html("Expected occupancy start date");
+    })
+  </script>
 
-    $('input[name=occupancy_date]').change(function () {
-      mySelection = $('input[name=occupancy_date]:checked').val();
-      hideDates();
-      console.log(mySelection)
-      switch (mySelection) {
-        case "date_a":
-          $("#date_will_commence").show("fast");
-          break;
-        case "date_b":
-          $("#date_commenced").show("fast");
-          break;
-        case "date_c":
-          $("#date_will_commence").show("fast");
-          break;
-        case "date_d":
-          $("#date_commenced").show("fast");
-          break;
-        case "date_e":
-          $("#date_expected").show("fast");
-          break;
-        default:
-      }
-    });
-
-    function hideDates() {
-      $("#date_will_commence").hide();
-      $("#date_commenced").hide();
-      $("#date_expected").hide();
-    }
-
-  });
-
-</script>
-
-</html>
+<%- include(templates+"footer") %>

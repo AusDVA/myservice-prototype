@@ -58,7 +58,7 @@
                 ] 
               }); %>
 
-            <div id="conditions" class="form-group" style="display: none; margin-top: -25px;">
+            <!-- <div id="conditions" class="form-group" style="display: none; margin-top: -25px;">
 
               <div class="borderless-table">
                 <div class="borderless-table__row">
@@ -100,61 +100,27 @@
                 </div>
 
               </div>
-            </div>
+            </div> -->
           </div>
 
-          <div id="leaveWithoutPay-dates" class="margin-below--extra" style="display: none;">
-            <p><b>List any periods of lost earnings and/or allowances you are claiming:</b></p>
-
-            <table class="mys-table table-responsive border-all border-top__thick--blue">
-              <tr>
-                <th style="border-left:1px solid #cccccc;">
-                  <label class="uikit-text-input__label" for="date">Start Date
-                    <span class="hint">(dd / mm / yyyy)</span>
-                  </label>
-                </th>
-                <th></th>
-                <th>
-                  <label class="uikit-text-input__label" for="date">End Date
-                    <span class="hint">(dd / mm / yyyy)</span>
-                  </label>
-                </th>
-                <th style="border-right:1px solid #cccccc;"></th>
-              </tr>
-              <tr id="date-template">
-                <td>
-                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                </td>
-                <td>&mdash;</td>
-                <td>
-                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required="" aria-required="true" aria-label="2 digit day"> /
-                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required="" aria-required="true" aria-label="2 digit month"> /
-                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required="" aria-required="true" aria-label="4 digit year">
-                </td>
-              </tr>
-              <tr class="padding-above--none">
-                <td colspan=4 class="padding-above--none">
-                  <button class="uikit-btn uikit-btn--tertiary small" onclick="cloneme()">Add another date</button>
-                </td>
-              </tr>
-            </table>
-          </div>
+        <%- include(forms+"leave-dates", {
+          id: "leave-dates",
+          modifiers: ["hidden"]
+        }) %>
 
           <%- include(partials+"components/form-partials/checkbox", {
-              label: "Select any other conditions that are affecting your capacity to work",
-              hint: "<BR/>(select all that apply)",
-              id: "other-conditions",
-              boxes: [
-                "Depression",
-                "Lumbar spondylosis",
-                "Tinnitus",
-                "Osteoarthritis (DRCA)",
-                "Osteoarthritis (MRCA)"
-              ],
-              modifiers: ["hidden"]
-            }); %>
+            label: "Select any other conditions that are affecting your capacity to work",
+            hint: "<BR/>(select all that apply)",
+            id: "other-conditions",
+            boxes: [
+              "Depression",
+              "Lumbar spondylosis",
+              "Tinnitus",
+              "Osteoarthritis (DRCA)",
+              "Osteoarthritis (MRCA)"
+            ],
+            modifiers: ["hidden"]
+          }); %>
 
         </div>
       </div>
@@ -192,8 +158,6 @@
       $("#btnNext").click(function () {
         window.location.href = "/auth/claim/incap/progress-b"
       });
-
-      // $("#other-conditions").hide();
 
       $('#primary').prop('selectedIndex', 0);
       $("#primary").change(function () {
@@ -247,7 +211,7 @@
           default:
             break;
         }
-        $("#leaveWithoutPay-dates").show("fast");
+        $("#leave-dates-container").show("fast");
         $("#other-conditions-container").show("fast");
 
       });
@@ -259,31 +223,9 @@
         $(".employed").show();
       };
 
-      $('input[name=checkbox-5]').change(function () {
-        if ($(this).is(':checked')) {
-          $("#condition-not-in-list").show();
-        } else {
-          $("#condition-not-in-list").hide();;
-        }
+      $("#add-date").click(function () {
+        $("#alert-prior").show("fast");
       });
-      $("#addanotherbtn").click(function () {
-        $("#addanothercondition").show();
-        $("#addanotherbtn").hide();
-      });
-      $("#btnSave").click(function () {
-        $("#addanothercondition").hide();
-        $("#addanotherbtn").show();
-        $("#customcondition").show();
-      });
-      $("#btnCancel").click(function () {
-        $("#addanothercondition").hide();
-        $("#addanotherbtn").show();
-      });
-      $("#btnRemove").click(function () {
-        $("#customcondition").hide();
-      });
-
-
 
     });
   </script>

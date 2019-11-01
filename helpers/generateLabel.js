@@ -1,4 +1,6 @@
 const generateTooltip = require('./generateTooltip');
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 module.exports = formLabel => {
   var {
@@ -12,11 +14,11 @@ module.exports = formLabel => {
   var html = "";
 
   let legend = modifiers.includes("legend") ? true : false;
-  let legendLabel = typeof modifiers !== "undefined" && modifiers.includes("legendLabel") ? true : false;
+  let legendLabel = modifiers.includes("legendLabel") ? true : false;
 
   if (legend || legendLabel) {
     html += `
-      <legend class="uikit-text-input__label ${legendLabel ? "legend-override" : ""}">
+      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""}">
     `
   } else {
     html += `
@@ -36,9 +38,9 @@ module.exports = formLabel => {
     })
   }
 
-  let hintNewLine = typeof modifiers !== "undefined" && modifiers.includes("hintNewLine") ? true : false;
-
-  if (hint !== null) html += `${hintNewLine ? "<br>" : ""}<span class="hint"> ${hint}</span>`;
+  if (hint) {
+    html += `<span class="hint ${modifiers.includes("hintNewLine") ? "display-block margin-above--none margin-below--none" : ""}"> ${hint}</span>`
+  }
 
   if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
     html += generateTooltip({

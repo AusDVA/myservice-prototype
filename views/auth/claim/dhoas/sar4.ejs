@@ -1,113 +1,57 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  claim: "Subsidy authorisation request",
+  heading: "Lump sum request"
+}) %>
 
-<head>
+  <%- include(forms+"yes_no", {
+    label: "Have you requested the lump sum on your current Subsidy Certificate?",
+    no_toggle: "#not-requested",
+    yes_toggle: "#have-requested"
+  }) %>
 
-  <title>Subsidy authoriation request | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <div id="not-requested" class="margin-below--extra" hidden>
+    <%- include(content+"dhoas_lump_sum") %>
+  </div>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main id="main-content">
-    <div class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Lump sum request</span>
-        </h1>
-      </div>
+  <div id="have-requested" class="margin-below--extra" hidden>
+    <h2>Declaration</h2>
+    <div class="declaration">
+      <%- include(forms+"checkbox", {
+        modifiers: ["noMargin"],
+        boxes: [
+          "I confirm the declarations made on my application for Subsidy Certificate form are correct in that:"
+        ]
+      }) %>
+      <ol class="declaration__list">
+        <li>I expect that I will continue to provide service in the Australian Defence Force (ADF), where the service is considered effective for DHOAS purposes, for a period of at least 12 months after the payment of subsidy is authorised. I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to the lump sum subsidy paid to me if I cease to be a member of the ADF within 12 month after the payment subsidy is authorised. (*The declaration does not apply if you are applying for a lump sum as a surviving partner); and</li>
+        <li>Whilst I have been a member of the ADF, I have not previously purchased a home, other than the one that is the subject of this application for Subsidy Certificate, and this property was purchased after I received my Subsidy Certificate.</li>
+        
+        <p class="margin-above"><strong>NOTE: </strong>If you have less than 12 months of entitlement remaining after you receive the lump sum payment, and subsequently transfer to the Reserves, your monthly DHOAS payments may cease.</p>
+      </ol>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
+  </div>
 
-            <% 
-            locals.el = {};
-            locals.el.question = 'Have you requested the lump sum on your current Subsidy Certificate?';
-            locals.el.optionalID = "requested_lump_sum";
-            %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-
-            <div id="lump-sum-previous-yes-div" style="display: none;">
-              <h2>Declaration</h2>
-              <div class="declaration">
-                <div class="uiToolKitCheckBox">
-                  <label class="uikit-control-input">
-                    <input class="uikit-control-input__input" type="checkbox" id="declaration_checked" name="declaration_checked">
-                    <span class="uikit-control-input__text">I confirm the declarations made on my application for Subsidy Certificate form are correct in that:</span>
-                  </label>
-                </div>
-                <ol class="declaration__list">
-                  <li>I expect that I will continue to provide service in the Australian Defence Force (ADF), where the service is considered effective
-                    for DHOAS purposes, for a period of at least 12 months after the payment of subsidy is authorised. I acknowledge that the Scheme Administrator or the Department
-                    of Defence may recover
-                    an amount equal to the lump sum subsidy paid to me if I cease to be a member of the ADF within 12 month after the payment subsidy is authorised. (*The
-                    declaration does not apply if you are applying for a lump sum as a surviving partner); and</li>
-                  <li>Whilst I have been a member of the ADF, I have not previously purchased a home, other than the one that is the subject of this
-                    application for
-                    Subsidy
-                    Certificate, and this property was purchased after I received my Subsidy Certificate.<BR /><BR />
-                    <strong>NOTE: </strong>If you have less than 12 months of entitlement remaining after you receive the lump sum payment, and subsequently transfer to the
-                    Reserves, your monthly DHOAS payments may cease.</li>
-                </ol>
-              </div>
-            </div>
-
-            <div id="dhoas_lump_sum" style="display: none;"><%- include(partials+"content/dhoas_lump_sum") %></div>
-
-            <div class="pagination margin-above--extra">
-              <button class="uikit-btn uikit-btn--tertiary " onclick="window.location.href='/auth/claim/dhoas/sar3' ">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel application</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" id="save-and-next-button" onclick="window.location.href = '/auth/claim/dhoas/sar5'">Save and next</button>
-              </div>
-            </div>
-
-            <%- include(partials+"content/modals/claims-cancel-modal") %>
-          </div>
-
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-
-</body>
-
-<script type="text/javascript">
-
-  $(document).ready(function() {
-
-    $("input:radio").prop("checked", false);
-
-    $('input[name=requested_lump_sum]').change(function () {
-      var mySelection = $('input[name=requested_lump_sum]:checked').val();
-      $("input[type=radio]").not("input[name=requested_lump_sum]").prop("checked", false);
-      if (mySelection == "yes") {
-        $("input[name=declaration_checked").prop("checked", false);
-        $("#lump-sum-previous-yes-div").show("fast");
-        $("#save-and-next-button").prop('disabled', true);
-        $("#dhoas_lump_sum").hide("fast");
-        $("#save-next").hide("fast");
-      } else {
-        $("#lump-sum-previous-yes-div").hide("fast");
-        $("#save-and-next-button").prop('disabled', false);
-        $("#dhoas_lump_sum").show("fast");
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/sar3"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/sar5",
+        modifiers: ["floated", "primary"]
       }
-    });
+    ]
+  }) %>
 
-
-
-  });
-
-</script>
-
-</html>
+<%- include(templates+"footer") %>
