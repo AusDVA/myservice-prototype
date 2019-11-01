@@ -41,18 +41,38 @@
 
               <hr>
 
+              <% if (!locals.liveFeature.includes("vrpButtonBankDetails")) { %>
               <div class="pre-pop-off" hidden>
-                <%- include(partials+"components/form-partials/yes_no", {
-                label: "Would you like to provide your bank account details?",
-                yes_toggle: "#bank-details-container" 
-              })  %>
+                <button id="add-bank-details" class="uikit-btn uikit-btn--tertiary">Add bank details</button> <span id="add-bank-details-hint" class="hint">(optional)</span>
+                <div class="boxed" id="bank-details" hidden>
+                  <h3>Add bank details <span class="hint">(all fields are required)</span></h3>
+                  <%- include(forms+"prepop/bank-details", {
+                    label: "",
+                  }) %>
 
-              <%- include(partials+"components/form-partials/prepop/bank-details", {
-                modifiers: ["hidden"],
-                id: "bank-details",
-                label: ""
-              }) %>
+                  <%- include(forms+"notice", {
+                    message: "This will also be your nominated bank account for all DVA payments"
+                  }) %>
+
+                  <button id="cancel-bank-details" class="uikit-btn uikit-btn--tertiary">Cancel</button>
+                </div>
               </div>
+              <% } else { %>
+                <div class="pre-pop-off" hidden>
+                  <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Would you like to provide your bank account details?",
+                  yes_toggle: "#bank-details-container" 
+                })  %>
+
+                <%- include(partials+"components/form-partials/prepop/bank-details", {
+                  modifiers: ["hidden"],
+                  id: "bank-details",
+                  label: ""
+                }) %>
+                </div>
+              <% } %>
+
+
 
               <div class="pre-pop-on" hidden>
                 <div class="kv-pair">
