@@ -129,8 +129,6 @@ app.get('/sitemap', (req, res) => {
           .filter(files => files.claim === claim
         )).reverse();
 
-      // const newSortedClaims = sortedClaims.filter(n => !n[0].claim.includes("Style Guide"))
-
       res.render('sitemap', {
         sortedClaims
       })
