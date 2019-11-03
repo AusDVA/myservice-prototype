@@ -78,7 +78,8 @@ gulp.task('watch', function () {
 gulp.task('server', function () {
   nodemon({
     'script': 'index.js',
-    'ignore': 'docs/js/*.js'
+    'ignore': 'docs/js/*.js',
+    'nodeArgs': ['--inspect=127.0.0.1:9229']
   });
 });
 
