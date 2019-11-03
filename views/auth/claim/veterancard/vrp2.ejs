@@ -1,157 +1,143 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  claim: "Veteran Recognition Package",
+  heading: "Request Veteran Covenant"
+}) %>
 
-<head>
-  <title>Veteran Recognition | MyService</title>
-<%- include(partials+"components/layout/head") %>
-</head>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <div class="container margin-above--none">
-        <h1 class="margin-above--none ss-align--center">
-          <span class="heading">Request Veteran Covenant</span>
-        </h1>
-      </div>
-    </div>
-    <section class="veteran-card">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-2 col-md-8">
-          <div class="margin-above--extra margin-below--extra">
-            <h2 class="margin-below--none">Tell us about your Australian service history</h2>
+  <h2 class="margin-below--none">Tell us about your Australian service history</h2>
 
-            <%- include(partials+"components/form-partials/yes_no", {
-              label: "Are you still serving?",
-              id: "still-serving",
-              yes_toggle: "#are-permanent-forces-container",
-              no_toggle: "#have-permanent-forces-container"
-            }) %>
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you still serving?",
+    id: "still-serving",
+    yes_toggle: "#are-permanent-forces-container",
+    no_toggle: "#have-permanent-forces-container"
+  }) %>
 
-            
-            <form id="flow">
-              <%- include(partials+"components/form-partials/yes_no", {
-                label: "Have you ever been a member of the Australian Permanent Forces?",
-                id: "have-permanent-forces",
-                modifiers: ["hidden"],
-                yes_toggle: "#can-process,#date-discharge-container",
-                no_toggle: "#have-reserves-container"
-              }) %>
-
-              <%- include(partials+"components/form-partials/yes_no", {
-                label: "Have you ever been a member of the Australian Reserves?",
-                id: "have-reserves",
-                modifiers: ["hidden"],
-                no_toggle: "#cannot-process",
-                yes_toggle: "#can-process,#date-discharge-container"
-              }) %>
-
-              <%- include(partials+"components/form-partials/yes_no", {
-                label: "Are you a member of the Australian Permanent Forces?",
-                id: "are-permanent-forces",
-                modifiers: ["hidden"],
-                yes_toggle: "#can-process",
-                no_toggle: "#are-reserves-container"
-              }) %>
-
-              <%- include(partials+"components/form-partials/yes_no", {
-                label: "Are you a member of the Australian Reserves?",
-                id: "are-reserves",
-                modifiers: ["hidden"],
-                no_toggle: "#cannot-process",
-                yes_toggle: "#can-process"
-              }) %>
-
-            </form>
-    
-            <div class="uikit-page-alerts uikit-page-alerts--error margin-above--large margin-below" id="cannot-process" hidden>
-              <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on 1800 555 254 to discuss your claim.</p>
-            </div>
   
-            <div id="can-process" hidden>            
-              <%- include(partials+"components/form-partials/text", {
-                label: "PMKeyS or Service Number"
-              }) %>
+  <form id="flow">
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Have you ever been a member of the Australian Permanent Forces?",
+      id: "have-permanent-forces",
+      modifiers: ["hidden"],
+      yes_toggle: "#can-process,#date-discharge-container",
+      no_toggle: "#have-reserves-container"
+    }) %>
 
-              <%- include(partials+"components/form-partials/date", {
-                label: "Date of enlistment",
-              }) %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Have you ever been a member of the Australian Reserves?",
+      id: "have-reserves",
+      modifiers: ["hidden"],
+      no_toggle: "#cannot-process-container",
+      yes_toggle: "#can-process,#date-discharge-container"
+    }) %>
 
-              <%- include(partials+"components/form-partials/date", {
-                label: "Date of discharge",
-                id: "date-discharge",
-                modifiers: ["hidden"]
-              }) %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Are you a member of the Australian Permanent Forces?",
+      id: "are-permanent-forces",
+      modifiers: ["hidden"],
+      yes_toggle: "#can-process",
+      no_toggle: "#are-reserves-container"
+    }) %>
 
-              <hr>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Are you a member of the Australian Reserves?",
+      id: "are-reserves",
+      modifiers: ["hidden"],
+      no_toggle: "#cannot-process-container",
+      yes_toggle: "#can-process"
+    }) %>
 
-              <h2>Upload proof of service</h2>
+  </form>
 
-              <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
-                <p class="margin-below--mid"><strong>You will also need ot provide us with one document as proof of your Australian defence service.</strong></p>
+  <%- include(forms+"notice", {
+    id: "cannot-process",
+    type: "error",
+    message: `Unfortunately we cannot process your claim online. Call us on <a href="tel:1800555254">1800 555 254</a> to discuss your claim.`,
+    modifiers: ["hidden"]
+  }) %>
 
-                <p>Documents you can provide are:</p>
+  <div id="can-process" hidden>            
+    <%- include(partials+"components/form-partials/text", {
+      label: "PMKeyS or Service Number"
+    }) %>
 
-                <ul>
-                  <li>Certificate of Service</li>
-                  <li>Discharge signal</li>
-                  <li>Military payslip</li>
-                  <li>Service ID card</li>
-                  <li>Any document that identifies your previous service</li>
-                </ul>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of enlistment",
+    }) %>
 
-                <p>Accepted file types are pdf, jpeg or png. Maximum file size is 50MB</p>
-                <p>If there are reasons that prevent you from providing proof of your service ocntact us on 1800 555 254 and we'll try to assist you.</p>
-              </div>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of discharge",
+      id: "date-discharge",
+      modifiers: ["hidden"]
+    }) %>
 
-              <h3>Uploads</h3>
-    
-              <div class="upload-list">
-                <table class="document-uploads">
-                  <tbody><tr>
-                    <th>Document title</th>
-                    <th class="centred">Actions</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      <a href="#">My-Serive-History.pdf (3.5 MB PDF)</a>
-                    </td>
-                    <td class="centred">
-                      <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
-                    </td>
-                  </tr>
-                </tbody></table>
-                <button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button>
-              </div>
-            </div>
+    <hr>
 
-            <div class="uikit-page-alerts uikit-page-alerts--error margin-above--extra margin-below" id="cannot-process" hidden>
-              <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on 1800 555 254 to discuss your claim.</p>
-            </div>
-          </div>
-  
-          <div class="pagination">
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/veterancard/vrp1'">Previous</button>
-            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
-            <div class="floated">
-              <button class="uikit-btn" id="btnNext" onclick="window.location.href='/auth/claim/veterancard/vrp3'">Next</button>
-            </div>
-          </div>
-        </div>
-      </div>
+    <h2>Upload proof of service</h2>
+
+    <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
+      <p class="margin-below--mid"><strong>You will also need ot provide us with one document as proof of your Australian defence service.</strong></p>
+
+      <p>Documents you can provide are:</p>
+
+      <ul>
+        <li>Certificate of Service</li>
+        <li>Discharge signal</li>
+        <li>Military payslip</li>
+        <li>Service ID card</li>
+        <li>Any document that identifies your previous service</li>
+      </ul>
+
+      <p>Accepted file types are pdf, jpeg or png. Maximum file size is 50MB</p>
+      <p>If there are reasons that prevent you from providing proof of your service ocntact us on 1800 555 254 and we'll try to assist you.</p>
     </div>
-    </section>
-    <%- include(partials+"content/modals/claims-cancel-modal") %>
-  </main>
+
+    <h3>Uploads</h3>
+
+    <div class="upload-list">
+      <table class="document-uploads">
+        <tbody><tr>
+          <th>Document title</th>
+          <th class="centred">Actions</th>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">My-Serive-History.pdf (3.5 MB PDF)</a>
+          </td>
+          <td class="centred">
+            <button class="uikit-btn small uikit-btn--tertiary">Delete</button>
+          </td>
+        </tr>
+      </tbody></table>
+      <button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button>
+    </div>
+  </div>
+
+  <%- include(forms+"notice", {
+    type: "error",
+    id: "cannot-process",
+    message: `Unfortunately we cannot process your claim online. Call us on <a href="tel:1800555254">1800 555 254</a> to discuss your claim.`,
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--extra",
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veterancard/vrp1"
+      },
+      {
+        text: "Cancel",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Next",
+        link: "/auth/claim/veterancard/vrp3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
   <script type="text/javascript">
     function stateSwitcher() {
@@ -160,7 +146,7 @@
 
     $("#still-serving-container").on("change", "input", function() {
       $("#can-process").hide();
-      $("#cannot-process").hide();
+      $("#cannot-process-container").hide();
       $("#have-permanent-forces-container").hide();
       $("#have-reserves-container").hide();
       $("#are-permanent-forces-container").hide();
@@ -171,8 +157,5 @@
   </script>
 
   <%- include("vrp-state-switcher") %>
-
-  <%- include(partials+"components/layout/footer") %>
-</body>
-
-</html>
+  <%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
