@@ -31,8 +31,6 @@
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Does the student have a Tax File Number?",
   id: "tfn-question",
-  yes_toggle: "#tfn-container",
-  no_toggle: "#tfn-no-container",
   modifiers: ["hidden"]
 }); %>
 
@@ -45,7 +43,7 @@
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Has the student applied for a tax file number?",
   id: "tfn-no",
-  yes_toggle: "#tfn-applied-container",
+  yes_toggle: ["#tfn-applied-container","#next"],
   no_toggle: "#tfn-not-applied-container",
   modifiers: ["hidden"]
 }); %>
@@ -106,20 +104,42 @@
 
     $('input[name=continue-ask]').change(function () {
         var mySelection = $('input[name=continue-ask]:checked').parent().find("span").text();
-        hideAll()
+        hideAll();
         if ( mySelection == "Yes") {
-            $("#crn-container").show();
-            $("#tfn-question-container").show();
+          $("#crn-container").show();
+          $("#tfn-question-container").show();
         } else {
           $("#continue-no-container").show();
+          $("#next").show();
         }
       });
 
+
+      $('input[name=tfn-question]').change(function () {
+        var mySelection = $('input[name=tfn-question]:checked').parent().find("span").text();
+        $("#tfn-no-container input:radio ").prop("checked", false);
+        if ( mySelection == "Yes") {
+          $("#tfn-container").show();
+          $("#tfn-no-container").hide();
+          $("#tfn-applied-container").hide();
+          $("#tfn-not-applied-container").hide();
+        } else {
+          $("#tfn-no-container").show();
+          $("#tfn-container").hide();
+          $("#next").hide();
+        }
+      });
 
     function hideAll(){
       $("#crn-container").hide();
       $("#tfn-question-container").hide();
       $("#continue-no-container").hide();
+      $("#tfn-container").hide();
+      $("#tfn-no-container").hide();
+      $("#tfn-applied-container").hide();
+      $("#tfn-not-applied-container").hide();
+      $("#next").hide();
+      $("#tfn-question-container input:radio ").prop("checked", false);
     }
 
   });
