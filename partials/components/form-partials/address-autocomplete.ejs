@@ -1,0 +1,42 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("address");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+
+<fieldset
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  id="<%- id %>-container">
+    
+  <div class="form-group">
+    <%- generateLabel({
+        id,
+        modifiers: [],
+        label: typeof label !== "undefined" ? label : "Address",
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
+    <input type="search" class="uikit-text-input" id="<%- id %>" placeholder="">
+  </div>
+    
+</fieldset>
+<script>
+
+function <%- id %>_init() {
+  <%- id %> = new google.maps.places.Autocomplete(document.getElementById("<%- id %>"), {componentRestrictions: {
+          country: "au"
+        }});
+
+  <%- id %>.setFields(["address_component"]);
+
+  <% if (typeof place_changed !== undefined) { %>
+    <%- id %>.addListener("place_changed", <%- place_changed %>);
+  <% } %>
+
+}
+
+</script>

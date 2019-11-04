@@ -1,61 +1,24 @@
 <%- include(templates+"header", {
   claim: "Book Car With Driver",
-  heading: "Drop-off address"
+  heading: "Transport requirements"
 }) %>
 
-  <h2>Where are you going?</h2>
+  <h2>Special requirements for your trip</h2>
 
-  <%- include(forms+"dropdown", {
-    label: "Select from your recent medical appointment addresses",
-    id: "recent-locations",
-    customClass: "medicalappointment",
-    options: [
-      "-- Select destination --",
-      "location 1",
-      "location 2"
-    ]
+  <%- include(forms+"yes_no", {
+    label: "Do you require a wheelchair accessible vehicle?",
+    id: "wheelchair-accessible"
   }) %>
 
-  <h2 class="medicalappointment" hidden>Or enter a new medical appointment address</h2>
-
-  <%- include(forms+"notice", {
-    customClass: "medicalappointment",
-    message: "To process your transport booking, your treatment providers should be the closest adviser able to administer hte required treatment within a distance of 50km."
+  <%- include(forms+"yes_no", {
+    label: "Will you be travelling with an attendent?",
+    id: "travelling-attendant"
   }) %>
 
-  <h3 class="medicalappointment" hidden>Practitioner details</h3>
-
-  <%- include(forms+"text", {
-    label: "Doctor's name",
-    customClass: "medicalappointment",
-    id: "doctor-name"
-  }) %>
-
-  <%- include(forms+"prepop/phone-number", {
-    label: "Contact number",
-    customClass: "medicalappointment",
-    id: "contact-number"
-  }) %>
-
-  <h3 class="medicalappointment" hidden>Practice address</h3>
-
-  <%- include(forms+"text", {
-    customClass: "medicalappointment",
-    label: "Medical practice",
-    id: "practice-name"
-  }) %>
-
-  <%- include(forms+"prepop/address", {
-    label: "",
-    id: "pickup-address",
-    modifiers: ["australiaOnly"]
-  }) %>
-
-  <%- include(forms+"prepop/phone-number", {
-    label: "Contact number",
-    modifiers: ["hidden"],
-    customClass: "home",
-    id: "phone-number"
+  <%- include(forms+"textarea", {
+    label: "Do you have any other special requirements for the transport provider?",
+    hint: "(optional)",
+    id: "special-requirements"
   }) %>
 
 
@@ -80,17 +43,5 @@
   <%- include(forms+"modals/bcwd-modal") %>
 
   <%- include("bcwd-state-switcher") %>
-
-  <script>
-    function stateSwitcher() {
-      if (sessionStorage.getItem("appointment-direction") === "medicalappointment") {
-        $(".medicalappointment").show();
-        $(".home").hide();
-      } else if (sessionStorage.getItem("appointment-direction") === "home") {
-        $(".medicalappointment").hide();
-        $(".home").show();
-      }
-    }
-  </script>
 
 <%- include(templates+"footer") %>

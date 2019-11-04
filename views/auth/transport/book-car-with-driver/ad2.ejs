@@ -3,50 +3,65 @@
   heading: "Pick-up address"
 }) %>
 
-  <h2>Where are you travelling from?</h2>
+  <h2 id="travelling-from">Where are you travelling from?</h2>
+  <div id="home">  
+    <%- include(forms+"address-autocomplete", {
+      id: "travelling_from_address",
+      place_changed: `function() {
+  $("#travelling_from_address").val(this.gm_accessors_.place.cd.formattedPrediction);
 
-  <h3 class="medicalappointment" hidden>Practitioner details</h3>
+  calcDistance()
+}`
+    }) %>
+  </div>
 
-  <%- include(forms+"text", {
-    label: "Doctor's name",
-    id: "doctor-name",
-    customClass: "medicalappointment",
-    modifiers: ["hidden"]
-  }) %>
+  <h2 id="travelling-to">Where are you going?</h2>
+  <div id="medical-prac">
+    <%- include(forms+"dropdown", {
+      label: "Select from your recent medical appointment addresses",
+      id: "recent-locations",
+      customClass: "to-medical",
+      options: [
+        "-- Select destination --",
+        "location 1",
+        "location 2"
+      ]
+    }) %>
 
-  <%- include(forms+"text", {
-    label: "Phone number",
-    id: "doctor-name",
-    customClass: "medicalappointment",
-    modifiers: ["hidden"]
-  }) %>
+    <h2 class="to-medical" hidden>Or enter a new appointment address</h2>
 
-  <h3 class="medicalappointment">Practice address</h3>
+    <h3>Practitioner details</h3>
 
-  <%- include(forms+"text", {
-    label: "Practice name",
-    id: "practice-name",
-    customClass: "medicalappointment",
-    modifiers: ["hidden"]
-  }) %>
+    <%- include(forms+"text", {
+      label: "Doctor's name",
+      customClass: "medicalappointment",
+      id: "doctor-name"
+    }) %>
 
-  <%- include(forms+"prepop/address", {
-    label: "",
-    id: "pickup-address",
-    modifiers: ["australiaOnly"]
-  }) %>
+    <%- include(forms+"prepop/phone-number", {
+      label: "Phone number",
+      customClass: "medicalappointment",
+      id: "doctor-phone"
+    }) %>
 
-  <%- include(forms+"prepop/phone-number", {
-    label: "Contact number",
-    id: "contact-number",
-    customClass: "home"
-  }) %>
+    <%- include(forms+"address-autocomplete", {
+      label: "Practice address",
+      id: "travelling_to_address",
+      place_changed: `function() {
+  $("#travelling_to_address").val(this.gm_accessors_.place.cd.formattedPrediction);
+
+  calcDistance()
+}`
+    }) %>
+  </div>
+    
+  <div id="distance" style="margin-top: -2rem;" class="margin-below--large" hidden></div>
 
   <%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
-        link: "/auth/transport/book-car-with-driver/ad1",
+        link: "/auth/transport/book-car-withiver/ad1",
       },
       {
         text: "Cancel booking",
@@ -67,13 +82,49 @@
   <script>
     function stateSwitcher() {
       if (sessionStorage.getItem("appointment-direction") === "medicalappointment") {
-        $(".medicalappointment").show();
-        $(".home").hide();
+        $("#medical-prac").detach().insertAfter("#travelling-to");
+        $("#home").detach().insertAfter("#travelling-from");
+        $(".to-medical").hide();
       } else {
-        $(".medicalappointment").hide();
-        $(".home").show();
+        $("#home").detach().insertAfter("#travelling-to");
+        $("#medical-prac").detach().insertAfter("#travelling-from");
+        $(".to-medical").show();
       }
     }
+
+    $("#recent-locations").on("change", function() {
+      $("#travelling_to_address").val($(this).find(":selected").val())
+    })
+
+    travelling_from_address_init();
+    travelling_to_address_init();
+
+    function calcDistance() {
+      var from = $("#travelling_from_address").val();
+      var to = $("#travelling_to_address").val();
+      if (from && to) {  
+        var distanceService = new google.maps.DistanceMatrixService();
+        distanceService.getDistanceMatrix({
+            origins: [from],
+            destinations: [to],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+            durationInTraffic: true,
+            avoidHighways: false,
+            avoidTolls: false
+          },
+          function(response, status) {
+            if (status !== google.maps.DistanceMatrixStatus.OK) {
+              console.log('Error:', status);
+            } else {
+              console.log(response);
+              $("#distance").html(`<b>Distance: </b> ${response.rows[0].elements[0].distance.text} <br><b>Estimated Travel Time: </b> ${response.rows[0].elements[0].duration.text}`).show();
+            }
+          }
+        )
+      }
+    }
+
   </script>
 
 <%- include(templates+"footer") %>
