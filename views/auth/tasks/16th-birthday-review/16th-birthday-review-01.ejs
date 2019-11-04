@@ -5,26 +5,67 @@
 
 <h2 class="margin-below">Provide details for John Smith</h2>
 
-<%- include(partials+"components/form-partials/text", {
-  label: "What is the student's Tax File Number?"
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16.</p>If you wish to continue receiving DVA education assistance you will need to cancel your Family Tax Benefit with Centrelink.</p><p></p>For more information on your options, contact Education Assistance on <a>1800 555 254</a>.",
+  id: "notice"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Do you wish to continue to receive Education Assistance from DVA for the student?",
+  id: "continue-ask"
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "Payments will cease when the student turns 16 years.",
+  id: "continue-no",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/text", {
   label: "What is the student's Centrelink Customer Reference Number?",
   hint: "(optional)",
-  id: "crn"
+  id: "crn",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Are you receiving Family Tax Benefit for this student?",
-  yes_toggle: ["#notice-container","#cease-container"],
-  no_toggle: "#next"
+  label: "Does the student have a Tax File Number?",
+  id: "tfn-question",
+  yes_toggle: "#tfn-container",
+  no_toggle: "#tfn-no-container",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is the student's Tax File Number?",
+  id: "tfn",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Has the student applied for a tax file number?",
+  id: "tfn-no",
+  yes_toggle: "#tfn-applied-container",
+  no_toggle: "#tfn-not-applied-container",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "<p>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16.</p>If you wish to continue receiving DVA education assistance you will need to cancel your Family Tax Benefit with Centrelink.</p><p></p>For more information on your options, contact Education Assistance on <a>1800 555 254</a>.",
-  id: "notice",
+  message: "You will need to provide proof of your application in the documents section.",
+  id: "tfn-applied",
   modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "You will need to apply ...",
+  id: "tfn-not-applied",
+  modifiers: ["hidden"]
+}); %>
+
+<%#- include(partials+"components/form-partials/yes_no", {
+  label: "Are you receiving Family Tax Benefit for this student?",
+  yes_toggle: ["#notice-container","#cease-container"],
+  no_toggle: "#next"
 }); %>
 
 <%#- include(partials+"components/form-partials/yes_no", {
@@ -63,7 +104,26 @@
 
     $("input:radio").prop("checked", false);
 
+    $('input[name=continue-ask]').change(function () {
+        var mySelection = $('input[name=continue-ask]:checked').parent().find("span").text();
+        hideAll()
+        if ( mySelection == "Yes") {
+            $("#crn-container").show();
+            $("#tfn-question-container").show();
+        } else {
+          $("#continue-no-container").show();
+        }
+      });
+
+
+    function hideAll(){
+      $("#crn-container").hide();
+      $("#tfn-question-container").hide();
+      $("#continue-no-container").hide();
+    }
+
   });
 </script>
 
 </html>
+
