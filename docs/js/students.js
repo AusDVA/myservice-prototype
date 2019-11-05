@@ -1,5 +1,5 @@
 // // Student claim pages
-// jQuery(document).ready(function ($) {
+jQuery(document).ready(function ($) {
 
  // alert('window.location.pathname' + window.location.pathname);
 
@@ -1413,5 +1413,5 @@
      localStorage.removeItem('tfn');
    }
  });
-// });
+ });
 "use strict";
