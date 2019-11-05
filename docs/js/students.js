@@ -107,7 +107,7 @@ jQuery(document).ready(function ($) {
    localStorage.clear();
 
    // now in main
-   // var getUrlParameter = function getUrlParameter(sParam) {
+   var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = decodeURIComponent(window.location.search.substring(1)),
       sURLVariables = sPageURL.split('&'),
       sParameterName,
