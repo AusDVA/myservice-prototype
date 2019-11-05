@@ -60,7 +60,8 @@
     },
     {
       text: "Next",
-      link: "/auth/tasks/confirmation-of-enrolment/confirmation-of-enrolment-02",
+      id: "next-footer",
+      link: "#",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -76,12 +77,21 @@
 
     $('input[name=continuing]').change(function () {
         var mySelection = $('input[name=continuing]:checked').parent().find("span").text();
-        console.log(mySelection)
         if ( mySelection == "No") {
             $("#explain-part-time-container").hide();
-            console.log("DSsdfdsfdsf")
+            sessionStorage.setItem('undertaking-study',false);
+        } else {
+          sessionStorage.setItem('undertaking-study',true);
         }
-      });
+    });
+
+    $("#next-footer").on("click", function() {
+    if ( sessionStorage.getItem('undertaking-study') == "true" ) {
+      window.location.href = "confirmation-of-enrolment-02";
+    } else {
+      window.location.href = "confirmation-of-enrolment-03";
+    }
+    })
 
   });
 </script>
