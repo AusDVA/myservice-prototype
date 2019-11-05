@@ -5,10 +5,9 @@
 
 <h2 class="margin-below">Provide details for John Smith</h2>
 
-<%- include(partials+"components/form-partials/notice", {
-  message: "<p>You cannot claim both education assistance and Family Tax Benefit (FTB) payments for a student that is over 16.</p>If you wish to continue receiving DVA education assistance you will need to cancel your Family Tax Benefit with Centrelink.</p><p></p>For more information on your options, contact Education Assistance on <a>1800 555 254</a>.",
-  id: "notice"
-}); %>
+<p>Note that you cannot claim both DVA education assistance and Family Tax Benefit (FTB) payments for a student that is over 16. If you are receiving Family Tax Benefit and wish to continue receiving DVA education assistance, you will need to cancel your Family Tax Benefit with Centrelink.</p><p></p>For more information on your options, contact Education Assistance on <a>1800 555 254</a>.
+
+<hr>
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you wish to continue to receive Education Assistance from DVA for the student?",
@@ -34,43 +33,49 @@
   modifiers: ["hidden"]
 }); %>
 
+<%- include(partials+"components/form-partials/notice", {
+  message: "You need to apply for a tax file number from the <a href='' rel='external'>Australian Taxation Office</a> to avoid the payment being taxed at a higher amount.",
+  id: "apply-tfn",
+  modifiers: ["hidden"]
+}); %>
+
 <%- include(partials+"components/form-partials/text", {
-  label: "What is the student's Tax File Number?",
+  label: "Tax File Number",
   id: "tfn",
   modifiers: ["hidden"]
 }); %>
 
+<div class="uikit-page-alerts uikit-page-alerts--alert" id="taxable-income-alert" hidden>
+  <p class='margin-below margin-below--mid'>This payment is considered taxable income. If you are approved for this payment and this is your only income this financial year,
+    you may not have to pay any tax.</p>
+  <p class='margin-below margin-below--mid'>However, you may have to pay tax if you have other income this financial year, such as salary or wages.</p>
+  <p class='margin-below margin-below--mid'>If you think you will have to pay tax, you can ask us to deduct tax instalments from your payment. You can change this amount at
+    any time.</p>
+  <p class='margin-below margin-below--mid'>If you're not sure how much tax to have taken out of your payment, go to the <a class='external-link'
+      href='https://www.ato.gov.au/individuals/working/working-as-an-employee/claiming-the-tax-free-threshold/'>Australian Taxation Office website</a> or call the ATO
+    Personal Tax Enquiries Line on <a href='tel:132861'>13 28 61</a>.</p>
+</div>
+
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Has the student applied for a tax file number?",
-  id: "tfn-no",
-  yes_toggle: ["#tfn-applied-container","#next"],
-  no_toggle: "#tfn-not-applied-container",
+  label: "Would you like DVA to withhold tax from this payment?",
+  id: "withhold",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "How much would you like to withhold per fortnight for tax?",
+  hint: "For more information about payments go to <a href='#' rel='external'>the DVA website</a>.",
+  id: "withhold-how-much",
   modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "You will need to provide proof of your application in the documents section.",
-  id: "tfn-applied",
+  message: "If you are earning other income, such as salary or wages, you may have to pay additional tax at the end of the financial year.",
+  id: "other-income",
   modifiers: ["hidden"]
 }); %>
 
-<%- include(partials+"components/form-partials/notice", {
-  message: "You will need to apply ...",
-  id: "tfn-not-applied",
-  modifiers: ["hidden"]
-}); %>
 
-<%#- include(partials+"components/form-partials/yes_no", {
-  label: "Are you receiving Family Tax Benefit for this student?",
-  yes_toggle: ["#notice-container","#cease-container"],
-  no_toggle: "#next"
-}); %>
-
-<%#- include(partials+"components/form-partials/yes_no", {
-  label: "Do you intend to cease Family Tax Benefits?",
-  id: "cease",
-  modifiers: ["hidden"]
-}); %>
 
 <div id="next" class="margin-above" style="display: none">
   <p>Choose <b>next</b> to continue.</p>
@@ -114,19 +119,35 @@
         }
       });
 
-
       $('input[name=tfn-question]').change(function () {
         var mySelection = $('input[name=tfn-question]:checked').parent().find("span").text();
-        $("#tfn-no-container input:radio ").prop("checked", false);
+        $("#withhold-container input:radio ").prop("checked", false);
+        $("#withhold-how-much-container").hide();
+        $("#apply-tfn-container").hide();
         if ( mySelection == "Yes") {
           $("#tfn-container").show();
-          $("#tfn-no-container").hide();
-          $("#tfn-applied-container").hide();
-          $("#tfn-not-applied-container").hide();
-        } else {
-          $("#tfn-no-container").show();
-          $("#tfn-container").hide();
+          $("#taxable-income-alert").show();
+          $("#withhold-container").show();
           $("#next").hide();
+        } else {
+          $("#apply-tfn-container").show();
+          $("#tfn-container").hide();
+          $("#taxable-income-alert").hide();
+          $("#withhold-container").hide();
+          $("#next").show();
+        }
+      });
+
+      $('input[name=withhold]').change(function () {
+        var mySelection = $('input[name=withhold]:checked').parent().find("span").text();
+        if ( mySelection == "Yes") {
+          $("#withhold-how-much-container").show();
+          $("#other-income-container").hide();
+          $("#next").hide();
+        } else {
+          $("#withhold-how-much-container").hide();
+          $("#other-income-container").show();
+          $("#next").show();
         }
       });
 
@@ -134,12 +155,13 @@
       $("#crn-container").hide();
       $("#tfn-question-container").hide();
       $("#continue-no-container").hide();
+      $("#withhold-how-much-container").hide();
+      $("#other-income-container").hide();
       $("#tfn-container").hide();
-      $("#tfn-no-container").hide();
-      $("#tfn-applied-container").hide();
-      $("#tfn-not-applied-container").hide();
       $("#next").hide();
       $("#tfn-question-container input:radio ").prop("checked", false);
+      $("#taxable-income-alert").hide();
+      $("#withhold-container").hide();
     }
 
   });
