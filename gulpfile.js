@@ -4,7 +4,6 @@ const autoprefixer = require('autoprefixer'),
   colourblind = require('postcss-colorblind'),
   cssnano = require('cssnano'),
   cssnext = require('postcss-cssnext'),
-  env = require('util.env'),
   gulp = require('gulp'),
   header = require('gulp-header'),
   nodemon = require('gulp-nodemon'),
@@ -22,8 +21,8 @@ sass.compiler = require('node-sass');
 d = new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' }),
   headerComment = `/** \n * File generated on: \n ${d} * \n **/ \n\n`;
 
-const config = {
-  production: !!env.isProduction(),
+var config = {
+  production: false,
   colourblind: '' // https://github.com/btholt/postcss-colorblind
 }
 
@@ -84,7 +83,7 @@ gulp.task('watch', () => {
   gulp.watch(['views/**/*.ejs', 'partials/**/*.ejs'], gulp.series(['ejs', 'bs-reload']));
 })
 
-gulp.task('prod', gulp.parallel('js', 'copy', 'sass'));
+gulp.task('prod', gulp.series((done) => {config.production = true; done()}, gulp.parallel('js', 'copy', 'sass')));
 
 
 gulp.task('server', cb => {
