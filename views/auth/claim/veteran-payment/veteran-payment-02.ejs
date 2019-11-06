@@ -1,0 +1,135 @@
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Relationship status"
+}) %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "What is your relationship status?",
+    boxes: [
+      {
+        text: "Single",
+        rToggle: "#partner-details"
+      },
+      "Married and currently living together",
+      "Living in a marriage-like relationship"
+    ],
+    id: "relationship-status"
+  }); %>
+
+  <div id="partner-details" hidden>
+
+    <h3>Partner details</h3>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Given name",
+      hint: "(first name)"
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Surname",
+      hint: "(last name)"
+    }); %>
+
+    <%- include(partials+"components/form-partials/prepop/gender"); %>
+
+    <br>
+
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth"
+    }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner wish to receive payment?",
+      yes_toggle: "#partner-payment-questions"
+    }); %>
+
+    <div id="partner-payment-questions" hidden>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Is your partner an Australian citizen?",
+        id: "partner-is-citizen",
+        no_toggle: ["#partner-visa-container","#visa-doc-container"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/radio", {
+        label: "What type of visa does your partner hold?",
+        boxes: [
+          "Permanent visa",
+          "Special purpose visa",
+          "Special category visa"
+        ],
+        id: "partner-visa",
+        modifiers: ["hidden"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to provide a copy of your partner's current visa or special category visa.</p><p>You can attach this document at the end of your claim.</p>",
+        id: "visa-doc",
+        modifiers: ["hidden"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+          label: "Does your partner currently receive payments from Centrelink?",
+          id: "partner-centrelink",
+          yes_toggle: "#partner-crn-container",
+          no_toggle: "#save-next"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+          label: "What is your partner's Customer Reference Number (CRN)?",
+          id: "partner-crn",
+          modifiers: ["hidden"]
+      }); %>
+
+    </div>
+  </div>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-01"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-03",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include("veteran-payment-state-switcher") %>
+
+  <script>
+
+$("input:radio").prop("checked", false);
+
+
+    $("#relationship-status-container").on("change", "input", function() {
+      if ($(this).val() === "single") {
+        localStorage.setItem("relationship-status", "single");
+      } else {
+        localStorage.setItem("relationship-status", "couple");
+      }
+    })
+
+    $("#partner-is-citizen-container").on("change", "input", function() {
+      if ($(this).val() === "yes") {
+        localStorage.setItem("immigration-status", "citizen");
+      } else {
+        localStorage.setItem("immigration-status", "immigrant");
+      }
+    })
+  </script>
+<%- include(templates+"footer") %>

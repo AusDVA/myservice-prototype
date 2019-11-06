@@ -12,7 +12,7 @@ var header = require('gulp-header');
 var fs = require("fs");
 
 
-d = new Date(),
+d = new Date().toLocaleString("en-AU", {timeZone: "Australia/Sydney"}),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
 
 var config = {
@@ -78,7 +78,8 @@ gulp.task('watch', function () {
 gulp.task('server', function () {
   nodemon({
     'script': 'index.js',
-    'ignore': 'docs/js/*.js'
+    'ignore': 'docs/js/*.js',
+    'nodeArgs': ['--inspect=127.0.0.1:9229']
   });
 });
 

@@ -1,0 +1,18 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("modals");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="modal-window <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" id="<%- id %>">
+  <div>
+    <a href="#modal-close" title="Close" class="modal-close">Close</a>
+    <h2><%- title %></h2>
+    <%- text %>
+    <div class="modal-buttons">
+      <%- buttons.map(button => `<a href="${button.link}" class="uikit-btn ${typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary"}">${button.text}</a>`).join("") %>
+    </div>
+  </div>
+</div>

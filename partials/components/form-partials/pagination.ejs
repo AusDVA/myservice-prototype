@@ -6,18 +6,15 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="pagination <%- modifiers.includes("noBorder") ? "border-top--none" : "" %> <%- modifiers.includes("noMargin") ? "margin-above--none" : "" %>" id="<%- id %>">
-  <% pagination.map(button => { %>
-    <% if (!(typeof button.modifiers !== "undefined" && button.modifiers.includes("floated"))) { %>
-      <a href="<%- button.link %>" <%- typeof button.id !== "undefined" ? `id="${button.id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("hidden") ? "hidden" : "" %>><%- button.text %></a>
-    <% } %>
-  <% }) %>
+<div class="pagination <%- modifiers.includes("noReverseOrder") ? "" : "pagination--ss-reverse-order" %> <%- modifiers.includes("noBorder") ? "border-top--none" : "" %> <%- modifiers.includes("noMargin") ? "margin-above--none" : "" %> <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" 
+  id="<%- id %>">
+    <% pagination.filter(button => !(typeof button.modifiers !== "undefined" && button.modifiers.includes("floated"))).map(button => { %>
+      <a href="<%- button.link %>" <%- typeof button.id !== "undefined" ? `id="${button.id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("hidden") ? `style="display: none;"` : "" %>><%- button.text %></a>
+    <% }) %>
 
   <div class="floated">
-    <% pagination.map(button => { %>
-      <% if (typeof button.modifiers !== "undefined" && button.modifiers.includes("floated")) { %>
-        <a href="<%- button.link %>" <%- typeof button.id !== "undefined" ? `id="${button.id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("hidden") ? `style="display: none;"` : "" %>><%- button.text %></a>
-      <% } %>
+    <% pagination.filter(button => typeof button.modifiers !== "undefined" && button.modifiers.includes("floated")).map(button => { %>
+      <a href="<%- button.link %>" <%- typeof button.id !== "undefined" ? `id="${button.id}"` : "" %> class="uikit-btn <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("primary") ? "" : "uikit-btn--tertiary" %>" <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof button.modifiers !== "undefined" && button.modifiers.includes("hidden") ? `style="display: none;"` : "" %>><%- button.text %></a>
     <% }) %>
   </div>
 </div>

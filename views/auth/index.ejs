@@ -29,8 +29,12 @@
           <div class="container intro">
             <h1 class="heading--greeting"><span id="lblGreetings"></span> <span class="pt-current-user-name-first"></span></h1>
             <div class="flex-container widgets-container">
+              <%- include(partials+"content/widget-tile-message-veteran-payment") %>
+            </div>
+            <div class="flex-container widgets-container">
               <%- include(partials+"content/widget-tile-message-welcome") %>
               <%- include(partials+"content/widget-tile-message-profile") %>
+
               <%- include(partials+"content/widget-tile-task") %>
               <%- include(partials+"content/widget-tile-claim") %>
               <%- include(partials+"content/widget-tile-payment") %>
@@ -40,9 +44,6 @@
           </div>
       </section>
     </div>
-
-
-
 
     <section id="claim-options">
       <div class="container" id="claims-tiles">
@@ -57,16 +58,27 @@
             locals.el.link = "/auth/claim/il/claim1";
           %>
           <%- include(partials+"components/claim-tile") %>
-
           <% 
-          locals.el = {};
-          locals.el.title = "Permanent Impairment";
-          locals.el.optionalID = "pi";
-          locals.el.body_text = "Apply for compensation for ongoing impairments that are impacting your lifestyle.";
-          locals.el.button_text = "Get started";
-          locals.el.link = "/auth/claim/permanent-impairment/permanent-impairment-01";
-        %>
+            locals.el = {};
+            locals.el.title = "Veteran Payment";
+            locals.el.optionalID = "vp";
+            locals.el.body_text = "Interim financial support while you wait for your Initial Liability determination.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/veteran-payment/veteran-payment-01";
+          %>
           <%- include(partials+"components/claim-tile") %>
+
+          <% if (locals.liveFeature.includes("PITile")) { %>
+            <% 
+              locals.el = {};
+              locals.el.title = "Permanent Impairment";
+              locals.el.optionalID = "pi";
+              locals.el.body_text = "Apply for compensation for ongoing impairments that are impacting your lifestyle.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/permanent-impairment/permanent-impairment-01";
+            %>
+            <%- include(partials+"components/claim-tile") %>
+          <% } %>
 
           <% 
             locals.el = {};
@@ -74,7 +86,7 @@
             locals.el.optionalID = "mental-health";
             locals.el.body_text = "Access free mental health treatment.";
             locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/health-card0";
+            locals.el.link = "/auth/claim/mental-health-eligibility";
           %>
           <%- include(partials+"components/claim-tile") %>
 
@@ -114,7 +126,7 @@
             locals.el.optionalID = "education";
             locals.el.body_text = "Apply for assitance with the cost of education for children of eligible veterans.";
             locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/studentpreeligibility?flow=veteranFlow";
+            locals.el.link = "/auth/claim/education-assistance/edu1";
           %>
           <%- include(partials+"components/claim-tile") %>
 
@@ -125,7 +137,7 @@
             locals.el.optionalID = "qs";
             locals.el.body_text = "Submit a claim to determine if you have qualifying service.";
             locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/qualifying_service/qs-1";
+            locals.el.link = "/auth/claim/qualifying-service/qs1";
           %>
           <%- include(partials+"components/claim-tile") %>
 
@@ -160,43 +172,44 @@
             locals.el.optionalID = "civilian-qs";
             locals.el.body_text = "Submit a claim to determine if you have qualifying service.";
             locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/qualifying_service/civilian-qs-1";
+            locals.el.link = "/auth/claim/civilian-qualifying-service/cqs1";
           %>
           <%- include(partials+"components/claim-tile") %>
 
 
           <% if (locals.liveFeature.includes("LSATile")) { %>
-          <% 
-            locals.el = {};
-            locals.el.title = "Lump sum advance";
-            locals.el.optionalID = "lump-sum";
-            locals.el.body_text = "Request a lump sum advance payment.";
-            locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/lsa/request";
-          %>
-          <%- include(partials+"components/claim-tile") %>
+            <% 
+              locals.el = {};
+              locals.el.title = "Lump sum advance";
+              locals.el.optionalID = "lump-sum";
+              locals.el.body_text = "Request a lump sum advance payment.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/lsa/request";
+            %>
+            <%- include(partials+"components/claim-tile") %>
           <% } %>
+          
           <% if (locals.liveFeature.includes('featureNomrep')) { %>
-          <% 
-            locals.el = {};
-            locals.el.title = "Representation";
-            locals.el.optionalID = "representation";
-            locals.el.body_text = "Allows someone to represent you or you can help someone in dealing with DVA matters.";
-            locals.el.button_text = "Get started";
-            locals.el.link = "/auth/profile/nomrep";
-          %>
+            <% 
+              locals.el = {};
+              locals.el.title = "Representation";
+              locals.el.optionalID = "representation";
+              locals.el.body_text = "Allows someone to represent you or you can help someone in dealing with DVA matters.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/profile/nomrep";
+            %>
+            <%- include(partials+"components/claim-tile") %>
           <% } %>
-          <%- include(partials+"components/claim-tile") %>
           <% if (locals.liveFeature.includes('featureDhoas')) { %>
-          <% 
-            locals.el = {};
-            locals.el.title = "Defence Home Ownership Assistance Scheme";
-            locals.el.optionalID = "dhoas";
-            locals.el.body_text = " Apply for subsidy certificate to assist with the interest of your home loan.";
-            locals.el.button_text = "Get started";
-            locals.el.link = "/auth/claim/dhoas/landing-page";
-          %>
-          <%- include(partials+"components/claim-tile") %>
+            <% 
+              locals.el = {};
+              locals.el.title = "Defence Home Ownership Assistance Scheme";
+              locals.el.optionalID = "dhoas";
+              locals.el.body_text = " Apply for subsidy certificate to assist with the interest of your home loan.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/dhoas/landing-page";
+            %>
+            <%- include(partials+"components/claim-tile") %>
           <% } %>
           <% 
             locals.el = {};

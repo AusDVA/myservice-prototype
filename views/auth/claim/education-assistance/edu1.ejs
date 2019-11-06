@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <div class="edu-flow">
+        <h1>Getting Started</h1>
+        <div class="flow-container flow--parent-guardian">
+          <%- include("parent-guardian/edu1") %>
+        </div>
+        <div class="flow-container flow--veteran">
+          <%- include("veteran/edu1") %>
+        </div>
+        <div class="flow-container flow--student-under-17">
+          <%- include("student/student-under-17/edu1") %>
+        </div>
+        <div class="flow-container flow--student-17">
+          <%- include("student/student-17/edu1") %>
+        </div>
+        <div class="flow-container flow--student-21">
+          <%- include("student/student-21/edu1") %>
+        </div>
+      </div>
+
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'index'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <button class="uikit-btn  floated btnNext" onclick="window.location.href = 'edu2'">Save and next</button>
+        <button class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = 'index'">Save and exit</button>
+
+      </div>
+    </div>
+  </main>
+  <script>
+      if (sessionStorage.getItem("eduFlow") === "Veteran") {
+      $(".btnNext").attr("onclick", "window.location.href = 'edu3parent'");
+    } else {
+      $(".btnNext").attr("onclick", "window.location.href = 'edu2'");
+    }
+  </script>
+  <%- include("edu-switcher/index.ejs") %>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>

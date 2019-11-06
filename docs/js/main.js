@@ -991,4 +991,12 @@ $(document).ready(function () {
 
     $(this).parent().find(".accordion-content").toggle();
   });
+
+  $(document).on("click", "a", function (e) {
+
+    if (!(_typeof($(this).attr("disabled")) !== undefined && $(this).attr("disabled") !== "disabled" && $(this).attr("disabled") !== "")) {
+      e.preventDefault();
+      return false;
+    }
+  });
 });

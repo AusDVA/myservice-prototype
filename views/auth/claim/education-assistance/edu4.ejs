@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Your study details</h1>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Are you enrolled?",
+        id: "are-you-enrolled"
+      }); %>
+      <div id="proof-of-enrollment" class="uikit-page-alerts" role="alert">
+        <p>This claim will not be finalised until proof of enrolment is received.</p>
+      </div>
+      <div id="study-enrollment-details">
+        <label for=""><b>Where are you studying?</b></label>
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "Country",
+            options: [
+              "Australia",
+              "Singapore"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Institution name"
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+            label: "Course name / degree name"
+          }); %>
+        <%- include(partials+"components/form-partials/date", {
+            label: "Date that you started studying, or will start studying"
+          }); %>
+        <%- include(partials+"components/form-partials/date", {
+            label: "Approximate date that you expect to complete your course / degree"
+          }); %>
+        <%- include(partials+"components/form-partials/yes_no", {
+            label: "Are you studying full time?",
+            id: "studying-full-time-toggle"
+          }); %>
+      </div>
+      <div id="secondary-study-level">
+        <%- include(partials+"components/form-partials/dropdown", {
+            label: "Where are you studying?",
+            id: "state-dropdown-edu", 
+            options: [
+              "Australian Capital Territory",
+              "New South Wales"
+            ]
+          }); %>
+        <%- include(partials+"components/form-partials/text", {
+              label: "Name of school",
+              id: "name-of-school",
+    
+            }); %>
+        <%- include(partials+"components/form-partials/dropdown", {
+                label: "Grade this year",
+                id: "state-dropdown-edu", 
+                options: [
+                  "1",
+                  "2",
+                  "3",
+                  "4",
+                  "5"
+                ]
+              }); %>
+
+      </div>
+      <div id="studying-full-time-no">
+        <div class="uikit-page-alerts" role="alert">
+          <p>You may be contacted by a DVA representative for clarification regarding this claim.</p>
+        </div>
+        <%- include(partials+"components/form-partials/textarea", {
+              label: "Tell us more about your situation. Why will you be studying part time? (optional)",
+              hint: "For example, health reasons, isolated location, family situation.",
+              modifiers: [ "hintNewLine" ]
+            }); %>
+      </div>
+      <div class="primary-flow">
+        <div class="primary-flow--intro">
+          <label for=""><b>Where are you studying?</b></label>
+          <%- include(partials+"components/form-partials/dropdown", {
+                  label: "Country",
+                  options: [
+                    "Australia",
+                    "Singapore"
+                  ]
+                }); %>
+          <%- include(partials+"components/form-partials/text", {
+                  label: "Name of school",
+                  id: "name-of-school"
+                }); %>
+          <%- include(partials+"components/form-partials/dropdown", {
+                  label: "Grade this year",
+                  options: [
+                    "1",
+                    "2"
+                  ]
+                }); %>
+        </div>
+      </div>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu3'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu5'">Save and next</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = '/auth/'">Save and exit</button>
+      </div>
+    </div>
+  </main>
+  <%- include("edu-switcher/index.ejs") %>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+
+    if (sessionStorage.getItem("studyLevel") === "primary") {
+      hideFields();
+      $("#are-you-enrolled-container").hide();
+      $("#secondary-study-level").hide();
+      secondaryFlow();
+    }
+
+    if (sessionStorage.getItem("studyLevel") === "tertiary") {
+      hideFields();
+      tertiaryFlow();
+    }
+
+
+    function hideFields() {
+      $("#study-enrollment-details").hide();
+      $("#studying-full-time-no").hide();
+      $("#proof-of-enrollment").hide();
+      $("#secondary-study-level").hide();
+      $(".primary-flow").hide();
+    }
+
+    function secondaryFlow() {
+      console.log('study level ran');
+      $("#are-you-enrolled-container").hide();
+      $("#secondary-study-level").show();
+
+    }
+
+    function tertiaryFlow() {
+      $("#are-you-enrolled-container").show();
+      $("#are-you-enrolled-1").click(function () {
+        $("#study-enrollment-details").show();
+        $("#proof-of-enrollment").hide();
+      })
+      $("#are-you-enrolled-2").click(function () {
+        $("#study-enrollment-details").show();
+        $("#proof-of-enrollment").show();
+      })
+
+      $("#studying-full-time-toggle-1").click(function () {
+        $("#studying-full-time-no").hide();
+      })
+
+      $("#studying-full-time-toggle-2").click(function () {
+        $("#studying-full-time-no").show();
+      })
+    }
+  </script>
+</body>
+
+</html>

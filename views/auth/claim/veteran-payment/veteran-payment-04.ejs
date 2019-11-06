@@ -1,0 +1,107 @@
+<%- include(templates+"header", {
+  title: "Veteran Payment", 
+  heading: "Living arrangements"
+}) %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Which of the following best describes your current living arrangements?",
+    boxes: [
+      {
+        text: "Home",
+        toggle: "#save-next"
+      },
+      {
+        text: "Private rental",
+        toggle: "#rent",
+      },
+      {
+        text: "Other",
+        toggle: "#other-living-arrangements-container"
+      }
+    ]
+  }); %>
+
+  <%- include(forms+"textarea", {
+    id: "other-living-arrangements",
+    label: "Briefly describe your current living arrangements:",
+    modifiers: ["hidden"],
+    rows: 3
+  }) %>
+
+  <div id="rent" class="text-and-select margin-below--extra" hidden>
+    <%- include(forms+"text", {
+      customClass: "text-and-select__text",
+      modifiers: ["dollarSign", "inputShort"],
+      label: "How much rent do you pay?",
+      placeholder: "0.00"
+    }) %>
+
+    <%- include(forms+"dropdown", {
+      customClass: "text-and-select__select",
+      modifiers: ["inputShort"],
+      label: "Per",
+      options: [
+        "-- Select frequency --",
+        "Weekly",
+        "Fortnightly",
+        "Monthly",
+        "Annually"
+      ]
+    }) %>
+    
+  </div>
+
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-03"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-05",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include("veteran-payment-state-switcher") %>
+
+  <script>
+    $(document).ready(function () {
+
+      $('input[name=postal]').change(function () {
+        var postal = $('input[name=postal]:checked').val();
+        if (postal == "yes") {
+          $("#postal-reason").show("fast");
+          $("#save-next").hide();
+        } else {
+          $("#postal-reason").hide();
+          $("#save-next").hide();
+        }
+      });
+
+      $('input[name=update_address]').change(function () {
+        var updateAddress = $('input[name=update_address]:checked').val();
+        if (updateAddress == "yes") {
+          $("#save-next").show("fast");
+        } else {
+          $("#save-next").show("fast");
+        }
+      });
+
+    });
+  </script>
+<%- include(templates+"footer") %>

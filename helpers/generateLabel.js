@@ -39,11 +39,7 @@ module.exports = formLabel => {
   }
 
   if (hint) {
-    html += `<span class="hint`;
-
-    if (modifiers.includes("hintNewline")) html += " display-block margin-above--none margin-below--none";
-
-    html += `"> ${hint} </span>`
+    html += `<span class="hint ${modifiers.includes("hintNewLine") ? "display-block margin-above--none margin-below--none" : ""}"> ${hint}</span>`
   }
 
   if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
@@ -60,8 +56,6 @@ module.exports = formLabel => {
   } else {
     html += "</label>";
   }
-
-  console.log(html)
 
   return html;
 }

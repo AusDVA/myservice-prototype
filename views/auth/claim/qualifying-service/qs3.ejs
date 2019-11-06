@@ -1,0 +1,57 @@
+<%- include(templates+"header", {
+  claim: "Qualifying Service",
+  heading: "Required documents"
+}) %>
+
+<%- include(forms+"legacy-upload", {
+    docs: [
+      {
+        title: "Proof of service (optional)",
+        description: "For example, certificate of service, discharge signal, or any document that identifies your previous service"
+      },
+      {
+        title: "Evidence of re-education (optional)",
+        description: "For example, a re-education certificate"
+      }
+    ],
+  }) %>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        id: "pag-previous",
+        link: "/auth/claim/qualifying-service/qs2"
+      },
+      {
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/qualifying-service/qs4",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include("qs-state-switcher") %>
+
+<script>
+  function stateSwitcher() {
+    if (commonwealthAllied === "yes") {
+      $("#pag-previous").attr("href", "/auth/claim/qualifying-service/qs2a");
+    } else {
+      $("#pag-previous").attr("href", "/auth/claim/qualifying-service/qs2");
+    }
+  }
+</script>
+
+<%- include(templates+"footer") %>
