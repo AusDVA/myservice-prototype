@@ -11,7 +11,6 @@ var babel = require("gulp-babel");
 var header = require('gulp-header');
 var fs = require("fs");
 
-
 d = new Date(),
   headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
 
