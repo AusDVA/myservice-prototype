@@ -1,10 +1,10 @@
-<!-- 
+
 <div id="alert-no-service" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
     <span class="uikit-display-1">You need to add your service history to proceed with the claim.</span>
 </div>
 <div id="alert-no-ops" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
     <span class="uikit-display-1">You need to add an operation or warlike service to continue.</span>
-</div> -->
+</div>
 <button class="uikit-btn" id="add-service">Add service</button>
 <!-- Service period card -->
 <div id="service-period-card" class="boxed margin-above margin-below--large" style="display: none">
@@ -426,6 +426,8 @@
     }
 
     window.checkSaveAndNext = function () {
+      var oldFormat = ([...document.querySelectorAll("button")].filter(b => b.getAttribute("onclick") === "checkSaveAndNext()").length > 0) ? true : false;
+
       if (!firstServicePeriodAdded) {
         $("#alert-no-service").show("fast");
         $("body,html").animate({
@@ -433,7 +435,8 @@
         },
           700
         );
-        return;
+
+        if (oldFormat) return;
       }
       if (!firstSummaryAdded) {
         $("#alert-no-ops").show("fast");
@@ -442,12 +445,21 @@
         },
           700
         );
-        return;
+        if (oldFormat) return;
       }
-      myNav = "/content/service-history-documents";
-      if (sessionStorage.getItem('commonwealth-allied') == 'yes') myNav = "/content/service-history-content";
-      // myNav = "#open-ops-modal"
-      window.location.href = myNav;
+
+      if (oldFormat) {      
+        myNav = "/content/service-history-documents";
+        if (sessionStorage.getItem('commonwealth-allied') == 'yes') myNav = "/content/service-history-content";
+        // myNav = "#open-ops-modal"
+        window.location.href = myNav;
+      } else {
+        if (!firstSummaryAdded || !firstServicePeriodAdded) {
+          return false
+        } else {
+          return true
+        }
+      }
     }
   });
 
