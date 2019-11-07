@@ -4,17 +4,26 @@
 }) %>
 <%- include(partials+"components/form-partials/radio", {
   label: "Describe travel:",
-  <!-- hint: "(select all that apply)", -->
   boxes: [
-    "To appointment and back",
-    "To appointment only",
-    "Return from appointment only"
+    { 
+      text: "To appointment and back",
+      toggle: "#address-summary"
+    },
+    {
+      text: "To appointment only",
+      toggle: ""
+    },
+    {
+      text: "Return from appointment only",
+      toggle: ""
+    }
   ]
 }); %>
 
-<div id="address" class="form-group">
+<div id="address-summary" class="form-group" hidden>
+    <h2>Pick-up address</h2>
   <legend class="legend-label">Is this your pick up address?</legend>
-  <div class="table">
+  <div class="table" >
     <div class="tr">
       <div class="td">Unit 3/41 Constitution Ave</div>
     </div>
@@ -24,38 +33,99 @@
     <div class="tr">
       <div class="td">Canberra ACT 2612 </div>
     </div>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "",
+    yes_toggle: "#dropoff-address",
+    no_toggle: ["#pickup-address"]
+  }); %>
   </div>
-  <div class="radio-toggle margin-above">
-    <label class="on label-left" for="address-yes">
-      <input id="address-yes" type="radio" value="yes" name="address-question">
-      <span>Yes</span>
-    </label>
-    <label class="off label-right" for="address-no">
-      <input id="address-no" type="radio" value="no" name="address-question">
-      <span>No</span>
-    </label>
-  </div>
+
+<div id="pickup-address" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Address line 1",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Address line 2",
+      hint: "(optional)",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Suburb or town",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Postcode"
+    }); %>
 </div>
-<%- include(partials+"components/form-partials/prepop/address", {
-  label: "What is your pick up address?",
-  modifiers: ["australiaOnly"],
-}); %>
-<h2>Where is your appointment?</h2>
+<div id="dropoff-address" hidden>
+<h2>Appointment address</h2>
 <%- include(partials+"components/form-partials/text", {
-  label: "Practice/Doctors name"
+  label: "Practice/Doctor's name"
 }); %>
 <%- include(partials+"components/form-partials/text", {
   label: "Phone number",
   hint: "text"
 }); %>
-
-<!-- <%- include(partials+"components/form-partials/prepop/phone-number", {
-  modifiers: ["australiaOnly"]
-}); %> -->
-
-<%- include(partials+"components/form-partials/prepop/address", {
+<%- include(partials+"components/form-partials/text", {
+  label: "Address line 1",
+  modifiers: ["inputFullLength"]
+}); %>
+<%- include(partials+"components/form-partials/text", {
+  label: "Address line 2",
+  hint: "(optional)",
+  modifiers: ["inputFullLength"]
+}); %>
+<%- include(partials+"components/form-partials/text", {
+  label: "Suburb or town",
+  modifiers: ["inputFullLength"]
+}); %>
+<%- include(partials+"components/form-partials/text", {
+  label: "Postcode"
+}); %>
+<%- include(forms+"dropdown", {
+  label: "State or territory",
+  options: [
+    "-- Select state or territory --",
+    {
+      text: "Australian Capital Territory",
+      value: "act"
+    },
+    {
+      text: "New South Wales",
+      value: "nsw"
+    },
+    {
+      text: "Northern Territory",
+      value: "nt"
+    },
+    {
+      text: "Queensland",
+      value: "qld"
+    },
+    {
+      text: "South Australia",
+      value: "sa"
+    },
+    {
+      text: "Tasmania",
+      value: "tas"
+    },
+    {
+      text: "Victoria",
+      value: "vic"
+    },
+    {
+      text: "Western Australia",
+      value: "wa"
+    }
+  ]
+}) %>
+<%#- include(partials+"components/form-partials/prepop/address", {
   modifiers: ["australiaOnly"]
 }); %>
+</div>
 
   <%- include(forms+"pagination", {
     pagination: [
