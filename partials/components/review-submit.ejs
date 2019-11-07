@@ -6,7 +6,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="rev-sub <%- modifiers.includes("noMarginBelow") ? "margin-below--none" : "margin-below--extra" %> <%- modifiers.includes("noMarginAbove") ? "margin-above--none" : "margin-above--extra" %>"
+<div class="rev-sub <%- modifiers.includes("marginBelow") ? "margin-below--extra" : "" %> <%- modifiers.includes("marginAbove") ? "margin-above--extra" : "" %>"
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
   id="<%- id %>-container">
   <div class="rev-sub__title">
@@ -34,6 +34,10 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
   <div class="rev-sub__category">
     <% categories.map((cat, index) => { %>
+      <% if (typeof cat.categoryClass !== "undefined") { %>
+        <div class="<%- cat.categoryClass %>" <%- typeof cat.modifiers !== "undefined" && cat.modifiers.includes("hidden") ? "hidden" : "" %>>
+      <% } %>
+
       <div class="rev-sub__header">
         <h2 class="rev-sub__header--category"><%- cat.title %></h2>
         <% if (typeof cat.edit_url !== "undefined") { %>
@@ -51,7 +55,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
             <div class="rev-sub__questions">
           <% } %>
 
-          <div class="rev-sub__item">
+          <div class="rev-sub__item <%- typeof d.questionClass !== "undefined" ? d.questionClass : "" %>" <%- typeof d.modifiers !== "undefined" && d.modifiers.includes("hidden") ? "hidden" : "" %>>
             <div class="rev-sub__item-question"><%- d.q %></div>
             <div class="rev-sub__item-answer"><%- d.a %></div>
           </div>
@@ -62,15 +66,9 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         <% } %>
       <% }) %>
 
-
-
-
-
-
-
-
-
-
+    <% if (typeof cat.categoryClass !== "undefined") { %>
+      </div>
+    <% } %>
 
     <% }) %>
 

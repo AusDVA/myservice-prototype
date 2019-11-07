@@ -6,7 +6,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "array" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
   <fieldset>
     <%- generateLabel({
         id,
@@ -25,6 +25,19 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
     <%- modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
     <input type="number" class="uikit-text-input yyyy" name="<%- id %>-yyyy" id="<%- id %>-yyyy" maxlength="4" aria-label="4 digit year">
+
+    <% if (modifiers.includes("stillServing")) { %>
+      <span>&nbsp;&nbsp;&nbsp; OR &nbsp;&nbsp;&nbsp;</span>
+      <%- generateCheckRadio({
+        text: "Still serving",
+        boxID: `${id}-still-serving`,
+        baseID: `${id}-still-serving`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customOuterClass: "display-inline-block"
+      }).html %>
+    <% } %>
   </fieldset>
   
   <% if (!(modifiers.includes("noScript"))) { %>
@@ -61,6 +74,25 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         }
       }
     })
+
+    <% if (modifiers.includes("stillServing")) { %>
+
+      $("#<%- id %>-container").on("click", "input[type='checkbox']", function() {
+        if ($(this).prop("checked")) {
+          $(this).closest(".form-group").find(".dd").attr("disabled", "true");
+          $(this).closest(".form-group").find(".dd").val("");
+          $(this).closest(".form-group").find(".mm").attr("disabled", "true");
+          $(this).closest(".form-group").find(".mm").val("");
+          $(this).closest(".form-group").find(".yyyy").attr("disabled", "true");
+          $(this).closest(".form-group").find(".yyyy").val("");
+        } else {
+          $(this).closest(".form-group").find(".dd").removeAttr("disabled");
+          $(this).closest(".form-group").find(".mm").removeAttr("disabled");
+          $(this).closest(".form-group").find(".yyyy").removeAttr("disabled");
+        }
+      })
+
+    <% } %>
 
 
   </script>

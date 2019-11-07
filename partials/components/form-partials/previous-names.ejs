@@ -2,30 +2,29 @@
 
 if (typeof id === "undefined") var id = formPartialsID("previous-names");
 if (typeof modifiers === "undefined") var modifiers = []; 
-if (typeof modifiers === "string") modifiers = [modifiers];
+if (typeof modifiers === "string") modifiers = [modifiers]; 
 
 %>
 
 
-<div class="multi-date__container" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
+<div class="multi-name__container multi-date__container" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
   <button class="uikit-btn multi-date__button multi-date__button--add">Add</button>
 </div>
 
-<div class="multi-date" id="previous-names__template" style="display: none">
+<div class="multi-date" id="multi-date__template" style="display: none">
   <fieldset class="multi-date__row multi-date--start">
-    <legend id="<%- id %>-start" class="multi-date__label legend-override">First name</legend>
+    <legend id="<%- id %>-start" class="multi-date__label legend-override">Given name <span class="hint"> (first name)</span></legend>
     <div class="multi-date__input-group">
       <div class="multi-date__date-group">
-        <%- include(forms+"text", {label: "", modifiers: []}) %>
-
+        <%- include(forms+"text", {label: "", modifiers: ["inputFullLength"]}) %>
       </div>
     </div>
   </fieldset>
   <fieldset class="multi-date__row multi-date--end">
-    <legend id="<%- id %>-end" class="multi-date__label legend-override">Last name</legend>
+    <legend id="<%- id %>-end" class="multi-date__label legend-override">Surname <span class="hint"> (last name)</span></legend>
     <div class="multi-date__input-group">
       <div class="multi-date__date-group">
-        <%- include(forms+"text", {label: "", modifiers: []}) %>
+        <%- include(forms+"text", {label: "", modifiers: ["inputFullLength"]}) %>
       </div>
       <button class="uikit-btn uikit-btn--tertiary multi-date__button multi-date__button--remove">Remove</button>
     </div>
@@ -35,19 +34,30 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 <script>
 
-  $(document).ready(function() {
-    $("#previous-names__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add", );
+$(document).ready(function() {
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
+})
+
+
+
+$("#<%- id %>-container").on("click", ".multi-date__button--add", function() {
+  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
+  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
+  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
+
+  $("#<%- id %>-container .multi-date").each(function(i) {
+    $(this).removeClass("multi-date--static");
+    $(this).find("input").removeAttr("disabled")
+    if (i < ($("#<%- id %>-container .multi-date").length) - 1) {
+      $(this).addClass("multi-date--static")
+      $(this).find("input").attr("disabled", "true")
+    }
+
   })
+})
 
-
-  $("#<%- id %>-container").on("click", ".multi-date__button--add" ,function() {
-    $("#previous-names__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
-    $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
-    $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
-  })
-
-  $("#<%- id %>-container").on("click", ".multi-date__button--remove", function() {
-    $(this).closest(".multi-date").remove();
-  });
+$("#<%- id %>-container").on("click", ".multi-date__button--remove", function() {
+  $(this).closest(".multi-date").remove();
+});
 
 </script>

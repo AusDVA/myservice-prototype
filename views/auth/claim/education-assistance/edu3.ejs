@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Your details</h1>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Are you married or in a de facto relationship?",
+        id: "is-married"
+      }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Your level of study",
+        id: "level-of-study",
+        options: [
+          "-- Select a level --",
+          "Primary",
+          "Tertiary"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/radio", {
+        label: "Where are you living?",
+        id: "where-are-you-living",
+        boxes: [
+          "At family home",
+          "Away from home",
+          "Homeless"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/radio", {
+          label: "Select the statement that best describes why you are living away from home:",
+          id: "living-away-statement",
+          boxes: [
+            "Academic needs not mey by local secondary school",
+            "Disability",
+            "Resides overseas",
+            "Can't access educational facilities from home",
+            "Home environment is detrimental to educational progress",
+            "Member of a family that moves often",
+            "Requires specialised remedial tuition",
+            "Enrolled in a course approved for living away from home"
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/radio", {
+          label: "Select the statement that best describes your living situation:",
+          id: "living-situation-statement",
+          boxes: [
+            "Parents don't allow the child to live in the family home",
+            "The student doesn't have a family home",
+            "Student can't live at home for risk of domestic violence"
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+            label: "Are you living with your partner?",
+            id: "living-with-partner-question"
+          }); %>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu2'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <a id="next-button3" href="edu4"><button class="uikit-btn floated btnNext">Save and next</button><a>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/'">Save and exit</button>
+      </div>
+    </div>
+  </main>
+  <script>
+    $("#where-are-you-living-container").hide();
+    $("#living-situation-statement-container").hide();
+    $("#living-away-statement-container").hide();
+    $("#living-with-partner-question-container").hide();
+
+    function livingArrangementCheck() {
+      if (sessionStorage.getItem("awayFromHome") === "true") {
+        document.getElementById("next-button3").href = "living-arrangements";
+      }
+
+      if (sessionStorage.getItem("awayFromHome") === "false") {
+        document.getElementById("next-button3").href = "edu4";
+      }
+    }
+
+
+    function yourDetailsFlow() {
+      $('#level-of-study').change(function () {
+        let drop = document.getElementById("level-of-study");
+        let selectedOption = drop.options[drop.selectedIndex].value;
+        console.log(selectedOption);
+        if (selectedOption === "primary") {
+          $("#where-are-you-living-container").hide();
+          sessionStorage.setItem("studyLevel", "primary");
+          $("#living-away-statement-container").hide();
+
+        }
+        if (selectedOption === "tertiary") {
+          $("#where-are-you-living-container").show();
+          sessionStorage.setItem("studyLevel", "tertiary");
+        }
+      })
+
+      if (sessionStorage.getItem("parentFlow") === "false") {
+        $("#living-with-partner-question-container").hide();
+      }
+
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        $("#living-with-partner-question-container").show();
+      }
+
+      $("#is-married-1").click(function () {
+        isMarried = true;
+        console.log(isMarried);
+      });
+
+      $("#is-married-2").click(function () {
+        isMarried = false;
+        $("#living-with-partner-question-container").hide();
+      });
+
+      $("#where-are-you-living-1").click(function () {
+        sessionStorage.setItem("awayFromHome", false);
+        $("#living-away-statement-1-container").hide();
+        $("#living-with-partner-question-container").hide();
+        livingArrangementCheck()
+      })
+
+      $("#where-are-you-living-2").click(function () {
+        sessionStorage.setItem("awayFromHome", true);
+        $("#living-away-statement-container").show();
+        $("#living-situation-statement-container").hide();
+        livingArrangementCheck()
+      })
+
+      $("#where-are-you-living-3").click(function () {
+        sessionStorage.setItem("awayFromHome", true);
+        $("#living-away-statement-container").hide();
+        $("#living-situation-statement-container").show();
+        livingArrangementCheck()
+      })
+
+      $('input[name="living-away-statement"]').on('click', function (e) {
+        livingArrangementCheck()
+        if (isMarried) {
+          $("#living-with-partner-question-container").show();
+        } else {
+          $("#living-with-partner-question-container").hide();
+        }
+      });
+
+      $("#living-with-partner-question-2").click(function () {
+        sessionStorage.setItem("livingWithPartner", true);
+      })
+
+      $("#living-with-partner-question-1").click(function () {
+        sessionStorage.setItem("livingWithPartner", false);
+      })
+      livingArrangementCheck()
+    }
+
+    yourDetailsFlow();
+  </script>
+  <%- include("edu-switcher/index.ejs") %>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
