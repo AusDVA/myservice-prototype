@@ -2,85 +2,75 @@
   title: "Lump sum advance",
 
 })%>
-  <main>
-    <div class="claim-end margin-above--extra">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8">
-            <div class="cantered-item ie-success-animation">
-              <img src="/docs/images/ico-tick-green-outline.svg" alt="Success tick icon">
-            </div>
-            <div class="cantered-item success-animation">
-              <%- include(partials+"components/animations/success") %>
-            </div>
-            <div class="cantered-item transition-content transition-content--open">
-              <h1>We're submitting your request for a lump sum advanced payment</h1>
-            </div>
-            <div class="cantered-item transition-content">
-              <h1>Your request for a lump sum advance payment has been
-                <span class="font-weight-heavy"> approved</span>
-              </h1>
-              <hr class="orange-divider">
-            </div>
-          </div>
-        </div>
-        <div class="row transition-content">
-          <h2 class="ss-align--center"><b>What's next?</b></h2>
-          <div class="container">
-            <div class="col-sm-offset-2 col-sm-8">
-              <ul class="next-steps">
-                <li>The requested lump sum payment will be available in your bank account within 2 business days.</li>
-                <li>If you haven't received this payment or you have any issues, please call <a href="tel:1800 555 254">1800 555 254.</a></li>
-              </ul>
-              <div class="pagination">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Back to home</button> </div>
-            </div>
-          </div>
-
-        </div>
+<main>
+  <div class="claim-end margin-above--extra">
+    <div class="container container--8-column">
+      <div class="cantered-item ie-success-animation">
+        <img src="/docs/images/ico-tick-green-outline.svg" alt="Success tick icon">
       </div>
-  </main>
+      <div class="cantered-item success-animation">
+        <%- include(partials+"components/animations/success") %>
+      </div>
+      <div class="cantered-item transition-content transition-content--open">
+        <h1>We're submitting your request for a lump sum advanced payment</h1>
+      </div>
+      <div class="cantered-item transition-content">
+        <h1>Your request for a lump sum advance payment has been
+          <span class="font-weight-heavy"> approved</span>
+        </h1>
+        <hr class="orange-divider">
+      </div>
+    </div>
+  </div>
+  <div class="row transition-content">
+    <h2 class="ss-align--center"><b>What's next?</b></h2>
+    <div class="container">
+      <ul class="next-steps">
+        <li>The requested lump sum payment will be available in your bank account within 2 business days.</li>
+        <li>If you haven't received this payment or you have any issues, please call <a href="tel:1800 555 254">1800 555
+            254.</a></li>
+      </ul>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Back to
+          home</button>
+      </div>
+    </div>
+  </div>
+</main>
+<script>
+  function hasClass(pElement, pClass) {
+    return pElement.className.split(' ').some(function (pItem) {
+      return pItem === pClass;
+    })
+  }
 
-  <%- include(templates+"footer") %>
+  function removeClass(pElement, pClass) {
+    var className = pElement.className;
 
+    pElement.className = className.split(' ').filter(function (pItem) {
+      return pItem !== pClass;
+    }).join(' ');
+  }
 
-  <script>
-    function hasClass(pElement, pClass) {
-      return pElement.className.split(' ').some(function (pItem) {
-        return pItem === pClass;
-      })
+  function addClass(pElement, pClass) {
+    if (!hasClass(pElement, pClass)) {
+      pElement.className += (' ' + pClass);
     }
+  }
 
-    function removeClass(pElement, pClass) {
-      var className = pElement.className;
+  setTimeout(function () {
+    const elmentClassName = 'transition-content';
+    const visibleClassName = 'transition-content--open';
+    const elements = document.getElementsByClassName(elmentClassName);
 
-      pElement.className = className.split(' ').filter(function (pItem) {
-        return pItem !== pClass;
-      }).join(' ');
-    }
-
-    function addClass(pElement, pClass) {
-      if (!hasClass(pElement, pClass)) {
-        pElement.className += (' ' + pClass);
+    Array.prototype.forEach.call(elements, function (pElement) {
+      if (hasClass(pElement, visibleClassName)) {
+        removeClass(pElement, visibleClassName);
+      } else {
+        addClass(pElement, visibleClassName);
       }
-    }
+    })
+  }, 3000);
 
-    setTimeout(function () {
-      const elmentClassName = 'transition-content';
-      const visibleClassName = 'transition-content--open';
-      const elements = document.getElementsByClassName(elmentClassName);
-
-      Array.prototype.forEach.call(elements, function (pElement) {
-        if (hasClass(pElement, visibleClassName)) {
-          removeClass(pElement, visibleClassName);
-        } else {
-          addClass(pElement, visibleClassName);
-        }
-      })
-    }, 3000);
-
-  </script>
-
-</body>
-
-</html>
+</script>
+<%- include(templates+"footer") %>
