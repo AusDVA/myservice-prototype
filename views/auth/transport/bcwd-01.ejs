@@ -2,6 +2,11 @@
   claim: "MyService - Transport",
   heading: "Book transport"
 }) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "For details of your eligibility for transport refer to the <a href='https://www.dva.gov.au/factsheet-hsv03-dva-arranged-transport-under-repatriation-transport-scheme' class='external-link'>fact sheet</a>. If you have further questions call DVA transport on <a>1800 550 455</a>"
+}); %>
+
 <%- include(partials+"components/form-partials/radio", {
   label: "Describe travel:",
   id: "describe-travel",
@@ -19,7 +24,7 @@
 }); %>
 
 <div id="pickup-summary" class="form-group" hidden>
-    <h2>Pick-up address</h2>
+    <h2><span class="font-weight-heavy">Pick-up address</span></h2>
   <legend class="legend-label">Is this your pick up address?</legend>
   <div class="table" >
     <div class="tr">
@@ -58,7 +63,7 @@
     }); %>
 </div>
 <div id="appointment-address" hidden>
-  <h2>Appointment address</h2>
+  <h2><span class="font-weight-heavy">Appointment address</span></h2>
   <%- include(partials+"components/form-partials/radio", {
     label: "Select an option:",
     id: "destination-prepop",
@@ -148,12 +153,87 @@
   }); %>
 </div>
 <div id="date-and-time" hidden>
-  <h2>Date and time</h2>
+  <h2><span class="font-weight-heavy">Date and time</span></h2>
   <%- include(partials+"components/form-partials/date", {
-    label: "Enter your birthday"
+    label: "Appointment date"
   }); %>
+  
+  
+    <label for="appointment-time" class="uikit-text-input__label">Appointment time</label>
+
+<select class="uikit-text-input input-half" id="appointment-time-hh" name="appointment-time-hh" style="display: inline; width: 90px;">
+  <option value="hh">
+      hh
+  </option>
+</select>
+<select class="uikit-text-input input-half" id="appointment-time-mm" name="appointment-time-mm" style="display: inline; width: 90px;">
+  <option value="mm">
+      mm
+  </option>
+</select>
+<select class="uikit-text-input input-half" id="appointment-time-timeday" name="appointment-time-timeday" style="display: inline; width: 90px;">
+  <option value="am">
+      am
+  </option>
+</select>
+
+<div class="margin-above--large">
+<%- include(partials+"components/form-partials/checkbox", {
+  id: "repeat-booking",
+  boxes: [
+    "Repeat booking"
+  ]
+}); %>
 </div>
 
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Select frequency",
+  hint: "<BR/>Business actually use a calendar for this where the time is fixed but the days are vairable and don't conform to the typical values shown below.",
+  id: "frequency",
+  options: [
+    "Select an item",
+    "Daily",
+    "Weekly",
+    "Fortnightly",
+    "Monthly"
+  ],
+  modifiers: ["hidden"]
+}); %>
+
+</div>
+
+<div id="further-information" class="margin-above--extra" hidden>
+
+  <h2><span class="font-weight-heavy">Further information</span></h2>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "Select accepted conditions for which you are receving treatment at this appointment:",
+    hint: "(Note this will only be shown for white card holders)",
+    boxes: [
+      "Lumbar spondylosis",
+      "Osteoarthritis",
+      "Ankle sprain",
+      "Lumbar strain",
+      "Should we have a none of the above and then show info?"
+    ],
+    modifiers: [ "hintNewLine"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "Select any of the following that are applicable",
+    boxes: [
+      "I require a wheelchair accessible vehicle",
+      "I will be travelling with an attendant"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/textarea", {
+    label: "Provide any further information",
+    hint: "<BR/>For example instructions for the driver or special requirements"
+  }); %>
+
+
+</div>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -212,24 +292,42 @@
           case "Dr 1" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            $("#further-information").show();
             break;
           case "Dr 2" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            $("#further-information").show();
             break;
           case "Dr 3" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            $("#further-information").show();
             break;
           case "Dr 4" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            $("#further-information").show();
             break;
           case "New address" :
             $("#appointment-address-enter").show();
             $("#date-and-time").show();
+            $("#further-information").show();
           default:
               break;
+        }
+      });
+
+      $('input[name=repeat-booking]').change(function () {
+        var mySelection = $('input[name=repeat-booking]:checked').parent().find("span").text().trim();
+        console.log(mySelection)
+        switch (mySelection) {
+          case "Repeat booking" :
+            $("#frequency-container").show();
+            break;
+          default:
+          $("#frequency-container").hide();
+            break;
         }
       });
 
