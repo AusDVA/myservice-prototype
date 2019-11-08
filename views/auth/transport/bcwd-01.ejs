@@ -1,26 +1,24 @@
 <%- include(templates+"header", {
   claim: "MyService - Transport",
-  heading: "Book car with driver"
+  heading: "Book transport"
 }) %>
 <%- include(partials+"components/form-partials/radio", {
   label: "Describe travel:",
+  id: "describe-travel",
   boxes: [
     { 
-      text: "To appointment and back",
-      toggle: "#address-summary"
+      text: "To appointment and back"
     },
     {
-      text: "To appointment only",
-      toggle: ""
+      text: "To appointment only"
     },
     {
-      text: "Return from appointment only",
-      toggle: ""
+      text: "Return from appointment only"
     }
   ]
 }); %>
 
-<div id="address-summary" class="form-group" hidden>
+<div id="pickup-summary" class="form-group" hidden>
     <h2>Pick-up address</h2>
   <legend class="legend-label">Is this your pick up address?</legend>
   <div class="table" >
@@ -33,13 +31,13 @@
     <div class="tr">
       <div class="td">Canberra ACT 2612 </div>
     </div>
+    </div>
 
   <%- include(partials+"components/form-partials/yes_no", {
     label: "",
-    yes_toggle: "#dropoff-address",
-    no_toggle: ["#pickup-address"]
+    id: "prepop"
   }); %>
-  </div>
+</div>
 
 <div id="pickup-address" hidden>
     <%- include(partials+"components/form-partials/text", {
@@ -59,84 +57,109 @@
       label: "Postcode"
     }); %>
 </div>
-<div id="dropoff-address" hidden>
-<h2>Appointment address</h2>
-<%- include(partials+"components/form-partials/text", {
-  label: "Practice/Doctor's name"
-}); %>
-<%- include(partials+"components/form-partials/text", {
-  label: "Phone number",
-  hint: "text"
-}); %>
-<%- include(partials+"components/form-partials/text", {
-  label: "Address line 1",
-  modifiers: ["inputFullLength"]
-}); %>
-<%- include(partials+"components/form-partials/text", {
-  label: "Address line 2",
-  hint: "(optional)",
-  modifiers: ["inputFullLength"]
-}); %>
-<%- include(partials+"components/form-partials/text", {
-  label: "Suburb or town",
-  modifiers: ["inputFullLength"]
-}); %>
-<%- include(partials+"components/form-partials/text", {
-  label: "Postcode"
-}); %>
-<%- include(forms+"dropdown", {
-  label: "State or territory",
-  options: [
-    "-- Select state or territory --",
-    {
-      text: "Australian Capital Territory",
-      value: "act"
-    },
-    {
-      text: "New South Wales",
-      value: "nsw"
-    },
-    {
-      text: "Northern Territory",
-      value: "nt"
-    },
-    {
-      text: "Queensland",
-      value: "qld"
-    },
-    {
-      text: "South Australia",
-      value: "sa"
-    },
-    {
-      text: "Tasmania",
-      value: "tas"
-    },
-    {
-      text: "Victoria",
-      value: "vic"
-    },
-    {
-      text: "Western Australia",
-      value: "wa"
-    }
-  ]
-}) %>
-<%#- include(partials+"components/form-partials/prepop/address", {
-  modifiers: ["australiaOnly"]
-}); %>
+<div id="appointment-address" hidden>
+  <h2>Appointment address</h2>
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Select an option:",
+    id: "destination-prepop",
+    boxes: [
+      { 
+        text: "Dr 1"
+      },
+      {
+        text: "Dr 2"
+      },
+      {
+        text: "Dr 3"
+      },
+      {
+        text: "Dr 4"
+      },
+      {
+        text: "New address"
+      }
+    ]
+  }); %>
 </div>
+<div id="appointment-address-enter" hidden>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Practice/Doctor's name"
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Phone number",
+    hint: "text"
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Address line 1",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Address line 2",
+    hint: "(optional)",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Suburb or town",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Postcode"
+  }); %>
+  <%- include(forms+"dropdown", {
+    label: "State or territory",
+    options: [
+      "-- Select state or territory --",
+      {
+        text: "Australian Capital Territory",
+        value: "act"
+      },
+      {
+        text: "New South Wales",
+        value: "nsw"
+      },
+      {
+        text: "Northern Territory",
+        value: "nt"
+      },
+      {
+        text: "Queensland",
+        value: "qld"
+      },
+      {
+        text: "South Australia",
+        value: "sa"
+      },
+      {
+        text: "Tasmania",
+        value: "tas"
+      },
+      {
+        text: "Victoria",
+        value: "vic"
+      },
+      {
+        text: "Western Australia",
+        value: "wa"
+      }
+    ]
+  }) %>
+  <%#- include(partials+"components/form-partials/prepop/address", {
+    modifiers: ["australiaOnly"]
+  }); %>
+</div>
+<div id="date-and-time" hidden>
+  <h2>Date and time</h2>
+  <%- include(partials+"components/form-partials/date", {
+    label: "Enter your birthday"
+  }); %>
+</div>
+
 
   <%- include(forms+"pagination", {
     pagination: [
       {
-        text: "Cancel application",
+        text: "Cancel",
         link: "#open-modal"
-      },
-      {
-        text: "Save and exit",
-        link: "/auth/claim",
-        modifiers: ["floated"]
       },
       {
         text: "Save and next",
@@ -147,3 +170,75 @@
   }) %>
 
 <%- include(templates+"footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $('input[name=describe-travel]').change(function () {
+        var mySelection = $('input[name=describe-travel]:checked').parent().find("span").text().trim();
+        switch (mySelection) {
+          case "To appointment and back" :
+            hideAll();
+            $("#pickup-summary").show();
+            break;
+          case "To appointment only" :
+              hideAll();
+              break;
+            case "Return from appointment only" :
+              hideAll();
+              break;
+            default:
+              break;
+        }
+      });
+
+      $('input[name=prepop]').change(function () {
+        var mySelection = $('input[name=prepop]:checked').parent().find("span").text();
+        if ( mySelection == "Yes") {
+          $("#appointment-address").show();
+          $("#pickup-address").hide();
+        } else {
+          $("#appointment-address").show();
+          $("#pickup-address").show();
+        }
+      });
+
+      $('input[name=destination-prepop]').change(function () {
+        var mySelection = $('input[name=destination-prepop]:checked').parent().find("span").text().trim();
+        console.log( mySelection )
+        switch (mySelection) {
+          case "Dr 1" :
+            $("#appointment-address-enter").hide();
+            $("#date-and-time").show();
+            break;
+          case "Dr 2" :
+            $("#appointment-address-enter").hide();
+            $("#date-and-time").show();
+            break;
+          case "Dr 3" :
+            $("#appointment-address-enter").hide();
+            $("#date-and-time").show();
+            break;
+          case "Dr 4" :
+            $("#appointment-address-enter").hide();
+            $("#date-and-time").show();
+            break;
+          case "New address" :
+            $("#appointment-address-enter").show();
+            $("#date-and-time").show();
+          default:
+              break;
+        }
+      });
+
+    function hideAll(){
+      $("#pickup-summary").hide();
+      $("#pickup-address").hide();
+      $("#appointment-address").hide();
+      $("#appointment-address-enter").hide();
+    }
+
+  });
+</script>
