@@ -9,12 +9,12 @@ const autoprefixer = require("autoprefixer"),
   nodemon = require("gulp-nodemon"),
   noop = require("gulp-noop"),
   postcss = require("gulp-postcss"),
-  postcssDiscardComments = require("postcss-discard-comments");
-(postcssDiscardEmpty = require("postcss-discard-empty")),
-  (postcssMergeLonghand = require("postcss-merge-longhand")),
-  (reload = browserSync.reload),
-  (sass = require("gulp-sass")),
-  (sourcemaps = require("gulp-sourcemaps"));
+  postcssDiscardComments = require("postcss-discard-comments"),
+  postcssDiscardEmpty = require("postcss-discard-empty"),
+  postcssMergeLonghand = require("postcss-merge-longhand"),
+  reload = browserSync.reload,
+  sass = require("gulp-sass"),
+  sourcemaps = require("gulp-sourcemaps");
 
 sass.compiler = require("node-sass");
 
@@ -43,8 +43,9 @@ gulp.task("sass", () => {
     ];
   }
 
-  if (config.colourblind !== "" && config.colourblind !== false)
+  if (config.colourblind !== "" && config.colourblind !== false) {
     plugins.push(colourblind({ method: config.colourblind }));
+  }
 
   console.log(`PRODUCTION: ${config.production}`);
 
@@ -95,8 +96,7 @@ gulp.task("watch", () => {
   );
 });
 
-gulp.task(
-  "prod",
+gulp.task("prod",
   gulp.series(done => {
     config.production = true;
     done();
@@ -118,8 +118,7 @@ gulp.task("server", cb => {
   });
 });
 
-gulp.task(
-  "browser-sync",
+gulp.task("browser-sync",
   gulp.series(["server"], () => {
     browserSync.init({
       proxy: "http://localhost:5000",
@@ -128,8 +127,7 @@ gulp.task(
   })
 );
 
-gulp.task(
-  "serve",
+gulp.task("serve",
   gulp.series(
     gulp.parallel("js", "copy", "sass", "copy"),
     gulp.parallel("watch", "browser-sync")
