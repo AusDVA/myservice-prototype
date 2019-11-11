@@ -4,7 +4,7 @@
 }) %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "For details of your eligibility for transport refer to the <a href='https://www.dva.gov.au/factsheet-hsv03-dva-arranged-transport-under-repatriation-transport-scheme' class='external-link'>fact sheet</a>. If you have further questions call DVA transport on <a>1800 550 455</a>"
+  message: "For details of your eligibility for transport refer to the <a href='https://www.dva.gov.au/factsheet-hsv03-dva-arranged-transport-under-repatriation-transport-scheme' class='external-link'>factsheet</a>. If you have further questions call DVA transport on <a>1800 550 455</a>"
 }); %>
 
 <%- include(partials+"components/form-partials/radio", {
@@ -23,25 +23,26 @@
   ]
 }); %>
 
-<div id="pickup-summary" class="form-group" hidden>
+<div id="pickup-summary"  hidden>
     <h2><span class="font-weight-heavy">Pick-up address</span></h2>
-  <legend class="legend-label">Is this your pick up address?</legend>
-  <div class="table" >
-    <div class="tr">
-      <div class="td">Unit 3/41 Constitution Ave</div>
+    <div id="prepop-table">
+      <legend class="legend-label">Is this your pick up address?</legend>
+      <div class="table" >
+        <div class="tr">
+          <div class="td">Unit 3/41 Constitution Ave</div>
+        </div>
+        <div class="tr">
+          <div class="td">Jamison Appartments</div>
+        </div>
+        <div class="tr">
+          <div class="td">Canberra ACT 2612 </div>
+        </div>
+      </div>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "",
+        id: "prepop"
+      }); %>
     </div>
-    <div class="tr">
-      <div class="td">Jamison Appartments</div>
-    </div>
-    <div class="tr">
-      <div class="td">Canberra ACT 2612 </div>
-    </div>
-    </div>
-
-  <%- include(partials+"components/form-partials/yes_no", {
-    label: "",
-    id: "prepop"
-  }); %>
 </div>
 
 <div id="pickup-address" hidden>
@@ -87,6 +88,7 @@
   }); %>
 </div>
 <div id="appointment-address-enter" hidden>
+   
   <%- include(partials+"components/form-partials/text", {
     label: "Practice/Doctor's name"
   }); %>
@@ -152,6 +154,30 @@
     modifiers: ["australiaOnly"]
   }); %>
 </div>
+
+<div id="return-home-summary"  hidden>
+    <h2><span class="font-weight-heavy">Return address</span></h2>
+    <div id="prepop-table">
+      <legend class="legend-label">Is this your return address?</legend>
+      <div class="table" >
+        <div class="tr">
+          <div class="td">Unit 3/41 Constitution Ave</div>
+        </div>
+        <div class="tr">
+          <div class="td">Jamison Appartments</div>
+        </div>
+        <div class="tr">
+          <div class="td">Canberra ACT 2612 </div>
+        </div>
+      </div>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "",
+        id: "prepop"
+      }); %>
+    </div>
+</div>
+
+
 <div id="date-and-time" hidden>
   <h2><span class="font-weight-heavy">Date and time</span></h2>
   <%- include(partials+"components/form-partials/date", {
@@ -181,7 +207,9 @@
 <%- include(partials+"components/form-partials/checkbox", {
   id: "repeat-booking",
   boxes: [
-    "Repeat booking"
+    { text: "Repeat booking",
+      inject: "#frequency-container"
+}
   ]
 }); %>
 </div>
@@ -214,9 +242,21 @@
       "Osteoarthritis",
       "Ankle sprain",
       "Lumbar strain",
+      "Travelling for diagnosis .. or something like that",
       "Should we have a none of the above and then show info?"
     ],
     modifiers: [ "hintNewLine"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Type of appointment",
+    options: [
+      "Select an item",
+      "Specialist",
+      "Hospital",
+      "Imaging etc .. do we add these?",
+      "Other"
+    ]
   }); %>
 
   <%- include(partials+"components/form-partials/checkbox", {
@@ -256,18 +296,27 @@
 
     $("input:radio").prop("checked", false);
 
+    var addressMode;
+
     $('input[name=describe-travel]').change(function () {
         var mySelection = $('input[name=describe-travel]:checked').parent().find("span").text().trim();
         switch (mySelection) {
           case "To appointment and back" :
             hideAll();
             $("#pickup-summary").show();
+            addressMode = "round-trip";
             break;
           case "To appointment only" :
               hideAll();
+              $("#appointment-address").show();
+              $("#destination-prepop-container").show();
+              addressMode = "to";
               break;
             case "Return from appointment only" :
               hideAll();
+              $("#appointment-address").show();
+              $("#destination-prepop-container").show();
+              addressMode = "from";
               break;
             default:
               break;
@@ -279,7 +328,9 @@
         if ( mySelection == "Yes") {
           $("#appointment-address").show();
           $("#pickup-address").hide();
+         
         } else {
+          $("#prepop-table").hide("fast");
           $("#appointment-address").show();
           $("#pickup-address").show();
         }
@@ -292,50 +343,60 @@
           case "Dr 1" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            if ( addressMode == "from" ) $("#return-home-summary").show();
             $("#further-information").show();
             break;
           case "Dr 2" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            if ( addressMode == "from" ) $("#return-home-summary").show();
             $("#further-information").show();
             break;
           case "Dr 3" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            if ( addressMode == "from" ) $("#return-home-summary").show();
             $("#further-information").show();
             break;
           case "Dr 4" :
             $("#appointment-address-enter").hide();
             $("#date-and-time").show();
+            if ( addressMode == "from" ) $("#return-home-summary").show();
             $("#further-information").show();
             break;
           case "New address" :
             $("#appointment-address-enter").show();
             $("#date-and-time").show();
             $("#further-information").show();
+            if ( addressMode == "from" ) $("#return-home-summary").show();
+            $("#destination-prepop-container").hide("fast");
           default:
               break;
         }
       });
 
-      $('input[name=repeat-booking]').change(function () {
-        var mySelection = $('input[name=repeat-booking]:checked').parent().find("span").text().trim();
-        console.log(mySelection)
-        switch (mySelection) {
-          case "Repeat booking" :
-            $("#frequency-container").show();
-            break;
-          default:
-          $("#frequency-container").hide();
-            break;
-        }
-      });
+      // $('input[name=repeat-booking]').change(function () {
+      //   var mySelection = $('input[name=repeat-booking]:checked').parent().find("span").text().trim();
+      //   console.log(mySelection)
+      //   switch (mySelection) {
+      //     case "Repeat booking" :
+      //       $("#frequency-container").show();
+      //       break;
+      //     default:
+      //     $("#frequency-container").hide();
+      //       break;
+      //   }
+      // });
 
     function hideAll(){
       $("#pickup-summary").hide();
       $("#pickup-address").hide();
       $("#appointment-address").hide();
       $("#appointment-address-enter").hide();
+      $("#return-home-summary").hide();
+      $("#date-and-time").hide();
+      $("#further-information").hide();
+      
     }
 
   });
