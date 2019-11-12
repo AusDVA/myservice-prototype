@@ -7,138 +7,72 @@ var docCounter = 0;
 
 %>
 
-<style>
-  .uploadedFiles {
-    width: 100%;
-  }
+<div id="<%- id %>-container" class="formPartials_legacyUpload <%- modifiers.includes("hidden") ? "d-none" : "" %>">
 
-  .descAfterUpload {
-    display: block;
-  }
-</style>
+  <h3>We need some documents from you to process your claim
+    <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span>
+  </h3>
 
-<h3>We need some documents from you to process your claim
-  <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span>
-</h3>
+  <h2 class="margin-above">What we need</h2>
 
-<h2 class="margin-above">What we need</h2>
-
-<div class="mys-file-uploads__items margin-below--extra" id="<%- id %>-container">
-  <% docs.map(doc => { %>
-    <% docCounter++; %>
-    <div class="mys-file-uploads__item-border" id="<%- doc.id ? doc.id : `${id}-${docCounter}` %>">
-      <div class="mys-file-uploads__item">
-        <div class="mys-file-uploads__l-status">
-          <div class="mys-file-uploads__status mys-file-uploads__status--pending">
-            <div class="mys-file-uploads__status-icon"></div>
-            <div class="mys-file-uploads__status-sr">Required</div>
-          </div>
-        </div>
-        <div class="mys-file-uploads__info descAfterUpload" style="display: none;">
-          <div class="uploadedFiles"></div>
-          <div class="mys-file-uploads__info-item">
-            <div class="mys-file-uploads__label">Document type</div>
-            <div class="mys-file-uploads__value">
-              <div><b>
-                  <%- doc.title %></b></div>
-              <div>
-                <%- doc.description %>
-                <% if (doc.tooltip) { %>
-                  <%- include(components+"tooltip", {
-                    screenreaderText: doc.tooltip.screenreaderText,
-                    content: doc.tooltip.screenreaderText,
-                    modifiers: [],
-                    id: `${id}-${docCounter}-tooltip`
-                  }) %>
-                <% } %>
-              </div>
+  <div class="mys-file-uploads__items margin-below--extra">
+    <% docs.map(doc => { %>
+      <% docCounter++; %>
+      <div class="mys-file-uploads__item-border" id="<%- doc.id ? doc.id : `${id}-${docCounter}` %>">
+        <div class="mys-file-uploads__item">
+          <div class="mys-file-uploads__l-status">
+            <div class="mys-file-uploads__status mys-file-uploads__status--pending">
+              <div class="mys-file-uploads__status-icon"></div>
+              <div class="mys-file-uploads__status-sr">Required</div>
             </div>
           </div>
-        </div>
-        <div class="mys-file-uploads__info descBeforeUpload">
-          <div class="mys-file-uploads__info-item">
-            <div class="mys-file-uploads__value">
-              <div><strong><%- doc.title %></strong></div>
-              <div><%- doc.description %>
-                
-                <% if (doc.tooltip) { %>
-                  <%- include(components+"tooltip", {
-                    screenreaderText: doc.tooltip.screenreaderText,
-                    content: doc.tooltip.screenreaderText,
-                    modifiers: [],
-                    id: `${id}-${docCounter}-tooltip`
-                  }) %> 
-                <% } %>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="mys-file-uploads__item-actions">
-          <input type="file" class="fileUpload" style="display: none;">
-          <button class="mys-file-uploads__item-button uikit-btn small btnFileUpload">Upload</button>
-          <button class="mys-file-uploads__item-button uikit-btn--tertiary uikit-btn small btnFileRemove" style="display: none;">Remove</button>
-        </div>
-      </div>
-    </div>
-  <% }) %>
-</div>
-
-<script>
-  $("#<%- id %>-container").on("click", ".btnFileUpload", function() {
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status").addClass("mys-file-uploads__status--active").removeClass("mys-file-uploads__status--pending");
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status-sr").text("Active");
-
-    $(this).parent().find(".fileUpload").trigger("click");
-
-    checkFiles();
-  })
-
-  $("#<%- id %>-container").on("click", ".btnFileRemove", function() {
-    $(this).closest(".mys-file-uploads__item").find(".uploadedFiles").html("");
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status-sr").text("Required");
-
-    $(this).hide();
-    $(this).parent().find(".btnFileUpload").show();
-    $(this).closest(".mys-file-uploads__item-border").removeClass("mys-file-uploads__item-uploaded");
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status").removeClass("mys-file-uploads__status--success").addClass("mys-file-uploads__status--pending");
-
-    checkFiles();
-  })
-
-  $("#<%- id %>-container").on("change", ".fileUpload", function(e) {
-    const file = e.target.files[0];
-
-    $(this).closest(".mys-file-uploads__item-border").find(".uploadedFiles").append(`
-            <div class="mys-file-uploads__info">
-              <div class="mys-file-uploads__info-item">
-                <label for="" class="mys-file-uploads__label">File name</label>
-                <div class="mys-file-uploads__value">
-                  <a href="#">${file.name}</a>
+          <div class="mys-file-uploads__info descAfterUpload" style="display: none;">
+            <div class="uploadedFiles"></div>
+            <div class="mys-file-uploads__info-item">
+              <div class="mys-file-uploads__label">Document type</div>
+              <div class="mys-file-uploads__value">
+                <div><b>
+                    <%- doc.title %></b></div>
+                <div>
+                  <%- doc.description %>
+                  <% if (doc.tooltip) { %>
+                    <%- include(components+"tooltip", {
+                      screenreaderText: doc.tooltip.screenreaderText,
+                      content: doc.tooltip.screenreaderText,
+                      modifiers: [],
+                      id: `${id}-${docCounter}-tooltip`
+                    }) %>
+                  <% } %>
                 </div>
               </div>
-            </div>`)
+            </div>
+          </div>
+          <div class="mys-file-uploads__info descBeforeUpload">
+            <div class="mys-file-uploads__info-item">
+              <div class="mys-file-uploads__value">
+                <div><strong><%- doc.title %></strong></div>
+                <div><%- doc.description %>
+                  
+                  <% if (doc.tooltip) { %>
+                    <%- include(components+"tooltip", {
+                      screenreaderText: doc.tooltip.screenreaderText,
+                      content: doc.tooltip.screenreaderText,
+                      modifiers: [],
+                      id: `${id}-${docCounter}-tooltip`
+                    }) %> 
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
 
-    $(this).closest(".mys-file-uploads__item-border").find("")
-
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status").removeClass("mys-file-uploads__status--active").addClass("mys-file-uploads__status--success");
-    $(this).closest(".mys-file-uploads__item-border").find(".mys-file-uploads__status-sr").text("Success");
-    $(this).parent().find(".btnFileUpload").hide();
-    $(this).parent().find(".btnFileRemove").show();
-    $(this).closest(".mys-file-uploads__item-border").addClass("mys-file-uploads__item-uploaded");
-
-    checkFiles();
-  })
-
-  function checkFiles() {
-    $("#<%- id %>-container .mys-file-uploads__item-border").each(function(index, elem) {
-      if ($(this).find(".uploadedFiles").html().length > 0) {
-        $(this).closest(".mys-file-uploads__item-border").find(".descAfterUpload").show();
-        $(this).closest(".mys-file-uploads__item-border").find(".descBeforeUpload").hide();
-      } else {
-        $(this).closest(".mys-file-uploads__item-border").find(".descAfterUpload").hide();
-        $(this).closest(".mys-file-uploads__item-border").find(".descBeforeUpload").show();
-      }
-    })
-  }
-</script>
+          <div class="mys-file-uploads__item-actions">
+            <input type="file" class="fileUpload" style="display: none;">
+            <button class="mys-file-uploads__item-button uikit-btn small btnFileUpload">Upload</button>
+            <button class="mys-file-uploads__item-button uikit-btn--tertiary uikit-btn small btnFileRemove" style="display: none;">Remove</button>
+          </div>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
