@@ -104,7 +104,8 @@ gulp.task('server', cb => {
 gulp.task('browser-sync', gulp.series(['server'], () => {
   browserSync.init({
     proxy: "http://localhost:5000",
-    logFileChanges: false
+    logFileChanges: false,
+    startPath: "/auth"
   });
 }));
 
