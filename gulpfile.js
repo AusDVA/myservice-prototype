@@ -46,9 +46,11 @@ gulp.task('sass', () => {
   console.log(`PRODUCTION: ${config.production}`)
 
   return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
+    .pipe(config.production ? noop() : sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(plugins, { map: config.production ? false : { inline: true } }))
+    .pipe(postcss(plugins))
     .pipe(header(headerComment))
+    .pipe(config.production ? noop() : sourcemaps.write())
     .pipe(gulp.dest('docs/css'))
     .pipe(reload({ stream: true }));
 });
