@@ -1,11 +1,10 @@
-let express = require('express'),
+let express = require("express"),
   cookieParser = require("cookie-parser"),
-  serveIndex = require('serve-index'),
-  fs = require('fs'),
-  path = require('path'),
-  { promisify } = require('util'),
-  { resolve } = require('path'),
-
+  serveIndex = require("serve-index"),
+  fs = require("fs"),
+  path = require("path"),
+  { promisify } = require("util"),
+  { resolve } = require("path"),
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
   // else default to a hard coded value of 5000
@@ -19,60 +18,63 @@ let stat = promisify(fs.stat);
 app.use(express.static(__dirname));
 app.use(cookieParser());
 
-app.set('views', __dirname + '/views');
-app.set('view engine', 'ejs');
+app.set("views", __dirname + "/views");
+app.set("view engine", "ejs");
 
-app.get('/favicon.ico', (req, res) => {
+app.get("/favicon.ico", (req, res) => {
   res.send();
-})
+});
 
 app.use((req, res, next) => {
-  res.locals.partials = __dirname + '/partials/';
-  res.locals.forms = __dirname + '/partials/components/form-partials/';
-  res.locals.components = __dirname + '/partials/components/';
-  res.locals.templates = __dirname + '/partials/templates/';
-  res.locals.content = __dirname + '/partials/content/';
-  res.locals.formPartialsID = require('./helpers/formPartialsID');
-  res.locals.generateOption = require('./helpers/generateOption');
-  res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
-  res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
-  res.locals.generateCheckRadioIcons = require('./helpers/generateCheckRadioIcons');
-  res.locals.generateTooltip = require('./helpers/generateTooltip');
-  res.locals.generateLabel = require('./helpers/generateLabel');
-  res.locals.generateButtonRadio = require('./helpers/generateButtonRadio');
+  res.locals.partials = __dirname + "/partials/";
+  res.locals.forms = __dirname + "/partials/components/form-partials/";
+  res.locals.components = __dirname + "/partials/components/";
+  res.locals.templates = __dirname + "/partials/templates/";
+  res.locals.content = __dirname + "/partials/content/";
+  res.locals.formPartialsID = require("./helpers/formPartialsID");
+  res.locals.generateOption = require("./helpers/generateOption");
+  res.locals.replaceNonAlphanumeric = require("./helpers/replaceNonAlphanumeric");
+  res.locals.generateCheckRadio = require("./helpers/generateCheckRadio");
+  res.locals.generateCheckRadioIcons = require("./helpers/generateCheckRadioIcons");
+  res.locals.generateTooltip = require("./helpers/generateTooltip");
+  res.locals.generateLabel = require("./helpers/generateLabel");
+  res.locals.generateButtonRadio = require("./helpers/generateButtonRadio");
   next();
 });
 
-// create sitemap 
-app.use('/files', serveIndex('views', {
-  'icons': true
-}));
+// create sitemap
+app.use(
+  "/files",
+  serveIndex("views", {
+    icons: true
+  })
+);
 
 // using body parser to parse the body of incoming post requests
-app.use(require('body-parser').urlencoded({ extended: true }));
+app.use(require("body-parser").urlencoded({ extended: true }));
 
 app.use(
-  require('express-session')({
-    name: 'site_cookie',
-    secret: 'eeeek',
+  require("express-session")({
+    name: "site_cookie",
+    secret: "eeeek",
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: 15000 }
   })
 );
 
-console.log('build env:', app.settings.env);
-var liveFeatureList = require('./feature-flag-list.json');
+console.log("build env:", app.settings.env);
+var liveFeatureList = require("./feature-flag-list.json");
 var liveFeatureEnv = [];
 
 // loading in different lists depending on which git branch (but not in heroku)
 if (app.settings.env === "development") {
-  var gitBranch = require('git-branch');
+  var gitBranch = require("git-branch");
 }
 
-if (typeof gitBranch !== 'undefined' && gitBranch) {
-  console.log('Working on branch:', gitBranch.sync());
-  if (gitBranch.sync() === 'master') {
+if (typeof gitBranch !== "undefined" && gitBranch) {
+  console.log("Working on branch:", gitBranch.sync());
+  if (gitBranch.sync() === "master") {
     liveFeatureList = liveFeatureList.production;
   } else {
     liveFeatureEnv = liveFeatureList.development;
@@ -83,16 +85,18 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
   liveFeatureEnv = liveFeatureList.development;
 }
 
-console.log('List of features that are unhidden:');
+console.log("List of features that are unhidden:");
 console.log(liveFeatureList);
 
-app.get('/sitemap', (req, res) => {
+app.get("/sitemap", (req, res) => {
   async function getFiles(dir) {
     const subdirs = await readdir(dir);
-    const files = await Promise.all(subdirs.map(async (subdir) => {
-      const res = resolve(dir, subdir);
-      return (await stat(res)).isDirectory() ? getFiles(res) : res;
-    }));
+    const files = await Promise.all(
+      subdirs.map(async subdir => {
+        const res = resolve(dir, subdir);
+        return (await stat(res)).isDirectory() ? getFiles(res) : res;
+      })
+    );
     return files.reduce((a, f) => a.concat(f), []);
   }
 
@@ -104,45 +108,54 @@ app.get('/sitemap', (req, res) => {
         file = file.replace(/\\/g, "/");
         file = file.replace("/views", "");
 
-        const data = fs.readFileSync(`./views/${file}`, "utf8")
+        const data = fs.readFileSync(`./views/${file}`, "utf8");
 
-        var title = data.match(/<title>(.*)<\/title>/) || data.split("%>")[0].match(/title: "(.*)"/) || null;
-        var heading = data.match(/<span class="heading">(.*)<\/span>/) || data.split("%>")[0].match(/heading: "(.*)"/) || null;
-        var claim = data.includes('include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
+        var title =
+          data.match(/<title>(.*)<\/title>/) ||
+          data.split("%>")[0].match(/title: "(.*)"/) ||
+          null;
+        var heading =
+          data.match(/<span class="heading">(.*)<\/span>/) ||
+          data.split("%>")[0].match(/heading: "(.*)"/) ||
+          null;
+        var claim =
+          data.includes('include(templates+"header"') ||
+          data.includes('- include(components+"styleguide/styleguide-header"')
+            ? data.split("%>")[0].match(/claim: "(.*?)"/)
+            : null;
 
         if (title !== null) title = JSON.parse(JSON.stringify(title))[1];
         if (heading !== null) heading = JSON.parse(JSON.stringify(heading))[1];
-        if (claim !== null) claim = JSON.parse(JSON.stringify(claim))[1]
+        if (claim !== null) claim = JSON.parse(JSON.stringify(claim))[1];
 
         return {
           file,
           title,
           claim,
           heading
-        }
-      })
+        };
+      });
 
       const sortedClaims = [...new Set(allFiles.map(file => file.claim))]
-        .map(claim => allFiles
-          .filter(files => files.claim === claim
-        )).reverse();
+        .sort()
+        .map(claim => allFiles.filter(files => files.claim === claim));
 
-      res.render('sitemap', {
+      res.render("sitemap", {
         sortedClaims
-      })
-    })
+      });
+    });
   })();
-})
+});
 
-// folder level renders 
-app.get('/:id0', (request, response) => {
+// folder level renders
+app.get("/:id0", (request, response) => {
   response.render(request.params.id0, {
-    main_nav_active: 'home',
+    main_nav_active: "home",
     liveFeature: liveFeatureEnv
   });
 });
 
-app.get('/:id0/:id1', (request, response) => {
+app.get("/:id0/:id1", (request, response) => {
   let { id0, id1 } = request.params;
   response.render(`${id0}/${id1}`, {
     main_nav_active: id1,
@@ -150,7 +163,7 @@ app.get('/:id0/:id1', (request, response) => {
   });
 });
 
-app.get('/:id0/:id1/:id2', (request, response) => {
+app.get("/:id0/:id1/:id2", (request, response) => {
   let { id0, id1, id2 } = request.params;
   response.render(`${id0}/${id1}/${id2}`, {
     main_nav_active: id1,
@@ -160,7 +173,7 @@ app.get('/:id0/:id1/:id2', (request, response) => {
   });
 });
 
-app.get('/:id0/:id1/:id2/:id3', (request, response) => {
+app.get("/:id0/:id1/:id2/:id3", (request, response) => {
   let { id0, id1, id2, id3 } = request.params;
   response.render(`${id0}/${id1}/${id2}/${id3}`, {
     main_nav_active: id1,
@@ -169,7 +182,7 @@ app.get('/:id0/:id1/:id2/:id3', (request, response) => {
   });
 });
 
-app.get('/:id0/:id1/:id2/:id3/:id4', (request, response) => {
+app.get("/:id0/:id1/:id2/:id3/:id4", (request, response) => {
   let { id0, id1, id2, id3, id4 } = request.params;
   response.render(`${id0}/${id1}/${id2}/${id3}/${id4}`, {
     main_nav_active: id1,
@@ -178,27 +191,27 @@ app.get('/:id0/:id1/:id2/:id3/:id4', (request, response) => {
   });
 });
 
-app.get('/', (request, response) => {
-  response.render('unauth/index-loading', {
-    layout: 'login',
+app.get("/", (request, response) => {
+  response.render("unauth/index-loading", {
+    layout: "login",
     user: request.user,
     liveFeature: liveFeatureEnv
   });
 });
 
-app.get('/mygov-login', (request, response) => {
-  response.render('auth/mygov-login', {
-    layout: 'login',
+app.get("/mygov-login", (request, response) => {
+  response.render("auth/mygov-login", {
+    layout: "login",
     user: request.user,
     liveFeature: liveFeatureEnv
   });
 });
 
-app.get('/logout', (request, response) => {
+app.get("/logout", (request, response) => {
   request.logout();
-  response.redirect('/');
+  response.redirect("/");
 });
 
 app.listen(port, () => {
-  console.log('listening on port: ' + port);
+  console.log("listening on port: " + port);
 });
