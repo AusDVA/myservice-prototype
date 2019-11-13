@@ -10,7 +10,7 @@ var elemCounter = 0;
 
 <div id="<%- id %>-container" class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
   <%- modifiers.includes("hidden") ? "hidden" : "" %>>
-  <button class="uikit-btn" id="<%- id %>-btnInitial"><%- button_text %></button>
+  <button class="uikit-btn" id="<%- id %>-btnInitial"><%- buttonText %></button>
 
   <div class="boxed" id="<%- id %>-form-wrapper" hidden>
     <div>
@@ -56,7 +56,7 @@ var elemCounter = 0;
     
   </div>
   <div class="display-block d-none margin-above ss-align--center">
-    <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-btnAddAnother"><%- button_text.replace("Add", "Add another") %></button>
+    <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-btnAddAnother"><%- addAnotherText %></button>
   </div>
 </div>
 
@@ -70,7 +70,7 @@ var elemCounter = 0;
 
       switch (field.type) {
         case "dropdown":
-          value = $(`#${field.id} :selected`).text();
+          value = `<span>${$(`#${field.id} :selected`).text()} <span class="sr">${$(`#${field.id} :selected`).val()}</span></span>`;
           break;
         case "radio":
         case "checkbox":
@@ -153,7 +153,7 @@ var elemCounter = 0;
       <%- id %>_forms[index].map(f => {
         switch (f.type) {
           case "dropdown":
-            $(`#${f.id}`).val(f.value)
+            $(`#${f.id}`).val($(f.value).find(".sr").text())
             break;
           case "radio":
           case "checkbox":
@@ -206,7 +206,6 @@ var elemCounter = 0;
 
     $("#<%- id %>-btnUpdate").on("click", function() {
       var updateElem = parseInt($(this).closest("#<%- id %>-container").find("#<%- id %>-elements").data("index"));
-      console.log(updateElem);
 
       var rawForms = JSON.parse(JSON.stringify(<%- id %>_template));
 
@@ -218,7 +217,6 @@ var elemCounter = 0;
 
       <%- id %>_forms[updateElem] = forms;
 
-      console.log(<%- id %>_forms)
 
       showResults();
     })
@@ -244,7 +242,7 @@ var elemCounter = 0;
 
       if (<%- id %>_forms.length === 0) {
         $("#<%- id %>-btnInitial").show();
-        $("#<%- id %>-btnAddAnother").hide();
+        $("#<%- id %>-btnAddAnother").parent().hide();
       } else {
         <%- id %>_forms.map((elem, index) => {
           $("#<%- id %>-results").append(`
@@ -264,15 +262,15 @@ var elemCounter = 0;
           </div>
           `)
         })
+        $("#<%- id %>-btnDelete").hide();
+        $("#<%- id %>-elements").hide();
+        $("#<%- id %>-form-wrapper").hide();
+
+        $("#<%- id %>-results").show();
+        $("#<%- id %>-btnAddAnother").parent().show();
       }
 
 
-      $("#<%- id %>-btnDelete").hide();
-      $("#<%- id %>-elements").hide();
-      $("#<%- id %>-form-wrapper").hide();
-
-      $("#<%- id %>-results").show();
-      $("#<%- id %>-btnAddAnother").parent().show();
     }
 
     $("#<%- id %>-form").on("submit", function(e) {
