@@ -1,0 +1,148 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Dependant children",
+  progress: {
+    activeItem: 3,
+    points: [
+      {
+        text: "About you",
+        link: "/auth/claim/cshc/cshc-02"
+      },
+      {
+        text: "Relationship status",
+        link: "/auth/claim/cshc/cshc-03"
+      },
+      {
+        text: "Dependent children",
+        link: "/auth/claim/cshc/cshc-04"
+      },
+      {
+        text: "Payment details",
+        link: "/auth/claim/cshc/cshc-05"
+      },
+      {
+        text: "Income",
+        link: "/auth/claim/cshc/cshc-06"
+      }
+    ]
+  }
+}) %>
+
+<div id="add-children">
+    <p><b>Add details of your children under 16 years of age and full time students under 25 years of age who are dependent on you.</b>
+  </div>
+        
+  <%#- include(partials+"components/form-partials/notice", {
+    message: "<p>Where possible DVA will use your treating medical practitioners to provide an assessment. If we cannot use your treating practitioner we will arrange an assessment for you.</p><p>If you are a serving member be aware that on-base doctors may not be able to provide an assessment.</p><p></p> ",
+    type: "alert",
+    id: "treating-doctor"
+  }); %>
+  
+  <div id="user-list">
+    <%- include("dependant-card") %>
+  </div>
+  
+  <button id="add-button" class="uikit-btn margin-below--extra" onclick="showNewCard('dependant');">Add child</button>
+
+
+  <script>
+      /* On page scrolling */
+    
+      function scrollToAdd() {
+        $('html, body').animate({
+          scrollTop: $("#add-options").offset().top
+        }, 1000);
+      }
+    
+      /* Clicks on "add" button */
+    
+      function showNewCard(cardType) {
+        captureUserList();
+        hideAll();
+        var myDiv = "#" + cardType + "-card";
+        var myForm = myDiv + " #myForm";
+        var myDelete = myDiv + " #deleteButton";
+        var myAdd = myDiv + " #addButton";
+        $(myAdd).html("Add");
+        $(myDelete).hide();
+        $(myForm).trigger("reset");
+        $(myDiv).show();
+        console.log("-->" + myDiv);
+        // $("#footer-buttons-mask").show();
+        $('html, body').animate({
+          scrollTop: $("#user-list").offset().top
+        }, 1000);
+      }
+    
+      /* Clicks on "add" on full card */
+    
+      function addSummary(cardType) {
+        hideAll();
+        var myDiv = "#" + cardType + "-summary";
+        userEntries.push($(myDiv));
+        displayUserList();
+        $('html, body').animate({
+          scrollTop: $("#user-list").offset().top
+        }, 1000);
+      };
+    
+      /* Clicks on "edit" on Summary Card */
+    
+      function editCard(cardType) {
+        captureUserList();
+        hideAll();
+        var myDiv = "#" + cardType + "-card";
+        var myDelete = myDiv + " #deleteButton";
+        var myAdd = myDiv + " #addButton";
+        $(myAdd).html("Update");
+        $(myDelete).show();
+        $(myDiv).show();
+      }
+    
+      /* Clicks on "delete" on full card */
+    
+      function removeSummary(cardType) {
+        hideAll();
+        var myDiv = "#" + cardType + "-summary";
+        userEntries.splice($.inArray(myDiv, userEntries), 1);
+        displayUserList();
+        $('html, body').animate({
+          scrollTop: $("#user-list").offset().top
+        }, 1000);
+      };
+    
+      /* Clicks on "cancel" on full card */
+    
+      function cancelCard(cardType) {
+        hideAll();
+        $('html, body').animate({
+          scrollTop: $("#user-list").offset().top
+        }, 1000);
+        displayUserList();
+      }
+    
+      /* Update list after interaction */
+    
+      var userEntries = [];
+    
+      function captureUserList() {
+        userEntries = $("[id*=summary]:visible");
+      }
+    
+      function displayUserList() {
+        $.each(userEntries, function (index, value) {
+          $(value).show();
+        });
+        $("#add-children").show();
+        $("#add-button").show();
+      }
+    
+      /* Generic hide all */
+    
+      function hideAll() {
+        $("#add-children").hide();
+        $("#add-button").hide();
+        $("#dependant-card").hide();
+        $("#dependant-summary").hide();
+      }
+    </script>
