@@ -39,8 +39,13 @@ var elemCounter = 0;
           if (typeof elem.customClass === "string") elem.customClass = [customClass];
           customClass.push("editable-box--elem")
         %>
+        
+        <% if (elem.type === "html") { %>
+          <%- elem.content %>
+        <% } else { %>
+          <%- include(`${forms}${elem.type}`, elem) %>
+        <% } %>
 
-        <%- include(`${forms}${elem.type}`, elem) %>
 
         <% return elem; %>
       <% }) %>
@@ -89,6 +94,9 @@ var elemCounter = 0;
           break;
         case "prepop/phone-number":
           value = !(field.modifiers && field.modifiers.includes("australiaOnly")) ? `<span class="sr">${$(`#${field.id}-country-code :selected`).val()}+${$(`#${field.id}-country-code :selected`).text().split("+")[1].trim()} </span> ${$(`#${field.id}-phone-number`).val()}` : $(`#${field.id}-phone-number`).val();
+          break;
+        case "time":
+          value = `${$(`#${field.id}-hh`).val()}:${$(`#${field.id}-mm`).val()} ${$(`#${field.id}-timeday`).val()}`;
           break;
         default:
           value = $(`#${field.id}`).val();
@@ -187,6 +195,11 @@ var elemCounter = 0;
               $(`#${f.id}-phone-number`).val(f.value);
             }
             break;
+          case "time":
+            $(`#${f.id}-hh`).val(f.value.split(":")[0]);
+            $(`#${f.id}-mm`).val(f.value.split(":")[1]);
+            $(`#${f.id}-timeday`).val(f.value.split(" ")[1]);
+            break;
           default:
             $(`#${f.id}`).val(f.value);
             break;
@@ -252,7 +265,7 @@ var elemCounter = 0;
               <button class="<%- id %>-btnEdit uikit-btn uikit-btn--tertiary small floated floated--always">&nbsp;Edit&nbsp;</button>
             </div>
             <div class="review__table">
-              ${elem.filter(v => typeof v.displayName !== "undefined").map(f => {
+              ${elem.filter(v => typeof v.displayName !== "undefined" && !(v.value === "" && v.modifiers.includes("hidden"))).map(f => {
                 return `
                   <div class="tr">
                     <div class="td"><b>${f.displayName}</b></div>

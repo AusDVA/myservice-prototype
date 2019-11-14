@@ -1,0 +1,195 @@
+<%- include(templates+"header", {
+  heading: "Claim for travel expenses",
+  claim: "Travel reimbursement"
+}) %>
+
+<%- include(forms+"prepop/address", {
+  modifiers: ["australiaOnly"],
+  label: "Residential address and contact details"
+}) %>
+
+<%- include(forms+"prepop/phone-number", {
+  modifiers: ["australiaOnly"],
+  label: "Contact number"
+}) %>
+
+<%- include(forms+"text", {
+  label: "Email address"
+}) %>
+
+<%- include(forms+"editable-box", {
+  buttonText: "Add trip",
+  heading: "Travel reimbursement",
+  icon: "fa-car",
+  description: "Add trips for travel reimbursement",
+  addAnotherText: "Add another trip",
+  form: [
+    {
+      type: "date",
+      label: "When did the trip occur?",
+      displayName: "Date"
+    },
+    {
+      type: "time",
+      label: "What time did the trip occur?"
+    },
+    {
+      type: "dropdown",
+      label: "Provider type",
+      displayName: "Provider type",
+      options: [
+        "-- Select provider type --",
+        {
+          text: "Other",
+          toggle: "#custom-provider-type-container"
+        }
+      ]
+    },
+    {
+      type: "text",
+      id: "custom-provider-type",
+      label: "Enter provider type",
+      displayName: "Provider type",
+      modifiers: ["hidden"]
+    },
+    {
+      type: "text",
+      label: "Name"
+    },
+    {
+      type: "prepop/phone-number",
+      label: "Phone number"
+    },
+    {
+      type: "text",
+      label: "Suburb"
+    },
+    {
+      type: "dropdown",
+      label: "State",
+      options: [
+        "-- Select state/territory --",
+        "Australian Capital Territory",
+        "New South Wales",
+        "Northern Territory",
+        "Queensland",
+        "South Australia",
+        "Tasmania",
+        "Victoria",
+        "Western Australia"
+      ]
+    },
+    {
+      type: "dropdown",
+      label: "What is this trip for?",
+      displayName: "Trip purpose",
+      options: [
+        "-- Select trip purpose --",
+        {
+          text: "Other",
+          toggle: "#custom-trip-type-container"
+        }
+      ]
+    },
+    {
+      type: "text",
+      modifiers: ["hidden"],
+      label: "Other reasons",
+      displayName: "Trip purpose",
+      id: "custom-trip-type"
+    },
+    {
+      type: "text",
+      label: "What were you treated for?"
+    },
+    {
+      type: "text",
+      label: "Private vehicle (kms)"
+    },
+    {
+      type: "text",
+      label: "Public transport",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "text",
+      label: "Taxi",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "text",
+      label: "Community",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "text",
+      label: "Air",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "text",
+      label: "Parking fees",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "text",
+      label: "Road tolls",
+      modifiers: ["dollarSign"]
+    },
+    {
+      type: "yes_no",
+      label: "Did DVA arrange for this travel?",
+      hint: "(e.g. booked car with driver, air travel or ambulance)"
+    },
+    {
+      type: "html",
+      content: "<p>Note: To receive maximum benefits, travel should be to the closest practical provider."
+    },
+    {
+      type: "yes_no",
+      label: "Did you require accomodation?"
+    },
+    {
+      type: "yes_no",
+      label: "Did you travel with an attendant?"
+    },
+    {
+      type: "textarea",
+      label: "Please enter any additional information that may assist with your claim."
+    }
+  ]
+}) %>
+
+<%- include(forms+"checkbox", {
+  label: "",
+  customClass: "margin-above--extra",
+  boxes: [
+    "I declare that I have read the terms and conditions and that hte details provided are correct to the best of my knowledge. I understand that giving false or misleading information is a serious offence. *"
+  ]
+}) %>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Reset form",
+      id: "reset-form",
+      link: "#"
+    },
+    {
+      text: "Cancel",
+      link: "#claim-cancel-modal"
+    },
+    {
+      text: "Save and exit",
+      link: "/auth",
+      modifiers: ["floated"]
+    },
+    {
+      text: "Submit claim",
+      link: "#",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(templates+"footer") %>
