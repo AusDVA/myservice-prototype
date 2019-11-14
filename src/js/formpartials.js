@@ -16,7 +16,6 @@ $("body .formPartials_buttonRadio").change("input[type=radio]", function() {
 
 // checkbox / radio
 $("body .formPartials_checkRadio").change("input", function() {
-  console.log($(this))
   $($(this).data("all-toggle")).show();
 
   $("input:checked", this).each(function() {

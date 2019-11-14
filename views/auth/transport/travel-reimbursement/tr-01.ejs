@@ -3,10 +3,19 @@
   claim: "Travel reimbursement"
 }) %>
 
-<%- include(forms+"prepop/address", {
-  modifiers: ["australiaOnly"],
-  label: "Residential address and contact details"
+<%- include(forms+"notice", {
+  message: `<p>This form is for travel relating to Treatment, a Disability Claim, or an Income Support Claim under the Veterans' Entitlements Act 1986 or treatment under Safety Rehabilitation & Compensation Act 1988, or treatment under Military Rehabilitation and Compensation Act 2004 or treatment under the Australian Participants in British Nuclear Tests (Treatment) Act 2006. Note that relevant travel receipts must be retained for 4 months from date the claim is approved as you may be required to present them during this period.</p>
+    <p>For help with your Travel Expense Claim call: Veterans' Access Network (VAN) on 1800 555 254 or view the Entitlements under the Repatriation Transport Scheme Factsheet HSV02 (PDF) (HTML) or Transport Modes available under the Repatriation Transport Scheme Factsheet HSV03 (PDF) (HTML).</p>`
 }) %>
+
+<p class="margin-below--none legend-override">Residential Address</p>
+<p>
+  Unit 3/41 Constitution Ave
+  <br>
+  Jamison Appartments
+  <br>
+  Canberra ACT 2612
+</p>
 
 <%- include(forms+"prepop/phone-number", {
   modifiers: ["australiaOnly"],
@@ -31,7 +40,12 @@
     },
     {
       type: "time",
-      label: "What time did the trip occur?"
+      label: "What time did the trip occur?",
+      displayName: "Time"
+    },
+    {
+      type: "html",
+      content: "<h3>Which health provider did you attent?</h3>"
     },
     {
       type: "dropdown",
@@ -39,6 +53,18 @@
       displayName: "Provider type",
       options: [
         "-- Select provider type --",
+        "Dentist",
+        "Exercise Physioligist",
+        "General practitioner",
+        "Opthamologist",
+        "Optometrist",
+        "Orthopaedic surgeon",
+        "Physiotheripist",
+        "Podiatrist",
+        "Podiatrist",
+        "Psychiatrist",
+        "Psychologist",
+        "Radiologist/Xray",
         {
           text: "Other",
           toggle: "#custom-provider-type-container"
@@ -54,7 +80,8 @@
     },
     {
       type: "text",
-      label: "Name"
+      label: "Provider name",
+      displayName: "Provider name"
     },
     {
       type: "prepop/phone-number",
@@ -85,6 +112,10 @@
       displayName: "Trip purpose",
       options: [
         "-- Select trip purpose --",
+        "Hospital admission",
+        "Hospital discharge",
+        "Disability claim",
+        "Income support claim",
         {
           text: "Other",
           toggle: "#custom-trip-type-container"
@@ -101,6 +132,10 @@
     {
       type: "text",
       label: "What were you treated for?"
+    },
+    {
+      type: "html",
+      content: "<h3>What are you claiming for?</h3>"
     },
     {
       type: "text",
@@ -147,11 +182,42 @@
     },
     {
       type: "yes_no",
-      label: "Did you require accomodation?"
+      label: "Did you require accomodation?",
+      yes_toggle: ".accomodation-needed"
+    },
+    {
+      type: "dropdown",
+      label: "Accomodation type",
+      modifiers: ["hidden"],
+      customClass: "accomodation-needed",
+      options: [
+        "-- Select accomodation type --",
+        "Commercial",
+        "Private",
+        "Subsidised"
+      ]
+    },
+    {
+      type: "text",
+      label: "How many nights?",
+      modifiers: ["hidden"],
+      customClass: "accomodation-needed"
+    },
+    {
+      type: "text",
+      label: "Amount paid",
+      modifiers: ["hidden"],
+      customClass: "accomodation-needed"
     },
     {
       type: "yes_no",
       label: "Did you travel with an attendant?"
+    },
+    {
+      type: "yes_no",
+      label: "Didyou pay for a separate room when travelling with your medically required attendant?",
+      modifiers: ["hidden"],
+      customClass: "accomodation-needed"
     },
     {
       type: "textarea",

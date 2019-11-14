@@ -34,10 +34,6 @@ var elemCounter = 0;
         <% 
           elemCounter++;
           if (typeof elem.id === "undefined") elem.id = `${id}-${elemCounter}`;
-
-          if (typeof elem.customClass === "undefined") var customClass = []
-          if (typeof elem.customClass === "string") elem.customClass = [customClass];
-          customClass.push("editable-box--elem")
         %>
         
         <% if (elem.type === "html") { %>
@@ -75,7 +71,7 @@ var elemCounter = 0;
 
       switch (field.type) {
         case "dropdown":
-          value = `<span>${$(`#${field.id} :selected`).text()} <span class="sr">${$(`#${field.id} :selected`).val()}</span></span>`;
+          value = `<span>${$(`#${field.id} :selected`).text()}<span class="sr">${$(`#${field.id} :selected`).val()}</span></span>`;
           break;
         case "radio":
         case "checkbox":
@@ -93,7 +89,11 @@ var elemCounter = 0;
           }
           break;
         case "prepop/phone-number":
-          value = !(field.modifiers && field.modifiers.includes("australiaOnly")) ? `<span class="sr">${$(`#${field.id}-country-code :selected`).val()}+${$(`#${field.id}-country-code :selected`).text().split("+")[1].trim()} </span> ${$(`#${field.id}-phone-number`).val()}` : $(`#${field.id}-phone-number`).val();
+          if (field.modifiers && field.modifiers.inclues("australiaOnly")) {
+            value = $(`#${field.id}-phone-number`).val();
+          } else {
+            value = `<span class="sr">${$(`#${field.id}-country-code :selected`).val()}</span>+${$(`#${field.id}-country-code :selected`).text().split("+")[1]} <span class="phoneNumber">${$(`#${field.id}-phone-number`).val()}</span>`
+          }
           break;
         case "time":
           value = `${$(`#${field.id}-hh`).val()}:${$(`#${field.id}-mm`).val()} ${$(`#${field.id}-timeday`).val()}`;
@@ -188,11 +188,11 @@ var elemCounter = 0;
             }
             break;
           case "prepop/phone-number":
-            if (!(f.modifiers && f.modifiers.includes("australiaOnly"))) {
-              $(`#${f.id}-country-code`).val($(`<p>${f.value}</p>`).find(".sr").text());
-              $(`#${f.id}-phone-number`).val(f.value.split(">")[f.value.length - 1].trim());
-            } else {
+            if (f.modifiers && f.modifiers.includes("australiaOnly")) {
               $(`#${f.id}-phone-number`).val(f.value);
+            } else {
+              $(`#${f.id}-country-code`).val($(`<p>${f.value}</p>`).find(".sr").text());
+              $(`#${f.id}-phone-number`).val($(`<p>${f.value}</p>`).find(".phoneNumber").text());
             }
             break;
           case "time":
@@ -265,7 +265,7 @@ var elemCounter = 0;
               <button class="<%- id %>-btnEdit uikit-btn uikit-btn--tertiary small floated floated--always">&nbsp;Edit&nbsp;</button>
             </div>
             <div class="review__table">
-              ${elem.filter(v => typeof v.displayName !== "undefined" && !(v.value === "" && v.modifiers.includes("hidden"))).map(f => {
+              ${elem.filter(v => typeof v.displayName !== "undefined" && !(v.type === "dropdown" && $(v.value).find(".sr").text() === "other") && !((v.modifiers && v.modifiers.includes("hidden")) && v.value === "")).map(f => {
                 return `
                   <div class="tr">
                     <div class="td"><b>${f.displayName}</b></div>
@@ -291,3 +291,14 @@ var elemCounter = 0;
     })
   })
 </script>
+
+<!-- 
+
+(
+  typeof modifiers isn't undefined
+  modifiers includes hidden
+)
+
+  value is ""
+
+-->
