@@ -6,7 +6,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+<div class="form-group formPartials_dropdown <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
   <%- generateLabel({
       id,
       modifiers,
@@ -39,22 +39,5 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     %>
 
   </select>
-
-  <% if (opts.filter(opt => opt.toggle !== undefined || opt.rToggle !== undefined).length > 0) { %>
-  <script type="text/javascript">
-    $("#<%- id %>").change(function () {
-
-      $("option:selected", this).each(function () {
-        $($(this).data("toggle")).show();
-        $($(this).data("r-toggle")).hide();
-      });
-
-      $("option:not(:selected)", this).each(function () {
-        $($(this).data("toggle")).hide();
-        $($(this).data("r-toggle")).show();
-      });
-    })
-  </script>
-  <% } %>
 
 </div>
