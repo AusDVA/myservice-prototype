@@ -120,7 +120,30 @@
       id: "crn",
       modifiers: ["hidden"]
     }); %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner already have a Commonwealth Seniors Health Card issued by DVA or Centrelink?",
+      yes_toggle: "#crn-container"
+    }); %>
     <h2 class="margin-above--large margin-below"><span class="font-weight-heavy">Residency</span></h2>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Is your partner an Australian citizen?",
+      no_toggle: ["#visa-container","#visa-notice-container"]
+    }); %>
+    <%- include(partials+"components/form-partials/radio", {
+      label: "Is your partner:",
+      id: "visa",
+      boxes: [
+        "The holder of a permanent visa",
+        "The holder of a special purpose visa",
+        "The holder of a special category visa"
+      ],
+      modifiers: ["hidden"]
+    }); %>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "You will need to provide a copy of your partner's visa or special category visa that shows they hold the ability to remain in Australia.",
+      id: "visa-notice",
+      modifiers: ["hidden"]
+    }); %>
   
 </div>
 
@@ -186,6 +209,16 @@ $('input[name=relationship]').change(function () {
       break;
       default:
         break;
+  }
+});
+
+$('input[name=residency]').change(function () {
+  var mySelection = $('input[name=residency]:checked').parent().find("span").text().trim();
+
+  if ( mySelection == "An Australian Citizen") {
+    $("#residency-notice-container").hide();
+  } else {
+    $("#residency-notice-container").show();
   }
 });
 
