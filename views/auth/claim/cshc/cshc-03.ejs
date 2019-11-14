@@ -1,0 +1,194 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Relationship status",
+  progress: {
+    activeItem: 2,
+    points: [
+      {
+        text: "About you",
+        link: "/auth/claim/cshc/cshc-02"
+      },
+      {
+        text: "Relationship status",
+        link: "/auth/claim/cshc/cshc-03"
+      },
+      {
+        text: "Dependent children",
+        link: "/auth/claim/cshc/cshc-04"
+      },
+      {
+        text: "Payment details",
+        link: "/auth/claim/cshc/cshc-05"
+      },
+      {
+        text: "Income",
+        link: "/auth/claim/cshc/cshc-06"
+      }
+    ]
+  }
+}) %>
+
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "What is your current relationship status?",
+  boxes: [
+    "Single",
+    "Married",
+    "De-facto",
+    "Separated (while still legally married)",
+    "Divorced",
+    "Widowed"
+  ],
+  id: "relationship"
+}); %>
+
+<div id="marriage-details" hidden>
+
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of marriage",
+      hint: "dd / mm / yyyy"
+    }); %>
+
+    <%- include(partials+"components/form-partials/notice", {
+      message: "You will need attached a copy of your marriage certificate in the documents section at the end of this claim."
+    }); %>
+
+</div>
+<div id="partner-details" hidden>
+
+    <h2 class="margin-above--large margin-below" id="sp-res-veteranTitle"><span class="font-weight-heavy">Partner details</span></h2>
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Title",
+      options: [
+        "-- Select title --",
+        "Mr",
+        "Mrs",
+        "Master",
+        "Miss",
+        "Dr"
+      ]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Given name",
+      hint: "(first name)"
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Surname",
+      hint: "(last name)"
+    }); %>
+    <%- include(partials+"components/form-partials/prepop/gender"); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth",
+      hint: "dd / mm / yyyy)"
+    }); %>
+    <h2 class="margin-above--large margin-below" id="sp-res-veteranTitle"><span class="font-weight-heavy">Partner contact details</span></h2>
+    <%- include("phone-number"); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Partner's email address",
+    }); %>
+    <h2 class="margin-above--large margin-below" id="sp-res-veteranTitle"><span class="font-weight-heavy">Living arrangements</span></h2>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Are you currently living together?",
+      yes_toggle: "#correspondence-container",
+      no_toggle: ["#partner-address-container","#ill-health-container"]
+    }); %>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "Correspondence will be sent to your address.",
+      id: "correspondence",
+      modifiers: ["hidden"]
+    }); %>
+    <%- include(partials+"components/form-partials/prepop/address", {
+      legend: "Please enter your residential address",
+      id: "partner-address",
+      modifiers: ["hidden"]
+    }); %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner live at a different address because of age or ill health?",
+      id: "ill-health",
+      modifiers: ["hidden"]
+    }); %>
+    <h2 class="margin-above--large margin-below"><span class="font-weight-heavy">Benefits</span></h2>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Has your partner applied for, or do they receive, any pension or benefit from Centrelink?",
+    }); %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner already have a Commonwealth Seniors Health Card issued by DVA or Centrelink?",
+      yes_toggle: "#crn-container"
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "What is the entitlement on the card?",
+      id: "crn",
+      modifiers: ["hidden"]
+    }); %>
+    <h2 class="margin-above--large margin-below"><span class="font-weight-heavy">Residency</span></h2>
+  
+</div>
+
+<div id="save-next" class="margin-above" style="display: none">
+  <p>Choose <b>save and next</b> to continue.</p>
+</div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/claim/cshc/cshc-02"
+    },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/cshc/cshc-03",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(templates+"footer") %>
+
+<script>
+
+$(document).ready(function () {
+
+$("input:radio").prop("checked", false);
+
+$('input[name=relationship]').change(function () {
+  var mySelection = $('input[name=relationship]:checked').parent().find("span").text().trim();
+  $("#marriage-details").hide();
+  $("#save-next").hide();
+  $("#partner-details").hide();
+  switch (mySelection) {
+    case "Single":
+      $("#save-next").show();
+      break;
+    case "Married":
+      $("#marriage-details").show();
+      $("#partner-details").show();
+      break;
+    case "De-facto":
+      $("#partner-details").show();
+      break;
+    case "Separated (while still legally married)" :
+      $("#save-next").show();
+      break;
+    case "Divorced" :
+      $("#save-next").show();
+      break;
+    case "Widowed" :
+      $("#save-next").show();
+      break;
+      default:
+        break;
+  }
+});
+
+});
+
+</script>
