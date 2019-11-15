@@ -47,19 +47,23 @@
           label: "Date of birth",
           hint: "(dd / mm / yyyy)"
         }); %>
-        <%- include(partials+"components/form-partials/yes_no", {
+        <%#- include(partials+"components/form-partials/yes_no", {
           label: "Does the child live with you?",
           no_toggle: "#child-address-container"
         }); %>
         <%- include(partials+"components/form-partials/checkbox", {
+          id: "address",
           boxes: [
-            "Child's address is the same as mine"
+            {
+              text: "Child's address is the same as mine",
+              modifiers: ["checked"]
+            }
           ]
         }); %>
         <%- include(partials+"components/form-partials/prepop/address", {
           label: "Child's address",
           id: "child-address",
-          modifiers: ["hidden1"]
+          modifiers: ["hidden"]
         }); %>
     </form>
   </div>
@@ -69,3 +73,15 @@
       class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
   </div>
 </div>
+
+
+<script>
+ $('input[name=address]').change(function () {
+      var mySelection = $('input[name=address]:checked').parent().find("span").text().trim();
+      if (mySelection == "Child's address is the same as mine") {
+          $("#child-address-container").hide();
+      } else {
+          $("#child-address-container").show();
+      }
+    });
+</script>

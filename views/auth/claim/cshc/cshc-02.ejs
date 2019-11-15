@@ -17,6 +17,10 @@
         link: "/auth/claim/cshc/cshc-04"
       },
       {
+        text: "Claim representative",
+        link: "/auth/claim/cshc/cshc-05"
+      },
+      {
         text: "Payment details",
         link: "/auth/claim/cshc/cshc-05"
       },
@@ -28,7 +32,43 @@
   }
 }) %>
 
+<h2 class="margin-above--small">Tell us about...</h2>
 
+<!-- <h2 class="margin-above--none"><span class="font-weight-heavy">Benefits</span></h2> -->
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Have you applied for, or do you receive, any pension or benefit from Centrelink?",
+}); %>
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Do you already have a Commonwealth Seniors Health Card issued by DVA or Centrelink?",
+  yes_toggle: "#crn-container"
+}); %>
+<%- include(partials+"components/form-partials/text", {
+  label: "What is the entitlement number on the card?",
+  id: "crn",
+  modifiers: ["hidden"]
+}); %>
+
+<!-- <h2 class="margin-above--large"><span class="font-weight-heavy">Residency</span></h2> -->
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you an Australian citizen?",
+  no_toggle: ["#visa-container","#visa-notice-container"]
+}); %>
+<%- include(partials+"components/form-partials/radio", {
+  label: "Are you:",
+  id: "visa",
+  boxes: [
+    "The holder of a permanent visa",
+    "The holder of a special purpose visa",
+    "The holder of a special category visa"
+  ],
+  modifiers: ["hidden"],
+  customClass: "margin-below"
+}); %>
+<%- include(partials+"components/form-partials/notice", {
+  message: "You will need to provide a copy of your visa or special category visa that shows you hold the ability to remain in Australia.",
+  id: "visa-notice",
+  modifiers: ["hidden"]
+}); %>
 
   <%- include(forms+"pagination", {
     pagination: [

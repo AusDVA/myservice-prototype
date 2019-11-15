@@ -1,6 +1,6 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Dependant children",
+  heading: "About you",
   progress: {
     activeItem: 3,
     points: [
@@ -17,6 +17,10 @@
         link: "/auth/claim/cshc/cshc-04"
       },
       {
+        text: "Claim representative",
+        link: "/auth/claim/cshc/cshc-05"
+      },
+      {
         text: "Payment details",
         link: "/auth/claim/cshc/cshc-05"
       },
@@ -27,7 +31,6 @@
     ]
   }
 }) %>
-
 <div id="add-children">
     <p><b>Add details of your children under 16 years of age and full time students under 25 years of age who are dependent on you.</b>
   </div>
@@ -43,6 +46,33 @@
   </div>
   
   <button id="add-button" class="uikit-btn margin-below--extra" onclick="showNewCard('dependant');">Add child</button>
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/claim/cshc/cshc-03"
+    },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/cshc/cshc-05",
+        modifiers: ["floated", "primary"]
+      }
+    ],
+    customClass: ["margin-above--extra"]
+  }) %>
+
+<%- include(templates+"footer") %>
 
 
   <script>
@@ -72,6 +102,7 @@
         $('html, body').animate({
           scrollTop: $("#user-list").offset().top
         }, 1000);
+        $(".pagination").css("opacity",".5")
       }
     
       /* Clicks on "add" on full card */
@@ -97,6 +128,7 @@
         $(myAdd).html("Update");
         $(myDelete).show();
         $(myDiv).show();
+        $(".pagination").css("opacity",".5")
       }
     
       /* Clicks on "delete" on full card */
@@ -135,6 +167,7 @@
         });
         $("#add-children").show();
         $("#add-button").show();
+        $(".pagination").css("opacity","1")
       }
     
       /* Generic hide all */
