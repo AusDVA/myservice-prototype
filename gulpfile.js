@@ -46,9 +46,11 @@ gulp.task('sass', () => {
   console.log(`PRODUCTION: ${config.production}`)
 
   return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
+    .pipe(config.production ? noop() : sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(postcss(plugins, { map: config.production ? false : { inline: true } }))
+    .pipe(postcss(plugins))
     .pipe(header(headerComment))
+    .pipe(config.production ? noop() : sourcemaps.write())
     .pipe(gulp.dest('docs/css'))
     .pipe(reload({ stream: true }));
 });
@@ -91,7 +93,7 @@ gulp.task('server', cb => {
 
   return nodemon({
     'script': 'index.js',
-    'ignore': 'docs/js/*.js',
+    'ignore': ["views/", "partials/", "docs/", "src/"],
     'nodeArgs': ['--inspect=127.0.0.1:9229']
   }).on('start', () => {
     if (!started) {
@@ -104,7 +106,8 @@ gulp.task('server', cb => {
 gulp.task('browser-sync', gulp.series(['server'], () => {
   browserSync.init({
     proxy: "http://localhost:5000",
-    logFileChanges: false
+    logFileChanges: false,
+    startPath: "/auth"
   });
 }));
 
