@@ -33,21 +33,16 @@
 
   <%- include(forms+"modals/claim-cancel") %>
 
-  <%- include("qs-state-switcher") %>
-
   <script>
-    function stateSwitcher() {
-      if (commonwealthAllied === "yes") {
-        $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs2a");
-      } else {
-        $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs3");
-      }
-    }
-
     $(document).ready(function() {
       $("#pag-save-next").on("click", function(e) {
         if (!checkSaveAndNext()) {
           e.preventDefault()
+        }
+        if (sessionStorage.getItem("commonwealth-allied") === "yes") {
+          $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs2a");
+        } else {
+          $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs3");
         }
       })
     })
