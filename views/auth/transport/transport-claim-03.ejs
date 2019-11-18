@@ -1,0 +1,148 @@
+<%- include(templates+"header", {
+  heading: "Claim for travel expenses",
+  claim: "Travel reimbursement"
+}) %>
+
+<style>
+.flex-container {
+  
+  display: flex;
+  flex-direction: row;
+  align-content: space-between;
+  justify-content: space-between;
+}
+.header {
+  background-color: #ddd;
+  font-weight: bold;
+}
+</style>
+
+
+<div class="flex-container header">
+    <div>Date</div>
+    <div>Provider</div>
+    <div>Claim details</div>
+    <div>Amount</div>
+  </div> 
+  <div class="flex-container">
+      <div>21 Apr 2019</div>
+      <div>Dr Carl</div>
+      <div>Public transport: 46km<BR/>Accommodation: 2 nights @ #146.00 + attendant</div>
+      <div>$235.78</div>
+    </div> 
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      id: "reset-form",
+      link: "/auth/transport/transport-claim-02"
+    },
+    {
+      text: "Cancel",
+      link: "#claim-cancel-modal"
+    },
+    {
+      text: "Submit claim",
+      link: "#",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+
+
+<%- include(templates+"footer") %>
+
+
+  <script>
+
+$(document).ready(function () {
+
+$("input:radio").prop("checked", false);
+$("input:checkbox").prop("checked", false);
+
+$('#edit-pickup').click(function () {
+  var mySelection = $('#edit-pickup').text().trim();
+  if ( mySelection == "| Change") {
+    $("#pickup-prepop").hide("fast");
+    $("#pickup-enter").show("fast");
+    $('#edit-pickup').html("&nbsp;| Use home");
+  } else {
+    $("#pickup-prepop").show("fast");
+    $("#pickup-enter").hide("fast");
+    $('#edit-pickup').html("&nbsp;| Change");
+  }
+});
+
+$('input[name=going-to-prepop]').change(function () {
+      var mySelection = $('input[name=going-to-prepop]:checked').parent().find("span").text().trim();
+      console.log( mySelection )
+      $("#going-to-prepop-container").hide("fast");
+      $("#edit-going-to").css("display","inline-block");
+      $("#return").show();
+      $("#when").show();
+      $("#trip-details").show();
+      if (mySelection == "New provider") {
+          $("#going-to-enter").show();
+      } else {
+          $("#going-to-enter").hide();
+          $("#going-to-prepop").show("fast");
+      }
+    });
+
+$('#cost-type').change(function () {
+  var mySelection = $(this).find("option:selected").text().trim();
+  $("#bcwd-container").hide();
+  $("#dollars-container").hide();
+  $("#kms-container").hide();
+  switch (mySelection) {
+    case "Private vehicle":
+      $("#kms-container").show();
+      break;
+    case "Public transport":
+      $("#dollars-container").show();
+      break;
+    case "Taxi": 
+      $("#dollars-container").show();
+      $("#bcwd-container").show();
+      break;
+    default:
+      break;
+  }
+});
+
+$('#accommodation').change(function () {
+  var mySelection = $(this).find("option:selected").text().trim();
+  switch (mySelection) {
+    case "Commercial":
+      $("#accommodation-questions").show();
+      break;
+    default:
+      break;
+  }
+});
+
+$('#edit-going-to').click(function () {
+  $("input:radio").prop("checked", false);
+  $("#going-to-enter").hide("fast");
+  $("#going-to-prepop").hide("fast");
+  $("#going-to-prepop-container").show("fast");
+});
+
+
+
+// function hideAll(){
+//   $("#pickup-summary").hide();
+//   $("#pickup-address").hide();
+//   $("#appointment-address").hide();
+//   $("#appointment-address-enter").hide();
+//   $("#return-home-summary").hide();
+//   $("#date-and-time").hide();
+//   $("#further-information").hide();
+  
+// }
+
+});
+     
+    </script>

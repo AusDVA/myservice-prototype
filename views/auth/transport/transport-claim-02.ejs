@@ -1,44 +1,313 @@
 <%- include(templates+"header", {
-  claim: "Reimbursements",
-  heading: "Reimbursements",
+  heading: "Claim for travel expenses",
+  claim: "Travel reimbursement"
 }) %>
 
-<!-- <div id="add-children">
-    <p><b>Add details of your children under 16 years of age and full time students under 25 years of age who are dependent on you.</b>
-  </div> -->
+<div id="going-to" class="margin-above--large">
+    <div>
+      <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Health provider attended</span></h2>
+      <div id="edit-going-to" style="display: none;">&nbsp;| <a class="floatedqq">Change</a></div>
+    </div>
+    <div id="going-to-prepop" hidden>
+        <div class="table" >
+          <div class="tr">
+            <div class="td">Dr Geneview Shey</div>
+          </div>
+          <div class="tr">
+              <div class="td">Mapletree Practice</div>
+            </div>
+          <div class="tr">
+            <div class="td">L2 145 Trent St</div>
+          </div>
+          <div class="tr">
+            <div class="td">Salsbury NSW 2034</div>
+          </div>
+        </div>
+      </div>
+    <%- include(partials+"components/form-partials/radio", {
+      id: "going-to-prepop",
+      boxes: [
+        { 
+          text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+        },
+        {
+          text: "Capital Hospital / Dr Jane Smith 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+        },
+        {
+          text: "Dr Al Appleton, 334 Heathcliff Rd, Melrose place, NSW 2045"
+        },
+        {
+          text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
+        },
+        {
+          text: "<strong>New provider</strong>"
+        }
+      ],
+      customClass: "adjust"
+    }); %>
 
-  Claim for treatment etc
-  <hr>
-        
-  <%#- include(partials+"components/form-partials/notice", {
-    message: "<p>Where possible DVA will use your treating medical practitioners to provide an assessment. If we cannot use your treating practitioner we will arrange an assessment for you.</p><p>If you are a serving member be aware that on-base doctors may not be able to provide an assessment.</p><p></p> ",
-    type: "alert",
-    id: "treating-doctor"
-  }); %>
-  
+  <style>
+      .adjust {
+        margin-top: -6px;
+      }
+  </style>
+  <div id="going-to-enter" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Practice/Doctor's name"
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Phone number",
+      hint: "text"
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Address line 1",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Address line 2",
+      hint: "(optional)",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Suburb or town",
+      modifiers: ["inputFullLength"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Postcode"
+    }); %>
+    <%- include(forms+"dropdown", {
+      label: "State or territory",
+      options: [
+        "-- Select state or territory --",
+        {
+          text: "Australian Capital Territory",
+          value: "act"
+        },
+        {
+          text: "New South Wales",
+          value: "nsw"
+        },
+        {
+          text: "Northern Territory",
+          value: "nt"
+        },
+        {
+          text: "Queensland",
+          value: "qld"
+        },
+        {
+          text: "South Australia",
+          value: "sa"
+        },
+        {
+          text: "Tasmania",
+          value: "tas"
+        },
+        {
+          text: "Victoria",
+          value: "vic"
+        },
+        {
+          text: "Western Australia",
+          value: "wa"
+        }
+      ]
+    }) %>
+  </div>
+</div>
+
+<div id="when" class="margin-above--large form-group">
+    <h2><span class="font-weight-heavy">Date</span></h2>
+    <p class="margin-below--small">Enter the date and time of your appointment:</p>
+    <img style="margin-top: 8px;" src="/date-time.png"/>
+</div>
+
+<div>
+  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Travel costs</span></h2>
+  <div id="edit-going-to" style="display: none;">&nbsp;| <a class="floatedqq">Change</a></div>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  options: [
+    "--Select cost type--",
+    "Private vehicle",
+    "Public transport",
+    "Taxi",
+    "Community",
+    "Air",
+    "Parking fees",
+    "Road tolls"
+  ],
+  id: "cost-type"
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "Kilometres travelled:",
+  id: "kms",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  id: "dollars",
+  modifiers: ["hidden","dollarSign"]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Did DVA arrange/pay for this travel?",
+  hint: "For example: booked car with driver, air travel or ambulance.",
+  modifiers: ["hintNewLine", "hidden"],
+  id: "bcwd"
+}); %>
+
+</div>
+
+<div>
+  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Accommodation costs</span></h2>
+  <div id="edit-going-to" style="display: none;">&nbsp;| <a>Change</a></div>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  options: [
+    "--Select cost type--",
+    "No accommodation",
+    "Commercial"
+  ],
+  id: "accommodation"
+}); %>
 
 
+<div id="accommodation-questions" hidden>
 
-  <%#- include(forms+"pagination", {
-    pagination: [
+<%- include(partials+"components/form-partials/text", {
+  label: "How many nights?",
+  id: "kms"
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "Amount paid",
+  modifiers: ["dollarSign"]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you travel with an attendant?"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you pay for a separate room when travelling with your medically required attendant?"
+}); %>
+
+</div>
+
+<%- include(forms+"pagination", {
+  pagination: [
     {
       text: "Previous",
-      link: "/auth/claim/cshc/cshc-03"
+      id: "reset-form",
+      link: "#"
     },
+    {
+      text: "Cancel",
+      link: "#claim-cancel-modal"
+    },
+    {
+      text: "Add",
+      link: "/auth/transport/transport-claim-03",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
 
 
-      {
-        text: "Save and next",
-        link: "/auth/claim/cshc/cshc-05",
-        modifiers: ["floated", "primary"]
-      }
-    ],
-    customClass: ["margin-above--extra"]
-  }) %>
 
 <%- include(templates+"footer") %>
 
 
   <script>
+
+$(document).ready(function () {
+
+$("input:radio").prop("checked", false);
+$("input:checkbox").prop("checked", false);
+
+$('#edit-pickup').click(function () {
+  var mySelection = $('#edit-pickup').text().trim();
+  if ( mySelection == "| Change") {
+    $("#pickup-prepop").hide("fast");
+    $("#pickup-enter").show("fast");
+    $('#edit-pickup').html("&nbsp;| Use home");
+  } else {
+    $("#pickup-prepop").show("fast");
+    $("#pickup-enter").hide("fast");
+    $('#edit-pickup').html("&nbsp;| Change");
+  }
+});
+
+$('input[name=going-to-prepop]').change(function () {
+      var mySelection = $('input[name=going-to-prepop]:checked').parent().find("span").text().trim();
+      console.log( mySelection )
+      $("#going-to-prepop-container").hide("fast");
+      $("#edit-going-to").css("display","inline-block");
+      $("#return").show();
+      $("#when").show();
+      $("#trip-details").show();
+      if (mySelection == "New provider") {
+          $("#going-to-enter").show();
+      } else {
+          $("#going-to-enter").hide();
+          $("#going-to-prepop").show("fast");
+      }
+    });
+
+$('#cost-type').change(function () {
+  var mySelection = $(this).find("option:selected").text().trim();
+  $("#bcwd-container").hide();
+  $("#dollars-container").hide();
+  $("#kms-container").hide();
+  switch (mySelection) {
+    case "Private vehicle":
+      $("#kms-container").show();
+      break;
+    case "Public transport":
+      $("#dollars-container").show();
+      break;
+    case "Taxi": 
+      $("#dollars-container").show();
+      $("#bcwd-container").show();
+      break;
+    default:
+      break;
+  }
+});
+
+$('#accommodation').change(function () {
+  var mySelection = $(this).find("option:selected").text().trim();
+  switch (mySelection) {
+    case "Commercial":
+      $("#accommodation-questions").show();
+      break;
+    default:
+      break;
+  }
+});
+
+$('#edit-going-to').click(function () {
+  $("input:radio").prop("checked", false);
+  $("#going-to-enter").hide("fast");
+  $("#going-to-prepop").hide("fast");
+  $("#going-to-prepop-container").show("fast");
+});
+
+
+
+// function hideAll(){
+//   $("#pickup-summary").hide();
+//   $("#pickup-address").hide();
+//   $("#appointment-address").hide();
+//   $("#appointment-address-enter").hide();
+//   $("#return-home-summary").hide();
+//   $("#date-and-time").hide();
+//   $("#further-information").hide();
+  
+// }
+
+});
      
     </script>
