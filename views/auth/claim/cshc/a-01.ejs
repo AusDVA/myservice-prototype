@@ -1,0 +1,68 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "About your claim"
+}) %>
+
+  <%- include(forms+"checkbox", {
+    label: "Have you applied for or do you receive any of hte following Centrelink payments?",
+    hint: "(optional)<br>Select all that apply.",
+    id: "get-centrelink",
+    boxes: [
+      "Age Pension",
+      "Disability Support Pension",
+      "Carer Payment",
+      "Newstart Allowance",
+      {
+        text: "Other",
+        toggle: "#other-centrelink-container"
+      }
+    ]
+  }) %>  
+
+  <%- include(forms+"yes_no", {
+    label: "Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+    id: "have-cshc"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "What is your Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "crn"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/prog-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/prog-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#get-centrelink-container, #have-cshc-container").on("change", "input", function() {
+      if ($("#get-centrelink-container :checked").length > 0 || $("#have-cshc-1").prop("checked")) {
+        $("#crn-container").show();
+      } else {
+        $("#crn-container").hide();
+      }
+    })
+  </script>
+
+<%- include(templates+"footer") %>

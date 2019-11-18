@@ -1,0 +1,374 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Relationship status",
+  progress: {
+    activeItem: 1,
+      points: [
+        {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/b-01"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/b-02"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/b-03"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/b-04"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/b-05"
+        },
+      ]
+    }
+}) %>
+
+  <%- include(forms+"editable-box", {
+    id: "children",
+    icon: "fa-child",
+    heading: "Dependent Child Details",
+    description: `<h4>Add any dependent children who are:</h4>
+      <ul>
+        <li>Under 16 years of age, or</li>
+        <li>16-22 years of age and in full time education</li>
+      </ul>
+
+      <p>Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care.</p>`,
+    buttonText: "Add child",
+    addAnotherText: "Add another child",
+    form: [
+      {
+        type: "date",
+        label: "Date of birth",
+        displayName: "Date of birth",
+        id: "child-age"
+      },
+      {
+        type: "notice",
+        message: "<p>You will be required to provide birth certificate(s) to support your claim.</p><p>You will be asked to upload this evidence when finalising your claim in PART D.</p>"
+      },
+      {
+        type: "text",
+        label: "First name"
+      },
+      {
+        type: "text",
+        label: "Middle name",
+        hint: "(optional)"
+      },
+      {
+        type: "text",
+        label: "Last name"
+      },
+      {
+        type: "prepop/gender",
+        label: "Gender",
+        displayName: "Gender"
+      },
+      {
+        type: "dropdown",
+        label: "Relationship type",
+        displayName: "Relationship type",
+        options: [
+          "-- Select relationship type --",
+          "Adoptive Parent",
+          "Foster parent",
+          "Grandparent",
+          "Guardian",
+          "Other Relation",
+          {
+            text: "Parent",
+            rToggle: "#rel-start-container"
+          },
+          "Sibling",
+          "Step-parent",
+          "Uncle/aunt"
+        ]
+      },
+      {
+        type: "date",
+        label: "Relationship start date",
+        modifiers: ["hidden"],
+        id: "rel-start"
+      },
+      {
+        type: "yes_no",
+        label: "Does the child live with you?",
+        no_toggle: "#child-address-container"
+      },
+      {
+        type: "prepop/address",
+        label: "",
+        id: "child-address",
+        modifiers: ["hidden"]
+      },
+      {
+        type: "yes_no",
+        id: "study-full-time",
+        label: "Does the child study full time?",
+        yes_toggle: "#government-payment-container"
+      },
+      {
+        type: "yes_no",
+        id: "government-payments",
+        label: "Does the child receive any government payment?",
+        yes_toggle: ".gov-payments",
+        modifiers: ["hidden"]
+      },
+      {
+        type: "dropdown",
+        customClass: "gov-payments",
+        label: "Type of payment",
+        modifiers: ["hidden"],
+        options: [
+          {
+            text: "-- Select type of payment --",
+            value: "null"
+          },
+          {
+            text: "ABSTUDY",
+            value: "ABSTUD"
+          },
+          {
+            text: "Age Pension",
+            value: "AGEPEN"
+          },
+          {
+            text: "Austudy Payment",
+            value: "AUSTUD"
+          },
+          {
+            text: "Bereavement Allowance",
+            value: "BEREAV"
+          },
+          {
+            text: "Carer Allowance",
+            value: "CARALL"
+          },
+          {
+            text: "Carer Payment",
+            value: "CARPAY"
+          },
+          {
+            text: "Carer Supplement",
+            value: "CARSUP"
+          },
+          {
+            text: "Child Care Subsidy",
+            value: "CCS"
+          },
+          {
+            text: "Crisis Payment",
+            value: "CRIPAY"
+          },
+          {
+            text: "Dad and Partner Pay",
+            value: "DADPAR"
+          },
+          {
+            text: "Defence Force Income Support Allowance (DFISA)",
+            value: "DFISA"
+          },
+          {
+            text: "Disability Support Pension",
+            value: "DISSP"
+          },
+          {
+            text: "Distance Education Allowance (Isolated Children Scheme)",
+            value: "DISEDU"
+          },
+          {
+            text: "Double Orphan Pension",
+            value: "DORPHA"
+          },
+          {
+            text: "Education Entry Payment",
+            value: "EDUENT"
+          },
+          {
+            text: "Essential Medical Equipment Payment",
+            value: "ESSMED"
+          },
+          {
+            text: "Family Tax Benefit A",
+            value: "FTBA"
+          },
+          {
+            text: "Family Tax Benefit B",
+            value: "FTBB"
+          },
+          {
+            text: "Fares Allowance",
+            value: "FARALL"
+          },
+          {
+            text: "Farm Household Allowance",
+            value: "FHA"
+          },
+          {
+            text: "Mobility Allowance",
+            value: "MOBALL"
+          },
+          {
+            text: "New Enterprise Incentive Scheme (NEIS)",
+            value: "NEIS"
+          },
+          {
+            text: "Newborn Supplement",
+            value: "BORNSP"
+          },
+          {
+            text: "Newborn Upfront Payment",
+            value: "BORNPA"
+          },
+          {
+            text: "Newstart Allowance",
+            value: "NWSTRT"
+          },
+          {
+            text: "Paid Parental Leave scheme",
+            value: "LEVSCH"
+          },
+          {
+            text: "Parental Leave Pay",
+            value: "PARLEV"
+          },
+          {
+            text: "Parenting Payment Partnered (PPP)",
+            value: "PRNTPA"
+          },
+          {
+            text: "Parenting Payment Single (PPS)",
+            value: "PARPAY"
+          },
+          {
+            text: "Partner Allowance",
+            value: "PARTAL"
+          },
+          {
+            text: "Pensioner Education Supplement",
+            value: "PENEDU"
+          },
+          {
+            text: "Pharmaceutical Allowance",
+            value: "PHARMA"
+          },
+          {
+            text: "Sickness Allowance",
+            value: "SICKAL"
+          },
+          {
+            text: "Single Income Family Supplement",
+            value: "FAMSUP"
+          },
+          {
+            text: "Special Benefit",
+            value: "SPCBEN"
+          },
+          {
+            text: "Telephone Allowance",
+            value: "TELALL"
+          },
+          {
+            text: "Utilities Allowance",
+            value: "UTLALL"
+          },
+          {
+            text: "Widow Allowance",
+            value: "WIDOWA"
+          },
+          {
+            text: "Widow B Pension",
+            value: "WIDOWB"
+          },
+          {
+            text: "Wife Pension",
+            value: "WIFPEN"
+          },
+          {
+            text: "Youth Allowance",
+            value: "YOUTHA"
+          },
+          {
+            text: "Youth Disability Supplement",
+            value: "YTHDIS"
+          }
+        ]
+      },
+      {
+        type: "text",
+        modifiers: ["inputShort", "dollarSign", "hidden"],
+        placeholder: "0.00",
+        label: "Amount of fortnightly payment",
+        customClass: "gov-payments"
+      },
+      {
+        type: "yes_no",
+        label: "Does the child receive any income from employment?",
+        yes_toggle: "#employment-income-container"
+      },
+      {
+        type: "text",
+        modifiers: ["inputShort", "dollarSign", "hidden"],
+        placeholder: "0.00",
+        label: "Gross fortnightly payment",
+        id: "employment-income"
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--large",
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/b-03",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#study-full-time-container").on("change", "input", function() {
+      $(".gov-payments").hide();
+      if ($("#study-full-time-1").prop("checked")) {
+        $("#gov-payments-container").show();
+      } else {
+        $("#gov-payments-container").show();
+      }
+    })
+
+    $("body #child-age-dd, body #child-age-mm, body #child-age-yyyy").on("keyup", function() {
+      var date = moment(`${$("#child-age-dd").val()}/${$("#child-age-mm").val()}/${$("#child-age-yyyy").val()} 00:00 +11`);
+
+      if (moment().diff(date, "years") >= 18) {
+        $("#government-payments-container").show();
+        $(".gov-payments").hide();
+      } else {
+        $("#government-payments-container").hide();
+        $(".gov-payments").hide();
+      }
+    })
+  </script>
+
+<%- include(templates+"footer") %>
