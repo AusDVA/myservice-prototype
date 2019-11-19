@@ -4,11 +4,42 @@
 }) %>
 
 <div id="going-to" class="margin-above--large">
+
     <div>
-      <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Health provider attended</span></h2>
-      <div id="edit-going-to" style="display: none;">&nbsp;| <a class="floatedqq">Change</a></div>
+    <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Trip details</span></h2>
+    <div id="previous" class="floateddd" style="display: inline-block;">|&nbsp;<a>Use previous trip details</a></div>
     </div>
-    <div id="going-to-prepop" hidden>
+
+    <%- include(partials+"components/form-partials/date", {
+      label: "Appointment date"
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Appointment time",
+      id: "time"
+    }); %>
+
+  
+
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Purpose of trip",
+      options: [
+        "--Select type--",
+        "Treatment",
+        "Hospital admission",
+        "Disability claim",
+        "To obtain medical evidence for the Veterans' Review board",
+        "To obtain medical evidence for the Specialist Medical Review Council",
+        "To attend a hearing at the Veteranss Review Board",
+        "To attend Before the Administrative Appeals Tribunal"
+      ]
+    }); %>
+
+    <div>
+      <span id="edit-pickup" class="font-weight-heavy" style="display: inline-block; margin-bottom: 10px;">Health provider attended</span>
+      <div id="edit-going-to" style="display: none;">&nbsp;| <a>Change</a></div>
+    </div>
+    <div id="going-to-prepop" class="margin-below--large" hidden>
         <div class="table" >
           <div class="tr">
             <div class="td">Dr Geneview Shey</div>
@@ -116,26 +147,20 @@
   </div>
 </div>
 
-<div id="when" class="margin-above--large form-group">
-    <h2><span class="font-weight-heavy">Date</span></h2>
-    <p class="margin-below--small">Enter the date and time of your appointment:</p>
-    <img style="margin-top: 8px;" src="/date-time.png"/>
-</div>
-
 <div>
-  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Travel costs</span></h2>
-  <div id="edit-going-to" style="display: none;">&nbsp;| <a class="floatedqq">Change</a></div>
+  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Cost type</span></h2>
 
 <%- include(partials+"components/form-partials/dropdown", {
   options: [
-    "--Select cost type--",
+    "--Select type--",
     "Private vehicle",
     "Public transport",
     "Taxi",
     "Community",
     "Air",
+    "Road tolls",
     "Parking fees",
-    "Road tolls"
+    "Accommodation"
   ],
   id: "cost-type"
 }); %>
@@ -160,25 +185,23 @@
 
 </div>
 
-<div>
-  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Accommodation costs</span></h2>
-  <div id="edit-going-to" style="display: none;">&nbsp;| <a>Change</a></div>
+<div id="accommodation-questions" hidden>
+
 
 <%- include(partials+"components/form-partials/dropdown", {
+  label: "Type of accommodation:",
   options: [
-    "--Select cost type--",
-    "No accommodation",
-    "Commercial"
+    "--Select type--",
+    "Commercial",
+    "Private",
+    "Subsidised"
   ],
   id: "accommodation"
 }); %>
 
-
-<div id="accommodation-questions" hidden>
-
 <%- include(partials+"components/form-partials/text", {
-  label: "How many nights?",
-  id: "kms"
+  label: "Length of stay",
+  id: "accomm-nights"
 }); %>
 
 <%- include(partials+"components/form-partials/text", {
@@ -187,11 +210,14 @@
 }); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Did you travel with an attendant?"
+  label: "Did you travel with a medically required attendant?",
+  yes_toggle: "#attendant-container"
 }); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Did you pay for a separate room when travelling with your medically required attendant?"
+  label: "Did you pay for a separate room when travelling with your medically required attendant?",
+  id: "attendant",
+  modifiers: ["hidden"]
 }); %>
 
 </div>
@@ -201,66 +227,61 @@
     {
       text: "Previous",
       id: "reset-form",
-      link: "#"
+      link: "/auth/transport/transport-claim-01"
     },
     {
       text: "Cancel",
       link: "#claim-cancel-modal"
     },
     {
-      text: "Add",
+      text: "Add expense",
       link: "/auth/transport/transport-claim-03",
       modifiers: ["floated", "primary"]
     }
   ]
 }) %>
 
-
-
 <%- include(templates+"footer") %>
 
-
-  <script>
+<script>
 
 $(document).ready(function () {
 
 $("input:radio").prop("checked", false);
 $("input:checkbox").prop("checked", false);
 
-$('#edit-pickup').click(function () {
-  var mySelection = $('#edit-pickup').text().trim();
-  if ( mySelection == "| Change") {
-    $("#pickup-prepop").hide("fast");
-    $("#pickup-enter").show("fast");
-    $('#edit-pickup').html("&nbsp;| Use home");
-  } else {
-    $("#pickup-prepop").show("fast");
-    $("#pickup-enter").hide("fast");
-    $('#edit-pickup').html("&nbsp;| Change");
-  }
-});
+// $('#edit-pickup').click(function () {
+//   var mySelection = $('#edit-pickup').text().trim();
+//   if ( mySelection == "| Change") {
+//     $("#pickup-prepop").hide("fast");
+//     $("#pickup-enter").show("fast");
+//     $('#edit-pickup').html("&nbsp;| Use home");
+//   } else {
+//     $("#pickup-prepop").show("fast");
+//     $("#pickup-enter").hide("fast");
+//     $('#edit-pickup').html("&nbsp;| Change");
+//   }
+// });
 
 $('input[name=going-to-prepop]').change(function () {
       var mySelection = $('input[name=going-to-prepop]:checked').parent().find("span").text().trim();
-      console.log( mySelection )
       $("#going-to-prepop-container").hide("fast");
       $("#edit-going-to").css("display","inline-block");
-      $("#return").show();
-      $("#when").show();
-      $("#trip-details").show();
       if (mySelection == "New provider") {
           $("#going-to-enter").show();
       } else {
           $("#going-to-enter").hide();
-          $("#going-to-prepop").show("fast");
+          $("#going-to-prepop").show();
       }
     });
 
 $('#cost-type').change(function () {
   var mySelection = $(this).find("option:selected").text().trim();
+  console.log( "hhh"+mySelection )
   $("#bcwd-container").hide();
   $("#dollars-container").hide();
   $("#kms-container").hide();
+  $("#accommodation-questions").hide();
   switch (mySelection) {
     case "Private vehicle":
       $("#kms-container").show();
@@ -271,6 +292,22 @@ $('#cost-type').change(function () {
     case "Taxi": 
       $("#dollars-container").show();
       $("#bcwd-container").show();
+      break;
+    case "Community": 
+      $("#dollars-container").show();
+      break;
+    case "Air": 
+      $("#dollars-container").show();
+      $("#bcwd-container").show();
+      break;
+    case "Road tolls": 
+      $("#dollars-container").show();
+      break;
+    case "Parking fees": 
+      $("#dollars-container").show();
+      break;
+    case "Accommodation": 
+      $("#accommodation-questions").show("fast");
       break;
     default:
       break;
@@ -295,19 +332,18 @@ $('#edit-going-to').click(function () {
   $("#going-to-prepop-container").show("fast");
 });
 
+$('#previous').click(function () {
+  $("#going-to-prepop-container").hide("fast");
+  $("#going-to-enter").hide();
+  $("#going-to-prepop").show();
+  $(".dd").val("12");
+  $(".mm").val("8");
+  $(".yyyy").val("2019");
+  $("#time-container input").val("10:45 AM");
+  $('select>option:eq(3)').attr('selected', true);
+});
 
 
-// function hideAll(){
-//   $("#pickup-summary").hide();
-//   $("#pickup-address").hide();
-//   $("#appointment-address").hide();
-//   $("#appointment-address-enter").hide();
-//   $("#return-home-summary").hide();
-//   $("#date-and-time").hide();
-//   $("#further-information").hide();
-  
-// }
 
 });
-     
-    </script>
+</script>
