@@ -9,6 +9,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 <fieldset
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
   id="<%- id %>-container">
 
     <%- generateLabel({
@@ -19,7 +20,12 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         tooltip: typeof tooltip !== "undefined" ? tooltip : null
       }) %>
 
-    <% if (!modifiers.includes("australiaOnly")) { %>
+    <% if (modifiers.includes("allCountries")) { %>
+      <%- include(forms+"prepop/country-dropdown", {
+        label: "Country",
+        id: `${id}-country`
+      }) %>
+    <% } else if (!modifiers.includes("australiaOnly")) { %>
       <%- include(forms+"dropdown", {
         label: "Country",
         id: `${id}-country`,
@@ -30,7 +36,6 @@ if (typeof modifiers === "string") modifiers = [modifiers];
           },
           "New Zealand"
         ]
-
       }) %>
     <% } %>
     
@@ -100,3 +105,13 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     }) %>
     
 </fieldset>
+
+<script>
+  $("#<%- id %>-country").on("change", function() {
+    if ($("#<%- id %>-country :selected").text().trim() === "Australia") {
+      $("#<%- id %>-state-container").show();
+    } else {
+      $("#<%- id %>-state-container").hide();
+    }
+  })
+</script>
