@@ -1,31 +1,131 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Commonwealth Seniors Health Card (CSHC)"
+  heading: "Your income",
+  progress: {
+    activeItem: 1,
+      points: [
+        {
+          text: "Your income",
+          link: "/auth/claim/cshc/c-01"
+        },
+        {
+          text: "Current year estimates",
+          link: "/auth/claim/cshc/c-02"
+        },
+        {
+          text: "Account-based pensions",
+          link: "/auth/claim/cshc/c-03"
+        }
+      ]
+    }
 }) %>
 
-<%- include(forms+"pagination", {
-  pagination: [
-    {
-      link: "/auth/claim/cshc/prog-03",
-      text: "Previous"
-    },
-    {
-      link: "#claim-cancel-modal",
-      text: "Cancel claim"
-    },
-    {
-      link: "/auth/claim",
-      text: "Save and exit",
-      modifiers: ["floated"]
-    },
-    {
-      link: "/auth/claim/cshc/c-02",
-      text: "Save and next",
-      modifiers: ["floated", "primary"]
-    }
-  ]
-}) %>
+  <%- include(forms+"notice", {
+    message: "You can provide adjusted taxable income details for either of the two financial years before hte current financial year. They should be the most recent verified details."
+  }) %>
+
+  <%- include(forms+"button_radio", {
+    label: "For which financial year are you providing income details?",
+    boxes: [
+      "2017 - 2018",
+      "2018 - 2019"
+    ]
+  }) %>
+
+  <%- include(forms+"radio", {
+    label: "Income details from:",
+    boxes: [
+      "Tax Notice of Assessment / Tax return",
+      "Personal records (income was too low to require a tax return)"
+    ]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have ot pay Australian income tax",
+    hint: "Provide hte amount in Australian dollars",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/prog-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/c-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
 <%- include(forms+"modals/claim-cancel") %>
+
+<script>
+  $(".income").on("keyup", "input", function() {
+    var income = 0.00;
+
+    $(".income").each(function(index, elem) {
+      if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+        income += parseFloat($(this).find("input").val())
+      }
+    })
+
+    $("#total-income").text(income.toFixed((2)))
+  })
+</script>
 
 <%- include(templates+"footer") %>

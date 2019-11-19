@@ -1,30 +1,90 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Commonwealth Seniors Health Card (CSHC)"
+  heading: "Claim representative",
+  progress: {
+    activeItem: 4,
+      points: [
+        {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/b-01"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/b-02"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/b-03"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/b-04"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/b-05"
+        },
+      ]
+    }
 }) %>
 
-<%- include(forms+"pagination", {
-  pagination: [
-    {
-      link: "/auth/claim/cshc/prog-02",
-      text: "Previous"
-    },
-    {
-      link: "#claim-cancel-modal",
-      text: "Cancel claim"
-    },
-    {
-      link: "/auth/claim",
-      text: "Save and exit",
-      modifiers: ["floated"]
-    },
-    {
-      link: "/auth/claim/cshc/b-02",
-      text: "Save and next",
-      modifiers: ["floated", "primary"]
-    }
-  ]
-}) %>
+  <%- include(forms+"yes_no", {
+    label: "Do you wish to nominate a claim representative to receive updates and query about this claim on your behalf?",
+    hint: "They will not be able to access your account, view other claim statues or access other personal information.",
+    modifiers: ["hintNewLine"],
+    yes_toggle: "#claim-rep"
+  }) %>
+
+  <form id="claim-rep" hidden>
+    <h3>Representative details</h3>
+
+    <%- include(forms+"text", {
+      label: "Given name",
+      hint: "(first name)"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Surname",
+      hint: "(last name)"
+    }) %>
+
+    <%- include(forms+"prepop/phone-number") %>
+
+    <%- include(forms+"text", {
+      label: "Email address",
+      hint: "(optional)"
+    }) %>
+
+    <h3>Representative postal address</h3>
+
+    <%- include(forms+"prepop/address", {
+      modifiers: ["allCountries"],
+      label: ""
+    }) %>
+  </form>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/b-05",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
 <%- include(forms+"modals/claim-cancel") %>
 
