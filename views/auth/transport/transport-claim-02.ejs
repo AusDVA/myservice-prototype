@@ -7,7 +7,8 @@
 
     <div>
     <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Trip details</span></h2>
-    <div id="previous" class="floated" style="display: inline-block;">&nbsp;| <a>Use previous trip details</a></div>
+    <!-- <div id="previous" class="floateaad" style="display: inline-block;">&nbsp;| <a>Use previous trip details</a></div> -->
+    <button id="previous" class="uikit-btn uikit-btn--tertiary small floated">Use previous trip details</button>
     </div>
 
     <%- include(partials+"components/form-partials/date", {
@@ -23,6 +24,7 @@
 
     <%- include(partials+"components/form-partials/dropdown", {
       label: "Purpose of trip",
+      id: "purpose",
       options: [
         "--Select type--",
         "Treatment",
@@ -37,7 +39,7 @@
 
     <div>
       <span id="edit-pickup" class="font-weight-heavy" style="display: inline-block; margin-bottom: 10px;">Health provider attended</span>
-      <div id="edit-going-to" style="display: none;">&nbsp;| <a>Change</a></div>
+      <div id="edit-going-to" style="display: none;">&nbsp;| <a>Change address</a></div>
     </div>
     <div id="going-to-prepop" class="margin-below--large" hidden>
         <div class="table" >
@@ -330,29 +332,31 @@ $('#edit-going-to').click(function () {
   $("#going-to-enter").hide("fast");
   $("#going-to-prepop").hide("fast");
   $("#going-to-prepop-container").show("fast");
+  $("#edit-going-to").hide();
 });
 
 $('#previous').click(function () {
   $("#going-to-prepop-container").hide("fast");
   $("#going-to-enter").hide();
-  $("#going-to-prepop").show();
-  
+  $("#going-to-prepop").hide();
   var mySelection = $('#previous').text().trim();
-  console.log( mySelection )
-  if ( mySelection == "| Use previous trip details") {
+  if ( mySelection == "Use previous trip details") {
     $(".dd").val("12");
     $(".mm").val("8");
     $(".yyyy").val("2019");
     $("#time-container input").val("10:45 AM");
-    $('select>option:eq(3)').attr('selected', true);
-    $('#previous').html("&nbsp;| <a>Reset</a>");
+    $('#purpose').prop('selectedIndex',3);
+    $("#going-to-prepop").show();
+    $('#previous').html("Reset");
   } else {
     $(".dd").val("");
     $(".mm").val("");
     $(".yyyy").val("");
     $("#time-container input").val("");
-    $('select>option:eq(1)').attr('selected', true);
-    $('#previous').html("&nbsp;| <a>Use previous trip details</a>");
+    // $('#purpose-container select>option:eq(1)').attr('selected', true);
+    $('#purpose').prop('selectedIndex',0);
+    $("#going-to-prepop-container").show("fast");
+    $('#previous').html("Use previous trip details");
   }
 });
 
