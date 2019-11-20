@@ -101,8 +101,9 @@
 
     <%- include(forms+"yes_no", {
       label: "Has your partner ever been known by any other names?",
-      hint: "(e.g. name at birth, maiden name, previous married name)",
-      yes_toggle: "#previous-names-container"
+      hint: "For example: name at birth, maiden name, previous married name",
+      yes_toggle: "#previous-names-container",
+      modifiers: ["hintNewLine"]
     }) %>
 
     <%- include(forms+"previous-names", {
@@ -118,54 +119,50 @@
       label: "Date of birth"
     }) %>
     
+    <h2 class="margin-above--large"><span class="font-weight-heavy">Partner contact details</span></h2>
+
+    <%- include(forms+"prepop/phone-number", {
+      label: "Home number"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Email",
+      hint: "optional"
+    }) %>
+
     <%- include(forms+"yes_no", {
       label: "Does your partner live at the same address as you?",
-      no_toggle: "#residential-address-container"
+      no_toggle: [ "#residential-address-container", "#illness-container"]
     }) %>
 
     <%- include(forms+"prepop/address", {
       id: "residential-address",
       modifiers: ["hidden"],
-      label: ""
+      label: "Partner address"
     }) %>
 
-    <h2 class="margin-above--large"><span class="font-weight-heavy">Postal address</span></h2>
-
-    <%- include(forms+"yes_no", {
-      label: "Same as residential address?",
-      no_toggle: "#postal-address-container"
-    }) %>
+    <%- include(partials+"components/form-partials/checkbox", {
+      boxes: [
+        {
+          text: "Use my postal address for my partner",
+          rToggle: "#postal-address-container",
+          modifiers: ["checked"]
+        }
+      ]
+    }); %>
 
     <%- include(forms+"prepop/address", {
       id: "postal-address",
       modifiers: ["hidden"],
-      label: ""
+      label: "Partner's postal address"
     }) %>
-
-    <h2 class="margin-above--large"><span class="font-weight-heavy">Partner contact details</span></h2>
 
     <%- include(forms+"yes_no", {
-      label: "Does your partner wish to use your contact details?",
-      no_toggle: "#partner-contact"
+      label: "Does your partner live at the a different address due to age or ill health",
+      id: "illness",
+      modifiers: ["hidden"]
     }) %>
 
-    <div id="partner-contact" hidden>
-      <h3 class="margin-above--large">Telephone numbers</h3>
-
-      <%- include(forms+"prepop/phone-number", {
-        label: "Home number"
-      }) %>
-
-      <%- include(forms+"prepop/phone-number", {
-        label: "Mobile number",
-        hint: "(optional)"
-      }) %>
-
-      <%- include(forms+"text", {
-        label: "Email",
-        hint: "optional"
-      }) %>
-    </div>
 
     <h2 class="margin-above--large"><span class="font-weight-heavy">Benefits</span></h2>
 
