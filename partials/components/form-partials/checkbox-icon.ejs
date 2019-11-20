@@ -12,7 +12,7 @@ let boxCounter = 0;
   <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
   <%- modifiers.includes("hidden") ? "hidden" : "" %>
   id="<%- id %>-container"
-  class="mys-radio-group"
+  class="mys-radio-group formPartials_checkRadioIcon <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
 >
     <%- generateLabel({
         id,
@@ -50,31 +50,4 @@ let boxCounter = 0;
     });
     %>
   </div>
-
-<% if ((boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined).length > 0) || typeof all_toggle !== "undefined") { %>
-  <script type="text/javascript">
-      $("#<%- id %>-container").change("input[type=radio]", function() {
-        $($(this).data("all-toggle")).show();
-
-        $("input[type=radio]:checked", this).each(function() {
-          $($(this).data("toggle")).removeAttr("hidden").show();
-          $($(this).data("r-toggle")).hide();
-          $(this).parent().find(".hidden-hint").show();
-        });
-
-        $("input[type=radio]:not(:checked)", this).each(function() {
-          $($(this).data("toggle")).hide();
-          $($(this).data("r-toggle")).show();
-          $(this).parent().find(".hidden-hint").hide();
-        });
-
-
-      })
-
-      $("#<%- id %>-container").on("click", ".tooltip", function(e) {
-        e.preventDefault();
-      });
-  </script>
-<% } %>
-
 </fieldset>

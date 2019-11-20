@@ -1,0 +1,281 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("editablebox");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+var elemCounter = 0;
+
+%>
+
+<div id="<%- id %>-container" class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>>
+  <button class="uikit-btn" id="<%- id %>-btnInitial"><%- buttonText %></button>
+
+  <div class="boxed" id="<%- id %>-form-wrapper" hidden>
+    <div>
+      <h2 class="margin-above--none display-inline-block">
+        <% if (typeof icon !== "undefined") { %>
+          <% if (typeof icon === "string") { %>
+            <i class="fontawesome-icon fal <%- icon %>"></i>
+          <% } else if (typeof icon === "object") { %>
+            <i class="fontawesome-icon <%- typeof icon.weight !== "undefined" ? icon.weight : "fal" %> <%- icon.icon %>"></i>
+          <% } %>
+        <% } %>
+        <span class="font-weight-heavy"><%- heading %></span>
+      </h2>
+      <button class="uikit-btn uikit-btn--tertiary small warning floated floated--always d-none" id="<%- id %>-btnDelete">Delete item</button>
+    </div>
+    <%- typeof description !== "undefined" ? description : "" %>
+    <hr>
+
+    <form id="<%- id %>-elements">
+      <% var elems = form.map(elem => { %>
+        <% 
+          elemCounter++;
+          if (typeof elem.id === "undefined") elem.id = `${id}-${elemCounter}`;
+
+          if (typeof elem.customClass === "undefined") elem.customClass = []
+          if (typeof elem.customClass === "string") elem.customClass = [elem.customClass];
+          elem.customClass.push("editable-box--elem")
+        %>
+
+        <%- include(`${forms}${elem.type}`, elem) %>
+
+        <% return elem; %>
+      <% }) %>
+    </form>
+
+    <hr id="<%- id %>-insertBefore">
+    <button class="uikit-btn d-none" id="<%- id %>-btnAdd">Add</button>
+    <button class="uikit-btn d-none" id="<%- id %>-btnUpdate">Update</button>
+    <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-btnCancel">Cancel</button>
+  </div>
+
+  <div id="<%- id %>-results" class="d-none review__wrapper">
+    
+  </div>
+  <div class="display-block d-none margin-above ss-align--center">
+    <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-btnAddAnother"><%- addAnotherText %></button>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() {
+    var <%- id %>_template = <%- JSON.stringify(elems) %>;
+    window.<%- id %>_forms = [];
+
+    function findValue(field) {
+      var value;
+
+      switch (field.type) {
+        case "dropdown":
+          value = `<span>${$(`#${field.id} :selected`).text()} <span class="sr">${$(`#${field.id} :selected`).val()}</span></span>`;
+          break;
+        case "radio":
+        case "checkbox":
+        case "button_radio":
+        case "checkbox-icon":
+        case "radio-icon":
+        case "yes_no":
+        case "prepop/gender":
+          value = $(`#${field.id} :checked`).val();
+          break;
+        case "date":
+          if (field.modifiers && field.modifiers.includes("ongoing") && $(`#${field.id}-ongoing`).prop("checked")) {
+            value = $(`#${field.id}-ongoing`).parent().find(".uikit-control-input__text").text();
+          } else {
+            value = `${$(`#${field.id}-dd`).val()} / ${$(`#${field.id}-mm`).val()} / ${$(`#${field.id}-yyyy`).val()}`;
+          }
+          break;
+        case "prepop/phone-number":
+          value = !(field.modifiers && field.modifiers.includes("australiaOnly")) ? `<span class="sr">${$(`#${field.id}-country-code :selected`).val()}+${$(`#${field.id}-country-code :selected`).text().split("+")[1].trim()} </span> ${$(`#${field.id}-phone-number`).val()}` : $(`#${field.id}-phone-number`).val();
+          break;
+        default:
+          value = $(`#${field.id}`).val();
+          break;
+      }
+
+      return value
+    }
+
+    var <%- id %> = [];
+
+    $("#<%- id %>-btnInitial").on("click", function() {
+      $(this).hide();
+      $("#<%- id %>-form-wrapper").trigger("reset");
+      $("#<%- id %>-btnAdd").show();
+      $("#<%- id %>-form-wrapper").show();
+      $("#<%- id %>-elements").show();
+      $("#<%- id %>-btnUpdate").hide();
+    })
+
+    $("#<%- id %>-btnCancel").on("click", function() {
+      if (<%- id %>_forms.length === 0) {
+        $("#<%- id %>-btnAdd").hide();
+        $("#<%- id %>-form-wrapper").hide();
+        $("#<%- id %>-elements").hide();
+        $("#<%- id %>-btnUpdate").hide();
+        $("#<%- id %>-btnInitial").show()
+      } else {
+        showResults();
+      }
+    })
+
+    $("#<%- id %>-btnAdd").on("click", function() {
+      var rawForms = JSON.parse(JSON.stringify(<%- id %>_template));
+
+      var forms = rawForms.map(f => {
+        f.value = findValue(f)
+
+        return f;
+      })
+
+
+      <%- id %>_forms.push(forms);
+
+      showResults();
+    })
+
+    $("#<%- id %>-btnDelete").on("click", function() {
+      var delElem = parseInt($(this).closest("#<%- id %>-container").find("<%- id %>-elements").data("index"));
+
+      <%- id %>_forms.splice(delElem, 1)
+
+      showResults();
+    })
+
+    $("#<%- id %>-container").on("click", ".<%- id %>-btnEdit", function() {
+      var index = parseInt($(this).closest(".review-content--item").data("index"));
+      $("#<%- id %>-results").hide();
+
+      $("#<%- id %>-elements").trigger("reset");
+
+      <%- id %>_forms[index].map(f => {
+        switch (f.type) {
+          case "dropdown":
+            $(`#${f.id}`).val($(f.value).find(".sr").text())
+            break;
+          case "radio":
+          case "checkbox":
+          case "button_radio":
+          case "checkbox-icon":
+          case "radio-icon":
+          case "yes_no":
+            $(`#${f.id} [value=${f.value}]`).prop("checked", true)
+            break;
+          case "date":
+            if (f.modifiers && f.modifiers.includes("ongoing") && (f.value.trim() === f.ongoingText || f.value.trim() === "Still serving")) {
+              $(`#${f.id}-ongoing`).prop("checked", true);
+              $(`#${f.id}-dd`).prop("disabled", true);
+              $(`#${f.id}-mm`).prop("disabled", true);
+              $(`#${f.id}-yyyy`).prop("disabled", true);
+            } else {
+              value = f.value.split("/");
+              value = value.map(v => v.trim());
+
+              if (value.length === 3) $(`#${f.id}-dd`).val(value[0]);
+              $(`#${f.id}-mm`).val(value[value.length > 2 ? 1 : 0]);
+              $(`#${f.id}-yyyy`).val(value[value.length > 2 ? 2 : 1]);
+
+            }
+            break;
+          case "prepop/phone-number":
+            if (!(f.modifiers && f.modifiers.includes("australiaOnly"))) {
+              $(`#${f.id}-country-code`).val($(`<p>${f.value}</p>`).find(".sr").text());
+              $(`#${f.id}-phone-number`).val(f.value.split(">")[f.value.length - 1].trim());
+            } else {
+              $(`#${f.id}-phone-number`).val(f.value);
+            }
+            break;
+          default:
+            $(`#${f.id}`).val(f.value);
+            break;
+        }
+
+      })
+
+      $("#<%- id %>-btnAddAnother").parent().hide();
+      $("#<%- id %>-btnAdd").hide();
+
+      $("#<%- id %>-btnUpdate").show();
+      $("#<%- id %>-btnDelete").show();
+      $("#<%- id %>-form-wrapper").show();
+      $("#<%- id %>-elements").data("index", index);
+      $("#<%- id %>-elements").show();
+    })
+
+    $("#<%- id %>-btnUpdate").on("click", function() {
+      var updateElem = parseInt($(this).closest("#<%- id %>-container").find("#<%- id %>-elements").data("index"));
+
+      var rawForms = JSON.parse(JSON.stringify(<%- id %>_template));
+
+      var forms = rawForms.map(f => {
+        f.value = findValue(f)
+
+        return f;
+      })
+
+      <%- id %>_forms[updateElem] = forms;
+
+
+      showResults();
+    })
+
+    $("#<%- id %>-btnAddAnother").on("click", function() {
+      $(this).parent().hide();
+      $("#<%- id %>-results").hide();
+      $("#<%- id %>-form-wrapper").trigger("reset");
+      $("#<%- id %>-btnAdd").show();
+      $("#<%- id %>-form-wrapper").show();
+      $("#<%- id %>-elements").show();
+      $("#<%- id %>-elements").find(".dd, .mm, .yyyy").prop("disabled", false)
+      $("#<%- id %>-btnUpdate").hide();
+    })
+
+    function showResults() {
+      $("#<%- id %>-elements").trigger("reset");
+      $("#<%- id %>-form-wrapper").hide();
+
+      $("#<%- id %>-results").html("");
+
+      var heading = $("#<%- id %>-form-wrapper").find("h2").html();
+
+      if (<%- id %>_forms.length === 0) {
+        $("#<%- id %>-btnInitial").show();
+        $("#<%- id %>-btnAddAnother").parent().hide();
+      } else {
+        <%- id %>_forms.map((elem, index) => {
+          $("#<%- id %>-results").append(`
+          <div class="review-content--item boxed ${index > 0 ? "margin-above" : ""}" data-index="${index}">
+            <div class="review__content--label margin-below">
+              ${heading}
+              <button class="<%- id %>-btnEdit uikit-btn uikit-btn--tertiary small floated floated--always">&nbsp;Edit&nbsp;</button>
+            </div>
+            <div class="review__table">
+              ${elem.filter(v => typeof v.displayName !== "undefined").map(f => {
+                return `
+                  <div class="tr">
+                    <div class="td"><b>${f.displayName}</b></div>
+                    <div class="td">${f.value}</div>
+                  </div>`}).join("")}
+            </div>
+          </div>
+          `)
+        })
+        $("#<%- id %>-btnDelete").hide();
+        $("#<%- id %>-elements").hide();
+        $("#<%- id %>-form-wrapper").hide();
+
+        $("#<%- id %>-results").show();
+        $("#<%- id %>-btnAddAnother").parent().show();
+      }
+
+
+    }
+
+    $("#<%- id %>-form").on("submit", function(e) {
+      e.preventDefault();
+    })
+  })
+</script>

@@ -9,6 +9,7 @@ module.exports = box => {
         rToggle,
         inject,
         type,
+        value,
         baseID,
         boxID,
         icon,
@@ -30,13 +31,18 @@ module.exports = box => {
   if (typeof icon === "object") {
     icon = `<i class="radio_icons__icon ${icon.weight ? icon.weight : 'fal'} ${icon.icon}"></i>` ;
   } else if (typeof icon === "string") {
-    icon = `<i class="radio_icons__icon fal ${icon}"></i>`;
+    if (icon.includes("fa-")) {
+      icon = `<i class="radio_icons__icon fal ${icon}"></i>`;
+    } else {
+      icon = `<img class="radio-icons__icon-img" src="${icon}" alt="${text} image">`
+    }
+
   }
 
   let html =  `
   <div class="radio-icon">
     <input type="${type}" name="${baseID}" id="${generatedID}" class="radio-icon__control"
-      value="${replaceNonAlphanumeric(text)}"
+      value="${value ? value : replaceNonAlphanumeric(text)}"
       ${toggle ? `data-toggle="${toggle}"` : ""}
       ${rToggle ? `data-r-toggle="${rToggle}"` : ""}
       ${inject ? `data-inject="${inject}"` : ""}

@@ -1,21 +1,25 @@
 <%
 
-if (typeof id === "undefined") var id = formPartialsID("radioIcon");
+if (typeof id === "undefined") var id = formPartialsID("radoioIcon");
 if (typeof modifiers === "undefined") var modifiers = []; 
 if (typeof modifiers === "string") modifiers = [modifiers]; 
 let boxCounter = 0;
 
 %>
 
-<fieldset class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
-  <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container" class="mys-radio-group">
-  <%- generateLabel({
-      id,
-      modifiers: modifiers.concat(["legendLabel"]),
-      label: typeof label !== "undefined" ? label : null,
-      hint: typeof hint !== "undefined" ? hint : null,
-      tooltip: typeof tooltip !== "undefined" ? tooltip : null
-    }) %>
+<fieldset
+  <%- modifiers.includes("disabled") ? "disabled" : "" %>
+  <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container"
+  class="mys-radio-group formPartials_checkRadioIcon <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>">
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
   <div class="radio-icons">
     <% const boxs = boxes.map(box => {
       boxCounter++;
@@ -45,31 +49,4 @@ let boxCounter = 0;
     });
     %>
   </div>
-
 </fieldset>
-
-<% if ((boxes.filter(box => box.toggle !== undefined || box.rToggle !== undefined).length > 0) || typeof all_toggle !== "undefined") { %>
-<script type="text/javascript">
-  $("#<%- id %>-container").change("input[type=radio]", function () {
-    $($(this).data("all-toggle")).show();
-
-    $("input[type=radio]:checked", this).each(function () {
-      $($(this).data("toggle")).removeAttr("hidden").show();
-      $($(this).data("r-toggle")).hide();
-      $(this).parent().find(".hidden-hint").show();
-    });
-
-    $("input[type=radio]:not(:checked)", this).each(function () {
-      $($(this).data("toggle")).hide();
-      $($(this).data("r-toggle")).show();
-      $(this).parent().find(".hidden-hint").hide();
-    });
-
-
-  })
-
-  $("#<%- id %>-container").on("click", ".tooltip", function (e) {
-    e.preventDefault();
-  });
-</script>
-<% } %>

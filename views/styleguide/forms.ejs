@@ -564,7 +564,19 @@ content: "Currently, our system only allows us to record gender as male or femal
         legend,
         modifiers,
         hint,
-        id
+        id,
+        {
+          property: "beforeText",
+          desc: "Text to be displayed before the text box",
+          type: "string",
+          req: false
+        },
+        {
+          property: "afterText",
+          desc: "Text to be displayed after the text box",
+          type: "string",
+          req: false
+        }
       ],
       textarea: [
         tooltip,
@@ -1058,7 +1070,7 @@ icon: {
                 <div style="margin-left: 1em;" class="accordion">
                   <button class="style-less-button accordion-button"><i class="transition fas fa-chevron-right"></i> Modifiers</button>
                     <div class="accordion-content" hidden>
-                      ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3], modGlobal[4]])}
+                      ${mapMods([modGlobal[0], modGlobal[2], modGlobal[3], modGlobal[4], { text: "dollarSign", desc: "Places a dollar sign ($) before the text box" }, { text: "percentSign", desc: "Places a percent sign after the text box" }])}
                     </div>
                 </div>` : ""}
                 ${$(this).data("field") === "textarea" || $(this).data("field") === "yes_no" ? `
@@ -1079,7 +1091,7 @@ icon: {
       });
 
 
-      $(".form_elem").on("click", ".properties .accordion-button", function () {
+      $(".form_elem").on("click", ".properties .accordion-button", function() {
         if ($(this).hasClass("rotate-90")) {
           $(this).removeClass("rotate-90");
         } else {

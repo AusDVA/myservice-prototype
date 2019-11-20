@@ -1,15 +1,15 @@
 let express = require('express'),
   cookieParser = require("cookie-parser"),
   serveIndex = require('serve-index'),
-  { promisify } = require('util'),
-  { resolve } = require('path'),
   fs = require('fs'),
   path = require('path'),
+  { promisify } = require('util'),
+  { resolve } = require('path'),
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
   // else default to a hard coded value of 5000
-  port = process.env.PORT || process.argv[2] || 5000,
+  port = process.env.PORT || process.argv[2] || 6000,
   app = express();
 
 let readdir = promisify(fs.readdir);
@@ -26,7 +26,7 @@ app.get('/favicon.ico', (req, res) => {
   res.send();
 })
 
-app.use(function (req, res, next) {
+app.use((req, res, next) => {
   res.locals.partials = __dirname + '/partials/';
   res.locals.forms = __dirname + '/partials/components/form-partials/';
   res.locals.components = __dirname + '/partials/components/';
@@ -42,8 +42,6 @@ app.use(function (req, res, next) {
   res.locals.generateButtonRadio = require('./helpers/generateButtonRadio');
   next();
 });
-
-
 
 // create sitemap 
 app.use('/files', serveIndex('views', {
@@ -110,7 +108,7 @@ app.get('/sitemap', (req, res) => {
 
         var title = data.match(/<title>(.*)<\/title>/) || data.split("%>")[0].match(/title: "(.*)"/) || null;
         var heading = data.match(/<span class="heading">(.*)<\/span>/) || data.split("%>")[0].match(/heading: "(.*)"/) || null;
-        var claim = data.includes('<%- include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
+        var claim = data.includes('include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
 
         if (title !== null) title = JSON.parse(JSON.stringify(title))[1];
         if (heading !== null) heading = JSON.parse(JSON.stringify(heading))[1];
@@ -137,61 +135,70 @@ app.get('/sitemap', (req, res) => {
 })
 
 // folder level renders 
-app.get('/:id0', function (request, response) {
+app.get('/:id0', (request, response) => {
   response.render(request.params.id0, {
     main_nav_active: 'home',
     liveFeature: liveFeatureEnv
   });
 });
 
-app.get('/:id0/:id1', function (request, response) {
-  response.render(request.params.id0 + "/" + request.params.id1, {
-    main_nav_active: request.params.id1,
+app.get('/:id0/:id1', (request, response) => {
+  let { id0, id1 } = request.params;
+  response.render(`${id0}/${id1}`, {
+    main_nav_active: id1,
     liveFeature: liveFeatureEnv
   });
 });
 
-app.get('/:id0/:id1/:id2', function (request, response) {
-  response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2, {
-    main_nav_active: request.params.id1,
+app.get('/:id0/:id1/:id2', (request, response) => {
+  let { id0, id1, id2 } = request.params;
+  response.render(`${id0}/${id1}/${id2}`, {
+    main_nav_active: id1,
     liveFeature: liveFeatureEnv,
-    secondary_nav_active: request.params.id2,
+    secondary_nav_active: id2,
     claimType: request.cookies.claimType
   });
 });
 
-app.get('/:id0/:id1/:id2/:id3', function (request, response) {
-  response.render(request.params.id0 + "/" + request.params.id1 + "/" + request.params.id2 + "/" + request.params.id3, {
-    main_nav_active: request.params.id1,
+app.get('/:id0/:id1/:id2/:id3', (request, response) => {
+  let { id0, id1, id2, id3 } = request.params;
+  response.render(`${id0}/${id1}/${id2}/${id3}`, {
+    main_nav_active: id1,
     liveFeature: liveFeatureEnv,
-    secondary_nav_active: request.params.id2
+    secondary_nav_active: id2
   });
 });
 
-app.get('/',
-  function (request, response) {
-    response.render('unauth/index-loading', {
-      layout: 'login',
-      user: request.user,
-      liveFeature: liveFeatureEnv
-    });
+app.get('/:id0/:id1/:id2/:id3/:id4', (request, response) => {
+  let { id0, id1, id2, id3, id4 } = request.params;
+  response.render(`${id0}/${id1}/${id2}/${id3}/${id4}`, {
+    main_nav_active: id1,
+    liveFeature: liveFeatureEnv,
+    secondary_nav_active: id2
   });
+});
 
-app.get('/mygov-login',
-  function (request, response) {
-    response.render('auth/mygov-login', {
-      layout: 'login',
-      user: request.user,
-      liveFeature: liveFeatureEnv
-    });
+app.get('/', (request, response) => {
+  response.render('unauth/index-loading', {
+    layout: 'login',
+    user: request.user,
+    liveFeature: liveFeatureEnv
   });
+});
 
-app.get('/logout',
-  function (request, response) {
-    request.logout();
-    response.redirect('/');
+app.get('/mygov-login', (request, response) => {
+  response.render('auth/mygov-login', {
+    layout: 'login',
+    user: request.user,
+    liveFeature: liveFeatureEnv
   });
+});
 
-app.listen(port, function () {
+app.get('/logout', (request, response) => {
+  request.logout();
+  response.redirect('/');
+});
+
+app.listen(port, () => {
   console.log('listening on port: ' + port);
 });

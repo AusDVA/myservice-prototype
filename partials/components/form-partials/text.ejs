@@ -6,7 +6,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join("") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
   <%- generateLabel({
       id,
       modifiers,
@@ -14,13 +14,21 @@ if (typeof modifiers === "string") modifiers = [modifiers];
       hint: typeof hint !== "undefined" ? hint : null,
       tooltip: typeof tooltip !== "undefined" ? tooltip : null
     }) %>
+  <%- typeof beforeText !== "undefined" ? `<span class="${modifiers.includes("dollarSign") ? "" : "text-before-input"}">${beforeText}</span>` : "" %>
+
   <% if (modifiers.includes("dollarSign")) { %>
     <span class="input-support-text">$</span>
   <% } %>
-  <input type="text" class="uikit-text-input <%- modifiers.includes("inputFullLength") ? "" : "input-half" %> <%- modifiers.includes("inputShort") ? "input-small" : "" %> <%- modifiers.includes("inputXShort") ? "yyyy" : "" %>" name="<%- id %>" id="<%- id %>"
-    <%- modifiers.includes("disabled") ? "disabled" : "" %> <%- typeof placeholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
+  
+  <input type="text" class="uikit-text-input <%- typeof afterText !== "undefined" ? "margin-right--none" : "" %> <%- modifiers.includes("inputFullLength") ? "" : "input-half" %> <%- modifiers.includes("inputShort") ? "input-small" : "" %> <%- modifiers.includes("inputXShort") ? "yyyy" : "" %>" name="<%- id %>" id="<%- id %>"
+    <%- modifiers.includes("disabled") ? "disabled" : "" %> 
+    <%- typeof placeholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
     <%- typeof value !== "undefined" ? `value="${value}"` : "" %>>
+
   <% if (modifiers.includes("percentSign")) { %>
     <span class="input-support-text">%</span>
   <% } %>
+
+  <%- typeof afterText !== "undefined" ? `<span class="${modifiers.includes("percentSign") ? "" : "text-after-input"}">${afterText}</span>` : "" %>
+
 </div>

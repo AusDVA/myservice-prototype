@@ -6,7 +6,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
 %>
 
-<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+<div class="form-group formPartials_date <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
   <fieldset>
     <%- generateLabel({
         id,
@@ -25,44 +25,18 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
     <%- modifiers.includes("noSlashes") ? "" : `<span aria-hidden="true">/</span>` %>
     <input type="number" class="uikit-text-input yyyy" name="<%- id %>-yyyy" id="<%- id %>-yyyy" maxlength="4" aria-label="4 digit year">
+
+    <% if (modifiers.includes("ongoing")) { %>
+      <span>&nbsp;&nbsp;&nbsp; OR &nbsp;&nbsp;&nbsp;</span>
+      <%- generateCheckRadio({
+        text: typeof ongoingText !== "undefined" ? ongoingText : "Still serving",
+        boxID: `${id}-ongoing`,
+        baseID: `${id}-ongoing`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customOuterClass: "display-inline-block"
+      }).html %>
+    <% } %>
   </fieldset>
-  
-  <% if (!(modifiers.includes("noScript"))) { %>
-
-
-  <script>
-    <% if (!(modifiers.includes("noDay"))) { %>
-      $("#<%- id %>-dd").on("keyup", function (e) {
-        if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
-          if ($(this).val().length === 2) {
-            $("#<%- id %>-mm").focus();
-          }
-        }
-      })
-      <% } %>
-
-        $("#<%- id %>-mm").on("keyup", function (e) {
-          if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
-        <% if (!(modifiers.includes("noDay"))) { %>
-          if ($(this).val().length === 0) {
-                $("#<%- id %>-dd").focus();
-              }
-        <% } %>
-        if ($(this).val().length === 2) {
-              $("#<%- id %>-yyyy").focus();
-            }
-          }
-        })
-
-    $("#<%- id %>-yyyy").on("keyup", function (e) {
-      if ((e.which >= 49 && e.which <= 57) || (e.which >= 96 && e.which <= 105) || e.which === 46 || e.which === 8) {
-        if ($(this).val().length === 0) {
-          $("#<%- id %>-mm").focus();
-        }
-      }
-    })
-
-
-  </script>
-  <% } %>
 </div>

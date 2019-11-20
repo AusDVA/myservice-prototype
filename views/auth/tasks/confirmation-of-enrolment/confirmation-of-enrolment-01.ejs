@@ -3,12 +3,47 @@
   heading: "Confirmation of enrolment"
 }) %>
 
-<h2 class="margin-below">Provide  <span class='user-label-c'>your</span> confirmation of enrolment</h2>
+<h2 class="margin-below">Provide  <span class='user-label-c'>your</span> confirmation of enrolment for 2020</h2>
 
-<p>You are required to provide a Confirmation of Enrolment (COE) document for <span class='user-label-f'>your</span> continuing study.</p>
-<p>If <span class='user-label-f'>your</span> study details have changed they will be updated to match those shown on the document. </p>
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "<span class='user-label-g'>Are you</span> undertaking study in 2020?",
+  id: "continuing"
+}); %>
 
-<div id="next" class="margin-above">
+<%- include(forms+"button_radio", {
+  label: "Will this study be full time or part time?",
+  id: "full-time",
+  boxes: [
+    {
+      text: "Full time",
+      toggle: "#next"
+    },
+    {
+      text: "Part time",
+      toggle: "#explain-part-time-container"
+    }
+  ],
+  modifiers: ["hidden"]
+}) %>
+
+<%- include(partials+"components/form-partials/textarea", {
+  label: "Briefly describe why <span class='user-label-a'>you</span> won't be studying full time",
+  hint: "(optional)<BR/>For example: health reasons, isolated location, family situation, course structure.",
+  id: "explain-part-time",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/textarea", {
+  label: "Briefly describe why <span class='user-label-a'>you</span> won't be undertaking study in 2020",
+  hint: "(optional)",
+  id: "explain",
+  modifiers: ["hidden"]
+}); %>
+
+<!-- <p>You are required to provide a Confirmation of Enrolment (COE) document for <span class='user-label-f'>your</span> continuing study.</p>
+<p>If <span class='user-label-f'>your</span> study details have changed they will be updated to match those shown on the document. </p> -->
+
+<div id="next" class="margin-above" hidden>
   <p>Choose <b>next</b> to continue.</p>
 </div>
 
@@ -24,7 +59,8 @@
     },
     {
       text: "Next",
-      link: "/auth/tasks/confirmation-of-enrolment/confirmation-of-enrolment-02",
+      id: "next-footer",
+      link: "#",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -38,10 +74,40 @@
 
     $("input:radio").prop("checked", false);
 
+    $('input[name=continuing]').change(function () {
+        var mySelection = $('input[name=continuing]:checked').parent().find("span").text();
+        $("#full-time-container input:radio").prop("checked", false);
+        if ( mySelection == "Yes") {
+          sessionStorage.setItem('undertaking-study',true);
+          $("#full-time-container").show();
+          $("#explain-container").hide();
+        } else {
+          $("#next").hide();
+          $("#full-time-container").hide();
+          $("#explain-container").show();
+          $("#explain-part-time-container").hide();
+            sessionStorage.setItem('undertaking-study',false);
+          s
+        }
+    });
+
+
+
+    $("#next-footer").on("click", function() {
+    if ( sessionStorage.getItem('undertaking-study') == "true" ) {
+      window.location.href = "confirmation-of-enrolment-02";
+    } else {
+      window.location.href = "confirmation-of-enrolment-03";
+    }
+    })
+
+
+
   });
 </script>
 
 <%- include("confirmation-of-enrolment-state-switcher.ejs") %>
+
 
 </html>
 
