@@ -7,7 +7,7 @@
 
     <div>
     <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Trip details</span></h2>
-    <div id="previous" class="floateddd" style="display: inline-block;">|&nbsp;<a>Use previous trip details</a></div>
+    <div id="previous" class="floated" style="display: inline-block;">&nbsp;| <a>Use previous trip details</a></div>
     </div>
 
     <%- include(partials+"components/form-partials/date", {
@@ -336,11 +336,24 @@ $('#previous').click(function () {
   $("#going-to-prepop-container").hide("fast");
   $("#going-to-enter").hide();
   $("#going-to-prepop").show();
-  $(".dd").val("12");
-  $(".mm").val("8");
-  $(".yyyy").val("2019");
-  $("#time-container input").val("10:45 AM");
-  $('select>option:eq(3)').attr('selected', true);
+  
+  var mySelection = $('#previous').text().trim();
+  console.log( mySelection )
+  if ( mySelection == "| Use previous trip details") {
+    $(".dd").val("12");
+    $(".mm").val("8");
+    $(".yyyy").val("2019");
+    $("#time-container input").val("10:45 AM");
+    $('select>option:eq(3)').attr('selected', true);
+    $('#previous').html("&nbsp;| <a>Reset</a>");
+  } else {
+    $(".dd").val("");
+    $(".mm").val("");
+    $(".yyyy").val("");
+    $("#time-container input").val("");
+    $('select>option:eq(1)').attr('selected', true);
+    $('#previous').html("&nbsp;| <a>Use previous trip details</a>");
+  }
 });
 
 
