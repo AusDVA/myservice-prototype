@@ -36,62 +36,55 @@
     label: "What is your current relationship status?",
     id: "relationship-status",
     boxes: [
-      "Single",
-      "Married",
-      "Widowed",
-      "Divorced",
-      "Separated",
-      "De Facto"
+      {
+        text: "Single"
+      },
+      {
+        text: "Married"
+      },
+      {
+        text: "De Facto"
+      },
+      {
+        text: "Widowed"
+      },
+      {
+        text: "Divorced"
+      },
+      {
+        text: "Separated",
+        tooltip: {
+          screenreaderText: "Gender help",
+          content: "Separated means that you are living apart from your spouse, but still legally married pending a judgement from a court. If you are separated due to illness or age please indicate status as married. We will ask about circumstances regarding physical separation due to illness or age later in the claim."
+        }
+      }
     ]
   }) %>
 
-  <div class="rel--widowed" hidden>
-    <%- include(forms+"date", {
-      label: "Date of partner's death"
-    }) %>
-
-    <%- include(forms+"text", {
-      label: "Name of deceased partner"
-    }) %>
-  </div>
-
-  <%- include(forms+"date", {
-    label: "Date of divorce",
-    customClass: "rel--divorced",
-    modifiers: ["hidden"]
-  }) %>
-
   <div class="rel--separated" hidden>
-    <%- include(forms+"notice", {
-      message: "Separated means that you are living apart from your spouse, but still legally married pending a judgement from a court. If you are separated due to illness or age please indicate status as married. We will ask about circumstances regarding physical separation due to illness or age later in the claim."
-    }) %>
 
     <%- include(forms+"notice", {
       message: `<p>You will be required to provide <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf"><span class="external-link">Separation from partner form (D513)</span></a> to support your claim.</p>
-         <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+         <p>You can attached the completed form at the end of your claim.</p>`
     }) %>
 
-    <%- include(forms+"date", {
-      label: "Date of separation"
-    }) %>
   </div>
 
-
   <div class="rel--married rel--de-facto" hidden>
+
+      <%- include(forms+"date", {
+        label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
+      }) %>
+
     <%- include(forms+"notice", {
-      message: `<p>You will be required to provide a marriage certificate to support your claim.</p>
-                <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`,
+      message: `<p>You will need to attach a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
       customClass: "rel--married",
       modifiers: ["hidden"]
     }) %>
 
-    <%- include(forms+"date", {
-      label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
-    }) %>
+    <h2 class="margin-above--large"><span class="font-weight-heavy">Partner details</span></h2>
 
-    <h3 class="margin-above--large">Partner details</h3>
-
-    <%- include(forms+"prepop/ranktitlelist-dropdown", {
+    <%- include(forms+"prepop/ranktitlelist-dropdown-alt", {
       customClass: "margin-above--large",
       label: "Title"
     }) %>
@@ -124,8 +117,6 @@
     <%- include(forms+"date", {
       label: "Date of birth"
     }) %>
-
-    <h3 class="margin-above--large">Residential address</h3>
     
     <%- include(forms+"yes_no", {
       label: "Does your partner live at the same address as you?",
@@ -138,7 +129,7 @@
       label: ""
     }) %>
 
-    <h3 class="margin-above--large">Postal address</h3>
+    <h2 class="margin-above--large"><span class="font-weight-heavy">Postal address</span></h2>
 
     <%- include(forms+"yes_no", {
       label: "Same as residential address?",
@@ -151,7 +142,7 @@
       label: ""
     }) %>
 
-    <h3 class="margin-above--large">Partner contact details</h3>
+    <h2 class="margin-above--large"><span class="font-weight-heavy">Partner contact details</span></h2>
 
     <%- include(forms+"yes_no", {
       label: "Does your partner wish to use your contact details?",
@@ -176,65 +167,31 @@
       }) %>
     </div>
 
-    <%- include(forms+"radio", {
-      label: "Has your partner applied for or do htey receive any of the following Centrelink payments?",
-      hint: "(optional)<br>Select all that apply.",
-      all_toggle: "#crn-number",
-      boxes: [
-        "Age Pension",
-        "Disability Support Pension",
-        "Carer Payment",
-        "Newstart Allowance",
-        {
-          text: "Other",
-          toggle: "#other-centrelink-container"
-        }
-      ]
-    }) %>
+    <h2 class="margin-above--large"><span class="font-weight-heavy">Benefits</span></h2>
 
-    <%- include(forms+"text", {
-      id: "other-centerlink",
-      label: "Please specify",
-      modifiers: ["hidden", "inputFullLength"]
+    <%- include(forms+"yes_no", {
+      label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+      yes_toggle: ["#crn-container","#eligibility-container"]
     }) %>
-
-    <%- include(forms+"text", {
-      label: "Customer reference number (CRN)",
-      id: "crn-number",
+    
+    <%- include(partials+"components/form-partials/notice", {
+      message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+      type: "warning",
+      id: "eligibility",
       modifiers: ["hidden"]
-    }) %>
-
+    }); %>
+    
     <%- include(forms+"yes_no", {
-      label: "Is your partner a registered member of the Pension Bonus Scheme?",
-      yes_toggle: "#partner-pension-bonus-container"
+      label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card from Centrelink?",
+      yes_toggle: "#crn-container"
     }) %>
-
-    <%- include(forms+"notice", {
-      id: "partner-pension-bonus",
+    
+    <%- include(partials+"components/form-partials/text", {
+      label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
       modifiers: ["hidden"],
-      message: `<p>You will be required to provide a <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf"><span class="external-link">Claim for Pension Bonus form (D559)</span></a> to support your claim.</p>
-         <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
-    }) %>
-
-    <%- include(forms+"yes_no", {
-      label: "Does your partner currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?"
-    }) %>
-
-    <%- include(forms+"yes_no", {
-      label: "Is your partner blind or visually impaired?",
-      tooltip: {
-        screenreaderText: "Help",
-        content: "I.e. regarded as permanently blind in both eyes"        
-      },
-      yes_toggle: "#partner-blind-container"
-    }) %>
-
-    <%- include(forms+"notice", {
-      id: "partner-blind",
-      modifiers: ["hidden"],
-      message: `<p>You will be required to provide a report from an Opthamologist to support your claim.</p>
-      <p>You will be asked to upload this evidence when finalising your claim in part D.</p>`
-    }) %>
+      id: "crn"
+    }); %>
+    
 
   </div>
 
@@ -267,8 +224,8 @@
     $("#relationship-status-container").on("change", "input", function() {
       $(".rel--married").hide();
       $(".rel--de-facto").hide();
-      $(".rel--widowed").hide();
-      $(".rel--divorced").hide();
+      // $(".rel--widowed").hide();
+      // $(".rel--divorced").hide();
       $(".rel--separated").hide();
 
       switch ($("#relationship-status-container :checked").val()) {
@@ -279,10 +236,10 @@
           $(".rel--de-facto").show();
           break;
         case "widowed":
-          $(".rel--widowed").show();
+          // $(".rel--widowed").show();
           break;
         case "divorced":
-          $(".rel--divorced").show();
+          // $(".rel--divorced").show();
           break;
         case "separated":
           $(".rel--separated").show();
