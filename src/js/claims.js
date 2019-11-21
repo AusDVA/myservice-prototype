@@ -5,8 +5,6 @@ $.ajax({
   dataType: 'json'
 }).done(function (data) {
 
-  console.log('Claim data back');
-
   localStorage.setItem('claimIlStraightThrough', JSON.stringify(data));
 
   setClaimCondition();
@@ -16,7 +14,6 @@ $.ajax({
 // put the user from user.js in to local storage and the users clients in to session storage 
 function setClaimCondition() {
 
-  console.log('Claim lookup ');
 
   const claimDataAll = JSON.parse(localStorage.getItem('claimIlStraightThrough'));
 
@@ -26,7 +23,6 @@ function setClaimCondition() {
     source: claimDataAll,
     select: function (event, ui) {
 
-      console.log('selected = ');
 
       sessionStorage.setItem('claimCondition', JSON.stringify(ui.item));
 
@@ -56,13 +52,11 @@ function getClaimCondition() {
     $.each(claimDataAll, function (index, condition) {
 
       if (claimDataClaim.label === condition.label) {
-        console.log('element found');
 
         var requiredDocsHtml = '';
 
         if (this.documentTypeRequired.length === 1) {
 
-          console.log(this.documentTypeRequired);
 
           requiredDocsHtml += this.documentTypeRequired[0].name;
           $docType.append('<option value=' + this.documentTypeRequired[0].name + '>' + this.documentTypeRequired[0].name + '</option>');
