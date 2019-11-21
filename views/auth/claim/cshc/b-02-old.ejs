@@ -1,0 +1,155 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Partner's income",
+  progress: {
+    activeItem: 2,
+      points: [
+        {
+          text: "Your income",
+          link: "/auth/claim/cshc/b-01"
+        },
+        {
+          text: "Partner's income",
+          link: "/auth/claim/cshc/b-02"
+        },
+        {
+          text: "Current year estimates",
+          link: "/auth/claim/cshc/b-03"
+        },
+        {
+          text: "Partner's current year estimates",
+          link: "/auth/claim/cshc/b-04"
+        },
+        {
+          text: "Account-based pensions",
+          link: "/auth/claim/cshc/b-05"
+        }
+      ]
+    }
+}) %>
+
+<h2 class="margin-below">Provide your partner's income details for financial year ending <b>30 June 2017</b></h2>
+
+
+  <%- include(forms+"radio", {
+    label: "Partner's income details from:",
+    all_toggle: "#myForm",
+    boxes: [
+      {
+        text: "Tax Notice of Assessment / Tax return",
+        toggle: "#taxable-income-container",
+      },
+      {
+        text: "Personal records (income was too low to require a tax return)",
+        toggle: "#low-income-container"
+      }
+    ],
+    id: "income-source"
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    hint: "Enter your taxable income from your Notice of Assessment",
+    id: "taxable-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
+  }) %>
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    hint: "Enter your taxable income",
+    id: "low-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
+  }) %>
+
+  <form id="myForm" hidden>
+
+      <input type="reset" style="display:none">
+
+ 
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have to pay Australian income tax",
+    hint: "Provide the amount in Australian dollars",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+ 
+
+  <h2 class="margin-below">Partner's total income: <b><span id="total-income">$1,082.00</span></b></h2>
+  <hr>
+  <h2 class="margin-below--large">Combined total income: <b><span id="total-income">$2,110.78</span></b></h2>
+
+</form>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/b-03",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<script>
+  $(".income").on("keyup", "input", function() {
+    var income = 0.00;
+
+    $(".income").each(function(index, elem) {
+      if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+        income += parseFloat($(this).find("input").val())
+      }
+    })
+
+    $("#total-income").text(income.toFixed((2)))
+  })
+</script>
+
+<%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>

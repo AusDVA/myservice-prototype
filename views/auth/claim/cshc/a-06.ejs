@@ -1,0 +1,132 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Payment details",
+  progress: {
+    activeItem: 7,
+      points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01"
+      },
+      {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/a-02"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/a-03"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/a-04"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/a-05"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/a-06"
+        },
+      ]
+    }
+}) %>
+  
+
+
+
+<p class="margin-above">Eligibility for the Commonwealth Seniors Health Card may entitle you <span class="user-label-b">and your partner</span> to receive the Energy Supplement. The supplement can only be paid into an account held in <span class="user-label-a">your name</span>.</p>
+
+<hr>
+  
+<%- include(partials+"components/form-partials/prepop/bank-details", {
+  label: "Bank account"
+}); %>
+
+<div class="couple" hidden>
+  
+  <%- include(forms+"yes_no", {
+    label: "Would your partner like to use the same bank details?",
+    no_toggle: "#partner-bank-container"
+  }) %>
+
+  <%- include(partials+"components/form-partials/prepop/bank-details", {
+    label: "Partner bank account",
+    id: "partner-bank",
+    modifiers: ["hidden"]
+  }); %>
+
+</div>
+
+<h2 class="margin-below"><span class="font-weight-heavyqq">TFN details</span></h2>
+
+<%- include(forms+"yes_no", {
+  label: "Do you have a tax file number?",
+  yes_toggle: "#tfn-container",
+  no_toggle: "#need-tfn-container"
+}) %>
+
+<%- include(forms+"notice", {
+  message: `<p>You need to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a>.</p>`,
+  id: "need-tfn",
+  modifiers: ["hidden"]
+}) %>
+
+<%- include(forms+"text", {
+  label: "Tax file number",
+  id: "tfn",
+  modifiers: ["hidden"]
+}) %>
+
+<div class="couple" hidden>
+
+  <%- include(forms+"yes_no", {
+    label: "Does your partner have a tax file number?",
+    yes_toggle: "#tfn-partner-container",
+    no_toggle: "#need-tfn-partner-container"
+  }) %>
+
+  <%- include(forms+"notice", {
+    message: `<p>Your partner will need to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a>.</p>`,
+    id: "need-tfn-partner",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Partner's tax file number",
+    id: "tfn-partner",
+    modifiers: ["hidden"]
+  }) %>
+
+</div>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-04",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/prog-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>
