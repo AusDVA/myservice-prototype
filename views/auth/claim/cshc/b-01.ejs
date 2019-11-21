@@ -1,31 +1,6 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Your income",
-  progress: {
-    activeItem: 1,
-      points: [
-        {
-          text: "Your income",
-          link: "/auth/claim/cshc/b-01"
-        },
-        {
-          text: "Partner's income",
-          link: "/auth/claim/cshc/b-02"
-        },
-        {
-          text: "Your current year estimates",
-          link: "/auth/claim/cshc/b-03"
-        },
-        {
-          text: "Partner's current year estimates",
-          link: "/auth/claim/cshc/b-04"
-        },
-        {
-          text: "Account-based pensions",
-          link: "/auth/claim/cshc/b-05"
-        }
-      ]
-    }
+  heading: "Income details"
 }) %>
 
   
@@ -45,11 +20,11 @@
 
   <%- include(forms+"radio", {
     label: "Income details from:",
-    all_toggle: "#myForm",
+    all_toggle: ["#your-income","#myForm"],
     boxes: [
       {
         text: "Tax Notice of Assessment / Tax return",
-        toggle: "#taxable-income-container",
+        toggle: "#taxable-income-container"
       },
       {
         text: "Personal records (income was too low to require a tax return)",
@@ -59,6 +34,8 @@
     id: "income-source",
     modifiers: ["hidden"]
   }) %>
+
+  <h2 id="your-income" hidden><span class="font-weight-heavy">Your income</span></h2>
 
   <%- include(forms+"text", {
     customClass: "income",
@@ -76,6 +53,84 @@
   }) %>
 
   <form id="myForm" hidden>
+
+      <input type="reset" style="display:none">
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have to pay Australian income tax",
+    hint: "Provide the amount in Australian dollars",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <h2 class="margin-below--large">Your total: <b>$<span id="total-income">0.00</span></b></h2>
+
+  <hr>
+
+  <h2 id="your-income" hidden><span class="font-weight-heavy">Partner income</span></h2>
+
+  
+
+  <%- include(forms+"radio", {
+    label: "Partner's income details from:",
+    all_toggle: "#myForm-partner",
+    boxes: [
+      {
+        text: "Tax Notice of Assessment / Tax return",
+        toggle: "#partner-taxable-income-container",
+      },
+      {
+        text: "Personal records (income was too low to require a tax return)",
+        toggle: "#partner-low-income-container"
+      }
+    ],
+    id: "income-source"
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Partner taxable income",
+    hint: "Enter your partner's taxable income from your Notice of Assessment",
+    id: "partner-taxable-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
+  }) %>
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Partner taxable income",
+    hint: "Enter your partner's taxable income",
+    id: "partner-low-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
+  }) %>
+
+  <form id="myForm-partner" hidden>
 
       <input type="reset" style="display:none">
 
@@ -116,9 +171,10 @@
     modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
- 
 
-  <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
+  <h2 class="margin-below--large">Partner total: <b>$<span id="total-income">0.00</span></b></h2>
+<hr>
+  <h2 class="margin-below--large">Combined total: <b>$<span id="total-income">0.00</span></b></h2>
 
 </form>
 
