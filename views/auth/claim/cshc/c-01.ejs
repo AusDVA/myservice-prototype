@@ -3,14 +3,59 @@
   heading: "Required documents"
 }) %>
   
+<div id="partnered" hidden>
   <%- include(forms+"legacy-upload", {
     docs: [
       {
-        title: "Document 1",
+        title: "Marriage certificate",
+        description: "description"
+      },
+      {
+        title: "Birth certificate",
+        description: "description"
+      },
+      {
+        title: "Partner's birth certificate",
+        description: "description"
+      },
+      {
+        title: "Children's birth certificates",
+        description: "description"
+      },
+      {
+        title: "Residency document",
+        description: "description"
+      },
+      {
+        title: "Partner's residency document",
+        description: "description"
+      },
+      {
+        title: "Partner's proof of ID",
         description: "description"
       }
     ]
   }) %>
+</div>
+
+<div id="single">
+    <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Marriage certificate",
+          description: "description"
+        },
+        {
+          title: "Birth certificate",
+          description: "description"
+        },
+        {
+          title: "Residency document",
+          description: "description"
+        }
+      ]
+    }) %>
+  </div>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -38,3 +83,17 @@
 <%- include(forms+"modals/claim-cancel") %>
 
 <%- include(templates+"footer") %>
+
+
+<%- include("state-switcher") %>
+
+<script>
+ if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+        $("#partnered").hide();
+        $("#single").show();
+      } else {
+        $("#partnered").show();
+        $("#single").hide();
+      }
+
+</script>
