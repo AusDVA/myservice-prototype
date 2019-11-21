@@ -1,0 +1,56 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Relationship status",
+    boxes: [
+      "Single",
+      "Partnered"
+    ],
+    id: "sw-relationship-status"
+  }); %>
+
+</div>
+
+<script>
+  var relationshipStatus;
+  var immigrationStatus;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    if (localStorage.getItem("relationship-status") === null || localStorage.getItem("relationship-status") === undefined) localStorage.setItem("relationship-status", "single");
+
+    if (localStorage.getItem("relationship-status") === "single") {
+      $("#sw-relationship-status-2").prop("checked", false)
+      $("#sw-relationship-status-1").prop("checked", true)
+    } else {
+      $("#sw-relationship-status-1").prop("checked", false)
+      $("#sw-relationship-status-2").prop("checked", true)
+    }
+
+    relationshipStatus = localStorage.getItem("relationship-status");
+
+    stateSwitcher();
+  });
+
+  $("#state-switcher").on("change", "input", function() {
+
+    if ($("#sw-relationship-status-1").prop("checked")) {
+      localStorage.setItem("relationship-status", "single");
+    } else {
+      localStorage.setItem("relationship-status", "partnered");
+    }
+    relationshipStatus = localStorage.getItem("relationship-status");
+    
+    stateSwitcher();
+  })
+  
+</script>
