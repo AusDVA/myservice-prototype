@@ -6,17 +6,21 @@
   
   <p class="margin-above">You can provide adjusted taxable income details for either of the two financial years prior to the current financial year. They should be the most recent verified details.</p>
   
-
   <hr>
 
   <%- include(forms+"button_radio", {
     label: "For which financial year are you providing income details?",
     all_toggle: "#income-source-container",
+    id: "year",
     boxes: [
       "2017 - 2018",
       "2018 - 2019"
     ]
   }) %>
+
+  <form  class="resetForm" >
+
+      <input type="reset" hidden>
 
   <%- include(forms+"radio", {
     label: "Income details from:",
@@ -35,7 +39,13 @@
     modifiers: ["hidden"]
   }) %>
 
+</form>
+
   <h2 id="your-income" hidden><span class="font-weight-heavy">Your income</span></h2>
+
+  <form id="myForm01" class="resetForm" hidden>
+
+      <input type="reset" style="display:block">
 
   <%- include(forms+"text", {
     customClass: "income",
@@ -52,7 +62,9 @@
     modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
   }) %>
 
-  <form id="myForm" hidden>
+  </form>
+
+  <form id="myForm" class="resetForm" hidden>
 
       <input type="reset" style="display:none">
 
@@ -97,8 +109,6 @@
 
   <h2 id="your-income" hidden><span class="font-weight-heavy">Partner income</span></h2>
 
-  
-
   <%- include(forms+"radio", {
     label: "Partner's income details from:",
     all_toggle: "#myForm-partner",
@@ -130,7 +140,7 @@
     modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
   }) %>
 
-  <form id="myForm-partner" hidden>
+  <form id="myForm-partner" class="resetForm" hidden>
 
       <input type="reset" style="display:none">
 
@@ -204,6 +214,13 @@
 <%- include(forms+"modals/claim-cancel") %>
 
 <script>
+
+
+$("#year-container").on("change", "input", function() {
+  $(".resetForm").trigger("reset");
+})
+
+
   $(".income").on("keyup", "input", function() {
     var income = 0.00;
 

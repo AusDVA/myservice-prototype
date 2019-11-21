@@ -190,6 +190,8 @@
 
   </div>
 
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
   <%- include(forms+"pagination", {
     pagination: [
       {
@@ -219,25 +221,29 @@
     $("#relationship-status-container").on("change", "input", function() {
       $(".rel--married").hide();
       $(".rel--de-facto").hide();
-      // $(".rel--widowed").hide();
-      // $(".rel--divorced").hide();
       $(".rel--separated").hide();
 
       switch ($("#relationship-status-container :checked").val()) {
         case "married":
           $(".rel--married").show();
+          sessionStorage.setItem('cshc-relationship-status', "Partnered");
           break;
         case "defacto":
           $(".rel--de-facto").show();
+          sessionStorage.setItem('cshc-relationship-status', "Partnered");
+          break;
           break;
         case "widowed":
-          // $(".rel--widowed").show();
+        $("#save-next").show();
+          sessionStorage.setItem('cshc-relationship-status', "Single");
           break;
         case "divorced":
-          // $(".rel--divorced").show();
+          $("#save-next").show();
+          sessionStorage.setItem('cshc-relationship-status', "Single");
           break;
         case "separated":
-          $(".rel--separated").show();
+        $("#save-next").show();
+          sessionStorage.setItem('cshc-relationship-status', "Single");
           break;
       }
 
@@ -245,3 +251,5 @@
   </script>
 
 <%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>

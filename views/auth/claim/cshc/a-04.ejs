@@ -32,7 +32,7 @@
     }
 }) %>
 
-<h2><span class="font-weight-heavy">Your residency</span></h2>
+<h2 class="couple" hidden><span class="font-weight-heavy">Your residency</span></h2>
 
   <%- include(forms+"yes_no", {
     label: "Are you an Australian citizen?",
@@ -45,6 +45,7 @@
     <%- include(forms+"yes_no", {
       label: "Were you born in Australia?",
       id: "citizen-born-australia",
+      yes_toggle: "#save-next-single",
       no_toggle: "#citizen-country-birth-container, #citizen-start-date-container"
     }) %>
 
@@ -87,6 +88,8 @@
     </div>
   </form>
 
+  <div class="couple" hidden>
+
   <h2 class="margin-above--large"><span class="font-weight-heavy">Partner residency</span></h2>
 
   <%- include(forms+"yes_no", {
@@ -100,6 +103,7 @@
     <%- include(forms+"yes_no", {
       label: "Was your partner born in Australia?",
       id: "partner-citizen-born-australia",
+      yes_toggle: "#save-next-couple",
       no_toggle: "#partner-citizen-country-birth-container, #partner-citizen-start-date-container"
     }) %>
 
@@ -142,6 +146,11 @@
     </div>
   </form>
 
+</div>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -168,8 +177,11 @@
 
   <%- include(forms+"modals/claim-cancel") %>
 
+  <%- include("state-switcher") %>
+
   <script>
     $("#aus-citizen-container").on("change", "input", function() {
+      $("#save-next").hide();
       $("#is-citizen").trigger("reset");
       $("#not-citizen").trigger("reset");
 
@@ -182,12 +194,20 @@
 
     })
 
+    $("#citizen-born-australia-container").on("change", "input", function() {
+      $("#save-next").hide();
+      if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+        $("#save-next").show();
+      }
+    })
+
     $("#not-citizen, #is-citizen").on("submit", function(e) {
       e.preventDefault();
     })
 
 
     $("#partner-aus-citizen-container").on("change", "input", function() {
+      $("#save-next").hide();
       $("#partner-is-citizen").trigger("reset");
       $("#partner-not-citizen").trigger("reset");
 
@@ -198,6 +218,10 @@
       $("#partner-visa-details").hide();
 
 
+    })
+
+    $("#partner-citizen-born-australia-container").on("change", "input", function() {
+        $("#save-next").show();
     })
 
     $("#partner-not-citizen, #partner-is-citizen").on("submit", function(e) {
