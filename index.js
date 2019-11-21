@@ -26,41 +26,6 @@ app.get('/favicon.ico', (req, res) => {
   res.send();
 })
 
-app.use((req, res, next) => {
-  res.locals.partials = __dirname + '/partials/';
-  res.locals.forms = __dirname + '/partials/components/form-partials/';
-  res.locals.components = __dirname + '/partials/components/';
-  res.locals.templates = __dirname + '/partials/templates/';
-  res.locals.content = __dirname + '/partials/content/';
-  res.locals.formPartialsID = require('./helpers/formPartialsID');
-  res.locals.generateOption = require('./helpers/generateOption');
-  res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
-  res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
-  res.locals.generateCheckRadioIcons = require('./helpers/generateCheckRadioIcons');
-  res.locals.generateTooltip = require('./helpers/generateTooltip');
-  res.locals.generateLabel = require('./helpers/generateLabel');
-  res.locals.generateButtonRadio = require('./helpers/generateButtonRadio');
-  next();
-});
-
-// create sitemap 
-app.use('/files', serveIndex('views', {
-  'icons': true
-}));
-
-// using body parser to parse the body of incoming post requests
-app.use(require('body-parser').urlencoded({ extended: true }));
-
-app.use(
-  require('express-session')({
-    name: 'site_cookie',
-    secret: 'eeeek',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { maxAge: 15000 }
-  })
-);
-
 console.log('build env:', app.settings.env);
 var liveFeatureList = require('./feature-flag-list.json');
 var liveFeatureEnv = [];
@@ -85,6 +50,42 @@ if (typeof gitBranch !== 'undefined' && gitBranch) {
 
 console.log('List of features that are unhidden:');
 console.log(liveFeatureList);
+
+app.use((req, res, next) => {
+  res.locals.partials = __dirname + '/partials/';
+  res.locals.forms = __dirname + '/partials/components/form-partials/';
+  res.locals.components = __dirname + '/partials/components/';
+  res.locals.templates = __dirname + '/partials/templates/';
+  res.locals.content = __dirname + '/partials/content/';
+  res.locals.formPartialsID = require('./helpers/formPartialsID');
+  res.locals.generateOption = require('./helpers/generateOption');
+  res.locals.replaceNonAlphanumeric = require('./helpers/replaceNonAlphanumeric');
+  res.locals.generateCheckRadio = require('./helpers/generateCheckRadio');
+  res.locals.generateCheckRadioIcons = require('./helpers/generateCheckRadioIcons');
+  res.locals.generateTooltip = require('./helpers/generateTooltip');
+  res.locals.generateLabel = require('./helpers/generateLabel');
+  res.locals.generateButtonRadio = require('./helpers/generateButtonRadio');
+  res.locals.locals = { liveFeature: liveFeatureEnv }
+  next();
+});
+
+// create sitemap 
+app.use('/files', serveIndex(__dirname, {
+  'icons': true
+}));
+
+// using body parser to parse the body of incoming post requests
+app.use(require('body-parser').urlencoded({ extended: true }));
+
+app.use(
+  require('express-session')({
+    name: 'site_cookie',
+    secret: 'eeeek',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 15000 }
+  })
+);
 
 app.get('/sitemap', (req, res) => {
   async function getFiles(dir) {
@@ -134,70 +135,29 @@ app.get('/sitemap', (req, res) => {
   })();
 })
 
-// folder level renders 
-app.get('/:id0', (request, response) => {
-  response.render(request.params.id0, {
-    main_nav_active: 'home',
-    liveFeature: liveFeatureEnv
-  });
-});
+app.get('/', (req, res) => {
+  res.render("unauth/index-loading")
+})
 
-app.get('/:id0/:id1', (request, response) => {
-  let { id0, id1 } = request.params;
-  response.render(`${id0}/${id1}`, {
-    main_nav_active: id1,
-    liveFeature: liveFeatureEnv
-  });
-});
+app.get('*', (req, res) => {
+  var url = req.originalUrl.replace(".ejs", "");
 
-app.get('/:id0/:id1/:id2', (request, response) => {
-  let { id0, id1, id2 } = request.params;
-  response.render(`${id0}/${id1}/${id2}`, {
-    main_nav_active: id1,
-    liveFeature: liveFeatureEnv,
-    secondary_nav_active: id2,
-    claimType: request.cookies.claimType
-  });
-});
+  if (url.charAt(0) === "/") url = url.substr(1);
 
-app.get('/:id0/:id1/:id2/:id3', (request, response) => {
-  let { id0, id1, id2, id3 } = request.params;
-  response.render(`${id0}/${id1}/${id2}/${id3}`, {
-    main_nav_active: id1,
-    liveFeature: liveFeatureEnv,
-    secondary_nav_active: id2
-  });
-});
+  var file = path.join(`${__dirname}/views/${url}.ejs`);
+  var index = path.join(`${__dirname}/views/${url}/index.ejs`);
+  
+  if (liveFeatureEnv === liveFeatureList.production) {
+    if (fs.existsSync(file) || fs.existsSync(index)) {
+      res.render(url, { source_url: req.originalUrl })
+    } else {
+      res.render("unauth/not-found", { source_url: req.originalUrl })
+    }
+  } else {
+    res.render(url, { source_url: req.originalUrl })
+  }
 
-app.get('/:id0/:id1/:id2/:id3/:id4', (request, response) => {
-  let { id0, id1, id2, id3, id4 } = request.params;
-  response.render(`${id0}/${id1}/${id2}/${id3}/${id4}`, {
-    main_nav_active: id1,
-    liveFeature: liveFeatureEnv,
-    secondary_nav_active: id2
-  });
-});
-
-app.get('/', (request, response) => {
-  response.render('unauth/index-loading', {
-    layout: 'login',
-    user: request.user,
-    liveFeature: liveFeatureEnv
-  });
-});
-
-app.get('/mygov-login', (request, response) => {
-  response.render('auth/mygov-login', {
-    layout: 'login',
-    user: request.user,
-    liveFeature: liveFeatureEnv
-  });
-});
-
-app.get('/logout', (request, response) => {
-  request.logout();
-  response.redirect('/');
-});
+})
 
 app.listen(port, () => {
   console.log('listening on port: ' + port);
