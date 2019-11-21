@@ -6,26 +6,37 @@
       points: [
         {
           text: "Your income",
-          link: "/auth/claim/cshc/c-01"
+          link: "/auth/claim/cshc/b-01"
         },
         {
-          text: "Current year estimates",
-          link: "/auth/claim/cshc/c-02"
+          text: "Partner's income",
+          link: "/auth/claim/cshc/b-02"
+        },
+        {
+          text: "Your current year estimates",
+          link: "/auth/claim/cshc/b-03"
+        },
+        {
+          text: "Partner's current year estimates",
+          link: "/auth/claim/cshc/b-04"
         },
         {
           text: "Account-based pensions",
-          link: "/auth/claim/cshc/c-03"
+          link: "/auth/claim/cshc/b-05"
         }
       ]
     }
 }) %>
 
-  <%- include(forms+"notice", {
-    message: "You can provide adjusted taxable income details for either of the two financial years before the current financial year. They should be the most recent verified details."
-  }) %>
+  
+  <p class="margin-above">You can provide adjusted taxable income details for either of the two financial years prior to the current financial year. They should be the most recent verified details.</p>
+  
+
+  <hr>
 
   <%- include(forms+"button_radio", {
     label: "For which financial year are you providing income details?",
+    all_toggle: "#income-source-container",
     boxes: [
       "2017 - 2018",
       "2018 - 2019"
@@ -34,32 +45,53 @@
 
   <%- include(forms+"radio", {
     label: "Income details from:",
+    all_toggle: "#myForm",
     boxes: [
-      "Tax Notice of Assessment / Tax return",
-      "Personal records (income was too low to require a tax return)"
-    ]
+      {
+        text: "Tax Notice of Assessment / Tax return",
+        toggle: "#taxable-income-container",
+      },
+      {
+        text: "Personal records (income was too low to require a tax return)",
+        toggle: "#low-income-container"
+      }
+    ],
+    id: "income-source",
+    modifiers: ["hidden"]
   }) %>
 
   <%- include(forms+"text", {
     customClass: "income",
     label: "Taxable income",
-    placeholder: "0.00",
-    modifiers: ["inputShort", "dollarSign"]
+    hint: "Enter your taxable income from your Notice of Assessment",
+    id: "taxable-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
   }) %>
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    hint: "Enter your taxable income",
+    id: "low-income",
+    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
+  }) %>
+
+  <form id="myForm" hidden>
+
+      <input type="reset" style="display:none">
+
+ 
 
   <%- include(forms+"text", {
     customClass: "income",
     label: "Value of employer provided fringe benefits above $1,000",
     hint: "For example, private use of a car, assistance with accomodation or rent",
-    placeholder: "0.00",
     modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
   <%- include(forms+"text", {
     customClass: "income",
-    label: "Income from sources outside Australia on which you do not have ot pay Australian income tax",
+    label: "Income from sources outside Australia on which you do not have to pay Australian income tax",
     hint: "Provide the amount in Australian dollars",
-    placeholder: "0.00",
     modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
@@ -67,15 +99,6 @@
     customClass: "income",
     label: "Loss from financial investments",
     hint: "This amount must be added even though it is a loss",
-    placeholder: "0.00",
-    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
-  }) %>
-
-  <%- include(forms+"text", {
-    customClass: "income",
-    label: "Reportable superannuation contributions",
-    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
-    placeholder: "0.00",
     modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
@@ -83,11 +106,21 @@
     customClass: "income",
     label: "Loss from rental properties",
     hint: "This amount must be added even though it is a loss",
-    placeholder: "0.00",
     modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+ 
+
   <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
+
+</form>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -129,3 +162,5 @@
 </script>
 
 <%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>

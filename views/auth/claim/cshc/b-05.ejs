@@ -1,0 +1,103 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Partner's current year estimates",
+  progress: {
+    activeItem: 5,
+      points: [
+        {
+          text: "Your income",
+          link: "/auth/claim/cshc/b-01"
+        },
+        {
+          text: "Partner's income",
+          link: "/auth/claim/cshc/b-02"
+        },
+        {
+          text: "Your current year estimates",
+          link: "/auth/claim/cshc/b-03"
+        },
+        {
+          text: "Partner's current year estimates",
+          link: "/auth/claim/cshc/b-04"
+        },
+        {
+          text: "Account-based pensions",
+          link: "/auth/claim/cshc/b-05"
+        }
+      ]
+    }
+}) %>
+  <div id="page">  
+    <p>You need to tell us about any account-based income streams that you own. For CSHC assessment purposes, income will be deemed on the total of the current account balances of your account-based pension(s) and added to the income you have declared. For more information on deemed income please see <a href="https://www.dva.gov.au/factsheet-is89-deeming-and-financial-assets" rel="external" target="_blank">Factsheet IS89 - Deeming and Financial Assets</a>.</p>
+
+    <%- include(forms+"yes_no", {
+      label: "Do you receive income from an account-based pension (also known as an allocated pention or transition to retirement pension)?",
+      id: "pension-q",
+      yes_toggle: "#accountpensions-container"
+    }) %>
+  </div>
+
+  <%- include(forms+"editable-box", {
+    heading: "Account-based pensions",
+    customClass: "margin-below--extra",
+    descriptions: "Please provide details below.",
+    icon: "fa-envelope-open-dollar",
+    buttonText: "Add account-based pension",
+    id: "accountpensions",
+    modifiers: ["hidden"],
+    addAnotherText: "Add another account-based pension",
+    form: [
+      {
+        type: "button_radio",
+        displayName: "Paid to",
+        label: "Paid to:",
+        boxes: [
+          "You",
+          "Partner"
+        ]
+      },
+      {
+        type: "text",
+        displayName: "Pension provider",
+        label: "Pension provider / SMSF / SAF"
+      },
+      {
+        type: "date",
+        displayName: "Start date",
+        label: "Start date"
+      },
+      {
+        type: "text",
+        displayName: "Pension reference number",
+        label: "Pension reference number"
+      }
+    ]
+  }) %>
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-04",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/prog-03",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
