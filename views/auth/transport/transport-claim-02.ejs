@@ -1,6 +1,6 @@
 <%- include(templates+"header", {
-  heading: "Claim for travel expenses",
-  claim: "Travel reimbursement"
+  heading: "Claim for travelling expenses",
+  claim: "Travelling expenses"
 }) %>
 
 <div id="going-to" class="margin-above--large">
@@ -8,7 +8,7 @@
     <div>
     <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Trip details</span></h2>
     <!-- <div id="previous" class="floateaad" style="display: inline-block;">&nbsp;| <a>Use previous trip details</a></div> -->
-    <button id="previous" class="uikit-btn uikit-btn--tertiary small floated">Use previous trip details</button>
+    <button id="previous" class="uikit-btn uikit-btn--tertiary small floated">Use previous details</button>
     </div>
 
     <%- include(partials+"components/form-partials/date", {
@@ -189,7 +189,6 @@
 
 <div id="accommodation-questions" hidden>
 
-
 <%- include(partials+"components/form-partials/dropdown", {
   label: "Type of accommodation:",
   options: [
@@ -222,18 +221,54 @@
   modifiers: ["hidden"]
 }); %>
 
+
+
 </div>
+
+<div id="evidence" hidden>
+
+<h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Supporting evidence</span></h2>
+
+<p>Attach a tax invoice or other evidence of the expense for easier processing. In this case retain evidence until your claim is approved.</p>
+
+<div class="pt-upload-other-docs margin-below--extra">
+    <div class="form-group">
+      <table class="table-responsive file-upload-default">
+        <tr id="trData1" class="file-upload-default__row">
+          <td>
+            <span class="file-upload-default__document">
+                <span class="fal fa-file-upload fa-2x"></span>&nbsp;&nbsp;Document <a class="file-upload-default__file-name"></a>
+            </span>
+          </td>
+          <td class="right">
+            <div>
+              <input type="file" class="file-upload-default__input" id="file-0">
+              <label class="file-upload-default__label" for="file-0">
+
+                <span id="document-type-button" class="file-upload-default__button">
+                   <span class="uikit-btn small">Upload</span>
+                </span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "If you do not provide evidence now you may be required to provide evidence up to 4 months from claim approval."
+  }); %>
+
+</div>
+
 
 <%- include(forms+"pagination", {
   pagination: [
     {
       text: "Previous",
       id: "reset-form",
-      link: "/auth/transport/transport-claim-01"
-    },
-    {
-      text: "Cancel",
-      link: "#claim-cancel-modal"
+      link: "/auth/transport/transport-claim-03"
     },
     {
       text: "Add expense",
@@ -284,32 +319,40 @@ $('#cost-type').change(function () {
   $("#dollars-container").hide();
   $("#kms-container").hide();
   $("#accommodation-questions").hide();
+  $("#evidence").hide();
   switch (mySelection) {
     case "Private vehicle":
       $("#kms-container").show();
       break;
     case "Public transport":
       $("#dollars-container").show();
+      $("#evidence").show();
       break;
     case "Taxi": 
       $("#dollars-container").show();
       $("#bcwd-container").show();
+      $("#evidence").show();
       break;
     case "Community": 
       $("#dollars-container").show();
+      $("#evidence").show();
       break;
     case "Air": 
       $("#dollars-container").show();
       $("#bcwd-container").show();
+      $("#evidence").show();
       break;
     case "Road tolls": 
       $("#dollars-container").show();
+      $("#evidence").show();
       break;
     case "Parking fees": 
       $("#dollars-container").show();
+      $("#evidence").show();
       break;
     case "Accommodation": 
       $("#accommodation-questions").show("fast");
+      $("#evidence").show();
       break;
     default:
       break;
