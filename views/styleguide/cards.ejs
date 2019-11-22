@@ -3,6 +3,13 @@
   claim: "Style Guide"
 }) %>
 
+  <style>
+    .inline-code {
+      padding: 3px; 
+      background: #f5f2f0;
+    }
+  </style>
+
   <h2>Navigation Card</h2>
   <p>The navigation card is featured on the home page. The claim card acts as the first entry point for a user to a new claim.</p>
   <div class="example-box">
@@ -51,4 +58,210 @@
   <p>An example of this component can be found <a href="/auth/">here</a>.</p>
   <hr>
 
-  <%- include(partials+"components/styleguide/styleguide-footer") %>
+  <h2>Editable Box/Collapsable Box</h2>
+  <div class="example-box">
+    <%- include(forms+"editable-box", {
+      id: "test",
+      heading: "Employment",
+      buttonText: "Add employment",
+      addAnotherText: "Add employment",
+      description: "Tell us about your civilian job.",
+      form: [
+        {
+          type: "dropdown",
+          label: "Type of employment",
+          displayName: "Type of employment",
+          options: [
+            "-- Select your type of employment --",
+            "Full-time",
+            "Part-time",
+            "Self-employed",
+            "Partnership",
+            "Contract",
+            "Casual"
+          ]
+        },
+        {
+          type: "text",
+          label: "Name of employer",
+          hint: "(business name)",
+          displayName: "Employer name"
+        },
+        {
+          type: "prepop/phone-number",
+          label: "Contact phone number",
+          modifiers: ["australiaOnly"]
+        },
+        {
+          type: "text",
+          label: "How many hours do you work per week?",
+          hint: "If your hours change, average them out over a 4 week period",
+          modifiers: ["hintNewLine", "inputXShort"]
+        },
+        {
+          type: "text",
+          label: "What are your total weekly earnings?",
+          hint: "(before tax) <br> If your earnings change, average them out over a 4 week period",
+          modifiers: ["inputXShort", "dollarSign"]
+        },
+        {
+          type: "date",
+          label: "Employment start date",
+          displayName: "Start date"
+        },
+        {
+          type: "date",
+          displayName: "End date",
+          label: "Employment end date",
+          modifiers: ["ongoing"],
+          ongoingText: "I still work here"
+        }
+      ]
+    }) %>
+  </div>
+  <div class="accordion">
+    <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Code example</button>
+    <div class="accordion-content d-none">
+      <pre class="language-ejs">
+        <code>
+          <%%- include(forms+"editable-box", {
+            id: "test",
+            heading: "Employment",
+            buttonText: "Add employment",
+            addAnotherText: "Add employment",
+            description: "Tell us about your civilian job.",
+            form: [
+              {
+                type: "dropdown",
+                label: "Type of employment",
+                displayName: "Type of employment",
+                options: [
+                  "-- Select your type of employment --",
+                  "Full-time",
+                  "Part-time",
+                  "Self-employed",
+                  "Partnership",
+                  "Contract",
+                  "Casual"
+                ]
+              },
+              {
+                type: "text",
+                label: "Name of employer",
+                hint: "(business name)",
+                displayName: "Employer name"
+              },
+              {
+                type: "prepop/phone-number",
+                label: "Contact phone number",
+                modifiers: ["australiaOnly"]
+              },
+              {
+                type: "text",
+                label: "How many hours do you work per week?",
+                hint: "If your hours change, average them out over a 4 week period",
+                modifiers: ["hintNewLine", "inputXShort"]
+              },
+              {
+                type: "text",
+                label: "What are your total weekly earnings?",
+                hint: "(before tax) <br> If your earnings change, average them out over a 4 week period",
+                modifiers: ["inputXShort", "dollarSign"]
+              },
+              {
+                type: "date",
+                label: "Employment start date",
+                displayName: "Start date"
+              },
+              {
+                type: "date",
+                displayName: "End date",
+                label: "Employment end date",
+                modifiers: ["ongoing"],
+                ongoingText: "I still work here"
+              }
+            ]
+          }) %%>
+        </code>
+      </pre>
+    </div>
+  </div>
+  <div class="accordion">
+    <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Component description</button>
+    <div class="accordion-content d-none">
+      <p>This component is used to collect data for multiple of the same type, for example a medical practitioner or your employment history</p>
+      <p>This component takes an array of forms, and uses the same name as you would see in the form partials folder. For example, a dropdown menu would be <code class="inline-code">type: "dropdown"</code>.
+        <br>
+        Any elements you want to show up in the collapsed card must be given a <em>displayName</em> property, for example: <code class="inline-code">displayName: "Employment type"</code>
+      </p>
+
+      <div class="accordion sub-accordion">
+        <button class="style-less-button accordion-button health-card__label--big"><i class="transition fas fa-chevron-right"></i> Properties</button>
+        <div class="accordion-content">
+          <table class="margin-above">
+            <thead>
+              <tr>
+                <th>Property</th>
+                <th>Description</th>
+                <th>Data type</th>
+                <th>Required</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><pre class="language-json"><code>id:</code></pre></td>
+                <td>An optional ID for the form field(s) - use when any Javascript is used</td>
+                <td><pre class="language-json"><code>string</code></pre></td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td><pre class="language-json"><code>heading:</code></pre></td>
+                <td>A heading text for the card</td>
+                <td><pre class="language-json"><code>string</code></pre></td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><pre class="language-json"><code>description:</code></pre></td>
+                <td>A longer description to aid the user in what to put in the box</td>
+                <td><pre class="language-json"><code>string</code></pre></td>
+                <td>No</td>
+              </tr>
+              <tr>
+                <td><pre class="language-json"><code>buttonText:</code></pre></td>
+                <td>Text to be written on the button when the component is first initialized or no items have been added</td>
+                <td><pre class="language-json"><code>string</code></pre></td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><pre class="language-json"><code>addAnotherText:</code></pre></td>
+                <td>Text to be written on the button when the user has already added an item</td>
+                <td><pre class="language-json"><code>string</code></pre></td>
+                <td>Yes</td>
+              </tr>
+              <tr>
+                <td><pre class="language-json"><code>forms:</code></pre></td>
+                <td>The array of forms (in objects) to be rendered into the form</td>
+                <td><pre class="language-json"><code>array</code></pre></td>
+                <td>Yes</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p class="margin-above">Forms provided to the component take the exact same format (and render the same way) as a regular form partial. The only difference is that you must specify a <code class="inline-code">type</code>, and if you want it to show in the collapsed form, a <code class="inline-code">displayName</code></p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <script type="text/javascript">
+    $(".sub-accordion").on("click", ".accordion-button", function () {
+      $(this).toggleClass("rotate-90")
+
+      $(this).closest(".accordion").find(".accordion-content").toggle();
+    });
+  </script>
+
+<%- include(partials+"components/styleguide/styleguide-footer") %>

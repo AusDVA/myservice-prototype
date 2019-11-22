@@ -1,0 +1,105 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Claim details",
+  progress: {
+    activeItem: 1,
+      points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01"
+      },
+      {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/a-02"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/a-03"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/a-04"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/a-05"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/a-06"
+        },
+      ]
+    }
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Have you applied for or do you receive any benefits from Centrelink?",
+  yes_toggle: ["#crn-container","#eligibility-container"]
+}) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+  type: "warning",
+  id: "eligibility",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(forms+"yes_no", {
+  label: "Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+  yes_toggle: "#crn-container",
+  no_toggle: "#save-next"
+}) %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is your Centrelink Customer Reference Number (CRN)?",
+  modifiers: ["hidden"],
+  id: "crn"
+}); %>
+
+
+
+
+  <%- include(forms+"text", {
+    label: "What is your Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "crn"
+  }) %>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/prog-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/a-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#get-centrelink-container, #have-cshc-container").on("change", "input", function() {
+      if ($("#get-centrelink-container :checked").length > 0 || $("#have-cshc-1").prop("checked")) {
+        $("#crn-container").show();
+      } else {
+        $("#crn-container").hide();
+      }
+    })
+  </script>
+
+<%- include(templates+"footer") %>

@@ -8,8 +8,8 @@ let express = require('express'),
 
   // will use the PORT environment variable if present,
   // else use first argument from command line for PORT,
-  // else default to a hard coded value of 5000
-  port = process.env.PORT || process.argv[2] || 5000,
+  // else default to a hard coded value of 4000
+  port = process.env.PORT || process.argv[2] || 4000,
   app = express();
 
 let readdir = promisify(fs.readdir);

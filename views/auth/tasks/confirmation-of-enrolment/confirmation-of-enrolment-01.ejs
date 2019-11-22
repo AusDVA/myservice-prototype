@@ -7,21 +7,19 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "<span class='user-label-g'>Are you</span> undertaking study in 2020?",
-  id: "continuing",
-  yes_toggle: "#full-time-container",
-  no_toggle: "#explain-container"
+  id: "continuing"
 }); %>
 
 <%- include(forms+"button_radio", {
-  label: "Will this study be full-time or part-time?",
+  label: "Will this study be full time or part time?",
   id: "full-time",
   boxes: [
     {
-      text: "Full-time",
+      text: "Full time",
       toggle: "#next"
     },
     {
-      text: "Part-time",
+      text: "Part time",
       toggle: "#explain-part-time-container"
     }
   ],
@@ -29,14 +27,15 @@
 }) %>
 
 <%- include(partials+"components/form-partials/textarea", {
-  label: "Briefly describe why <span class='user-label-a'>you</span> won't be studying full-time",
-  hint: "<BR/>For example: part-time to complete, medical condition or other.",
+  label: "Briefly describe why <span class='user-label-a'>you</span> won't be studying full time",
+  hint: "(optional)<BR/>For example: health reasons, isolated location, family situation, course structure.",
   id: "explain-part-time",
   modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/textarea", {
   label: "Briefly describe why <span class='user-label-a'>you</span> won't be undertaking study in 2020",
+  hint: "(optional)",
   id: "explain",
   modifiers: ["hidden"]
 }); %>
@@ -77,13 +76,22 @@
 
     $('input[name=continuing]').change(function () {
         var mySelection = $('input[name=continuing]:checked').parent().find("span").text();
-        if ( mySelection == "No") {
-            $("#explain-part-time-container").hide();
-            sessionStorage.setItem('undertaking-study',false);
-        } else {
+        $("#full-time-container input:radio").prop("checked", false);
+        if ( mySelection == "Yes") {
           sessionStorage.setItem('undertaking-study',true);
+          $("#full-time-container").show();
+          $("#explain-container").hide();
+        } else {
+          $("#next").hide();
+          $("#full-time-container").hide();
+          $("#explain-container").show();
+          $("#explain-part-time-container").hide();
+            sessionStorage.setItem('undertaking-study',false);
+          s
         }
     });
+
+
 
     $("#next-footer").on("click", function() {
     if ( sessionStorage.getItem('undertaking-study') == "true" ) {
@@ -92,6 +100,8 @@
       window.location.href = "confirmation-of-enrolment-03";
     }
     })
+
+
 
   });
 </script>

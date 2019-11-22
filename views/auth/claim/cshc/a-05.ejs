@@ -1,0 +1,103 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Claim representative",
+  progress: {
+    activeItem: 5,
+      points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01"
+      },
+      {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/a-02"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/a-03"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/a-04"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/a-05"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/a-06"
+        },
+      ]
+    }
+}) %>
+
+<p class="margin-above"><b>A claim representative can query and receive updates about this claim on your behalf.</b></p>
+They will not be able to access your account, view other claim statues or access other personal information.
+
+<hr>
+
+<%- include(forms+"yes_no", {
+    label: "Do you wish to nominate a claim representative?",
+    yes_toggle: "#claim-rep",
+    customClass: "margin-above"
+  }) %>
+
+  <form id="claim-rep" hidden>
+    <h3>Representative details</h3>
+
+    <%- include(forms+"text", {
+      label: "Given name",
+      hint: "(first name)"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Surname",
+      hint: "(last name)"
+    }) %>
+
+    <%- include(forms+"prepop/phone-number") %>
+
+    <%- include(forms+"text", {
+      label: "Email address",
+      hint: "(optional)"
+    }) %>
+
+    <h3>Representative postal address</h3>
+
+    <%- include(forms+"prepop/address", {
+      modifiers: ["allCountries"],
+      label: ""
+    }) %>
+  </form>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/a-04",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/a-06",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>
