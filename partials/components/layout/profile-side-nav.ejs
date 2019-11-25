@@ -1,46 +1,58 @@
+<% 
+
+  var nav = [
+    {
+      text: "Personal details",
+      link: "/auth/profile"
+    },
+    {
+      text: "Contact details",
+      link: "/auth/profile/contact"
+    },
+    {
+      text: "Service history",
+      link: "/auth/profile/history"
+    },
+    {
+      text: `Bank ${locals.liveFeature.includes("featureBankNameUpdate") ? "details" : "account"}`,
+      link: "/auth/profile/payment"
+    }
+  ]
+
+  if (locals.liveFeature.includes("profileRelationships")) {
+    nav.splice(3, 0, {
+      text: "Relationships",
+      link: "/auth/profile/relationships"
+    })
+  }
+
+  if (locals.liveFeature.includes("featureNomrep")) {
+    nav.push({
+      text: "Representation",
+      link: "/auth/profile/nomrep"
+    })
+  }
+
+  function isActive(link) {
+    if (source_url.substr(-1) === "") source_url = source_url.slice(0, -1);
+    source_url = source_url.replace(".ejs", "");
+
+    console.log(source_url)
+    console.log(link)
+
+    if (link === "/auth/profile") {
+      if (source_url === "/auth/profile" || source_url === "/auth/profile/index") return true
+    } else {
+      return source_url.includes(link) 
+    }
+  }
+
+%>
+
 <ul class="secondary-navigation">
-  <!-- <h5>Account details</h5> -->
-  <li class="secondary-navigation__item 
-  <% if (!locals.secondary_nav_active) { %>secondary-navigation__item--active<% } %>">
-    <a class="secondary-navigation__link" href="/auth/profile">Personal details</a>
-  </li>
-  <li class="secondary-navigation__item
-  <% if (!!locals.secondary_nav_active && locals.secondary_nav_active === 'contact') { %>secondary-navigation__item--active<% } %>">
-    <a class="secondary-navigation__link" href="/auth/profile/contact">Contact details</a>
-  </li>
-
-  <!-- <h5>About me</h5> -->
-  <li class="secondary-navigation__item
-  <% if (!!locals.secondary_nav_active && locals.secondary_nav_active === 'history') { %>secondary-navigation__item--active<% } %>">
-    <a class="secondary-navigation__link" href="/auth/profile/history">Service history</a>
-  </li>
-
-  <% if (locals.liveFeature.includes("profileRelationships")) { %>
-
-  <li class="secondary-navigation__item
-  <% if (!!locals.secondary_nav_active && locals.secondary_nav_active === 'relationships') { %>secondary-navigation__item--active<% } %>">
-
-    <a class="secondary-navigation__link" href="/auth/profile/relationships">Relationships</a>
-  </li>
-
-  <% } %>
-
-  <li class="secondary-navigation__item
-  <% if (!!locals.secondary_nav_active && locals.secondary_nav_active === 'payment') { %>secondary-navigation__item--active<% } %>">
-
-    <% if (locals.liveFeature.includes('featureBankNameUpdate')) { %>
-    <a class="secondary-navigation__link" href="/auth/profile/payment">Bank details</a>
-    <% } else { %>
-    <a class="secondary-navigation__link" href="/auth/profile/payment">Bank account</a>
-    <% } %>
-  </li>
-
-  <li class="secondary-navigation__item
-  <% if (!!locals.secondary_nav_active && locals.secondary_nav_active === 'nomrep') { %>secondary-navigation__item--active<% } %>">
-
-    <% if (locals.liveFeature.includes('featureNomrep')) { %>
-    <a class="secondary-navigation__link" href="/auth/profile/nomrep">Representation</a>
-    <% } %>
-  </li>
-
+  <% nav.forEach(item => { %>
+    <li class="secondary-navigation__item <%- isActive(item.link) ? "secondary-navigation__item--active" : "" %>">
+      <a href="<%- item.link %>" class="secondary-navigation__link"><%- item.text %></a>
+    </li>
+  <% }) %>
 </ul>
