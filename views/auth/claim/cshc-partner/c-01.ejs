@@ -1,0 +1,141 @@
+<%
+
+var progress = JSON.parse(include("c-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Your income",
+  progress
+}) %>
+
+  <%- include(forms+"notice", {
+    message: `You can provide adjusted taxable income details for either of the two financial years before the current financial year. They should be the most recent verified details.<span class="partner" hidden> You and your partner must provide income details for the same financial year.</span>`
+  }) %>
+
+  <%- include(forms+"button_radio", {
+    label: "For which financial year are you providing income details?",
+    id: "financial-year",
+    boxes: [
+      "2017 - 2018",
+      "2018 - 2019"
+    ]
+  }) %>
+
+  <%- include(forms+"radio", {
+    label: "Income details from:",
+    boxes: [
+      "Tax Notice of Assessment / Tax return",
+      "Personal records (income was too low to require a tax return)"
+    ]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have ot pay Australian income tax",
+    hint: "Provide the amount in Australian dollars",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/prog-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "#",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $(document).ready(function() {
+      if (sessionStorage.getItem("in-relationship") === "true") {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/c-01a");
+        $(".partner").show();
+      } else {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/c-02");
+        $(".partner").hide();
+      }
+    })
+
+    window.income = 0.00;
+
+    $(".income").on("keyup", "input", function() {
+      window.income = 0.00;
+      $(".income").each(function(index, elem) {
+        if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+          window.income += parseFloat($(this).find("input").val())
+        }
+      })
+      $("#total-income").text(window.income.toFixed(2))
+    })
+
+    $("#btnNext").on("click", function() {
+      sessionStorage.setItem("income", window.income);
+      sessionStorage.setItem("financial-year", $("#financial-year-container :checked").prop("labels")[0].innerText.split(" ")[2])
+    })
+  </script>
+
+  <%- include("c-scripts") %>
+
+<%- include(templates+"footer") %>

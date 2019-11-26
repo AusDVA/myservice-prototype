@@ -1,0 +1,145 @@
+<%
+
+var progress = JSON.parse(include("c-progressbar")) 
+progress.activeItem = 2;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Partner's income",
+  progress
+}) %>
+
+  <h2 class="margin-below">Provide your partner's income details for financial year ending <b>30 June <span class="income-year"></span></b></h2>
+
+  <%- include(forms+"radio", {
+    label: "Income details from:",
+    boxes: [
+      "Tax Notice of Assessment / Tax return",
+      "Personal records (income was too low to require a tax return)"
+    ]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Taxable income",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have ot pay Australian income tax",
+    hint: "Provide the amount in Australian dollars",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
+
+  <hr>
+
+  <h2><div class="margin-below--large">Combined total: <b>$<span id="combined-income">0.00</span></b></div></h2>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/c-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc-partner/c-02",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $(document).ready(function() {
+      if (typeof sessionStorage.getItem("financial-year") !== "null") {
+        $(".income-year").text(sessionStorage.getItem("financial-year"));
+      } else {
+        $(".income-year").text("2018");
+      }
+
+      if (typeof sessionStorage.getItem("income") !== "null") {
+        $("#combined-income").text(parseFloat(sessionStorage.getItem("income"))  .toFixed(2));
+      } else {
+        $("#combined-income").text("0.00");
+      }
+
+      if (sessionStorage.getItem("in-relationship") === "true") {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/c-01a")
+      } else {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/c-02")
+      }
+    })
+
+    window.income = 0.00;
+
+    $(".income").on("keyup", "input", function() {
+      window.income = 0.00;
+      $(".income").each(function(index, elem) {
+        if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+          window.income += parseFloat($(this).find("input").val())
+        }
+      })
+      $("#total-income").text(window.income.toFixed(2))
+
+      $("#combined-income").text((window.income + parseFloat(sessionStorage.getItem("income"))).toFixed(2))
+    })
+
+    $("#btnNext").on("click", function() {
+      sessionStorage.setItem("partner-income", window.income);
+    })
+  </script>
+
+  <%- include("c-scripts") %>
+
+<%- include(templates+"footer") %>

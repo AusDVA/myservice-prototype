@@ -1,0 +1,137 @@
+<%
+
+var progress = JSON.parse(include("c-progressbar")) 
+progress.activeItem = 4;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Partner's year estimates",
+  progress
+}) %>
+
+  <%- include(forms+"notice", {
+    message: `<p>If your total income for CSHC assessment purposes is above the income limit, we may be able to use your estimated income for the current year instead. For further information about CSHC income test and estimated adjusted taxable income, refer to <a rel="external" target="__blank" href="https://www.dva.gov.au/factsheet-is126-commonwealth-seniors-health-card">DVA Factsheet IS126</a>.</p>`
+  }) %>
+
+  <form id="lower-income" hidden>
+    <%- include(forms+"textarea", {
+      label: "Please give reason(s) why your income will be lower in the current financial year",
+      hint: "For example, stopped working, sold significant asset(s), or ceased operating a business",
+      modifiers: ["hintNewLine"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated taxable income",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated value of employer provided fringe benefits above $1,000",
+      hint: "For example, private use of a car, assistance with accomodation or rent",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated income from sources outside Australia on which you do not have ot pay Australian income tax",
+      hint: "Provide the amount in Australian dollars",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated loss from financial investments",
+      hint: "This amount must be added even though it is a loss",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated loss from rental properties",
+      hint: "This amount must be added even though it is a loss",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+    }) %>
+
+    <%- include(forms+"text", {
+      customClass: "income",
+      label: "Estimated reportable superannuation contributions",
+      hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+      placeholder: "0.00",
+      modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+    }) %>
+
+    <h2 class="margin-below--large">Total estimated income: <b>$<span id="total-income">0.00</span></b></h2>
+
+  </form>
+
+  <p id="no-input-required" hidden>No input required</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/c-02",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/cshc-partner/c-03",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+  
+    $(document).ready(function() {
+      if (sessionStorage.getItem("lower-income") === "true") {
+        $("#lower-income").show()
+        $("#no-input-required").hide()
+      } else {
+        $("#lower-income").hide()
+        $("#no-input-required").show()
+      }
+    })
+
+    $("#lower-income-q-container").on("change", "input", function() {
+      $("#lower-income").trigger("reset")
+    })
+    $("#lower-income").on("submit", function(e) {
+      e.preventDefault();
+    })
+
+    window.income = 0.00;
+
+    $(".income").on("keyup", "input", function() {
+      window.income = 0.00;
+      $(".income").each(function(index, elem) {
+        if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+          window.income += parseFloat($(this).find("input").val())
+        }
+      })
+      $("#total-income").text(window.income.toFixed((2)))
+    })
+  </script>
+  
+  <%- include("c-scripts") %>
+
+<%- include(templates+"footer") %>

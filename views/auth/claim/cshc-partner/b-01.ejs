@@ -1,0 +1,197 @@
+<%
+
+var progress = JSON.parse(include("b-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Veteran details",
+  progress
+}) %>
+
+  <%- include(forms+"prepop/ranktitlelist-dropdown", {
+    label: "Title"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Surname",
+    hint: "(last name)"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Given name",
+    hint: "(first name)"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Has this person ever been known by any other names?",
+    hint: "(e.g. name at birth, maiden name, previous married name)",
+    yes_toggle: "#previous-names-container"
+  }) %>
+
+  <%- include(forms+"previous-names", {
+    modifiers: ["hidden"],
+    id: "previous-names"
+  }) %>
+
+  <%- include(forms+"date", {
+    label: "Date of birth",
+    id: "date-birth"
+  }) %>
+
+  <%- include(forms+"notice", {
+    message: `<p>You will be required to provide birth certificate(s) to support your claim.</p>
+              <p>You will be askedto upload this evidence when finalising your claim in PART D.</p>`,
+    id: "birth-cert",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"prepop/gender") %>
+
+  <div class="partner-alive" hidden>
+    <%- include(forms+"yes_no", {
+      label: "Does this person live at the same address as you?",
+      no_toggle: "#unable-to-live-together-container, #residential-address-container"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "Are you unable to live together due to illness or infirmity?",
+      id: "unable-to-live-together",
+      modifiers: ["hidden"]
+    }) %>
+
+    <%- include(forms+"prepop/address", {
+      customClass: "margin-below--none",
+      label: "Residential address",
+      id: "residential-address"
+    }) %>
+  </div>
+
+  <h3 class="margin-below--large margin-above--large">Postal address</h3>
+
+  <%- include(forms+"yes_no", {
+    label: "Same as residential address?"
+  }) %>
+
+  <h3>Contact details</h3>
+
+  <%- include(forms+"yes_no", {
+    label: "Does this person wish to use your contact details?",
+    no_toggle: "#contact-details"
+  }) %>
+
+  <div id="contact-details" hidden>
+    <h3>Telephone numbers</h3>
+
+    <%- include(forms+"prepop/phone-number", {
+      label: "Home number"
+    }) %>
+
+    <%- include(forms+"prepop/phone-number", {
+      label: "Mobile number",
+      hint: "(optional)"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Email",
+      hint: "(optional)",
+      modifiers: ["inputFullLength"]
+    }) %>
+  </div>
+
+  <%- include(forms+"yes_no", {
+    label: "Has this person applied for or do they receive any benefits from Centrelink?",
+    id: "centrelink-benefits",
+    yes_toggle: "#maybe-not-eligible-container"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Have this person applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+    id: "centrelink-has-cshc"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "What is their Centrelink Customer Reference Number (CSHC)?",
+    modifiers: ["hidden"],
+    id: "centrelink-cshc"
+  }) %>
+
+
+  <%- include(forms+"text", {
+    label: "File number",
+    hint: "(optional)"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Service number",
+    hint: "(optional)"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "PMKeyS number",
+    hint: "(optional)"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/prog-02",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "#",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#centrelink-benefits-container, #centrelink-has-cshc-container").on("change", "input", function() {
+      if ($("#centrelink-benefits-1").prop("checked") || $("#centrelink-has-cshc-1").prop("checked")) {
+        $("#centrelink-cshc-container").show();
+      } else {
+        $("#centrelink-cshc-container").hide();
+      }
+    })
+
+    $("#date-birth-container").on("keyup", "input", function() {
+      if ($("#date-birth-dd").val().length > 0 && $("#date-birth-mm").val().length > 0 && $("#date-birth-yyyy").val().length > 3) {
+        $("#birth-cert-container").show();
+      } else {
+        $("#birth-cert-container").hide();
+      }
+    })
+
+    $(document).ready(function() {
+      if (sessionStorage.getItem("partner-alive") === "true") {
+        $(".partner-alive").show()
+      } else {
+        $(".partner-alive").hide()
+      }
+
+      if (sessionStorage.getItem("in-relationship") === "true") {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-03")
+      } else {
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-02")
+      }
+    })
+  </script>
+
+  <%- include("b-scripts") %>
+
+<%- include(templates+"footer") %>
