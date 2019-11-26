@@ -15,10 +15,11 @@ module.exports = formLabel => {
 
   let legend = modifiers.includes("legend") ? true : false;
   let legendLabel = modifiers.includes("legendLabel") ? true : false;
+  let formBlockLabel = modifiers.includes("formBlockLabel") ? true : false;
 
-  if (legend || legendLabel) {
+  if (legend || legendLabel || formBlockLabel) {
     html += `
-      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""}">
+      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""} ${formBlockLabel ? "form-block-header" : ""}">
     `
   } else {
     html += `
@@ -51,7 +52,7 @@ module.exports = formLabel => {
     })
   }
 
-  if (legend || legendLabel) {
+  if (legend || legendLabel || formBlockLabel) {
     html += "</legend>";
   } else {
     html += "</label>";

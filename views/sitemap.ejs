@@ -3,7 +3,9 @@
 var dontInclude = [
   "state-switcher",
   "stateswitcher",
-  "email"
+  "email",
+  "progressbar",
+  "-scripts"
 ]
 
 %>
@@ -29,6 +31,8 @@ var dontInclude = [
         <th scope="row" style="">Location/Link</th>
       </tr>
     </thead>  
+    <% console.log(sortedClaims) %>
+
     <% sortedClaims.map((claims, index) => { %>
       <% claims.map((claim, i) => { %>
         <% if (!(dontInclude.some(substr => claim.file.includes(substr)))) { %>
@@ -43,6 +47,8 @@ var dontInclude = [
           <tr>
             <% if (claim.claim !== null && claim.claim.includes("Style Guide")) { %>
               <td><%- claim.heading %> | <%- claim.claim %> | MyService</td>
+            <% } else if (claim.claim !== null && !claim.claim.includes("Style Guide")) { %>
+              <td><%- claim.claim %> | MyService</td>
             <% } else { %>
               <td><%- claim.title !== null ? claim.title : (claim.heading !== null && claim.claim !== null ? `${claim.claim} | ${claim.heading}` : "(No Title Found)") %></td>
             <% } %>
