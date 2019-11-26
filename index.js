@@ -107,9 +107,9 @@ app.get('/sitemap', (req, res) => {
 
         const data = fs.readFileSync(`./views/${file}`, "utf8")
 
-        var title = data.match(/<title>(.*)<\/title>/) || data.split("%>")[0].match(/title: "(.*)"/) || null;
-        var heading = data.match(/<span class="heading">(.*)<\/span>/) || data.split("%>")[0].match(/heading: "(.*)"/) || null;
-        var claim = data.includes('include(templates+"header"') || data.includes('- include(components+"styleguide/styleguide-header"') ? data.split("%>")[0].match(/claim: "(.*?)"/) : null
+        var title = data.match(/<%- include\(templates\+"header"[\s\S]*?heading: "(.*?)"[\s\S]*?%>/) || data.match(/<title>(.*)<\/title>/) || null;
+        var heading = data.match(/<%- include\(templates\+"header"[\s\S]*?heading: "(.*?)"[\s\S]*?%>/) || data.match(/<%- include\(components\+"styleguide\/styleguide-header"[\s\S]*?heading: "(.*?)"[\s\S]*?%>/) || null;
+        var claim = data.match(/<%- include\(templates\+"header"[\s\S]*?claim: "(.*?)"[\s\S]*?%>/) || data.match(/<%- include\(components\+"styleguide\/styleguide-header"[\s\S]*?claim: "(.*?)"[\s\S]*?%>/) || null;
 
         if (title !== null) title = JSON.parse(JSON.stringify(title))[1];
         if (heading !== null) heading = JSON.parse(JSON.stringify(heading))[1];
