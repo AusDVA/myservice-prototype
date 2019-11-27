@@ -11,7 +11,7 @@ var elemCounter = 0;
 <div id="<%- id %>-container" class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
   <%- modifiers.includes("hidden") ? "hidden" : "" %>>
   <% modifiers = modifiers.filter(item => item !== "hidden") %>
-  <button class="uikit-btn" id="<%- id %>-btnInitial"><%- buttonText %></button>
+  <button class="uikit-btn <%- modifiers.includes("initialTertiary") ? "uikit-btn--tertiary" : "" %>" id="<%- id %>-btnInitial"><%- buttonText %></button>
 
   <div class="boxed" id="<%- id %>-form-wrapper" hidden>
     <div>
@@ -47,6 +47,8 @@ var elemCounter = 0;
       <% }) %>
     </form>
 
+    <% console.log(modifiers.includes("addTertiary") ? "uikit-btn--tertiary" : "") %>
+
     <hr id="<%- id %>-insertBefore">
     <button class="uikit-btn d-none" id="<%- id %>-btnAdd">Add</button>
     <button class="uikit-btn d-none" id="<%- id %>-btnUpdate">Update</button>
@@ -57,12 +59,36 @@ var elemCounter = 0;
     
   </div>
   <div class="display-block d-none margin-above ss-align--center">
-    <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-btnAddAnother"><%- addAnotherText %></button>
+    <button class="uikit-btn <%- modifiers.includes("addAnotherPrimary") ? "" : "uikit-btn--tertiary" %>" id="<%- id %>-btnAddAnother"><%- addAnotherText %></button>
   </div>
 </div>
 
 <script>
   $(document).ready(function() {
+    function hideDOM() {
+      $("#bodyContainer").hide();
+
+      $(`<div class="${$("#bodyContainer").attr("class")}" id="clone"></div>`).insertAfter("#bodyContainer")
+
+      $("#<%- id %>-container").detach().appendTo("#clone")
+
+      $(".pagination").clone().appendTo("#clone");
+
+      $("#clone .pagination").find("a").attr("disabled", "true")
+    }
+
+    function restoreDOM() {
+      $("#<%- id %>-container").detach().insertBefore("#insertBefore");
+
+      $("#clone").remove();
+
+      $("#bodyContainer").show();
+    }
+
+    $("main").find(".container--8-column").attr("id", "bodyContainer");
+
+    $("#<%- id %>-container").next().next().attr("id", "insertBefore");
+
     var <%- id %>_template = <%- JSON.stringify(elems) %>;
     window.<%- id %>_forms = [];
 
@@ -109,6 +135,8 @@ var elemCounter = 0;
       $("#<%- id %>-form-wrapper").show();
       $("#<%- id %>-elements").show();
       $("#<%- id %>-btnUpdate").hide();
+
+      hideDOM();
     })
 
     $("#<%- id %>-btnCancel").on("click", function() {
@@ -121,7 +149,17 @@ var elemCounter = 0;
       } else {
         showResults();
       }
+      restoreDOM();
     })
+
+    <% if (typeof addedHeading !== "undefined") { %>
+      var addedHeading = JSON.parse(JSON.stringify(<%- JSON.stringify(addedHeading) %>));
+
+      if ($("#<%- id %>-form-wrapper").find("h2 i").length > 0) {
+        var modifiedHeading = $("#<%- id %>-form-wrapper").find("h2 i").prop("outerHTML");
+      }
+
+    <% } %> 
 
     $("#<%- id %>-btnAdd").on("click", function() {
       var rawForms = JSON.parse(JSON.stringify(<%- id %>_template));
@@ -136,6 +174,8 @@ var elemCounter = 0;
       <%- id %>_forms.push(forms);
 
       showResults();
+
+      restoreDOM();
     })
 
     $("#<%- id %>-btnDelete").on("click", function() {
@@ -144,9 +184,13 @@ var elemCounter = 0;
       <%- id %>_forms.splice(delElem, 1)
 
       showResults();
+
+      restoreDOM();
     })
 
     $("#<%- id %>-container").on("click", ".<%- id %>-btnEdit", function() {
+      hideDOM();
+
       var index = parseInt($(this).closest(".review-content--item").data("index"));
       $("#<%- id %>-results").hide();
 
@@ -221,9 +265,12 @@ var elemCounter = 0;
 
 
       showResults();
+
+      restoreDOM();
     })
 
     $("#<%- id %>-btnAddAnother").on("click", function() {
+      hideDOM();
       $(this).parent().hide();
       $("#<%- id %>-results").hide();
       $("#<%- id %>-form-wrapper").trigger("reset");
@@ -250,7 +297,14 @@ var elemCounter = 0;
           $("#<%- id %>-results").append(`
           <div class="review-content--item boxed ${index > 0 ? "margin-above" : ""}" data-index="${index}">
             <div class="review__content--label margin-below">
-              ${heading}
+              <% if (typeof addedHeading === "undefined") { %>
+                ${heading}
+              <% } else { %>
+                <span class="font-weight-heavy">
+                  ${typeof modifiedHeading !== "undefined" ? modifiedHeading : ""}
+                  ${addedHeading.map(a => elem[a].value).join(" ")}
+                </span>
+              <% } %>  
               <button class="<%- id %>-btnEdit uikit-btn uikit-btn--tertiary small floated floated--always">&nbsp;Edit&nbsp;</button>
             </div>
             <div class="review__table">

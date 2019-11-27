@@ -9,6 +9,7 @@ const autoprefixer = require('autoprefixer'),
   nodemon = require('gulp-nodemon'),
   noop = require('gulp-noop'),
   postcss = require('gulp-postcss'),
+  gulpIgnore = require('gulp-ignore'),
   postcssDiscardComments = require('postcss-discard-comments')
   postcssDiscardEmpty = require('postcss-discard-empty'),
   postcssMergeLonghand = require('postcss-merge-longhand'),
@@ -66,9 +67,24 @@ gulp.task('copy', () => {
 });
 
 gulp.task('js', () => {
+  var shouldBabel = function(file) {
+    var ignoredFiles = [
+      "src/js/jquery-3.2.1.min.js",
+      "src/js/jquery-effects.js",
+      "src/js/jquery-ui.min.js",
+      "src/js/js.cookie.js",
+      "src/js/moment.min.js",
+      "src/js/polyfill.js",
+      "src/js/swiped-events.js",
+      "src/js/zingtouch.min.js"
+    ];
+
+    return ignoredFiles.includes(file.path.replace(__dirname, "").replace(/\\/g, '/').substr(1))
+  }
+
   return gulp.src('src/js/**/*.js')
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(gulpIgnore(shouldBabel) ? noop() : babel())
     .pipe(sourcemaps.write())
     .pipe(gulp.dest('docs/js'))
     .pipe(reload({ stream: true }))
