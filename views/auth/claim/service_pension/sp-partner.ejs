@@ -111,26 +111,26 @@
         %>
             <%- include(partials+"components/form-elements/radio", locals) %>
             <!-- Married -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date of marriage';
-          locals.el.optionalID = 'date-marriage';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+
+        <%- include(forms+"date", {
+          label: "Date of marriage",
+          id: "date-marriage"
+        }) %>
+
             <!-- Defacto -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date commenced living together';
-          locals.el.optionalID = 'date-living-together';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+        
+        <%- include(forms+"date", {
+          label: "Date commenced living together",
+          id: "date-living-together"
+        }) %>
+
             <!-- Seperated -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date separated';
-          locals.el.optionalID = 'date-separation';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+
+        <%- include(forms+"date", {
+          label: "Date separated",
+          id: "date-separation"
+        }) %>
+
             <% 
           locals.el = {};
           locals.el.message = "<p>You will need to provide the following form:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf' target='blank'><span class='external-link'>Separation from partner (D0513)</a></span></p><p>You can attach the completed form at the end of your claim.</p>"
@@ -139,12 +139,12 @@
         %>
             <%- include(partials+"components/form-elements/notice", locals) %>
             <!-- Date divorced -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date of divorce';
-          locals.el.optionalID = 'date-divorced';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+        
+        <%- include(forms+"date", {
+          label: "Date of divorce",
+          id: "date-divorced"
+        }) %>
+
             <!-- Partner details -->
             <div class="form-group" id="partner-details">
               <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
@@ -152,16 +152,8 @@
               <!-- Title -->
               <%#- include(partials+"components/form-elements/title-list") %>
 
-              <%- include(partials+"components/form-partials/dropdown", {
-                label: "Partner title",
-                options: [
-                  "--Select title--",
-                  "Mr",
-                  "Mrs",
-                  "Master",
-                  "Miss",
-                  "Dr"
-                ]
+              <%- include(partials+"components/form-partials/prepop/titlelist-dropdown", {
+                label: "Partner title"
               }); %>
               <!-- Given name -->
               <%
@@ -179,17 +171,23 @@ locals.el.optionalHint = '(last name)';
               <%- include(partials+"components/form-elements/field", locals) %>
 
               <!-- Former names -->
-              <%
-              locals.el = {};
-              locals.el.optionalQuestion = "Has your partner ever been known by an other names?";
-              %>
-              <%- include(partials+"content/former_names") %>
+              <%- include(forms+"yes_no", {
+                label: "Has your partner ever been known by any other names?",
+                hint: "For example, name at birth, maiden name, previous married name.",
+                yes_toggle: "#previous-names-container"
+              }) %>
+
+              <%- include(forms+"previous-names", {
+                modifiers: ["hidden"],
+                id: "previous-names"
+              }) %>
+
               <!-- Partner DOB -->
-              <% 
-          locals.el = new Object();
-          locals.el.question = 'Partner’s date of birth';
-        %>
-              <%- include(partials+"components/form-elements/date", locals) %>
+
+              <%- include(forms+"date", {
+                label: "Partner's date of birth"
+              }) %>
+
               <%
           locals.el = {};
           locals.el.question = "Partner's phone number";
@@ -291,13 +289,12 @@ locals.el.optionalHint = '(last name)';
               </select>
             </div>
             <!-- Date of marriage -->
-            <% 
-              locals.el = {};
-              locals.el.question = 'Date of marriage';
-              locals.el.optionalID = 'ppp-married-date'; 
-              locals.el.optionalHide= true;
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+            <%- include(forms+"date", {
+              label: "Date of marriage",
+              id: "ppp-married-date",
+              modifiers: ["hidden"]
+            }) %>
+
             <!-- Centrelink -->
             <% 
               locals.el = {};
@@ -334,12 +331,10 @@ locals.el.optionalHint = '(last name)';
 
           <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
             <div class="ledger-rule"></div>
-            <% 
-              locals.el = {};
-              locals.el.question = 'When did this relationship end?'; 
-              locals.el.optionalID = 'date-marriage'; 
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+              <%- include(forms+"date", {
+                label: "Date of marriage",
+                id: "date-marriage"
+              }) %>
           </div>
         </div>
         <div id="ppp--save-and-next" class="margin-above" style="display: none">
@@ -556,9 +551,9 @@ locals.el.optionalHint = '(last name)';
 
     $("#ppp-relationship").change(function () {
       if ($('#ppp-relationship :selected').val() == "Married") {
-        $("#ppp-married-date").show();
+        $("#ppp-married-date-container").show();
       } else {
-        $("#ppp-married-date").hide();
+        $("#ppp-married-date-container").hide();
       }
     });
 
@@ -623,7 +618,7 @@ locals.el.optionalHint = '(last name)';
           break;
         case "divorced":
           sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-divorced").show("fast");
+          $("#date-divorced-container").show("fast");
           break;
         case "widowed":
           sessionStorage.setItem('partnerStatus', 'none');
@@ -631,17 +626,17 @@ locals.el.optionalHint = '(last name)';
           break;
         case "separated":
           sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-separation").show("fast");
+          $("#date-separation-container").show("fast");
           $("#notice-separation").show("fast");
           break;
         case "married":
           sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-marriage").show("fast");
+          $("#date-marriage-container").show("fast");
           $("#partner-details").show("fast");
           break;
         case "defacto":
           sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-living-together").show("fast");
+          $("#date-living-together-container").show("fast");
           $("#partner-details").show("fast");
           break;
         default:
@@ -700,12 +695,12 @@ locals.el.optionalHint = '(last name)';
     }
 
     function hideAll() {
-      $("#date-marriage").hide();
-      $("#date-living-together").hide();
+      $("#date-marriage-container").hide();
+      $("#date-living-together-container").hide();
       $("#other-ps").hide();
-      $("#date-separation").hide();
+      $("#date-separation-container").hide();
       $("#notice-separation").hide();
-      $("#date-divorced").hide();
+      $("#date-divorced-container").hide();
       $("#partner-details").hide();
       $("#crn").hide();
       $("#save-and-next").hide();
