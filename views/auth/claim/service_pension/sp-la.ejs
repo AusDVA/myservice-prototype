@@ -77,9 +77,125 @@
         <div class="col-lrg-12">
           <div class="margin-above--extra margin-below--extra">
             <!-- <h2>Your living arrangements are a factor used in determining your Service Pension</h2> -->
-            <h2 id="sp-res-veteranTitle" class="margin-above--none" style="width: 400px; display: inline-block; display: none; cursor: pointer;">
-              <icon class="fal fa-minus-circle" style="font-size: 1.3em; vertical-align: -15%;"></icon>&nbsp;<span class="font-weight-heavy">Your living arrangements</span>
+            <h2 class="margin-above--none">
+              <span class="font-weight-heavy">Home ownership</span>
             </h2>
+
+            <%- include(partials+"components/form-partials/yes_no", {
+              label: "Have you sold a home you own within the last 2 years?",
+              yes_toggle: ["#date-sold-container", "#how-much-container"] 
+            }); %>
+
+            <%- include(partials+"components/form-partials/date", {
+              label: "What date did you sell this home?",
+              id: "date-sold",
+              modifiers: ["hidden"]
+            }); %>
+
+            <%- include(partials+"components/form-partials/text", {
+              label: "How much were the proceeds of that sale?",
+              id: "how-much",
+              modifiers: ["dollarSign","hidden"]
+            }); %>
+
+            <%- include(partials+"components/form-partials/yes_no", {
+              label: "Do you own your own home (either purchased outright or mortgage)?",
+              yes_toggle: "#own-home-live-away-container"
+            }); %>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Who is currently living in the home?",
+              id: "own-home-live-away",
+              boxes: [
+                {
+                  text: "Myself",
+                  toggle: "#leave-questions-partner"
+                },
+                {
+                  text: "My partner",
+                  toggle: "#leave-questions-myself"
+                },
+                {
+                  text: "Both" ,
+                  toggle: "#leave-questions-both"
+                },
+                {
+                  text: "Neither"
+                }
+              ],
+              modifiers: ["hidden"]
+            }); %>
+
+            <div id="leave-questions-partner" hidden>
+
+            <%- include(partials+"components/form-partials/date", {
+              label: "What date did your partner leave?"
+            }); %>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Do you expect this to be temporary or permanent?",
+              boxes: [
+                "Temporary",
+                "Permanent"
+              ]
+            }); %>
+
+            <%#- include(partials+"components/form-partials/radio", {
+              label: "Is the home",
+              boxes: [
+                "Occupied rent free",
+                "Occupied by carer or other family member (e.g. depdendent child)",
+                "Left vacant"
+              ]
+            }); %>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Has your partner moved in with someone else to",
+              boxes: [
+                "Provide care",
+                "Be cared for"
+              ]
+            }); %>
+
+            </div>
+
+            <div id="leave-questions-myself" hidden>
+
+                <%- include(partials+"components/form-partials/date", {
+                  label: "What date did you leave?"
+                }); %>
+    
+                <%- include(partials+"components/form-partials/date", {
+                  label: "Do you expect to return to live in this home?"
+                }); %>
+    
+                <%- include(partials+"components/form-partials/radio", {
+                  label: "Is the home",
+                  boxes: [
+                    "Occupied rent free",
+                    "Occupied by carer or other family member (e.g. depdendent child)",
+                    "Left vacant"
+                  ]
+                }); %>
+    
+                <%- include(partials+"components/form-partials/radio", {
+                  label: "Have you moved in with someone else to",
+                  boxes: [
+                    "Provide care",
+                    "Be cared for"
+                  ]
+                }); %>
+    
+              </div>
+
+
+          </div>
+            
+            
+            <h2 id="sp-res-veteranTitle" class="margin-above--none" style="width: 400px; display: inline-block; cursor: pointer;"><span class="font-weight-heavy"> <icon class="fal fa-minus-circle" style="font-size: 1.3em; vertical-align: -15%;"></icon>&nbsp;Your living arrangements</span>
+            </h2>
+
+
             <div class="accordion-group">
 
 
@@ -168,7 +284,7 @@
                 <p class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
                     <input id="op8-la" class="uikit-control-input__input" type="radio" name="radio-la">
-                    <span class="uikit-control-input__text ">In public housing<span class="hint"> <br>Such as government subsidised, Housing Trust etc.</span></span>
+                    <span class="uikit-control-input__text ">In public housing (such as government subsidised, Housing Trust etc.)</span>
                   </label>
                 </p>
                 <p class="uiToolKitCheckBox">
@@ -180,7 +296,7 @@
                 <p class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
                     <input id="op9-la" class="uikit-control-input__input" type="radio" name="radio-la">
-                    <span class="uikit-control-input__text">In a place where you pay site fees <span class="hint"><br>Such as a caravan park, village, or mooring</span></span>
+                    <span class="uikit-control-input__text">In a place where you pay fees (such as a caravan park, village, or mooring)</span></span>
                   </label>
                 </p>
               </fieldset>
@@ -211,20 +327,20 @@
                 <p class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
                     <input id="op11-la" class="uikit-control-input__input" type="radio" name="radio-la">
-                    <span class="uikit-control-input__text">In free accommodation<span class="hint"><br>Such as living with relatives</span></span>
+                    <span class="uikit-control-input__text">In free accommodation (such as living with relatives)</span>
                   </label>
                 </p>
                 <p class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
                     <input id="op6-la" class="uikit-control-input__input" type="radio" name="radio-la">
-                    <span class="uikit-control-input__text">In accommodation which you have the right to use free for life<span class="hint"><br>Such as a granny
-                        flat</span></span>
+                    <span class="uikit-control-input__text">In accommodation which you have the right to use for free for life (such as a granny
+                        flat)</span>
                   </label>
                 </p>
                 <p class="uiToolKitCheckBox">
                   <label class="uikit-control-input">
                     <input id="op14-la" class="uikit-control-input__input" type="radio" name="radio-la">
-                    <span class="uikit-control-input__text">Other<span class="hint"><br>Please describe</span></span>
+                    <span class="uikit-control-input__text">Other</span>
                   </label>
                 </p>
               </fieldset>
@@ -626,16 +742,16 @@
 
       function showPartner() {
         sessionStorage.setItem('partnerApply', 'true')
-        $("#sp-res-veteranTitle").show();
+        // $("#sp-res-veteranTitle").show();
         $("#sp-la-partner-la").show();
-        $("#intro-copy-no-partner").hide();
+        // $("#intro-copy-no-partner").hide();
       }
 
       function hidePartner() {
         sessionStorage.setItem('partnerApply', 'false')
-        $("#sp-res-veteranTitle").hide();
+        // $("#sp-res-veteranTitle").hide();
         $("#sp-la-partner-la").hide();
-        $("#intro-copy-no-partner").show();
+        // $("#intro-copy-no-partner").show();
       }
 
       /* top level selection */
@@ -787,18 +903,22 @@
       //
 
       $("#sp-la-op6-paySum-yes1").click(function () {
+        
         if ($(".accordion-group").is(":visible")) {
           $(".accordion-group").hide("fast");
           $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
           $("#show-partner-questions").show("fast");
+         
         }
+        
       })
 
-      // $("#sp-la-op6-paySum-no1").click(function() {
-      //     $(".accordion-group").show("fast");
-      //     $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
-      //     $("#show-partner-questions").hide("fast");
-      // })
+      $("#sp-la-op6-paySum-no1").click(function() {
+          $(".accordion-group").show("fast");
+          $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
+          $("#show-partner-questions").hide("fast");
+          $("#save-next").show("fast");
+      })
 
       var partner = false;
       $(document).keypress(function (e) {
