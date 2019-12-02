@@ -11,6 +11,7 @@
   }); %>
 
   <%- include(partials+"components/form-partials/checkbox", {
+    modifiers: ["hidden"],
     label: "Partner is Australian citizen",
     boxes: [
       "Yes",
@@ -18,11 +19,20 @@
     id: "sw-immigration-status"
   }); %>
 
+  <%- include(forms+"checkbox", {
+    id: "sw-came-from-il",
+    label: "Came from IL",
+    boxes: [
+      "Yes"
+    ]
+  }) %>
+
 </div>
 
 <script>
   var relationshipStatus;
   var immigrationStatus;
+  var cameFromIl;
 
   $(document).ready(function () {
     $(document).keypress(function (e) {
@@ -51,6 +61,13 @@
       $("#sw-immigration-status-1").prop("checked", false)
     }
 
+    if (localStorage.getItem("came-from-il") === null) {
+      localStorage.setItem("came-from-il", "false")
+    } else if (localStorage.getItem("came-from-il") === "true") {
+      $("#sw-came-from-il-1").prop("checked", true)
+    }
+
+    cameFromIl = localStorage.getItem("came-from-il");
     relationshipStatus = localStorage.getItem("relationship-status");
     immigrationStatus = localStorage.getItem("immigration-status");
 
@@ -73,6 +90,14 @@
     }
     
     relationshipStatus = localStorage.getItem("relationship-status");
+
+    if ($("#sw-came-from-il-1").prop("checked")) {
+      localStorage.setItem("came-from-il", "true")
+    } else {
+      localStorage.setItem("came-from-il", "false")
+    }
+
+    cameFromIl = localStorage.getItem("came-from-il");
     
     stateSwitcher();
   })
