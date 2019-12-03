@@ -191,6 +191,20 @@
         </div>
       </div>
 
+      <div class="la-partner">
+        <button class="style-less-button style-less-button--accordion la-section-toggle">
+          <h2>
+            <i class="fal fa-plus-circle"></i> <b>Partner living arrangements</b>
+          </h2>
+        </button>
+        <div class="la-section">
+          <%- include(forms+"yes_no", {
+            label: "Does your partner live at a different address because of age or ill health?",
+            id: "parter-different-address"
+          }) %>
+        </div>
+      </div>
+
       <p id="save-next" hidden>Choose <b>save and next</b> to continue.</p>
 
       <div class="pagination">
@@ -208,7 +222,7 @@
         <%- include(forms+"date", {
           label: "On what date did you move in to this accomodation?",
           modifiers: ["hidden"],
-          customClass: "free--when-move-in"
+          customClass: "when-move-in"
         }) %>
 
         <%- include(forms+"prepop/address", {
@@ -217,10 +231,10 @@
           modifiers: ["hidden"]
         }) %>
 
-        <div class="freelife" hidden>
+        <div class="freelife--fields" hidden>
           <%- include(forms+"yes_no", {
             label: "Did you pay a sum of money or transfer any assets to another person or organisation in return for this accommodation for life?",
-            yes_toggle: ".freelife--paid-sum"
+            customClass: "freelife--pay-sum-q",
           }) %>
 
           <div class="freelife--paid-sum" hidden>
@@ -247,11 +261,190 @@
           </div>
         </div>
 
+        <div class="retirementvillage--fields" hidden>
+          <div class="text-and-select form-group">
+            <%- include(forms+"text", {
+              customClass: "text-and-select__text",
+              modifiers: ["dollarSign"],
+              label: "How much do you pay ongoing for your accommodation?",
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"dropdown", {
+              customClass: "text-and-select__select",
+              modifiers: ["inputShort"],
+              label: "Per",
+              options: [
+                "-- Select frequency --",
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Annually"
+              ]
+            }) %>
+          </div>
+
+          <%- include(forms+"date", {
+            label: "Date you started paying?"
+          }) %>
+
+          <%- include(forms+"yes_no", {
+            label: "Does this include meals?"
+          }) %>
+
+          <%- include(forms+"yes_no", {
+            label: "Did you pay an entry contribution?",
+            customClass: "retirementvillage--entry-contribution-q"
+          }) %>
+
+          <%- include(forms+"text", {
+            customClass: "retirementvillage--entry-contribution",
+            label: "How much was the entry contribution?",
+            modifiers: ["dollarSign", "inputShort", "hidden"],
+            placeholder: "0.00"
+          }) %>
+
+          <%- include(forms+"notice", {
+            message: "You will need to attach a copy of the entry agreement in the documents section"
+          }) %>
+        </div>
+
+        <div class="agedcare--fields" hidden>
+          <%- include(forms+"text", {
+            label: "What is the name of the nursing home or hostel?",
+            modifiers: ["inputFullLength"]
+          }) %>
+
+          <%- include(forms+"yes_no", {
+            label: "Did you pay an accommodation bond or charge?",
+            customClass: "agedcare--accommodation-bond-charge-q"
+          }) %>
+
+          <%- include(forms+"text", {
+            label: "How much did you pay?",
+            modifiers: ["hidden", "dollarSign", "inputShort"],
+            placeholder: "0.00",
+            customClass: "agedcare--accommodation-bond-charge"
+          }) %>
+
+          <div class="text-and-select form-group">
+            <%- include(forms+"text", {
+              customClass: "text-and-select__text",
+              modifiers: ["dollarSign"],
+              label: "How much do you pay ongoing for your accommodation?",
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"dropdown", {
+              customClass: "text-and-select__select",
+              modifiers: ["inputShort"],
+              label: "Per",
+              options: [
+                "-- Select frequency --",
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Annually"
+              ]
+            }) %>
+          </div>
+
+          <%- include(forms+"date", {
+            label: "Date you started paying?"
+          }) %>
+        </div>
+
         <%- include(forms+"textarea", {
           rows: 2,
           label: "Give details",
           customClass: "other--arrangements",
           modifiers: ["hidden"]
+        }) %>
+
+        <div class="rental--how-much text-and-select form-group" hidden>
+          <%- include(forms+"text", {
+            customClass: "text-and-select__text",
+            modifiers: ["dollarSign"],
+            label: "How much do you pay?",
+            placeholder: "0.00"
+          }) %>
+
+          <%- include(forms+"dropdown", {
+            customClass: "text-and-select__select",
+            modifiers: ["inputShort"],
+            label: "Per",
+            options: [
+              "-- Select frequency --",
+              "Weekly",
+              "Fortnightly",
+              "Monthly",
+              "Annually"
+            ]
+          }) %>
+        </div>
+
+        <div class="privateboard--how-much" hidden>
+          <div class="text-and-select form-group">
+            <%- include(forms+"text", {
+              customClass: "text-and-select__text",
+              modifiers: ["dollarSign"],
+              label: "Amount paid for meals:",
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"dropdown", {
+              customClass: "text-and-select__select",
+              modifiers: ["inputShort"],
+              label: "Per",
+              options: [
+                "-- Select frequency --",
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Annually"
+              ]
+            }) %>
+          </div>
+
+          <div class="text-and-select form-group">
+            <%- include(forms+"text", {
+              customClass: "text-and-select__text",
+              modifiers: ["dollarSign"],
+              label: "Amount paid for lodging:",
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"dropdown", {
+              customClass: "text-and-select__select",
+              modifiers: ["inputShort"],
+              label: "Per",
+              options: [
+                "-- Select frequency --",
+                "Weekly",
+                "Fortnightly",
+                "Monthly",
+                "Annually"
+              ]
+            }) %>
+          </div>
+        </div>
+
+        <%- include(forms+"dropdown", {
+          customClass: "sitefees--type-payment",
+          label: "Type of payment",
+          modifiers: ["hidden"],
+          options: [
+            "-- Select payment type --",
+            "Caravan park site fees",
+            "Relocatable home site fees",
+            "Mooring fees"
+          ]
+        }) %>
+
+        <%- include(forms+"notice", {
+          message: `<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p>
+                    <p>If you don’t have one, you may attach a copy of the latest rent receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>`,
+          customClass: "rental-info-box"
         }) %>
       </form>
     </div>
@@ -276,13 +469,13 @@
     $("body").on("change", ".living-arragements input", function() {
       $(this).closest(".la-section").find(".ownhome-info").hide();
       $(this).closest(".la-section").find(".rental-options").hide();
+      $(this).closest(".la-section").find(".la-form").hide();
       $(this).closest(".la-section").find(".rental-options .uiToolKitCheckBox").hide();
       $("#save-next").hide();
 
       switch ($(this).closest(".living-arragements").find(":checked").val()) {
         case "ownhome":
           $(this).closest(".la-section").find(".ownhome-info").show();
-          if (localStorage.getItem("partnerApply") !== "true") $("#save-next").show();
           break;
         case "rental":
           $(this).closest(".la-section").find(".rental-options .rental-accom").show();
@@ -305,12 +498,39 @@
 
       switch ($(this).closest(".la-section").find(".rental-options :checked").val()) {
         case "free":
-          $(this).closest(".la-section").find(".free--when-move-in").show();
+          $(this).closest(".la-section").find(".when-move-in").show();
           $(this).closest(".la-section").find(".address").show();
+          break;
         case "freelife":
-          $(this).closest(".la-section").find(".freelife").show();
+          $(this).closest(".la-section").find(".freelife--fields").show();
+          break;
+        case "hospital":
+          $(this).closest(".la-section").find(".when-move-in").show();
+          break;
+        case "retirementvillage":
+          $(this).closest(".la-section").find(".when-move-in").show();
+          $(this).closest(".la-section").find(".retirementvillage--fields").show();
+          break;
+        case "agedcare":
+          $(this).closest(".la-section").find(".agedcare--fields").show();
+          break;
+        case "rental":
+        case "public":
+          $(this).closest(".la-section").find(".rental-info-box").show();
+          $(this).closest(".la-section").find(".rental--how-much").show();
+          break;
+        case "site-fees":
+          $(this).closest(".la-section").find(".rental-info-box").show();
+          $(this).closest(".la-section").find(".rental--how-much").show();
+          $(this).closest(".la-section").find(".sitefees--type-payment").show();
+          break;
+        case "privateboard":
+          $(this).closest(".la-section").find(".privateboard--how-much").show();
+          $(this).closest(".la-section").find(".rental-info-box").show();
+          break;
         case "other":
           $(this).closest(".la-section").find(".other--arrangements").show();
+          break;
       }
       
       $(this).closest(".la-section").find(".la-form").show();
@@ -321,6 +541,35 @@
 
     })
 
+    $("body").on("change", ".freelife--pay-sum-q input", function() {
+      if ($(".freelife--pay-sum-q :checked").val() === "yes") {
+        $(this).closest(".freelife--fields").find(".freelife--paid-sum").show();
+      } else {
+        $(this).closest(".freelife--fields").find(".freelife--paid-sum").hide();
+      }
+    })
+
+    $("body").on("change", ".retirementvillage--entry-contribution-q input", function() {
+      if ($(".retirementvillage--entry-contribution-q :checked").val() === "yes") {
+        $(this).closest(".retirementvillage--fields").find(".retirementvillage--entry-contribution").show();
+      } else {
+        $(this).closest(".retirementvillage--fields").find(".retirementvillage--entry-contribution").hide();
+      }
+    })
+
+    $("body").on("change", ".agedcare--accommodation-bond-charge-q input", function() {
+      if ($(".agedcare--accommodation-bond-charge-q :checked").val() === "yes") {
+        $(this).closest(".agedcare--fields").find(".agedcare--accommodation-bond-charge").show();
+      } else {
+        $(this).closest(".agedcare--fields").find(".agedcare--accommodation-bond-charge").hide();
+      }
+    })
+
+    $("#parter-different-address-container").on("change", "input", function() {
+      if ($("#parter-different-address-container :checked").val() === "yes") {
+        console.log($(".la-single .la-section").prop("outerHTML"))
+      }
+    })
   </script>
 </body>
 
