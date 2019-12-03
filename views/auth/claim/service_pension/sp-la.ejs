@@ -200,7 +200,7 @@
         <div class="la-section">
           <%- include(forms+"yes_no", {
             label: "Does your partner live at a different address because of age or ill health?",
-            id: "parter-different-address"
+            customClass: "parter-different-address"
           }) %>
         </div>
       </div>
@@ -533,7 +533,7 @@
     $(document).ready(function() {
       $(".la-section").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
 
-      partnerQuestion = $("#parter-different-address-container").clone(true);
+      partnerQuestion = $(".parter-different-address").clone(true);
 
       if (sessionStorage.getItem("partnerApply") === "true") $(".la-partner").show();
     })
@@ -647,10 +647,19 @@
       }
     })
 
-    $("body").on("change", "#parter-different-address-container input", function() {
+    $("body").on("change", ".parter-different-address input", function() {
+      var preReplaceVal = $(".parter-different-address :checked").val();
       $(".la-partner .la-section").html(partnerQuestion)
 
-      if ($("#parter-different-address-container :checked").val() === "yes") {
+      console.log($(".partner-different-address").attr("id"))
+
+
+
+      if (preReplaceVal === "yes") {
+      } else {
+      }
+
+      if (preReplaceVal === "yes") {
         $(".la-partner .la-section").append($(".la-single .la-section").clone(true));
 
         $(".la-partner .la-section").find("div, input").each(function() {
@@ -664,7 +673,6 @@
             $(this).attr("for", `${$(this).attr("for")}-partner`)
           }
         })
-
         $(".la-partner .la-section").find(".living-arragements .uikit-text-input__label").text("Which of the following best describes where your partner lives?");
       }
     })
