@@ -128,4 +128,4 @@ gulp.task('browser-sync', gulp.series(['server'], () => {
   });
 }));
 
-gulp.task('serve', gulp.series(gulp.parallel('js', 'copy', 'sass', 'copy'), gulp.parallel('watch', 'browser-sync')))
+gulp.task('serve', gulp.series(gulp.parallel('js', 'sass', 'copy'), gulp.parallel('watch', 'browser-sync')))
