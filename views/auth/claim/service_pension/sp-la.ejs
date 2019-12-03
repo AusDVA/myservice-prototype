@@ -191,7 +191,7 @@
         </div>
       </div>
 
-      <div class="la-partner">
+      <div class="la-partner" hidden>
         <button class="style-less-button style-less-button--accordion la-section-toggle">
           <h2>
             <i class="fal fa-plus-circle"></i> <b>Partner living arrangements</b>
@@ -202,6 +202,81 @@
             label: "Does your partner live at a different address because of age or ill health?",
             id: "parter-different-address"
           }) %>
+        </div>
+      </div>
+
+      <div class="la-home-ownership">
+        <button class="style-less-button style-less-button--accordion la-section-toggle">
+          <h2>
+            <i class="fal fa-plus-circle"></i> <b>Home ownership</b>
+          </h2>
+        </button>
+        <div class="la-section" hidden>
+          <%- include(partials+"components/form-partials/yes_no", {
+            label: "Have you sold your home within the last 2 years?",
+            yes_toggle: ["#date-sold-container", "#how-much-container"] 
+          }); %>
+
+          <%- include(partials+"components/form-partials/date", {
+            label: "Date sold",
+            id: "date-sold",
+            modifiers: ["hidden"]
+          }); %>
+
+          <%- include(partials+"components/form-partials/text", {
+            label: "Sale price",
+            id: "how-much",
+            modifiers: ["dollarSign","hidden"]
+          }); %>
+
+          <%- include(partials+"components/form-partials/yes_no", {
+            label: "Do you own your own home but you and/or your partner live somewhere else?",
+            id: "live-somewhere-else",
+            yes_toggle: "#leave-questions"
+          }); %>
+
+          <div id="leave-questions" hidden>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Who has left your home?",
+              id: "own-home-live-away",
+              boxes: [
+                {
+                  text: "You",
+                  toggle: "#leave-questions-partner"
+                },
+                {
+                  text: "Your partner",
+                  toggle: "#leave-questions-myself"
+                },
+                {
+                  text: "You and your partner" ,
+                  toggle: "#leave-questions-both"
+                }
+              ],
+              modifiers: ["hidden"]
+            }); %>
+
+            <%- include(partials+"components/form-partials/date", {
+              label: "What date did you and/or your partner leave?"
+            }); %>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Have you and/or your partner left your home",
+              boxes: [
+                "Temporarily",
+                "Permanently"
+              ]
+            }); %>
+
+            <%- include(partials+"components/form-partials/radio", {
+              label: "Have you and/or your partner moved in with someone else to",
+              boxes: [
+                "Provide care",
+                "Be cared for",
+                "None"
+              ]
+            }); %>
         </div>
       </div>
 
@@ -452,8 +527,15 @@
   </main>
   <%- include(partials+"components/layout/footer") %>
   <script>
+    
+    var partnerQuestion;
+
     $(document).ready(function() {
       $(".la-section").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
+
+      partnerQuestion = $("#parter-different-address-container").clone(true);
+
+      if (sessionStorage.getItem("partnerApply") === "true") $(".la-partner").show();
     })
 
     $("body").on("click", ".la-section-toggle", function() {
@@ -565,9 +647,34 @@
       }
     })
 
-    $("#parter-different-address-container").on("change", "input", function() {
+    $("body").on("change", "#parter-different-address-container input", function() {
+      $(".la-partner .la-section").html(partnerQuestion)
+
       if ($("#parter-different-address-container :checked").val() === "yes") {
-        console.log($(".la-single .la-section").prop("outerHTML"))
+        $(".la-partner .la-section").append($(".la-single .la-section").clone(true));
+
+        $(".la-partner .la-section").find("div, input").each(function() {
+          if (typeof $(this).attr("id") !== "undefined") {
+            $(this).attr("id", `${$(this).attr("id")}-partner`)
+          }
+        })
+
+        $(".la-partner .la-section").find("label").each(function() {
+          if (typeof $(this).attr("for") !== "undefined") {
+            $(this).attr("for", `${$(this).attr("for")}-partner`)
+          }
+        })
+
+        $(".la-partner .la-section").find(".living-arragements .uikit-text-input__label").text("Which of the following best describes where your partner lives?");
+      }
+    })
+
+    $(".la-single .la-section").on("change", ".living-arragements input", function() {
+      if ($(".living-arragements :checked").val() === "ownhome") {
+        $("#live-somewhere-else-container").hide();
+        $("#leave-questions").hide();
+      } else {
+        $("#live-somewhere-else-container").show();
       }
     })
   </script>
