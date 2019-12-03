@@ -70,7 +70,7 @@
       <div class="la-single">
         <button class="style-less-button style-less-button--accordion la-section-toggle">
           <h2>
-            <i class="fal fa-plus-circle"></i> <b>Your living arrangements</b>
+            <i class="fal fa-minus-circle"></i> <b>Your living arrangements</b>
           </h2>
         </button>
         <div class="la-section">
@@ -194,13 +194,13 @@
       <div class="la-partner" hidden>
         <button class="style-less-button style-less-button--accordion la-section-toggle">
           <h2>
-            <i class="fal fa-plus-circle"></i> <b>Partner living arrangements</b>
+            <i class="fal fa-minus-circle"></i> <b>Partner living arrangements</b>
           </h2>
         </button>
         <div class="la-section">
           <%- include(forms+"yes_no", {
             label: "Does your partner live at a different address because of age or ill health?",
-            customClass: "parter-different-address"
+            customClass: "partner-different-address"
           }) %>
         </div>
       </div>
@@ -208,10 +208,10 @@
       <div class="la-home-ownership">
         <button class="style-less-button style-less-button--accordion la-section-toggle">
           <h2>
-            <i class="fal fa-plus-circle"></i> <b>Home ownership</b>
+            <i class="fal fa-minus-circle"></i> <b>Home ownership</b>
           </h2>
         </button>
-        <div class="la-section" hidden>
+        <div class="la-section">
           <%- include(partials+"components/form-partials/yes_no", {
             label: "Have you sold your home within the last 2 years?",
             yes_toggle: ["#date-sold-container", "#how-much-container"] 
@@ -533,7 +533,7 @@
     $(document).ready(function() {
       $(".la-section").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
 
-      partnerQuestion = $(".parter-different-address").clone(true);
+      partnerQuestion = $(".partner-different-address").clone(true);
 
       if (sessionStorage.getItem("partnerApply") === "true") $(".la-partner").show();
     })
@@ -647,20 +647,18 @@
       }
     })
 
-    $("body").on("change", ".parter-different-address input", function() {
-      var preReplaceVal = $(".parter-different-address :checked").val();
+    $("body").on("change", ".partner-different-address input", function() {
+      var preReplaceVal = $(".partner-different-address :checked").val();
       $(".la-partner .la-section").html(partnerQuestion)
 
-      console.log($(".partner-different-address").attr("id"))
-
-
-
       if (preReplaceVal === "yes") {
-      } else {
-      }
+        $(`#${$(".partner-different-address").attr("id").replace("container", "")}1`).prop("checked", true);
+        $(".la-single").find(".style-less-button .fal").addClass("fa-plus-circle");
+        $(".la-single").find(".style-less-button .fal").removeClass("fa-minus-circle");
+        $(".la-single").find(".la-section").hide();
 
-      if (preReplaceVal === "yes") {
         $(".la-partner .la-section").append($(".la-single .la-section").clone(true));
+        $(".la-partner .la-section").removeAttr("hidden").removeAttr("style").show();
 
         $(".la-partner .la-section").find("div, input").each(function() {
           if (typeof $(this).attr("id") !== "undefined") {
@@ -674,6 +672,8 @@
           }
         })
         $(".la-partner .la-section").find(".living-arragements .uikit-text-input__label").text("Which of the following best describes where your partner lives?");
+      } else {
+        $(`#${$(".partner-different-address").attr("id").replace("container", "")}2`).prop("checked", true);
       }
     })
 
@@ -686,6 +686,8 @@
       }
     })
   </script>
+
+  <%- include("sp-la-state-switcher") %>
 </body>
 
 </html>
