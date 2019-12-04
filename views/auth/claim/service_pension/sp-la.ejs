@@ -200,8 +200,7 @@
         <div class="la-section">
           <%- include(forms+"yes_no", {
             customClass: "partner-different-address",
-            label: "Does your partner live at a different address?",
-            yes_toggle: ".age-ill-health"
+            label: "Does your partner live at a different address?"
           }) %>
 
           <%- include(forms+"yes_no", {
@@ -460,10 +459,12 @@
   <%- include(partials+"components/layout/footer") %>
   <script>
     
-    var partnerQuestion;
+    var partnerDiv;
 
     $(document).ready(function() {
-      $(".la-section, .partner-address-details").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
+      $(".la-section").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
+
+      partnerDiv = $(".la-partner .la-section").clone(true).html()
 
       if (sessionStorage.getItem("partnerApply") === "true") $(".la-partner").show();
     })
@@ -505,8 +506,7 @@
     })
 
     $("body").on("change", ".rental-options input", function() {
-      $(this).closest(".la-section, .partner-address-details").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
-      console.log($(this).closest(".la-section").find(".rental-options :checked").val())
+      $(this).closest(".la-section").find(".la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
 
       switch ($(this).closest(".la-section").find(".rental-options :checked").val()) {
         case "free":
@@ -577,24 +577,63 @@
       }
     })
 
-    $("body").on("change", ".age-ill-health input", function() {
-      if ($(".age-ill-health :checked").val() === "yes") {
-        var partnerDiv = $(".la-partner .la-section").clone(true);
-
-        $(".la-partner .la-section").replaceWith($(".la-single .la-section"));
-        $(".la-partner .la-section").prepend(partnerDiv);
-
-        $(".la-partner .la-section").show();
+    $("body").on("change", ".partner-different-address input", function() {
+      if ($(".partner-different-address :checked").val() === "yes") {
+        $(".age-ill-health").show();
       } else {
-        $(".la-partner .la-section").find("div:not(.partner-different-address):not(.age-ill-health)").remove();
+        $(".la-partner .la-section").html(partnerDiv);
+        var tempId = $(".partner-different-address").attr("id");
+        tempId = tempId.replace("container", "");
+
+        $(`#${tempId}2`).prop("checked", true)
       }
     })
 
-    $("body").on("change", ".partner-different-address input", function() {
-      var partnerContent = $(".la-partner .la-section :nth-child(-n + 2)").clone(true);
+    $("body").on("change", ".age-ill-health input", function() {
+      if ($(".age-ill-health :checked").val() === "yes") {
+        $(".la-partner .la-section").replaceWith($(".la-single .la-section").clone(true));
+        $(".la-partner .la-section").prepend(partnerDiv);
+        $(".age-ill-health").show();
+        var tempId = $(".age-ill-health").attr("id");
+        tempId = tempId.replace("container", "");
 
-      if ($(".partner-different-address :checked").val() === "no") {
-        $(".la-partner .la-section").html(partnerContent)
+        $(`#${tempId}1`).prop("checked", true)
+
+        $(`#${$(".partner-different-address").attr("id").replace("container", "")}1`).prop("checked", true);
+        $(".la-single").find(".style-less-button .fal").addClass("fa-plus-circle");
+        $(".la-single").find(".style-less-button .fal").removeClass("fa-minus-circle");
+        $(".la-single").find(".la-section").hide();
+        $(".la-partner .la-section").find("div, input").each(function() {
+          if (typeof $(this).attr("id") !== "undefined") {
+            $(this).attr("id", `${$(this).attr("id")}-partner`)
+          }
+        })
+        $(".la-partner .la-section").find("label").each(function() {
+          if (typeof $(this).attr("for") !== "undefined") {
+            $(this).attr("for", `${$(this).attr("for")}-partner`)
+          }
+        })
+        $(".la-partner .la-section").find(".living-arragements .uikit-text-input__label").text("Which of the following best describes where your partner lives?");
+
+        $(".la-partner .ownhome-info").hide();
+        $(".la-partner .rental-options").hide();
+        $(".la-partner .la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
+
+        $(".la-partner .la-section").show();
+      } else {
+        $(".la-partner .la-section").html(partnerDiv);
+
+        var tempId = $(".age-ill-health").attr("id");
+        tempId = tempId.replace("container", "");
+        $(`#${tempId}2`).prop("checked", true)
+
+        
+        var tempId = $(".partner-different-address").attr("id");
+        tempId = tempId.replace("container", "");
+        $(`#${tempId}1`).prop("checked", true)
+        
+        $(".age-ill-health").show();
+        
       }
     })
   </script>
