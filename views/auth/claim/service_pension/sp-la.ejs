@@ -205,9 +205,28 @@
 
           <%- include(forms+"yes_no", {
             modifiers: ["hidden"],
-            label: "Is this because of age or ill health?",
+            label: "Does you partner live separately due to age or ill health?",
             customClass: "age-ill-health"
           }) %>
+
+          <%- include(forms+"date", {
+            label: "From what date?",
+            modifiers: ["hidden"],
+            customClass: "from-what-date"
+          }) %>
+
+          <%- include(forms+"yes_no", {
+            modifiers: ["hidden"],
+            label: "Will this arrangement continue permanently?",
+            customClass: "temp-or-perm"
+          }) %>
+
+          <%- include(forms+"date", {
+            label: "When do you expect your partner to return?",
+            modifiers: ["hidden"],
+            customClass: "when-expect-return"
+          }) %>
+
         </div>
       </div>
 
@@ -577,32 +596,30 @@
       }
     })
 
-    $("body").on("change", ".partner-different-address input", function() {
+    function restoreVals() {
+
+      vals = [];
+      vals.push($(".la-partner").find(".partner-different-address").clone(true));
+      vals.push($(".la-partner").find(".age-ill-health").clone(true));
+      vals.push($(".la-partner").find(".from-what-date").clone(true));
+      vals.push($(".la-partner").find(".temp-or-perm").clone(true));
+      vals.push($(".la-partner").find(".when-expect-return").clone(true));
+
+      return vals;
+    }
+
+    $(".la-partner").on("change", ".partner-different-address input", function() {
       if ($(".partner-different-address :checked").val() === "yes") {
-        $(".age-ill-health").show();
-      } else {
-        $(".la-partner .la-section").html(partnerDiv);
-        var tempId = $(".partner-different-address").attr("id");
-        tempId = tempId.replace("container", "");
-
-        $(`#${tempId}2`).prop("checked", true)
-      }
-    })
-
-    $("body").on("change", ".age-ill-health input", function() {
-      if ($(".age-ill-health :checked").val() === "yes") {
+        var preVals = restoreVals();
         $(".la-partner .la-section").replaceWith($(".la-single .la-section").clone(true));
-        $(".la-partner .la-section").prepend(partnerDiv);
+        $(".la-partner .la-section").prepend(preVals);
+        $(".partner-different-address input").first().prop("checked", true);
         $(".age-ill-health").show();
-        var tempId = $(".age-ill-health").attr("id");
-        tempId = tempId.replace("container", "");
 
-        $(`#${tempId}1`).prop("checked", true)
-
-        $(`#${$(".partner-different-address").attr("id").replace("container", "")}1`).prop("checked", true);
         $(".la-single").find(".style-less-button .fal").addClass("fa-plus-circle");
         $(".la-single").find(".style-less-button .fal").removeClass("fa-minus-circle");
         $(".la-single").find(".la-section").hide();
+        $(`#${$(".partner-different-address").attr("id").replace("container", "")}1`).prop("checked", true);
         $(".la-partner .la-section").find("div, input").each(function() {
           if (typeof $(this).attr("id") !== "undefined") {
             $(this).attr("id", `${$(this).attr("id")}-partner`)
@@ -614,28 +631,35 @@
           }
         })
         $(".la-partner .la-section").find(".living-arragements .uikit-text-input__label").text("Which of the following best describes where your partner lives?");
-
         $(".la-partner .ownhome-info").hide();
         $(".la-partner .rental-options").hide();
         $(".la-partner .la-form").replaceWith($(".la-form-original").clone(true).attr("class", "la-form"));
 
         $(".la-partner .la-section").show();
       } else {
-        $(".la-partner .la-section").html(partnerDiv);
-
-        var tempId = $(".age-ill-health").attr("id");
-        tempId = tempId.replace("container", "");
-        $(`#${tempId}2`).prop("checked", true)
-
-        
-        var tempId = $(".partner-different-address").attr("id");
-        tempId = tempId.replace("container", "");
-        $(`#${tempId}1`).prop("checked", true)
-        
-        $(".age-ill-health").show();
-        
+        $(".la-partner .la-section").html(restoreVals());
       }
-    })
+    });
+
+    $(".la-partner").on("change", ".age-ill-health input", function() {
+      if ($(".age-ill-health :checked").val() === "yes") {
+        $(".from-what-date").show();
+        $(".temp-or-perm").show();
+      } else {
+        $(".from-what-date").hide();
+        $(".when-expect-return").hide();
+        $(".temp-or-perm").hide();
+      }
+    });
+
+    $(".la-partner").on("change", ".temp-or-perm input", function() {
+      if ($(".temp-or-perm :checked").val() === "no") {
+        $(".when-expect-return").show()
+      } else {
+        $(".when-expect-return").hide()
+      }
+    });
+
   </script>
 
   <%- include("sp-la-state-switcher") %>
