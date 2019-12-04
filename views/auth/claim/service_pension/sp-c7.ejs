@@ -1,0 +1,98 @@
+<%
+  var progress = JSON.parse(include("c-progressbar")) 
+  progress.activeItem = 7;
+%>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service Pension - Home ownership | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+    <script src="/docs/js/income-assets.js"></script>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#user-list">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+    <%- include(partials+"components/layout/header-nom-rep") %>
+      <main>
+        <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+          <div class="container">
+            <%- include(forms+"progress-advanced", progress) %>
+          </div>
+          <!-- Page heading -->
+          <h1 class="margin-above--none ss-align--center"><span class="heading">Home ownership</span></h1>
+        </div>
+        <section>
+          <div class="container margin-above margin-below--extra">
+            <div class="row">
+              <div class="col-md-offset-2 col-md-8 margin-below--large">
+                <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Have you sold your home within the last 2 years?",
+                  yes_toggle: ["#date-sold-container", "#how-much-container"] 
+                }); %>
+
+                <%- include(partials+"components/form-partials/date", {
+                  label: "Date sold",
+                  id: "date-sold",
+                  modifiers: ["hidden"]
+                }); %>
+
+                <%- include(partials+"components/form-partials/text", {
+                  label: "Sale price",
+                  id: "how-much",
+                  modifiers: ["dollarSign", "hidden", "inputShort"],
+                  placeholder: "0.00"
+                }); %>
+
+              </div>
+
+              <div class="pagination" style="position: relative;">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-c6'">Previous</button>
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+                <div class="floated">
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
+                  <button class="uikit-btn btnNext" onclick="window.location.href = 'sp-progress-d'">Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <%- include(partials+"components/layout/footer") %>
+    <script>
+      $(Document).ready(function () {
+
+        $(document).keypress(function (e) {
+          switch (e.which) {
+            case 49:
+              hidePartner();
+              break;
+            case 50:
+              showPartner();
+              break;
+            default:
+          }
+        });
+
+        function showPartner() {
+          $(".partner").show();
+          $(".partner-label").html("Our");
+        }
+
+        function hidePartner() {
+          $(".partner").hide();
+          $(".partner-label").html("My");
+        }
+
+      });
+    </script>
+</body>
+
+</html>

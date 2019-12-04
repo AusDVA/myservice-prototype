@@ -1,49 +1,279 @@
 <!-- Summary card -->
 <div id="farm-summary" class="plain-text-info" style="display:none;">
-  <div class="review__wrapper">
-    <div class="review__content--item boxed row">
-      <div class="review__content--label col-sm-10">
-        <h2 class="margin-above--none">
-          <span class="fal fa-tractor fa-icons"></span><span class="font-weight-heavy">Farm</span></h2>
-        <div class="key-value-group margin-above">
-          <div class="key">
-            <h4>Key</h4>
-          </div>
-          <div class="value">Value
-          </div>
+    <div class="review__wrapper">
+        <div class="review__content--item boxed row">
+            <div class="review__content--label col-sm-10">
+                <h2 class="margin-above--none">
+                    <span class="fal fa-tractor fontawesome-icons"></span>&nbsp;&nbsp;<span class="font-weight-heavy">Farm</span></h2>
+                <div class="key-value-group margin-above">
+                    <div class="key">
+                        <h4>Property type</h4>
+                    </div>
+                    <div class="value">Hobby Farm</div>
+                </div>
+            </div>
+            <div class="col-sm-2" style="margin: 0;"><button class="uikit-btn uikit-btn--tertiary" onClick="editCard('farm');">&nbsp;Edit&nbsp;</button>
+            </div>
         </div>
-        <div class="key-value-group margin-above">
-          <div class="key">
-            <h4>Key</h4>
-          </div>
-          <div class="value">Value
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-2" style="margin: 0;"><button class="uikit-btn uikit-btn--tertiary" onClick="editCard('farm');">&nbsp;Edit&nbsp;</button>
-      </div>
     </div>
-  </div>
 </div>
 <!-- Open card -->
 <div id="farm-card" class="boxed margin-above margin-below" style="display: none;">
-  <div>
-    <h2 class="margin-above--none" style="display: inline-block;">
-      <span class="fal fa-tractor fa-icons"></span><span class="font-weight-heavy">Farm</span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated"
-      onclick="removeSummary('farm');">&nbsp;Delete item&nbsp;
-    </button>
-  </div>
-  <div id="card-details" class="margin-below--large">
-    <p class="margin-below--mid margin-above"><b>Add farms or hobby farms<span class="partner"> owned by you and/or your partner</span>.</b></p>
-      <p>Include farms you own, partly own or operate. Also include your home if built on a block larger than 2 hectares (5 acres).</p>
-      <p>Do not include properties wholly or partly owned by a private trust or private company in which you have an involvement.</p>
-    <form id="myForm">
-      <input type="reset" style="display:none">
-      <!-- form goes here -->
-    </form>
-  </div>
-  <hr>
-  <div id="buttonset2" class="form-group margin-above--none">
-    <button id="addButton" class="uikit-btn" onclick="addSummary('farm');">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
-  </div>
+    <div>
+        <h2 class="margin-above--none" style="display: inline-block;">
+            <span class="fal fa-tractor fontawesome-icons"></span>&nbsp;<span class="font-weight-heavy">Farm</span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary
+        small warning floated" onclick="removeSummary('farm');">&nbsp;Delete item&nbsp;
+        </button>
+    </div>
+    <div id="card-details" class="margin-below--large">
+        <h4 class="margin-below--mid margin-above--none"><b>Add farms or hobby farms<span class="partner"> owned by you and/or your partner</span>.</b></h4>
+          <p class="margin-below--mid"><p>Include farms you own, partly own or operate. Also include your home if built on a block larger than 2 hectares (5 acres).</p>
+          <p>Do not include properties wholly or partly owned by a private trust or private company in which you have an involvement.</p>
+        <hr>
+        <form id="myForm">
+            <input type="reset" style="display:none">
+
+           <%- include(forms+"dropdown", {
+              label: "What type of property do you have?",
+              modifiers: ["inputFullLength"],
+              options: [
+                "-- Select type of farm --",
+                "Farm",
+                "Hobby Farm",
+                "Home block less than 2 hectares (5 acres) used for commercial (business) purposes"
+              ]
+            }) %>
+
+            <%- include(forms+"text", {
+              modifiers: ["inputFullLength"],
+              label: "Land title reference"
+            }) %>
+
+            <%- include(forms+"date", {
+              label: "Acquisition date"
+            }) %>
+
+            <%- include(forms+"prepop/address", {
+              label: "What is the address of your property?"
+            }) %>
+
+            <%- include(forms+"radio", {
+              label: "Who owns the property?",
+              boxes: [
+                "Myself",
+                "My Partner",
+                "Jointly With My Partner",
+                {
+                  text: "Jointly With Any Other Party",
+                  toggle: ".jointlyotherparty"
+                }
+              ]
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "% Owned by you",
+              modifiers: ["inputShort", "hidden"],
+              customClass: "jointlyotherparty"
+            }) %>
+
+            <%- include(forms+"textarea", {
+              label: "Name of other owners",
+              rows: 2,
+              modifiers: ["hidden"],
+              customClass: "jointlyotherparty"
+            }) %>
+
+            <%- include(forms+"yes_no", {
+              label: "Is your home property held on more than one title?",
+              yes_toggle: "#more-than-one-title-container"
+            }) %>
+
+            <%- include(forms+"notice", {
+              modifiers: ["hidden"],
+              id: "more-than-one-title",
+              message: `<p>You will be required to provide evidence of property title deed to support your claim.</p>
+                        <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "What is the legal description of your land (e.g. lot, section, parish etc)?",
+              modifiers: ["inputFullLength"]
+            }) %>
+
+            <div class="select-and-text">
+              <%- include(forms+"dropdown", {
+                customClass: "select-and-text__select",
+                label: "What is the area/dimensions of your land?",
+                options: [
+                  "-- Select an item --",
+                  "Area in hectares",
+                  "Area in acres",
+                  "Dimensions"
+                ]
+              }) %>
+
+              <%- include(forms+"text", {
+                label: "",
+                customClass: "select-and-text__text"
+              }) %>
+            </div>
+
+            <%- include(forms+"textarea", {
+              label: "Give details of how you use the property (i.e. Orchards, Vineyard etc.)",
+              hint: "(optional)",
+              rows: 2
+            }) %>
+
+            <%- include(forms+"yes_no", {
+              label: "Do you have water rights or entitlements?",
+              yes_toggle: "#water-rights-container"
+            }) %>
+
+            <%- include(forms+"notice", {
+              modifiers: ["hidden"],
+              id: "water-rights",
+              message: `<p>You will be required to provide evidence of water license to support your claim.</p>
+                        <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+            }) %>
+
+            <h3>Describe buildings on the property</h3> 
+            <%- include(forms+"repeatable-block", {
+              repeatedContent: "Building",
+              form: [
+                {
+                  type: "text",
+                  label: "Type of building",
+                  hint: "(optional)"
+                },
+                {
+                  type: "text",
+                  afterText: "sq/mtrs",
+                  label: "What is the floor area (approx.)",
+                  hint: "(optional)",
+                  modifiers: ["inputShort"]
+                },
+                {
+                  type: "text",
+                  label: "Approximate age (approx.)",   
+                  hint: "(optional)",
+                  modifiers: ["inputShort"]
+                },
+                {
+                  type: "text",
+                  label: "Type of construction",
+                  modifiers: ["inputFullLength"],
+                  hint: "(optional)"
+                }
+              ]
+            }) %>
+
+            <h3>Give details about the value of the property:</h3>
+            <p>This includes all land, buildings and structures. Do not iclude plant, machinery and livestock.</p>
+
+            <%- include(forms+"text", {
+              label: "Present market value",
+              modifiers: ["inputShort", "dollarSign"],
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"dropdown", {
+              label: "Valued by",
+              options: [
+                "-- Select a valuer --",
+                "Agent",
+                "Department of Veterans' Affairs",
+                "Client",
+                "Centrelink",
+                "Tax",
+                "Australian Valueation Office",
+                "Valuer"
+              ]
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "Present balance of mortgage or other secured loans",
+              modifiers: ["inputShort", "dollarSign"],
+              placeholder: "0.00"
+            }) %>
+
+            <h3>Give details about the value of the plant and machinery</h3>
+
+            <%- include(forms+"text", {
+              label: "Description",
+              hint: "(optional)",
+              modifiers: ["inputFullLength"]
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "Present market value",
+              hint: "(optional)",
+              modifiers: ["inputShort", "dollarSign"],
+              placeholder: "0.00"
+            }) %>
+
+            <h3>Give details about the value of livestock</h3>
+
+            <%- include(forms+"text", {
+              label: "Description",
+              hint: "(optional)",
+              modifiers: ["inputFullLength"]
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "Present market value",
+              hint: "(optional)",
+              modifiers: ["inputShort", "dollarSign"],
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"yes_no", {
+              label: "Do you live on the property?",
+              yes_toggle: "#value-land-container"
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "What do you estimate to be the value of the home and the immediate 2 hectares of land on which it stands?",
+              id: "value-land",
+              modifiers: ["hidden", "inputShort", "dollarSign"],
+              placeholder: "0.00"
+            }) %>
+
+            <%- include(forms+"yes_no", {
+              label: "Have you or your partner lived on the property for more than 20 years?"
+            }) %>
+
+            <h3>Authority to inspect the property</h3>
+            
+            <%- include(forms+"yes_no", {
+              label: "Do you give authority for DVA's licensed valuer to enter and inspect the property?",
+              yes_toggle: ".dva-valuer"
+            }) %>
+
+            <%- include(forms+"text", {
+              label: "Person to be contacted by the valuer",
+              modifiers: ["inputFullLength", "hidden"],
+              customClass: "dva-valuer"
+            }) %>
+
+            <%- include(forms+"prepop/phone-number", {
+              label: "Contact persons daytime phone number",
+              modifiers: ["hidden"],
+              customClass: "dva-valuer"
+            }) %>
+
+            <h3>Declaration</h3>
+
+            <%- include(forms+"checkbox", {
+              label: "",
+              boxes: [
+                "I declare that the information I have given in this form is complete and correct. Giving false or misleading information is a serious offence"
+              ]
+            }) %>
+
+        </form>
+    </div>
+    <hr>
+    <div id="buttonset2" class="form-group margin-above--none">
+        <button id="addButton" class="uikit-btn" onclick="addSummary('farm');">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+    </div>
 </div>
