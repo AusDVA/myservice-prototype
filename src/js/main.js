@@ -1045,3 +1045,7 @@ $(document).ready(() => {
 
   })
 })
+
+$(document).ready(function() {
+  $(".dva-phone").replaceWith(`<a href="tel:1800555254">1800 555 254</a>`);
+})
