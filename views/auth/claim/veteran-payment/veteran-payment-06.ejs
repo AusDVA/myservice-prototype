@@ -1,7 +1,7 @@
 <%
 
 var progress = JSON.parse(include("veteran-payment-progressbar")) 
-progress.activeItem = 6;
+progress.activeItem = 7;
 
 %>
 
@@ -16,7 +16,7 @@ progress.activeItem = 6;
 }); %>
 
 <div class="couple" hidden>
-  
+
   <%- include(forms+"yes_no", {
     label: "Would your partner like to use the same bank details?",
     no_toggle: "#partner-bank-container"
@@ -73,9 +73,9 @@ progress.activeItem = 6;
 
 </div>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -99,24 +99,24 @@ progress.activeItem = 6;
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher") %>
 
-  <script>
-    function stateSwitcher() {
-      if (relationshipStatus === "partnered") {
-        $(".couple").show();
-      } else {
-        $(".couple").hide();
-      }
-
-      if (immigrationStatus === "immigrant") {
-        $("#pagination-next").text("Save and next");
-        $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-07");
-      } else {
-        $("#pagination-next").text("Save and review");
-        $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-08");
-      }
+<script>
+  function stateSwitcher() {
+    if (relationshipStatus === "partnered") {
+      $(".couple").show();
+    } else {
+      $(".couple").hide();
     }
-  </script>
+
+    if (immigrationStatus === "immigrant") {
+      $("#pagination-next").text("Save and next");
+      $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-07");
+    } else {
+      $("#pagination-next").text("Save and review");
+      $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-08");
+    }
+  }
+</script>
 
 <%- include(templates+"footer") %>
