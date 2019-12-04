@@ -7,36 +7,37 @@ progress.activeItem = 1;
 
 <%- include(templates+"header", {
   claim: "Veteran Payment", 
-  heading: "Veteran payment details",
+  heading: "Veteran Payment details",
   progress
 }) %>
 
-  <div class="came-from-il" hidden>
-    <p>The veteran payment provides interim financial support to veterans who lodge a claim for a mental health condition and are unable to work more than eight hours per week.</p>
-    <hr>
-  </div>
+<div class="came-from-il" hidden>
+  <p>The veteran payment provides interim financial support to veterans who lodge a claim for a mental health condition
+    and are unable to work more than eight hours per week.</p>
+  <hr>
+</div>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
       label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
       id: "unable-question",
       yes_toggle: "#unable-container, #centrelink-container",
       no_toggle: "#not-unable-container"
     }); %>
 
-  <%- include(forms+"notice", {
+<%- include(forms+"notice", {
       message: "You may not be eligible for Veteran Payment. For more information call 1800 555 254.",
       type: "error",
       id: "not-unable",
       modifiers: ["hidden"]
     }); %>
 
-  <%- include(forms+"notice", {
+<%- include(forms+"notice", {
       message: "<p>You will need to provide a medical certificate as evidence of your incapacity for work.</p><p>You can attach this document at the end of your claim.</p>",
       id: "unable",
       modifiers: ["hidden"]
     }); %>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
       label: "Do you currently receive payments from Centrelink?",
       id: "centrelink",
       yes_toggle: "#crn-container, #warning-container",
@@ -44,22 +45,22 @@ progress.activeItem = 1;
       modifiers: ["hidden"]
     }); %>
 
-  <%- include(forms+"text", {
+<%- include(forms+"text", {
       label: "What is your Customer Reference Number (CRN)?",
       id: "crn",
       modifiers: ["hidden"]
     }); %>
 
-  <%- include(forms+"notice", {
+<%- include(forms+"notice", {
       message: "You will lose your Health Care Card or Pensioner Concession Card on transfer to Veteran Payment.",
       type: "warning",
       id: "warning",
       modifiers: ["hidden"]
     }); %>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Cancel",
@@ -78,27 +79,27 @@ progress.activeItem = 1;
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher") %>
 
-  <script>
-    $("#unable-question-2").on("click", function() {
-      $("#save-next").hide();
-      $("#crn-container").hide();
-      $("#warning-container").hide();
-    })
+<script>
+  $("#unable-question-2").on("click", function () {
+    $("#save-next").hide();
+    $("#crn-container").hide();
+    $("#warning-container").hide();
+  })
 
-    function stateSwitcher() {
-      if (cameFromIl === "true") {
-        $("#unable-question-container").hide();
-        $("#centrelink-container").show();
-        $(".came-from-il").show();
-      } else {
-        $("#unable-question-container").show();
-        $("#centrelink-container").hide();
-        $(".came-from-il").hide();
-      }
+  function stateSwitcher() {
+    if (cameFromIl === "true") {
+      $("#unable-question-container").hide();
+      $("#centrelink-container").show();
+      $(".came-from-il").show();
+    } else {
+      $("#unable-question-container").show();
+      $("#centrelink-container").hide();
+      $(".came-from-il").hide();
     }
+  }
 
-  </script>
+</script>
 
 <%- include(templates+"footer") %>
