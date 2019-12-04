@@ -1,0 +1,99 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Required documents"
+}) %>
+  
+<div id="partnered" hidden>
+  <%- include(forms+"legacy-upload", {
+    docs: [
+      {
+        title: "Marriage certificate",
+        description: "description"
+      },
+      {
+        title: "Birth certificate",
+        description: "description"
+      },
+      {
+        title: "Partner's birth certificate",
+        description: "description"
+      },
+      {
+        title: "Children's birth certificates",
+        description: "description"
+      },
+      {
+        title: "Residency document",
+        description: "description"
+      },
+      {
+        title: "Partner's residency document",
+        description: "description"
+      },
+      {
+        title: "Partner's proof of ID",
+        description: "description"
+      }
+    ]
+  }) %>
+</div>
+
+<div id="single">
+    <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Marriage certificate",
+          description: "description"
+        },
+        {
+          title: "Birth certificate",
+          description: "description"
+        },
+        {
+          title: "Residency document",
+          description: "description"
+        }
+      ]
+    }) %>
+  </div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/c-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/prog-04",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+
+<%- include("state-switcher") %>
+
+<script>
+ if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+        $("#partnered").hide();
+        $("#single").show();
+      } else {
+        $("#partnered").show();
+        $("#single").hide();
+      }
+
+</script>

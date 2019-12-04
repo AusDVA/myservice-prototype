@@ -1,61 +1,89 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Required documents"
+  heading: "Partner's Proof of ID"
 }) %>
   
-<div id="partnered" hidden>
-  <%- include(forms+"legacy-upload", {
-    docs: [
-      {
-        title: "Marriage certificate",
-        description: "description"
-      },
-      {
-        title: "Birth certificate",
-        description: "description"
-      },
-      {
-        title: "Partner's birth certificate",
-        description: "description"
-      },
-      {
-        title: "Children's birth certificates",
-        description: "description"
-      },
-      {
-        title: "Residency document",
-        description: "description"
-      },
-      {
-        title: "Partner's residency document",
-        description: "description"
-      },
-      {
-        title: "Partner's proof of ID",
-        description: "description"
-      }
+  <h2>We need some documents to confirm your partner's identity</h2>
+  <p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements" rel="external">categories of documents</a> you can use to prove your identity.</p>
+
+  <%- include(forms+"dropdown", {
+    label: "Category A",
+    hint: "One document is required to show proof of birth in AUstralia or arrival in Australia.",
+    modifiers: ["hintNewLine"],
+    options: [
+      "Australian passport",
+      "Australian birth certificate",
+      "Foreign passport and current Australian visa",
+      "ImmiCard",
+      "Australian citizenship certificate"
     ]
   }) %>
-</div>
 
-<div id="single">
-    <%- include(forms+"legacy-upload", {
-      docs: [
-        {
-          title: "Marriage certificate",
-          description: "description"
-        },
-        {
-          title: "Birth certificate",
-          description: "description"
-        },
-        {
-          title: "Residency document",
-          description: "description"
-        }
+  <%- include(forms+"dropdown", {
+    label: "Category B - Document 1",
+    hint: "Two documents are required to show evidence of your identity",
+    modifiers: ["hintNewLine"],
+    options: [
+      "Australian driver's license",
+      "Medicare card",
+      "Credit or bank account card",
+      "Australian marriage ertificate"
+    ]
+  }) %>
+
+  <div id="dropdown">
+    
+    <%- include(forms+"dropdown", {
+      label: "Category B - Document 2",
+      hint: "Two documents are required to show evidence of your identity",
+      modifiers: ["hintNewLine"],
+      options: [
+        "Australian driver's license",
+        "Medicare card",
+        "Credit or bank account card",
+        "Australian marriage ertificate"
       ]
     }) %>
+
+    <%- include(forms+"dropdown", {
+      label: "Category B - Document 1",
+      hint: "Two documents are required to show evidence of your identity",
+      modifiers: ["hintNewLine"],
+      options: [
+        "Australian driver's license",
+        "Medicare card",
+        "Credit or bank account card",
+        "Australian marriage ertificate"
+      ]
+    }) %>
+    
   </div>
+
+  <div id="checkbox" hidden>
+
+    <%- include(forms+"checkbox", {
+      label: "Category B",
+      hint: "Two documents are required to show evidence of your identity",
+      modifiers: ["hintNewLine"],
+      boxes: [
+        "Australian driver's license",
+        "Medicare card",
+        "Credit or bank account card",
+        "Australian marriage ertificate"
+      ]
+    }) %>
+    
+  </div>
+
+  <%- include(forms+"radio", {
+    label: "Category C",
+    hint: "(optional - only required if A or B does not show current residential address)<br>A document showing your current residential address",
+    boxes: [
+      "Utilities notice",
+      "Rent details",
+      "Nursing home or residential acre facility that provides evidence of residence"
+    ]
+  }) %>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -73,7 +101,7 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/cshc/prog-04",
+        link: "/auth/claim/cshc/c-02",
         text: "Save and next",
         modifiers: ["floated", "primary"]
       }
@@ -89,11 +117,26 @@
 
 <script>
  if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
-        $("#partnered").hide();
-        $("#single").show();
-      } else {
-        $("#partnered").show();
-        $("#single").hide();
-      }
+    $("#partnered").hide();
+    $("#single").show();
+  } else {
+    $("#partnered").show();
+    $("#single").hide();
+  }
+
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 49: // 1
+      case 97:
+        $("#checkbox").show();
+        $("#dropdown").hide();
+        break;
+      case 50: // 2
+      case 98:
+        $("#checkbox").hide();
+        $("#dropdown").show();
+        break;
+    }
+  });
 
 </script>
