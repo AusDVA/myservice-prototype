@@ -53,12 +53,6 @@ progress.activeItem = 4;
         ]
       }) %>
 
-  <div id="none-of-above" hidden>
-    <%- include(partials+"components/form-partials/textarea", {
-    label: "Briefly describe your current Australian residency arrangement"
-  }); %>
-  </div>
-
   <div id="visa" hidden>
 
     <%- include(forms+"date", {
@@ -131,11 +125,6 @@ progress.activeItem = 4;
         }) %>
 
     </div>
-    <div id="partner-none-of-above" hidden>
-      <%- include(partials+"components/form-partials/textarea", {
-        label: "Briefly describe your current Australian residency arrangement"
-      }); %>
-    </div>
   </form>
 
 </div>
@@ -169,7 +158,7 @@ progress.activeItem = 4;
 
 <%- include(forms+"modals/claim-cancel") %>
 
-<%- include("../veteran-payment/residency-state-switcher") %>
+<%- include("veteran-payment-state-switcher") %>
 <script>
   $("#aus-citizen-container").on("change", "input", function () {
     $("#save-next").hide();
@@ -206,7 +195,7 @@ progress.activeItem = 4;
   });
 
   $("#citizen-born-australia-container").on("change", "input", function () {
-    if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+    if (sessionStorage.getItem('relationship-status') == "single") {
       $("#save-next").show();
     }
   })
@@ -235,6 +224,29 @@ progress.activeItem = 4;
     e.preventDefault();
   })
 
+  function stateSwitcher() {
+    if (localStorage.getItem("relationship-status") === "partnered") {
+      $(".couple").show();
+    } else {
+      $(".couple").hide();
+    }
+  }
+
+  $("#visa-status-container, #partner-visa-status-container").on("change", "input", function() {
+    if (localStorage.getItem("relationship-status") === "partnered") {
+      if ($("#partner-visa-status-container :checked").val() === "noneoftheabove") {
+        $("#save-next").show();
+      } else {
+        $("#save-next").hide();
+      }
+    } else {
+      if ($("#visa-status-container :checked").val() === "noneoftheabove") {
+        $("#save-next").show();
+      } else {
+        $("#save-next").hide();
+      }
+    }
+  })
 
 
 </script>
