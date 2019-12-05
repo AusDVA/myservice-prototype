@@ -8,40 +8,46 @@
 
   <%- include(forms+"dropdown", {
     label: "Category A",
-    hint: "One document is required to show proof of birth in AUstralia or arrival in Australia.",
+    id: "cata",
+    hint: "One document is required to show proof of birth in Australia or arrival in Australia.",
     modifiers: ["hintNewLine"],
     options: [
-      "Australian passport",
+        "-- Select a document --",
       "Australian birth certificate",
-      "Foreign passport and current Australian visa",
-      "ImmiCard",
-      "Australian citizenship certificate"
+      "Australian passport",
+      "Certificate of evidence of residence status",
+      "Citizenship certificate",
+      "Foreign passport and current Australian Visa",
+      "Record of immigration status",
+      "Residency document"
     ]
   }) %>
 
   <div id="dropdown">
 
     <%- include(forms+"dropdown", {
-      label: "Category B - Document 1",
-      hint: "Two documents are required to show evidence of your identity",
-      modifiers: ["hintNewLine"],
+      label: "Category B",
+      hint: "(Document 1)",
+      id: "catb-1",
       options: [
-        "Australian driver's license",
-        "Medicare card",
+        "-- Select a document --",
+        "Australian Defence Force (ADF) ID card",
+        "Australian driver’s licence",
+        "Australian marriage certificate",
+        "Ceremonial marriage certificate (Issued by a marriage celebrant on the day of marriage)",
+        "Change of name certificate",
         "Credit or bank account card",
-        "Australian marriage ertificate"
+        "DVA Health card",
+        "Firearms licence ",
+        "Tertiary identification card"
       ]
     }) %>
     
     <%- include(forms+"dropdown", {
-      label: "Category B - Document 2",
-      hint: "Two documents are required to show evidence of your identity",
-      modifiers: ["hintNewLine"],
+      label: "Category B",
+      id: "catb-2",
+      hint: "(Document 2)",
       options: [
-        "Australian driver's license",
-        "Medicare card",
-        "Credit or bank account card",
-        "Australian marriage ertificate"
       ]
     }) %>
     
@@ -57,7 +63,7 @@
         "Australian driver's license",
         "Medicare card",
         "Credit or bank account card",
-        "Australian marriage ertificate"
+        "Australian marriage certificate"
       ]
     }) %>
     
@@ -69,7 +75,7 @@
     boxes: [
       "Utilities notice",
       "Rent details",
-      "Nursing home or residential acre facility that provides evidence of residence"
+      "Nursing home or residential care facility"
     ]
   }) %>
 
@@ -104,13 +110,41 @@
 <%- include("state-switcher") %>
 
 <script>
- if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
-    $("#partnered").hide();
-    $("#single").show();
-  } else {
-    $("#partnered").show();
-    $("#single").hide();
-  }
+
+  $("#catb-1").on("change", function() {
+    if ($("#catb-1 :selected").val() !== "australianpassport") {
+      $("#catb-2").append(`<option value="australianpassport">Australian passport</option>`);
+    }
+
+    if ($("#catb-1 option").first().prop("selected")) {
+      $("#catb-2 option").show()
+    } else {
+      $(`#catb-2 option[value="${$("#catb-1 :selected").val()}"]`).prop("selected", false).hide();
+      $(`#catb-2 option:not([value="${$("#catb-1 :selected").val()}"])`).show();
+    }
+  })
+
+  $("#catb-2").on("change", function() {
+    if ($("#catb-2 option").first().prop("selected")) {
+      $("#catb-1 option").show()
+    } else {
+      $(`#catb-1 option[value="${$("#catb-2 :selected").val()}"]`).prop("selected", false).hide();
+      $(`#catb-1 option:not([value="${$("#catb-2 :selected").val()}"])`).show();
+    }
+  })
+
+  $(document).ready(function() {
+    $("#catb-2").append($("#catb-1").html())
+  })
+
+  $("#cata").on("change", function() {
+    if ($(this).find(":selected").val() === "australianpassport") {
+      $(`#catb-1 option[value="australianpassport"`).remove();
+      $(`#catb-2 option[value="australianpassport"`).remove();
+    } else {
+      $("#catb-1").append(`<option value="australianpassport">Australian passport</option>`);
+    }
+  })
 
   $(document).keypress(function (e) {
     switch (e.which) {
