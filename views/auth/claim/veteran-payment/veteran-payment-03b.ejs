@@ -21,20 +21,20 @@ progress.activeItem = 4;
     }) %>
 
 <form id="is-citizen" hidden>
-    <%- include(forms+"yes_no", {
+  <%- include(forms+"yes_no", {
         label: "Were you born in Australia?",
         id: "citizen-born-australia",
-        yes_toggle: "#save-next-single",
+        yes_toggle: "#save-next",
         no_toggle: "#citizen-country-birth-container, #citizen-start-date-container"
       }) %>
 
-    <%- include(forms+"prepop/country-dropdown", {
+  <%- include(forms+"prepop/country-dropdown", {
         label: "What is your country of birth?",
         id: "citizen-country-birth",
         modifiers: ["hidden"]
       }) %>
 
-    <%- include(forms+"date", {
+  <%- include(forms+"date", {
         label: "Citizenship start date",
         id: "citizen-start-date",
         modifiers: ["hidden"]
@@ -42,91 +42,101 @@ progress.activeItem = 4;
 </form>
 
 <form id="not-citizen" hidden>
-    <%- include(forms+"radio", {
+  <%- include(forms+"radio", {
         label: "Are you:",
         id: "visa-status",
         boxes: [
           "The holder of a permanent visa",
           "The holder of a special purpose visa",
           "The holder of a special category visa",
-          {
-              text: "None of the above",
-              rToggle: "#visa-status"
-          }
+          "None of the above"
         ]
       }) %>
 
-    <div id="visa" hidden>
+  <div id="none-of-above" hidden>
+    <%- include(partials+"components/form-partials/textarea", {
+    label: "Briefly describe your current Australian residency arrangement"
+  }); %>
+  </div>
 
-        <%- include(forms+"date", {
+  <div id="visa" hidden>
+
+    <%- include(forms+"date", {
           label: "Visa grant date"
         }) %>
 
-        <%- include(forms+"notice", {
+    <%- include(forms+"notice", {
           message: `<p>You will need to provide a copy of your current visa or special category visa.</p>
           <p>You can attach this document at the end of your claim.</p>`
         }) %>
 
-    </div>
+  </div>
+
+
 </form>
 
 <div class="couple" hidden>
 
-    <h2 class="margin-above--large"><span class="font-weight-heavy">Partner residency</span></h2>
+  <h2 class="margin-above--large"><span class="font-weight-heavy">Partner residency</span></h2>
 
-    <%- include(forms+"yes_no", {
+  <%- include(forms+"yes_no", {
       label: "Is your partner an Australian citizen?",
       id: "partner-aus-citizen",
       yes_toggle: "#partner-is-citizen",
       no_toggle: "#partner-not-citizen"
     }) %>
 
-    <form id="partner-is-citizen" hidden>
-        <%- include(forms+"yes_no", {
+  <form id="partner-is-citizen" hidden>
+    <%- include(forms+"yes_no", {
         label: "Was your partner born in Australia?",
         id: "partner-citizen-born-australia",
         yes_toggle: "#save-next-couple",
         no_toggle: "#partner-citizen-country-birth-container, #partner-citizen-start-date-container"
       }) %>
 
-        <%- include(forms+"prepop/country-dropdown", {
+    <%- include(forms+"prepop/country-dropdown", {
         label: "What is your partner's country of birth?",
         id: "partner-citizen-country-birth",
         modifiers: ["hidden"]
       }) %>
 
-        <%- include(forms+"date", {
+    <%- include(forms+"date", {
         label: "Partner's citizenship start date",
         id: "partner-citizen-start-date",
         modifiers: ["hidden"]
       }) %>
-    </form>
+  </form>
 
-    <form id="partner-not-citizen" hidden>
-        <%- include(forms+"radio", {
+  <form id="partner-not-citizen" hidden>
+    <%- include(forms+"radio", {
         label: "Is your partner:",
         id: "partner-visa-status",
-        all_toggle: "#partner-visa",
         boxes: [
           "The holder of a permanent visa",
           "The holder of a special purpose visa",
-          "The holder of a special category visa"
+          "The holder of a special category visa",
+          "None of the above"
         ]
       }) %>
 
-        <div id="partner-visa" hidden>
+    <div id="partner-visa" hidden>
 
-            <%- include(forms+"date", {
+      <%- include(forms+"date", {
             label: "Visa grant date"
           }) %>
 
-            <%- include(forms+"notice", {
+      <%- include(forms+"notice", {
           message: `<p>You will need to provide a copy of your partner's current visa or special category visa.</p>
           <p>You can attach this document at the end of your claim.</p>`
         }) %>
 
-        </div>
-    </form>
+    </div>
+    <div id="partner-none-of-above" hidden>
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Briefly describe your current Australian residency arrangement"
+      }); %>
+    </div>
+  </form>
 
 </div>
 
@@ -159,54 +169,73 @@ progress.activeItem = 4;
 
 <%- include(forms+"modals/claim-cancel") %>
 
-
+<%- include("../veteran-payment/residency-state-switcher") %>
 <script>
-    $("#aus-citizen-container").on("change", "input", function () {
-        $("#save-next").hide();
-        $("#is-citizen").trigger("reset");
-        $("#not-citizen").trigger("reset");
+  $("#aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#is-citizen").trigger("reset");
+    $("#not-citizen").trigger("reset");
 
-        $("#citizen-country-birth-container").hide();
-        $("#citizen-start-date-container").hide();
+    $("#citizen-country-birth-container").hide();
+    $("#citizen-start-date-container").hide();
 
-        $("#refugee-start-date-container").hide();
-        $("#visa-details").hide();
-
-
-    })
-
-    $("#citizen-born-australia-container").on("change", "input", function () {
-        $("#save-next").hide();
-        if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
-            $("#save-next").show();
-        }
-    })
-
-    $("#is-citizen").on("submit", function (e) {
-        e.preventDefault();
-    })
+    $("#refugee-start-date-container").hide();
+    $("#visa-details").hide();
 
 
-    $("#partner-aus-citizen-container").on("change", "input", function () {
-        $("#save-next").hide();
-        $("#partner-is-citizen").trigger("reset");
-        $("#partner-not-citizen").trigger("reset");
+  })
 
-        $("#partner-citizen-country-birth-container").hide();
-        $("#partner-citizen-start-date-container").hide();
+  $("#visa-status-container").on("change", "input", function () {
+    if (this.id === "visa-status-4") {
+      $("#visa").hide();
+      $("#none-of-above").show();
+    } else {
+      $("#none-of-above").hide();
+      $("#visa").show();
+    }
+  });
 
-        $("#partner-refugee-start-date-container").hide();
-        $("#partner-visa-details").hide();
-    })
+  $("#partner-visa-status-container").on("change", "input", function () {
+    if (this.id === "partner-visa-status-4") {
+      $("#partner-visa").hide();
+      $("#partner-none-of-above").show();
+    } else {
+      $("#partner-none-of-above").hide();
+      $("#partner-visa").show();
+    }
+  });
 
-    $("#partner-citizen-born-australia-container").on("change", "input", function () {
-        $("#save-next").show();
-    })
+  $("#citizen-born-australia-container").on("change", "input", function () {
+    if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+      $("#save-next").show();
+    }
+  })
 
-    $("#partner-not-citizen, #partner-is-citizen").on("submit", function (e) {
-        e.preventDefault();
-    })
+  $("#is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
+
+  $("#partner-aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#partner-is-citizen").trigger("reset");
+    $("#partner-not-citizen").trigger("reset");
+
+    $("#partner-citizen-country-birth-container").hide();
+    $("#partner-citizen-start-date-container").hide();
+
+    $("#partner-refugee-start-date-container").hide();
+    $("#partner-visa-details").hide();
+  })
+
+  $("#partner-citizen-born-australia-container").on("change", "input", function () {
+    $("#save-next").show();
+  })
+
+  $("#partner-not-citizen, #partner-is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
+
+
 
 </script>
-
 <%- include(templates+"footer") %>
