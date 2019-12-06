@@ -19,6 +19,14 @@
     id: "sw-immigration-status"
   }); %>
 
+  <%- include(partials+"components/form-partials/checkbox", {
+  id: "bank-details-known",
+  label: "Bank details known",
+  boxes: [
+    "Yes",
+  ]
+}); %>
+
   <%- include(forms+"checkbox", {
     id: "sw-came-from-il",
     label: "Came from IL",
@@ -70,6 +78,7 @@
     cameFromIl = localStorage.getItem("came-from-il");
     relationshipStatus = localStorage.getItem("relationship-status");
     immigrationStatus = localStorage.getItem("immigration-status");
+    $("#bank-details-known-1").prop("checked", true);
 
     stateSwitcher();
 
@@ -88,6 +97,13 @@
       localStorage.setItem("relationship-status", "single");
     } else {
       localStorage.setItem("relationship-status", "partnered");
+    }
+
+
+    if ($("#bank-details-known-1").prop("checked")) {
+      localStorage.setItem("bank-details-known", "true");
+    } else {
+      localStorage.setItem("bank-details-known", "false");
     }
 
     relationshipStatus = localStorage.getItem("relationship-status");
