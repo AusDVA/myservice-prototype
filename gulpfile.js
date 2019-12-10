@@ -1,87 +1,131 @@
-var gulp = require('gulp');
-var nodemon = require('gulp-nodemon');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-var uglifycss = require('gulp-uglifycss');
-var autoprefixer = require('gulp-autoprefixer');
-var jshint = require('gulp-jshint');
-var livereload = require('gulp-livereload');
-var util = require('gulp-util');
-var babel = require("gulp-babel");
-var header = require('gulp-header');
-var fs = require("fs");
+const autoprefixer = require('autoprefixer'),
+  babel = require('gulp-babel'),
+  browserSync = require('browser-sync').create(),
+  colourblind = require('postcss-colorblind'),
+  cssnano = require('cssnano'),
+  cssnext = require('postcss-cssnext'),
+  gulp = require('gulp'),
+  header = require('gulp-header'),
+  nodemon = require('gulp-nodemon'),
+  noop = require('gulp-noop'),
+  postcss = require('gulp-postcss'),
+  gulpIgnore = require('gulp-ignore'),
+  postcssDiscardComments = require('postcss-discard-comments')
+  postcssDiscardEmpty = require('postcss-discard-empty'),
+  postcssMergeLonghand = require('postcss-merge-longhand'),
+  reload = browserSync.reload,
+  sass = require('gulp-sass'),
+  sourcemaps = require('gulp-sourcemaps');
 
+sass.compiler = require('node-sass');
 
-d = new Date().toLocaleString("en-AU", {timeZone: "Australia/Sydney"}),
-  headerComment = '/** \n * File generated on: \n * ' + d + '\n **/ \n\n';
+d = new Date().toLocaleString('en-AU', { timeZone: 'Australia/Sydney' }),
+  headerComment = `/** \n * File generated on: \n ${d} * \n **/ \n\n`;
 
 var config = {
-  production: !!util.env.production
-};
+  production: false,
+  colourblind: '' // https://github.com/btholt/postcss-colorblind
+}
 
-gulp.task("js", function () {
-  return gulp.src("src/js/*.js")
-    .pipe(babel())
-    .pipe(gulp.dest("docs/js"));
-});
+gulp.task('sass', () => {
+  var plugins = [
+    cssnext({
+      browsers: [
+        'last 2 versions',
+        'ie >= 11',
+        '> 1%'
+      ]
+    })
+  ];
 
-gulp.task('sass', function () {
+  if (config.production) {
+    plugins = [...plugins, cssnano({ preset: 'default' }), postcssDiscardComments({ removeAll: true }), postcssDiscardEmpty(), postcssMergeLonghand()];
+  } 
+
+  if (config.colourblind !== '' && config.colourblind !== false) plugins.push(colourblind({ method: config.colourblind }));
+
+  console.log(`PRODUCTION: ${config.production}`)
+
   return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
-    .pipe(sourcemaps.init())
-    .pipe(sass({
-      includePaths: ['src/sass']
-    }))
+    .pipe(config.production ? noop() : sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
-    .pipe(config.production ? uglifycss({
-      "maxLineLen": 80
-    }) : util.noop())
-    .pipe(autoprefixer())
-    .pipe(config.production ? util.noop() : sourcemaps.write())
+    .pipe(postcss(plugins))
     .pipe(header(headerComment))
+    .pipe(config.production ? noop() : sourcemaps.write())
     .pipe(gulp.dest('docs/css'))
-    .pipe(livereload());
+    .pipe(reload({ stream: true }));
 });
 
-gulp.task('copy', function () {
-  gulp.src('src/font/fontawesome/**')
+gulp.task('ejs', () => {
+  return gulp.src(['views/**/*.ejs', 'partials/**/*.ejs'])
+    .pipe(reload({ stream: true }));
+})
+
+gulp.task('copy', () => {
+  return gulp.src('src/font/fontawesome/**')
     .pipe(gulp.dest('docs/css/fontawesome'));
 });
 
-gulp.task('sass-prod', function () {
-  gulp.src('src/font/fontawesome/**')
-    .pipe(gulp.dest('docs/css/fontawesome'));
-  return gulp.src(['src/sass/main.scss', 'src/sass/myaccount.scss'])
+gulp.task('js', () => {
+  var shouldBabel = function(file) {
+    var ignoredFiles = [
+      "src/js/jquery-3.2.1.min.js",
+      "src/js/jquery-effects.js",
+      "src/js/jquery-ui.min.js",
+      "src/js/js.cookie.js",
+      "src/js/moment.min.js",
+      "src/js/polyfill.js",
+      "src/js/swiped-events.js",
+      "src/js/zingtouch.min.js"
+    ];
+
+    return ignoredFiles.includes(file.path.replace(__dirname, "").replace(/\\/g, '/').substr(1))
+  }
+
+  return gulp.src('src/js/**/*.js')
     .pipe(sourcemaps.init())
-    .pipe(sass({
-      includePaths: ['src/sass']
-    }))
-    .pipe(sass().on('error', sass.logError))
-    .pipe(uglifycss())
-    .pipe(autoprefixer())
-    .pipe(header(headerComment))
-    .pipe(gulp.dest('docs/css'));
+    .pipe(gulpIgnore(shouldBabel) ? noop() : babel())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('docs/js'))
+    .pipe(reload({ stream: true }))
+})
 
+gulp.task('bs-reload', done => {
+    browserSync.reload();
+    done();
 });
 
-gulp.task('ejs', function () {
-  return gulp.src('views/**/*.ejs')
-    .pipe(livereload());
-});
+gulp.task('watch', () => {
+  gulp.watch('src/sass/*.scss', gulp.series(['sass', 'bs-reload']));
+  gulp.watch('src/js/*.js', gulp.series(['js', 'bs-reload']));
+  gulp.watch(['views/**/*.ejs', 'partials/**/*.ejs'], gulp.series(['ejs', 'bs-reload']));
+})
 
-gulp.task('watch', function () {
-  livereload.listen();
-  gulp.watch('src/sass/*.scss', ['sass']);
-  gulp.watch('src/js/*.js', ['js']);
-  gulp.watch('views/**/*.ejs', ['ejs']);
-});
+gulp.task('prod', gulp.series((done) => {config.production = true; done()}, gulp.parallel('js', 'copy', 'sass')));
 
-gulp.task('server', function () {
-  nodemon({
+
+gulp.task('server', cb => {
+  var started = false;
+
+  return nodemon({
     'script': 'index.js',
-    'ignore': 'docs/js/*.js',
+    'ignore': ["views/", "partials/", "docs/", "src/"],
     'nodeArgs': ['--inspect=127.0.0.1:9229']
+  }).on('start', () => {
+    if (!started) {
+      cb();
+      started = true;
+    }
   });
 });
 
+gulp.task('browser-sync', gulp.series(['server'], () => {
+  browserSync.init({
+    proxy: "http://localhost:4000",
+    logFileChanges: false,
+    startPath: "/auth",
+    port: 5000
+  });
+}));
 
-gulp.task('serve', ['server', 'sass', 'js', 'watch', 'copy']);
+gulp.task('serve', gulp.series(gulp.parallel('js', 'sass', 'copy'), gulp.parallel('watch', 'browser-sync')))

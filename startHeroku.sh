@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-npm run gulp sass-prod
+npm run gulp prod
 npm start
