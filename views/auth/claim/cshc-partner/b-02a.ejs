@@ -1,13 +1,13 @@
 <%
 
-var progress = JSON.parse(include("c-progressbar")) 
-progress.activeItem = 3;
+var progress = JSON.parse(include("b-progressbar")) 
+progress.activeItem = 4;
 
 %>
 
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card Partner",
-  heading: "Current year estimates",
+  heading: "Partner's year estimates",
   progress
 }) %>
 
@@ -15,21 +15,7 @@ progress.activeItem = 3;
     message: `<p>If your total income for CSHC assessment purposes is above the income limit, we may be able to use your estimated income for the current year instead. For further information about CSHC income test and estimated adjusted taxable income, refer to <a rel="external" target="__blank" href="https://www.dva.gov.au/factsheet-is126-commonwealth-seniors-health-card">DVA Factsheet IS126</a>.</p>`
   }) %>
 
-  <h2 class="margin-below margin-above--large">
-    The<span class="partner" hidden> combined</span> total income for financial year ending <b>30 June <span class="income-year"></span></b> is <b>$<span class="income-prev"></span></b>
-  </h2>
-
-  <%- include(forms+"yes_no", {
-    id: "lower-income-q",
-    label: `Will the<span class="partner" hidden> combined</span> total income<span class="partner" hidden> of you and your partner</span>, including all components in the previous income section, be lower lower in the current financial year (2019-2020)?`,
-    yes_toggle: "#lower-income"
-  }) %>
-
   <form id="lower-income" hidden>
-    <%- include(forms+"notice", {
-      message: "Important: If you provided an estimate of your income for the current financial year, you must provide copies of the Tax Notice of Assessment for yourself when received from the Australian Taxation Office. If you estimated income for items other than Taxable Income, you must also provide evidence of these items, such as your income tax return."
-    }) %>
-
     <%- include(forms+"textarea", {
       label: "Please give reason(s) why your income will be lower in the current financial year",
       hint: "For example, stopped working, sold significant asset(s), or ceased operating a business",
@@ -87,12 +73,13 @@ progress.activeItem = 3;
 
   </form>
 
+  <p id="no-input-required" hidden>No input required</p>
+
   <%- include(forms+"pagination", {
     pagination: [
       {
-        link: "#",
-        text: "Previous",
-        id: "btnPrev"
+        link: "/auth/claim/cshc-partner/c-02",
+        text: "Previous"
       },
       {
         link: "#claim-cancel-modal",
@@ -105,61 +92,23 @@ progress.activeItem = 3;
       },
       {
         text: "Save and next",
-        id: "btnNext",
+        link: "/auth/claim/cshc-partner/c-03",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
 
   <%- include(forms+"modals/claim-cancel") %>
-  
-  <%- include("c-scripts") %>
 
   <script>
+  
     $(document).ready(function() {
-      if (sessionStorage.getItem("in-relationship") === "true") {
-        $(".partner").show();
+      if (sessionStorage.getItem("lower-income") === "true") {
+        $("#lower-income").show()
+        $("#no-input-required").hide()
       } else {
-        $(".partner").hide();
-      }
-
-      $("#btnNext").on("click", function() {
-        if ($("#lower-income-q-1").prop("checked")) sessionStorage.setItem("lower-income", "true");
-
-        if (sessionStorage.getItem("in-relationship") === "true") {
-          $(this).attr("href", "/auth/claim/cshc-partner/c-02a");
-        } else {
-          $(this).attr("href", "/auth/claim/cshc-partner/c-03");
-        }
-      })
-
-      $("#btnPrev").on("click", function() {
-        if (sessionStorage.getItem("in-relationship") === "true") {
-          $(this).attr("href", "/auth/claim/cshc-partner/c-01a")
-        } else {
-          $(this).attr("href", "/auth/claim/cshc-partner/c-01")
-        }
-      })
-
-      if (typeof sessionStorage.getItem("financial-year") !== "null") {
-        $(".income-year").text(sessionStorage.getItem("financial-year"));
-      } else {
-        $(".income-year").text("2018");
-      }
-
-      if (typeof sessionStorage.getItem("income") !== "null" || (sessionStorage.getItem("in-relationship") === "true" && typeof sessionStorage.getItem("partner-income") !== "null")) {
-        if (sessionStorage.getItem("in-relationship") === "true") {
-          var income = parseFloat(sessionStorage.getItem("income")) || 0.00;
-          var partnerIncome = parseFloat(sessionStorage.getItem("partner-income")) || 0.00;
-
-          $(".income-prev").text((income + partnerIncome).toFixed(2))
-        } else {
-          var income = parseFloat(sessionStorage.getItem("income")) || 0.00;
-          
-          $(".income-prev").text(income.toFixed(2))
-        }
-      } else {
-        $(".income-prev").text("0.00")
+        $("#lower-income").hide()
+        $("#no-input-required").show()
       }
     })
 
@@ -183,5 +132,6 @@ progress.activeItem = 3;
     })
   </script>
   
+  <%- include("b-scripts") %>
 
 <%- include(templates+"footer") %>

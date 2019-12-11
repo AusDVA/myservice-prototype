@@ -1,60 +1,15 @@
+<%
+
+var progress = JSON.parse(include("a-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card Partner",
-  heading: "About your claim"
+  heading: "Claim details",
+  progress
 }) %>
-
-  <%- include(forms+"radio", {
-    label: "What is your current relationship to the veteran?",
-    id: "relationship-status",
-    boxes: [
-      "Married",
-      "De Facto",
-      "Separated",
-      "Divorced",
-      "Widowed"
-    ]
-  }) %>
-
-  <%- include(forms+"date", {
-    customClass: "rel--widowed",
-    modifiers: ["hidden"],
-    label: "Date of veteran's death"
-  }) %>
-
-  <%- include(forms+"date", {
-    label: "Date of divorce",
-    customClass: "rel--divorced",
-    modifiers: ["hidden"]
-  }) %>
-
-  <div class="rel--separated" hidden>
-    <%- include(forms+"notice", {
-      message: "Separated means that you are living apart from your spouse, but still legally married pending a judgement from a court. If you are separated due to illness or age please indicate status as married. We will ask about circumstances regarding physical separation due to illness or age later in the claim."
-    }) %>
-
-    <%- include(forms+"notice", {
-      message: `<p>You will be required to provide <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf"><span class="external-link">Separation from partner form (D513)</span></a> to support your claim.</p>
-         <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
-    }) %>
-
-    <%- include(forms+"date", {
-      label: "Date of separation"
-    }) %>
-  </div>
-
-
-  <div class="rel--married rel--de-facto" hidden>
-    <%- include(forms+"notice", {
-      message: `<p>You will be required to provide a marriage certificate to support your claim.</p>
-                <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`,
-      customClass: "rel--married",
-      modifiers: ["hidden"]
-    }) %>
-
-    <%- include(forms+"date", {
-      label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
-    }) %>
-  </div>
 
   <%- include(forms+"yes_no", {
     label: "Have you applied for or do you receive any benefits from Centrelink?",
@@ -96,7 +51,7 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/cshc-partner/prog-02",
+        link: "/auth/claim/cshc-partner/a-02",
         text: "Save and next",
         modifiers: ["floated", "primary"]
       }
@@ -104,54 +59,5 @@
   }) %>
 
   <%- include(forms+"modals/claim-cancel") %>
-
-  <script>
-    $("#centrelink-benefits-container, #centrelink-has-cshc-container").on("change", "input", function() {
-      if ($("#centrelink-benefits-1").prop("checked") || $("#centrelink-has-cshc-1").prop("checked")) {
-        $("#centrelink-cshc-container").show();
-      } else {
-        $("#centrelink-cshc-container").hide();
-      }
-    })
-
-    $("#relationship-status-container").on("change", "input", function() {
-      let checkedVal = $("#relationship-status-container :checked").val();
-
-      $(".rel--married").hide();
-      $(".rel--de-facto").hide();
-      $(".rel--widowed").hide();
-      $(".rel--divorced").hide();
-      $(".rel--separated").hide();
-      switch (checkedVal) {
-        case "married":
-          $(".rel--married").show();
-          break;
-        case "defacto":
-          $(".rel--de-facto").show();
-          break;
-        case "widowed":
-          $(".rel--widowed").show();
-          break;
-        case "divorced":
-          $(".rel--divorced").show();
-          break;
-        case "separated":
-          $(".rel--separated").show();
-          break;
-      }
-
-      if (checkedVal === "widowed") {
-        sessionStorage.setItem("partner-alive", "false");
-      } else {
-        sessionStorage.setItem("partner-alive", "true");
-      }
-
-      if (checkedVal === "married" || checkedVal === "defacto") {
-        sessionStorage.setItem("in-relationship", "true");
-      } else {
-        sessionStorage.setItem("in-relationship", "false");
-      }
-    })
-  </script>
 
 <%- include(templates+"footer") %>

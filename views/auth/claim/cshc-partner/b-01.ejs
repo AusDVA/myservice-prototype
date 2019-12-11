@@ -7,132 +7,79 @@ progress.activeItem = 1;
 
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card Partner",
-  heading: "Veteran details",
+  heading: "Your income",
   progress
 }) %>
 
-  <%- include(forms+"prepop/ranktitlelist-dropdown", {
-    label: "Title"
-  }) %>
-
-  <%- include(forms+"text", {
-    label: "Surname",
-    hint: "(last name)"
-  }) %>
-
-  <%- include(forms+"text", {
-    label: "Given name",
-    hint: "(first name)"
-  }) %>
-
-  <%- include(forms+"yes_no", {
-    label: "Has this person ever been known by any other names?",
-    hint: "(e.g. name at birth, maiden name, previous married name)",
-    yes_toggle: "#previous-names-container"
-  }) %>
-
-  <%- include(forms+"previous-names", {
-    modifiers: ["hidden"],
-    id: "previous-names"
-  }) %>
-
-  <%- include(forms+"date", {
-    label: "Date of birth",
-    id: "date-birth"
-  }) %>
-
   <%- include(forms+"notice", {
-    message: `<p>You will be required to provide birth certificate(s) to support your claim.</p>
-              <p>You will be askedto upload this evidence when finalising your claim in PART D.</p>`,
-    id: "birth-cert",
-    modifiers: ["hidden"]
+    message: `You can provide adjusted taxable income details for either of the two financial years before the current financial year. They should be the most recent verified details.<span class="partner" hidden> You and your partner must provide income details for the same financial year.</span>`
   }) %>
 
-  <%- include(forms+"prepop/gender") %>
-
-  <div class="partner-alive" hidden>
-    <%- include(forms+"yes_no", {
-      label: "Does this person live at the same address as you?",
-      no_toggle: "#unable-to-live-together-container, #residential-address-container"
-    }) %>
-
-    <%- include(forms+"yes_no", {
-      label: "Are you unable to live together due to illness or infirmity?",
-      id: "unable-to-live-together",
-      modifiers: ["hidden"]
-    }) %>
-
-    <%- include(forms+"prepop/address", {
-      customClass: "margin-below--none",
-      label: "Residential address",
-      id: "residential-address"
-    }) %>
-  </div>
-
-  <h3 class="margin-below--large margin-above--large">Postal address</h3>
-
-  <%- include(forms+"yes_no", {
-    label: "Same as residential address?"
+  <%- include(forms+"button_radio", {
+    label: "For which financial year are you providing income details?",
+    id: "financial-year",
+    boxes: [
+      "2017 - 2018",
+      "2018 - 2019"
+    ]
   }) %>
 
-  <h3>Contact details</h3>
-
-  <%- include(forms+"yes_no", {
-    label: "Does this person wish to use your contact details?",
-    no_toggle: "#contact-details"
-  }) %>
-
-  <div id="contact-details" hidden>
-    <h3>Telephone numbers</h3>
-
-    <%- include(forms+"prepop/phone-number", {
-      label: "Home number"
-    }) %>
-
-    <%- include(forms+"prepop/phone-number", {
-      label: "Mobile number",
-      hint: "(optional)"
-    }) %>
-
-    <%- include(forms+"text", {
-      label: "Email",
-      hint: "(optional)",
-      modifiers: ["inputFullLength"]
-    }) %>
-  </div>
-
-  <%- include(forms+"yes_no", {
-    label: "Has this person applied for or do they receive any benefits from Centrelink?",
-    id: "centrelink-benefits",
-    yes_toggle: "#maybe-not-eligible-container"
-  }) %>
-
-  <%- include(forms+"yes_no", {
-    label: "Have this person applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
-    id: "centrelink-has-cshc"
+  <%- include(forms+"radio", {
+    label: "Income details from:",
+    boxes: [
+      "Tax Notice of Assessment / Tax return",
+      "Personal records (income was too low to require a tax return)"
+    ]
   }) %>
 
   <%- include(forms+"text", {
-    label: "What is their Centrelink Customer Reference Number (CSHC)?",
-    modifiers: ["hidden"],
-    id: "centrelink-cshc"
-  }) %>
-
-
-  <%- include(forms+"text", {
-    label: "File number",
-    hint: "(optional)"
+    customClass: "income",
+    label: "Taxable income",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign"]
   }) %>
 
   <%- include(forms+"text", {
-    label: "Service number",
-    hint: "(optional)"
+    customClass: "income",
+    label: "Value of employer provided fringe benefits above $1,000",
+    hint: "For example, private use of a car, assistance with accomodation or rent",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
 
   <%- include(forms+"text", {
-    label: "PMKeyS number",
-    hint: "(optional)"
+    customClass: "income",
+    label: "Income from sources outside Australia on which you do not have ot pay Australian income tax",
+    hint: "Provide the amount in Australian dollars",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
   }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from financial investments",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Reportable superannuation contributions",
+    hint: "These are reportable employer contributions (as shown on your payment summary) and any personal deductible superannuation contributions",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <%- include(forms+"text", {
+    customClass: "income",
+    label: "Loss from rental properties",
+    hint: "This amount must be added even though it is a loss",
+    placeholder: "0.00",
+    modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+  }) %>
+
+  <h2 class="margin-below--large">Total income: <b>$<span id="total-income">0.00</span></b></h2>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -161,34 +108,36 @@ progress.activeItem = 1;
   <%- include(forms+"modals/claim-cancel") %>
 
   <script>
-    $("#centrelink-benefits-container, #centrelink-has-cshc-container").on("change", "input", function() {
-      if ($("#centrelink-benefits-1").prop("checked") || $("#centrelink-has-cshc-1").prop("checked")) {
-        $("#centrelink-cshc-container").show();
-      } else {
-        $("#centrelink-cshc-container").hide();
-      }
-    })
-
-    $("#date-birth-container").on("keyup", "input", function() {
-      if ($("#date-birth-dd").val().length > 0 && $("#date-birth-mm").val().length > 0 && $("#date-birth-yyyy").val().length > 3) {
-        $("#birth-cert-container").show();
-      } else {
-        $("#birth-cert-container").hide();
-      }
-    })
-
-    $(document).ready(function() {
-      if (sessionStorage.getItem("partner-alive") === "true") {
-        $(".partner-alive").show()
-      } else {
-        $(".partner-alive").hide()
-      }
-
+    $("#btnNext").on("click", function() {
       if (sessionStorage.getItem("in-relationship") === "true") {
-        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-03")
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-01a");
       } else {
-        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-02")
+        $("#btnNext").attr("href", "/auth/claim/cshc-partner/b-02");
       }
+    })
+    $(document).ready(function() {
+      if (sessionStorage.getItem("in-relationship") === "true") {
+        $(".partner").show();
+      } else {
+        $(".partner").hide();
+      }
+    })
+
+    window.income = 0.00;
+
+    $(".income").on("keyup", "input", function() {
+      window.income = 0.00;
+      $(".income").each(function(index, elem) {
+        if ($(this).find("input").val() !== "" && typeof parseFloat($(this).find("input").val()) === "number") {
+          window.income += parseFloat($(this).find("input").val())
+        }
+      })
+      $("#total-income").text(window.income.toFixed(2))
+    })
+
+    $("#btnNext").on("click", function() {
+      sessionStorage.setItem("income", window.income);
+      sessionStorage.setItem("financial-year", $("#financial-year-container :checked").prop("labels")[0].innerText.split(" ")[2])
     })
   </script>
 
