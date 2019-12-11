@@ -26,51 +26,37 @@
 
       <input type="reset" hidden>
 
-  <%- include(forms+"radio", {
-    label: "Income details from:",
-    all_toggle: ["#your-income","#myForm"],
-    boxes: [
-      {
-        text: "Tax Notice of Assessment / Tax return",
-        toggle: "#taxable-income-container"
-      },
-      {
-        text: "Personal records (income was too low to require a tax return)",
-        toggle: "#low-income-container"
-      }
-    ],
-    id: "income-source",
-    modifiers: ["hidden"]
-  }) %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Did you submit a tax return for the selected year?",
+        id: "income-source",
+        yes_toggle: "#taxable-income-container",
+        no_toggle: "#low-income-container",
+        all_toggle: ["#your-income","#myForm"],
+        modifiers: ["hidden"]
+      }); %>
 
 </form>
 
   <h2 id="your-income" hidden><span class="font-weight-heavy">Your income</span></h2>
 
-  <form id="myForm01" class="resetForm" hidden>
-
-      <input type="reset" style="display:block">
-
-  <%- include(forms+"text", {
-    customClass: "income",
-    label: "Taxable income",
-    hint: "Enter your taxable income from your Notice of Assessment",
-    id: "taxable-income",
-    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
-  }) %>
-  <%- include(forms+"text", {
-    customClass: "income",
-    label: "Taxable income",
-    hint: "Enter your taxable income",
-    id: "low-income",
-    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
-  }) %>
-
-  </form>
-
   <form id="myForm" class="resetForm" hidden>
 
       <input type="reset" style="display:none">
+
+      <%- include(forms+"text", {
+        customClass: "income",
+        label: "Declared taxable income for <span class='inject-date'></span>",
+        hint: "Enter your taxable income from your Notice of Assessment",
+        id: "taxable-income",
+        modifiers: ["inputShort", "dollarSign", "hiddenss", "hintNewLine"]
+      }) %>
+      <%- include(forms+"text", {
+        customClass: "income",
+        label: "Estimated taxable income for <span class='inject-date'></span>",
+        hint: "Enter your estimated taxable income",
+        id: "low-income",
+        modifiers: ["inputShort", "dollarSign", "hiddenss", "hintNewLine"]
+      }) %>
 
   <%- include(forms+"text", {
     customClass: "income",
@@ -219,9 +205,12 @@
 
 <script>
 
+$("input:radio").prop("checked", false);
 
 $("#year-container").on("change", "input", function() {
   $(".resetForm").trigger("reset");
+  var mySelection = $(this).parent().find("span").text();
+  $(".inject-date").text(mySelection);
 })
 
 
