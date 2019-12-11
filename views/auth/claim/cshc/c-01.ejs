@@ -1,61 +1,50 @@
 <%- include(templates+"header", {
   claim: "Commonwealth Seniors Health Card",
-  heading: "Required documents"
+  heading: "Partner's Proof of ID"
 }) %>
   
-<div id="partnered" hidden>
-  <%- include(forms+"legacy-upload", {
-    docs: [
-      {
-        title: "Marriage certificate",
-        description: "description"
-      },
-      {
-        title: "Birth certificate",
-        description: "description"
-      },
-      {
-        title: "Partner's birth certificate",
-        description: "description"
-      },
-      {
-        title: "Children's birth certificates",
-        description: "description"
-      },
-      {
-        title: "Residency document",
-        description: "description"
-      },
-      {
-        title: "Partner's residency document",
-        description: "description"
-      },
-      {
-        title: "Partner's proof of ID",
-        description: "description"
-      }
+  <h2>We need some documents to confirm your partner's identity</h2>
+  <p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements" rel="external">categories of documents</a> you can use to prove your identity.</p>
+
+  <%- include(forms+"dropdown", {
+    label: "Category A",
+    id: "cata",
+    hint: "Select one document",
+    modifiers: ["hintNewLine"],
+    options: [
+      "-- Select a document --",
+      "Australian birth certificate",
+      "Australian passport",
+      "Certificate of evidence of residence status",
+      "Citizenship certificate",
+      "Foreign passport and current Australian Visa",
+      "Record of immigration status",
+      "Residency document"
     ]
   }) %>
-</div>
 
-<div id="single">
-    <%- include(forms+"legacy-upload", {
-      docs: [
-        {
-          title: "Marriage certificate",
-          description: "description"
-        },
-        {
-          title: "Birth certificate",
-          description: "description"
-        },
-        {
-          title: "Residency document",
-          description: "description"
-        }
-      ]
-    }) %>
-  </div>
+  <%- include(forms+"checkbox", {
+    customClass: "custom_disabled--checkbox",
+    label: "Category B",
+    hint: "Select two documents",
+    id: "catb",
+    modifiers: ["hintNewLine"],
+    boxes: [
+      "Australian Defence Force (ADF) ID card",
+      "Australian driver’s licence",
+      "Australian marriage certificate",
+      "Ceremonial marriage certificate (Issued by a marriage celebrant on the day of marriage)",
+      "Change of name certificate",
+      "Credit or bank account card",
+      "DVA Health card",
+      "Firearms licence ",
+      "Tertiary identification card"
+    ]
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Does any document selected from Category A and B show your partner’s current address?"
+  }) %>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -73,7 +62,7 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/cshc/prog-04",
+        link: "/auth/claim/cshc/c-02",
         text: "Save and next",
         modifiers: ["floated", "primary"]
       }
@@ -82,18 +71,59 @@
 
 <%- include(forms+"modals/claim-cancel") %>
 
-<%- include(templates+"footer") %>
-
-
 <%- include("state-switcher") %>
 
 <script>
- if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
-        $("#partnered").hide();
-        $("#single").show();
-      } else {
-        $("#partnered").show();
-        $("#single").hide();
+
+  $("#catb-container").on("change", "input", function() {
+    if ($("#catb-container :checked").length > 1) {
+      $("#catb-container input:not(:checked)").prop("disabled", true);
+    } else {
+      $("#catb-container input").prop("disabled", false);
+    }
+
+    if ($("#catb-container :checked").val() === "australianpassport") {
+      $(`#cata-container option[value="australianpassport"]`).hide();
+    } else {
+      $(`#cata-container option[value="australianpassport"]`).show();
+    }
+  })
+
+  $("#cata").on("change", function() {
+    if ($("#cata :selected").val() === "australianpassport") {
+      $(`#catb-container input[value="australianpassport"`).closest(".uiToolKitCheckBox").remove();
+    } else {
+      if (!$("#catb-passport").length) {
+        var checkboxAppend = `<%- generateCheckRadio({
+          text: "Australian Passport",
+          boxID: `catb-passport`,
+          baseID: `catb-passport`,
+          value: "australianpassport",
+          suppliedID: true,
+          modifiers: [],
+          type: "checkbox"
+        }).html %>`
+        
+        $("#catb-container fieldset").append(checkboxAppend)
       }
+    }
+  })
+
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 49: // 1
+      case 97:
+        $("#checkbox").show();
+        $("#dropdown").hide();
+        break;
+      case 50: // 2
+      case 98:
+        $("#checkbox").hide();
+        $("#dropdown").show();
+        break;
+    }
+  });
 
 </script>
+
+<%- include(templates+"footer") %>
