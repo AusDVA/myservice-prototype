@@ -3,8 +3,6 @@
   heading: "Income details"
 }) %>
 
-  
-  
   <p class="margin-above">The income details you provide can be for either of the
       2 financial years before the current financial year. They
       should be the most recent verifiable details. You <span class="couple">and
@@ -27,7 +25,7 @@
       <input type="reset" hidden>
 
       <%- include(partials+"components/form-partials/yes_no", {
-        label: "Did you submit a tax return for the selected year?",
+        label: "Did you submit a tax return for the <span class='inject-date'></span> financial year?",
         id: "income-source",
         yes_toggle: "#taxable-income-container",
         no_toggle: "#low-income-container",
@@ -37,25 +35,25 @@
 
 </form>
 
-  <h2 id="your-income" hidden><span class="font-weight-heavy">Your income</span></h2>
+  <h2 id="your-income" hidden><span class="font-weight-heavy">Your income for <span class='inject-date'></span></span></h2>
 
-  <form id="myForm" class="resetForm" hidden>
+  <form id="myForm" class="resetForm" >
 
       <input type="reset" style="display:none">
 
       <%- include(forms+"text", {
         customClass: "income",
-        label: "Declared taxable income for <span class='inject-date'></span>",
+        label: "Declared taxable income",
         hint: "Enter your taxable income from your Notice of Assessment",
         id: "taxable-income",
-        modifiers: ["inputShort", "dollarSign", "hiddenss", "hintNewLine"]
+        modifiers: ["inputShort", "dollarSign", "hintNewLine"]
       }) %>
       <%- include(forms+"text", {
         customClass: "income",
-        label: "Estimated taxable income for <span class='inject-date'></span>",
+        label: "Estimated taxable income",
         hint: "Enter your estimated taxable income",
         id: "low-income",
-        modifiers: ["inputShort", "dollarSign", "hiddenss", "hintNewLine"]
+        modifiers: ["inputShort", "dollarSign", "hintNewLine"]
       }) %>
 
   <%- include(forms+"text", {
@@ -97,42 +95,41 @@
 
   <hr>
 
-  <h2 id="your-income" hidden><span class="font-weight-heavy">Partner income</span></h2>
+  <h2 id="partner-income"><span class="font-weight-heavy">Your partner's income for <span class='inject-date'></span> </span></h2>
 
-  <%- include(forms+"radio", {
-    label: "Partner's income details from:",
-    all_toggle: "#myForm-partner",
-    boxes: [
-      {
-        text: "Tax Notice of Assessment / Tax return",
-        toggle: "#partner-taxable-income-container",
-      },
-      {
-        text: "Personal records (income was too low to require a tax return)",
-        toggle: "#partner-low-income-container"
-      }
-    ],
-    id: "income-source"
-  }) %>
+  <form  class="resetForm" >
 
-  <%- include(forms+"text", {
-    customClass: "income",
-    label: "Partner taxable income",
-    hint: "Enter your partner's taxable income from your Notice of Assessment",
-    id: "partner-taxable-income",
-    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
-  }) %>
-  <%- include(forms+"text", {
-    customClass: "income",
-    label: "Partner taxable income",
-    hint: "Enter your partner's taxable income",
-    id: "partner-low-income",
-    modifiers: ["inputShort", "dollarSign", "hidden", "hintNewLine"]
-  }) %>
+      <input type="reset" hidden>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Did your partner submit a tax return for the <span class='inject-date'></span> financial year?",
+        id: "income-source-partner",
+        yes_toggle: "#partner-taxable-income-container",
+        no_toggle: "#partner-low-income-container",
+        all_toggle: ["#partner-income","#myForm-partner"],
+        modifiers: ["hiddenq"]
+      }); %>
+
+</form>
 
   <form id="myForm-partner" class="resetForm" hidden>
 
       <input type="reset" style="display:none">
+
+      <%- include(forms+"text", {
+        customClass: "income",
+        label: "Declared taxable income",
+        hint: "Enter your taxable income from your Notice of Assessment",
+        id: "partner-taxable-income",
+        modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+      }) %>
+      <%- include(forms+"text", {
+        customClass: "income",
+        label: "Estimated taxable income",
+        hint: "Enter your estimated taxable income",
+        id: "partner-low-income",
+        modifiers: ["inputShort", "dollarSign", "hintNewLine"]
+      }) %>
 
  
 
