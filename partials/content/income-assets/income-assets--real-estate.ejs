@@ -7,16 +7,16 @@
           <span class="fal fa-briefcase fontawesome-icon"></span><span class="font-weight-heavy">Real estate</span></h2>
         <div class="key-value-group margin-above">
           <div class="key">
-            <h4>Key</h4>
+            <h4>Country</h4>
           </div>
-          <div class="value">Value
+          <div class="value">Australia
           </div>
         </div>
         <div class="key-value-group margin-above">
           <div class="key">
-            <h4>Key</h4>
+            <h4>Property type</h4>
           </div>
-          <div class="value">Value
+          <div class="value">Former home
           </div>
         </div>
       </div>
@@ -34,10 +34,308 @@
     </button>
   </div>
   <div id="card-details" class="margin-below--large">
-    <p class="margin-below--mid margin-above">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+    <p class="margin-below--mid margin-above"><b>Add your properties, other than te one you live in so we may calculate your payments.</b></p>
+    <hr>
     <form id="myForm">
       <input type="reset" style="display:none">
-      <!-- form goes here -->
+      <%- include(forms+"dropdown", {
+        label: "What type of property is it?",
+        options: [
+          "-- Select property type --",
+          "Former Home",
+          "Home block larger than 2 hectares (5 acres)",
+          "Overseas",
+          "Commercial Premises",
+          "Other Property",
+          "Vacant Land",
+          "Self-contained flat (part of or attached to house)",
+          "Town House",
+          "Unit/Flat"
+        ]
+      }) %>
+
+      <%- include(forms+"dropdown", {
+        label: "Who owns the property?",
+        options: [
+          "-- Select an item --",
+          "Myself",
+          "Jointly With My Partner",
+          "Jointly With Any Other Party"
+        ]
+      }) %>
+
+      <%- include(forms+"prepop/address", {
+        label: "What is the address of your property?"
+      }) %>
+
+      <%- include(forms+"text", {
+        modifiers: ["inputFullLength"],
+        label: "Land title reference"
+      }) %>
+
+      <%- include(forms+"yes_no", {
+        label: "Is your home property held on more than one title?",
+        yes_toggle: ".more-than-one-title"
+      }) %>
+
+      <%- include(forms+"notice", {
+        customClass: "more-than-one-title",
+        modifiers: ["hidden"],
+        message: `<p>You will be required to provide Council rates notice to support your claim.</p>
+                  <p>You wll be asked to upload this evidence when finalising your claim in PART D.</p>`
+      }) %>
+
+      <%- include(forms+"notice", {
+        customClass: "more-than-one-title",
+        modifiers: ["hidden"],
+        message: `<p>You will be required to provide evidence of property title deed to support your claim.</p>
+                  <p>You wll be asked to upload this evidence when finalising your claim in PART D.</p>`
+      }) %>
+
+      <%- include(forms+"textarea", {
+        label: "What is the legal description of your land (e.g. lot, section, parish etc)?",
+        hint: "These details can be found on the rates notice for the property.",
+        modifiers: ["hintNewLine"],
+        rows: 2
+      }) %>
+
+      <%- include(forms+"radio", {
+        label: "Is the property owned wholly or partly by a private trust or private company in which you have an involvement?",
+        boxes: [
+          {
+            text: "Private trust",
+            toggle: "#private-trust-container"
+          },
+          {
+            text: "Private company",
+            toggle: "#private-company-container"  
+          },          
+          "Neither"
+        ]
+      }) %>
+
+      <%- include(forms+"notice", {
+        message: `<p>You will be required to provide a copy of the <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0601.pdf" target="_blank" rel="external">Private Trust (D601) form</a> for each private trust to support your claim.</p>
+          <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`,
+        modifiers: ["hidden"],
+        id: "private-trust"
+      }) %>
+
+      <%- include(forms+"notice", {
+        message: `<p>You will be required to provide <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0600.pdf" rel="external">Private company form (D600)</a> to support your claim.</p>
+          <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`,
+        modifiers: ["hidden"],
+        id: "private-company"
+      }) %>
+
+      <%- include(forms+"text", {
+        label: "Are there any other encumberance costs?",
+        hint: "(optional)",
+        modifiers: ["dollarSign", "inputShort"],
+        placeholder: "0.00"
+      }) %>
+
+      <div class="select-and-text form-group">
+        <%- include(forms+"dropdown", {
+              customClass: "select-and-text__select",
+              label: "What is the area/dimensions of your land?",
+              options: [
+                "-- Select an item --",
+                "Area in hectares",
+                "Area in acres",
+                "Dimensions"
+              ]
+            }) %> 
+
+        <%- include(forms+"text", {
+              label: "",
+              customClass: "select-and-text__text"
+            }) %>
+      </div>
+
+      <%- include(forms+"yes_no", {
+        label: "Is the property occupied?",
+        yes_toggle: "#occupied--yes-container",
+        no_toggle: "#occupied--no-container"
+      }) %>
+
+      <%- include(forms+"date", {
+        label: "When do you expect it to be occupied?",
+        modifiers: ["hidden"],
+        id: "occupied--no"
+      }) %>
+
+      <%- include(forms+"yes_no", {
+        label: "Do you receive income from the property?",
+        modifiers: ["hidden"],
+        id: "occupied--yes",
+        yes_toggle: "#income-received-property"
+      }) %>
+
+      <div id="income-received-property" hidden>
+        <div class="text-and-select form-group">
+          <%- include(forms+"text", {
+            label: "What is the gross amount and frequency of the income received?",
+            modifiers: ["dollarSign", "inputShort"],
+            customClass: "text-and-select__text",
+            placeholder: "0.00"
+          }) %>
+
+          <%- include(forms+"dropdown", {
+            customClass: "text-and-select__select",
+            label: "Per",
+            options: [
+              "-- Select an item --",
+              "Weekly",
+              "Fortnightly",
+              "Monthly",
+              "Quarterly",
+              "Annually"
+            ]
+          }) %> 
+        </div>
+
+        <%- include(forms+"yes_no", {
+          label: "Is the rental money being used to pay for accomodation charges for you in an aged care facility?"
+        }) %>
+
+          <%- include(forms+"text", {
+            label: "What is the annual expense?",
+            modifiers: ["dollarSign", "inputShort"],
+            placeholder: "0.00"
+          }) %>
+      </div>
+
+      <h3>What is the estimated value of any of the following items that you have?</h3>
+
+      <%- include(forms+"text", {
+        label: "Whole property including land or self-contained flat?",
+        modifiers: ["dollarSign", "inputShort"],
+        placeholder: "0.00"
+      }) %>
+
+      <%- include(forms+"text", {
+        label: "Your home building and up to 2 hectares surrouding area if you live on the property",
+        modifiers: ["dollarSign", "inputShort"],
+        placeholder: "0.00"
+      }) %>
+
+      <%- include(forms+"text", {
+        label: "Furniture and fittings (net value)",
+        modifiers: ["dollarSign", "inputShort"],
+        placeholder: "0.00"
+      }) %>
+
+      <%- include(forms+"yes_no", {
+        label: "Is the mortgage secured against this property?",
+        no_toggle: "#what-property-container"
+      }) %>
+
+      <%- include(forms+"prepop/address", {
+        label: "What is the address of the property the mortgage is secured against?",
+        modifiers: ["hidden"],
+        id: "what-property"
+      }) %>
+
+      <%- include(forms+"yes_no", {
+        label: "Is there a building on the property?",
+        yes_toggle: "#buildingdetails"
+      }) %>
+
+      <div id="buildingdetails" hidden>
+        <h3>Please give the following details for any building on the property</h3>
+        
+        <%- include(forms+"text", {
+          label: "What is the floor area",
+          hint: "(approx. sq/mtrs)",
+          modifiers: ["inputShort"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Age of building",
+          hint: "(in years)",
+          modifiers: ["inputShort"]
+        }) %>
+
+        <h4>Type of construction</h4>
+
+        <%- include(forms+"text", {
+          label: "Exterior",
+          hint: "(e.g. brick, timber)",
+          modifiers: ["inputFullLength"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Interior",
+          hint: "(e.g. lined, not lined)",
+          modifiers: ["inputFullLength"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Roof",
+          hint: "(e.g. iron, tiles)",
+          modifiers: ["inputFullLength"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Genreal condition",
+          modifiers: ["inputFullLength"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Number of flats/units",
+          hint: "(optional)",
+          modifiers: ["inputShort"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Number of bedrooms",
+          hint: "(optional)",
+          modifiers: ["inputShort"]
+        }) %>
+
+        <%- include(forms+"text", {
+          label: "Major site improvements (e.g. swmming pools etc.)",
+          hint: "(optional)",
+          modifiers: ["inputFullLength"]
+        }) %>
+      </div>
+      <hr>
+
+      <h3>Authority to inspect the property</h3>
+
+      <%- include(forms+"yes_no", {
+        label: "Do you give permission for DVA's licensed valuer to enter and inspect the property?",
+        yes_toggle: "#valuer"
+      }) %>
+
+      <div id="valuer" hidden>
+        <%- include(forms+"notice", {
+          message: `<p>A valuer will enter and inspect the property for the purposes of a valuation in relation to the <em>Social Security (Administration) Act 1999</em> and the <em>Veterans’ Entitlements Act 1986.</em></p>
+            <p>I understand that if the property to be inspected is not occupied by the owner, it is my responsibility to give the actual occupant reasonable notice, or such notice as is required by agreement, of the possible inspection.</p>
+            <p>This authorisation does not permit the valuer to enter the home of the tenant, or any dwelling that the tenant may own, during the inspection, unless invited to do so.</p>
+            <p>I further understand that DVA’s licensed valuer will contact the person noted below, to arrange a mutually convenient time for any necessary inspection of the property.</p>`
+        }) %>
+
+        <%- include(forms+"text", {
+          modifiers: ["inputFullLength"],
+          label: "Person to be contacted by valuer"
+        }) %>
+
+        <%- include(forms+"prepop/phone-number", {
+          label: "Contact person's daytime phone number"
+        }) %>
+      </div>
+
+      <%- include(forms+"notice", {
+        message: `<p>You will be required to provide evidence of mortgage to support your claim.</p>
+          <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+      }) %>
+
+      <%- include(forms+"notice", {
+        message: `<p>You will be required to provide evidence of your income tax return. This should include any partnership account balance, depreciation list and profit and loss statements.</p>
+          <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+      }) %>
     </form>
   </div>
   <hr>
