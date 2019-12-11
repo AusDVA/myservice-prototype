@@ -1217,3 +1217,23 @@ label {
     vertical-align: -.0667em;
   }
 }
+
+.custom_disabled--checkbox {
+  .uikit-control-input__input {
+    &:disabled {
+      & + .uikit-control-input__text {
+        color: #898989;
+      }
+
+      //we are adding an opaque white box ontop of the svg so we don’t have to add new svgs per control kind
+      //and using opacity would shot the actual native control behind
+      //we have that native control behind the svg in case the svg background fails (fallback)
+      & + .uikit-control-input__text:after {
+        background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+          <path fill="#898989" d="M0 0h128v128H0z"/>
+          <path fill="#fff" d="M8 8h112v112H8z"/>
+        </svg>');
+      }
+    }
+  }
+}

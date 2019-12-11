@@ -2,27 +2,17 @@
   claim: "Commonwealth Seniors Health Card",
   heading: "Partner's Proof of ID"
 }) %>
-
-  <style>
-    .checkbox--show-more {
-      position: relative;
-      left: -0.7rem;
-      color: #313131;
-      top: -.5rem;
-      font-size: 0.9rem;
-      border-bottom: 1px solid #1B7991;
-    }
-  </style>
   
   <h2>We need some documents to confirm your partner's identity</h2>
   <p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements" rel="external">categories of documents</a> you can use to prove your identity.</p>
 
-  <%- include(forms+"radio", {
+  <%- include(forms+"dropdown", {
     label: "Category A",
     id: "cata",
-    hint: "One document is required to show proof of birth in Australia or arrival in Australia.",
+    hint: "Select one document",
     modifiers: ["hintNewLine"],
-    boxes: [
+    options: [
+      "-- Select a document --",
       "Australian birth certificate",
       "Australian passport",
       "Certificate of evidence of residence status",
@@ -34,8 +24,9 @@
   }) %>
 
   <%- include(forms+"checkbox", {
+    customClass: "custom_disabled--checkbox",
     label: "Category B",
-    hint: "Two documents are required to show evidence of your identity",
+    hint: "Select two documents",
     id: "catb",
     modifiers: ["hintNewLine"],
     boxes: [
@@ -51,14 +42,8 @@
     ]
   }) %>
 
-  <%- include(forms+"radio", {
-    label: "Category C",
-    hint: "(optional - only required if A or B does not show current residential address)<br>A document showing your current residential address",
-    boxes: [
-      "Utilities notice",
-      "Rent details",
-      "Nursing home or residential care facility"
-    ]
+  <%- include(forms+"yes_no", {
+    label: "Does any document selected from Category A and B show your partner’s current address?"
   }) %>
 
   <%- include(forms+"pagination", {
@@ -90,28 +75,6 @@
 
 <script>
 
-  $(document).ready(function() {
-    $("#catb-container fieldset :nth-child(n+6), #cata-container fieldset :nth-child(n+6)").hide();
-    $("#catb-container fieldset, #cata-container fieldset").append(`
-      <button class="checkbox--show-more repeatable-block__btn--remove"><i class="fal fa-chevron-down"></i> See more options</button>
-    `)
-
-    $(".form-group").on("click", ".checkbox--show-more", function() {
-      if ($(this).text().trim() === "See more options") {
-        $(this).parent().children().show();
-        $(this).html(`<i class="fal fa-chevron-up"></i> See less options`)
-      } else {
-        if ($(this).parent().find("> :not(:nth-child(-n+3)) :checked").length) {
-          var insertAfter = $(this).parent().find("input").first().attr("type") === "checkbox" ? "> :nth-child(3)" : "> :nth-child(4)";
-          $(this).parent().find(":checked").closest(".uiToolKitCheckBox").detach().insertAfter($(this).parent().find(insertAfter))
-        }
-        $(this).parent().find("> :nth-child(n+6)").hide();
-        $(this).show();
-        $(this).html(`<i class="fal fa-chevron-down"></i> See more options`);
-      }
-    })
-  })
-
   $("#catb-container").on("change", "input", function() {
     if ($("#catb-container :checked").length > 1) {
       $("#catb-container input:not(:checked)").prop("disabled", true);
@@ -120,14 +83,14 @@
     }
 
     if ($("#catb-container :checked").val() === "australianpassport") {
-      $(`#cata-container input[value="australianpassport"]`).closest(".uiToolKitCheckBox").addClass("display-none");
+      $(`#cata-container option[value="australianpassport"]`).hide();
     } else {
-      $(`#cata-container input[value="australianpassport"]`).closest(".uiToolKitCheckBox").removeClass("display-none");
+      $(`#cata-container option[value="australianpassport"]`).show();
     }
   })
 
-  $("#cata-container").on("change", "input", function() {
-    if ($("#cata-container").find(":checked").val() === "australianpassport") {
+  $("#cata").on("change", function() {
+    if ($("#cata :selected").val() === "australianpassport") {
       $(`#catb-container input[value="australianpassport"`).closest(".uiToolKitCheckBox").remove();
     } else {
       if (!$("#catb-passport").length) {
@@ -141,13 +104,7 @@
           type: "checkbox"
         }).html %>`
         
-        $(checkboxAppend).insertBefore("#catb-container .checkbox--show-more");
-        if ($("#catb-container").find(".checkbox--show-more").text().trim() === "See more options") {
-          $("#catb-passport").closest(".uiToolKitCheckBox").hide();
-        } else {
-          $("#catb-passport").closest(".uiToolKitCheckBox").show();
-        }
-
+        $("#catb-container fieldset").append(checkboxAppend)
       }
     }
   })
