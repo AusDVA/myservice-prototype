@@ -1,14 +1,30 @@
 <div id="state-switcher">
   <h3>CSHC Non Veteran Relationship</h3>
   <%- include(partials+"components/form-partials/radio", {
-    id: "sw-veteran-known",
+    id: "sw-which-flow",
     label: "Relationship state",
     boxes: [
-      "Partner unknown",
-      "Partner known",
-      "War widow",
-      "Veteran no QS - partner unknown",
-      "Veteran - partner with no QS"
+      {
+        text: "Partner unknown",
+        value: "unknown"
+      },
+      {
+        modifiers: ["checked"],
+        text: "Partner known",
+        value: "known"
+      },
+      {
+        text: "War widow",
+        value: "warwidow"
+      },
+      {
+        text: "Veteran no QS - partner unknown",
+        value: "noqs-unkown"
+      },
+      {
+        text: "Veteran - partner with no QS",
+        value: "noqs-known"
+      }
     ]
   }) %>
 </div>
@@ -22,4 +38,35 @@
       default:
     }
   });
+
+  $("#sw-which-flow-container").on("change", "input", function() {
+    $(".save-next").hide();
+    $("#state--known--noqs").hide();
+    $("#state--war-widow").hide();
+    $("#state--unknown").hide();
+    $("#state--unkown-noqs").hide();
+    $("#state--known").hide();
+
+    switch ($("#sw-which-flow-container :checked").val()) {
+      case "unknown":
+        $("#state--unknown").show();
+        break;
+      case "known":
+        $("#state--known").show();
+        break;
+      case "warwidow":
+        $("#state--war-widow").show();
+        break;
+      case "noqs-unkown":
+        $("#state--unknown-noqs").show();
+        break;
+      case "noqs-known":
+        $("#state--known--noqs").show();
+        break;
+    }
+  })
+
+  $(document).ready(function() {
+    $("#state--known").show();
+  })
 </script>
