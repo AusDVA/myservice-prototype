@@ -1,0 +1,152 @@
+<div id="state--unknown">
+  <%- include(forms+"radio", {
+    label: "What is your relationship status with the veteran?",
+    id: "unkown--veteran-relationship",
+    boxes: [
+      "Married",
+      "De facto",
+      {
+        text: "Separated",
+        hint: "(while still legally married)"
+      },
+      "Divorced",
+      "Widowed"
+    ]
+  }) %>
+
+  <%- include("a-02--partial-divorce-block") %>
+
+  <div class="veteran-details has-previous-names" hidden>
+    <%- include(forms+"date", {
+      customClass: "de-facto--living-together",
+      modifiers: ["hidden"],
+      label: "Date commenced living together"
+    }) %>
+
+    <%- include(forms+"date", {
+      customClass: "married--married-date",
+      modifiers: ["hidden"],
+      label: "Date of marriage"
+    }) %>
+
+    <h3>Veteran details</h3>    
+
+    <%- include("a-02--partial-partner-questions") %>
+
+    <%- include(forms+"text", {
+      label: "File number",
+      hint: "(optional)"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Service number",
+      hint: "(optional)"
+    }) %>
+
+
+    <%- include(forms+"text", {
+      label: "PMKeyS number",
+      hint: "(optional)"
+    }) %>
+  </div>
+
+  <form class="current-relationship has-previous-names" hidden>
+    <h2>Your current relationship</h2>
+    
+    <%- include(forms+"yes_no", {
+      label: "Are you currently in a new relationship?",
+      id: "unknown--new-relationship-q"
+    }) %>
+
+    <div class="current-relationship-type" hidden>
+      <%- include(forms+"radio", {
+        label: "What is your new relationship status?",
+        id: "unkown--new-relationship-status",
+        boxes: [
+          "Married",
+          "De facto"
+        ]
+      }) %>
+
+      <div class="current-relationship-details" hidden>
+        <%- include(forms+"date", {
+          customClass: "de-facto--living-together",
+          modifiers: ["hidden"],
+          label: "Date commenced living together"
+        }) %>
+
+        <%- include(forms+"date", {
+          customClass: "married--married-date",
+          modifiers: ["hidden"],
+          label: "Date of marriage"
+        }) %>
+
+        <h3>Partner details</h3>
+        <%- include("a-02--partial-non-veteran-details") %>
+      </div>
+    </div>
+
+    <%- include("a-02--partial-divorce-block") %>
+  </form>
+
+
+  <script>
+    $("#unkown--veteran-relationship-container").on("change", "input", function() {
+      $("#state--unknown .divorce-blocker").hide();
+      $("#state--unknown .de-facto--living-together").hide();
+      $("#state--unknown .married--married-date").hide();
+      $("#state--unknown .veteran-details").hide();
+      $("#state--unknown .current-relationship").hide();
+      $("#state--unknown .divorce-blocker").last().hide();
+      $("#state--unknown .current-relationship-type").hide();
+      $("#state--unknown .current-relationship").trigger("reset");
+
+      switch ($("#unkown--veteran-relationship-container :checked").val()) {
+        case "divorced":
+          $("#state--unknown .divorce-blocker").first().show();
+          break;
+        case "married":
+          $("#state--unknown .veteran-details .married--married-date").show();
+          $("#state--unknown .veteran-details").show();
+          break;
+        case "defacto":
+          $("#state--unknown .veteran-details").show();
+          $("#state--unknown .veteran-details .de-facto--living-together").show();
+          break;
+        case "widowed":
+        case "separated":
+          $("#state--unknown .current-relationship").show();
+          break;
+      }
+    })
+
+    $("#unknown--new-relationship-q-container").on("change", "input", function() {
+      $("#state--unknown .divorce-blocker").last().hide();
+      $("#state--unknown .current-relationship-type").hide();
+      
+      if ($("#unknown--new-relationship-q-container :checked").val() === "yes") {
+        if ($("#unkown--veteran-relationship-container :checked").val() === "separated") {
+          $("#state--unknown .divorce-blocker").last().show();
+        } else {
+          $("#state--unknown .current-relationship-type").show();
+        }
+      }
+    })
+
+    $("#unkown--new-relationship-status-container").on("change", "input", function() {
+
+      $("#state--unknown .de-facto--living-together").show();
+      $("#state--unknown .de-facto--living-together").show();
+
+      switch ($("#unkown--new-relationship-status-container :checked").val()) {
+        case "married":
+          $("#state--unknown .current-relationship-details .married--married-date").show();
+          break;
+        case "defacto":
+          $("#state--unknown .current-relationship-details .de-facto--living-together").show();
+      }
+
+      $("#state--unknown .current-relationship-details").show();
+    })
+  </script>
+</div>

@@ -11,135 +11,48 @@ progress.activeItem = 2;
   progress
 }) %>
 
-  <%- include(forms+"radio", {
-    label: "What is your relationship status with the veteran?",
-    id: "relationship-status",
-    boxes: [
-      "Married",
-      "De Facto",
-      {
-        text: "Separated",
-        hint: "(while still legally married)"
-      },
-      "Divorced",
-      "Widowed"
-    ]
-  }) %>
+  
+  <%- include("state-switcher/a-02--state-unknown") %>
 
-  <%- include(forms+"date", {
-    customClass: "rel--widowed",
-    modifiers: ["hidden"],
-    label: "Date of veteran's death"
-  }) %>
+  <%- include("state-switcher/a-02--state-known") %>
 
-  <%- include(forms+"notice", {
-    message: `<p>Due to your situation, you are not eligible for Commonwealth Seniors Health Card (CSHC).<br>If you would like to discuss your eligibility, please contact DVA on <span class="dva-phone"></span></p>`,
-    customClass: "rel--divorced",
-    type: "error",
-    modifiers: ["hidden"]
-  }) %>
+  
+  <p class="save-next" hidden>Choose <b>Save and next</b> to continue.</p>
 
-  <div class="rel--separated" hidden>
-    <%- include(forms+"notice", {
-      message: "Separated means that you are living apart from your spouse, but still legally married pending a judgement from a court. If you are separated due to illness or age please indicate status as married. We will ask about circumstances regarding physical separation due to illness or age later in the claim."
-    }) %>
-
-    <%- include(forms+"notice", {
-      message: `<p>You will be required to provide <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf"><span class="external-link">Separation from partner form (D513)</span></a> to support your claim.</p>
-         <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
-    }) %>
-
-    <%- include(forms+"date", {
-      label: "Date of separation"
-    }) %>
-  </div>
-
-
-  <div class="rel--married rel--de-facto" hidden>
-    <%- include(forms+"notice", {
-      message: `<p>You will be required to provide a marriage certificate to support your claim.</p>
-                <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`,
-      customClass: "rel--married",
-      modifiers: ["hidden"]
-    }) %>
-
-    <%- include(forms+"date", {
-      label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
-    }) %>
-  </div>
-
-  <%- include(forms+"pagination", {
-    pagination: [
-      {
-        link: "/auth/claim/cshc-partner/prog-01",
-        text: "Previous"
-      },
-      {
-        link: "#claim-cancel-modal",
-        text: "Cancel claim"
-      },
-      {
-        link: "/auth/claim",
-        text: "Save and exit",
-        modifiers: ["floated"]
-      },
-      {
-        link: "/auth/claim/cshc-partner/a-02",
-        text: "Save and next",
-        modifiers: ["floated", "primary"]
-      }
-    ]
-  }) %>
-
-  <%- include(forms+"modals/claim-cancel") %>
+  <%- include("state-switcher/a-02-state-switcher") %>
 
   <script>
-    $("#centrelink-benefits-container, #centrelink-has-cshc-container").on("change", "input", function() {
-      if ($("#centrelink-benefits-1").prop("checked") || $("#centrelink-has-cshc-1").prop("checked")) {
-        $("#centrelink-cshc-container").show();
+    $(".previous-names-q").on("change", "input", function() {
+      if ($(this).closest(".form-group").find(":checked").val() === "yes") {
+        $(this).closest(".has-previous-names").find(".previous-names").show();
       } else {
-        $("#centrelink-cshc-container").hide();
+        $(this).closest(".has-previous-names").find(".previous-names").hide();
       }
     })
 
-    $("#relationship-status-container").on("change", "input", function() {
-      let checkedVal = $("#relationship-status-container :checked").val();
-
-      $(".rel--married").hide();
-      $(".rel--de-facto").hide();
-      $(".rel--widowed").hide();
-      $(".rel--divorced").hide();
-      $(".rel--separated").hide();
-      switch (checkedVal) {
-        case "married":
-          $(".rel--married").show();
-          break;
-        case "defacto":
-          $(".rel--de-facto").show();
-          break;
-        case "widowed":
-          $(".rel--widowed").show();
-          break;
-        case "divorced":
-          $(".rel--divorced").show();
-          break;
-        case "separated":
-          $(".rel--separated").show();
-          break;
-      }
-
-      if (checkedVal === "widowed") {
-        sessionStorage.setItem("partner-alive", "false");
+    $(".residential-address-q").on("change", "input", function() {
+      if ($(this).closest(".form-group").find(":checked").val() === "no") {
+        $(this).closest(".has-residential").find(".residential-address-block").show();
       } else {
-        sessionStorage.setItem("partner-alive", "true");
-      }
-
-      if (checkedVal === "married" || checkedVal === "defacto") {
-        sessionStorage.setItem("in-relationship", "true");
-      } else {
-        sessionStorage.setItem("in-relationship", "false");
+        $(this).closest(".has-residential").find(".residential-address-block").hide();
       }
     })
+
+    $(".contact-details-q").on("change", "input", function() {
+      if ($(this).closest(".form-group").find(":checked").val() === "no") {
+        $(this).closest(".has-contact").find(".contact-details-block").show();
+      } else {
+        $(this).closest(".has-contact").find(".contact-details-block").hide();
+      }
+    })
+
+  $(".partner-centrelink-paymments, .partner-centrelink-has-cshc").on("change", "input", function() {
+    if ($(this).closest(".has-partner-centrelink").find(".partner-centrelink-paymments :checked").val() === "yes" || $(this).closest(".has-partner-centrelink").find(".partner-centrelink-has-cshc :checked").val() === "yes") {
+      $(this).closest(".has-partner-centrelink").find(".partner-centrelink-cshc").show();
+    } else {
+      $(this).closest(".has-partner-centrelink").find(".partner-centrelink-cshc").hide();
+    }
+  })
   </script>
 
 <%- include(templates+"footer") %>
