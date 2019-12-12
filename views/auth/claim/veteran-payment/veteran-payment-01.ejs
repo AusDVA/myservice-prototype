@@ -17,7 +17,6 @@ progress.activeItem = 1;
   <hr>
 </div>
 
-
 <%- include(forms+"yes_no", {
       label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
       id: "unable-question",
@@ -65,6 +64,7 @@ progress.activeItem = 1;
     pagination: [
       {
         text: "Cancel",
+        id: "cancel",
         link: "#open-modal"
       },
       {
@@ -74,6 +74,7 @@ progress.activeItem = 1;
       },
       {
         text: "Save and next",
+        id: "save-next-button",
         link: "/auth/claim/veteran-payment/veteran-payment-02",
         modifiers: ["floated", "primary"]
       }
@@ -83,13 +84,21 @@ progress.activeItem = 1;
 <%- include("veteran-payment-state-switcher") %>
 
 <script>
-  $("#unable-question-2").on("click", function () {
+  
+  $('input[name=unable-question]').change(function () {
+    var mySelection = $('input[name=unable-question]:checked').parent().find("span").text();
+    if ( mySelection == "Yes") {
+        $("#save-next-button").removeAttr("disabled");
+    } else {
+        $("#save-next-button").attr("disabled", "true");
+    }
     $("#save-next").hide();
     $("#crn-container").hide();
     $("#warning-container").hide();
   })
 
-  function stateSwitcher() {
+
+function stateSwitcher() {
     if (cameFromIl === "true") {
       $("#unable-question-container").hide();
       $("#centrelink-container").show();
