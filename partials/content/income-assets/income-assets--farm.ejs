@@ -41,7 +41,7 @@
       <form id="myForm">
         <input type="reset" style="display:none">
 
-<h2><b>Property details</b></h2>
+<h2 class="margin-below"><b>Property details</b></h2>
 
         <%- include(forms+"dropdown", {
               label: "What type of property do you have?",
@@ -60,56 +60,34 @@
             }) %>
 
         <%- include(forms+"date", {
-              label: "Acquisition date"
+              label: "Acquisition date",
+              customClass: "margin-below--none"
             }) %>
 
         <%- include(forms+"prepop/address", {
-              label: "Property address"
+              label: "Address"
             }) %>
-            <h2 class="margin-below--Large"><B>Property ownership</B></h2>
+         
 
-        <%- include(forms+"radio", {
-              label: "Who owns the property?",
-              boxes: [
-                "Myself",
-                "My Partner",
-                "Jointly With My Partner",
-                {
-                  text: "Jointly With Any Other Party",
-                  toggle: ".jointlyotherparty"
-                }
-              ]
-            }) %>
-
-        <%- include(forms+"text", {
-              label: "% Owned by you",
-              modifiers: ["inputShort", "hidden"],
-              customClass: "jointlyotherparty"
-            }) %>
-
-        <%- include(forms+"textarea", {
-              label: "Name of other owners",
-              rows: 2,
-              modifiers: ["hidden"],
-              customClass: "jointlyotherparty"
-            }) %>
-
-        <%- include(forms+"yes_no", {
-              label: "Is your home property held on more than one title?",
-              yes_toggle: "#more-than-one-title-container"
-            }) %>
-
-        <%- include(forms+"notice", {
-              modifiers: ["hidden"],
-              id: "more-than-one-title",
-              message: `<p>You will be required to provide evidence of property title deed to support your claim.</p>
-                        <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
-            }) %>
+       
 
         <%- include(forms+"text", {
               label: "What is the legal description of your land (e.g. lot, section, parish etc)?",
               modifiers: ["inputFullLength"]
             }) %>
+
+            <%- include(forms+"yes_no", {
+              label: "Is your home property held on more than one title?",
+              yes_toggle: "#more-than-one-title-container"
+            }) %>
+
+            <%- include(forms+"notice", {
+              modifiers: ["hidden"],
+              id: "more-than-one-title",
+              message: `<p>You will be required to provide evidence of property title deed to support your claim.</p>
+                        <p>You can upload this in the documents section at the end of the claim.</p>`
+            }) %>
+
 
         <div class="select-and-text">
           <%- include(forms+"dropdown", {
@@ -143,11 +121,11 @@
         <%- include(forms+"notice", {
               modifiers: ["hidden"],
               id: "water-rights",
-              message: `<p>You will be required to provide evidence of water license to support your claim.</p>
-                        <p>You will be asked to upload this evidence when finalising your claim in PART D.</p>`
+              message: `<p>You will be required to provide evidence of a water license to support your claim.</p>
+                        <p>You can upload this in the documents section at the end of the claim.</p>`
             }) %>
 
-        <h2 class="margin-below--none"><b>Buildings on the property</b></h2>
+        <h2 class="margin-below--small margin-above"><b>Buildings on the property</b></h2>
         <%- include(forms+"repeatable-block", {
               repeatedContent: "Building",
               form: [
@@ -178,7 +156,36 @@
               ]
             }) %>
 
-        <h2 class="margin-above--3"><b>Property value details</b></h2>
+            <h2 class="margin-above--large"><B>Property ownership</B></h2>
+
+            <%- include(forms+"radio", {
+                  label: "Who owns the property?",
+                  boxes: [
+                    "Myself",
+                    "My Partner",
+                    "Jointly With My Partner",
+                    {
+                      text: "Jointly With Any Other Party",
+                      toggle: ".jointlyotherparty"
+                    }
+                  ]
+                }) %>
+    
+            <%- include(forms+"text", {
+                  label: "% Owned by you",
+                  modifiers: ["inputShort", "hidden"],
+                  customClass: "jointlyotherparty"
+                }) %>
+    
+            <%- include(forms+"textarea", {
+                  label: "Name of other owners",
+                  rows: 2,
+                  modifiers: ["hidden"],
+                  customClass: "jointlyotherparty"
+                }) %>
+    
+           
+        <h2 class="margin-above--large"><b>Property value details</b></h2>
         <p>This includes all land, buildings and structures. Do not include plant, machinery and livestock.</p>
 
         <%- include(forms+"text", {
