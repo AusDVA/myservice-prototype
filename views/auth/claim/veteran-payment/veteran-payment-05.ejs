@@ -1,55 +1,70 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 6;
+
+%>
+
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Income & assets"
+  claim: "Veteran Payment", 
+  heading: "Income & assets",
+  progress
 }) %>
 
-<p><b>Total estimated gross income received <span class="user-label-b">by you and/or your partner</span> including:</b></p>
+
+
+<p><b>Total estimated value of <span class="user-label-a">you and/or your partner's</span> financial assets
+    including:</b></p>
+
 <ul>
-   <li>Employment income, superannuation pensions, foreign income.</li>
-   <li>Rental income, boarders and lodgers (net income after expenses).</li>
-   <li>Annuities and other income streams.</li>
-   <li>Any other income not included elsewhere on this form.</li>
- </ul>
- <p class="margin-below--small"><b>Do not</b> include any payments your are currently receiving from Centrelink or DVA.</p>
+  <li>Money in bank, building society and credit union accounts</li>
+  <li>Managed investments, bonds and debentures, shares and other securities</li>
+  <li>Money loaned, cash holdings</li>
+</ul>
 
-  <div class="hint-after-box margin-above">
 <%- include(forms+"text", {
-  modifiers: ["dollarSign", "hintNewline", "inputShort"],
-  placeholder: "0.00",
-}) %>   
-  <span class="hint">per fortnight</span>
-</div>
-
-<p><b>Total estimated value of <span class="user-label-a">you and/or your partner's</span> financial assets including:</b></p>
- <ul>
-    <li>Money in bank, building society and credit union accounts.</li>
-    <li>Managed investments, bonds and debentures, shares and other securities.</li>
-    <li>Money loaned, cash holdings.</li>
-  </ul>
-
-  <%- include(forms+"text", {
     modifiers: ["dollarSign", "hintNewline", "inputShort"],
     placeholder: "0.00",
   }) %>
 
-  <p><b>Total estimated value of  <span class="user-label-a">you and/or your partner's</span> other assets including:</b></p>
-  <ul>
-     <li>Real estate property (not including own home).</li>
-     <li>Companies, trusts or businesses.</li>
-     <li>Vehicles.</li>
-     <li>Life insurance policies.</li>
-     <li>Valuables or collectible items.</li>
-   </ul>
+<p><b>Total estimated value of <span class="user-label-a">you and/or your partner's</span> other assets including:</b>
+</p>
 
-  <%- include(forms+"text", {
+<ul>
+  <li>Real estate property (not including own home)</li>
+  <li>Companies, trusts or businesses</li>
+  <li>Vehicles</li>
+  <li>Life insurance policies</li>
+  <li>Valuables or collectible items</li>
+</ul>
+
+<%- include(forms+"text", {
     modifiers: ["dollarSign", "hintNewline", "inputShort"],
-    placeholder: "0.00",
+    placeholder: "0.00"
   }) %>
 
+<p><b>Total estimated gross income received <span class="user-label-b">by you and/or your partner</span> including:</b>
+</p>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<ul>
+  <li>Employment income, superannuation pensions, foreign income</li>
+  <li>Rental income, boarders and lodgers (net income after expenses)</li>
+  <li>Annuities and other income streams</li>
+  <li>Any other income not included elsewhere on this form</li>
+</ul>
 
-  <%- include(forms+"pagination", {
+<p class="margin-below--small"><b>Do not</b> include any payments you are currently receiving from Centrelink or DVA.
+</p>
+
+<%- include(forms+"text", {
+    modifiers: ["dollarSign", "hintNewline", "inputShort"],
+    placeholder: "0.00",
+    afterText: "per fortnight"
+  }) %>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -72,23 +87,23 @@
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher") %>
 
-  <script>
-    function stateSwitcher() {
-      console.log( relationshipStatus );
-      switch (relationshipStatus) {
-        case "single":
-          $(".user-label-a").text("your");
-          $(".user-label-b").text("");
-          break;
-        case "partnered":
-          $(".user-label-a").text("you and/or your partner's");
-          $(".user-label-b").text("by you and/or your partner");
-          break;
-        default:
-          break;
-      }
+<script>
+  function stateSwitcher() {
+    console.log(relationshipStatus);
+    switch (relationshipStatus) {
+      case "single":
+        $(".user-label-a").text("your");
+        $(".user-label-b").text("");
+        break;
+      case "partnered":
+        $(".user-label-a").text("you and/or your partner's");
+        $(".user-label-b").text("by you and/or your partner");
+        break;
+      default:
+        break;
     }
-  </script>
+  }
+</script>
 <%- include(templates+"footer") %>

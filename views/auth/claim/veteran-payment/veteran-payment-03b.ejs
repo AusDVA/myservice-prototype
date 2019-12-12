@@ -1,0 +1,253 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 4;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Veteran Payment", 
+  heading: "Residency",
+  progress
+}) %>
+
+<h2 class="couple" hidden><span class="font-weight-heavy">Your residency</span></h2>
+
+<%- include(forms+"yes_no", {
+      label: "Are you an Australian citizen?",
+      id: "aus-citizen",
+      yes_toggle: "#is-citizen",
+      no_toggle: "#not-citizen"
+    }) %>
+
+<form id="is-citizen" hidden>
+  <%- include(forms+"yes_no", {
+        label: "Were you born in Australia?",
+        id: "citizen-born-australia",
+        yes_toggle: "#save-next",
+        no_toggle: "#citizen-country-birth-container, #citizen-start-date-container"
+      }) %>
+
+  <%- include(forms+"prepop/country-dropdown", {
+        label: "What is your country of birth?",
+        id: "citizen-country-birth",
+        modifiers: ["hidden"]
+      }) %>
+
+  <%- include(forms+"date", {
+        label: "Citizenship start date",
+        id: "citizen-start-date",
+        modifiers: ["hidden"]
+      }) %>
+</form>
+
+<form id="not-citizen" hidden>
+  <%- include(forms+"radio", {
+        label: "Are you:",
+        id: "visa-status",
+        boxes: [
+          "The holder of a permanent visa",
+          "The holder of a special purpose visa",
+          "The holder of a special category visa",
+          "None of the above"
+        ]
+      }) %>
+
+  <div id="visa" hidden>
+
+    <%- include(forms+"date", {
+          label: "Visa grant date"
+        }) %>
+
+    <%- include(forms+"notice", {
+          message: `<p>You will need to provide a copy of your current visa or special category visa.</p>
+          <p>You can attach this document at the end of your claim.</p>`
+        }) %>
+
+  </div>
+
+
+</form>
+
+<div class="couple" hidden>
+
+  <h2 class="margin-above--large"><span class="font-weight-heavy">Partner residency</span></h2>
+
+  <%- include(forms+"yes_no", {
+      label: "Is your partner an Australian citizen?",
+      id: "partner-aus-citizen",
+      yes_toggle: "#partner-is-citizen",
+      no_toggle: "#partner-not-citizen"
+    }) %>
+
+  <form id="partner-is-citizen" hidden>
+    <%- include(forms+"yes_no", {
+        label: "Was your partner born in Australia?",
+        id: "partner-citizen-born-australia",
+        yes_toggle: "#save-next-couple",
+        no_toggle: "#partner-citizen-country-birth-container, #partner-citizen-start-date-container"
+      }) %>
+
+    <%- include(forms+"prepop/country-dropdown", {
+        label: "What is your partner's country of birth?",
+        id: "partner-citizen-country-birth",
+        modifiers: ["hidden"]
+      }) %>
+
+    <%- include(forms+"date", {
+        label: "Partner's citizenship start date",
+        id: "partner-citizen-start-date",
+        modifiers: ["hidden"]
+      }) %>
+  </form>
+
+  <form id="partner-not-citizen" hidden>
+    <%- include(forms+"radio", {
+        label: "Is your partner:",
+        id: "partner-visa-status",
+        boxes: [
+          "The holder of a permanent visa",
+          "The holder of a special purpose visa",
+          "The holder of a special category visa",
+          "None of the above"
+        ]
+      }) %>
+
+    <div id="partner-visa" hidden>
+
+      <%- include(forms+"date", {
+            label: "Visa grant date"
+          }) %>
+
+      <%- include(forms+"notice", {
+          message: `<p>You will need to provide a copy of your partner's current visa or special category visa.</p>
+          <p>You can attach this document at the end of your claim.</p>`
+        }) %>
+
+    </div>
+  </form>
+
+</div>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+
+
+<%- include(forms+"pagination", {
+      pagination: [
+        {
+          link: "/auth/claim/veteran-payment/veteran-payment-03",
+          text: "Previous"
+        },
+        {
+          link: "#claim-cancel-modal",
+          text: "Cancel claim"
+        },
+        {
+          link: "/auth/claim",
+          text: "Save and exit",
+          modifiers: ["floated"]
+        },
+        {
+          link: "/auth/claim/veteran-payment/veteran-payment-04",
+          text: "Save and next",
+          modifiers: ["floated", "primary"]
+        }
+      ]
+    }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include("veteran-payment-state-switcher") %>
+<script>
+  $("#aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#is-citizen").trigger("reset");
+    $("#not-citizen").trigger("reset");
+
+    $("#citizen-country-birth-container").hide();
+    $("#citizen-start-date-container").hide();
+
+    $("#refugee-start-date-container").hide();
+    $("#visa-details").hide();
+
+
+  })
+
+  $("#visa-status-container").on("change", "input", function () {
+    if (this.id === "visa-status-4") {
+      $("#visa").hide();
+      $("#none-of-above").show();
+    } else {
+      $("#none-of-above").hide();
+      $("#visa").show();
+    }
+  });
+
+  $("#partner-visa-status-container").on("change", "input", function () {
+    if (this.id === "partner-visa-status-4") {
+      $("#partner-visa").hide();
+      $("#partner-none-of-above").show();
+    } else {
+      $("#partner-none-of-above").hide();
+      $("#partner-visa").show();
+    }
+  });
+
+  $("#citizen-born-australia-container").on("change", "input", function () {
+    if (sessionStorage.getItem('relationship-status') == "single") {
+      $("#save-next").show();
+    }
+  })
+
+  $("#is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
+
+  $("#partner-aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#partner-is-citizen").trigger("reset");
+    $("#partner-not-citizen").trigger("reset");
+
+    $("#partner-citizen-country-birth-container").hide();
+    $("#partner-citizen-start-date-container").hide();
+
+    $("#partner-refugee-start-date-container").hide();
+    $("#partner-visa-details").hide();
+  })
+
+  $("#partner-citizen-born-australia-container").on("change", "input", function () {
+    $("#save-next").show();
+  })
+
+  $("#partner-not-citizen, #partner-is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
+
+  function stateSwitcher() {
+    if (localStorage.getItem("relationship-status") === "partnered") {
+      $(".couple").show();
+    } else {
+      $(".couple").hide();
+    }
+  }
+
+  $("#visa-status-container, #partner-visa-status-container").on("change", "input", function() {
+    if (localStorage.getItem("relationship-status") === "partnered") {
+      if ($("#partner-visa-status-container :checked").val() === "noneoftheabove") {
+        $("#save-next").show();
+      } else {
+        $("#save-next").hide();
+      }
+    } else {
+      if ($("#visa-status-container :checked").val() === "noneoftheabove") {
+        $("#save-next").show();
+      } else {
+        $("#save-next").hide();
+      }
+    }
+  })
+
+
+</script>
+<%- include(templates+"footer") %>

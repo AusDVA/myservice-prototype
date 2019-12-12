@@ -1,6 +1,14 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 2;
+
+%>
+
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Relationship status"
+  claim: "Veteran Payment", 
+  heading: "Relationship status",
+  progress
 }) %>
 
   <%- include(partials+"components/form-partials/radio", {
@@ -8,7 +16,8 @@
     boxes: [
       {
         text: "Single",
-        rToggle: "#partner-details"
+        rToggle: "#partner-details",
+        toggle: "#save-next"
       },
       "Married and currently living together",
       "Living in a marriage-like relationship"
@@ -39,34 +48,11 @@
     }); %>
 
     <%- include(partials+"components/form-partials/yes_no", {
-      label: "Does your partner wish to receive payment?",
+      label: "Does your partner wish to receive Veteran Payment?",
       yes_toggle: "#partner-payment-questions"
     }); %>
 
     <div id="partner-payment-questions" hidden>
-
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Is your partner an Australian citizen?",
-        id: "partner-is-citizen",
-        no_toggle: ["#partner-visa-container","#visa-doc-container"]
-      }); %>
-
-      <%- include(partials+"components/form-partials/radio", {
-        label: "What type of visa does your partner hold?",
-        boxes: [
-          "Permanent visa",
-          "Special purpose visa",
-          "Special category visa"
-        ],
-        id: "partner-visa",
-        modifiers: ["hidden"]
-      }); %>
-
-      <%- include(partials+"components/form-partials/notice", {
-        message: "You will need to provide a copy of your partner's current visa or special category visa.</p><p>You can attach this document at the end of your claim.</p>",
-        id: "visa-doc",
-        modifiers: ["hidden"]
-      }); %>
 
       <%- include(partials+"components/form-partials/yes_no", {
           label: "Does your partner currently receive payments from Centrelink?",

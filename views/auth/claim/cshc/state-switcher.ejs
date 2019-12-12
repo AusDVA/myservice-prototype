@@ -37,6 +37,7 @@
       $('#user-container').change(function () {
         var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
         updateContent(mySelection)
+        if (typeof stateSwitcher === "function") stateSwitcher();
       });
   
       function updateContent(myUser) {
@@ -44,12 +45,14 @@
           case "Single":
             $(".user-label-a").text("your name");
             $(".user-label-b").text("");
+            $(".user-label-c").text("Total");
             sessionStorage.setItem('cshc-relationship-status', "Single");
             $(".couple").hide();
             break;
           case "Partnered":
             $(".user-label-a").text("you and/or your partner's names");
             $(".user-label-b").text("and your partner");
+            $(".user-label-c").text("Your total");
             sessionStorage.setItem('cshc-relationship-status', "Partnered");
             $(".couple").show();
             break;
@@ -57,6 +60,8 @@
             break;
         }
       }
+
+      if (typeof stateSwitcher === "function") stateSwitcher();
   
     });
   </script>
