@@ -29,6 +29,12 @@
       label: "Date of marriage"
     }) %>
 
+    <%- include(forms+"date", {
+      customClass: "separation--date-separated",
+      modifiers: ["hidden"],
+      label: "Date of separation"
+    }) %>
+
     <h3>Veteran details</h3>    
 
     <%- include("a-02--partial-partner-questions") %>
@@ -93,6 +99,7 @@
   <script>
     $("#unkown--veteran-relationship-container").on("change", "input", function() {
       $("#state--unknown .divorce-blocker").hide();
+      $("#state--unknown .separation--date-separated").hide();
       $("#state--unknown .de-facto--living-together").hide();
       $("#state--unknown .married--married-date").hide();
       $("#state--unknown .veteran-details").hide();
@@ -100,6 +107,7 @@
       $("#state--unknown .divorce-blocker").last().hide();
       $("#state--unknown .current-relationship-type").hide();
       $("#state--unknown .current-relationship").trigger("reset");
+      $("#state--unknown .date-of-death").hide();
 
       switch ($("#unkown--veteran-relationship-container :checked").val()) {
         case "divorced":
@@ -114,8 +122,12 @@
           $("#state--unknown .veteran-details .de-facto--living-together").show();
           break;
         case "widowed":
+          $("#state--unknown .veteran-details").show();
+          $("#state--unknown .date-of-death").show();
         case "separated":
+          $("#state--unknown .veteran-details").show();
           $("#state--unknown .current-relationship").show();
+          $("#state--unknown .separation--date-separated").show();
           break;
       }
     })
