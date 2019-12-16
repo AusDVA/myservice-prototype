@@ -2,14 +2,15 @@
   claim: "Commonwealth Seniors Health Card",
   heading: "Partner's Proof of ID"
 }) %>
-  
-  <h2>We need some documents to confirm your partner's identity</h2>
-  <p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements" rel="external">categories of documents</a> you can use to prove your identity.</p>
 
-  <%- include(forms+"dropdown", {
+<h2>We need some documents to confirm your partner's identity</h2>
+<p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements"
+    rel="external">categories of documents</a> you can use to prove your identity.</p>
+
+<%- include(forms+"dropdown", {
     label: "Category A",
     id: "cata",
-    hint: "Select one document",
+    hint: "Select one document to show your partner's Australian residency",
     modifiers: ["hintNewLine"],
     options: [
       "-- Select a document --",
@@ -23,15 +24,15 @@
     ]
   }) %>
 
-  <%- include(forms+"checkbox", {
+<%- include(forms+"checkbox", {
     customClass: "custom_disabled--checkbox",
     label: "Category B",
-    hint: "Select two documents",
+    hint: "Select two documents to show evidence of your partners identity",
     id: "catb",
     modifiers: ["hintNewLine"],
     boxes: [
       "Australian Defence Force (ADF) ID card",
-      "Australian driver’s licence",
+      "Australian driver’s licence (Current license with their name & photo. We can accept current learner permit and provisional license.)",
       "Australian marriage certificate",
       "Ceremonial marriage certificate (Issued by a marriage celebrant on the day of marriage)",
       "Change of name certificate",
@@ -42,11 +43,11 @@
     ]
   }) %>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
     label: "Does any document selected from Category A and B show your partner’s current address?"
   }) %>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         link: "/auth/claim/cshc/prog-03",
@@ -75,7 +76,7 @@
 
 <script>
 
-  $("#catb-container").on("change", "input", function() {
+  $("#catb-container").on("change", "input", function () {
     if ($("#catb-container :checked").length > 1) {
       $("#catb-container input:not(:checked)").prop("disabled", true);
     } else {
@@ -89,7 +90,7 @@
     }
   })
 
-  $("#cata").on("change", function() {
+  $("#cata").on("change", function () {
     if ($("#cata :selected").val() === "australianpassport") {
       $(`#catb-container input[value="australianpassport"`).closest(".uiToolKitCheckBox").remove();
     } else {
@@ -97,13 +98,13 @@
         var checkboxAppend = `<%- generateCheckRadio({
           text: "Australian Passport",
           boxID: `catb-passport`,
-          baseID: `catb-passport`,
+          baseID: `catb - passport`,
           value: "australianpassport",
           suppliedID: true,
           modifiers: [],
           type: "checkbox"
         }).html %>`
-        
+
         $("#catb-container fieldset").append(checkboxAppend)
       }
     }
