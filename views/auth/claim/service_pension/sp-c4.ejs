@@ -1,3 +1,8 @@
+<%
+  var progress = JSON.parse(include("c-progressbar")) 
+  progress.activeItem = 4;
+%>
+
 <!DOCTYPE html>
 <html class="js" lang="en">
 
@@ -18,50 +23,8 @@
     <%- include(partials+"components/layout/header-nom-rep") %>
       <main>
         <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-          <div class="container margin-above--none">
-            <!-- Progress bar -->
-            <div class="col-md-12">
-              <nav>
-                <ul class="progress-container">
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c1">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Savings</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c2">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Investments</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c3">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Income</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step--active">
-                    <a href="/auth/claim/service_pension/sp-c4">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Property &amp; businesses</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c5">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Other assets</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step--last">
-                    <a href="/auth/claim/service_pension/sp-c6">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Additional circumstances</p>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
+          <div class="container">
+            <%- include(forms+"progress-advanced", progress) %>
           </div>
           <!-- Page heading -->
           <h1 class="margin-above--none ss-align--center">
@@ -87,21 +50,21 @@
                   </p>
                 </div>
                 <!-- Cards -->
-                <%- include(partials+"content/income-assets/income-assets--real-estate") %>
+                  <%- include(partials+"content/income-assets/income-assets--real-estate") %>
                   <%- include(partials+"content/income-assets/income-assets--businesses") %>
-                    <%- include(partials+"content/income-assets/income-assets--farm") %>
+                  <%- include(partials+"content/income-assets/income-assets--farm") %>
                       <!-- Tiles -->
-                      <div id="add-options">
-                        <hr>
-                        <h2 class="margin-above--none margin-below--none ss-align--center"><span class="font-weight-heavy">Property &amp; businesses</span></h2>
-                        <span class="hint display-block ss-align--center">Add all of your <span class="partner">(and/or your partner's)</span> properties and businesses, so we can calculate
-                          your payments.</span>
-                        <div class="flex-container flex-container--wrap hover-container">
-                          <%- include(partials+"content/income-assets/income-assets--tile--real-estate") %>
-                            <%- include(partials+"content/income-assets/income-assets--tile--businesses") %>
-                              <%- include(partials+"content/income-assets/income-assets--tile--farm") %>
-                        </div>
-                      </div>
+                <div id="add-options">
+                    <hr>
+                    <h2 class="margin-above--none margin-below--none ss-align--center"><span class="font-weight-heavy">Property &amp; businesses</span></h2>
+                    <span class="hint display-block ss-align--center">Add all of your <span class="partner">(and/or your partner's)</span> properties and businesses, so we can calculate
+                      your payments.</span>
+                    <div class="flex-container flex-container--wrap hover-container">
+                      <%- include(partials+"content/income-assets/income-assets--tile--real-estate") %>
+                      <%- include(partials+"content/income-assets/income-assets--tile--businesses") %>
+                      <%- include(partials+"content/income-assets/income-assets--tile--farm") %>
+                    </div>
+                </div>
               </div>
             </div>
             <!-- bottom page navigation -->
@@ -123,7 +86,7 @@
       </main>
       <%- include(partials+"components/layout/footer") %>
         <script>
-          $(Document).ready(function () {
+          $(document).ready(function () {
 
             $(document).keypress(function (e) {
               switch (e.which) {
@@ -146,6 +109,10 @@
               $(".partner").hide();
               $(".partner-label").text("My");
             }
+
+            $("form").on("submit", function(e) {
+              e.preventDefault();
+            })
 
           });
         </script>
