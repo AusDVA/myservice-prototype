@@ -11,6 +11,7 @@
   }); %>
 
   <%- include(partials+"components/form-partials/checkbox", {
+    modifiers: ["hidden"],
     label: "Partner is Australian citizen",
     boxes: [
       "Yes",
@@ -18,11 +19,28 @@
     id: "sw-immigration-status"
   }); %>
 
+  <%- include(partials+"components/form-partials/checkbox", {
+  id: "bank-details-known",
+  label: "Bank details known",
+  boxes: [
+    "Yes",
+  ]
+}); %>
+
+  <%- include(forms+"checkbox", {
+    id: "sw-came-from-il",
+    label: "Came from IL",
+    boxes: [
+      "Yes"
+    ]
+  }) %>
+
 </div>
 
 <script>
   var relationshipStatus;
   var immigrationStatus;
+  var cameFromIl;
 
   $(document).ready(function () {
     $(document).keypress(function (e) {
@@ -33,6 +51,11 @@
         default:
       }
     });
+
+    var fromIL = localStorage.getItem("came-from-il"); 
+    if ( fromIL == "true" ) {
+      $("#sw-came-from-il-1").prop("checked", true);
+    }
 
     if (localStorage.getItem("relationship-status") === null || localStorage.getItem("relationship-status") === undefined) localStorage.setItem("relationship-status", "single");
     if (localStorage.getItem("immigration-status") === null || localStorage.getItem("immigration-status") === undefined) localStorage.setItem("immigration-status", "citizen")
@@ -51,13 +74,22 @@
       $("#sw-immigration-status-1").prop("checked", false)
     }
 
+    if (localStorage.getItem("came-from-il") === null) {
+      localStorage.setItem("came-from-il", "false")
+    } else if (localStorage.getItem("came-from-il") === "true") {
+      $("#sw-came-from-il-1").prop("checked", true)
+    }
+
+    cameFromIl = localStorage.getItem("came-from-il");
     relationshipStatus = localStorage.getItem("relationship-status");
     immigrationStatus = localStorage.getItem("immigration-status");
+    $("#bank-details-known-1").prop("checked", true);
 
     stateSwitcher();
+
   });
 
-  $("#state-switcher").on("change", "input", function() {
+  $("#state-switcher").on("change", "input", function () {
     if ($("#sw-immigration-status-1").prop("checked")) {
       localStorage.setItem("immigration-status", "citizen");
     } else {
@@ -71,10 +103,29 @@
     } else {
       localStorage.setItem("relationship-status", "partnered");
     }
-    
+
+
+    if ($("#bank-details-known-1").prop("checked")) {
+      localStorage.setItem("bank-details-known", "true");
+    } else {
+      localStorage.setItem("bank-details-known", "false");
+    }
+
     relationshipStatus = localStorage.getItem("relationship-status");
-    
+
+    if ($("#sw-came-from-il-1").prop("checked")) {
+      localStorage.setItem("came-from-il", "true")
+    } else {
+      localStorage.setItem("came-from-il", "false")
+    }
+
+    cameFromIl = localStorage.getItem("came-from-il");
     stateSwitcher();
   })
-  
+
+
+
+
+
+
 </script>
