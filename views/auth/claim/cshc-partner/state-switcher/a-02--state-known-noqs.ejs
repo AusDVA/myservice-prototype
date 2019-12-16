@@ -42,7 +42,7 @@
     <h2>Your current relationship</h2>
     
     <%- include(forms+"yes_no", {
-      label: "Are you currently in a new relationship and living together?",
+      label: "Are you currently in a relationship and living together?",
       id: "known--noqs--new-relationship-q"
     }) %>
 
@@ -84,6 +84,7 @@
       $("#state--known--noqs .current-relationship").hide();
       $("#state--known--noqs .current-relationship").trigger("reset");
       $("#state--known--noqs .noqs--partner-text").hide();
+      unblock();
 
       switch ($("#known--noqs--veteran-relationship-container :checked").val()) {
         case "divorced":
@@ -91,6 +92,7 @@
         case "married":
         case "defacto":
           $("#state--known--noqs .known--noqs-divorced").show();
+          block();
           break;
         case "widowed":
           $("#state--known--noqs .current-relationship").show();
@@ -104,6 +106,7 @@
 
     $("#known--noqs--new-relationship-q-container").on("change", "input", function() {
       $("#state--known--noqs .divorce-blocker").hide();
+      unblock();
       $("#state--known--noqs .current-relationship-type").hide();
       $("#state--known--noqs .current-relationship-type").hide();
       $(".save-next").hide();
@@ -111,6 +114,7 @@
       if ($("#known--noqs--new-relationship-q-container :checked").val() === "yes") {
         if ($("#known--noqs--veteran-relationship-container :checked").val() === "separated") {
           $("#state--known--noqs .divorce-blocker").last().show();
+          block();
         } else {
           $("#state--known--noqs .current-relationship-type").show();
         }
