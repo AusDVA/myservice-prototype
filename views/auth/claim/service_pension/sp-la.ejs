@@ -576,22 +576,59 @@
               <icon class="fal fa-minus-circle" style="font-size: 1.3em; vertical-align: -15%;"></icon>&nbsp;<span class="font-weight-heavy">Partner living arrangements</span>
             </h2>
             <div class="accordion-group1">
-              <fieldset class="margin-above">
-                <legend class="legend-label">Does your partner live at a different address because of age or ill health?</legend>
-                <div class="radio-toggle">
-                  <label class="on label-left" for="sp-la-op6-paySum-yes1">
-                    <input id="sp-la-op6-paySum-yes1" type="radio" name="sp-la-op6-paySum1">
-                    <span>Yes</span>
-                  </label>
-                  <label class="off label-right" for="sp-la-op6-paySum-no1">
-                    <input id="sp-la-op6-paySum-no1" type="radio" name="sp-la-op6-paySum1">
-                    <span>No</span>
-                  </label>
-                </div>
-              </fieldset>
-              <div id="show-partner-questions" class="form-group margin-above" style="display:none;">
-                <p>Show living arrangement questions for partner</p>
-              </div>
+
+                <%- include(forms+"yes_no", {
+                  label: "Does your partner live with you?",
+                  yes_toggle: "#save-and-next",
+                  no_toggle: [ "#residential-address-container", "#illness-container"]
+                }) %>
+            
+                <%- include(forms+"prepop/address", {
+                  id: "residential-address",
+                  modifiers: ["hidden"],
+                  label: "Partner address"
+                }) %>
+            
+                <%#- include(partials+"components/form-partials/checkbox", {
+                  boxes: [
+                    {
+                      text: "Use my postal address for my partner",
+                      rToggle: "#postal-address-container",
+                      modifiers: ["checked"]
+                    }
+                  ]
+                }); %>
+            
+                <%#- include(forms+"prepop/address", {
+                  id: "postal-address",
+                  modifiers: ["hidden"],
+                  label: "Partner's postal address"
+                }) %>
+            
+                <%- include(forms+"yes_no", {
+                  label: "Does your partner live at a different address due to age or ill health?",
+                  id: "illness",
+                  yes_toggle: "#separate-explain-age-container",
+                  no_toggle: "#separate-explain-not-age-container",
+                  modifiers: ["hidden"]
+                }) %>
+
+                <%- include(partials+"components/form-partials/textarea", {
+                  label: "Briefly explain why your partner lives separately",
+                  hint: "(optional)",
+                  id: "separate-explain-not-age",
+                  modifiers: ["hidden"]
+                }); %>
+
+                <%- include(partials+"components/form-partials/textarea", {
+                  label: "Briefly explain the type of accommodation",
+                  hint: "(optional)",
+                  id: "separate-explain-age",
+                  modifiers: ["hidden"]
+                }); %>
+
+           
+
             </div>
           </div>
           <div id="save-and-next" class="margin-above">
