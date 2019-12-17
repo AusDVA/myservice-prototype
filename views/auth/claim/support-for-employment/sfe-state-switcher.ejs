@@ -1,0 +1,41 @@
+<div id="state-switcher">
+  <h3>VRP State Switcher</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    id: "sw-service-history",
+    label: "Service history previously provided",
+    boxes: [
+      {
+        text: "Yes",
+        modifiers: ["checked"]
+      }
+    ]
+  }) %>
+</div>
+
+<script>
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 96: //tilda
+        $('#state-switcher').toggle();
+        break;
+      default:
+    }
+  });
+
+
+  $(document).ready(function() {  
+    $("#sw-service-history-container").on("change", function() {
+      if ($(":checked", this).length > 0) {
+        localStorage.setItem("sfe-service-provided", "true")
+      } else {
+        localStorage.setItem("sfe-service-provided", "false")
+      }
+    })
+
+    if (localStorage.getItem("sfe-service-provided") === null) {
+      localStorage.setItem("sfe-service-provided", "true");
+    } else if (localStorage.getItem("sfe-service-provided") === "false") {
+      $("#sw-service-history-1").prop("checked", false);
+    }
+  })
+</script>
