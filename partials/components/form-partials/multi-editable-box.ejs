@@ -1,0 +1,45 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("multieditablebox");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+var elemCounter = 0;
+
+%>
+
+<div id="<%- id %>-container" class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>>
+  <% modifiers = modifiers.filter(item => item !== "hidden") %>
+  <hr class="margin-below--none margin-above--large">
+  <h2 class="margin-above--none margin-below">
+    <i class="fal <%- icon %> fontawesome-icon"></i>
+    <span class="person-scope">My</span>
+    <%- item %>
+  </h2>
+
+  <div class="ss-align--center">
+    <button class="multi-editable-box__btn-add" id="scroll-to-cards"><i class="fal fa-plus-circle fontawesome-icon"></i> Add <%- item %></button>
+  </div>
+
+  <hr class="margin-above--none">
+  <h2 class="margin-below--none ss-align--center margin-above--none"><b><%- item.charAt(0).toUpperCase() + item.slice(1) %></b></h2>
+  <p class="margin-above--none margin-below--none hint ss-align--center">Add all of your <span class="partner" hidden>(and/or ypur partner's) </span><%- item %>, so we can calculate your payments.</p>
+
+  <div class="flex-container flex-container--wrap hover-container">
+    <% cards.forEach(card => { %>
+      <div class="card card--claims card--claims-col-3 flex-item flex-item--centred hover-element cursor-pointer multi-editable__box">
+        <h2 class="card__title">
+          <i class="fal fontawesome-icon <%- card.icon %>"></i>
+          <b><%- card.title %></b>
+        </h2>
+
+        <p class="card__supporting-text text-fullwidth"><%- card.description %></p>
+        <div class="card__button">
+          <button class="uikit-btn uikit-btn--tertiary small">Add</button>
+        </div>
+      </div>
+    <% }) %>
+  </div>
+</div>
+

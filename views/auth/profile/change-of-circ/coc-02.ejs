@@ -1,0 +1,39 @@
+<%
+  var progress = JSON.parse(include("coc-progressbar")) 
+  progress.activeItem = 1;
+  
+  var pagination = JSON.parse(include("coc-pagination"))
+  pagination[0].link = `/auth/profile/change-of-circ/coc-0${progress.activeItem}`
+  pagination[3].link = `/auth/profile/change-of-circ/coc-0${progress.activeItem + 2}`
+%>
+
+<%- include(templates+"header", {
+  heading: "Savings",
+  claim: "Change of circumstances",
+  progress
+}) %>
+
+  <%- include(forms+"multi-editable-box", {
+    icon: "fa-list-alt",
+    item: "savings",
+    cards: [
+      {
+        icon: "fa-university",
+        title: "Bank accounts",
+        description: `Add all accounts held with institutions such as a banks, building societies or credit unions<span class="partner"> that belong to you and/or your partner</span>.`,
+        extendedDescription: `<p>Include term deposit, joint accounts, accounts you hold under any other name or money held in church or charitable development funds within Australia and overseas.</p>
+                              <p>Do not include bonds and debentures or any superanuation funds you hold. You will be asked about these elsewhere.</p>`,
+        form: [
+
+        ]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
