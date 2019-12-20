@@ -23,12 +23,118 @@
         description: `Add all accounts held with institutions such as a banks, building societies or credit unions<span class="partner"> that belong to you and/or your partner</span>.`,
         extendedDescription: `<p>Include term deposit, joint accounts, accounts you hold under any other name or money held in church or charitable development funds within Australia and overseas.</p>
                               <p>Do not include bonds and debentures or any superanuation funds you hold. You will be asked about these elsewhere.</p>`,
-        form: [
+        addedHeading: [
 
+        ],
+        existing: [
+          {
+            type: "text",
+            label: "Edit existing item"
+          }
+        ],
+        delExisting: [
+          {
+            type: "text",
+            label: "What did you do with the money?"
+          }
+        ],
+        form: [
+          {
+            type: "date",
+            label: "Date of birth",
+            displayName: "Date of birth",
+            id: "child-age"
+          },
+          {
+            type: "notice",
+            id: "birth-cert",
+            modifiers: ["hidden"],
+            message: "<p>You will be required to provide birth certificate(s) to support your claim.</p><p>You will be asked to upload this evidence when finalising your claim in PART D.</p>"
+          },
+          {
+            type: "text",
+            label: "First name"
+          },
+          {
+            type: "text",
+            label: "Middle name",
+            hint: "(optional)"
+          },
+          {
+            type: "text",
+            label: "Last name"
+          },
+          {
+            type: "prepop/gender",
+            label: "Gender",
+            displayName: "Gender"
+          },
+          {
+            type: "dropdown",
+            label: "Relationship type",
+            displayName: "Relationship type",
+            options: [
+              "-- Select relationship type --",
+              "Adoptive Parent",
+              "Foster parent",
+              "Grandparent",
+              "Guardian",
+              "Other Relation",
+              {
+                text: "Parent",
+                rToggle: "#rel-start-container"
+              },
+              "Sibling",
+              "Step-parent",
+              "Uncle/aunt"
+            ]
+          },
+          {
+            type: "date",
+            label: "Relationship start date",
+            modifiers: ["hidden"],
+            id: "rel-start"
+          },
+          {
+            type: "yes_no",
+            label: "Does the child live with you?",
+            no_toggle: "#child-address-container"
+          },
+          {
+            type: "prepop/address",
+            label: "",
+            id: "child-address",
+            modifiers: ["hidden"]
+          },
+          {
+            type: "yes_no",
+            id: "study-full-time",
+            label: "Does the child study full time?",
+            yes_toggle: "#government-payment-container"
+          },
+          {
+            type: "yes_no",
+            id: "government-payments",
+            label: "Does the child receive any government payment?",
+            yes_toggle: ".gov-payments",
+            modifiers: ["hidden"]
+          },
+          {
+            type: "dropdown",
+            customClass: "gov-payments",
+            label: "Type of payment",
+            modifiers: ["hidden"],
+            options: [
+              {
+                text: "-- Select type of payment --",
+                value: "null"
+              }
+            ]
+          }
         ]
       }
     ]
-  }) %>
+    }) %>
 
   <%- include(forms+"pagination", {
     pagination

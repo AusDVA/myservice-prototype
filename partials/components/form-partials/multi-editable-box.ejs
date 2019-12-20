@@ -4,7 +4,9 @@ if (typeof id === "undefined") var id = formPartialsID("multieditablebox");
 if (typeof modifiers === "undefined") var modifiers = []; 
 if (typeof modifiers === "string") modifiers = [modifiers]; 
 
-var elemCounter = 0;
+var formsDefault = [];
+var formsExisting = [];
+var formsDelete = [];
 
 %>
 
@@ -18,35 +20,224 @@ var elemCounter = 0;
       <span class="person-scope">My</span>
       <%- item %>
     </h2>
-    <div class="multi-editable-box__btn-add--more">
+    <div hidden class="multi-editable-box__btn-add--more">
       <button class="multi-editable-box__btn-add" id="more-scroll-to-cards"><i class="fal fa-plus-circle fontawesome-icon"></i> Add other <%- item %></button>
     </div>
   </div>
-  <div class="ss-align--center">
-    <button class="multi-editable-box__btn-add" id="scroll-to-cards"><i class="fal fa-plus-circle fontawesome-icon"></i> Add <%- item %></button>
+  <div class="multi-editable__form-hide">
+    
+    <div class="ss-align--center">
+      <button class="multi-editable-box__btn-add" id="scroll-to-cards"><i class="fal fa-plus-circle fontawesome-icon"></i> Add <%- item %></button>
+    </div>
+
+    <hr class="margin-above--none">
+    <h2 class="margin-below--none ss-align--center margin-above--none"><b><%- item.charAt(0).toUpperCase() + item.slice(1) %></b></h2>
+    <p class="margin-above--none margin-below--none hint ss-align--center">Add all of your <span class="partner" hidden>(and/or ypur partner's) </span><%- item %>, so we can calculate your payments.</p>
+
+    <div class="flex-container flex-container--wrap hover-container">
+      <% cards.forEach(card => { %>
+        <div data-item="<%- replaceNonAlphanumeric(card.title) %>" data-item-raw="<%- card.title %>" class="card card--claims card--claims-col-3 flex-item flex-item--centred hover-element cursor-pointer multi-editable__box">
+          <h2 class="card__title">
+            <i class="fal fontawesome-icon <%- card.icon %>"></i>
+            <b><%- card.title %></b>
+          </h2>
+
+          <p class="card__supporting-text text-fullwidth"><%- card.description %></p>
+          <div class="card__button">
+            <button class="uikit-btn uikit-btn--tertiary small">Add</button>
+          </div>
+        </div>
+      <% }) %>
+    </div>
   </div>
 
-  <hr class="margin-above--none">
-  <h2 class="margin-below--none ss-align--center margin-above--none"><b><%- item.charAt(0).toUpperCase() + item.slice(1) %></b></h2>
-  <p class="margin-above--none margin-below--none hint ss-align--center">Add all of your <span class="partner" hidden>(and/or ypur partner's) </span><%- item %>, so we can calculate your payments.</p>
-
-  <div class="flex-container flex-container--wrap hover-container">
+  <div class="multi-editable__forms d-none">
+    
     <% cards.forEach(card => { %>
-      <div class="card card--claims card--claims-col-3 flex-item flex-item--centred hover-element cursor-pointer multi-editable__box">
-        <h2 class="card__title">
+      <% var elemCounter = 0; %>
+      <div data-item="<%- replaceNonAlphanumeric(card.title) %>" data-item-raw="<%- card.title %>" class="boxed margin-above margin-below--large">
+        <h2 class="margin-above--none display-inline-block">
           <i class="fal fontawesome-icon <%- card.icon %>"></i>
           <b><%- card.title %></b>
         </h2>
+        <button class="uikit-btn uikit-btn--tertiary small warning floated multi-editable__btn-delete d-none" hidden>Delete item</button>
 
-        <p class="card__supporting-text text-fullwidth"><%- card.description %></p>
-        <div class="card__button">
-          <button class="uikit-btn uikit-btn--tertiary small">Add</button>
+        <h4 class="margin-below--mid margin-above--none"><%- card.description %></h4>
+        <%- card.extendedDescription ? card.extendedDescription : "" %>
+
+        <hr>
+
+        <div class="multi-editable__default-form">
+          <% var formDefault = card.form.map(formItem => { %>
+            <% 
+              elemCounter++;
+              if (typeof formItem.id === "undefined") formItem.id = `${id}-${elemCounter}`;
+
+              if (typeof formItem.customClass === "undefined") formItem.customClass = []
+              if (typeof formItem.customClass === "string") formItem.customClass = [formItem.customClass];
+              formItem.customClass.push("editable-box--formItem")
+            %>
+
+            <% if (formItem.type === "html") { %>
+              <%- formItem.content %>
+            <% } else { %>
+              <%- include(`${forms}${formItem.type}`, formItem) %>
+            <% } %>
+
+            <% return formItem; %>
+          <% }) %>
+          <hr>
+          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
+          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
+          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
         </div>
+        <div class="multi-editable__existing-form d-none">
+          <% var formExisting = card.existing.map(formItem => { %>
+            <% 
+              elemCounter++;
+              if (typeof formItem.id === "undefined") formItem.id = `${id}-${elemCounter}`;
+
+              if (typeof formItem.customClass === "undefined") formItem.customClass = []
+              if (typeof formItem.customClass === "string") formItem.customClass = [formItem.customClass];
+              formItem.customClass.push("editable-box--formItem")
+            %>
+
+            <% if (formItem.type === "html") { %>
+              <%- formItem.content %>
+            <% } else { %>
+              <%- include(`${forms}${formItem.type}`, formItem) %>
+            <% } %>
+
+            <% return formItem; %>
+          <% }) %>
+          <hr>
+          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
+          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
+          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
+        </div>
+
+        <div class="multi-editable__del-existing-form d-none">
+          <% var formDelete = card.delExisting.map(formItem => { %>
+            <% 
+              elemCounter++;
+              if (typeof formItem.id === "undefined") formItem.id = `${id}-${elemCounter}`;
+
+              if (typeof formItem.customClass === "undefined") formItem.customClass = []
+              if (typeof formItem.customClass === "string") formItem.customClass = [formItem.customClass];
+              formItem.customClass.push("editable-box--formItem")
+            %>
+
+            <% if (formItem.type === "html") { %>
+              <%- formItem.content %>
+            <% } else { %>
+              <%- include(`${forms}${formItem.type}`, formItem) %>
+            <% } %>
+
+            <% return formItem; %>
+          <% }) %>
+          <hr>
+          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
+          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
+          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
+        </div>
+
+
+
+        <% 
+
+          formsDefault.push(formDefault);
+          formsExisting.push(formExisting);
+          formsDelete.push(formDelete);
+
+        %>
       </div>
     <% }) %>
   </div>
+
+  <div class="multi-editable__modal">
+    
+  </div>
 </div>
 
-<% cards.forEach(card => { %>
+<script>
 
-<% }) %>
+  //var formsDefault = <%#- JSON.stringify(formsDefault) %>; 
+  //var formExisting = <%#- JSON.stringify(formsExisting) %>;
+  
+  $(document).ready(function() {
+    $(".pagination").addClass("dragbox-grid").prepend(`<div class="footer-buttons-mask"></div>`)
+  })
+
+  function createModal(item) {
+    $(".multi-editable__modal").html("");
+
+    $(".multi-editable__modal").append(`
+      <div class="modal-window">
+        <div>
+          <a href="#" title="Close" class="modal-close">Close</a>
+
+          <h2>This will delete the ${item} permanently.</h2>
+          <p>You will need to answer a few questions about this item.</p>
+          <div class="modal-buttons">
+            <button class="uikit-btn multi-editable__btn-delete-existing">Delete item</button>
+            <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-cancel-delete-existing">Cancel</button>
+          </div>
+        </div>
+      </div>
+    `);
+
+    $(".multi-editable__modal .modal-window").css({
+      'display': "block",
+      'opacity': "1",
+      'pointer-events': "auto"
+    })
+
+  }
+
+  function addNew() {}
+  function editNew() {}
+  function deleteNew() {}
+
+  function editExisting() {}
+  function deleteExisting() {
+    createModal("boop")
+  }
+
+  /*
+  
+multi-editable__btn-add
+
+multi-editable__btn-item-delete
+multi-editable__btn-item-add
+multi-editable__btn-item-update
+multi-editable__btn-item-cancel
+
+multi-editable__btn-cancel-delete-existing
+multi-editable__btn-delete-existing
+
+  */
+
+  function hideDOM() {
+    $(".multi-editable__form-hide").hide();
+    $(".pagination a").attr("disabled", "true");
+    $(".multi-editable__forms").show();
+  }
+
+  function restoreDOM() {
+    $(".multi-editable__form-hide").show();
+    $(".pagination a").removeAttr("disabled");
+    $(".multi-editable__forms").hide();
+  }
+
+  $(".multi-editable__btn-cancel-delete-existing").on("click", function() {
+    $(this).closest(".modal-window").remove();
+  })
+
+  $("body").on("click", ".multi-editable__btn-delete-existing", function() {
+    $(this).closest(".modal-window").remove();
+  })
+
+  $(".multi-editable__box").on("click", function() {
+    console.log()
+  })
+</script>
