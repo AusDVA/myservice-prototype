@@ -1,68 +1,114 @@
 <div id="state-switcher">
-    <h3>State switcher</h3>
-  
-    <%- include(partials+"components/form-partials/radio", {
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
             label: "User",
             boxes: [
-              "Single",
-              "Partnered"
+              "Veteran with QS",
+              "Non Veteran",
+              "Veteran without QS",
+              "War widow"
             ],
             id: "user"
           }); %>
-  
-  </div>
-  
-  <script>
-  
-    $(document).ready(function () {
-      /* --- State switcher --- */
-      /* Toggle switcher */
-      $(document).keypress(function (e) {
-        switch (e.which) {
-          case 96: //tilda
-            $('#state-switcher').toggle();
-            break;
-          default:
-        }
-      });
-  
-      if (sessionStorage.getItem('cshc-relationship-status') == "Partnered") {
-        updateContent("Partnered");
-        $("#user-2").prop("checked", true);
-      } else {
-        updateContent("Single");
+
+  <%- include(partials+"components/form-partials/checkbox", {
+  boxes: [
+    "Partnered"
+  ],
+}); %>
+
+</div>
+
+<script>
+  var partnered = false;
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+
+    // if (sessionStorage.getItem('cshc-relationship-status') == "Partnered") {
+    //   updateContent("Partnered");
+    //   $("#user-2").prop("checked", true);
+    // } else {
+    //   updateContent("Single");
+    //   $("#user-1").prop("checked", true);
+    // }
+
+    $('#user-container').change(function () {
+      var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
+      checkStates();
+      changeFlow(mySelection);
+    });
+
+    checkStates();
+    $('input[type="checkbox"]').click(function () {
+      if ($(this).prop("checked") == true) {
+        sessionStorage.setItem('CSHC-partnered', "true");
+      }
+      else {
+        sessionStorage.setItem('CSHC-partnered', "false");
+      }
+    });
+
+    function changeFlow(selection) {
+      console.log(selection);
+      switch (selection) {
+        case "Veteran with QS":
+          sessionStorage.setItem('CSHC-flow', "Veteran with QS");
+          break;
+        case "Non Veteran":
+          sessionStorage.setItem('CSHC-flow', "Non Veteran");
+          break;
+        case "Veteran without QS":
+          sessionStorage.setItem('CSHC-flow', "Veteran without QS");
+          break;
+        case "War widow":
+          sessionStorage.setItem('CSHC-flow', "War widow");
+          break;
+        default:
+          break;
+      }
+    }
+
+    function checkStates() {
+      if (!$("#user-container input[name=user]:checked").length > 0) {
+        sessionStorage.setItem('CSHC-flow', "Veteran with QS");
         $("#user-1").prop("checked", true);
       }
-  
-      $('#user-container').change(function () {
-        var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
-        updateContent(mySelection)
-        if (typeof stateSwitcher === "function") stateSwitcher();
-      });
-  
-      function updateContent(myUser) {
-        switch (myUser) {
-          case "Single":
-            $(".user-label-a").text("your name");
-            $(".user-label-b").text("");
-            $(".user-label-c").text("Total");
-            sessionStorage.setItem('cshc-relationship-status', "Single");
-            $(".couple").hide();
-            break;
-          case "Partnered":
-            $(".user-label-a").text("you and/or your partner's names");
-            $(".user-label-b").text("and your partner");
-            $(".user-label-c").text("Your total");
-            sessionStorage.setItem('cshc-relationship-status', "Partnered");
-            $(".couple").show();
-            break;
-          default:
-            break;
-        }
-      }
+    }
 
-      if (typeof stateSwitcher === "function") stateSwitcher();
-  
-    });
-  </script>
-  
+    // if (typeof stateSwitcher === "function") stateSwitcher();
+
+    // function updateContent(myUser) {
+    //   switch (myUser) {
+    //     case "Single":
+    //       $(".user-label-a").text("your name");
+    //       $(".user-label-b").text("");
+    //       $(".user-label-c").text("Total");
+    //       sessionStorage.setItem('cshc-relationship-status', "Single");
+    //       $(".couple").hide();
+    //       break;
+    //     case "Partnered":
+    //       $(".user-label-a").text("you and/or your partner's names");
+    //       $(".user-label-b").text("and your partner");
+    //       $(".user-label-c").text("Your total");
+    //       sessionStorage.setItem('cshc-relationship-status', "Partnered");
+    //       $(".couple").show();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // }
+
+  });
+</script>
