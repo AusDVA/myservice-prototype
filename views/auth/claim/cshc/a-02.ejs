@@ -86,9 +86,97 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
   hint: "(optional)"
 }) %>
 
+<%- include(forms+"radio", {
+  label: "What is your current relationship with John Smith?",
+  id: "known--veteran-relationship",
+  boxes: [
+    "Married",
+    "De facto",
+    {
+      text: "Separated",
+      hint: "(while still legally married)"
+    },
+    "Divorced",
+    "Widow/Widower"
+  ]
+}) %>
+
+<%- include("state-switcher/a-02--partial-divorce-block") %>
+
+<%- include(forms+"date", {
+  customClass: "de-facto--living-together",
+  modifiers: ["hidden"],
+  label: "Date commenced living together"
+}) %>
+
+<%- include(forms+"date", {
+  label: "Date of veterans' death",
+  modifiers: ["hidden"],
+  customClass: "date-of-death"
+}) %>
+
+<%- include(forms+"date", {
+  customClass: "married--married-date",
+  modifiers: ["hidden"],
+  label: "Date of marriage"
+}) %>
+
+<%- include(forms+"date", {
+  customClass: "separation--date-separated",
+  modifiers: ["hidden"],
+  label: "Date of separation"
+}) %>
+
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you currently in a new relationship and living together?",
+  id: "current",
+  yes_toggle: "#partner-questions",
+  no_toggle: "#save-next",
+  modifiers: ["hidden"]
+}); %>
+
+</div>
+
+<div id="partner-questions" hidden>
+
+      <%- include(forms+"radio", {
+        label: "What is your new relationship status?",
+        id: "unknown--noqs--new-relationship-status",
+        boxes: [
+          {
+            text: "Married",
+            toggle: ".de-facto--living-together"
+          },
+          {
+            text: "De facto",
+            toggle: ".married--married-date"
+          }
+        ]
+      }) %>
+
+        <%- include(forms+"date", {
+          customClass: "de-facto--living-together",
+          modifiers: ["hidden"],
+          label: "Date commenced living together"
+        }) %>
+
+        <%- include(forms+"date", {
+          customClass: "married--married-date",
+          modifiers: ["hidden"],
+          label: "Date of marriage"
+        }) %>
+
+        <%- include("state-switcher/a-02--partial-non-veteran-details") %>
+
+  </form>
+
+
+
 </div>
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next-2" hidden>Choose <b>save and next</b> to continue</p>
 
 <%- include(forms+"pagination", {
     pagination: [
@@ -112,48 +200,64 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
       }
     ]
   }) %>
+  
+
 
 <%- include("state-switcher") %>
 <%- include(forms+"modals/claim-cancel") %>
 
 <script>
-  // $("#relationship-status-container").on("change", "input", function () {
-  //   $(".rel--married").hide();
-  //   $(".rel--de-facto").hide();
-  //   $(".rel--separated").hide();
 
-  //   switch ($("#relationship-status-container :checked").val()) {
-  //     case "married":
-  //       $(".rel--married").show();
-  //       sessionStorage.setItem('cshc-relationship-status', "Partnered");
-  //       break;
-  //     case "defacto":
-  //       $(".rel--de-facto").show();
-  //       sessionStorage.setItem('cshc-relationship-status', "Partnered");
-  //       break;
-  //       break;
-  //     case "widowed":
-  //       $("#save-next").show();
-  //       sessionStorage.setItem('cshc-relationship-status', "Single");
-  //       break;
-  //     case "divorced":
-  //       $("#save-next").show();
-  //       sessionStorage.setItem('cshc-relationship-status', "Single");
-  //       break;
-  //     case "separated":
-  //       $("#save-next").show();
-  //       sessionStorage.setItem('cshc-relationship-status', "Single");
-  //       break;
-  //   }
+$("#known--veteran-relationship-container").on("change", "input", function() {
+  $("#state--known .divorce-blocker").hide();
+      unblock();
+      $(".save-next").hide();
+      $(".current-relationship").hide();
+      $(".current-relationship").trigger("reset");
 
-  // })
-
+      if ($("#known--veteran-relationship-container :checked").val() === "widowed") {
+        $(".known--widowed-hide").hide();
+      } else {
+        $(".known--widowed-hide").show();
+      }
+      
+      $(".date-of-death").hide();
+      $(".separation--date-separated").hide()
+      $(".married--married-date").hide();
+      $(".de-facto--living-together").hide();
+      $(".divorce-blocker").hide();
+      $("#partner-questions").hide();
+      $("#current-container").hide();
+ switch ($("#known--veteran-relationship-container :checked").val()) {
+        case "divorced":
+          $(".divorce-blocker").show();
+          block();
+          break;
+        case "married":
+          $(".married--married-date").show();
+          break;
+        case "defacto":
+          $(".de-facto--living-together").show();
+          break;
+        case "separated":
+          $(".separation--date-separated").show();
+          $("#current-container").show();
+          // $("#partner-questions").show();
+          break;
+        case "widowwidower":
+          $(".date-of-death").show();
+          $("#current-container").show();
+          // $("#partner-questions").show();
+          break;
+      }
+    })
  
   updateContent();
   // page state related logic
   function updateContent() {
     hideAll();
     var myUser = sessionStorage.getItem('CSHC-flow');
+    if ( myUser == null ) { sessionStorage.setItem('CSHC-flow',"Non Veteran"); }
     switch ( myUser ) {
       case "Veteran with QS":
         console.log('Veteran with QS');
@@ -173,16 +277,19 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
       default:
         break;
     }
-    // if (this.value === "veteranwithoutqs") {
-    //   console.log('veteran without qs is working');
-    // } else {
-    //   console.log('veteran with qs not working');
-    // }
   };
+
+  function block() {
+    $(".pagination a").attr("disabled", "true");
+    $("#btnCancel").removeAttr("disabled");
+  }
+
+  function unblock() {
+    $(".pagination a").removeAttr("disabled");
+  }
 
   function hideAll(){
     $("#non-veteran").hide();
-
   }
 
 </script>
