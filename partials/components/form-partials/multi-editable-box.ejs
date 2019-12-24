@@ -4,9 +4,11 @@ if (typeof id === "undefined") var id = formPartialsID("multieditablebox");
 if (typeof modifiers === "undefined") var modifiers = []; 
 if (typeof modifiers === "string") modifiers = [modifiers]; 
 
-var formsDefault = [];
-var formsExisting = [];
-var formsDelete = [];
+var listForms = {
+  default: {},
+  existing: {},
+  delete: {}
+}
 
 %>
 
@@ -51,23 +53,23 @@ var formsDelete = [];
     </div>
   </div>
 
-  <div class="multi-editable__forms d-none">
+  <div class="multi-editable__forms">
     
     <% cards.forEach(card => { %>
       <% var elemCounter = 0; %>
-      <div data-item="<%- replaceNonAlphanumeric(card.title) %>" data-item-raw="<%- card.title %>" class="boxed margin-above margin-below--large">
+      <div data-item="<%- replaceNonAlphanumeric(card.title) %>" data-item-raw="<%- card.title %>" class="boxed margin-above margin-below--large d-none">
         <h2 class="margin-above--none display-inline-block">
           <i class="fal fontawesome-icon <%- card.icon %>"></i>
           <b><%- card.title %></b>
         </h2>
-        <button class="uikit-btn uikit-btn--tertiary small warning floated multi-editable__btn-delete d-none" hidden>Delete item</button>
+        <button class="uikit-btn uikit-btn--tertiary small warning floated multi-editable__btn-item-delete d-none" hidden>Delete item</button>
 
         <h4 class="margin-below--mid margin-above--none"><%- card.description %></h4>
         <%- card.extendedDescription ? card.extendedDescription : "" %>
 
         <hr>
 
-        <div class="multi-editable__default-form">
+        <form class="multi-editable__default-form d-none">
           <% var formDefault = card.form.map(formItem => { %>
             <% 
               elemCounter++;
@@ -86,12 +88,8 @@ var formsDelete = [];
 
             <% return formItem; %>
           <% }) %>
-          <hr>
-          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
-          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
-          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
-        </div>
-        <div class="multi-editable__existing-form d-none">
+        </form>
+        <form class="multi-editable__existing-form d-none">
           <% var formExisting = card.existing.map(formItem => { %>
             <% 
               elemCounter++;
@@ -110,13 +108,8 @@ var formsDelete = [];
 
             <% return formItem; %>
           <% }) %>
-          <hr>
-          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
-          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
-          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
-        </div>
-
-        <div class="multi-editable__del-existing-form d-none">
+        </form>
+        <form class="multi-editable__del-existing-form d-none">
           <% var formDelete = card.delExisting.map(formItem => { %>
             <% 
               elemCounter++;
@@ -135,19 +128,46 @@ var formsDelete = [];
 
             <% return formItem; %>
           <% }) %>
-          <hr>
-          <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
-          <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
-          <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
-        </div>
-
-
+        </form>
+        <hr>
+        <button class="uikit-btn multi-editable__btn-item-add d-none">Add</button>
+        <button class="uikit-btn multi-editable__btn-item-update d-none">Update</button>
+        <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-item-cancel">Cancel</button>
 
         <% 
 
-          formsDefault.push(formDefault);
-          formsExisting.push(formExisting);
-          formsDelete.push(formDelete);
+          console.log
+
+          listForms["default"][replaceNonAlphanumeric(card.title)] = {
+            addedHeading: card.addedHeading,
+            form: formDefault,
+            values: [],
+            heading: `
+            <h2 class="margin-above--none display-inline-block">
+              <i class="fal fontawesome-icon ${card.icon}"></i>
+              <b>${card.title}</b>
+            </h2>`
+          };
+          listForms["existing"][replaceNonAlphanumeric(card.title)] = {
+            addedHeading: card.addedHeading,
+            form: formExisting,
+            values: [],
+            heading: `
+            <h2 class="margin-above--none display-inline-block">
+              <i class="fal fontawesome-icon ${card.icon}"></i>
+              <b>${card.title}</b>
+            </h2>`
+          };
+          listForms["delete"][replaceNonAlphanumeric(card.title)] = {
+            addedHeading: card.addedHeading,
+            form: formDelete,
+            values: [],
+            heading: `
+            <h2 class="margin-above--none display-inline-block">
+              <i class="fal fontawesome-icon ${card.icon}"></i>
+              <b>${card.title}</b>
+            </h2>`
+          };
 
         %>
       </div>
@@ -161,83 +181,106 @@ var formsDelete = [];
 
 <script>
 
-  //var formsDefault = <%#- JSON.stringify(formsDefault) %>; 
-  //var formExisting = <%#- JSON.stringify(formsExisting) %>;
+  var forms = <%- JSON.stringify(listForms) %>;
   
   $(document).ready(function() {
     $(".pagination").addClass("dragbox-grid").prepend(`<div class="footer-buttons-mask"></div>`)
-  })
+  
+    function createModal(item) {
+      $(".multi-editable__modal").html("");
 
-  function createModal(item) {
-    $(".multi-editable__modal").html("");
+      $(".multi-editable__modal").append(`
+        <div class="modal-window">
+          <div>
+            <a href="#" title="Close" class="modal-close">Close</a>
 
-    $(".multi-editable__modal").append(`
-      <div class="modal-window">
-        <div>
-          <a href="#" title="Close" class="modal-close">Close</a>
-
-          <h2>This will delete the ${item} permanently.</h2>
-          <p>You will need to answer a few questions about this item.</p>
-          <div class="modal-buttons">
-            <button class="uikit-btn multi-editable__btn-delete-existing">Delete item</button>
-            <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-cancel-delete-existing">Cancel</button>
+            <h2>This will delete the ${item} permanently.</h2>
+            <p>You will need to answer a few questions about this item.</p>
+            <div class="modal-buttons">
+              <button class="uikit-btn multi-editable__btn-delete-existing">Delete item</button>
+              <button class="uikit-btn uikit-btn--tertiary multi-editable__btn-cancel-delete-existing">Cancel</button>
+            </div>
           </div>
         </div>
-      </div>
-    `);
+      `);
 
-    $(".multi-editable__modal .modal-window").css({
-      'display': "block",
-      'opacity': "1",
-      'pointer-events': "auto"
+      $(".multi-editable__modal .modal-window").css({
+        'display': "block",
+        'opacity': "1",
+        'pointer-events': "auto"
+      })
+    }
+
+    var formData = [];
+
+    function editNew() {}
+    function deleteNew() {}
+
+    function editExisting() {
+
+    }
+    function deleteExisting() {
+      createModal("boop")
+    }
+
+    $(".multi-editable__box").on("click", function() {
+      // when clicking on on a card in the list (e.g. has real estate and businesses)
+      hideDOM();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).show();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).find(".multi-editable__btn-item-delete").hide();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).find(".multi-editable__btn-item-update").hide();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).find(".multi-editable__btn-item-add").show();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).find(".multi-editable__default-form").show();
+      $(".multi-editable__forms").find(`[data-item=${$(this).data("item")}]`).find(".multi-editable__default-form").trigger("reset");
     })
 
-  }
+    $(".multi-editable__btn-item-add").on("click", function() {
+      // when clicking on the add button within a card form
 
-  function addNew() {}
-  function editNew() {}
-  function deleteNew() {}
+      
+  })
+    
+    $(".multi-editable__btn-item-cancel").on("click", function() {
+      // when clicking canel button in the card form
+      $(this).closest(".boxed").hide()
+      restoreDOM();
+    })
 
-  function editExisting() {}
-  function deleteExisting() {
-    createModal("boop")
-  }
+    $(".multi-editable__btn-cancel-delete-existing").on("click", function() {
+      // after clicking "cancel" in a delete existing (prepop) in the modal 
+      $(this).closest(".modal-window").remove();
+    }) 
 
-  /*
-  
-multi-editable__btn-add
+    $("body").on("click", ".multi-editable__btn-delete-existing", function() {
+      // clicking delete in a delete existing (prepop) modal
+      $(this).closest(".modal-window").remove();
+    })
 
-multi-editable__btn-item-delete
-multi-editable__btn-item-add
-multi-editable__btn-item-update
-multi-editable__btn-item-cancel
+    function hideDOM() {
+      $(".multi-editable__form-hide").hide();
+      $(".footer-buttons-mask").show();
+    }
 
-multi-editable__btn-cancel-delete-existing
-multi-editable__btn-delete-existing
+    function restoreDOM() {
+      $(".multi-editable__form-hide").show();
+      $(".footer-buttons-mask").hide();
+    }
 
-  */
-
-  function hideDOM() {
-    $(".multi-editable__form-hide").hide();
-    $(".pagination a").attr("disabled", "true");
-    $(".multi-editable__forms").show();
-  }
-
-  function restoreDOM() {
-    $(".multi-editable__form-hide").show();
-    $(".pagination a").removeAttr("disabled");
-    $(".multi-editable__forms").hide();
-  }
-
-  $(".multi-editable__btn-cancel-delete-existing").on("click", function() {
-    $(this).closest(".modal-window").remove();
   })
 
-  $("body").on("click", ".multi-editable__btn-delete-existing", function() {
-    $(this).closest(".modal-window").remove();
-  })
+/*
 
-  $(".multi-editable__box").on("click", function() {
-    console.log()
-  })
+multi-editable__btn-add                     Open form, close rest of page, disable paginatoin
+
+multi-editable__btn-item-delete             Open modal to ask if they want to delete existing
+multi-editable__btn-item-add                Add this to the list at the top 
+multi-editable__btn-item-update             Update this list at the top
+multi-editable__btn-item-cancel             Close
+
+multi-editable__btn-cancel-delete-existing  Modal close and don't delete existing
+multi-editable__btn-delete-existing         Delete existing, show extra questions
+
+
+*/
+
 </script>
