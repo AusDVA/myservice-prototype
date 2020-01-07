@@ -70,18 +70,18 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
 
 <%- include(forms+"prepop/gender") %>
 
-<%- include(forms+"text", {
+<%#- include(forms+"text", {
   label: "File number",
   hint: "(optional)"
 }) %>
 
-<%- include(forms+"text", {
+<%#- include(forms+"text", {
   label: "Service number",
   hint: "(optional)"
 }) %>
 
 
-<%- include(forms+"text", {
+<%#- include(forms+"text", {
   label: "PMKeyS number",
   hint: "(optional)"
 }) %>
@@ -97,7 +97,7 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
       hint: "(while still legally married)"
     },
     "Divorced",
-    "Widow/Widower"
+    "Widowed"
   ]
 }) %>
 
@@ -146,11 +146,11 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
         boxes: [
           {
             text: "Married",
-            toggle: ".de-facto--living-together"
+            toggle: ".de-facto--living-together11"
           },
           {
             text: "De facto",
-            toggle: ".married--married-date"
+            toggle: ".married--married-date11"
           }
         ]
       }) %>
@@ -169,11 +169,13 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
 
         <%- include("state-switcher/a-02--partial-non-veteran-details") %>
 
-  </form>
-
-
-
 </div>
+
+<div id="current-partner-questions" hidden>
+  <%- include("state-switcher/a-02--partial-veteran-details") %>
+</div>
+
+
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 <p id="save-next-2" hidden>Choose <b>save and next</b> to continue</p>
@@ -228,6 +230,7 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
       $(".divorce-blocker").hide();
       $("#partner-questions").hide();
       $("#current-container").hide();
+      $("#current-partner-questions").hide();
  switch ($("#known--veteran-relationship-container :checked").val()) {
         case "divorced":
           $(".divorce-blocker").show();
@@ -235,16 +238,18 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
           break;
         case "married":
           $(".married--married-date").show();
+          $("#current-partner-questions").show();
           break;
         case "defacto":
           $(".de-facto--living-together").show();
+          $("#current-partner-questions").show();
           break;
         case "separated":
           $(".separation--date-separated").show();
           $("#current-container").show();
           // $("#partner-questions").show();
           break;
-        case "widowwidower":
+        case "widowed":
           $(".date-of-death").show();
           $("#current-container").show();
           // $("#partner-questions").show();
