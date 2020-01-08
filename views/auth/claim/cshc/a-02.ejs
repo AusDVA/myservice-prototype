@@ -202,12 +202,8 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
       }
     ]
   }) %>
-  
-
-
-<%- include("state-switcher") %>
 <%- include(forms+"modals/claim-cancel") %>
-
+<%- include("state-switcher") %>
 <script>
 
 $("#known--veteran-relationship-container").on("change", "input", function() {
@@ -234,24 +230,29 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
  switch ($("#known--veteran-relationship-container :checked").val()) {
         case "divorced":
           $(".divorce-blocker").show();
+          sessionStorage.setItem('CSHC-partnered', "false");
           block();
           break;
         case "married":
           $(".married--married-date").show();
           $("#current-partner-questions").show();
+          sessionStorage.setItem('CSHC-partnered', "true");
           break;
         case "defacto":
           $(".de-facto--living-together").show();
           $("#current-partner-questions").show();
+          sessionStorage.setItem('CSHC-partnered', "true");
           break;
         case "separated":
           $(".separation--date-separated").show();
           $("#current-container").show();
+          sessionStorage.setItem('CSHC-partnered', "false");
           // $("#partner-questions").show();
           break;
         case "widowed":
           $(".date-of-death").show();
           $("#current-container").show();
+          sessionStorage.setItem('CSHC-partnered', "false");
           // $("#partner-questions").show();
           break;
       }
