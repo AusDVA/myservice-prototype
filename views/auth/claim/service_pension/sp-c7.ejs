@@ -35,21 +35,49 @@
               <div class="col-md-offset-2 col-md-8 margin-below--large">
                 <%- include(partials+"components/form-partials/yes_no", {
                   label: "Have you sold your home within the last 2 years?",
-                  yes_toggle: ["#date-sold-container", "#how-much-container"] 
+                  yes_toggle: "#sold-my-house"
                 }); %>
 
-                <%- include(partials+"components/form-partials/date", {
-                  label: "Date sold",
-                  id: "date-sold",
-                  modifiers: ["hidden"]
+                <div id="sold-my-house" hidden>
+
+                  <%- include(partials+"components/form-partials/date", {
+                    label: "Date sold",
+                    id: "date-sold"
+                  }); %>
+
+                  <%- include(partials+"components/form-partials/text", {
+                    label: "Sale price",
+                    id: "how-much",
+                    modifiers: ["dollarSign", "inputShort"],
+                    placeholder: "0.00"
+                  }); %>
+
+                  <%- include(partials+"components/form-partials/notice", {
+                    message: "You will need to attach evidence of the sale of your home in the documents section."
+                  }); %>
+
+                </div>
+
+                <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Do you own your own home (either purchased outright or mortgaged), but you <span class='partner'>and/or your partner</span> live somewhere else?",
+                  yes_toggle: "#left-questions"
                 }); %>
 
-                <%- include(partials+"components/form-partials/text", {
-                  label: "Sale price",
-                  id: "how-much",
-                  modifiers: ["dollarSign", "hidden", "inputShort"],
-                  placeholder: "0.00"
-                }); %>
+                <div id="left-questions" hidden>
+                  <%- include(partials+"components/form-partials/date", {
+                    label: "When did you and/or your partner leave?",
+                  }); %>
+
+                  <%- include(partials+"components/form-partials/radio", {
+                    label: "Who has left the home?",
+                    id: "who-left",
+                    boxes: [
+                      "Myself",
+                      "My partner",
+                      "Both myself and my partner"
+                    ]
+                  }); %>
+              </div>
 
               </div>
 
@@ -58,7 +86,7 @@
                 <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
                 <div class="floated">
                   <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                  <button class="uikit-btn btnNext" onclick="window.location.href = 'sp-progress-d'">Next</button>
+                  <button class="uikit-btn btnNext" onclick="window.location.href = 'sp-progress-d'">Save and next</button>
                 </div>
               </div>
             </div>
