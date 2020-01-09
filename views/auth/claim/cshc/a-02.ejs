@@ -175,6 +175,15 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
   <%- include("state-switcher/a-02--partial-veteran-details") %>
 </div>
 
+<div id="veteran-qs">
+  <%- include("a-02-veteran") %>
+</div>
+
+<div id="veteran-no-qs" hidden>
+</div>
+
+<div id="war-widow" hidden>
+</div>
 
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
@@ -261,26 +270,25 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
   updateContent();
   // page state related logic
   function updateContent() {
-    hideAll();
+    hideAllStates();
     var myUser = sessionStorage.getItem('CSHC-flow');
     if ( myUser == null ) { sessionStorage.setItem('CSHC-flow',"Non Veteran"); }
     switch ( myUser ) {
       case "Veteran with QS":
-        console.log('Veteran with QS');
+        hideAllStates();
+        $("#veteran-qs").show();
         break;
       case "Veteran without QS":
-        console.log('Veteran without QS');
+        hideAllStates();
+        $("#veteran-no-qs").show();
         break;
       case "Non Veteran":
+        hideAllStates();
         $("#non-veteran").show();
-        console.log('Non Veteran');
         break;
       case "War Widow":
-      console.log('War Widow');
-        break;
-      case "Veteran with QS":
-        break;
-      default:
+        hideAllStates();
+        $("#war-widow").show();
         break;
     }
   };
@@ -294,8 +302,11 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
     $(".pagination a").removeAttr("disabled");
   }
 
-  function hideAll(){
+  function hideAllStates(){
     $("#non-veteran").hide();
+    $("#war-widow").hide();
+    $("#veteran-qs").hide();
+    $("#veteran-no-qs").hide();
   }
 
 </script>
