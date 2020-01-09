@@ -36,14 +36,14 @@
 
     function partnerCheck() {
       if (sessionStorage.getItem('CSHC-partnered') == "true") {
-      console.log('cshc partnered activated');
-      $('input[type="checkbox"]').prop("checked", true);
-    } else {
-      $('input[type="checkbox"]').prop("checked", false);
-    }
+        console.log('cshc partnered activated');
+        $('input[type="checkbox"]').prop("checked", true);
+      } else {
+        $('input[type="checkbox"]').prop("checked", false);
+      }
     }
     partnerCheck();
-  
+
 
     $('#user-container').change(function () {
       var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
@@ -55,9 +55,17 @@
     $('input[type="checkbox"]').click(function () {
       if ($(this).prop("checked") == true) {
         sessionStorage.setItem('CSHC-partnered', "true");
+        $(".user-label-a").text("you and/or your partner's names");
+        $(".user-label-b").text("and your partner");
+        $(".user-label-c").text("Your total");
+        $(".couple").show();
       }
       else {
         sessionStorage.setItem('CSHC-partnered', "false");
+        $(".user-label-a").text("your name");
+        $(".user-label-b").text("");
+        $(".user-label-c").text("Total");
+        $(".couple").hide();
       }
     });
 
@@ -91,35 +99,13 @@
     function hideUserStates() {
       var url = window.location.href;
       console.log(url);
-        if (url.indexOf("a-01") > -1 || url.indexOf("a-02") > -1 ) {
-          $("#user-container").show();
-        } else {
-          $("#user-container").hide();
-        }
-      };
+      if (url.indexOf("a-01") > -1 || url.indexOf("a-02") > -1) {
+        $("#user-container").show();
+      } else {
+        $("#user-container").hide();
+      }
+    };
 
     hideUserStates();
-    // if (typeof stateSwitcher === "function") stateSwitcher();
-
-    // function updateContent(myUser) {
-    //   switch (myUser) {
-    //     case "Single":
-    //       $(".user-label-a").text("your name");
-    //       $(".user-label-b").text("");
-    //       $(".user-label-c").text("Total");
-    //       sessionStorage.setItem('cshc-relationship-status', "Single");
-    //       $(".couple").hide();
-    //       break;
-    //     case "Partnered":
-    //       $(".user-label-a").text("you and/or your partner's names");
-    //       $(".user-label-b").text("and your partner");
-    //       $(".user-label-c").text("Your total");
-    //       sessionStorage.setItem('cshc-relationship-status', "Partnered");
-    //       $(".couple").show();
-    //       break;
-    //     default:
-    //       break;
-    //   }
-    // }
   });
 </script>

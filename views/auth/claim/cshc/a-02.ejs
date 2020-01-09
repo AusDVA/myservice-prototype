@@ -42,101 +42,113 @@
 </div>
 
 <div id="non-veteran" hidden>
+  <div id="pre-pop">
+    <h3>Veteran details</h3>
+    <p class="margin-below--small">If the veteran details are not correct, please call DVA on <span
+        class="dva-phone"></span>.</p>
 
-  <h3>Tell us about the veteran</h3>
-  To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with
-  qualifying service.
-  <hr>
+    <p>
+      <span><b>Partner name&nbsp;&nbsp;&nbsp;</b>John Smith</span>
+      <br>
+      <span><b>Date of birth&nbsp;&nbsp;&nbsp;</b>11/04/1955</span>
+    </p>
+  </div>
+  <div id="no-prep-pop">
+    <h3>Tell us about the veteran</h3>
+    To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with
+    qualifying service.
+    <hr>
 
-  <%- include(forms+"prepop/ranktitlelist-dropdown", {
-  label: "Title"
-}) %>
+    <%- include(forms+"prepop/ranktitlelist-dropdown", {
+    label: "Title"
+  }) %>
 
-  <%- include(forms+"text", {
-  label: "Given name",
-  hint: "(first name)"
-}) %>
+    <%- include(forms+"text", {
+    label: "Given name",
+    hint: "(first name)"
+  }) %>
 
-  <%- include(forms+"text", {
-  label: "Surname",
-  hint: "(last name)"
-}) %>
+    <%- include(forms+"text", {
+    label: "Surname",
+    hint: "(last name)"
+  }) %>
 
-  <%- include(forms+"yes_no", {
-  label: "Has this person ever been known by any other names?",
-  hint: "(e.g. name at birth, maiden name, previous married name)",
-  customClass: "previous-names-q"
-}) %>
+    <%- include(forms+"yes_no", {
+    label: "Has this person ever been known by any other names?",
+    hint: "(e.g. name at birth, maiden name, previous married name)",
+    customClass: "previous-names-q"
+  }) %>
 
-  <%- include(forms+"previous-names", {
-  modifiers: ["hidden"],
-  customClass: "previous-names"
-}) %>
-
-
-  <%- include(forms+"date", {
-  label: "Date of birth"
-}) %>
-
-  <%- include(forms+"prepop/gender") %>
-
-  <%#- include(forms+"text", {
-  label: "File number",
-  hint: "(optional)"
-}) %>
-
-  <%#- include(forms+"text", {
-  label: "Service number",
-  hint: "(optional)"
-}) %>
+    <%- include(forms+"previous-names", {
+    modifiers: ["hidden"],
+    customClass: "previous-names"
+  }) %>
 
 
-  <%#- include(forms+"text", {
-  label: "PMKeyS number",
-  hint: "(optional)"
-}) %>
+    <%- include(forms+"date", {
+    label: "Date of birth"
+  }) %>
 
-  <%- include(forms+"radio", {
-  label: "What is your current relationship with John Smith?",
-  id: "known--veteran-relationship",
-  boxes: [
-    "Married",
-    "De facto",
-    {
-      text: "Separated",
-      hint: "(while still legally married)"
-    },
-    "Divorced",
-    "Widowed"
-  ]
-}) %>
+    <%- include(forms+"prepop/gender") %>
 
-  <%- include("state-switcher/a-02--partial-divorce-block") %>
+    <%#- include(forms+"text", {
+    label: "File number",
+    hint: "(optional)"
+  }) %>
 
-  <%- include(forms+"date", {
-  customClass: "de-facto--living-together",
-  modifiers: ["hidden"],
-  label: "Date commenced living together"
-}) %>
+    <%#- include(forms+"text", {
+    label: "Service number",
+    hint: "(optional)"
+  }) %>
 
-  <%- include(forms+"date", {
-  label: "Date of veterans' death",
-  modifiers: ["hidden"],
-  customClass: "date-of-death"
-}) %>
 
-  <%- include(forms+"date", {
-  customClass: "married--married-date",
-  modifiers: ["hidden"],
-  label: "Date of marriage"
-}) %>
+    <%#- include(forms+"text", {
+    label: "PMKeyS number",
+    hint: "(optional)"
+  }) %>
 
-  <%- include(forms+"date", {
-  customClass: "separation--date-separated",
-  modifiers: ["hidden"],
-  label: "Date of separation"
-}) %>
+    <%- include(forms+"radio", {
+    label: "What is your current relationship with John Smith?",
+    id: "known--veteran-relationship",
+    boxes: [
+      "Married",
+      "De facto",
+      {
+        text: "Separated",
+        hint: "(while still legally married)"
+      },
+      "Divorced",
+      "Widowed"
+    ]
+  }) %>
 
+    <%- include("state-switcher/a-02--partial-divorce-block") %>
+
+    <%- include(forms+"date", {
+    customClass: "de-facto--living-together",
+    modifiers: ["hidden"],
+    label: "Date commenced living together"
+  }) %>
+
+    <%- include(forms+"date", {
+    label: "Date of veterans' death",
+    modifiers: ["hidden"],
+    customClass: "date-of-death"
+  }) %>
+
+    <%- include(forms+"date", {
+    customClass: "married--married-date",
+    modifiers: ["hidden"],
+    label: "Date of marriage"
+  }) %>
+
+    <%- include(forms+"date", {
+    customClass: "separation--date-separated",
+    modifiers: ["hidden"],
+    label: "Date of separation"
+  }) %>
+
+  </div>
 
   <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you currently in a new relationship and living together?",
@@ -188,11 +200,6 @@
 <div id="veteran-qs">
   <%- include("a-02-veteran") %>
 </div>
-
-<div id="war-widow" hidden>
-  <%- include("a-02-war-widow") %>
-</div>
-
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 <p id="save-next-2" hidden>Choose <b>save and next</b> to continue</p>
@@ -280,7 +287,7 @@
   function updateContent() {
     hideAllStates();
     var myUser = sessionStorage.getItem('CSHC-flow');
-    if (myUser == null) { sessionStorage.setItem('CSHC-flow', "Non Veteran"); }
+    //if (myUser == null) { sessionStorage.setItem('CSHC-flow', "Non Veteran"); }
     switch (myUser) {
       case "Veteran with QS":
         hideAllStates();
@@ -293,11 +300,16 @@
         break;
       case "Non Veteran":
         hideAllStates();
+        $("#no-prep-pop").show();
         $("#non-veteran").show();
+
         break;
       case "War widow":
         hideAllStates();
-        $("#war-widow").show();
+        $("#no-prep-pop").hide();
+        $("#non-veteran").show();
+        $("#pre-pop").show();
+        $("#current-container").show();mes
         break;
     }
   };
@@ -313,10 +325,10 @@
 
   function hideAllStates() {
     $("#non-veteran").hide();
-    $("#war-widow").hide();
     $("#veteran-qs").hide();
     $("#veteran-no-qs").hide();
     $("#no-qs-message").hide();
+    $("#pre-pop").hide();
   }
 
 </script>
