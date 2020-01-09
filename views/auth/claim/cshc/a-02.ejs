@@ -32,61 +32,71 @@
     }
 }) %>
 
+<div id="no-qs-message" hidden>
+  <%- include(forms+"notice", {
+    message: `<p>You can make a claim for <a href="#">Qualifying Service (QS)</a>. Having your QS determined, will allow you to apply for a range of benefits such as CSHC and Service Pension.</p>
+  
+      <p>For more information, go to the <a rel="external" href="https://www.dva.gov.au/factsheet-is58-qualifying-service-post-second-world-war-conflicts">Factsheet IS58 - Qualifying Service</a></p>`
+  }) %>
+
+</div>
+
 <div id="non-veteran" hidden>
 
-<h3>Tell us about the veteran</h3>
-To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with qualifying service. 
-<hr>
+  <h3>Tell us about the veteran</h3>
+  To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with
+  qualifying service.
+  <hr>
 
-<%- include(forms+"prepop/ranktitlelist-dropdown", {
+  <%- include(forms+"prepop/ranktitlelist-dropdown", {
   label: "Title"
 }) %>
 
-<%- include(forms+"text", {
+  <%- include(forms+"text", {
   label: "Given name",
   hint: "(first name)"
 }) %>
 
-<%- include(forms+"text", {
+  <%- include(forms+"text", {
   label: "Surname",
   hint: "(last name)"
 }) %>
 
-<%- include(forms+"yes_no", {
+  <%- include(forms+"yes_no", {
   label: "Has this person ever been known by any other names?",
   hint: "(e.g. name at birth, maiden name, previous married name)",
   customClass: "previous-names-q"
 }) %>
 
-<%- include(forms+"previous-names", {
+  <%- include(forms+"previous-names", {
   modifiers: ["hidden"],
   customClass: "previous-names"
 }) %>
 
 
-<%- include(forms+"date", {
+  <%- include(forms+"date", {
   label: "Date of birth"
 }) %>
 
-<%- include(forms+"prepop/gender") %>
+  <%- include(forms+"prepop/gender") %>
 
-<%#- include(forms+"text", {
+  <%#- include(forms+"text", {
   label: "File number",
   hint: "(optional)"
 }) %>
 
-<%#- include(forms+"text", {
+  <%#- include(forms+"text", {
   label: "Service number",
   hint: "(optional)"
 }) %>
 
 
-<%#- include(forms+"text", {
+  <%#- include(forms+"text", {
   label: "PMKeyS number",
   hint: "(optional)"
 }) %>
 
-<%- include(forms+"radio", {
+  <%- include(forms+"radio", {
   label: "What is your current relationship with John Smith?",
   id: "known--veteran-relationship",
   boxes: [
@@ -101,34 +111,34 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
   ]
 }) %>
 
-<%- include("state-switcher/a-02--partial-divorce-block") %>
+  <%- include("state-switcher/a-02--partial-divorce-block") %>
 
-<%- include(forms+"date", {
+  <%- include(forms+"date", {
   customClass: "de-facto--living-together",
   modifiers: ["hidden"],
   label: "Date commenced living together"
 }) %>
 
-<%- include(forms+"date", {
+  <%- include(forms+"date", {
   label: "Date of veterans' death",
   modifiers: ["hidden"],
   customClass: "date-of-death"
 }) %>
 
-<%- include(forms+"date", {
+  <%- include(forms+"date", {
   customClass: "married--married-date",
   modifiers: ["hidden"],
   label: "Date of marriage"
 }) %>
 
-<%- include(forms+"date", {
+  <%- include(forms+"date", {
   customClass: "separation--date-separated",
   modifiers: ["hidden"],
   label: "Date of separation"
 }) %>
 
 
-<%- include(partials+"components/form-partials/yes_no", {
+  <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you currently in a new relationship and living together?",
   id: "current",
   yes_toggle: "#partner-questions",
@@ -140,7 +150,7 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
 
 <div id="partner-questions" hidden>
 
-      <%- include(forms+"radio", {
+  <%- include(forms+"radio", {
         label: "What is your new relationship status?",
         id: "unknown--noqs--new-relationship-status",
         boxes: [
@@ -155,19 +165,19 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
         ]
       }) %>
 
-        <%- include(forms+"date", {
+  <%- include(forms+"date", {
           customClass: "de-facto--living-together",
           modifiers: ["hidden"],
           label: "Date commenced living together"
         }) %>
 
-        <%- include(forms+"date", {
+  <%- include(forms+"date", {
           customClass: "married--married-date",
           modifiers: ["hidden"],
           label: "Date of marriage"
         }) %>
 
-        <%- include("state-switcher/a-02--partial-non-veteran-details") %>
+  <%- include("state-switcher/a-02--partial-non-veteran-details") %>
 
 </div>
 
@@ -179,10 +189,8 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
   <%- include("a-02-veteran") %>
 </div>
 
-<div id="veteran-no-qs" hidden>
-</div>
-
 <div id="war-widow" hidden>
+  <%- include("a-02-war-widow") %>
 </div>
 
 
@@ -215,78 +223,79 @@ To be eligible for a Commonwealth Seniors Health Card we need to establish your 
 <%- include("state-switcher") %>
 <script>
 
-$("#known--veteran-relationship-container").on("change", "input", function() {
-  $("#state--known .divorce-blocker").hide();
-      unblock();
-      $(".save-next").hide();
-      $(".current-relationship").hide();
-      $(".current-relationship").trigger("reset");
+  $("#known--veteran-relationship-container").on("change", "input", function () {
+    $("#state--known .divorce-blocker").hide();
+    unblock();
+    $(".save-next").hide();
+    $(".current-relationship").hide();
+    $(".current-relationship").trigger("reset");
 
-      if ($("#known--veteran-relationship-container :checked").val() === "widowed") {
-        $(".known--widowed-hide").hide();
-      } else {
-        $(".known--widowed-hide").show();
-      }
-      
-      $(".date-of-death").hide();
-      $(".separation--date-separated").hide()
-      $(".married--married-date").hide();
-      $(".de-facto--living-together").hide();
-      $(".divorce-blocker").hide();
-      $("#partner-questions").hide();
-      $("#current-container").hide();
-      $("#current-partner-questions").hide();
- switch ($("#known--veteran-relationship-container :checked").val()) {
-        case "divorced":
-          $(".divorce-blocker").show();
-          sessionStorage.setItem('CSHC-partnered', "false");
-          block();
-          break;
-        case "married":
-          $(".married--married-date").show();
-          $("#current-partner-questions").show();
-          sessionStorage.setItem('CSHC-partnered', "true");
-          break;
-        case "defacto":
-          $(".de-facto--living-together").show();
-          $("#current-partner-questions").show();
-          sessionStorage.setItem('CSHC-partnered', "true");
-          break;
-        case "separated":
-          $(".separation--date-separated").show();
-          $("#current-container").show();
-          sessionStorage.setItem('CSHC-partnered', "false");
-          // $("#partner-questions").show();
-          break;
-        case "widowed":
-          $(".date-of-death").show();
-          $("#current-container").show();
-          sessionStorage.setItem('CSHC-partnered', "false");
-          // $("#partner-questions").show();
-          break;
-      }
-    })
- 
+    if ($("#known--veteran-relationship-container :checked").val() === "widowed") {
+      $(".known--widowed-hide").hide();
+    } else {
+      $(".known--widowed-hide").show();
+    }
+
+    $(".date-of-death").hide();
+    $(".separation--date-separated").hide()
+    $(".married--married-date").hide();
+    $(".de-facto--living-together").hide();
+    $(".divorce-blocker").hide();
+    $("#partner-questions").hide();
+    $("#current-container").hide();
+    $("#current-partner-questions").hide();
+    switch ($("#known--veteran-relationship-container :checked").val()) {
+      case "divorced":
+        $(".divorce-blocker").show();
+        sessionStorage.setItem('CSHC-partnered', "false");
+        block();
+        break;
+      case "married":
+        $(".married--married-date").show();
+        $("#current-partner-questions").show();
+        sessionStorage.setItem('CSHC-partnered', "true");
+        break;
+      case "defacto":
+        $(".de-facto--living-together").show();
+        $("#current-partner-questions").show();
+        sessionStorage.setItem('CSHC-partnered', "true");
+        break;
+      case "separated":
+        $(".separation--date-separated").show();
+        $("#current-container").show();
+        sessionStorage.setItem('CSHC-partnered', "false");
+        // $("#partner-questions").show();
+        break;
+      case "widowed":
+        $(".date-of-death").show();
+        $("#current-container").show();
+        sessionStorage.setItem('CSHC-partnered', "false");
+        // $("#partner-questions").show();
+        break;
+    }
+  })
+
   updateContent();
   // page state related logic
   function updateContent() {
     hideAllStates();
     var myUser = sessionStorage.getItem('CSHC-flow');
-    if ( myUser == null ) { sessionStorage.setItem('CSHC-flow',"Non Veteran"); }
-    switch ( myUser ) {
+    if (myUser == null) { sessionStorage.setItem('CSHC-flow', "Non Veteran"); }
+    switch (myUser) {
       case "Veteran with QS":
         hideAllStates();
         $("#veteran-qs").show();
         break;
       case "Veteran without QS":
         hideAllStates();
-        $("#veteran-no-qs").show();
+        $("#no-qs-message").show();
+        $("#veteran-qs").show();
         break;
       case "Non Veteran":
         hideAllStates();
         $("#non-veteran").show();
         break;
-      case "War Widow":
+      case "War widow":
         hideAllStates();
         $("#war-widow").show();
         break;
@@ -302,11 +311,12 @@ $("#known--veteran-relationship-container").on("change", "input", function() {
     $(".pagination a").removeAttr("disabled");
   }
 
-  function hideAllStates(){
+  function hideAllStates() {
     $("#non-veteran").hide();
     $("#war-widow").hide();
     $("#veteran-qs").hide();
     $("#veteran-no-qs").hide();
+    $("#no-qs-message").hide();
   }
 
 </script>
