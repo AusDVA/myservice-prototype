@@ -74,15 +74,16 @@
   }) %>
 
     <%- include(forms+"yes_no", {
-    label: "Has this person ever been known by any other names?",
-    hint: "(e.g. name at birth, maiden name, previous married name)",
-    customClass: "previous-names-q"
-  }) %>
+  label: "Has your partner ever been known by any other names?",
+  hint: "For example: name at birth, maiden name, previous married name",
+  yes_toggle: "#previous-names-1-container",
+  modifiers: ["hintNewLine"]
+}) %>
 
     <%- include(forms+"previous-names", {
-    modifiers: ["hidden"],
-    customClass: "previous-names"
-  }) %>
+  modifiers: ["hidden"],
+  id: "previous-names-1"
+}) %>
 
 
     <%- include(forms+"date", {
@@ -282,37 +283,47 @@
     }
   })
 
-  updateContent();
+
+
   // page state related logic
   function updateContent() {
     hideAllStates();
     var myUser = sessionStorage.getItem('CSHC-flow');
-    //if (myUser == null) { sessionStorage.setItem('CSHC-flow', "Non Veteran"); }
+    if (myUser == null) {
+      $("#user-1").prop("checked", true);
+      sessionStorage.setItem('CSHC-flow', "Veteran with QS");
+    }
     switch (myUser) {
       case "Veteran with QS":
         hideAllStates();
+        $("#user-1").prop("checked", true);
         $("#veteran-qs").show();
+        $("#no-qs-message").hide();
         break;
       case "Veteran without QS":
         hideAllStates();
+        $("#user-2").prop("checked", true);
         $("#no-qs-message").show();
         $("#veteran-qs").show();
         break;
       case "Non Veteran":
         hideAllStates();
+        $("#user-3").prop("checked", true);
         $("#no-prep-pop").show();
         $("#non-veteran").show();
-
         break;
       case "War widow":
         hideAllStates();
+        $("#user-4").prop("checked", true);
         $("#no-prep-pop").hide();
         $("#non-veteran").show();
         $("#pre-pop").show();
-        $("#current-container").show();mes
+        $("#current-container").show();
         break;
     }
   };
+
+  updateContent();
 
   function block() {
     $(".pagination a").attr("disabled", "true");
