@@ -2,9 +2,9 @@
   claim: "Commonwealth Seniors Health Card",
   heading: "Required documents"
 }) %>
-  
-  <div id="partnered" hidden>
-    <%- include(forms+"legacy-upload", {
+
+<div id="partnered" hidden>
+  <%- include(forms+"legacy-upload", {
       docs: [
         {
           title: "Marriage certificate",
@@ -56,10 +56,10 @@
         }
       ]
     }) %>
-  </div>
+</div>
 
-  <div id="single" hidden>
-    <%- include(forms+"legacy-upload", {
+<div id="single" hidden>
+  <%- include(forms+"legacy-upload", {
       docs: [
         {
           title: "Your Tax Notice of Assessment",
@@ -86,9 +86,9 @@
 
       ]
     }) %>
-  </div>
+</div>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         link: "/auth/claim/cshc/c-01",
@@ -120,8 +120,12 @@
 <%- include("state-switcher") %>
 
 <script>
+  $(document).ready(function () {
+    stateSwitcher();
+  });
+
   function stateSwitcher() {
-    if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+    if (sessionStorage.getItem('CSHC-partnered') == "false") {
       $("#partnered").hide();
       $("#single").show();
       $("#btnPrev").attr("href", "/auth/claim/cshc/prog-03");
