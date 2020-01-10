@@ -1,25 +1,46 @@
 <h3>Partner details</h3>
 
 <%- include(forms+"yes_no", {
-  customClass: "residential-address-q",
   label: "Does your partner live at the same address as you?",
-  no_toggle: ".residential-address-block"
+  no_toggle: [ "#residential-address-container", "#illness-container"]
 }) %>
 
 <%- include(forms+"prepop/address", {
-  customClass: "residential-address-block",
-  label: "Partner's residential address",
+  id: "residential-address",
+  modifiers: ["hidden"],
+  label: "Partner address"
+}) %>
+
+<%- include(partials+"components/form-partials/checkbox", {
+  boxes: [
+    {
+      text: "Use my postal address for my partner",
+      rToggle: "#postal-address-3-container",
+      modifiers: ["checked"]
+    }
+  ]
+}); %>
+
+<%- include(forms+"prepop/address", {
+  id: "postal-address-3",
+  modifiers: ["hidden"],
+  label: "Partner's postal address"
+}) %>`
+
+<%- include(forms+"yes_no", {
+  label: "Does your partner live at the a different address due to age or ill health",
+  id: "illness",
   modifiers: ["hidden"]
 }) %>
 
 
 <%- include(forms+"yes_no", {
-  customClass: "contact-details-q",
+  customClass: "contact-details-3",
   label: "Does your partner wish to use your contact details?",
-  no_toggle: ".contact-details-block"
+  no_toggle: ".contact-details-block-3"
 }) %>
 
-<div class="contact-details-block" hidden>
+<div class="contact-details-block-3" hidden>
   <%- include(forms+"prepop/phone-number", {
     label: "Partner's phone number"
   }) %>
@@ -29,18 +50,18 @@
   }) %>
 </div>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
     label: "Has your partner applied for or do they receive any benefits from Centrelink?",
     customClass: "partner-centrelink-paymments"
   }) %>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
     label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
     customClass: "partner-centrelink-has-cshc",
     yes_toggle: ".partner-centrelink-cshc"
   }) %>
 
-  <%- include(forms+"text", {
+<%- include(forms+"text", {
     label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
     modifiers: ["hidden"],
     customClass: "partner-centrelink-cshc"

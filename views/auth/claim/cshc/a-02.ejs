@@ -44,14 +44,22 @@
 <div id="non-veteran" hidden>
   <div id="pre-pop">
     <h3>Veteran details</h3>
-    <p class="margin-below--small">If the veteran details are not correct, please call DVA on <span
-        class="dva-phone"></span>.</p>
+    <!-- <p>To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with
+    qualifying service.</p> -->
+    <p>Please check the veteran details below. If the details are incorrect, please call DVA <br> on <span
+      class="dva-phone"></span>.</p>
+</p>
+    <!-- <hr> -->
+    <!-- <h3>Veteran details</h3> -->
+    <!-- <p class="margin-below--small">If the veteran details are not correct, please call DVA on <span
+        class="dva-phone"></span>.</p> -->
 
     <p>
       <span><b>Partner name&nbsp;&nbsp;&nbsp;</b>John Smith</span>
       <br>
       <span><b>Date of birth&nbsp;&nbsp;&nbsp;</b>11/04/1955</span>
     </p>
+    <hr>
   </div>
   <div id="no-prep-pop">
     <h3>Tell us about the veteran</h3>
@@ -89,6 +97,10 @@
     <%- include(forms+"date", {
     label: "Date of birth"
   }) %>
+
+    <%- include(forms+"notice", {
+  message: `<p>You need to provide a copy of your partners birth certificate in the documents section.</p>`,
+}) %>
 
     <%- include(forms+"prepop/gender") %>
 
@@ -138,10 +150,18 @@
   }) %>
 
     <%- include(forms+"date", {
-    customClass: "married--married-date",
-    modifiers: ["hidden"],
-    label: "Date of marriage"
+      customClass: "married--married-date",
+      modifiers: ["hidden"],
+      label: "Date of marriage"
+    }) %>
+
+    <%- include(forms+"notice", {
+    message: `<p>You will need to attach a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
+    customClass: "rel--married-non-vet",
+    modifiers: ["hidden"]
   }) %>
+
+
 
     <%- include(forms+"date", {
     customClass: "separation--date-separated",
@@ -260,6 +280,7 @@
         break;
       case "married":
         $(".married--married-date").show();
+        $(".rel--married-non-vet").show();
         $("#current-partner-questions").show();
         sessionStorage.setItem('CSHC-partnered', "true");
         break;
@@ -336,6 +357,7 @@
 
   function hideAllStates() {
     $("#non-veteran").hide();
+    $("#partner-questions").hide();
     $("#veteran-qs").hide();
     $("#veteran-no-qs").hide();
     $("#no-qs-message").hide();

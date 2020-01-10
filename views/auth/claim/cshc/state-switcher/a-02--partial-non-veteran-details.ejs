@@ -14,14 +14,15 @@
 }) %>
 
 <%- include(forms+"yes_no", {
-  label: "Has this person ever been known by any other names?",
-  hint: "(e.g. name at birth, maiden name, previous married name)",
-  customClass: "previous-names-q"
+  label: "Has your partner ever been known by any other names?",
+  hint: "For example: name at birth, maiden name, previous married name",
+  yes_toggle: "#previous-names-3-container",
+  modifiers: ["hintNewLine"]
 }) %>
 
 <%- include(forms+"previous-names", {
   modifiers: ["hidden"],
-  customClass: "previous-names"
+  id: "previous-names-3"
 }) %>
 
 
@@ -29,18 +30,44 @@
   label: "Date of birth"
 }) %>
 
+<%- include(forms+"notice", {
+  message: `<p>You need to provide a copy of your partners birth certificate in the documents section.</p>`,
+}) %>
+
 <%- include(forms+"prepop/gender") %>
 <div class="has-residential">
   <h3>Residential address</h3>
 
   <%- include(forms+"yes_no", {
-    customClass: "residential-address-q",
-    label: "Does your partner live at the same address as you?"
+    label: "Does your partner live at the same address as you?",
+    no_toggle: [ "#residential-address-container", "#illness-container"]
   }) %>
 
   <%- include(forms+"prepop/address", {
-    customClass: "residential-address-block",
-    label: "Partner's residential address",
+    id: "residential-address",
+    modifiers: ["hidden"],
+    label: "Partner address"
+  }) %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      {
+        text: "Use my postal address for my partner",
+        rToggle: "#postal-address-container",
+        modifiers: ["checked"]
+      }
+    ]
+  }); %>
+
+  <%- include(forms+"prepop/address", {
+    id: "postal-address",
+    modifiers: ["hidden"],
+    label: "Partner's postal address"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Does your partner live at the a different address due to age or ill health",
+    id: "illness",
     modifiers: ["hidden"]
   }) %>
 </div>
@@ -48,11 +75,12 @@
   <h3>Contact details</h3>
 
   <%- include(forms+"yes_no", {
-    customClass: "contact-details-q",
-    label: "Does this person wish to use your contact details?"
-  }) %>
+    customClass: "contact-details-5",
+    label: "Does your partner wish to use your contact details?",
+    no_toggle: ".contact-details-block-5"
+    }) %>
 
-  <div class="contact-details-block" hidden>
+  <div class="contact-details-block-5" hidden>
     <%- include(forms+"prepop/phone-number", {
       label: "Partner's phone number"
     }) %>
