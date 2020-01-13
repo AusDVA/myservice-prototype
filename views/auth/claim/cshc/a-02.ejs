@@ -43,7 +43,7 @@
 
 <div id="non-veteran" hidden>
   <div id="pre-pop">
-    <h3>Veteran details</h3>
+    <h3>Tell us about the veteran</h3>
     <!-- <p>To be eligible for a Commonwealth Seniors Health Card we need to establish your relationship to a veteran with
     qualifying service.</p> -->
     <p>Please check the veteran details below. If the details are incorrect, please call DVA <br> on <span
@@ -189,26 +189,35 @@
         boxes: [
           {
             text: "Married",
-            toggle: ".de-facto--living-together11"
+            toggle: ".married--married-date11, .rel--married11"
           },
           {
             text: "De facto",
-            toggle: ".married--married-date11"
+            toggle: ".de-facto--living-together11"
           }
+          
         ]
       }) %>
 
+
+
   <%- include(forms+"date", {
-          customClass: "de-facto--living-together",
+          customClass: "de-facto--living-together11",
           modifiers: ["hidden"],
           label: "Date commenced living together"
         }) %>
 
   <%- include(forms+"date", {
-          customClass: "married--married-date",
+          customClass: "married--married-date11",
           modifiers: ["hidden"],
           label: "Date of marriage"
         }) %>
+
+  <%- include(forms+"notice", {
+  message: `<p>You will need to attach a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
+  customClass: "rel--married11",
+  modifiers: ["hidden"]
+}) %>
 
   <%- include("state-switcher/a-02--partial-non-veteran-details") %>
 
@@ -285,17 +294,20 @@
         sessionStorage.setItem('CSHC-partnered', "true");
         break;
       case "defacto":
+        $(".rel--married-non-vet").hide();
         $(".de-facto--living-together").show();
         $("#current-partner-questions").show();
         sessionStorage.setItem('CSHC-partnered', "true");
         break;
       case "separated":
+        $(".rel--married-non-vet").hide();
         $(".separation--date-separated").show();
         $("#current-container").show();
         sessionStorage.setItem('CSHC-partnered', "false");
         // $("#partner-questions").show();
         break;
       case "widowed":
+        $(".rel--married-non-vet").hide();
         $(".date-of-death").show();
         $("#current-container").show();
         sessionStorage.setItem('CSHC-partnered', "false");
@@ -318,27 +330,37 @@
     switch (myUser) {
       case "Veteran with QS":
         hideAllStates();
-        $("#user-1").prop("checked", true);
+        resetForm();
+        $("#user-4").prop("checked", true);
         $("#veteran-qs").show();
+        hideConditionalFields();
         $("#no-qs-message").hide();
         break;
       case "Veteran without QS":
         hideAllStates();
-        $("#user-2").prop("checked", true);
+        resetForm();
+        $("#user-3").prop("checked", true);
         $("#no-qs-message").show();
         $("#non-veteran").show();
+        $("#no-prep-pop").show();
+        hideConditionalFields();
         break;
       case "Non Veteran":
         hideAllStates();
-        $("#user-3").prop("checked", true);
+        resetForm();
+        $("#user-1").prop("checked", true);
         $("#no-prep-pop").show();
         $("#non-veteran").show();
+        $("#residential-address-container").hide();
+        hideConditionalFields();
         break;
       case "War widow":
         hideAllStates();
-        $("#user-4").prop("checked", true);
+        resetForm();
+        $("#user-2").prop("checked", true);
         $("#no-prep-pop").hide();
         $("#non-veteran").show();
+        hideConditionalFields();
         $("#pre-pop").show();
         $("#current-container").show();
         break;
@@ -363,6 +385,52 @@
     $("#veteran-no-qs").hide();
     $("#no-qs-message").hide();
     $("#pre-pop").hide();
+    $("#relationship-status-container input").attr('checked', false);
+  }
+
+  // function clear_form_elements(id_name) {
+  //   console.log(this);
+  //   $("#" + id_name).find(':input').each(function () {
+  //     switch (this.type) {
+  //       // case 'password':
+  //       // case 'text':
+  //       // case 'textarea':
+  //       // case 'file':
+  //       // case 'select-one':
+  //       // case 'select-multiple':
+  //       // case 'date':
+  //       // case 'number':
+  //       // case 'tel':
+  //       // case 'email':
+  //       //   jQuery(this).val('');
+  //       //   break;
+  //       case 'checkbox':
+  //       case 'radio':
+  //         this.checked = false;
+  //         break;
+  //     }
+  //   });
+  // }
+
+  function resetForm() {
+    $('#rel-married-defacto .uikit-control-input__input[type=radio]').prop('checked', false);
+  }
+
+  function hideConditionalFields() {
+    $("#previous-names-container").hide();
+    $("#postal-address-1-container").hide();
+    $("#residential-address-container").hide();
+    $("#crn-container").hide();
+    $("#eligibility-container").hide();
+    $("#current-partner-questions").hide();
+    $("#de-facto--living-together").hide();
+    $("#contact-details-block-5").hide();
+    $(".married--married-date").hide();
+    $(".rel--married-non-vet").hide();
+    $(".rel--married .rel--de-facto").hide();
+    $("#current-container").hide();
+    $("#save-next, #save-next-2").hide();
+    $("#rel--married11").hide();
   }
 
 </script>
