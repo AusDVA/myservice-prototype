@@ -34,9 +34,9 @@
 
 <div id="no-qs-message" hidden>
   <%- include(forms+"notice", {
-    message: `<p>If you are applying for CSHC for yourself, you need make a claim for <a href="#">Qualifying Service (QS)</a>. However, if you are applying for both you and your partner, your partner should be a veteran with QS.</p>
+    message: `<p>You will need Qualifying Service (QS) to apply for CSHC.</p>
   
-      <p>For more information, go to the <a rel="external" href="https://www.dva.gov.au/factsheet-is58-qualifying-service-post-second-world-war-conflicts">Factsheet IS58 - Qualifying Service</a></p>`
+      <p>Alternatively, if you wish to apply as the partner of a veteran with Qualifying Service you may continue with this claim.</a></p>`
   }) %>
 
 </div>
@@ -174,10 +174,22 @@
   <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you currently in a new relationship and living together?",
   id: "current",
-  yes_toggle: "#partner-questions",
+  yes_toggle: ".divorce-blocker-3",
   no_toggle: "#save-next",
   modifiers: ["hidden"]
 }); %>
+
+  <%- include(forms+"notice", {
+  customClass: "divorce-blocker-3",
+  modifiers: ["hidden"],
+  type: "error",
+  message: `<p>You are unable to continue online, call DVA to discuss your eligibility on <span class="dva-phone"></span>.</p>
+            <p>For more information go to <a target="_blank" rel="external" href="https://www.dva.gov.au/factsheet-is126-commonwealth-seniors-health-card">Factsheet IS126 - Commonwealth Seniors Health Card</a>.</p>`
+}) %>
+
+
+
+
 
 </div>
 
@@ -283,6 +295,7 @@
     $("#current-partner-questions").hide();
     switch ($("#known--veteran-relationship-container :checked").val()) {
       case "divorced":
+        $(".divorce-blocker-3").hide();
         $(".divorce-blocker").show();
         sessionStorage.setItem('CSHC-partnered', "false");
         block();
@@ -301,10 +314,10 @@
         break;
       case "separated":
         $(".rel--married-non-vet").hide();
-        $(".separation--date-separated").show();
-        $("#current-container").show();
+        $(".divorce-blocker-3").hide();
+        $(".divorce-blocker").show();
+        block();
         sessionStorage.setItem('CSHC-partnered', "false");
-        // $("#partner-questions").show();
         break;
       case "widowed":
         $(".rel--married-non-vet").hide();
@@ -412,6 +425,15 @@
     $("#save-next, #save-next-2").hide();
     $("#rel--married11").hide();
   }
+
+  $("input[name='current']:radio")
+    .change(function () {
+      if ($(this).val() == "yes") {
+        block();
+      } else {
+        unblock();
+      }
+    });
 
 </script>
 
