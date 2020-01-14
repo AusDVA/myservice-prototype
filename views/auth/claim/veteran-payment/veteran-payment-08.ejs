@@ -191,20 +191,22 @@
     ]
   }) %>
 
-  <div id="have-requested" class="margin-below--extra" hidden>
+  <div id="have-requested" class="margin-below--extra">
     <h2>Declaration</h2>
     <div class="declaration">
       <%- include(forms+"checkbox", {
         modifiers: ["noMargin"],
         boxes: [
-          "I confirm the declarations made on my application for Subsidy Certificate form are correct in that:"
+          {
+            text: "I agree to the following:",
+            id: "checkbox-agree"
+          }
         ]
       }) %>
       <ol class="declaration__list">
-        <li>I expect that I will continue to provide service in the Australian Defence Force (ADF), where the service is considered effective for DHOAS purposes, for a period of at least 12 months after the payment of subsidy is authorised. I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to the lump sum subsidy paid to me if I cease to be a member of the ADF within 12 month after the payment subsidy is authorised. (*The declaration does not apply if you are applying for a lump sum as a surviving partner); and</li>
-        <li>Whilst I have been a member of the ADF, I have not previously purchased a home, other than the one that is the subject of this application for Subsidy Certificate, and this property was purchased after I received my Subsidy Certificate.</li>
-        
-        <p class="margin-above"><strong>NOTE: </strong>If you have less than 12 months of entitlement remaining after you receive the lump sum payment, and subsequently transfer to the Reserves, your monthly DHOAS payments may cease.</p>
+        <li>I declare that the information I have given about myself and/or my partner is correct.</li>
+        <li>I understand that there are penalties for deliberately giving false or misleading information.</li>
+        <li>I authorise Australian Government Departments or agencies (including Centrelink and the Australian Tax Office) and other organisations to disclose to the Department of Veterans’ Affairs any information required to determine my eligibility for veteran payment.</li>
       </ol>
     </div>
   </div>
@@ -229,6 +231,7 @@
       {
         text: "Submit claim",
         link: "/auth/claim/veteran-payment/veteran-payment-09",
+        id: "submit",
         modifiers: ["floated", "primary"]
       }
     ]
@@ -237,7 +240,20 @@
 <%- include("veteran-payment-state-switcher") %>
 
 <script>
+
+  $("#submit").attr('disabled','disabled');
+
+  $('#myform :checkbox').change(function() {
+    // this will contain a reference to the checkbox   
+    if (this.checked) {
+        // the checkbox is now checked 
+    } else {
+        // the checkbox is now no longer checked
+    }
+});
+
   function stateSwitcher() {
+
     if (immigrationStatus === "citizen") {
       $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-06")
       $(".immigrant").hide();
