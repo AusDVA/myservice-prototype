@@ -3,21 +3,23 @@
   heading: "Service history"
 }) %>
 
-  <%- include(forms+"date", {
-    label: "Date of discharge"
+<%- include(forms+"date", {
+    label: "Date of discharge",
+    id: "discharge-date"
   }) %>
 
 
-  <div id="vet-under4-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert">
-    <p>You have transitioned out of defence for more than 5 years. You may not be eligible for Suport for Employment
-      (SFE).</p>
-      <p>If you would like to discuss your eligibility, please contact DVA on 1800 555 254.</p>
-  </div>
+<div id="vet-under4-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert" hidden>
+  <p>You have transitioned out of defence for more than 5 years. You may not be eligible for Suport for Employment
+    (SFE).</p>
+  <p>If you would like to discuss your eligibility, please contact DVA on 1800 555 254.</p>
+</div>
 
-    <%- include(forms+"checkbox", {
+<%- include(forms+"checkbox", {
     label: "Tell us about your situation",
     hint: "Select all that apply:",
-    modifiers: ["hintNewLine"],
+    modifiers: ["hintNewLine", "hidden"],
+    id: "situation-checkboxes",
     boxes: [
       {
         text: "Underemployment",
@@ -30,7 +32,7 @@
   }) %>
 
 
-  <!-- <%- include(forms+"text", {
+<!-- <%- include(forms+"text", {
     label: "Reason for discarge"
   }) %>
 
@@ -51,7 +53,7 @@
 
 
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -71,8 +73,55 @@
     ]
   }) %>
 
-  <%- include(forms+"modals/claim-cancel") %>
+<script>
 
-  <%- include("sfe-state-switcher") %>
+  function diff_years(dt2, dt1) {
+    dt2 = new Date(dischargeDate);
+    dt1 = new Date(today);
+
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= (60 * 60 * 24);
+    return Math.abs(Math.round(diff / 365.25));
+
+  }
+
+  // dt1 = new Date(2014, 10, 2);
+  // dt2 = new Date(2014, 10, 11);
+  // console.log(diff_years(dt1, dt2));
+
+  // dt1 = new Date("June 13, 2014 08:11:00");
+  // dt2 = new Date("October 19, 2017 11:13:00");
+  // console.log(diff_years(dt1, dt2));
+
+  $("#discharge-date-container input").keyup(function () {
+    //get the year month and day after each input change
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+    console.log(today);
+
+    if ($("#discharge-date-yyyy").val().length >= 4) {
+      year = $("#discharge-date-yyyy").val();
+      month = $("#discharge-date-mm").val();
+      day = $("#discharge-date-dd").val();
+      dischargeDate = month + '/' + day + '/' + year;
+      if (diff_years(dischargeDate, today) > 5) {
+        $("#situation-checkboxes-container").hide();
+        $("#vet-under4-notification").show();
+      } else {
+        $("#vet-under4-notification").hide();
+        $("#situation-checkboxes-container").show();
+      }
+    }
+
+  });
+</script>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include("sfe-state-switcher") %>
 
 <%- include(templates+"footer") %>
