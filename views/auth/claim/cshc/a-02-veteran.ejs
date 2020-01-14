@@ -43,7 +43,7 @@
       }) %>
 
   <%- include(forms+"notice", {
-      message: `<p>You will need to attach a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
+      message: `<p>You will need to provide a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
       customClass: "rel--married",
       modifiers: ["hidden"]
     }) %>
@@ -136,26 +136,25 @@
 
   <%- include(forms+"yes_no", {
       label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
-      id: "partner-applied-centrelink",
-      yes_toggle: ["#crn-container","#eligibility-container"]
+      id: "partner-applied-centrelink-2"
     }) %>
 
   <%- include(partials+"components/form-partials/notice", {
       message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
       type: "warning",
-      id: "eligibility",
+      id: "eligibility-2",
       modifiers: ["hidden"]
     }); %>
 
   <%- include(forms+"yes_no", {
       label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card from Centrelink?",
-      yes_toggle: "#crn-container"
+      id: "has-cshc-2"
     }) %>
 
   <%- include(partials+"components/form-partials/text", {
       label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
       modifiers: ["hidden"],
-      id: "crn"
+      id: "crn-2"
     }); %>
 
 
@@ -201,4 +200,18 @@
     }
 
   })
+
+  $("input[name='partner-applied-centrelink-2']:radio")
+    .change(function () {
+      $("#eligibility-2-container").toggle($(this).val() == "yes");
+    });
+
+  $('input[name="partner-applied-centrelink-2"], input[name="has-cshc-2"]').change(function () {
+    console.log(this.value);
+    if (($('#partner-applied-centrelink-2-1').is(':checked') || $('#has-cshc-2-1').is(':checked'))) {
+      $("#crn-2-container").show();
+    } else {
+      $("#crn-2-container").hide();
+    }
+  });
 </script>

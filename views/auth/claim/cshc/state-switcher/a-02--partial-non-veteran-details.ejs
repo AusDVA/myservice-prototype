@@ -93,18 +93,40 @@
 <h3>Benefits</h3>
 <div class="has-partner-centrelink">
   <%- include(forms+"yes_no", {
-    label: "Has this person applied for or do they receive any benefits from Centrelink?",
-    customClass: "partner-centrelink-paymments"
+    label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+    id: "partner-applied-centrelink-3"
   }) %>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+    type: "warning",
+    id: "eligibility-3",
+    modifiers: ["hidden"]
+  }); %>
 
   <%- include(forms+"yes_no", {
-    label: "Has this person applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
-    customClass: "partner-centrelink-has-cshc"
+    label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card from Centrelink?",
+    id: "has-cshc-3"
   }) %>
 
-  <%- include(forms+"text", {
+  <%- include(partials+"components/form-partials/text", {
     label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
     modifiers: ["hidden"],
-    customClass: "partner-centrelink-cshc"
-  }) %>
+    id: "crn-3"
+  }); %>
 </div>
+
+<script>
+  $("input[name='partner-applied-centrelink-3']:radio")
+    .change(function () {
+      $("#eligibility-3-container").toggle($(this).val() == "yes");
+    });
+
+  $('input[name="partner-applied-centrelink-3"], input[name="has-cshc-3"]').change(function () {
+    console.log(this.value);
+    if (($('#partner-applied-centrelink-3-1').is(':checked') || $('#has-cshc-3-1').is(':checked'))) {
+      $("#crn-3-container").show();
+    } else {
+      $("#crn-3-container").hide();
+    }
+  });
+</script>
