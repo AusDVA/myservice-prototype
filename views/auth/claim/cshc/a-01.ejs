@@ -32,35 +32,64 @@
     }
 }) %>
 
-<%- include(forms+"yes_no", {
-  label: "Have you applied for or do you receive any benefits from Centrelink?",
-  yes_toggle: ["#crn-container","#eligibility-container"]
+<%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    id: "no-qs-info",
+    message: `<p>You can make a claim for <a href="#">Qualifying Service (QS)</a>. Having your QS determind, will allow you to apply for a range of benefits such as CSHC and Service Pension.</p>
+
+      <p>For more information, go to the <a rel="external" href="https://www.dva.gov.au/factsheet-is58-qualifying-service-post-second-world-war-conflicts">Factsheet IS58 - Qualifying Service</a></p>`
 }) %>
+
+
+<%- include(forms+"yes_no", {
+    label: "Have you applied for or do you receive any benefits from Centrelink?",
+    yes_toggle: ["#crn-container","#eligibility-container"]
+  }) %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
-  type: "warning",
-  id: "eligibility",
-  modifiers: ["hidden"]
-}); %>
+    message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+    type: "warning",
+    id: "eligibility",
+    modifiers: ["hidden"]
+  }); %>
 
 <%- include(forms+"yes_no", {
-  label: "Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
-  yes_toggle: "#crn-container",
-  no_toggle: "#save-next"
-}) %>
+    label: "Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+    yes_toggle: "#crn-container",
+    no_toggle: "#save-next"
+  }) %>
 
 <%- include(partials+"components/form-partials/text", {
-  label: "What is your Centrelink Customer Reference Number (CRN)?",
-  modifiers: ["hidden"],
-  id: "crn"
-}); %>
+    label: "What is your Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "crn"
+  }); %>
+
+<%- include(forms+"text", {
+    label: "What is your Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "crn"
+  }) %>
 
 
+<!-- 
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+put partials in these containers if you want them to only show 
+when war widow or non veteran is selected in the state switcher
 
-  <%- include(forms+"pagination", {
+<div id="war-widow">
+
+</div>
+  
+<div id="non-veteran">
+  
+</div> 
+
+-->
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
     pagination: [
       {
         link: "/auth/claim/cshc/prog-01",
@@ -83,16 +112,25 @@
     ]
   }) %>
 
-  <%- include(forms+"modals/claim-cancel") %>
+<%- include(forms+"modals/claim-cancel") %>
+<script>
+  $("#get-centrelink-container, #have-cshc-container").on("change", "input", function () {
+    if ($("#get-centrelink-container :checked").length > 0 || $("#have-cshc-1").prop("checked")) {
+      $("#crn-container").show();
+    } else {
+      $("#crn-container").hide();
+    }
+  })
 
-  <script>
-    $("#get-centrelink-container, #have-cshc-container").on("change", "input", function() {
-      if ($("#get-centrelink-container :checked").length > 0 || $("#have-cshc-1").prop("checked")) {
-        $("#crn-container").show();
-      } else {
-        $("#crn-container").hide();
-      }
-    })
-  </script>
+  $("#user-container").on("change", "input", function () {
+    if (sessionStorage.getItem("CSHC-flow") == "Veteran without QS") {
+      $("#no-qs-info-container").show();
+
+    };
+  });
+
+
+
+</script>
 
 <%- include(templates+"footer") %>

@@ -1,0 +1,217 @@
+<%- include(forms+"radio", {
+    label: "What is your current relationship status?",
+    id: "relationship-status",
+    boxes: [
+      {
+        text: "Single"
+      },
+      {
+        text: "Married"
+      },
+      {
+        text: "De Facto"
+      },
+      {
+        text: "Widowed"
+      },
+      {
+        text: "Divorced"
+      },
+      {
+        text: "Separated",
+        tooltip: {
+          screenreaderText: "Gender help",
+          content: "Separated means that you are living apart from your spouse, but still legally married pending a judgement from a court. If you are separated due to illness or age please indicate status as married. We will ask about circumstances regarding physical separation due to illness or age later in the claim."
+        }
+      }
+    ]
+  }) %>
+
+<div class="rel--separated" hidden>
+
+  <%- include(forms+"notice", {
+      message: `<p>You will be required to provide <a target="__blank" href="https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf"><span class="external-link">Separation from partner form (D513)</span></a> to support your claim.</p>
+         <p>You can attached the completed form at the end of your claim.</p>`
+    }) %>
+
+</div>
+
+<div id="rel-married-defacto" class="rel--married rel--de-facto" hidden>
+
+  <%- include(forms+"date", {
+        label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
+      }) %>
+
+  <%- include(forms+"notice", {
+      message: `<p>You will need to provide a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
+      customClass: "rel--married",
+      modifiers: ["hidden"]
+    }) %>
+
+  <h2 class="margin-above--large"><span class="font-weight-heavy">Partner details</span></h2>
+
+  <%- include(forms+"prepop/ranktitlelist-dropdown-alt", {
+      customClass: "margin-above--large",
+      label: "Title"
+    }) %>
+
+  <%- include(forms+"text", {
+      label: "Given name",
+      hint: "(first name)"
+    }) %>
+
+  <%- include(forms+"text", {
+      label: "Surname",
+      hint: "(last name)"
+    }) %>
+
+  <%- include(forms+"yes_no", {
+      label: "Has your partner ever been known by any other names?",
+      hint: "For example: name at birth, maiden name, previous married name",
+      yes_toggle: "#previous-names-container",
+      modifiers: ["hintNewLine"]
+    }) %>
+
+  <%- include(forms+"previous-names", {
+      modifiers: ["hidden"],
+      id: "previous-names"
+    }) %>
+
+  <%- include(forms+"prepop/gender", {
+      label: "Gender"
+    }) %>
+
+  <%- include(forms+"date", {
+      label: "Date of birth"
+    }) %>
+
+  <%- include(forms+"notice", {
+      message: `<p>You need to provide a copy of your partners birth certificate in the documents section.</p>`,
+    }) %>
+
+  <h2 class="margin-above--large"><span class="font-weight-heavy">Partner contact details</span></h2>
+
+  <%- include("phone-number"); %>
+
+  <%- include(forms+"text", {
+      label: "Email",
+      hint: "(optional)"
+    }) %>
+
+  <%- include(forms+"yes_no", {
+      label: "Does your partner live at the same address as you?",
+      no_toggle: [ "#residential-address-container", "#illness-container"]
+    }) %>
+
+  <%- include(forms+"prepop/address", {
+      id: "residential-address",
+      modifiers: ["hidden"],
+      label: "Partner address"
+    }) %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+      boxes: [
+        {
+          text: "Use my postal address for my partner",
+          rToggle: "#postal-address-1-container",
+          modifiers: ["checked"]
+        }
+      ]
+    }); %>
+
+  <%- include(forms+"prepop/address", {
+      id: "postal-address-1",
+      modifiers: ["hidden"],
+      label: "Partner's postal address"
+    }) %>
+
+  <%- include(forms+"yes_no", {
+      label: "Does your partner live at the a different address due to age or ill health",
+      id: "illness",
+      modifiers: ["hidden"]
+    }) %>
+
+
+  <h2 class="margin-above--large"><span class="font-weight-heavy">Benefits</span></h2>
+
+  <%- include(forms+"yes_no", {
+      label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+      id: "partner-applied-centrelink-2"
+    }) %>
+
+  <%- include(partials+"components/form-partials/notice", {
+      message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+      type: "warning",
+      id: "eligibility-2",
+      modifiers: ["hidden"]
+    }); %>
+
+  <%- include(forms+"yes_no", {
+      label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card from Centrelink?",
+      id: "has-cshc-2"
+    }) %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
+      modifiers: ["hidden"],
+      id: "crn-2"
+    }); %>
+
+
+</div>
+
+<script>
+  $("#relationship-status-container").on("change", "input", function () {
+    $(".rel--married").hide();
+    $(".rel--de-facto").hide();
+    $(".rel--separated").hide();
+    switch ($("#relationship-status-container :checked").val()) {
+      case "married":
+        $(".rel--married").show();
+        hideConditionalFields();
+        resetForm();
+        sessionStorage.setItem('cshc-relationship-status', "Partnered");
+        break;
+      case "defacto":
+        $(".rel--de-facto").show();
+        hideConditionalFields();
+        resetForm();
+        sessionStorage.setItem('cshc-relationship-status', "Partnered");
+        break;
+        break;
+      case "widowed":
+        $("#save-next").show();
+        hideConditionalFields();
+        resetForm();
+        sessionStorage.setItem('cshc-relationship-status', "Single");
+        break;
+      case "divorced":
+        $("#save-next").show();
+        hideConditionalFields();
+        resetForm();
+        sessionStorage.setItem('cshc-relationship-status', "Single");
+        break;
+      case "separated":
+        $("#save-next").show();
+        hideConditionalFields();
+        resetForm();
+        sessionStorage.setItem('cshc-relationship-status', "Single");
+        break;
+    }
+
+  })
+
+  $("input[name='partner-applied-centrelink-2']:radio")
+    .change(function () {
+      $("#eligibility-2-container").toggle($(this).val() == "yes");
+    });
+
+  $('input[name="partner-applied-centrelink-2"], input[name="has-cshc-2"]').change(function () {
+    console.log(this.value);
+    if (($('#partner-applied-centrelink-2-1').is(':checked') || $('#has-cshc-2-1').is(':checked'))) {
+      $("#crn-2-container").show();
+    } else {
+      $("#crn-2-container").hide();
+    }
+  });
+</script>

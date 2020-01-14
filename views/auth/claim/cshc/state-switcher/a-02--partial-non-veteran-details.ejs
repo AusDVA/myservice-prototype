@@ -1,0 +1,132 @@
+<h3>Partner details</h3>
+<%- include(forms+"prepop/ranktitlelist-dropdown", {
+  label: "Title"
+}) %>
+
+<%- include(forms+"text", {
+  label: "Given name",
+  hint: "(first name)"
+}) %>
+
+<%- include(forms+"text", {
+  label: "Surname",
+  hint: "(last name)"
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Has your partner ever been known by any other names?",
+  hint: "For example: name at birth, maiden name, previous married name",
+  yes_toggle: "#previous-names-3-container",
+  modifiers: ["hintNewLine"]
+}) %>
+
+<%- include(forms+"previous-names", {
+  modifiers: ["hidden"],
+  id: "previous-names-3"
+}) %>
+
+
+<%- include(forms+"date", {
+  label: "Date of birth"
+}) %>
+
+<%- include(forms+"notice", {
+  message: `<p>You need to provide a copy of your partners birth certificate in the documents section.</p>`,
+}) %>
+
+<%- include(forms+"prepop/gender") %>
+<div class="has-residential">
+  <h3>Residential address</h3>
+
+  <%- include(forms+"yes_no", {
+    label: "Does your partner live at the same address as you?",
+    no_toggle: [ "#residential-address-container", "#illness-container"]
+  }) %>
+
+  <%- include(forms+"prepop/address", {
+    id: "residential-address",
+    modifiers: ["hidden"],
+    label: "Partner address"
+  }) %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      {
+        text: "Use my postal address for my partner",
+        rToggle: "#postal-address-container",
+        modifiers: ["checked"]
+      }
+    ]
+  }); %>
+
+  <%- include(forms+"prepop/address", {
+    id: "postal-address",
+    modifiers: ["hidden"],
+    label: "Partner's postal address"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Does your partner live at the a different address due to age or ill health",
+    id: "illness",
+    modifiers: ["hidden"]
+  }) %>
+</div>
+<div class="has-contact">
+  <h3>Contact details</h3>
+
+  <%- include(forms+"yes_no", {
+    customClass: "contact-details-5",
+    label: "Does your partner wish to use your contact details?",
+    no_toggle: ".contact-details-block-5"
+    }) %>
+
+  <div class="contact-details-block-5" hidden>
+    <%- include(forms+"prepop/phone-number", {
+      label: "Partner's phone number"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Partner's email address"
+    }) %>
+  </div>
+</div>
+<h3>Benefits</h3>
+<div class="has-partner-centrelink">
+  <%- include(forms+"yes_no", {
+    label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+    id: "partner-applied-centrelink-3"
+  }) %>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+    type: "warning",
+    id: "eligibility-3",
+    modifiers: ["hidden"]
+  }); %>
+
+  <%- include(forms+"yes_no", {
+    label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card from Centrelink?",
+    id: "has-cshc-3"
+  }) %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "crn-3"
+  }); %>
+</div>
+
+<script>
+  $("input[name='partner-applied-centrelink-3']:radio")
+    .change(function () {
+      $("#eligibility-3-container").toggle($(this).val() == "yes");
+    });
+
+  $('input[name="partner-applied-centrelink-3"], input[name="has-cshc-3"]').change(function () {
+    console.log(this.value);
+    if (($('#partner-applied-centrelink-3-1').is(':checked') || $('#has-cshc-3-1').is(':checked'))) {
+      $("#crn-3-container").show();
+    } else {
+      $("#crn-3-container").hide();
+    }
+  });
+</script>

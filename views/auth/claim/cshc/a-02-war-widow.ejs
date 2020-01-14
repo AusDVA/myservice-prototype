@@ -1,0 +1,93 @@
+<h3>Tell us about the veteran.</h3>
+<p class="margin-below--small">If the veteran details are not correct, please call DVA on <span
+        class="dva-phone"></span>.</p>
+
+<p>
+    <span><b>Partner name&nbsp;&nbsp;&nbsp;</b>John Smith</span>
+    <br>
+    <span><b>Date of birth&nbsp;&nbsp;&nbsp;</b>11/04/1955</span>
+</p>
+
+
+<form class="current-relationship has-previous-names">
+    <h2>Your current relationship</h2>
+
+    <%- include(forms+"yes_no", {
+        label: "Are you currently in a relationship and living together?",
+        id: "war-widow--new-relationship-q"
+      }) %>
+
+    <div class="current-relationship-type" hidden>
+        <%- include(forms+"radio", {
+          label: "What is your new relationship status?",
+          id: "war-widow--new-relationship-status",
+          boxes: [
+            "Married",
+            "De facto"
+          ]
+        }) %>
+
+        <div class="current-relationship-details" hidden>
+            <%- include(forms+"date", {
+            customClass: "de-facto--living-together",
+            modifiers: ["hidden"],
+            label: "Date commenced living together"
+          }) %>
+
+            <%- include(forms+"date", {
+            customClass: "married--married-date",
+            modifiers: ["hidden"],
+            label: "Date of marriage"
+          }) %>
+
+            <%- include(forms+"notice", {
+    message: `<p>You will need to provide a copy of your marriage certificate in the documents section at the end of your claim.</p>`,
+    customClass: "rel--married",
+    modifiers: ["hidden"]
+  }) %>
+
+
+            <%- include("state-switcher/a-02--partial-non-veteran-details") %>
+        </div>
+    </div>
+
+</form>
+
+
+
+
+<script>
+    $("#war-widow--new-relationship-q-container").on("change", "input", function () {
+        $("#state--war-widow .divorce-blocker").hide();
+        $("#state--war-widow .current-relationship-type").hide();
+        $("#state--war-widow .current-relationship-type").hide();
+        $(".save-next").hide();
+
+        if ($("#war-widow--new-relationship-q-container :checked").val() === "yes") {
+            if ($("#war-widow--veteran-relationship-container :checked").val() === "separated") {
+                $("#state--war-widow .divorce-blocker").last().show();
+            } else {
+                $("#state--war-widow .current-relationship-type").show();
+            }
+        } else {
+            $(".save-next").show();
+        }
+    })
+
+    $("#war-widow--new-relationship-status-container").on("change", "input", function () {
+        $("#state--war-widow .de-facto--living-together").hide();
+        $("#state--war-widow .married--married-date").hide();
+        console.log("hello")
+
+        switch ($("#war-widow--new-relationship-status-container :checked").val()) {
+            case "married":
+                $("#state--war-widow .current-relationship-details .married--married-date").show();
+                break;
+            case "defacto":
+                $("#state--war-widow .current-relationship-details .de-facto--living-together").show();
+                break;
+        }
+
+        $("#state--war-widow .current-relationship-details").show();
+    })
+</script>

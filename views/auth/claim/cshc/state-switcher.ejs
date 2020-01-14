@@ -1,68 +1,135 @@
 <div id="state-switcher">
-    <h3>State switcher</h3>
-  
-    <%- include(partials+"components/form-partials/radio", {
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
             label: "User",
             boxes: [
-              "Single",
-              "Partnered"
+            "Non Veteran",
+            "War widow",
+            "Veteran without QS",
+            "Veteran with QS",
             ],
             id: "user"
           }); %>
-  
-  </div>
-  
-  <script>
-  
-    $(document).ready(function () {
-      /* --- State switcher --- */
-      /* Toggle switcher */
-      $(document).keypress(function (e) {
-        switch (e.which) {
-          case 96: //tilda
-            $('#state-switcher').toggle();
-            break;
-          default:
-        }
-      });
-  
-      if (sessionStorage.getItem('cshc-relationship-status') == "Partnered") {
-        updateContent("Partnered");
-        $("#user-2").prop("checked", true);
-      } else {
-        updateContent("Single");
-        $("#user-1").prop("checked", true);
-      }
-  
-      $('#user-container').change(function () {
-        var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
-        updateContent(mySelection)
-        if (typeof stateSwitcher === "function") stateSwitcher();
-      });
-  
-      function updateContent(myUser) {
-        switch (myUser) {
-          case "Single":
-            $(".user-label-a").text("your name");
-            $(".user-label-b").text("");
-            $(".user-label-c").text("Total");
-            sessionStorage.setItem('cshc-relationship-status', "Single");
-            $(".couple").hide();
-            break;
-          case "Partnered":
-            $(".user-label-a").text("you and/or your partner's names");
-            $(".user-label-b").text("and your partner");
-            $(".user-label-c").text("Your total");
-            sessionStorage.setItem('cshc-relationship-status', "Partnered");
-            $(".couple").show();
-            break;
-          default:
-            break;
-        }
-      }
 
-      if (typeof stateSwitcher === "function") stateSwitcher();
-  
+  <%- include(partials+"components/form-partials/checkbox", {
+  boxes: [
+    "Partnered"
+  ],
+}); %>
+
+</div>
+
+<script>
+  var partnered = false;
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
     });
-  </script>
-  
+
+    function partnerCheck() {
+      if (sessionStorage.getItem('CSHC-partnered') == "true") {
+        console.log('cshc partnered activated');
+        $('#state-switcher input[type="checkbox"]').prop("checked", true);
+      } else {
+        $('#state-switcher input[type="checkbox"]').prop("checked", false);
+      }
+    }
+    partnerCheck();
+
+
+    $('#user-container').change(function () {
+      var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
+      // checkStates();
+      changeFlow(mySelection);
+    });
+
+    $('#state-switcher input[type="checkbox"]').click(function () {
+      if ($(this).prop("checked") == true) {
+        sessionStorage.setItem('CSHC-partnered', "true");
+        $(".user-label-a").text("you and/or your partner's names");
+        $(".user-label-b").text("and your partner");
+        $(".user-label-c").text("Your total");
+        $(".couple").show();
+      }
+      else {
+        sessionStorage.setItem('CSHC-partnered', "false");
+        $(".user-label-a").text("your name");
+        $(".user-label-b").text("");
+        $(".user-label-c").text("Total");
+        $(".couple").hide();
+      }
+    });
+
+    function languageSwitcher() {
+      if (sessionStorage.getItem('CSHC-partnered') == "false") {
+        $(".user-label-a").text("your name");
+        $(".user-label-b").text("");
+        $(".user-label-c").text("Total");
+        $(".couple").hide();
+      } else {
+        $(".user-label-a").text("you and/or your partner's names");
+        $(".user-label-b").text("and your partner");
+        $(".user-label-c").text("Your total");
+        $(".couple").show();
+      }
+    }
+
+    languageSwitcher();
+
+    function changeFlow(selection) {
+      switch (selection) {
+        case "Veteran with QS":
+          sessionStorage.setItem('CSHC-flow', "Veteran with QS");
+          location.reload();
+          break;
+        case "Non Veteran":
+          sessionStorage.setItem('CSHC-flow', "Non Veteran");
+          location.reload();
+          break;
+        case "Veteran without QS":
+          sessionStorage.setItem('CSHC-flow', "Veteran without QS");
+          location.reload();
+          break;
+        case "War widow":
+          sessionStorage.setItem('CSHC-flow', "War widow");
+          location.reload();
+          break;
+        default:
+          break;
+      }
+      updateContent();
+    }
+
+    languageSwitcher();
+
+    // function checkStates() {
+    //   if (!$("#user-container input[name=user]:checked").length > 0) {
+    //     $("#user-1").prop("checked", true);
+    //   }
+    // }
+
+    // checkStates();
+
+    function hideUserStates() {
+      var url = window.location.href;
+      console.log(url);
+      if (url.indexOf("a-01") > -1 || url.indexOf("a-02") > -1) {
+        $("#user-container").show();
+        $("#refresh-page-message").show();
+      } else {
+        $("#user-container").hide();
+        $("#refresh-page-message").show();
+      }
+    };
+
+    hideUserStates();
+  });
+</script>
