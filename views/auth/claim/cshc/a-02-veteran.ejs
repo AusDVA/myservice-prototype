@@ -37,9 +37,8 @@
 </div>
 
 <div id="rel-married-defacto" class="rel--married rel--de-facto" hidden>
-
   <%- include(forms+"date", {
-        label: `<span class="rel--married" hidden>Date of marriage</span><span class="rel--de-facto" hidden>Date commenced living together</span>`
+        label: `<span id="marriage-date-label" class="rel--married" hidden>Date of marriage</span><span id="defacto-date-label" class="rel--de-facto">Date commenced living together</span>`
       }) %>
 
   <%- include(forms+"notice", {
@@ -94,7 +93,7 @@
   <%- include("phone-number"); %>
 
   <%- include(forms+"text", {
-      label: "Email",
+      label: "Partner's email address",
       hint: "(optional)"
     }) %>
 
@@ -168,6 +167,7 @@
     switch ($("#relationship-status-container :checked").val()) {
       case "married":
         $(".rel--married").show();
+        $("#marriage-date-label").show();
         hideConditionalFields();
         resetForm();
         sessionStorage.setItem('cshc-relationship-status', "Partnered");
@@ -175,6 +175,7 @@
       case "defacto":
         $(".rel--de-facto").show();
         hideConditionalFields();
+        $("#defacto-date-label").show();
         resetForm();
         sessionStorage.setItem('cshc-relationship-status', "Partnered");
         break;
