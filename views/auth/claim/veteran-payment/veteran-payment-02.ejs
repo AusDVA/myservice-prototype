@@ -11,7 +11,7 @@ progress.activeItem = 2;
   progress
 }) %>
 
-  <%- include(partials+"components/form-partials/radio", {
+<%- include(partials+"components/form-partials/radio", {
     label: "What is your relationship status?",
     boxes: [
       {
@@ -25,54 +25,54 @@ progress.activeItem = 2;
     id: "relationship-status"
   }); %>
 
-  <div id="partner-details" hidden>
+<div id="partner-details" hidden>
 
-    <h3>Partner details</h3>
+  <h3>Partner details</h3>
 
-    <%- include(partials+"components/form-partials/text", {
+  <%- include(partials+"components/form-partials/text", {
       label: "Given name",
       hint: "(first name)"
     }); %>
 
-    <%- include(partials+"components/form-partials/text", {
+  <%- include(partials+"components/form-partials/text", {
       label: "Surname",
       hint: "(last name)"
     }); %>
 
-    <%- include(partials+"components/form-partials/prepop/gender"); %>
+  <%- include(partials+"components/form-partials/prepop/gender"); %>
 
-    <br>
+  <br>
 
-    <%- include(partials+"components/form-partials/date", {
+  <%- include(partials+"components/form-partials/date", {
       label: "Date of birth"
     }); %>
 
-    <%- include(partials+"components/form-partials/yes_no", {
+  <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner wish to receive Veteran Payment?",
       yes_toggle: "#partner-payment-questions"
     }); %>
 
-    <div id="partner-payment-questions" hidden>
+  <div id="partner-payment-questions" hidden>
 
-      <%- include(partials+"components/form-partials/yes_no", {
+    <%- include(partials+"components/form-partials/yes_no", {
           label: "Does your partner currently receive payments from Centrelink?",
           id: "partner-centrelink",
           yes_toggle: "#partner-crn-container",
           no_toggle: "#save-next"
       }); %>
 
-      <%- include(partials+"components/form-partials/text", {
+    <%- include(partials+"components/form-partials/text", {
           label: "What is your partner's Customer Reference Number (CRN)?",
           id: "partner-crn",
           modifiers: ["hidden"]
       }); %>
 
-    </div>
   </div>
+</div>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -95,27 +95,25 @@ progress.activeItem = 2;
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<script>
 
-  <script>
-
-$("input:radio").prop("checked", false);
+  $("input:radio").prop("checked", false);
 
 
-    $("#relationship-status-container").on("change", "input", function() {
-      if ($(this).val() === "single") {
-        localStorage.setItem("relationship-status", "single");
-      } else {
-        localStorage.setItem("relationship-status", "couple");
-      }
-    })
+  $("#relationship-status-container").on("change", "input", function () {
+    if ($(this).val() === "single") {
+      localStorage.setItem("relationship-status", "single");
+    } else {
+      localStorage.setItem("relationship-status", "couple");
+    }
+  })
 
-    $("#partner-is-citizen-container").on("change", "input", function() {
-      if ($(this).val() === "yes") {
-        localStorage.setItem("immigration-status", "citizen");
-      } else {
-        localStorage.setItem("immigration-status", "immigrant");
-      }
-    })
-  </script>
+  $("#partner-is-citizen-container").on("change", "input", function () {
+    if ($(this).val() === "yes") {
+      localStorage.setItem("immigration-status", "citizen");
+    } else {
+      localStorage.setItem("immigration-status", "immigrant");
+    }
+  })
+</script>
 <%- include(templates+"footer") %>
