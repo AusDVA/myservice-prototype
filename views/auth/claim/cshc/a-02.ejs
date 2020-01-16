@@ -266,11 +266,12 @@
 <%- include(forms+"modals/claim-cancel") %>
 <%- include("state-switcher") %>
 <script>
+  $(document).ready(function () {
 
-  $("#current-container").on("change", "input", function () {
-    if (sessionStorage.getItem('CSHC-flow') == "War widow") {
-      $("input[name='current']:radio")
-        .change(function () {
+
+    $("input[name='current']:radio")
+      .change(function () {
+        if (sessionStorage.getItem('CSHC-flow') == "War widow") {
           if ($(this).val() == "yes") {
             console.log('it is yes');
             unblock();
@@ -282,13 +283,10 @@
             console.log('it is no');
             $("#partner-questions").hide();
           }
-        });
-    }
+        }
 
-    if (sessionStorage.getItem('CSHC-flow') == "Non Veteran") {
-      $("#partner-questions").hide();
-      $("input[name='current']:radio")
-        .change(function () {
+        if (sessionStorage.getItem('CSHC-flow') == "Non Veteran") {
+          $("#partner-questions").hide();
           if ($(this).val() == "yes") {
             block();
             $(".divorce-blocker-3").show();
@@ -296,12 +294,10 @@
             unblock();
             $(".divorce-blocker-3").hide();
           }
-        });
-    }
-
-
+        }
+      }
+      );
   });
-
 
   $("#known--veteran-relationship-container").on("change", "input", function () {
     $("#state--known .divorce-blocker").hide();
