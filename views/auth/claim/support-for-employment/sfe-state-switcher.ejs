@@ -1,12 +1,11 @@
 <div id="state-switcher">
-  <h3>SFE State Switcher</h3>
+  <!-- <h3>SFE State Switcher</h3> -->
   <%- include(partials+"components/form-partials/checkbox", {
     id: "sw-service-history",
-    label: "PMKeyS unknown",
+    label: "State switcher",
     boxes: [
       {
-        text: "Yes",
-        modifiers: ["checked"]
+        text: "PMKeyS Unknown"
       }
     ]
   }) %>
@@ -26,16 +25,18 @@
   $(document).ready(function() {  
     $("#sw-service-history-container").on("change", function() {
       if ($(":checked", this).length > 0) {
-        localStorage.setItem("sfe-service-provided", "true")
+        $("#situation-checker-container").hide();
+         $("#discharge-date-container").show();
       } else {
-        localStorage.setItem("sfe-service-provided", "false")
+        $("#situation-checker-container").show();
+        $("#discharge-date-container").hide();
       }
     })
 
-    if (localStorage.getItem("sfe-service-provided") === null) {
-      localStorage.setItem("sfe-service-provided", "true");
-    } else if (localStorage.getItem("sfe-service-provided") === "false") {
-      $("#sw-service-history-1").prop("checked", false);
-    }
-  })
+    // if (localStorage.getItem("sfe-service-provided") === null) {
+    //   localStorage.setItem("sfe-service-provided", "true");
+    // } else if (localStorage.getItem("sfe-service-provided") === "false") {
+    //   $("#sw-service-history-1").prop("checked", false);
+    // }
+  });
 </script>
