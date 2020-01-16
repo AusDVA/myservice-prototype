@@ -52,8 +52,8 @@
       }
     });
 
-    var fromIL = localStorage.getItem("came-from-il"); 
-    if ( fromIL == "true" ) {
+    var fromIL = localStorage.getItem("came-from-il");
+    if (fromIL == "true") {
       $("#sw-came-from-il-1").prop("checked", true);
     }
 
@@ -86,6 +86,8 @@
     $("#bank-details-known-1").prop("checked", true);
 
     stateSwitcher();
+
+    hideUserStates();
 
   });
 
@@ -122,6 +124,24 @@
     cameFromIl = localStorage.getItem("came-from-il");
     stateSwitcher();
   })
+
+  function hideUserStates() {
+    var url = window.location.href;
+    console.log(url);
+    if (url.indexOf("veteran-payment-01") > -1) {
+      $("#sw-relationship-status-container").hide();
+      $("#bank-details-known-container").hide();
+    }
+
+    if (url.indexOf("veteran-payment-03") > -1 || url.indexOf("veteran-payment-04") > -1 || url.indexOf("veteran-payment-05") > -1) {
+      $("#sw-came-from-il-container").hide();
+      $("#bank-details-known-container").hide();
+    }
+
+    if (url.indexOf("veteran-payment-06") > -1) {
+      $("#sw-came-from-il-container").hide();
+    }
+  };
 
 
 
