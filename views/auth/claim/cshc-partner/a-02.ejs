@@ -1,0 +1,96 @@
+<%
+
+var progress = JSON.parse(include("a-progressbar")) 
+progress.activeItem = 2;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Relationship Status",
+  progress
+}) %>
+
+<%- include("state-switcher/a-02--state-unknown") %>
+
+<%- include("state-switcher/a-02--state-known") %>
+
+<%- include("state-switcher/a-02--state-war-widow") %>
+
+<%- include("state-switcher/a-02--state-known-noqs") %>
+
+<%- include("state-switcher/a-02--state-unknown--noqs") %>
+
+<p class="save-next" hidden>Choose <b>Save and next</b> to continue.</p>
+
+<%- include("state-switcher/a-02-state-switcher") %>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/a-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim",
+        id: "btnCancel"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc-partner/a-03",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<script>
+  $(".previous-names-q").on("change", "input", function () {
+    if ($(this).closest(".form-group").find(":checked").val() === "yes") {
+      $(this).closest(".has-previous-names").find(".previous-names").show();
+    } else {
+      $(this).closest(".has-previous-names").find(".previous-names").hide();
+    }
+  })
+
+  $(".residential-address-q").on("change", "input", function () {
+    if ($(this).closest(".form-group").find(":checked").val() === "no") {
+      $(this).closest(".has-residential").find(".residential-address-block").show();
+    } else {
+      $(this).closest(".has-residential").find(".residential-address-block").hide();
+    }
+  })
+
+  $(".contact-details-q").on("change", "input", function () {
+    if ($(this).closest(".form-group").find(":checked").val() === "no") {
+      $(this).closest(".has-contact").find(".contact-details-block").show();
+    } else {
+      $(this).closest(".has-contact").find(".contact-details-block").hide();
+    }
+  })
+
+  $(".partner-centrelink-paymments, .partner-centrelink-has-cshc").on("change", "input", function () {
+    if ($(this).closest(".has-partner-centrelink").find(".partner-centrelink-paymments :checked").val() === "yes" || $(this).closest(".has-partner-centrelink").find(".partner-centrelink-has-cshc :checked").val() === "yes") {
+      $(this).closest(".has-partner-centrelink").find(".partner-centrelink-cshc").show();
+    } else {
+      $(this).closest(".has-partner-centrelink").find(".partner-centrelink-cshc").hide();
+    }
+  })
+
+  function block() {
+    $(".pagination a").attr("disabled", "true");
+    $("#btnCancel").removeAttr("disabled");
+  }
+
+  function unblock() {
+    $(".pagination a").removeAttr("disabled");
+  }
+</script>
+
+<%- include(templates+"footer") %>

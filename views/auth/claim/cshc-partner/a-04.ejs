@@ -1,0 +1,143 @@
+<%
+
+var progress = JSON.parse(include("a-progressbar")) 
+progress.activeItem = 4;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Residency",
+  progress
+}) %>
+
+  <h2 class="margin-below">Tell us about your residency</h2>
+
+  <%- include(forms+"yes_no", {
+    label: "Are you an Australian citizen?",
+    id: "aus-citizen",
+    yes_toggle: "#is-citizen",
+    no_toggle: "#not-citizen"
+  }) %>
+
+  <form id="is-citizen" hidden>
+    <%- include(forms+"yes_no", {
+      label: "Were you born in Australia?",
+      id: "citizen-born-australia",
+      no_toggle: "#citizen-country-birth-container, #citizen-start-date-container"
+    }) %>
+
+    <%- include(forms+"prepop/country-dropdown", {
+      label: "What is your country of birth?",
+      id: "citizen-country-birth",
+      modifiers: ["hidden"]
+    }) %>
+
+    <%- include(forms+"date", {
+      label: "Citizensip start date",
+      id: "citizen-start-date",
+      modifiers: ["hidden"]
+    }) %>
+  </form>
+
+  <form id="not-citizen" hidden>
+    <%- include(forms+"radio", {
+      label: "Are you:",
+      id: "visa-status",
+      all_toggle: "#country-of-birth-container",
+      boxes: [
+        "The holder of a permanent visa",
+        "The holder of a special purpose visa",
+        "The holder of a special category visa",
+        {
+          text: "A refugee or a formal refugee",
+          toggle: "#refugee",
+          rToggle: "#visa"
+        }
+      ]
+    }) %>
+
+    <div id="refugee" hidden>    
+      <%- include(forms+"prepop/country-dropdown", {
+        label: "What is your country of birth?"
+      }) %>
+
+      <%- include(forms+"date", {
+        label: "Refugee status start date",
+      }) %>
+    </div>
+
+
+    <div id="visa" hidden>
+      <%- include(forms+"notice", {
+        message: `<p>You will be required to provide evidence of Australian residency to support your claim.</p>
+        <p>You will be asked to upload htis evidence when finalising your claim in PART D.</p>`
+      }) %>
+
+      <%- include(forms+"prepop/country-dropdown", {
+        label: "What is your country of birth?"
+      }) %>
+
+      <%- include(forms+"date", {
+        label: "Visa application date"
+      }) %>
+
+      <%- include(forms+"date", {
+        label: "Visa grant date"
+      }) %>
+
+      <%- include(forms+"date", {
+        label: "Visa application date"
+      }) %>
+
+      <%- include(forms+"prepop/visasubclass-dropdown") %>
+
+      <%- include(forms+"text", {
+        label: "Visa number",
+        modifiers: ["inputShort"]
+      }) %>
+    </div>
+  </form>
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/a-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc-partner/a-05",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#aus-citizen-container").on("change", "input", function() {
+      $("#is-citizen").trigger("reset");
+      $("#not-citizen").trigger("reset");
+      $("#citizen-country-birth-container").hide();
+      $("#citizen-start-date-container").hide();
+      
+      $("#refugee-start-date-container").hide();
+      $("#visa-details").hide();
+    })
+    $("#not-citizen, #is-citizen").on("submit", function(e) {
+      e.preventDefault();
+    })
+  </script>
+
+<%- include(templates+"footer") %>
