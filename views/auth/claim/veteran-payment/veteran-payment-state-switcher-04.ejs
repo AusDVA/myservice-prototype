@@ -1,0 +1,61 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(forms+"checkbox", {
+    id: "partner-wants-vp",
+    boxes: [
+      "Partner wants VP"
+    ]
+  }) %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    id: "bank-details-known",
+    boxes: [
+      "Bank details known",
+    ]
+  }); %>
+
+</div>
+
+<script>
+  var partnerWantsVP;
+  var bankDetailsKnown;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    if (localStorage.getItem("partner-wants-vp") === "true") {
+      $("#partner-wants-vp-1").prop("checked", true);
+    }
+    partnerWantsVP = localStorage.getItem("partner-wants-vp");
+    stateSwitcher();
+
+  });
+
+  $("#state-switcher").on("change", "input", function () {
+
+    if ($("#partner-wants-vp-1").prop("checked")) {
+      localStorage.setItem("partner-wants-vp", "true");
+    } else {
+      localStorage.setItem("partner-wants-vp", "false");
+    }
+    partnerWantsVP = localStorage.getItem("partner-wants-vp");
+
+    if ($("#bank-details-known-1").prop("checked")) {
+      localStorage.setItem("bank-details-known", "true");
+    } else {
+      localStorage.setItem("bank-details-known", "false");
+    }
+    bankDetailsKnown = localStorage.getItem("bank-details-known");
+
+    stateSwitcher();
+  })
+
+</script>

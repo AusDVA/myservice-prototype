@@ -49,6 +49,7 @@ progress.activeItem = 6;
 <ul>
   <li>Employment income, superannuation pensions, foreign income</li>
   <li>Rental income, boarders and lodgers (net income after expenses)</li>
+  <li>Business income (net income after expenses)</li>
   <li>Annuities and other income streams</li>
   <li>Any other income not included elsewhere on this form</li>
 </ul>
@@ -87,23 +88,19 @@ progress.activeItem = 6;
     ]
   }) %>
 
-<%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher-03") %>
 
 <script>
+
   function stateSwitcher() {
-    console.log(relationshipStatus);
-    switch (relationshipStatus) {
-      case "single":
-        $(".user-label-a").text("your");
-        $(".user-label-b").text("");
-        break;
-      case "partnered":
+    if (localStorage.getItem("partner-wants-vp") === "true" ) {
         $(".user-label-a").text("you and/or your partner's");
         $(".user-label-b").text("by you and/or your partner");
-        break;
-      default:
-        break;
+    } else {
+        $(".user-label-a").text("your");
+        $(".user-label-b").text("");
     }
   }
 </script>
+
 <%- include(templates+"footer") %>

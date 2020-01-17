@@ -11,19 +11,7 @@ progress.activeItem = 2;
   progress
 }) %>
 
-<%- include(partials+"components/form-partials/radio", {
-    label: "What is your relationship status?",
-    boxes: [
-      {
-        text: "Single",
-        rToggle: "#partner-details",
-        toggle: "#save-next"
-      },
-      "Married and currently living together",
-      "Living in a marriage-like relationship"
-    ],
-    id: "relationship-status"
-  }); %>
+<%- include(partials+"faqs/relationship-status"); %>
 
 <div id="partner-details" hidden>
 
@@ -49,6 +37,7 @@ progress.activeItem = 2;
 
   <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner wish to receive Veteran Payment?",
+      id: "partner-wants-vp",
       yes_toggle: "#partner-payment-questions"
     }); %>
 
@@ -99,20 +88,42 @@ progress.activeItem = 2;
 
   $("input:radio").prop("checked", false);
 
-
-  $("#relationship-status-container").on("change", "input", function () {
-    if ($(this).val() === "single") {
-      localStorage.setItem("relationship-status", "single");
-    } else {
-      localStorage.setItem("relationship-status", "couple");
+  $('input[name=relationship-status]').change(function () {
+    $("#save-next").hide();
+    $("#partner-details").hide();
+    switch ( $(this).val() ) {
+      case "single":
+        $("#save-next").show();
+        localStorage.setItem("relationship-status", "single");
+        break;
+      case "married":
+        $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      case "defacto":
+        $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      case "separatedwhilestilllivingtogether":
+      $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      case "divorced":
+      $("#save-next").show();
+        localStorage.setItem("relationship-status", "single");
+        break;
+      case "widowed":
+      $("#save-next").show();
+        localStorage.setItem("relationship-status", "single");
+        break;
+      default:
     }
-  })
-
-  $("#partner-is-citizen-container").on("change", "input", function () {
+  });
+  $("#partner-wants-vp-container").on("change", "input", function () {
     if ($(this).val() === "yes") {
-      localStorage.setItem("immigration-status", "citizen");
+      localStorage.setItem("partner-wants-vp", "true");
     } else {
-      localStorage.setItem("immigration-status", "immigrant");
+      localStorage.setItem("partner-wants-vp", "false");
     }
   })
 </script>
