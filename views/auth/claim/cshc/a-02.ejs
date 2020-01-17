@@ -98,10 +98,6 @@
     label: "Date of birth"
   }) %>
 
-    <%- include(forms+"notice", {
-  message: `<p>You need to provide a copy of your partners birth certificate in the documents section.</p>`,
-}) %>
-
     <%- include(forms+"prepop/gender") %>
 
     <%#- include(forms+"text", {
@@ -174,7 +170,6 @@
   <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you currently in a new relationship and living together?",
   id: "current",
-  yes_toggle: ".divorce-blocker-3",
   no_toggle: "#save-next",
   modifiers: ["hidden"]
 }); %>
@@ -271,6 +266,38 @@
 <%- include(forms+"modals/claim-cancel") %>
 <%- include("state-switcher") %>
 <script>
+  $(document).ready(function () {
+
+
+    $("input[name='current']:radio")
+      .change(function () {
+        if (sessionStorage.getItem('CSHC-flow') == "War widow") {
+          if ($(this).val() == "yes") {
+            console.log('it is yes');
+            unblock();
+            $("#partner-questions").show();
+            $(".divorce-blocker-3").hide();
+          }
+
+          if ($(this).val() == "no") {
+            console.log('it is no');
+            $("#partner-questions").hide();
+          }
+        }
+
+        if (sessionStorage.getItem('CSHC-flow') == "Non Veteran") {
+          $("#partner-questions").hide();
+          if ($(this).val() == "yes") {
+            block();
+            $(".divorce-blocker-3").show();
+          } else {
+            unblock();
+            $(".divorce-blocker-3").hide();
+          }
+        }
+      }
+      );
+  });
 
   $("#known--veteran-relationship-container").on("change", "input", function () {
     $("#state--known .divorce-blocker").hide();
@@ -425,15 +452,6 @@
     $("#save-next, #save-next-2").hide();
     $("#rel--married11").hide();
   }
-
-  $("input[name='current']:radio")
-    .change(function () {
-      if ($(this).val() == "yes") {
-        block();
-      } else {
-        unblock();
-      }
-    });
 
 </script>
 
