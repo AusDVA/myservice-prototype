@@ -88,23 +88,20 @@ progress.activeItem = 6;
     ]
   }) %>
 
-<%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher-03") %>
 
 <script>
+
   function stateSwitcher() {
-    console.log(relationshipStatus);
-    switch (relationshipStatus) {
-      case "single":
-        $(".user-label-a").text("your");
-        $(".user-label-b").text("");
-        break;
-      case "partnered":
+    console.log( localStorage.getItem("partner-wants-vp") )
+    if (localStorage.getItem("partner-wants-vp") === "true" ) {
         $(".user-label-a").text("you and/or your partner's");
         $(".user-label-b").text("by you and/or your partner");
-        break;
-      default:
-        break;
+    } else {
+        $(".user-label-a").text("your");
+        $(".user-label-b").text("");
     }
   }
 </script>
+
 <%- include(templates+"footer") %>

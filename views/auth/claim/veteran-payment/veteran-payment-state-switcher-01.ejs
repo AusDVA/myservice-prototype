@@ -1,0 +1,46 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(forms+"checkbox", {
+    id: "sw-came-from-il",
+
+    boxes: [
+      "Came from IL"
+    ]
+  }) %>
+
+</div>
+
+<script>
+
+  var cameFromIl;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    var fromIL = localStorage.getItem("came-from-il");
+    if (fromIL == "true") {
+      $("#sw-came-from-il-1").prop("checked", true);
+    }
+    stateSwitcher();
+
+  });
+
+  $("#state-switcher").on("change", "input", function () {
+    if ($("#sw-came-from-il-1").prop("checked")) {
+      localStorage.setItem("came-from-il", "true")
+    } else {
+      localStorage.setItem("came-from-il", "false")
+    }
+    cameFromIl = localStorage.getItem("came-from-il");
+    stateSwitcher();
+  })
+
+</script>
