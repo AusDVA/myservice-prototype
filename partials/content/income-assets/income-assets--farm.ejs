@@ -68,6 +68,42 @@
               label: "Address"
             }) %>
          
+            <%- include(forms+"dropdown", {
+              label: "Who owns the property?",
+              options: [
+                {
+                  text: "-- Select an item --"
+                },
+                {
+                  text: "Myself"
+                },
+                {
+                  text: "Jointly with my partner"
+                },
+                {
+                  text: "Jointly with any other party",
+                  toggle: ["#percentage-container","#other-owners-container"]
+                }
+              ]
+            }) %>
+
+            <%- include(partials+"components/form-partials/text", {
+              label: "What is the percentage of ownership?",
+              id: "percentage",
+              beforeText: "%",
+              modifiers: ["hidden"]
+            }); %>
+
+            <%- include(partials+"components/form-partials/text", {
+              label: "Name/s of other owners",
+              id: "other-owners",
+              modifiers: ["hidden"]
+            }); %>
+
+            <%- include(forms+"yes_no", {
+              label: "Is your home property held on more than one title?",
+              yes_toggle: "#more-than-one-title-container"
+            }) %>
 
        
 
@@ -76,11 +112,7 @@
               modifiers: ["inputFullLength"]
             }) %>
 
-            <%- include(forms+"yes_no", {
-              label: "Is your home property held on more than one title?",
-              yes_toggle: "#more-than-one-title-container"
-            }) %>
-
+         
             <%- include(forms+"notice", {
               modifiers: ["hidden"],
               id: "more-than-one-title",
@@ -208,6 +240,13 @@
               ]
             }) %>
 
+            <%- include(partials+"components/form-partials/date", {
+              label: "Valuation date",
+              tooltip: {
+                content: "If you have never had your property valued, provide date of latest council rates valuation."
+              }
+            }); %>
+
         <%- include(forms+"text", {
               label: "Present balance of mortgage or other secured loans",
               modifiers: ["inputShort", "dollarSign"],
@@ -272,6 +311,8 @@
               modifiers: ["inputFullLength", "hidden"],
               customClass: "dva-valuer"
             }) %>
+
+            <%- include(forms+"prepop/phone-number") %>
 
         <%- include(forms+"prepop/phone-number", {
               label: "Contact persons daytime phone number",
