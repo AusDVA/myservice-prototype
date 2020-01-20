@@ -3,11 +3,14 @@
     label: "What is your relationship status with the veteran?",
     id: "unknown--veteran-relationship",
     boxes: [
-      "Married",
       "De facto",
+      "Married",
       {
-        text: "Separated",
-        hint: "(while still legally married)"
+        text: "Separated (while still legally married)",
+        tooltip: 
+          {
+            content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
+          }
       },
       "Divorced",
       "Widowed"
@@ -41,7 +44,7 @@
       label: "Date of separation"
     }) %>
 
-    <h3>Veteran details</h3>    
+    <h3>Veteran details</h3>
 
     <%- include("a-02--partial-partner-questions") %>
 
@@ -64,7 +67,7 @@
 
   <form class="current-relationship has-previous-names" hidden>
     <h2>Your current relationship</h2>
-    
+
     <%- include(forms+"yes_no", {
       label: `Are you currently in a <span class="unknown--widowed-hide" hidden>new </span>relationship and living together?`,
       id: "unknown--new-relationship-q"
@@ -75,8 +78,8 @@
         label: "What is your new relationship status?",
         id: "unknown--new-relationship-status",
         boxes: [
-          "Married",
-          "De facto"
+          "De facto",
+          "Married"
         ]
       }) %>
 
@@ -102,7 +105,7 @@
 
 
   <script>
-    $("#unknown--veteran-relationship-container").on("change", "input", function() {
+    $("#unknown--veteran-relationship-container").on("change", "input", function () {
       $("#state--unknown .divorce-blocker").hide();
       unblock();
       $("#state--unknown .separation--date-separated").hide();
@@ -147,7 +150,7 @@
       }
     })
 
-    $("#unknown--new-relationship-q-container").on("change", "input", function() {
+    $("#unknown--new-relationship-q-container").on("change", "input", function () {
       $("#state--unknown .divorce-blocker").last().hide();
       unblock();
       $("#state--unknown .current-relationship-type").hide();
@@ -162,7 +165,7 @@
       }
     })
 
-    $("#unknown--new-relationship-status-container").on("change", "input", function() {
+    $("#unknown--new-relationship-status-container").on("change", "input", function () {
       $("#state--unknown .married--married-date").last().hide();
       $("#state--unknown .de-facto--living-together").last().hide();
 
