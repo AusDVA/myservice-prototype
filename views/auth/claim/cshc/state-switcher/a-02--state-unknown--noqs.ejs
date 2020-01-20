@@ -4,16 +4,19 @@
 
       <p>For more information, go to the <a rel="external" href="https://www.dva.gov.au/factsheet-is58-qualifying-service-post-second-world-war-conflicts">Factsheet IS58 - Qualifying Service</a></p>`
   }) %>
-  
+
   <%- include(forms+"radio", {
     label: "What is your relationship status with the veteran?",
     id: "unknown--noqs--veteran-relationship",
     boxes: [
-      "Married",
       "De facto",
+      "Married",
       {
-        text: "Separated",
-        hint: "(while still legally married)"
+        text: "Separated (while still legally married)",
+        tooltip: 
+          {
+            content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
+          }
       },
       "Divorced",
       "Widowed"
@@ -47,7 +50,7 @@
       label: "Date of separation"
     }) %>
 
-    <h3>Veteran details</h3>    
+    <h3>Veteran details</h3>
 
     <%- include("a-02--partial-partner-questions") %>
 
@@ -70,7 +73,7 @@
 
   <form class="current-relationship has-previous-names" hidden>
     <h2>Your current relationship</h2>
-    
+
     <%- include(forms+"yes_no", {
       label: `Are you currently in a <span class="unknown--noqs--widowed-hide" hidden>new </span>relationship and living together?`,
       id: "unknown--noqs--new-relationship-q"
@@ -81,8 +84,8 @@
         label: "What is your new relationship status?",
         id: "unknown--noqs--new-relationship-status",
         boxes: [
-          "Married",
-          "De facto"
+          "De facto",
+          "Married"
         ]
       }) %>
 
@@ -108,7 +111,7 @@
 
 
   <script>
-    $("#unknown--noqs--veteran-relationship-container").on("change", "input", function() {
+    $("#unknown--noqs--veteran-relationship-container").on("change", "input", function () {
       $("#state--unknown--noqs .divorce-blocker").hide();
       unblock();
       $("#state--unknown--noqs .separation--date-separated").hide();
@@ -153,7 +156,7 @@
       }
     })
 
-    $("#unknown--noqs--new-relationship-q-container").on("change", "input", function() {
+    $("#unknown--noqs--new-relationship-q-container").on("change", "input", function () {
       $("#state--unknown--noqs .divorce-blocker").last().hide();
       unblock();
       $("#state--unknown--noqs .current-relationship-type").hide();
@@ -168,7 +171,7 @@
       }
     })
 
-    $("#unknown--noqs--new-relationship-status-container").on("change", "input", function() {
+    $("#unknown--noqs--new-relationship-status-container").on("change", "input", function () {
       $("#state--unknown--noqs .married--married-date").last().hide();
       $("#state--unknown--noqs .de-facto--living-together").last().hide();
 
