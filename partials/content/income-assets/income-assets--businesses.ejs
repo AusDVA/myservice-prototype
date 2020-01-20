@@ -43,8 +43,13 @@
             <%- include(partials+"components/form-partials/radio", {
   label: "Where does the business operate?",
   boxes: [
-    "Within Australia",
-    "Overseas"
+   {
+       text: "Within Australia"
+   },
+   {
+        text: "Overseas",
+        toggle: ["#country-container","#currency-container"]
+   }
   ]
 }); %>
             <!-- <div class="form-group margin-above--large">
@@ -107,14 +112,50 @@
                   id: "date-ceased",
                   modifiers: ["hidden"]
                 }); %>
-            <!-- <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="date-company-ceased">Date business ceased operating
-                    <span class="hint">(dd / mm / yyyy)</span>
-                </label>
-                <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
-                <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
-                <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div> -->
+
+            <%- include(forms+"prepop/address", {
+                label: "Business address"
+              }) %>
+
+              <%- include(forms+"prepop/country-dropdown", {
+                 label: "Country of payment",
+                 id: "country",
+                 modifiers: ["hidden"] 
+              }) %>
+
+              <%- include(forms+"prepop/currency-dropdown", {
+                label: "Currency",
+                id: "currency",
+                modifiers: ["hidden"]
+            }) %>
+
+
+              <%- include(partials+"components/form-partials/text", {
+                label: "Income",
+                modifiers: ["dollarSign"]
+              }); %>
+
+              <%- include(partials+"components/form-partials/dropdown", {
+                label: "Frequency",
+                options: [
+                  "-- Select frequency --",
+                  "Weekly",
+                  "Fortnightly",
+                  "Monthly",
+                  "Quarterly",
+                  "Half-Yearly",
+                  "Annually",
+                  "Once off"
+                ]
+              }); %>
+
+              <%- include(partials+"components/form-partials/text", {
+                label: "Trust amount",
+                id: "trust-amount",
+                modifiers: ["dollarSign", "hidden"]
+              }); %>
+
+
             <div class="uikit-page-alerts margin-above--large" role="alert" id="alert-private-company" style="display: none;">
                 <p>You will need to complete <a href="https://www.dva.gov.au/dvaforms/Documents/D0600.pdf">Private Company form (D600)</a> and attach in the documents section.</p>
             </div>
@@ -138,7 +179,7 @@
 <script>
 $("#companyType").change(function() {
     mySelection = $('#companyType :selected').val();
-    console.log(companyType);
+    $("#trust-amount-container").hide();
     switch (mySelection) {
         case "Private company":
             hideAlerts();
@@ -151,6 +192,7 @@ $("#companyType").change(function() {
         case "Special disability trust":
             hideAlerts();
             $("#alert-disability-trust").show();
+            $("#trust-amount-container").show();
             break;
         case "Partnership":
             hideAlerts();
