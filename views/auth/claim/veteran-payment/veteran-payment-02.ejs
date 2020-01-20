@@ -11,7 +11,30 @@ progress.activeItem = 2;
   progress
 }) %>
 
-<%- include(partials+"faqs/relationship-status"); %>
+<%#- include(partials+"faqs/relationship-status"); %>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "What is your relationship status?",
+  boxes: [
+    {
+      text: "Single",
+    },
+    {
+      text: "De facto"
+    },
+    {
+      text: "Married"
+    },
+    {
+      text: "Separated (while still legally married)",
+      tooltip: 
+        {
+          content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
+        }
+    }
+  ],
+  id: "relationship-status"
+}); %>
 
 <div id="partner-details" hidden>
 
@@ -104,17 +127,9 @@ progress.activeItem = 2;
         $("#partner-details").show();
         localStorage.setItem("relationship-status", "partnered");
         break;
-      case "separatedwhilestilllivingtogether":
+      case "separatedwhilestilllegallymarried":
       $("#partner-details").show();
         localStorage.setItem("relationship-status", "partnered");
-        break;
-      case "divorced":
-      $("#save-next").show();
-        localStorage.setItem("relationship-status", "single");
-        break;
-      case "widowed":
-      $("#save-next").show();
-        localStorage.setItem("relationship-status", "single");
         break;
       default:
     }
