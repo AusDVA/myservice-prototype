@@ -35,6 +35,7 @@ function addSummary(cardType) {
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
+  $(".updated").show();
 };
 
 /* Clicks on "edit" on Summary Card */
@@ -102,6 +103,10 @@ function hideAll() {
 
   $("#bank-accounts-card").hide();
   $("#bank-accounts-summary").hide();
+
+  $("#bank-accounts-new-card").hide();
+  $("#bank-accounts-new-summary").hide();
+
   $("#church-account-ref").hide();
 
   $("#cash-held-card").hide();
