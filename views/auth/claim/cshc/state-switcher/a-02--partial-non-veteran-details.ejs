@@ -1,4 +1,4 @@
-<h3>Partner details</h3>
+<h2 class="margin-above--large"><span class="font-weight-heavy">Partner's details</span></h2>
 <%- include(forms+"prepop/ranktitlelist-dropdown", {
   label: "Title"
 }) %>
@@ -30,6 +30,20 @@
   label: "Date of birth"
 }) %>
 
+<div class="has-contact">
+  <div class="has-contact">
+    <h3>Partner's contact details</h3>
+
+    <%- include(forms+"prepop/phone-number", {
+        label: "Partner's phone number"
+      }) %>
+
+    <%- include(forms+"text", {
+        label: "Partner's email address"
+      }) %>
+  </div>
+</div>
+
 <%- include(forms+"prepop/gender") %>
 <div class="has-residential">
   <h3>Residential address</h3>
@@ -42,7 +56,7 @@
   <%- include(forms+"prepop/address", {
     id: "residential-address",
     modifiers: ["hidden"],
-    label: "Partner address"
+    label: "Partner's residential address"
   }) %>
 
   <%- include(partials+"components/form-partials/checkbox", {
@@ -67,40 +81,15 @@
     modifiers: ["hidden"]
   }) %>
 </div>
-<div class="has-contact">
-  <h3>Contact details</h3>
-
-  <%- include(forms+"yes_no", {
-    customClass: "contact-details-5",
-    label: "Does your partner wish to use your contact details?",
-    no_toggle: ".contact-details-block-5"
-    }) %>
-
-  <div class="contact-details-block-5" hidden>
-    <%- include(forms+"prepop/phone-number", {
-      label: "Partner's phone number"
-    }) %>
-
-    <%- include(forms+"text", {
-      label: "Partner's email address"
-    }) %>
-  </div>
-</div>
 <h3>Benefits</h3>
 <div class="has-partner-centrelink">
   <%- include(forms+"yes_no", {
     label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
     id: "partner-applied-centrelink-3"
   }) %>
-  <%- include(partials+"components/form-partials/notice", {
-    message: "You may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
-    type: "warning",
-    id: "eligibility-3",
-    modifiers: ["hidden"]
-  }); %>
 
   <%- include(forms+"yes_no", {
-    label: "Has your partner applied for or do they currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+    label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?",
     id: "has-cshc-3"
   }) %>
 
@@ -112,10 +101,6 @@
 </div>
 
 <script>
-  $("input[name='partner-applied-centrelink-3']:radio")
-    .change(function () {
-      $("#eligibility-3-container").toggle($(this).val() == "yes");
-    });
 
   $('input[name="partner-applied-centrelink-3"], input[name="has-cshc-3"]').change(function () {
     console.log(this.value);

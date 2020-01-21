@@ -82,7 +82,7 @@
   }) %>
 
     <%- include(forms+"yes_no", {
-  label: "Has your partner ever been known by any other names?",
+  label: "Has the veteran ever been known by any other names?",
   hint: "For example: name at birth, maiden name, previous married name",
   yes_toggle: "#previous-names-1-container",
   modifiers: ["hintNewLine"]
@@ -94,27 +94,13 @@
 }) %>
 
 
-    <%- include(forms+"date", {
-    label: "Date of birth"
-  }) %>
+
 
     <%- include(forms+"prepop/gender") %>
 
-    <%#- include(forms+"text", {
-    label: "File number",
-    hint: "(optional)"
-  }) %>
-
-    <%#- include(forms+"text", {
-    label: "Service number",
-    hint: "(optional)"
-  }) %>
-
-
-    <%#- include(forms+"text", {
-    label: "PMKeyS number",
-    hint: "(optional)"
-  }) %>
+    <%- include(forms+"date", {
+      label: "Date of birth"
+    }) %>
 
     <%- include(forms+"radio", {
     label: "What is your current relationship to the Veteran?",
@@ -331,12 +317,14 @@
         block();
         break;
       case "married":
+        $(".divorce-blocker-3").hide();
         $(".married--married-date").show();
         $(".rel--married-non-vet").show();
         $("#current-partner-questions").show();
         sessionStorage.setItem('CSHC-partnered', "true");
         break;
       case "defacto":
+        $(".divorce-blocker-3").hide();
         $(".rel--married-non-vet").hide();
         $(".de-facto--living-together").show();
         $("#current-partner-questions").show();
@@ -350,6 +338,7 @@
         sessionStorage.setItem('CSHC-partnered', "false");
         break;
       case "widowed":
+        $(".divorce-blocker-3").hide();
         $(".rel--married-non-vet").hide();
         $(".date-of-death").show();
         $("#current-container").show();

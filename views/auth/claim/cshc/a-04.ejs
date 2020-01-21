@@ -32,38 +32,38 @@
     }
 }) %>
 
-<h2 class="couple" hidden><span class="font-weight-heavy">Your residency</span></h2>
+<h3 class="couple" hidden>Your residency</h3>
 
-  <%- include(forms+"yes_no", {
+<%- include(forms+"yes_no", {
     label: "Are you an Australian citizen?",
     id: "aus-citizen",
     yes_toggle: "#is-citizen",
     no_toggle: "#not-citizen"
   }) %>
 
-  <form id="is-citizen" hidden>
-    <%- include(forms+"yes_no", {
+<form id="is-citizen" hidden>
+  <%- include(forms+"yes_no", {
       label: "Were you born in Australia?",
       id: "citizen-born-australia",
       yes_toggle: "#save-next-single",
       no_toggle: "#citizen-country-birth-container, #citizen-start-date-container"
     }) %>
 
-    <%- include(forms+"prepop/country-dropdown", {
+  <%- include(forms+"prepop/country-dropdown", {
       label: "What is your country of birth?",
       id: "citizen-country-birth",
       modifiers: ["hidden"]
     }) %>
 
-    <%- include(forms+"date", {
+  <%- include(forms+"date", {
       label: "Citizenship start date",
       id: "citizen-start-date",
       modifiers: ["hidden"]
     }) %>
-  </form>
+</form>
 
-  <form id="not-citizen" hidden>
-    <%- include(forms+"radio", {
+<form id="not-citizen" hidden>
+  <%- include(forms+"radio", {
       label: "Are you:",
       id: "visa-status",
       all_toggle: "#visa",
@@ -74,21 +74,21 @@
       ]
     }) %>
 
-    <div id="visa" hidden>
+  <div id="visa" hidden>
 
-      <%- include(forms+"date", {
+    <%- include(forms+"date", {
         label: "Visa grant date"
       }) %>
 
-      <%- include(forms+"notice", {
+    <%- include(forms+"notice", {
         message: `<p>You will need to provide a copy of your current visa or special category visa.</p>
         <p>You can attach this document at the end of your claim.</p>`
       }) %>
 
-    </div>
-  </form>
+  </div>
+</form>
 
-  <div class="couple" hidden>
+<div class="couple" hidden>
 
   <h2 class="margin-above--large"><span class="font-weight-heavy">Partner residency</span></h2>
 
@@ -134,7 +134,7 @@
 
     <div id="partner-visa" hidden>
 
-        <%- include(forms+"date", {
+      <%- include(forms+"date", {
           label: "Visa grant date"
         }) %>
 
@@ -152,7 +152,7 @@
 
 
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         link: "/auth/claim/cshc/a-03",
@@ -175,59 +175,59 @@
     ]
   }) %>
 
-  <%- include(forms+"modals/claim-cancel") %>
+<%- include(forms+"modals/claim-cancel") %>
 
-  <%- include("state-switcher") %>
+<%- include("state-switcher") %>
 
-  <script>
-    $("#aus-citizen-container").on("change", "input", function() {
-      $("#save-next").hide();
-      $("#is-citizen").trigger("reset");
-      $("#not-citizen").trigger("reset");
+<script>
+  $("#aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#is-citizen").trigger("reset");
+    $("#not-citizen").trigger("reset");
 
-      $("#citizen-country-birth-container").hide();
-      $("#citizen-start-date-container").hide();
-      
-      $("#refugee-start-date-container").hide();
-      $("#visa-details").hide();
+    $("#citizen-country-birth-container").hide();
+    $("#citizen-start-date-container").hide();
 
-
-    })
-
-    $("#citizen-born-australia-container").on("change", "input", function() {
-      $("#save-next").hide();
-      if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
-        $("#save-next").show();
-      }
-    })
-
-    $("#not-citizen, #is-citizen").on("submit", function(e) {
-      e.preventDefault();
-    })
+    $("#refugee-start-date-container").hide();
+    $("#visa-details").hide();
 
 
-    $("#partner-aus-citizen-container").on("change", "input", function() {
-      $("#save-next").hide();
-      $("#partner-is-citizen").trigger("reset");
-      $("#partner-not-citizen").trigger("reset");
+  })
 
-      $("#partner-citizen-country-birth-container").hide();
-      $("#partner-citizen-start-date-container").hide();
-      
-      $("#partner-refugee-start-date-container").hide();
-      $("#partner-visa-details").hide();
+  $("#citizen-born-australia-container").on("change", "input", function () {
+    $("#save-next").hide();
+    if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+      $("#save-next").show();
+    }
+  })
+
+  $("#not-citizen, #is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
 
 
-    })
+  $("#partner-aus-citizen-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#partner-is-citizen").trigger("reset");
+    $("#partner-not-citizen").trigger("reset");
 
-    $("#partner-citizen-born-australia-container").on("change", "input", function() {
-        $("#save-next").show();
-    })
+    $("#partner-citizen-country-birth-container").hide();
+    $("#partner-citizen-start-date-container").hide();
 
-    $("#partner-not-citizen, #partner-is-citizen").on("submit", function(e) {
-      e.preventDefault();
-    })
+    $("#partner-refugee-start-date-container").hide();
+    $("#partner-visa-details").hide();
 
-  </script>
+
+  })
+
+  $("#partner-citizen-born-australia-container").on("change", "input", function () {
+    $("#save-next").show();
+  })
+
+  $("#partner-not-citizen, #partner-is-citizen").on("submit", function (e) {
+    e.preventDefault();
+  })
+
+</script>
 
 <%- include(templates+"footer") %>
