@@ -1,0 +1,149 @@
+<!-- Summary card -->
+<div id="bank-accounts-summary" class="plain-text-info" style="display:block;">
+  <div class="review__wrapper">
+    <div class="review__content--item boxed">
+      <div class="review__content--label margin-below">
+        <h2 class="margin-above--none" style="display: inline-block;">
+          <i class="fal fa-university fontawesome-icon"></i>
+          <span class="font-weight-heavy">Bank accounts</span>
+        </h2>
+        <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('bank-accounts');">&nbsp;Edit&nbsp;</button>
+      </div>
+      <div class="review__table">
+        <div class="tr">
+          <div class="td"><b>Account type</b></div>
+          <div class="td">Savings account</div>
+        </div>
+        <div class="tr">
+          <div class="td"><b>Account owner</b></div>
+          <div class="td">Jointly with my partner</div>
+        </div>
+        <div class="tr">
+          <div class="td"><b>Balance</b></div>
+          <div class="td">$478.88</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Open card -->
+<div id="bank-accounts-card" class="boxed margin-above margin-below" style="display: none;">
+  <div>
+    <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-university fontawesome-icon"></span><span class="font-weight-heavy">Bank account
+      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeSummary('bank-accounts');">&nbsp;Delete item&nbsp;</button>
+  </div>
+  <div id="card-details" class="margin-below--large">
+    <h4 class="margin-below--mid margin-above--none">Add all accounts with institutions such as a banks, building societies or credit unions<span class="partner"> held
+        by you and/or your partner</span>.</h4>
+    <p class="margin-below--mid">Include term deposit, joint accounts, accounts you hold under any other name or money held in church or charitable development funds within
+      Australia and overseas.</p>
+    <p class="margin-below--mid">Do not include bonds and debentures or any superanuation funds you hold. You will be asked about these elsewhere.</p>
+    <hr>
+    <form id="myForm">
+      <input type="reset" style="display:none">
+      <div class="form-group margin-above--large partner">
+        <label class="uikit-text-input__label" for="drop-down">Account owner</label>
+        <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+          <option selected="selected">-- Select one --</option>
+          <option>Myself</option>
+          <option>My partner</option>
+          <option>Jointly with my partner</option>
+        </select>
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="drop-down">Account type</label>
+        <select class="uikit-text-input input-half" id="accountType" name="drop-down">
+          <option>-- Select an item --</option>
+          <option>Savings account</option>
+          <option>Cheque account</option>
+          <option>Term deposit account</option>
+          <option>Cash management account</option>
+          <option>Church/charity account</option>
+          <option>Deeming account</option>
+          <option>Overseas account</option>
+        </select>
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="tags">BSB number</label>
+        <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+      </div>
+      <div class="form-group margin-above--large" id="church-account-name" style="display: none;">
+        <label class="uikit-text-input__label" for="tags">Name of church/charity account</label>
+        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+      </div>
+      <div class="form-group margin-above--large" id="foreign-institution-name" style="display: none;">
+        <label class="uikit-text-input__label" for="tags">Name of foreign financial insitution</label>
+        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+      </div>
+      <div class="form-group margin-above--large" id="institution-name" style="display: none;">
+        <label class="uikit-text-input__label" for="tags">Name of financial insitution</label>
+        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="tags">Account number</label>
+        <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+      </div>
+      <div class="form-group margin-above--large" id="church-reference" style="display: none;">
+        <label class="uikit-text-input__label" for="tags">Church/charity account or reference number</label>
+        <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+      </div>
+      <div class="form-group margin-above--large">
+        <label class="uikit-text-input__label" for="Input field">Current balance</label>
+        <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required
+          aria-required="true">
+      </div>
+      <div class="form-group margin-above--large" id="country-payment" style="display: none;">
+        <label class="uikit-text-input__label">Country of payment</label>
+        <%- include(partials+"content/auth-select-list-country") %>
+      </div>
+      <div class="form-group margin-above--large" id="currency" style="display: none;">
+        <label class="uikit-text-input__label">Currency</label>
+        <%- include(partials+"content/auth-select-list-currency") %>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div id="buttonset2" class="form-group margin-above--none">
+    <button id="addButton" class="uikit-btn" onclick="addSummary('bank-accounts');">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
+      class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</div>
+<!-- card end -->
+<script src="/docs/js/jquery-3.2.1.min.js"></script>
+<script>
+  $("#accountType").change(function () {
+    mySelection = $('#accountType :selected').val();
+    switch (mySelection) {
+      case "Savings account":
+      case "Cheque account":
+      case "Term deposit account":
+      case "Cash management account":
+      case "Deeming account":
+        hideTypes();
+        $("#institution-name").show();
+        break;
+      case "Church/charity account":
+        hideTypes();
+        $("#church-account-name").show();
+        $("#church-reference").show();
+        break;
+      case "Overseas account":
+        hideTypes();
+        $("#foreign-institution-name").show();
+        $("#country-payment").show();
+        $("#currency").show();
+        break;
+      default:
+        // code block
+    }
+  });
+
+  function hideTypes() {
+    $("#church-account-name").hide();
+    $("#foreign-institution-name").hide();
+    $("#institution-name").hide();
+    $("#church-reference").hide();
+    $("#country-payment").hide();
+    $("#currency").hide();
+  }
+</script>

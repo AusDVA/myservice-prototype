@@ -11,13 +11,16 @@
   
 <p>Simply select the category you wish to update to get started. You will be able to review all your changes prior to submitting.</p>
 
+<div>
+  <h3 class="font-weight-bold" style="display: inline-block; margin-bottom: 0;">Update your income and assets</h3>
+  <div class="floated"><button class="submit uikit-btn uikit-btn--primary" onclick="location.href='income-assets/start'" disabled>Review and submit</button></div>
+  </div>
 
-<h3 class="font-weight-bold">Update your income and assets:</h3>
-<hr style="height: 2px; background-color: #000; margin-top: 20px; margin-bottom: 17px; padding: 0;"> 
+<hr style="height: 2px; background-color: #000; margin-top: 20px; margin-bottom: 20px; padding: 0;"> 
 
 <div>
-<h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;"><a>Savings</a> &raquo;</h3>
-<!-- <button class="uikit-btn uikit-btn--borderless floated">Update &raquo;</button> -->
+<h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;"><a href="savings">Savings</a> &raquo;</h3>
+<div class="update1 update2 floated" hidden><span class="fal fa-check-circle fontawesome-icon" style="color:green;"></span><span style="font-size: 12px; font-weight: bold;">UPDATED</span></div>
 </div>
 
 <p>Includes banks accounts, and cash held.</p>
@@ -26,7 +29,7 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;"><a>Investments</a> &raquo;</h3>
-  <!-- <button class="uikit-btn uikit-btn--borderless floated">Update &raquo;</button> -->
+  <div class="update2 floated" hidden><span class="fal fa-check-circle fontawesome-icon" style="color:green;"></span><span style="font-size: 12px; font-weight: bold;">UPDATED</span></div>
   </div>
 
 <p>Includes superannuation, self-manged superannuation funds (SMSF & SAF), managed investments, bonds & debentures, money loaned, shares, and other financial investments.</p>
@@ -69,10 +72,8 @@
 <hr style="height: 3px; background-color: #000; margin-top: 0; margin-bottom: 15px; padding: 0;"> 
 
 <div style="text-align: right;">
-<button class="uikit-btn uikit-btn--primary" onclick="location.href='income-assets/start'" disabled>Review and submit</button>
+<button class="submit uikit-btn uikit-btn--primary" onclick="location.href='income-assets/start'" disabled>Review and submit</button>
 </div>
-
-<!-- <hr style="height: 3px; background-color: #000; margin-top: 15px; margin-bottom: 15px; padding: 0;">  -->
 
 <%- include("state-switcher-01") %>
 
@@ -80,22 +81,26 @@
 
   function stateSwitcher() {
 
-    console.log( "fgfdgdf 4444" + pageState )
-
-    // switch (pageState) {
-    //   case "single":
-    //     $(".user-label-a").text("your");
-    //     $(".user-label-b").text("");
-    //     break;
-    //   case "partnered":
-    //     $(".user-label-a").text("you and/or your partner's");
-    //     $(".user-label-b").text("by you and/or your partner");
-    //     break;
-    //   default:
-    //     break;
-    // }
+    switch (pageState) {
+      case "default":
+        $(".update1").hide();
+        $(".update2").hide();
+        $(".submit").attr('disabled','disabled');
+        localStorage.setItem("updates", "false");
+        break;
+      case "update1":
+        $(".update1").show();
+        $(".submit").removeAttr('disabled');
+        localStorage.setItem("updates", "true");
+        break;
+        case "update2":
+        $(".update2").show();
+        $(".submit").removeAttr('disabled');
+        break;
+      default:
+        break;
+    }
 
   }
 </script>
 
-<%- include(templates+"footer") %>

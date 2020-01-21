@@ -1,0 +1,123 @@
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service Pension - Financial details | Savings</title>
+  <%- include(partials+"components/layout/head") %>
+    <script src="/docs/js/income-assets-profile.js"></script>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+    <%- include(partials+"components/layout/header-nom-rep") %>
+      <main>
+        <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+         
+          <h1 class="margin-above--none ss-align--center"><span class="heading">Savings</span></h1>
+        </div>
+        <section>
+          <div class="container margin-above margin-below--extra">
+            <div class="row">
+              <div class="col-md-offset-2 col-md-8 margin-below--large">
+                <!-- User list and category messaging -->
+                <div id="user-list">
+                  <hr class="margin-below--none">
+                  <h2 class="margin-above--none heading-width">
+                    <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> savings
+                  </h2>
+                  <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="scrollToAdd();">
+                    <p style="margin-top: 10px;">
+                      <span class="fal fa-plus-circle fa-icons"></span>Add other savings
+                    </p>
+                  </div>
+                </div>
+                <!-- <div id="add-anchor-link-start" class="cursor-pointer" onClick="scrollToAdd();">
+                  <p class="margin-above--extra ss-align--center">
+                    <span class="fal fa-plus-circle fa-icons"></span>Add savings
+                  </p>
+                </div> -->
+                <!-- Cards -->
+                <%- include("income-assets--bank-accounts") %>
+                  <%- include("income-assets--cash-held") %>
+
+                    <!-- Tiles intro -->
+                    <div id="add-options">
+                      <hr>
+                      <h2 id="add-options" class="margin-above--none margin-below--none ss-align--center"><span class="font-weight-heavy">Savings</span></h2>
+                      <span class="hint display-block ss-align--center">Add each of the below items currently held<span class="partner"> by you and/or your partner</span>.
+                      </span>
+                      <div class="flex-container flex-container--wrap hover-container">
+                        <!-- Tiles -->
+                        <%- include("income-assets--tile--bank-accounts") %>
+                          <%- include("income-assets--tile--cash-held") %>
+
+                      </div>
+                    </div>
+              </div>
+            </div>
+            <!-- bottom page navigation -->
+            <BR />
+            <BR />
+            <BR />
+            <BR />
+            <div class="pagination" style="position: relative;">
+              <div id="footer-buttons-mask" style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div>
+              <!-- <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-c0'">Previous</button> -->
+              <!-- <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel and go back</button> -->
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'start'">Cancel and go back</button>
+              <div class="floated">
+                <!-- <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button> -->
+                <button class="uikit-btn btnNext" onClick="goBack()">Continue</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <%- include(partials+"components/layout/footer") %>
+        <script>
+          $(Document).ready(function () {
+
+            $(document).keypress(function (e) {
+              switch (e.which) {
+                case 49:
+                  hidePartner();
+                  break;
+                case 50:
+                  showPartner();
+                  break;
+                default:
+              }
+            });
+
+            captureUserList();
+            displayUserList();
+
+            function showPartner() {
+              $(".partner").show();
+              $(".partner-label").text("Our");
+            }
+
+            function hidePartner() {
+              $(".partner").hide();
+              $(".partner-label").text("My");
+            }
+
+           
+
+          });
+
+          function goBack(){
+              localStorage.setItem("updates", "true");
+              window.location.href = 'start.ejs';
+          }
+        </script>
+</body>
+
+</html>
