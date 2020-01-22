@@ -1,61 +1,114 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
 
-<%
-taskList = [
-  {
-    id: "18th-birthday-review",
-    description: "Income & assets update",
-    date: "Submitted 12 Aug 2019",
-    reference: `Updated bank account`,
-    link: "/auth/tasks/18th-birthday-review/18th-birthday-review-01",
-    category: "education-assistance",
-    overDue: false
-  },
-  {
-    id: "Application for Service Pension",
-    description: "Application for Service Pension",
-    date: "Submitted 8 Oct 2018",
-    reference: "Inital declaration of income and assets",
-    category: "education-assistance",
-    overDue: false
-  }
-]
-%>
+<head>
+
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
 
 
-<%- include(templates+"header-default", {
-  claim: "Profile", 
-  heading: "Income and assets",
-  modifiers: ["bg-gray"]
-}) %>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
 
+  <main>
+    <section>
+      <div class="container margin-above margin-below--extra" id="claim-activity">
+        <section class="">
+          <div class="row margin-above">
+            <div class="col-sm-3">
 
+              <%- include(partials+"components/layout/profile-side-nav") %>
 
-<p>You are required to advise of any changes to your income and assets within 14 days. Simple changes such as updating a bank balance can be done quickly and easily. For updates that take longer you are able to save your progress to complete later. Supporting documents will be required in some cases.</p>
+            </div>
 
-<button class="uikit-btn uikit-btn--tertiary" onclick="location.href='start'">Get started</button>
+            <div class="col-sm-9">
+              <h1 class="margin-above--none margin-below--mid">Income &amp; assets</h1>
+          
+              <p>You are required to advise of any changes to your income and assets within 14 days. Simple changes such as updating a bank balance can be done quickly and easily. For updates that take longer you are able to save your progress to complete later. Supporting documents will be required in some cases.</p>
+
+<button class="uikit-btn uikit-btn--tertiary" onclick="location.href='income-assets/start'">Get started</button>
 
 <hr>
 
+<h3 class="font-weight--heavy">Past updates</h3>
 
+<div class="horizontal-card-section margin-above--large">
 
-<h3 class="font-weight-bold">Past updates</h3>
-
-<section class="tasks-list">
-  <% taskList.forEach(function(task, index) { %>
-  <% if(task.category === "education-assistance") { %>
-  <a class="task__wrapper--link" href="<%= task.link %>">
-    <div class="task">
-      <div class="task__description">
-        <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-        <div class="task__link-wrapper">
-          <span class="task__link"><%- task.description %></span>
-
-          <div class="task__date <%= task.overDue ? "task__date--overdue" : "" %>"><%- task.date %></div>
-        </div>
-      </div>
-      <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
+  <div class="card card--horizontal flex-container ">
+    <div class="flex-item1" style="width: 200px;">
+      <p> <strong>Incomplete</strong></p>
+      <p>Expires in <b>90 days</b></p>
     </div>
-  </a>
-  <% } %>
-  <% }); %>
-</section>
+    <div style="width: 250px;">
+      <p><strong>Income and assets update</strong></p>
+    </div>
+    <div class="flex-item flex-item--right-align">
+      <p><a href="#">Delete</a></p>
+    </div>
+    <div class="flex-item flex-item--right-align">
+      <p><a href="#">Resume</a></p>
+    </div>
+  </div>
+
+  <div class="card card--horizontal flex-container ">
+    <div class="flex-itemq" style="width: 200px;">
+      <p> <strong>Submitted</strong></p>
+      <p>29 Dec 2019</p>
+    </div>
+    <div style="width: 250px;">
+      <p><strong>Income and assets update</strong></p>
+      <p>Transaction ID: 2343456</p>
+    </div>
+    <div class="flex-item flex-item--right-align">
+      <p><a href="#">Add documents</a></p>
+    </div>
+     <div class="flex-item flex-item--right-align">
+      <p><a href="#">Withdraw</a></p>
+    </div>
+    <div class="flex-item flex-item--right-align">
+      <p><a href="#">Review</a></p>
+    </div>
+  </div>
+
+  <div class="card card--horizontal flex-container">
+    <div class="flex-item1" style="width: 200px;">
+      <p> <strong>Approved</strong></p>
+      <p>23 July 2018</p>
+    </div>
+    <div style="width: 250px;">
+      <p><strong>Income and assets update</strong></p>
+      <p>Transaction ID: 2343456</p>
+    </div>
+    <div class="flex-item flex-item--right-align">
+      <p><a href="#">View</a></p>
+    </div>
+  </div>
+
+</div>
+
+    </section>
+    </div>
+    </section>
+  </main>
+
+
+  <%- include(partials+"components/layout/footer") %>
+</body>
+<script>
+
+localStorage.setItem("updates","false")
+ 
+
+</script>
+
+</html>
