@@ -25,6 +25,7 @@
   id: "previous-names-3"
 }) %>
 
+<%- include(forms+"prepop/gender") %>
 
 <%- include(forms+"date", {
   label: "Date of birth"
@@ -34,9 +35,19 @@
   <div class="has-contact">
     <h3>Partner's contact details</h3>
 
-    <%- include(forms+"prepop/phone-number", {
-        label: "Partner's phone number"
-      }) %>
+    <div class="form-group">
+      <label class="uikit-text-input__label" for="phoneHome">Partner's phone number
+        <span class="hint">(optional)</span>
+        <span class="hint display-block margin-below--none">Please include area code (for example, "03" for Victoria or
+          "04" for
+          Mobile)</span>
+        <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home"
+          id="countryCode-home">
+          <%- include(partials+"content/phone-areacode") %>
+        </select>
+        <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+      </label>
+    </div>
 
     <%- include(forms+"text", {
         label: "Partner's email address"
@@ -44,7 +55,6 @@
   </div>
 </div>
 
-<%- include(forms+"prepop/gender") %>
 <div class="has-residential">
   <h3>Residential address</h3>
 
@@ -62,7 +72,7 @@
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
       {
-        text: "Use my postal address for my partner",
+        text: "Use partner's residential address as their postal address",
         rToggle: "#postal-address-container",
         modifiers: ["checked"]
       }
