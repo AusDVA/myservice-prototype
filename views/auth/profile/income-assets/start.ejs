@@ -9,9 +9,15 @@
 
 <hr style="height: 2px; background-color: #000; margin-top: 50px; margin-bottom: 20px; padding: 0;"> 
 
+<style>
+.declared {
+  font-size: 15px;
+}
+</style>
+
 <div>
 <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Savings</h3>
-<div style="display: inline-block; font-size: 15px; background-color: grey; border-radius: 5px;" class="11">3</div>
+<span class="declared" hidden>&nbsp;|&nbsp;<span>1 item</span></span>
 <div class="update1 update2" style="display: inline-block; vertical-align: 2px;" hidden>&nbsp;<span style="border-radius: 0px; background-color: orange; display: inline-block; font-size: 12px; font-weight: bold; color: white; padding: 0 5px 0 5px;">2 CHANGES</span></div>
 <button class="uikit-btn uikit-btn--tertiary small floated">Edit</button>&nbsp;&nbsp;
 
@@ -23,7 +29,7 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Investments</h3>
-  <div class="update2" style="display: inline-block; vertical-align: 2px;" hidden>&nbsp;<span style="border-radius: 0px; background-color: orange; display: inline-block; font-size: 12px; font-weight: bold; color: white; padding: 0 5px 0 5px;">1 CHANGE</span></div>
+  <span class="declared" hidden>&nbsp;|&nbsp;<span>Nothing declared</span></span>
   <button class="uikit-btn uikit-btn--tertiary small floated">Add</button>
 </div>
 
@@ -33,6 +39,8 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Income</h3>
+  <span class="declared" hidden>&nbsp;|&nbsp;<span>2 items</span></span>
+  <div class="update2" style="display: inline-block; vertical-align: 2px;" hidden>&nbsp;<span style="border-radius: 0px; background-color: orange; display: inline-block; font-size: 12px; font-weight: bold; color: white; padding: 0 5px 0 5px;">1 CHANGE</span></div>
   <button class="uikit-btn uikit-btn--tertiary small floated">Edit</button>
   </div>
 
@@ -43,6 +51,7 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Property &amp; business</h3>
+  <span class="declared" hidden>&nbsp;|&nbsp;<span>1 item</span></span>
   <button class="uikit-btn uikit-btn--tertiary small floated">Edit</button>
   </div>
 
@@ -52,6 +61,7 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Other assets</h3>
+  <span class="declared" hidden>&nbsp;|&nbsp;<span>Nothing declared</span></span>
   <button class="uikit-btn uikit-btn--tertiary small floated">Add</button>
   </div>
 
@@ -61,6 +71,7 @@
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Additional circumstances</h3>
+  <span class="declared" hidden>&nbsp;|&nbsp;<span>Nothing declared</span></span>
   <button class="uikit-btn uikit-btn--tertiary small floated">Add</button>
   </div>
 
@@ -79,10 +90,12 @@
 
   function stateSwitcher() {
 
+    $(".declared").hide();
+    $(".update1").hide();
+    $(".update2").hide();
+
     switch (pageState) {
       case "default":
-        $(".update1").hide();
-        $(".update2").hide();
         $(".submit").attr('disabled','disabled');
         localStorage.setItem("updates", "false");
         break;
@@ -91,10 +104,12 @@
         $(".submit").removeAttr('disabled');
         localStorage.setItem("updates", "true");
         break;
-        case "update2":
+     case "update2":
         $(".update2").show();
         $(".submit").removeAttr('disabled');
         break;
+      case "dynamiclabels":
+        $(".declared").show();
       default:
         break;
     }
