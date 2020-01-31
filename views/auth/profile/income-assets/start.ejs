@@ -3,9 +3,6 @@
   heading: "Income and assets"
 }) %>
 
-<h2 class="font-weight-bold">Update, add or remove income and assets</h2>
-
-<hr style="height: 2px; background-color: #000; margin-top: 50px; margin-bottom: 20px; padding: 0;">
 
 <style>
   .declared {
@@ -15,28 +12,53 @@
 
   .updated {
     border-radius: 0px;
-    background-color: orange;
+    background-color: #2B7DCE;
     display: inline-block;
     font-size: 12px;
     font-weight: bold;
     color: white;
-    padding: 0;
+    padding: 0 5px 0 5px;
     text-transform: capitalize;
     margin-left: 5px;
   }
 
+  .info {
+    border: 2px #2B7DCE solid;
+    /* border-bottom: 2px #2B7DCE solid; */
+    border-radius: 3px 3px 0 0;
+    background-color: #FBFDFF;
+    padding: 10px;
+    margin-bottom: 17px;
+  }
+
+  .info h3 {
+    color: #153B80;
+    margin: 5px 0 5px 0;
+  }
+
 </style>
+
+<h2 class="font-weight-bold">Edit, add or delete income and assets</h2>
+
+<p>Update any below categories that have changed. When you are ready, submit your changes or save to complete later.</p>
+
+<div class="info" hidden>
+  <h3>Updates not submitted</h3>
+  <p style="margin-bottom: 5px;">Submit your changes after completing all of your updates.</p>
+</div>
+
+<hr class="tophr" style="height: 2px; background-color: #000; margin-top: 0px; margin-bottom: 20px; padding: 0;">
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Savings</h3>
   <span class="declared declared1">|&nbsp;1 item declared</span>
-  <div class="updated update1" style="display: inline-block; vertical-align: 2px;" hidden>&nbsp;<span
-      style="border-radius: 0px; background-color: orange; display: inline-block; font-size: 12px; font-weight: bold; color: white; padding: 0 5px 0 5px;">1 EDITED</span></div>
+  <div class="updated edited1" style="display: inline-block; vertical-align: 2px;" hidden>1 EDITED</div>
+  <div class="updated added1" style="display: inline-block; vertical-align: 2px;" hidden>1 ADDED</div>
   <button class="uikit-btn uikit-btn--tertiary small floated" onclick="location.href='/auth/profile/income-assets/savings'">Edit</button>&nbsp;&nbsp;
 
 </div>
 
-<p>Includes banks accounts, and cash held.</p>
+<p>Includes banks accounts and cash held.</p>
 
 <hr style="margin-bottom: 0; margin-top: 10px;">
 
@@ -45,15 +67,13 @@
   <button class="uikit-btn uikit-btn--tertiary small floated">Add</button>
 </div>
 
-<p>Includes superannuation, self-manged superannuation funds (SMSF & SAF), managed investments, bonds & debentures, money loaned, shares, and other financial investments.</p>
+<p>Includes superannuation, self-managed superannuation funds (SMSF & SAF), managed investments, bonds & debentures, money loaned, shares, and other financial investments.</p>
 
 <hr style="margin-bottom: 0; margin-top: 10px;">
 
 <div>
   <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Income</h3>
   <span>&nbsp;|&nbsp;<span>2 items declared</span></span>
-  <div class="update2" style="display: inline-block; vertical-align: 2px;" hidden>&nbsp;<span
-      style="border-radius: 0px; background-color: orange; display: inline-block; font-size: 12px; font-weight: bold; color: white; padding: 0 5px 0 5px;">1 CHANGE</span></div>
   <button class="uikit-btn uikit-btn--tertiary small floated" onclick="location.href='/auth/profile/income-assets/savings'">Edit</button>
 </div>
 
@@ -91,7 +111,7 @@
 
 <div style="text-align: right;">
   <button class="submit uikit-btn uikit-btn--tertiary" onclick="location.href='#'" disabled>Save and exit</button>
-  <button class="submit uikit-btn uikit-btn--primary" onclick="location.href='/auth/profile/income-assets/documents'" disabled>Submit changes</button>
+  <button class="submit uikit-btn uikit-btn--primary" onclick="location.href='/auth/profile/income-assets/documents'" disabled>Submit updates</button>
 </div>
 
 <%- include("state-switcher-01") %>
@@ -100,28 +120,29 @@
 
   function stateSwitcher() {
 
-    // $(".update1").hide();
-    // $(".update2").hide();
+    $(".updated").hide();
+    $(".declared").hide();
+    $(".info").hide();
 
     switch (pageState) {
       case "default":
+        $(".tophr").show();
         $(".declared").show();
-        $(".updated").hide();
         $(".submit").attr('disabled', 'disabled');
         localStorage.setItem("updates", "false");
         break;
       case "update1":
-        $(".declared1").hide();
-        $(".update1").show();
+        $(".edited1").show();
+        $(".info").show();
         $(".submit").removeAttr('disabled');
         localStorage.setItem("updates", "true");
         break;
       case "update2":
-        $(".update2").show();
+        $(".edited1").show();
+        $(".added1").show();
+        $(".info").show();
         $(".submit").removeAttr('disabled');
         break;
-      case "dynamiclabels":
-        $(".declared").show();
       default:
         break;
     }

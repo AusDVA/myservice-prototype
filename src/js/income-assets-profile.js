@@ -35,7 +35,7 @@ function addSummary(cardType) {
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
-  $(".updated").show();
+  $(".updated").css("display", "inline-block");
 };
 
 /* Clicks on "edit" on Summary Card */
