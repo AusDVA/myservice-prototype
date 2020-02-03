@@ -5,45 +5,41 @@
 
 
 <style>
-  .flag-icon {
-    color: white;
+  .declared {
+    /* font-size: 15px; */
     margin-left: 5px;
   }
 
-  .flag-icon-header {
-    color: white;
-    display: inline-block;
-    margin-right: 4px;
-    vertical-align: 1px;
-  }
-
-  i.fa {
-    display: inline-block;
-    border-radius: 30px;
-    padding: 4px;
+  .updated {
+    border-radius: 0px;
     background-color: #2B7DCE;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    padding: 0 5px 0 5px;
+    text-transform: capitalize;
+    margin-left: 5px;
   }
-
 
   .info {
-    /* border: 2px #2B7DCE solid; */
+    border: 2px #2B7DCE solid;
     /* border-bottom: 2px #2B7DCE solid; */
     border-radius: 3px 3px 0 0;
-    background-color: rgb(245, 248, 252);
+    background-color: #FBFDFF;
     padding: 10px;
     margin-bottom: 17px;
   }
 
   .info h3 {
-    color: #2B7DCE;
+    color: #153B80;
     margin: 5px 0 5px 0;
-    display: inline-block;
   }
 
   .listbox {
     width: 360px;
     float: left;
-    padding-right: 60px;
+    padding-right: 30px;
 
   }
 
@@ -58,14 +54,32 @@
     margin: 0;
     padding: 0 !important;
   }
+
+  .badge1 {
+    position: relative;
+  }
+
+  .badge1[data-badge]:after {
+    position: relative;
+    content: attr(data-badge);
+    font-size: .7em;
+    background: #2B7DCE;
+    color: white;
+    min-width: 18px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0px;
+    margin: 0 3px 0 3px;
+    border-radius: 50%;
+    display: inline-block;
+  }
 </style>
 
 <h2 class="font-weight-bold">Edit, add or delete income and assets</h2>
 
-<p>Update your income and assets as required. When you are ready, submit your changes or save to complete later.</p>
+<p>Update any below categories that have changed. When you are ready, submit your changes or save to complete later.</p>
 
 <div class="info" hidden>
-  <i class="flag-icon-header fa fa-ellipsis-h"></i>
   <h3>Updates not submitted</h3>
   <p style="margin-bottom: 5px;">Submit your changes after completing all of your updates.</p>
 </div>
@@ -73,22 +87,21 @@
 <hr class="tophr" style="height: 2px; background-color: #000; margin-top: 0px; margin-bottom: 20px; padding: 0;">
 
 <div>
-  <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Declared income and assets</h3>
+  <h3 class="font-weight-bold" style="display: inline-block; margin-top: 0;">Your declared income and assets</h3>
   <div>
     <div class="listbox" style="float: left;">
       <ul>
         <li>
-          <a href="/auth/profile/income-assets/bank-accounts">Bank accounts</a>&nbsp;&rsaquo;<i class="edited1 flag-icon fa fa-ellipsis-h fa-xs" style="display: none;"></i>
+          <a href="/auth/profile/income-assets/bank-accounts">Bank accounts</a>&nbsp;&rsaquo;
         </li>
-        <li><a>Gifts</a>&nbsp;&rsaquo;</li>
-        <li><a>Managed investments</a>&nbsp;&rsaquo;<i class="added1 flag-icon fa fa-ellipsis-h fa-xs" style="display: none;"></i>
-        <li><a>Money loaned</a>&nbsp;&rsaquo;</li>
+        <li><a>Shares</a>&nbsp;&rsaquo;</li>
+        <li><a>Managed investments</a>&nbsp;&rsaquo;</li>
       </ul>
     </div>
     <div class="listbox" style="float: left;">
       <ul>
-        <li><a>Real estate</a>&nbsp;&rsaquo;</li>
-        <li><a>Shares</a>&nbsp;&rsaquo;</li>
+        <li><a>Gifts</a>&nbsp;&rsaquo;</li>
+        <li><a>Money loaned</a>&nbsp;&rsaquo;</li>
         <li><a>Vehicles</a>&nbsp;&rsaquo;</li>
       </ul>
     </div>
@@ -126,8 +139,9 @@
         <li><a>Other personal assets</a>&nbsp;&rsaquo;</li>
         <li><a>Past employment</a>&nbsp;&rsaquo;</li>
         <li><a>Purchased income streams</a>&nbsp;&rsaquo;</li>
-        <li><a>SMSFs & SAFs</a>&nbsp;&rsaquo;</li>
-        <li><a>Superannuation</a>&rsaquo;</li>
+        <li><a>Real estate</a>&nbsp;&rsaquo;</li>
+        <li><a>Self-managed superannuation funds (SMSFs & SAFs)</a>&nbsp;&rsaquo;</li>
+        <li><a>Superannuation</a><span class="badge1" data-badge="2"></span>&rsaquo;</li>
         <li><a>Superannuation pension and payments</a>&nbsp;&rsaquo;</li>
       </ul>
     </div>
@@ -148,10 +162,9 @@
 
   function stateSwitcher() {
 
-    $(".flag").hide();
+    $(".updated").hide();
+    $(".declared").hide();
     $(".info").hide();
-    $(".edited1").hide();
-    $(".added1").hide();
 
     switch (pageState) {
       case "default":
