@@ -1,10 +1,10 @@
 /* On page scrolling */
 
-function scrollToAdd() {
-  $('html, body').animate({
-    scrollTop: $("#add-options").offset().top
-  }, 1000);
-}
+// function scrollToAdd() {
+//   $('html, body').animate({
+//     scrollTop: $("#add-options").offset().top
+//   }, 1000);
+// }
 
 /* Clicks on "add" on tile */
 
@@ -92,7 +92,7 @@ function displayUserList() {
     $("#add-anchor-link-start").show();
     $("#add-anchor-link-return").hide();
   }
-  $("#add-options").show();
+  // $("#add-options").show();
 }
 
 /* Generic hide all */
@@ -190,7 +190,7 @@ function hideAll() {
   $("#compensation-and-damages-card").hide();
   $("#compensation-and-damages-summary").hide();
 
-  $("#add-options").hide();
+  // $("#add-options").hide();
   $("#add-anchor-link-start").hide();
   $("#add-anchor-link-return").hide();
   $("#footer-buttons-mask").hide();
