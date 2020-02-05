@@ -46,7 +46,7 @@ function editCard(cardType) {
   var myDiv = "#" + cardType + "-card";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
-  $(myAdd).html("Update");
+  // $(myAdd).html("Update");
   $(myDelete).show();
   $(myDiv).show();
 }
