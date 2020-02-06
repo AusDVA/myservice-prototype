@@ -88,21 +88,24 @@
     </span></h2>
     <!-- <hr> -->
     <!-- <p><h3>Have you permanently closed this bank account?</h3></p> -->
-    <%- include(partials+"components/form-partials/yes_no", {
+    <!-- <%- include(partials+"components/form-partials/yes_no", {
       label: "Have you permanently closed this bank account?",
       yes_toggle: "#date-change-container",
       id: "perm-close"
-    }); %>
+    }); %> -->
     <%- include(partials+"components/form-partials/date", {
       label: "Date of change",
-      id: "date-change",
-      modifiers: ["hidden"]
+      id: "date-change"
+    }); %>
+    <%- include(partials+"components/form-partials/textarea", {
+      label: "Reason for deleting",
+      hint: "(optional)"
     }); %>
     <%- include(forms+"pagination", {
       pagination: [
       {
         text: "Delete bank account",
-        modifiers: ["primary","disabled"],
+        modifiers: ["primary"],
         id: "delete-bank-account",
         link: "#"
       },
@@ -183,14 +186,14 @@
 
 <script>
 
-  $("#perm-close-container").prop('checked', false);
-  $("#perm-close-container").on("change", "input[type='radio']", function () {
-      if ($(this).val() === "yes") {
-        $("#delete-bank-account").removeAttr('disabled');
-      } else {
-        $("#delete-bank-account").attr('disabled','disabled');
-      }
-    })
+  // $("#perm-close-container").prop('checked', false);
+  // $("#perm-close-container").on("change", "input[type='radio']", function () {
+  //     if ($(this).val() === "yes") {
+  //       $("#delete-bank-account").removeAttr('disabled');
+  //     } else {
+  //       $("#delete-bank-account").attr('disabled','disabled');
+  //     }
+  //   })
 
     $("#delete-bank-account").on("click", function () {
       $("#bank-accounts-card").hide();
