@@ -19,6 +19,16 @@
     text-transform: capitalize;
     display: none;
   }
+  .deleted {
+    border-radius: 0px;
+    background-color: red;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    color: white;
+    padding: 0 5px 0 5px;
+    text-transform: capitalize;
+  }
 </style>
 
 
@@ -52,21 +62,22 @@
                 </p>
               </div>
             </div>
-            <!-- <div id="add-anchor-link-start" class="cursor-pointer" onClick="scrollToAdd();">
-                  <p class="margin-above--extra ss-align--center">
-                    <span class="fal fa-plus-circle fa-icons"></span>Add savings
+            <div id="add-anchor-link-start" class="cursor-pointer" onClick="scrollToAdd();">
+                  <p class="margin-above--extra margin-below--extra ss-align--center">
+                    <span class="fal fa-plus-circle fa-icons"></span>Add bank account
                   </p>
-                </div> -->
+                </div>
             <!-- Cards -->
-            <%- include("income-assets--bank-accounts") %>
-            <%- include("income-assets--bank-accounts-new") %>
+            <%- include("income-assets--bank-accounts-update") %>
+            <%- include("income-assets--bank-accounts-add") %>
 
             <div class="pagination" style="position: relative;">
-              <div id="footer-buttons-mask" style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div>
-              <div class="floated">
-                <button class="uikit-btn btnNext" onClick="goBack()">Continue</button>
+              <!-- <div id="footer-buttons-mask" style="background-color: red; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div> -->
+              <div  class="floated" >
+                <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Continue</button>
               </div>
             </div>
+
           </div>
         </div>
     </section>
@@ -108,11 +119,36 @@
       // if ($("#bank-accounts-summary").is(":visible") && $("#bank-accounts-new-summary").is(":visible")) localStorage.setItem("coc-state", "update2");
       window.location.href = 'start.ejs';
     }
+
+  
   </script>
 </body>
 
 <%- include("bank-accounts-ss") %>
 
 </html>
+
+
+<script>
+
+  function stateSwitcher() {
+
+    switch (pageState) {
+      case "emptylist":
+        $("#bank-accounts-summary").hide();
+        $("#add-anchor-link-start").show();
+        $("#add-anchor-link-return").hide();
+        break;
+      case "populatedlist":
+      $("#bank-accounts-summary").show();
+      $("#add-anchor-link-start").hide();
+        $("#add-anchor-link-return").show();
+        break;
+      default:
+        break;
+    }
+
+  }
+</script>
 
 
