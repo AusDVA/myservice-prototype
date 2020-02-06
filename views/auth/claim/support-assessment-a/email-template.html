@@ -206,83 +206,72 @@
         <table class="boxed-table">
             <tr>
                 <td class="shade" width="200">Surname:</td>
-                <td>$!{veteran.surname}</td>
+                <td>veteran.surname</td>
             </tr>
             <tr>
                 <td class="shade">Middle name:</td>
-                <td>$!{veteran.middleName}</td>
+                <td>veteran.middleName</td>
             </tr>
             <tr>
                 <td class="shade">Given name:</td>
-                <td>$!{veteran.givenNames}</td>
+                <td>veteran.givenNames</td>
             </tr>
             <tr>
                 <td class="shade">Highest rank achieved:</td>
-                <td>$!{veteran.highestRank}</td>
+                <td>veteran.highestRank</td>
             </tr>
             <tr>
                 <td class="shade">Title:</td>
-                <td>$!{veteran.title}</td>
+                <td>veteran.title</td>
             </tr>
             <tr>
                 <td class="shade">DOB:</td>
-                <td>$!{veteran.dob}</td>
+                <td>veteran.dob</td>
             </tr>
             <tr>
                 <td class="shade">Email:</td>
-                <td>$!{veteran.email}</td>
+                <td>veteran.email</td>
             </tr>
             <tr>
                 <td class="shade">Phone:</td>
                 <td>
-                    #if ( $displayHomePhone )
-                    Home Phone: $!{displayHomePhone}
+                    Home Phone: displayHomePhone
                     <br />
-                    #end
-                    #if ( $displayMobilePhone )
-                    Mobile Phone: $!{displayMobilePhone}
+                    Mobile Phone: displayMobilePhone
                     <br />
-                    #end
                 </td>
             </tr>
             <tr>
                 <td class="shade">Postal address:</td>
                 <td>
-                    #if ( $veteran.postalAddr )
-                    $!{veteran.postalAddr.addressPrefix}
+                    veteran.postalAddr.addressPrefix
                     <br />
-                    $!{veteran.postalAddr.addressLine1}
+                    veteran.postalAddr.addressLine1
                     <br />
-                    $!{veteran.postalAddr.addressLine2}
+                    veteran.postalAddr.addressLine2
                     <br />
-                    $!{veteran.postalAddr.town} $!{veteran.postalAddr.postcode} $!{veteran.postalAddr.state}
+                    veteran.postalAddr.town
                     <br />
-                    $!{veteran.postalAddr.country}
-                    #end
+                    veteran.postalAddr.country
                 </td>
             </tr>
             <tr>
                 <td class="shade">Residential address:</td>
                 <td>
-                    #if ( $veteran.sameAsPostal == "true" )
-                    Same as postal address
-                    #elseif ( $veteran.residentialAddr )
-                    $!{veteran.residentialAddr.addressPrefix}
+                    veteran.residentialAddr.addressPrefix
                     <br />
-                    $!{veteran.residentialAddr.addressLine1}
+                    veteran.residentialAddr.addressLine1
                     <br />
-                    $!{veteran.residentialAddr.addressLine2}
+                    veteran.residentialAddr.addressLine2
                     <br />
-                    $!{veteran.residentialAddr.town} $!{veteran.residentialAddr.postcode}
-                    $!{veteran.residentialAddr.state}
+                    veteran.residentialAddr.town
                     <br />
-                    $!{veteran.residentialAddr.country}
-                    #end
+                    veteran.residentialAddr.country
                 </td>
             </tr>
             <tr>
                 <td class="shade">Relationship status:</td>
-                <td>$!{veteran.relationship}</td>
+                <td>veteran.relationship</td>
             </tr>
             <tr>
                 <td class="shade">Signature:</td>
@@ -295,8 +284,6 @@
         </table>
         <br />
     </div>
-
-    #if ( $pmkeysSnapshot )
     <div class="ui">
         <div class="segment">
             <table>
@@ -310,37 +297,35 @@
             <table class="boxed-table">
                 <tr>
                     <td class="shade" width="200">PMKeyS:</td>
-                    <td>$!{veteran.pmkeys}</td>
+                    <td>veteran.pmkeys</td>
                 </tr>
                 <tr>
                     <td class="shade">Enlistment date:</td>
-                    <td>$!{veteran.enlistmentDate}</td>
+                    <td>veteran.enlistmentDate</td>
                 </tr>
             </table>
         </div>
         <br />
-        #foreach ( $service in $pmkeysSnapshot.serviceDetails )
         <div>
             <div class="service-arm">
                 <table class="boxed-table segment">
                     <tr>
                         <td class="shade" width="200">Branch of service:</td>
-                        <td>$!{service.service}</td>
+                        <td>service.service</td>
                     </tr>
                     <tr>
                         <td class="shade">Service type:</td>
-                        <td>$!{service.serviceType}</td>
+                        <td>service.serviceType</td>
                     </tr>
                     <tr>
                         <td class="shade">Start date:</td>
-                        <td>$!{service.startDate}</td>
+                        <td>service.startDate</td>
                     </tr>
                     <tr>
                         <td class="shade">End date:</td>
-                        <td>$!{service.endDate}</td>
+                        <td>service.endDate</td>
                     </tr>
                 </table>
-                #if ( $service.operationalService && $service.operationalService.size() > 0 )
                 <br />
                 <table class="boxed-table segment">
                     <tr>
@@ -351,16 +336,12 @@
                         <th class="shade">Start date</th>
                         <th class="shade">End date</th>
                     </tr>
-                    #foreach ( $op in $service.operationalService )
                     <tr>
-                        <td>$!{op.description}</td>
-                        <td>$!{op.startDate}</td>
-                        <td>$!{op.endDate}</td>
+                        <td>op.description</td>
+                        <td>op.startDate</td>
+                        <td>op.endDate</td>
                     </tr>
-                    #end
                 </table>
-                #end
-                #if ( $service.enlistSeparationDetails && $service.enlistSeparationDetails.size() > 0 )
                 <br />
                 <table class="boxed-table segment">
                     <tr>
@@ -371,21 +352,16 @@
                         <th class="shade">Reason for separation</th>
                         <th class="shade">Action</th>
                     </tr>
-                    #foreach ( $esd in $service.enlistSeparationDetails )
                     <tr>
-                        <td>$!{esd.date}</td>
-                        <td>$!{esd.reason}</td>
-                        <td>$!{esd.action}</td>
+                        <td>esd.date</td>
+                        <td>esd.reason</td>
+                        <td>esd.action</td>
                     </tr>
-                    #end
                 </table>
-                #end
             </div>
             <br />
         </div>
-        #end
     </div>
-    #end
 
     <div class="ui segment">
         <table>
@@ -401,11 +377,9 @@
                 <td class="shade" width="200">The conditions that have become worse since your last assessment:</td>
                 <td>
                     <ul>
-                        #foreach ( $cond in $afiClaim.medicalConditions )
                         <li>
-                            <p>$!{cond.name}</p>
+                            <p>cond.name</p>
                         </li>
-                        #end
                     </ul>
                 </td>
             </tr>
@@ -423,17 +397,15 @@
         </table>
         <table class="boxed-table">
             <tr>
-                <td class="shade" width="200">$!{afiClaim.gpInfo.doctorsName} (general practitioner)</td>
-                <td>$!{afiClaim.gpInfo.practiceName}<br />$!{afiClaim.gpInfo.suburb}<br />$!{afiClaim.gpInfo.phoneNumber}
+                <td class="shade" width="200">general practitioner</td>
+                <td>afiClaim.gpInfo.practiceName<br />afiClaim.gpInfo.suburb<br />afiClaim.gpInfo.phoneNumber
                 </td>
             </tr>
-            #foreach ( $otherDoctorsInfo in $afiClaim.otherDoctorsInfo)
             <tr>
-                <td class="shade" width="200">$!{otherDoctorsInfo.doctorsName}</td>
-                <td>$!{otherDoctorsInfo.practiceName}<br />$!{otherDoctorsInfo.suburb}<br />$!{otherDoctorsInfo.phoneNumber}
+                <td class="shade" width="200">otherDoctorsInfo.doctorsName</td>
+                <td>otherDoctorsInfo.practiceName<br />otherDoctorsInfo.suburb<br />otherDoctorsInfo.phoneNumber
                 </td>
             </tr>
-            #end
         </table>
     </div>
 
@@ -450,37 +422,27 @@
         <table class="boxed-table">
             <tr>
                 <td class="shade" width="200">Employed:</td>
-                #if ( $afiClaim.areYouEmployed )
+                afiClaim.areYouEmployed
                 <td>Yes</td>
-                #else
                 <td>No</td>
-                #end
             </tr>
-            #if ( $afiClaim.areYouEmployed )
             <tr>
                 <td class="shade" width="200">Name of current employer:</td>
-                <td>$!{afiClaim.nameOfEmployer}</td>
+                <td>afiClaim.nameOfEmployer</td>
             </tr>
             <tr>
                 <td class="shade" width="200">Average hours worked per week hours per week:</td>
-                <td>$!{afiClaim.averageHoursPerWeek}</td>
+                <td>afiClaim.averageHoursPerWeek</td>
             </tr>
-            #else
             <tr>
                 <td class="shade" width="200">Did you stop work because of your condition?:</td>
-                #if ( $afiClaim.stopWorkDueToCondition )
                 <td>Yes</td>
-                #else
                 <td>No</td>
-                #end
             </tr>
-            #if ( $afiClaim.stopWorkDueToCondition )
             <tr>
                 <td class="shade" width="200">Approximately when did you stop working?:</td>
-                <td>$!{afiClaim.approximateStopWorkDate}</td>
+                <td>afiClaim.approximateStopWorkDate</td>
             </tr>
-            #end
-            #end
         </table>
     </div>
 
