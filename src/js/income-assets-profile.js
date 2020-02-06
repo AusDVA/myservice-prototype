@@ -94,11 +94,19 @@ function displayUserList() {
     $("#add-anchor-link-return").hide();
   }
   // $("#add-options").show();
+
+  $("#user-list").show();
+  $("#main-pagination").show();
+
 }
 
 /* Generic hide all */
 
 function hideAll() {
+
+
+  $("#user-list").hide();
+  $("#main-pagination").hide();
 
   $(".hide-on-load").hide();
 
