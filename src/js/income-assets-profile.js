@@ -29,13 +29,12 @@ function showNewCard(cardType) {
 function addSummary(cardType) {
   hideAll();
   var myDiv = "#" + cardType + "-summary";
-  console.log( myDiv )
   userEntries.push($(myDiv));
   displayUserList();
+  $(myDiv).find(".updated").css("display", "inline-block");
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
-  $(".updated").css("display", "inline-block");
 };
 
 /* Clicks on "edit" on Summary Card */
@@ -44,7 +43,6 @@ function editCard(cardType) {
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
-  console.log( myDiv)
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
   $(myDelete).show();
@@ -79,6 +77,7 @@ var userEntries = [];
 
 function captureUserList() {
   userEntries = $("[id*=summary]:visible");
+  console.log( userEntries )
 }
 
 function displayUserList() {
@@ -116,9 +115,11 @@ function hideAll() {
 
   $("#shares-listed-update-card").hide();
   $("#shares-listed-update-summary").hide();
+  $("#shares-listed-update-summary-deleted").hide();
 
   $("#shares-unlisted-update-card").hide();
   $("#shares-unlisted-update-summary").hide();
+  $("#shares-unlisted-update-summary-deleted").hide();
   
   // $("#church-account-ref").hide();
 
