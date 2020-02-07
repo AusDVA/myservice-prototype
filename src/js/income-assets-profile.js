@@ -116,6 +116,9 @@ function hideAll() {
 
   $("#shares-listed-update-card").hide();
   $("#shares-listed-update-summary").hide();
+
+  $("#shares-unlisted-update-card").hide();
+  $("#shares-unlisted-update-summary").hide();
   
   // $("#church-account-ref").hide();
 
