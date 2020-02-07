@@ -1,10 +1,10 @@
 /* On page scrolling */
 
-// function scrollToAdd() {
-//   $('html, body').animate({
-//     scrollTop: $("#add-options").offset().top
-//   }, 1000);
-// }
+function scrollToAdd() {
+  $('html, body').animate({
+    scrollTop: $("#add-options").offset().top
+  }, 500);
+}
 
 /* Clicks on "add" on tile */
 
@@ -19,7 +19,7 @@ function showNewCard(cardType) {
   $(myDelete).hide();
   $(myForm).trigger("reset");
   $(myDiv).show();
-  $("#continue").attr('disabled','disabled');
+  // $("#continue").attr('disabled','disabled');
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
@@ -46,8 +46,6 @@ function editCard(cardType) {
   var myDiv = "#" + cardType + "-card";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
-  // $(myAdd).html("Update");
-  $("#continue").attr('disabled', 'disabled');
   $(myDelete).show();
   $(myDiv).show();
 }
@@ -94,7 +92,6 @@ function displayUserList() {
     $("#add-anchor-link-return").hide();
   }
   // $("#add-options").show();
-
   $("#user-list").show();
   $("#main-pagination").show();
 
@@ -206,6 +203,35 @@ function hideAll() {
   $("#add-anchor-link-return").hide();
   // $("#footer-buttons-mask").hide();
 
-  $("#continue").removeAttr('disabled');
+  // $("#continue").removeAttr('disabled');
 
 }
+
+$(Document).ready(function () {
+
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 49:
+        hidePartner();
+        break;
+      case 50:
+        showPartner();
+        break;
+      default:
+    }
+  });
+
+  captureUserList();
+  displayUserList();
+
+  function showPartner() {
+    $(".partner").show();
+    $(".partner-label").text("Our");
+  }
+
+  function hidePartner() {
+    $(".partner").hide();
+    $(".partner-label").text("My");
+  }
+
+});
