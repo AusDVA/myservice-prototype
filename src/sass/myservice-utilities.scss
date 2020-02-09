@@ -43,8 +43,23 @@
     margin-top: uikit-space(1.4);
   }
 
+  .margin-above--3 {
+    margin-top: 3em;
+    //created this class to mimic spacing within forms for SP
+  }
+
   .margin-above--extra {
     margin-top: uikit-space(2);
+  }
+
+  .margin-above--15 {
+    margin-top: 1.5em;
+  }
+
+  //TODO .margin-above--25 is a fix for the margin on p elements being inconsistent in the angular app with prototype
+  //look to refactor this when more time is available
+  .margin-above--25 {
+    margin-top: 25px;
   }
 
   .padding-above {
@@ -87,6 +102,12 @@
     padding-bottom: uikit-space(1.4);
   }
 
+  .uikit-text-input--select-inline {
+    margin-right: 0;
+    max-width: 150px;
+    padding: 0 5px;
+  }
+
   .ss-align {
     text-align: center;
   }
@@ -103,6 +124,7 @@
     margin-left: auto;
     margin-right: auto;
   }
+
   .ss-align--right {
     text-align: right;
   }
@@ -117,8 +139,9 @@
   }
 
   .border-all {
-    border:1px solid $gray-mild;
+    border: 1px solid $gray-mild;
   }
+
   .border-bottom {
     border-bottom: 1px solid $gray-light;
   }
@@ -142,7 +165,7 @@
   .border-left__thick--blue {
     border-left: 3px solid $blue;
   }
-  
+
   .border-bottom--dark {
     border-bottom: 1px solid $gray;
   }
@@ -150,8 +173,6 @@
   .border-top--dark {
     border-top: 1px solid $gray;
   }
-
-  
 
   .or-divider {
     background: url("../images/ico-or.svg") no-repeat;
@@ -169,16 +190,52 @@
   // text-align: center;
   margin: 1.5em auto;
   overflow: hidden;
-  padding: 0;
+  padding: 0 12px;
+
+  &.card--horizontal {
+    margin: 0 auto;
+  }
 }
+
 .flex-container--wrap {
   flex-wrap: wrap;
 }
+
 
 .flex-item {
   display: inline-block; // for IE 9
   flex-grow: 1;
   margin: .5em;
+}
+
+.card--horizontal {
+  .flex-item--large {
+    flex-grow: 2;
+  }
+}
+
+
+@include uikit-media(xs) {
+  .flex-item--right-align {
+    margin: auto .5em auto 0;
+    text-align: right;
+  }
+
+  .card--horizontal {
+
+    .flex-item {
+      &:first-child:not(.flex-item--icon-only) {
+        flex-grow: 1.3;
+        overflow: hidden;
+      }
+    }
+
+    .flex-item--icon-only {
+      flex-grow: 0;
+      margin: auto .5em;
+      width: 26px;
+    }
+  }
 }
 
 @include uikit-media(xs) {
@@ -198,24 +255,38 @@
 }
 
 
-.screen-text-above-xs {
+.screen-text-above-xs,
+.screen-text-above-sm {
   display: none;
 }
 
 .screen-text-above-zero {
-  display: block;
+  display: inline-block;
+  margin-left: 0.5em;
 }
 
-@include uikit-media(xs) {
+// @include uikit-media(xs) {
+@media screen and (min-width: 520px) {
   .screen-text-above-xs {
-    display: block;
+    display: inline-block;
   }
 
-  .screen-text-above-zero {
+  .screen-text-above-zero,
+  .screen-text-above-sm {
     display: none;
   }
 }
 
+@include uikit-media(sm) {
+  .screen-text-above-sm {
+    display: inline-block;
+  }
+
+  .screen-text-above-zero,
+  .screen-text-above-xs {
+    display: none;
+  }
+}
 
 @media screen and (min-width: $medium-handheld) {
   .uikit-body {
@@ -233,47 +304,23 @@
   }
 }
 
-.hover-container {
-
-}
-
 .hover-container--faded .hover-element {
-	opacity: 0.5;
+  opacity: 0.5;
   transition: opacity $transition-time ease-in-out;
 }
 
-.hover-element {
-
-}
+.hover-element {}
 
 .hover-element.hover-element--active {
-	opacity: 1;
+  opacity: 1;
   transition: opacity $transition-time ease-in-out;
 }
 
-// .hover-effect {
-//   > div {
-//     opacity: 1;
-//     transition: opacity $transition-time ease-in-out;
-//   }
-
-//   &:hover {
-//     > div {
-//       opacity: 0.5;
-//       transition: opacity $transition-time ease-in-out;
-
-//       &:hover {
-//         opacity: 1;
-//       }
-//     }
-//   }
-// }
-
 .transition-content {
-  transition: opacity $transition-time ease-in-out;
   height: 0;
   opacity: 0;
   overflow: hidden;
+  transition: opacity $transition-time ease-in-out;
   visibility: hidden;
 }
 
@@ -283,13 +330,230 @@
   visibility: visible;
 }
 
-a > img {
-	border: 0;
+a>img {
+  border: 0;
 }
 
 .row--50vh {
-	max-height: 50vh;
-	overflow: scroll;
-	border: 1px solid $gray-mild;
-	padding: 1em;
+  border: 1px solid $gray-mild;
+  max-height: 50vh;
+  overflow: scroll;
+  padding: 1em;
+}
+
+.sub-section {
+  &.row {
+    background-color: $gray-light;
+    padding: 2em 0;
+  }
+
+  p {
+    max-width: 100%;
+  }
+}
+
+.pt-hide {
+  display: none;
+}
+
+
+@media screen and (max-width: $uikit-media-xs) {
+  .horizontal-card-section {
+    .flex-container {
+      display: block;
+    }
+
+    .flex-item:not(.flex-item--xs-maintain) {
+      display: block;
+    }
+  }
+}
+
+@media screen and (min-width: $uikit-media-sm) {
+
+  .sub-section {
+    &.row {
+      border: 1px solid $gray-mild;
+      margin: 0 -24px;
+
+      >div {
+        padding: 0 24px;
+      }
+    }
+  }
+}
+
+@media screen and (min-width: $uikit-media-md) {
+
+  .sub-section {
+    &.row {
+      // background: limegreen;
+      margin: 0 -48px;
+
+      >div {
+        padding: 0 48px;
+      }
+    }
+  }
+}
+
+//Added to fix the bug of the up and down arrows in the input field number
+@media (min-width: 576px) {
+  input[type="number"] {
+    appearance: textfield;
+  }
+}
+
+
+.accordion {
+  .rotate-90 {
+    i, fa-icon {
+      transform: rotate(90deg);
+      margin-right: 3px;
+    }
+  }
+
+  .accordion-button {
+    .transition {
+      transition: 150ms;
+    }
+    cursor: pointer;
+
+    input[type='checkbox'] {
+      display: none;
+    }
+  }
+}
+
+
+.heading--bold {
+  font-weight: 600;
+}
+
+.legend-override {
+  border: unset;
+  font-size: unset;
+  font-weight: 700;
+  line-height: unset;
+  max-width: unset;
+  padding: unset;
+  text-align: unset;
+}
+
+//8 column layout specific styles
+.container--8-column {
+  max-width: 784px;
+}
+
+.container--10-column {
+  max-width: 940px;
+}
+
+.heading--8-column {
+  font-size: 30px;
+  margin: 20px auto 28px;
+  max-width: 584px;
+  text-align: center;
+}
+
+.disabled-opacity {
+  opacity: 0.5;
+}
+
+.font-weight--800 {
+  font-weight: 800;
+}
+
+.margin-below--09 {
+  margin-bottom: 0.9em !important;
+}
+
+.disabled-button {
+  background-color: #d4d4d4;
+  cursor: not-allowed;
+}
+
+.center-vertically {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.line-through {
+  text-decoration: line-through;
+}
+
+.border-top--none {
+  border-top: 0;
+}
+
+.border-left--none {
+  border-left: 0;
+}
+
+.border-bottom--none {
+  border-bottom: 0;
+}
+
+.border-right--none {
+  border-right: 0;
+}
+
+.uikit-body .font-inherit {
+  font-size: inherit;
+}
+
+// allowing <a> tags to properly be used for flow pagination, and have a disabled attribute
+
+.uikit-body a {
+  &[disabled]:not(&[disabled="false"], &[disabled=""]) {
+    background-color: $gray-light !important;
+    border: 1px solid $gray-mid;
+    color: $gray !important;
+    cursor: not-allowed;
+    font-weight: normal;
+    outline: 0 !important;
+  }
+}
+
+.table-fixed {
+  table-layout: fixed;
+  word-wrap: break-word;
+
+  tr:nth-child(even) {
+    background: #fafafa;
+  }
+}
+
+.d-none {
+  display: none;
+}
+
+.uikit-body {
+  .margin-right--none {
+    margin-right: 0;
+  }
+
+  .margin-left--none {
+    margin-left: 0;
+  }
+
+  .text-before-input {
+    margin-right: .3rem;
+  }
+
+  .text-after-input {
+    margin-left: .3rem;
+  }
+}
+
+.padding-right--none {
+  padding-right: 0px !important;
+}
+
+.legend--small-bold {
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: 700;
 }

@@ -1,0 +1,53 @@
+<div id="state-switcher">
+  <h3>State swticher</h3>
+  <% 
+    locals.el = new Object();
+    locals.el.question = 'Select state';
+    locals.el.optionalID = "select-state";
+    locals.el.items = ["Default","Pre-populated"];
+    locals.el.optionalItemID = ["default","pre-populated"];
+  %>
+  <%- include(partials+"components/form-elements/radio", locals) %>
+</div>
+
+<script>
+  $(Document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("input[name=select-state][value=default]").prop('checked', true);
+
+    $('input[name=select-state]').change(function () {
+      mySelection = $('input[name=select-state]:checked').val();
+      hideAll();
+      switch (mySelection) {
+        case "default":
+          // $("#gp-pre-pop").hide();
+          location.reload();
+          break;
+        case "pre-populated":
+          $("#gp-pre-pop").show();
+          $("#gp").hide();
+          $("#medical-practitioner-details").hide();
+          $("#save-next").hide();
+          break;
+        default:
+          break;
+      }
+    });
+
+    function hideAll() {
+      $("#default").hide();
+      $("#pre-populated").hide();
+    }
+
+  });
+
+</script>

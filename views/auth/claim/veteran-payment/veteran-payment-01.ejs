@@ -1,0 +1,116 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Veteran Payment", 
+  heading: "Veteran Payment details",
+  progress
+}) %>
+
+<div>
+  <p>The Veteran Payment provides interim financial support to veterans who lodge a claim for a mental health condition
+    and are unable to work more than eight hours per week.</p>
+  <hr>
+</div>
+
+<%- include(forms+"yes_no", {
+      label: "Are you unable to work more than 8 hours per week due to your medical conditions?",
+      id: "unable-question",
+      yes_toggle: "#unable-container, #centrelink-container",
+      no_toggle: "#not-unable-container"
+    }); %>
+
+<%- include(forms+"notice", {
+      message: "You may not be eligible for Veteran Payment. For more information call 1800 555 254.",
+      type: "error",
+      id: "not-unable",
+      modifiers: ["hidden"]
+    }); %>
+
+<%- include(forms+"notice", {
+      message: "<p>You will need to provide a medical certificate as evidence of your incapacity to work. </p><p>You can attach this document at the end of your claim. If you do not have this document you can provide it later.</p>",
+      id: "unable",
+      modifiers: ["hidden"]
+    }); %>
+
+<%- include(forms+"yes_no", {
+      label: "Do you currently receive payments from Centrelink?",
+      id: "centrelink",
+      yes_toggle: "#crn-container, #warning-container",
+      no_toggle: "#save-next",
+      modifiers: ["hidden"]
+    }); %>
+
+<%- include(forms+"text", {
+      label: "What is your Customer Reference Number (CRN)?",
+      id: "crn",
+      modifiers: ["hidden"]
+    }); %>
+
+<%- include(forms+"notice", {
+      message: "You will lose your Health Care Card or Pensioner Concession Card on transfer to Veteran Payment.",
+      type: "warning",
+      id: "warning",
+      modifiers: ["hidden"]
+    }); %>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel",
+        id: "cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "save-next-button",
+        link: "/auth/claim/veteran-payment/veteran-payment-02",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include("veteran-payment-state-switcher-01") %>
+
+<script>
+  
+  $('input[name=unable-question]').change(function () {
+    var mySelection = $('input[name=unable-question]:checked').parent().find("span").text();
+    if ( mySelection == "Yes") {
+        $("#save-next-button").removeAttr("disabled");
+    } else {
+        $("#save-next-button").attr("disabled", "true");
+    }
+    $("#save-next").hide();
+    $("#crn-container").hide();
+    $("#warning-container").hide();
+  })
+
+
+function stateSwitcher() {
+  console.log( cameFromIl)
+    if (cameFromIl === "true") {
+      $("#unable-question-container").hide();
+      $("#centrelink-container").show();
+      $(".came-from-il").show();
+    } else {
+      $("#unable-question-container").show();
+      $("#centrelink-container").hide();
+      $(".came-from-il").hide();
+    }
+  }
+
+</script>
+
+<%- include(templates+"footer") %>

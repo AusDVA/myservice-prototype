@@ -9,23 +9,20 @@
 **********************************/
 
 .panel-content .panel-btn {
-  position: relative;
-  display: inline-block;
-  padding: 1em 2em;
   background-color: #89ba2c;
-  color: $white;
-  font-weight: bold;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   border-radius: 50em;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 5px rgba(0, 0, 0, 0.1);
-  -webkit-transition: all 0.2s;
-  -moz-transition: all 0.2s;
+  color: $white;
+  display: inline-block;
+  font-weight: bold;
+  padding: 1em 2em;
+  position: relative;
+
   transition: all 0.2s;
 }
 
 .no-touch .panel-content .panel-btn:hover {
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 0 20px $rgba-black-20;
 }
 
 .pagination .panel-close {
@@ -33,96 +30,108 @@
   margin-top: 0.5em;
 }
 
-.panel, .panel-home-help {
+.panel,
+.panel-home-help {
   background: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  left: 0;
   position: fixed;
   top: 0;
-  left: 0;
-  height: 100%;
-  width: 100%;
-  visibility: hidden;
-  -webkit-transition: visibility 0s 0.6s;
-  -moz-transition: visibility 0s 0.6s;
   transition: visibility 0s 0.6s;
+  visibility: hidden;
+  width: 100%;
   z-index: 9999;
 }
 
 .panel::after,
 .panel-home-help::after {
-  /* overlay layer */
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+
   background: transparent;
   cursor: pointer;
-  -webkit-transition: background 0.3s 0.3s;
-  -moz-transition: background 0.3s 0.3s;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
   transition: background 0.3s 0.3s;
+  width: 100%;
 }
 
 .panel.is-visible,
 .panel-home-help.is-visible {
-  visibility: visible;
-  -webkit-transition: visibility 0s 0s;
-  -moz-transition: visibility 0s 0s;
   transition: visibility 0s 0s;
+  visibility: visible;
 }
 
 .panel.is-visible::after,
 .panel-home-help.is-visible::after {
   background: rgba(0, 0, 0, 0.6);
-  -webkit-transition: background 0.3s 0s;
-  -moz-transition: background 0.3s 0s;
   transition: background 0.3s 0s;
 }
 
+.panel {
+  .panel-header {
+
+    h2 {
+      color: $white;
+      float: left;
+      font-size: 1.5rem;
+      margin: 0.3em 0 0;
+      padding-left: 5%;
+    }
+  }
+}
+
 .panel-header {
-  position: fixed;
-  width: 90%;
+  background: $blue;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
   height: 65px;
   line-height: 50px;
-  background: $blue;
-  z-index: 2;
-  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.08);
-  -webkit-transition: top 0.3s 0s;
-  -moz-transition: top 0.3s 0s;
+  position: fixed;
   transition: top 0.3s 0s;
+  width: 90%;
+  z-index: 2;
 
-  h2 {
-    color: $white;
-    padding-left: 5%;
-    float: left;
-    font-size: 1.5rem !important;
-    margin: 0.1em 0 0 0;
-  }
+
 
   a.panel-close {
-    float: right;
-    background: transparent url(../images/ico-close-white.svg) no-repeat 0 12px;
+    background: transparent url('../images/ico-close-white.svg') no-repeat 0 12px;
     background-size: 38px 38px;
-    border-bottom: none;
+    border-bottom: 0;
     color: $white;
-    padding: 6px 0 0 46px;
+    float: right;
     margin-right: 5%;
+    padding: 6px 0 0 46px;
     text-decoration: none;
 
     &:focus,
     &:hover {
-      background: transparent url(../images/ico-close-black.svg) no-repeat 0 12px;
+      background: transparent url('../images/ico-close-black.svg') no-repeat 0 12px;
       background-size: 38px 38px;
     }
   }
 }
 
 .panel-container {
+  background: $white;
+  box-shadow: -10px 0 15px $rgba-black-20;
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 0;
+  transform: translate3d(100%, 0, 0);
+  transition-delay: 0.3s;
+  transition-duration: 0.3s;
+  transition-property: transform;
+  width: 90%;
+  z-index: 1;
+
   .uikit-text-input__label {
     margin-top: 20px;
   }
 }
 
-.from-right .panel-header, .from-left .panel-header {
+.from-right .panel-header,
+.from-left .panel-header {
   top: -70px;
 }
 
@@ -132,8 +141,6 @@
 
 .is-visible .panel-header {
   top: 0;
-  -webkit-transition: top 0.3s 0.3s;
-  -moz-transition: top 0.3s 0.3s;
   transition: top 0.3s 0.3s;
 }
 
@@ -144,7 +151,7 @@
   }
 
   .panel-close--first {
-    margin-left: 0px !important;
+    margin-left: 0 !important;
   }
 }
 
@@ -156,147 +163,133 @@
 
 @media only screen and (min-width: $medium-tablet) {
   .panel-header {
-    width: 50%;
+    width: 44%;
   }
 }
 
-.panel-container {
-  -webkit-box-shadow: -10px 0px 15px 0px rgba(0, 0, 0, 0.25);
-  -moz-box-shadow: -10px 0px 15px 0px rgba(0, 0, 0, 0.25);
-  box-shadow: -10px 0px 15px 0px rgba(0, 0, 0, 0.25);
-  position: fixed;
-  width: 90%;
-  height: 100%;
-  top: 0;
-  background: $white;
-  z-index: 1;
-  -webkit-transition-property: -webkit-transform;
-  -moz-transition-property: -moz-transform;
-  transition-property: transform;
-  -webkit-transition-duration: 0.3s;
-  -moz-transition-duration: 0.3s;
-  transition-duration: 0.3s;
-  -webkit-transition-delay: 0.3s;
-  -moz-transition-delay: 0.3s;
-  transition-delay: 0.3s;
-  right: 0;
-  -webkit-transform: translate3d(100%, 0, 0);
-  -moz-transform: translate3d(100%, 0, 0);
-  -ms-transform: translate3d(100%, 0, 0);
-  -o-transform: translate3d(100%, 0, 0);
-  transform: translate3d(100%, 0, 0);
-}
 
-.is-visible .panel-container {
-  -webkit-transform: translate3d(0, 0, 0);
-  -moz-transform: translate3d(0, 0, 0);
-  -ms-transform: translate3d(0, 0, 0);
-  -o-transform: translate3d(0, 0, 0);
-  transform: translate3d(0, 0, 0);
-  -webkit-transition-delay: 0s;
-  -moz-transition-delay: 0s;
-  transition-delay: 0s;
-}
 
-@media only screen and (min-width: $large-handheld) {
+.is-visible {
   .panel-container {
-    width: 70%;
-  }
-}
-
-@media only screen and (min-width: $medium-tablet) {
-  .panel-container {
-    width: 50%;
-  }
-}
-
-.panel-content {
-  position: absolute;
-  top: 65px;
-  left: 0;
-  width: 90%;
-  height: 80%;
-  padding: 1em 5% 0 5%;
-  overflow: auto;
-
-  /* smooth scrolling on touch devices */
-  -webkit-overflow-scrolling: touch;
-}
-
-/* Custom additions for gestures
- * The state it goes thorugh are: closed -> about to open -> opening -> (closing --OR-- swipe-closing) -> closed
- * there are no rules for closed because we only need it when using React - and it can handle the situation by removing from the dom entirely
- * There are no rules for 'about to open' and 'closing' because they are identical to the default rules
- * There are no rules for 'opening' because they are identical to the existing 'is-visible'
- */
-.swipe-closing {
-  -webkit-transition: visibility 0s 0.3s;
-  -moz-transition: visibility 0s 0.3s;
-  transition: visibility 0s 0.3s;
-
-  .panel-header {
-    top: 0;
-    transform: translateX(100%);
-    -webkit-transition: transform 0.3s 0s;
-    -moz-transition: transform 0.3s 0s;
-    transition: transform 0.3s 0s;
-  }
-
-  .panel-container {
-    -webkit-transition-delay: 0s;
-    -moz-transition-delay: 0s;
+    transform: translate3d(0, 0, 0);
     transition-delay: 0s;
   }
 }
 
 @media only screen and (min-width: $large-handheld) {
+  .panel-container {
+    width: 70%;
+  }
+}
+
+@media only screen and (min-width: $medium-tablet) {
+  .panel-container {
+    width: 44%;
+  }
+}
+
+.panel-content {
+
+  // smooth scrolling on touch devices 
+  -webkit-overflow-scrolling: touch;
+  // height: 80%;
+  height: 90%;
+  left: 0;
+  overflow: auto;
+  padding: 1em 5% 0;
+  position: absolute;
+  top: 65px;
+  width: 90%;
+}
+
+/* Custom additions for gestures
+ * The state it goes thorugh are: closed -> about to open -> opening -> (closing --OR-- swipe-closing') -> closed
+ * there are no rules for closed because we only need it when using React - and it can handle the situation by removing from the dom entirely
+ * There are no rules for 'about to open' and 'closing' because they are identical to the default rules
+ * There are no rules for 'opening' because they are identical to the existing 'is-visible'
+ */
+.swipe-closing {
+  transition: visibility 0s 0.3s;
+
+  .panel-header {
+    top: 0;
+    transform: translateX(100%);
+    transition: transform 0.3s 0s;
+  }
+
+  .panel-container {
+    transition-delay: 0s;
+  }
+}
+
+// Help button available on claim flow screens
+.btn-panel-help {
+  bottom: 0.5em;
+  padding: 0;
+  position: fixed;
+  right: 0;
+  width: auto;
+  z-index: 999;
+
+  .uikit-btn--help {
+    background: $gray-light url('../images/ico-phone-gray.svg') no-repeat center 10px;
+    background-color: $gray-light;
+    background-size: 20px 20px;
+    border: 1px solid $gray-dark;
+    border-radius: $uikit-border-radius 0 0 $uikit-border-radius;
+    border-right: 0;
+    box-shadow: 0 2px 10px 0 rgba(0, 0, 0, 0.4);
+    color: $gray-dark;
+    display: inline-block;
+    margin-right: -1px;
+    padding: 30px 13px 5px;
+
+    &:focus,
+    &:hover {
+      background: $blue-dark url('../images/ico-phone-white.svg') no-repeat center 10px;
+      background-size: 20px 20px;
+      color: $white;
+    }
+  }
+}
+
+
+@media only screen and (min-width: $large-handheld) {
   .btn-panel-help {
-    right: 0;
     bottom: auto;
     top: 16vh;
-    width: auto;
-    padding: 0;
 
     .uikit-btn--help {
-      background-color: $gray-light;
-      color: $gray-dark;
-      display: inline-block;
-      -webkit-border-radius: 5px 0 0 5px !important;
-      border-radius: 5px 0 0 5px !important;
-      border: 1px solid $gray-dark;
-      border-right: none;
-      margin-right: -1px;
-      padding: 35px 1em 0.5em 1em;
-      background: $gray-light url(../images/ico-phone-gray.svg) no-repeat center 15px;
+      background-position-y: 15px;
       background-size: 20px 20px;
-      box-shadow: -2px 2px 10px 0px rgba(0, 0, 0, 0.2);
+      box-shadow: -2px 2px 10px 0 $rgba-black-20;
+      padding: 35px 1em 0.5em;
 
       &:focus,
       &:hover {
-        color: $white;
-        background: #043c75 url(../images/ico-phone-white.svg) no-repeat center 15px;
+        background-position-y: 15px;
         background-size: 20px 20px;
+        color: $white;
+
       }
     }
   }
 }
 
-.ico-email {
-  background: url(../images/ico-email-blue.svg) no-repeat 0px 0px;
+.ico-email,
+.ico-phone {
   background-size: 20px 20px;
   display: inline-block;
-  width: 20px;
   height: 20px;
   margin-bottom: -4px;
   margin-right: 10px;
+  width: 20px;
+}
+
+.ico-email {
+  background: url('../images/ico-email-blue.svg') no-repeat 0 0;
 }
 
 .ico-phone {
-  background: url(../images/ico-phone-blue.svg) no-repeat 0px 0px;
-  background-size: 20px 20px;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  margin-bottom: -4px;
-  margin-right: 10px;
+  background: url('../images/ico-phone-blue.svg') no-repeat 0 0;
 }

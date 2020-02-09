@@ -1,0 +1,18 @@
+<%
+  
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+
+%>
+
+<div class="progressbar <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %> <%- (modifiers.includes("noMarginBelow") || modifiers.includes("claimPercentage")) ? "margin-below--none" : "margin-below--mid" %> <%- typeof modifiers !== "undefined" && modifiers.includes("marginAbove") ? "margin-above--extra" : "margin-above--none" %>">
+  <div class="percentage" style="width: <%- percent %>%;">
+    <% if (!modifiers.includes("claimPercentage")) { %>
+      <p class="percentage_value"><%- percent %>%</p>
+    <% } %>
+  </div>
+</div>
+
+<% if (modifiers.includes("claimPercentage")) { %>
+  <p><%- percent %>% complete</p>
+<% } %>

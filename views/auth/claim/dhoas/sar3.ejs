@@ -1,0 +1,114 @@
+<%- include(templates+"header", {
+  claim: "Subsidy authorisation request",
+  heading: "Occupancy"
+}) %>
+
+  <%- include(forms+"notice", {
+    type: "content",
+    message: `
+      <p>You must be occupying your subsidised property for DHOAS subsidy to commence.</p>
+      <p>I understand that subsidy may cease if I stop occupying the property within 12 months following the commencement of subsidy payments or the completion of building work.</p>
+      <p>If I am unable to occupy the home for the 12 month occupancy period, I understand that I must be approved for a shorter period of occupancy to be eligible for continued subsidy payments.</p>
+      <p>I also understand that I must apply for a reduced occupancy period within a reasonable period of time of vacating the DHOAS subsidised property.</p>`
+  }) %>
+
+  <%- include(forms+"radio", {
+    label: "I declare that:",
+    id: "commencement",
+    all_toggle: "#date-commence-container",
+    boxes: [
+      {
+        text: "I (or I and my dependent/s) will be occupying the property",
+        value: "will"
+      },
+      {
+        text: "I (or I and my dependent/s) currently occupy the property",
+        value: "currently"
+      },
+      {
+        text: "My dependent/s will be occupying the property",
+        value: "will"
+      },
+      {
+        text: "My dependent/s currently occupy the property",
+        value: "currently"
+      },
+      {
+        text: "I will not be occupying the property until the completion of building work",
+        value: "expected"
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"date", {
+    label: `<span id="commencement-date"></span>`,
+    modifiers: ["hidden"],
+    id: "date-commence"
+  }) %>
+
+  <div class="declaration margin-below--extra">
+    <%- include(forms+"checkbox", {
+      modifiers: ["noMargin"],
+      boxes: [
+        {
+          text: "I understand that I (or my dependant/s) must occupy the subsidised property for 12 months from the commencement of subsidy payments.",
+          toggle: "#save-next"
+        }
+      ]
+    }) %>
+  </div>
+
+  <%- include(forms+"yes_no", {
+    label: "Do you currently hold a posting order which will prevent you from meeting the 12 month occupancy requirement?",
+    yes_toggle: "#posting-order-container"
+  }) %>
+
+  <%- include(forms+"textarea", {
+    label: "Provide details of the posting order:",
+    modifiers: ["hidden"],
+    id: "posting-order"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Will the land or any building on the land be used for the purpose of carrying on a business, trade or profession?",
+    yes_toggle: "#describe-business-container"
+  }) %>
+
+  <%- include(forms+"textarea", {
+    label: "Describe the nature of the business, trade or profession:",
+    modifiers: ["hidden"],
+    id: "describe-business"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/sar2"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/sar4",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <script>
+    $("#commencement-container").on("change", "input[type='radio']", function() {
+      if ($(this).val() === "will") $("#commencement-date").html("Date occupancy will commence");
+      if ($(this).val() === "currently") $("#commencement-date").html("Date occupancy commenced");
+      if ($(this).val() === "expected") $("#commencement-date").html("Expected occupancy start date");
+    })
+  </script>
+
+<%- include(templates+"footer") %>

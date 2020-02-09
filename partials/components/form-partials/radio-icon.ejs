@@ -1,0 +1,52 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("radoioIcon");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+let boxCounter = 0;
+
+%>
+
+<fieldset
+  <%- modifiers.includes("disabled") ? "disabled" : "" %>
+  <%- typeof all_toggle !== "undefined" ? `data-all-toggle="${all_toggle}"` : "" %>
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container"
+  class="mys-radio-group formPartials_checkRadioIcon <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>">
+    <%- generateLabel({
+        id,
+        modifiers: modifiers.concat(["legendLabel"]),
+        label: typeof label !== "undefined" ? label : null,
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
+  <div class="radio-icons">
+    <% const boxs = boxes.map(box => {
+      boxCounter++;
+      if (typeof box.modifiers === "undefined") box.modifiers = [];
+
+      box.baseID = id;
+
+      if (typeof box.id !== "undefined") {
+        box.boxID = box.id;
+        box.suppliedID = true;
+      } else {
+        box.boxID = boxCounter;
+        box.suppliedID = false;
+      }
+
+      box.type = "radio";
+    %>
+
+    <%- generateCheckRadioIcons(box).html; %>
+
+    <% 
+      let { toggle, rToggle } = generateCheckRadioIcons(box);
+      return {
+        toggle,
+        rToggle
+      }
+    });
+    %>
+  </div>
+</fieldset>

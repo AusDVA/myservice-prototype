@@ -1,0 +1,57 @@
+<%- include(templates+"header", {
+  title: "18th birthday review - MyService", 
+  heading: "Payment destination"
+}) %>
+
+<h2 id="provide-details" class="parent-info">Provide details for John Smith</h2>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "As <span class='user-label-a'>you are</span> turning 18 years we need to confirm your preferred future payment destination."
+}); %>
+
+<%- include(partials+"components/form-partials/prepop/bank-details", {
+  label: "Bank details",
+  id: "bank"
+}); %>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      link: "/auth/tasks"
+    },
+    {
+      text: "Exit task",
+      link: "#open-modal"
+    },
+    {
+      text: "Next",
+      id: "next",
+      link: "#",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(partials+"content/modals/tasks-cancel-modal") %>
+<%- include(templates+"footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $("input:radio").prop("checked", false);
+
+    $("#next").on("click", function() {
+      if ( sessionStorage.getItem('student-coc-user') == "parent" ) {
+        window.location.href = "18th-birthday-review-02";
+      } else {
+        window.location.href = "18th-birthday-review-03b";
+      }
+    })
+
+  });
+</script>
+
+<%- include("18th-birthday-review-state-switcher.ejs") %>
+
+</html>

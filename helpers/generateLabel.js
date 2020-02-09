@@ -1,0 +1,62 @@
+const generateTooltip = require('./generateTooltip');
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+module.exports = formLabel => {
+  var {
+    id,
+    modifiers,
+    label,
+    tooltip,
+    hint
+  } = formLabel;
+
+  var html = "";
+
+  let legend = modifiers.includes("legend") ? true : false;
+  let legendLabel = modifiers.includes("legendLabel") ? true : false;
+  let formBlockLabel = modifiers.includes("formBlockLabel") ? true : false;
+
+  if (legend || legendLabel || formBlockLabel) {
+    html += `
+      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""} ${formBlockLabel ? "form-block-header" : ""}">
+    `
+  } else {
+    html += `
+      <label for="${id}" class="uikit-text-input__label">
+    `
+  }
+
+  html += label !== null ? label : "";
+
+
+  if (tooltip !== null && (!(modifiers.includes("tooltipOnHint")))) {
+    html += generateTooltip({
+      content: tooltip.content,
+      screenreaderText: tooltip.screenreaderText,
+      modifiers,
+      id
+    })
+  }
+
+  if (hint) {
+    html += `<span class="hint ${modifiers.includes("hintNewLine") ? "display-block margin-above--none margin-below--none" : ""}"> ${hint}</span>`
+  }
+
+  if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
+    html += generateTooltip({
+      content: tooltip.content,
+      screenreaderText: tooltip.screenreaderText,
+      modifiers,
+      id
+    })
+  }
+
+  if (legend || legendLabel || formBlockLabel) {
+    html += "</legend>";
+  } else {
+    html += "</label>";
+  }
+
+  return html;
+}

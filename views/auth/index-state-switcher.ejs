@@ -1,0 +1,411 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <div class="form-group review__table">
+    <h4>Build your own</h4>
+    <p class="uiToolKitCheckBox">
+      <label class="uikit-control-input" for="vp_eligible">
+        <input class="uikit-control-input__input" type="checkbox" id="vp_eligible" name="message box">
+        <span class="uikit-control-input__text">Veteran Payment eligible</span>
+      </label>
+    </p>
+    <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="il_mental_health_being_processed">
+          <input class="uikit-control-input__input" type="checkbox" id="il_mental_health_being_processed" name="message box">
+          <span class="uikit-control-input__text">IL mental health being processed</span>
+        </label>
+      </p>
+    <div class="tr">
+      <div class="ss-box">
+        <input id="text-input-incomplete" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
+      </div>
+      <div class="ss-text">Incomplete claims</div>
+    </div>
+    <div class="tr">
+      <div class="ss-box">
+        <input id="text-input-submitted" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
+      </div>
+      <div class="ss-text">Submitted claims</div>
+    </div>
+    <div class="tr">
+      <div class="ss-box">
+        <input id="text-input-tasks" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
+      </div>
+      <div class="ss-text">Tasks to complete</div>
+    </div>
+
+    <div class="form-group review__table">
+      <h4>Overrides</h4>
+      <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="payment-received">
+          <input class="uikit-control-input__input" type="checkbox" id="payment-received" name="numWidgets">
+          <span class="uikit-control-input__text">Payment received</span>
+        </label>
+      </p>
+      <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="first-login">
+          <input class="uikit-control-input__input" id="first-login" type="checkbox" name="first-login">
+          <span class="uikit-control-input__text">First login</span>
+        </label>
+      </p>
+      <p class="uiToolKitCheckBox">
+        <label class="uikit-control-input" for="nav-show-cards">
+          <input class="uikit-control-input__input" id="nav-show-cards" type="checkbox" name="nav-show-cards">
+          <span class="uikit-control-input__text">Show Cards in Navbar</span>
+        </label>
+      </p>
+    </div>
+    <%
+    locals.el = {};
+    locals.el.optionalID = "loading-state";
+    locals.el.question = "Loading state:";
+    locals.el.items = ["Loaded","Loading full page", "Loading widgets only"];
+    %>
+    <%- include(partials+"components/form-elements/select") %>
+  </div>
+</div>
+
+<script>
+  function pageLoaded() {
+    $('.mys-page-preloader').hide();
+    $("main").fadeOut("slow", function () {
+      $(this).removeClass("page-loading");
+    });
+  }
+
+  $(document).ready(function () {
+    /* Page preloader CSS */
+    setTimeout(pageLoaded, 500);
+    /* --- State switcher --- */
+
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    /* Message */
+
+    var vp_message = sessionStorage.getItem('vp_eligible');
+    if (!vp_message) vp_message = false;
+    if (vp_message == "true") {
+      $("#vp_eligible").prop("checked", true);
+    } else {
+      $("#vp_eligible").prop("checked", false);
+    }
+
+    updateMessageBox();
+    $("#vp_eligible").click(function (e) {
+      updateMessageBox();
+    });
+
+    $("#close-message").click(function (e) {
+      closeMessageBox();
+    });
+
+    function closeMessageBox() {
+      $('#vp_eligible').prop("checked", false);
+      updateMessageBox();
+    }
+
+    /* VP tile */
+    
+
+    var vp_tile = sessionStorage.getItem('il_mental_health_being_processed');
+    if (!vp_tile) vp_tile = false;
+    if (vp_tile == "true") {
+      $("#il_mental_health_being_processed").prop("checked", true);
+    } else {
+      $("#il_mental_health_being_processed").prop("checked", false);
+    }
+
+    updateVPTile();
+    $("#il_mental_health_being_processed").click(function (e) {
+      updateVPTile();
+    });
+
+    /* Tasks widget */
+
+    var tasks = sessionStorage.getItem('tasks');
+    if (!tasks) tasks = 3;
+    $("#text-input-tasks").val(tasks);
+    $("#text-input-tasks").keyup(function () {
+      updateTasksWidget();
+      updateLayout();
+    });
+
+    /* Claims widget */
+
+    var claims_incomplete = sessionStorage.getItem('claims-incomplete');
+    if (!claims_incomplete) claims_incomplete = 1;
+    $("#text-input-incomplete").val(claims_incomplete);
+    $("#text-input-incomplete").keyup(function () {
+      updateScenario();
+    });
+
+    var claims_submitted = sessionStorage.getItem('claims-submitted');
+    if (!claims_submitted) claims_submitted = 3;
+    $("#text-input-submitted").val(claims_submitted);
+    $("#text-input-submitted").keyup(function () {
+      updateScenario();
+    });
+
+    /* Payments widget */
+
+    var payments_received = sessionStorage.getItem('payments_received');
+    if (!payments_received) payments_received = false;
+    $('#payment-received').prop("checked", payments_received);
+    $("#payment-received").click(function (e) {
+      updateScenario();
+    });
+
+    /* First login */
+
+    var first_login = sessionStorage.getItem('first_login');
+    if (first_login == null) first_login = false;
+    $('#first_login').prop("checked", first_login);
+    $("#first-login").click(function (e) {
+      updateScenario();
+    });
+
+    // loading state
+    var loading_state = sessionStorage.getItem('widget_loading_state');
+    if (loading_state == null) loading_state = false;
+    $("#loading-state").click(function (e) {
+      updateScenario();
+    });
+
+    /* Scenarios */
+    $("#loading-state-list").change(function () {
+
+      var mySelection = $(this).val();
+
+      switch (mySelection) {
+        case "Loaded":
+          $("main").removeClass('page-loading');
+          $(".mys-page-preloader ").hide();
+          $("#state-switcher ").hide();
+          break;
+
+        case "Loading full page":
+          $("main").addClass('page-loading');
+          $(".mys-page-preloader").show('fast');
+          $("#state-switcher ").hide();
+
+          setTimeout(function () {
+            $("main").removeClass('page-loading');
+            $(".mys-page-preloader ").hide('fast');
+          }, 3000);
+          break;
+
+        case "Loading widgets only":
+          $("main").removeClass('page-loading');
+          $(".mys-page-preloader").hide();
+          $("#state-switcher ").hide();
+          $(".widget-tile").each(function (index) {
+            $(this).addClass("widget-tile--loading");
+          });
+
+          var $cards = $('.widget-tile');
+          var time = 0;
+          setInterval(function () {
+            $cards.each(function () {
+              var that = this;
+              setTimeout(function () {
+                $(that).removeClass("widget-tile--loading");
+              }, time)
+              time += 500;
+            });
+          }, 4000);
+          break;
+      }
+    });
+
+    /* --- End State switcher --- */
+
+    /* Greeting */
+
+    function updateGreeting() {
+      var myDate = new Date();
+      var hrs = myDate.getHours();
+      var greet;
+      if (hrs < 12)
+        greet = 'Good morning';
+      else if (hrs >= 12 && hrs <= 17)
+        greet = 'Good afternoon';
+      else if (hrs >= 17 && hrs <= 24)
+        greet = 'Good evening';
+      document.getElementById('lblGreetings').innerHTML = greet;
+    }
+
+    /* message box */
+
+    function updateMessageBox() {
+     
+      if ($("#vp_eligible").prop("checked") == true) {
+        sessionStorage.setItem('vp_eligible', true);
+        $("#message-box-veteran-payment").show();
+        $("#il_mental_health_being_processed").prop("checked", true);
+        updateVPTile();
+      } else {
+        sessionStorage.setItem('vp_eligible', false);
+        $("#il_mental_health_being_processed").prop("checked", false);
+        updateVPTile();
+        $("#message-box-veteran-payment").hide();
+      }
+    }
+
+    /* message box */
+
+    function updateVPTile() {
+     if ($("#il_mental_health_being_processed").prop("checked") == true) {
+       sessionStorage.setItem('il_mental_health_being_processed', true);
+       $("#vp").show();
+     } else {
+       sessionStorage.setItem('il_mental_health_being_processed', false);
+       $("#vp").hide();
+     }
+   }
+
+    /* First login */
+
+    function updateFirstLogin() {
+      if ($("#first-login").prop("checked") == true) {
+        hideAll();
+        $("#widget-profile").hide();
+        $("#welcome-message").show("fast");
+        sessionStorage.setItem('first_login', true);
+      } else {
+        $("#welcome-message").hide("fast");
+        sessionStorage.setItem('first_login', false);
+      }
+    }
+
+    function updateLoadingState() {
+      if ($("#loading-state").prop("checked") == true) {
+        $(".widget-tile").each(function (index) {
+          $(this).addClass("widget-tile--loading");
+        });
+        sessionStorage.setItem('widget_loading_state', true);
+      } else {
+        $(".widget-tile").each(function (index) {
+          $(this).removeClass("widget-tile--loading");
+        });
+        sessionStorage.setItem('widget_loading_state', false);
+      }
+    }
+
+    /* Update everything */
+
+    function updateScenario() {
+      updateLayout();
+      hideAll();
+      updateGreeting();
+      updateTasksWidget();
+      updateClaimsWidget();
+      updatePaymentsWidget();
+      updateProfileWidget();
+      // updateLayout();
+
+      /* Over ride for first login */
+      updateLoadingState();
+      updateFirstLogin();
+    }
+
+    /* Init */
+
+    updateScenario();
+    $(".tablet-hide").hide("fast");
+
+    function hideAll() {
+      $("#widget-tasks").hide();
+      $("#widget-claims").hide();
+      $("#widget-payment").hide();
+      $("#widget-profile").hide();
+      $("#welcome-message").hide();
+      $("#profile-message").hide();
+    }
+
+    function hideAllClaims() {
+      $("#il").hide();
+      $("#mental-health").hide();
+      $("#covenant").hide();
+      $("#incap").hide();
+      $("#increase-disability").hide();
+      $("#education").hide();
+      $("#qs").hide();
+      $("#civilian-qs").hide();
+      $("#service-pension").hide();
+      $("#partner-pension").hide();
+      $("#lump-sum").hide();
+      $("#representation").hide();
+      $("#dhoas").hide();
+      $("#insurance").hide();
+    }
+
+    /* Layout */
+
+    $(window).resize(function () {
+      updateLayout();
+    });
+
+    function updateLayout() {
+
+      totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
+      var mobile = $(window).width() < 679;
+      var tablet = $(window).width() > 679 && $(window).width() < 1200;
+      var desktop = $(window).width() > 1200;
+      if (mobile) {
+        if (totalWidgets === 3) $("#widget-profile").show();
+        // totalWidgets == 3 ? $("#widget-profile").show("fast"): false ;
+        totalWidgets == 2 ? $("#widget-profile").hide("fast") : false;
+      }
+      if (tablet) {
+        totalWidgets == 2 ? $("#widget-profile").show("fast") : false;
+        totalWidgets == 3 ? $("#widget-profile").hide("fast") : false;
+      }
+      if (desktop) {
+        if (totalWidgets < 1 && $("#widget-profile").is(":visible")) {
+          $("#widget-profile").hide("fast");
+          $("#profile-message").show("fast");
+        }
+        if (totalWidgets === 1) {
+          $("#profile-message").hide("fast");
+          $("#widget-profile").show("fast");
+        }
+        totalWidgets < 2 ? $(".tablet-hide").show("fast") : $(".tablet-hide").hide("fast");
+        totalWidgets == 3 ? $("#widget-profile").show("fast") : false;
+      }
+      totalWidgets <= 2 ? $('.widget-tile').addClass('widget-tile--half-width') : false;
+      totalWidgets == 3 ? $(".tablet-hide").hide("fast") : false;
+    }
+  });
+
+
+
+  //capitalises the first letter in a string
+  function jsUcfirst(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  $(document).ready(function () {
+
+    const person = JSON.parse(localStorage.getItem("person"));
+
+    if (person.cards && person.cards.length > 0) {
+      $("#nav-show-cards").prop("checked", true);
+    }
+
+    $("#nav-show-cards").on("change", function () {
+      if ($(this).prop("checked")) {
+        $("#healthcard").show();
+      } else {
+        $("#healthcard").hide();
+      }
+    });
+  });
+</script>

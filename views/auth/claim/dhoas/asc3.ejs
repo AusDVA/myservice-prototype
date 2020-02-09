@@ -1,0 +1,72 @@
+<%- include(templates+"header", {
+  claim: "DHOAS Subsidy Certificate",
+  heading: "Your service history"
+}) %>
+
+  <p>Your service and operational history is retrieved from PMKeyS and will be used to calculate your DHOAS entitlements. You can view your full service history in <a href="/auth/profile/history">your profile</a>.</p>
+
+  <%- include(forms+"yes_no", {
+    label: "Did you have any period of ADF leave without pay?",
+    yes_toggle: "#leave-dates-container"
+  }) %>
+  
+  <%- include(forms+"leave-dates", {
+    modifiers: ["hidden"],
+    id: "leave-dates"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Do you have effective reservist service?",
+    yes_toggle: "#effective-reservist"
+  }) %>
+
+  <div id="effective-reservist" hidden>
+    <h3>Upload evidence of your Effective Reservist service</h3>
+    <div class="uikit-page-alerts" role="alert">
+      <p>To accrue a years entitlement to DHOAS you will need to have completed 20 days of paid Reserve service within the financial year. </p>
+      <p>Evidence for this can be a Statement of Reserve Service, CENRES pay printout or other supporting evidence.</p>
+      <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+    </div>
+    <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
+  </div>
+
+  <%- include(forms+"yes_no", {
+    label: "Were you medically discharged?",
+    yes_toggle: "#medically-discharged"
+  }) %>
+
+  <div id="medically-discharged" hidden>
+    <h3>Provide evidence of your medical discharge</h3>
+      <span class="hint display-block">This will ensure our calculations for your entitlements under DHOAS are correct.</span>
+    <div class="uikit-page-alerts" role="alert">
+
+      <p>For example, a copy of your DM42, SHE, MERCRB documents or other evidence.</p>
+      <p>Documents can be in .pdf, .jpg, or .png format. Each file has a 50MB size limit.</p>
+    </div>
+    <button class="uikit-btn uikit-btn--tertiary margin-below">Upload document</button>
+  </div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/asc2"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/asc4",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(templates+"footer") %>

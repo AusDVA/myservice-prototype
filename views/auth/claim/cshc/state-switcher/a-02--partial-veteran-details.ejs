@@ -1,0 +1,89 @@
+<h2 class="margin-above--large"><span class="font-weight-heavy">Partner's details</span></h2>
+
+<div class="has-contact">
+  <h3>Partner's contact details</h3>
+
+  <div class="form-group">
+    <label class="uikit-text-input__label" for="phoneHome">Partner's phone number
+      <span class="hint">(optional)</span>
+      <span class="hint display-block margin-below--none">Please include area code (for example, "03" for Victoria or
+        "04" for
+        Mobile)</span>
+      <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home"
+        id="countryCode-home">
+        <%- include(partials+"content/phone-areacode") %>
+      </select>
+      <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+    </label>
+  </div>
+
+  <%- include(forms+"text", {
+      label: "Partner's email address"
+    }) %>
+</div>
+
+<%- include(forms+"yes_no", {
+  label: "Does your partner live at the same address as you?",
+  no_toggle: [ "#residential-address-container", "#illness-container"]
+}) %>
+
+<%- include(forms+"prepop/address", {
+  id: "residential-address",
+  modifiers: ["hidden"],
+  label: "Partner's residential address"
+}) %>
+
+<%- include(partials+"components/form-partials/checkbox", {
+  boxes: [
+    {
+      text: "Use partner's residential address as their postal address",
+      rToggle: "#postal-address-3-container",
+      modifiers: ["checked"]
+    }
+  ]
+}); %>
+
+<%- include(forms+"prepop/address", {
+  id: "postal-address-3",
+  modifiers: ["hidden"],
+  label: "Partner's postal address"
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Does your partner live at the a different address due to age or ill health",
+  id: "illness",
+  modifiers: ["hidden"]
+}) %>
+
+<h3>Benefits</h3>
+<%- include(forms+"yes_no", {
+    label: "Has your partner applied for or do they receive any benefits from Centrelink?",
+    customClass: "partner-centrelink-payments",
+    id: "partner-applied-centrelink-3"
+  }) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "Your partner may not be eligible for Commonwealth Seniors Health Card. For further information please call DVA on <a>1800 555 254</a>.",
+  type: "warning",
+  id: "eligibility-4",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(forms+"yes_no", {
+    label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?",
+    customClass: "partner-centrelink-has-cshc",
+    yes_toggle: ".partner-centrelink-cshc"
+  }) %>
+
+<%- include(forms+"text", {
+    label: "What is your partner's Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    customClass: "partner-centrelink-cshc"
+  }) %>
+
+<script>
+  $("input[name='partner-applied-centrelink-3']:radio")
+    .change(function () {
+      $("#eligibility-4-container").toggle($(this).val() == "yes");
+    });
+</script>

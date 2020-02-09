@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Veteran Card | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Access mental health treatment</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+
+          <div class="margin-above--extra margin-below--extra">
+            <h2 class="margin-below--none">Tell us about your service history</h2>
+
+            <div class="form-group margin-above--large" id="q1">
+              <fieldset>
+                <label class="legend-label">Have you ever been a member of the Permanent Forces?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input type="radio" id="permanentYes" name="PermanentQuestion" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input type="radio" id="permanentNo" name="PermanentQuestion" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group margin-above" id="q2">
+              <fieldset>
+                <label class="legend-label">Have you ever been a member of the Reserves?</label>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input type="radio" id="reservistYes" name="ReserveQuestion" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input type="radio" id="reservistNo" name="ReserveQuestion" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div id="ReservistHistory" class="margin-above--large" style="display:none;">
+              <hr>
+              <h2>We need to know more about your time in the Reserves</h2>
+
+              <div class="form-group margin-above" id="cfts">
+                <fieldset>
+                  <label class="legend-label">Was your service ever considered Continuous Full-Time Service?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="cftsYes" name="cfts" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="cftsNo" name="cfts" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="disaster" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Did your service include a Disaster Relief operation?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="disasterYes" name="disaster" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="disasterNo" name="disaster" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="border" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Did your service include a Border Protection operation?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="borderYes" name="border" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="borderNo" name="border" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div class="form-group margin-above" id="accident" style="display:none">
+                <fieldset>
+                  <label class="legend-label">Were you ever involved in a serious training accident?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input type="radio" id="accidentYes" name="accident" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input type="radio" id="accidentNo" name="accident" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+
+              <div id="operationName" class="form-group" style="display:none;">
+                <label class="uikit-text-input__label">Operation name
+                  <span class="hint">(if known)</span>
+                </label>
+                <input class="uikit-text-input input-half" type="text" value="" id="operation">
+              </div>
+
+
+              <div id="accidentDate" style="display:none;">
+                <div class="form-group margin-above">
+                  <label class="uikit-text-input__label">Location of accident
+                    <span class="hint">(if known)</span>
+                  </label>
+                  <input class="uikit-text-input input-half" type="text" value="" id="locationincident">
+                </div>
+                <div class="form-group margin-above">
+                  <label class="uikit-text-input__label" for="mm-accident">Approximately when did the serious training accident occur? <span class="hint display-block">(mm /
+                      yyyy)</span>
+                  </label>
+                  <input class="uikit-text-input mm" type="number" name="mm-accident" id="mm-accident" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="number" name="yyyy-accident" id="yyyy-accident" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                </div>
+              </div>
+
+            </div>
+
+            <div id="basicdetails" class="margin-above--mid" style="display:none;">
+              <div id="service-number" class="form-group">
+                <label class="uikit-text-input__label" for="nomrep-name">Service number</label>
+                <input class="uikit-text-input input-half" name="nomrep-name" id="nomrep-name" type="text" value="">
+              </div>
+              <div id="enlistment-date" class="form-group">
+                <label class="uikit-text-input__label" for="dd-discharge">Date of enlistment <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="number" name="dd-enlistment" id="dd-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-enlistment" id="mm-enlistment" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-enlistment" id="yyyy-enlistment" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+              <div id="discharge-date" class="form-group">
+                <label class="uikit-text-input__label" for="dd-discharge">Date of discharge <span class="hint">(dd / mm / yyyy)</span>
+                </label>
+                <input class="uikit-text-input dd" type="number" name="dd-discharge" id="dd-discharge" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-discharge" id="mm-discharge" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-discharge" id="yyyy-discharge" maxlength="4" required aria-required="true" aria-label="4 digit year">
+              </div>
+            </div>
+
+            <div id="document-upload" class="margin-above--large text-fullwidth" style="display:none;">
+              <hr>
+              <h2>Upload proof of service <span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span></h2>
+              <p>For example your Discharge Signal, DM042, MECRB, military payslip or service record.</p>
+              <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
+                <p class="margin-below--mid">If you can't provide proof of your service, call us on 1800 555 254</p>
+              </div>
+              <!-- <button id="btnUpload" class="uikit-btn">Upload document</button>
+
+              <div id="UploadedDocs" class="mys-file-uploads margin-below--extra" style="display:none;">
+                <div class="mys-file-uploads__items">
+                  <div class="mys-file-uploads__item-border">
+                    <div class="mys-file-uploads__item">
+                      <div class="mys-file-uploads__l-status">
+                        <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                          <div class="mys-file-uploads__status-icon"></div>
+                          <div class="mys-file-uploads__status-sr">Success</div>
+                        </div>
+                      </div>
+                      <div class="mys-file-uploads__info">
+                        <div class="mys-file-uploads__info-item">
+                          <label class="mys-file-uploads__label">Proof of service</label>
+                          <div class="mys-file-uploads__value">
+                            <a href="#" class="">Robert-Discharge-Signal.png</a>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="mys-file-uploads__item-actions">
+                        <button id="btnRemove" class="mys-file-uploads__item-button uikit-btn small uikit-btn--tertiary">Remove</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mys-file-uploads__uploads-actions">
+                  <button class="uikit-btn small uikit-btn--tertiary">Add another</button>
+                </div>
+              </div> -->
+
+              <div class="upload-list">
+                <table class="document-uploads">
+                  <tr>
+                    <th>Document title</th>
+                    <th class="centred">Actions</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      <a href="#">My-Diagnosis.pdf (3.5 MB PDF)</a>
+                    </td>
+                    <td class="centred">
+                      <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = '#open-removefile-modal'">Delete</button>
+                    </td>
+                  </tr>
+                </table>
+                <button class="uikit-btn btnUpload">Upload a document</button>
+              </div>
+
+            </div>
+
+
+
+            <p id="choose-next" class="margin-above text-fullwidth">Choose
+              <b>next</b> to continue.</p>
+
+            <div id="NotEligible" class="margin-above--extra" style="display:none;">
+              <div class="uikit-page-alerts uikit-page-alerts--error margin-above margin-below">
+                <p class="margin-below--mid">Unfortunately we cannot process your claim online. Call us on 1800 555 254 to discuss your claim.</p>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn btnNext" id="btnNext">Next</button>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
+    </div>
+
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    $(Document).ready(function () {
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/veteran-card-1"
+      });
+
+
+      $("#btnUpload").click(function () {
+        $("#UploadedDocs").show();
+        $("#btnUpload").hide();
+      });
+
+      $("#btnRemove").click(function () {
+        $("#UploadedDocs").hide();
+        $("#btnUpload").show();
+      });
+
+      $("#cftsNo").click(function () {
+        $("#basicdetails").hide();
+        $("#document-upload").hide();
+        $("#disaster").show();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+      $("#cftsYes").click(function () {
+        $("#basicdetails").show();
+        $("#document-upload").show();
+        $("#disaster").hide();
+        $("#border").hide();
+        $("#operationName").hide();
+        $("#accident").hide();
+        $("#accidentDate").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#disasterNo").click(function () {
+        $("#basicdetails").hide();
+        $("#document-upload").hide();
+        $("#border").show();
+        $("#operationName").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#disasterYes").click(function () {
+        $("#operationName").show();
+        $("#basicdetails").show();
+        $("#document-upload").show();
+        $("#border").hide();
+        $("#accident").hide();
+        $("#accidentDate").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#borderNo").click(function () {
+        $("#basicdetails").hide();
+        $("#document-upload").hide();
+        $("#accident").show();
+        $("#operationName").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+      $("#borderYes").click(function () {
+        $("#basicdetails").show();
+        $("#document-upload").show();
+        $("#operationName").show();
+        $("#accident").hide();
+        $("#NotEligible").hide();
+        $("#accidentDate").hide();
+        $("#btnNext").prop('disabled', false);
+      });
+
+      $("#accidentNo").click(function () {
+        $("#basicdetails").hide();
+        $("#document-upload").hide();
+        $("#NotEligible").show();
+        $("#accidentDate").hide();
+        $("#operationName").hide();
+        $("#btnNext").prop('disabled', true);
+      });
+      $("#accidentYes").click(function () {
+        $("#basicdetails").show();
+        $("#document-upload").show();
+        $("#operationName").hide();
+        $("#NotEligible").hide();
+        $("#accidentDate").show();
+        $("#btnNext").prop('disabled', false);
+      });
+
+    });
+
+    $("#q2").hide();
+    $("#choose-next").hide();
+
+    $("input[name$='PermanentQuestion']").click(function () {
+      if (this.value === 'yes') {
+        iseligibile = true
+        $("#q2").hide();
+        $("#basicdetails").show();
+        $("#document-upload").show();
+        $("#NotEligible").hide();
+        $("#ReservistHistory").hide();
+        $("#btnNext").prop('disabled', false);
+      } else if (this.value === 'no') {
+        $("#q2").show();
+        $("#basicdetails").hide();
+        $("#document-upload").hide();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      }
+    });
+
+    $("input[name$='ReserveQuestion']").click(function () {
+      if (this.value === 'yes') {
+        iseligibile = true
+        $("#ReservistHistory").show();
+        $("#NotEligible").hide();
+        $("#btnNext").prop('disabled', false);
+      } else if (this.value === 'no') {
+        $("#ReservistHistory").hide();
+        $("#NotEligible").show();
+        $("#btnNext").prop('disabled', true);
+      }
+    });
+  </script>
+
+</body>
+
+</html>

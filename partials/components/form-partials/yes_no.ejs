@@ -1,0 +1,41 @@
+<%
+  const removeEmpty = (obj) => 
+    Object.entries(obj).forEach(([key, val]) => {
+      if (val && typeof val === 'object') removeEmpty(val)
+      else if (val == null) delete obj[key]
+  })
+
+  var yesNo = {
+    label,
+    tooltip: typeof tooltip !== "undefined" ? tooltip : null,
+    modifiers: typeof modifiers !== "undefined" ? modifiers : [],
+    all_toggle: typeof both_toggle !== "undefined" ? both_toggle : null,
+    customClass: typeof customClass !== "undefined" ? customClass : null,
+    hint: typeof hint !== "undefined" ? hint : null,
+    boxes: [
+      {
+        text: "Yes",
+        toggle: typeof yes_toggle !== "undefined" ? yes_toggle : null,
+        rToggle: typeof yes_rToggle !== "undefined" ? yes_rToggle : null,
+      },
+      {
+        text: "No",
+        toggle: typeof no_toggle !== "undefined" ? no_toggle : null,
+        rToggle: typeof no_rToggle !== "undefined" ? no_rToggle : null,
+      }
+    ]
+  }
+
+  if (typeof unsure !== "undefined" && unsure) {
+    yesNo.boxes.push({
+      text: "Unsure",
+      toggle: typeof unsure_toggle !== "undefined" ? unsure_toggle : null,
+      rToggle: typeof unsure_rToggle !== "undefined" ? unsure_rToggle : null,
+    })
+  }
+
+  removeEmpty(yesNo)
+
+%>
+
+<%- include(components+"form-partials/button_radio", yesNo) %>

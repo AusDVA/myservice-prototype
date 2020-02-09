@@ -1,0 +1,91 @@
+<!-- Summary card -->
+<div id="pension-summary" class="plain-text-info margin-below--large" style="display:none;">
+  <div class="review__wrapper">
+    <div class="review__content--item boxed row">
+      <div class="review__content--label col-sm-10">
+        <h2 class="margin-above--none">
+          <span class="fal fa-envelope-open-dollar fa-lg"></span>&nbsp;&nbsp;<span class="font-weight-heavy">Account
+            based pension</span></h2>
+        <div class="key-value-group margin-above">
+          <div class="key">
+            <h4>Income received by:</h4>
+          </div>
+          <div class="value">Myself</div>
+        </div>
+        <div class="key-value-group margin-above">
+          <div class="key">
+            <h4>Pension provider</h4>
+          </div>
+          <div class="value">MLC</div>
+        </div>
+        <div class="key-value-group margin-above">
+          <div class="key">
+            <h4>Start date</h4>
+          </div>
+          <div class="value">21 / 04 / 2013</div>
+        </div>
+      </div>
+      <div class="col-sm-2" style="margin: 0;"><button class="uikit-btn uikit-btn--tertiary"
+          onClick="editCard('pension');">&nbsp;Edit&nbsp;</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Open card -->
+<div id="pension-card" class="boxed margin-above margin-below" style="display: none;">
+  <div>
+    <h2 class="margin-above--none" style="display: inline-block;">
+      <span class="fal fa-envelope-open-dollar fa-lg"></span>&nbsp;<span class="font-weight-heavy">Account-based
+        pension</span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary
+        small warning floated" onclick="removeSummary('pension');">&nbsp;Delete item&nbsp;
+    </button>
+  </div>
+  <div id="card-details" class="margin-below--large">
+    <p><b>Add all account-based pensions from which you and/or your partner receive income.</b></p>
+
+
+    <hr>
+    <form id="myForm">
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Income received by",
+        options: [
+          "Myself",
+          "My partner",
+          "Jointly with my partner"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Pension provider / SMSF / SAF"
+      }); %>
+      <%- include(partials+"components/form-partials/date", {
+        label: "Start date"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Pension reference number"
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to complete the Income Stream Schedule Form (D0563) and provide in the documents section.",
+        type: "alert"
+      }); %>
+    </form>
+  </div>
+  <hr>
+  <div id="buttonset2" class="form-group margin-above--none">
+    <button id="addButton" class="uikit-btn"
+      onclick="addSummary('pension');">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
+      class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+  </div>
+</div>
+
+
+<script>
+  $('input[name=address]').change(function () {
+    var mySelection = $('input[name=address]:checked').parent().find("span").text().trim();
+    if (mySelection == "Child's address is the same as mine") {
+      $("#child-address-container").hide();
+    } else {
+      $("#child-address-container").show();
+    }
+  });
+</script>

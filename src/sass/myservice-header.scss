@@ -1,36 +1,36 @@
-/**********************************
-	This SASS file controls the layout of all headers and responsive handling of primary navigation while it still exists in the header. Examples: unathenticated header, authenticated dashboard header and reduced height headers for claim and registration flows.
+// This SASS file controls the layout of all headers and responsive handling of 
+// primary navigation while it still exists in the header. Examples: unathenticated header, 
+// authenticated dashboard header and reduced height headers for claim and registration flows.
 
-**********************************/
 
 // Default: Blue background for authenticated pages
-
 header {
-  padding-left: 1em;
-  min-height: 3.5em;
-  background: $blue url(../images/bg-header-auth.jpg) no-repeat 0 0;
+  // background: $blue url('../images/bg-header-auth.jpg') no-repeat 0 0;
+  background-image: url('../images/bg-header-auth.jpg');
+  background-position: 0 0;
+  background-repeat: no-repeat;
   background-size: cover;
-  background-position: left;
+  min-height: 3.5em;
+
 
   p {
     color: $white;
   }
 
   .logo-myservice {
+    border: 0;
     height: 100%; // needed for buggy IE SVG rendering
     max-width: 200px;
-		padding: 0.4em 0 0 0;
-		border: 0;
+    padding: .4em 0 0;
   }
 
   // Override: Reduced height for claim flow
-
   &.reduced-header {
     min-height: 4.5em;
 
     .logo-myservice {
       max-width: 200px;
-      padding: 0.85em 0 0 0;
+      padding: .85em 0 0;
     }
   }
 
@@ -42,17 +42,17 @@ header {
     padding: .25em 0 0;
 
     img {
-      max-width: 150px;
-      width: 100%;
+      border-right: 1px solid $gray;
       float: left;
       margin: 0.35em 1em 1em 0;
-      border-right: 1px solid $gray;
+      max-width: 150px;
       padding: 0 1em 0 0;
+      width: 100%;
 
       &.logo-myservice {
+        border-right: 0;
         max-width: 135px;
-        padding: 0.6em 0 0 0;
-        border-right: none;
+        padding: .6em 0 0;
       }
     }
 
@@ -68,24 +68,27 @@ header {
   }
 
   &.landing-page--gradient {
-    background: linear-gradient(#eee, #fff);
+    background: linear-gradient($gray-light, $white);
   }
-} // end header
+}
 
-@media only screen and (min-width: $AU-media-md) {
+// end header
+
+
+@include uikit-media(md) {
   header {
-    min-height: 6em;
+    // min-height: 6em;
 
     .logo-myservice {
       float: left;
       max-width: 220px;
-      padding: 1.9em 0 0 0;
+      padding: 1.9em 0 0;
     }
 
     &.landing-page {
       img {
-        max-width: 180px;
         margin: 0.5em 1.25em 1em 0;
+        max-width: 180px;
         padding: 0 1.25em 0 0;
 
         &.logo-myservice {
@@ -95,27 +98,27 @@ header {
 
       .header-login {
         display: inline-block;
-        float: right;
-        text-align: right;
+        // float: right; // float doesn't work on inline
         list-style-type: none;
-        padding: 0.75em 0 0 0;
+        padding: .75em 0 0;
+        text-align: right;
       }
     }
   }
 }
 
-@media only screen and (min-width: $AU-media-lg) {
-  // @media only screen and (min-width: 992px) {
+@include uikit-media(lg) {
+
   header {
     .logo-myservice {
       max-width: 250px;
-      padding: 1.75em 0 0 0;
+      padding: 1.75em 0 0;
     }
 
     &.landing-page {
       img {
+        margin: .75em 1em 1.5em 0;
         max-width: 240px;
-        margin: 0.75em 1em 1.5em 0;
         padding: 0 1em 0 0;
 
         &.logo-myservice {
@@ -124,219 +127,213 @@ header {
       }
 
       .header-login {
-        padding: 1.4em 0 0 0;
+        padding: 1.4em 0 0;
       }
     }
   }
 }
 
 // Menu button that appears at narrow widths
-
 .toggle {
-  float: right;
-  padding: 0.7em 0.7em 0.7em 2.8em;
-  border: none;
-  margin-top: 0.4em;
-  border-radius: 3px;
-  font-size: 1em;
-  background: transparent;
-  color: #fff;
-  display: none;
-  background: transparent url(../images/ico-menu-open.svg) no-repeat 1em 0.7em;
+  background-color: $black;
+  background-image: url('../images/ico-menu-open.svg');
+  background-position: 1em .7em;
+  background-repeat: no-repeat;
+
   background-size: 20px 20px;
+  border: 0;
+  border-radius: $uikit-border-radius;
+  color: $white;
+  display: block;
+  float: right;
+  font-size: 1em;
+  margin-top: 0.4em;
+  padding: .7em .7em .7em 2.8em;
 
   &:focus,
   &:hover {
-    background: $black url(../images/ico-menu-open.svg) no-repeat 1em 0.7em;
-    background-size: 20px 20px;
+    background-color: $black;
     cursor: pointer;
   }
 }
 
-ul.menu {
-  display: none;
+
+
+.uikit-body {
+
+  .menu {
+
+    background-color: transparent;
+    box-shadow: 0 8px 8px 0 $rgba-black-20;
+    display: none;
+    margin: 0 0 .5em;
+    max-width: inherit;
+    padding: 0;
+    width: 100%;
+    // Can't see why this is needed and it causes issues with tooltip
+    // z-index: 101;
+
+    &.is-active {
+      display: block;
+    }
+
+    .fal {
+      color: $white;
+      min-height: 1.1em;
+      // background-color: red;
+    }
+  }
+
+  .menu__item {
+    cursor: pointer;
+    display: block;
+    list-style-image: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .menu__item-link {
+    color: $white;
+    display: flex;
+    line-height: 1.4;
+    margin: $margin-zero;
+    overflow: hidden;
+    padding: 1em;
+    text-align: left;
+    text-decoration: none;
+
+    &:focus,
+    &:hover {
+      background-color: $rgba-black-20;
+      outline: 0;
+    }
+
+    .fa-2x {
+      @include uikit-media(md) {
+        margin-right: 0;
+      }
+      font-size: 1.3em;
+      margin-right: 8px;
+
+      &::before {
+        top: 5px;
+      }
+    }
+  }
+
+  .menu__item-name {
+    display: inline-block;
+  }
+
+  .menu-item--seporated {
+    border-left: 2px solid rgba(255, 255, 255, .2)
+  }
+
+
+  // Visible navigation on wider screens
+  @include uikit-media(md) {
+
+    .menu {
+      background-color: transparent;
+      box-shadow: none;
+      display: block;
+      float: right;
+      margin: 0;
+      max-height: 5.8em;
+      padding: 0;
+      position: relative;
+      text-align: right;
+      width: auto;
+
+    }
+
+    .menu__item {
+      display: inline-block;
+    }
+
+    .menu__item-link {
+      border-bottom: 10px solid transparent;
+      display: inline-block;
+      line-height: 1.55;
+      margin: 0 0 -7px;
+      max-height: 5.8em;
+      overflow: hidden;
+      padding: 1.2em 0.6em 0.25em;
+      position: relative;
+      // padding: 1em 1em 1em 2.5em;
+      text-align: center;
+      text-decoration: none;
+
+      &.nav-active {
+        background-color: $blue-mid-alt;
+        border-bottom: 10px solid $orange;
+        border-left: 0;
+      }
+
+      // &:focus,
+      // &:hover {
+      //   border-bottom: 10px solid transparent;
+      // }
+
+      .fa-2x {
+        font-size: 2em;
+        line-height: 1;
+      }
+    }
+
+    .menu__item--external {
+      border-bottom: 0;
+      border-left: 2px solid rgba(255, 255, 255, .2);
+      margin-left: .5em;
+      padding-left: .5em;
+
+    }
+
+    .menu__item-name {
+      display: block;
+    }
+
+    .toggle {
+      display: none;
+    }
+  }
 }
 
-.toggle {
-  display: block;
-}
-
-ul.menu.is-active {
-  display: block;
-}
 
 .menu-closed {
-  background: transparent url(../images/ico-menu-close.svg) no-repeat 1em 50%;
+  background-image: url('../images/ico-menu-close.svg');
+  background-position: 1em 50%;
+  background-repeat: no-repeat;
   background-size: 16px 16px;
 
   &:focus,
   &:hover {
-    background: $black url(../images/ico-menu-close.svg) no-repeat 1em 50%;
-    background-size: 16px 16px;
+    background-color: $black;
+    background-image: url('../images/ico-menu-close.svg');
     outline: 0;
   }
 }
 
-// Navigation triggered by menu button on narrow screens
-
-ul.menu {
-  margin: 3.5em -12px 0 -12px !important;
-  padding: 0 12px !important;
-  z-index: 101;
-  width: 100%;
-  background-color: $blue-dark;
-  -webkit-box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);
-  box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.3);
+.tasks-badge {
+  align-items: center;
+  background: $red;
+  border-radius: 50%;
+  display: inline-flex;
+  font-size: 12px;
+  justify-content: center;
+  min-width: 20px;
+  padding: 1px;
+  position: relative;
+  right: 56px;
+  bottom: 12px;
+  order: 3;
 }
 
-ul.menu li {
-  margin: 0 !important;
-  padding: 0 !important;
-  display: block;
-  list-style-image: none;
-
-  a {
-    display: block;
-    color: $white !important;
-    line-height: 1.4;
-    padding: 1em 1em 1em 2.5em !important;
-    text-align: left;
-    margin: $margin-zero;
-    text-decoration: none;
-    overflow: hidden;
-
-    &:focus,
-    &:hover {
-      background-color: rgba(0, 0, 0, 0.2) !important;
-      outline: 0;
-    }
-
-    &.header-home {
-      background: transparent url(../images/ico-home.svg) no-repeat 1em 50%;
-      background-size: 16px 16px;
-    }
-
-    &.header-claims {
-      background: transparent url(../images/ico-claims-white.svg) no-repeat 1em 50%;
-      background-size: 16px 16px;
-    }
-
-    &.header-lsa {
-      background: transparent url(../images/ico-claims-white.svg) no-repeat 1em 50%;
-      background-size: 16px 16px;
-    }
-	
-	&.header-travel {
-      background: transparent url(../images/ico-transport-white.png) no-repeat 0 -1em;
-      background-size: 100%;
-    }
-
-    &.header-travel {
-      background: transparent url(../images/ico-transport-white.png) no-repeat 2px 6px;
-      background-size: 42px;
-    }
-
-    &.header-profile {
-      background: transparent url(../images/ico-profile.svg) no-repeat 1em 50%;
-      background-size: auto 16px;
-    }
-
-    &.header-healthcard {
-      background: transparent url(../images/ico-card-white.svg) no-repeat 1em 50%;
-      background-size: auto 16px;
-    }
-
-    &.header-myaccount {
-      background: transparent url(../images/ico-switch.svg) no-repeat 1em 50%;
-      background-size: 16px 16px;
-    }
-  }
-}
-
-// Visible navigation on wider screens
-
-@media only screen and (min-width: $AU-media-md) {
-  ul.menu {
-    margin: 0 !important;
-    padding: 0 !important;
-    text-align: right;
-    float: right;
-    display: block;
-    position: relative;
-    background-color: transparent;
-    width: auto;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
-  ul.menu li {
-    display: inline-block;
-
-    a {
-      display: inline-block;
-      line-height: 2.4;
-      padding: 2.75em 1em 0.25em 1em !important;
-      text-align: center;
-      margin: 0 0 -6px 0;
-      text-decoration: none;
-      border-bottom: 10px solid transparent !important;
-
-      overflow: hidden;
-
-      &:focus,
-      &:hover {
-        background-color: rgba(0, 0, 0, 0.2) !important;
-      }
-
-      &.header-home {
-        background: transparent url(../images/ico-home.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.header-claims {
-        background: transparent url(../images/ico-claims-white.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.header-lsa {
-        background: transparent url(../images/ico-claims-white.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.header-profile {
-        background: transparent url(../images/ico-profile.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.header-healthcard {
-        background: transparent url(../images/ico-card-white.svg) no-repeat 50% 18px;
-        background-size: auto 30px;
-      }
-
-      &.header-travel {
-        background: transparent url(../images/ico-transport-white.png) no-repeat 0 -1em;
-        background-size: 100%;
-      }
-
-      &.header-profile {
-        background: transparent url(../images/ico-profile.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.header-myaccount {
-        background: transparent url(../images/ico-switch.svg) no-repeat 50% 18px;
-        background-size: 30px 30px;
-      }
-
-      &.nav-active {
-        border-left: none !important;
-        border-bottom: 10px solid $orange !important;
-        background-color: #166bb2;
-      }
-    }
-  }
-
-  .toggle {
-    display: none;
+@media screen and (min-width: $AU-media-md) {
+  .tasks-badge {
+    position: absolute;
+    bottom: auto;
+    right: 5px;
+    top: 15px;
   }
 }

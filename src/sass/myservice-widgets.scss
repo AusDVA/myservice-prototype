@@ -17,16 +17,26 @@
 //   }
 // }
 .card {
-  text-align: center;
   border: 1px solid $gray-mild;
-  border-radius: 8px;
+  border-radius: 6px;
+  text-align: center;
+  width: 100%;
+
   a {
     border: 0;
+    // display: inline-block;
+    width: 100%;
+
     &:focus,
     &:hover {
       background: transparent;
     }
   }
+
+  >a {
+    display: inline-block;
+  }
+
   div {
     padding: 1.5em 2em;
   }
@@ -34,7 +44,7 @@
 
 .card--reduced-image {
   img {
-		border: 0;
+    border: 0;
     width: 80%;
   }
 }
@@ -57,58 +67,240 @@
   .card--claims {
     &:hover {
       border: 1px solid $blue;
-      }
+    }
+
     .card__title {
-      margin-top:1.4em;
+      margin-top: 1.4em;
     }
+
     .card__supporting-text {
-      flex-grow:1;
-      margin:0em;
+      flex-grow: 1;
+      margin: 0;
     }
+
     .card__button {
-      margin-bottom:1em;
+      margin-bottom: 1em;
     }
-    .card__link {
-      
-    }
+
     &.card--claims-col-2 {
       flex-basis: 48%;
-      min-width: 300px;
       max-width: 600px;
+      min-width: 300px;
     }
+
     &.card--claims-col-3 {
+      @include uikit-media(sm) {
+        max-width: 332px;
+      }
+      @include uikit-media(md) {
+        max-width: 360px;
+      }
       flex-basis: 20%;
       min-width: 300px;
-      max-width: 370px;
     }
   }
 
+  .card-horizontal__buttons {
+    margin-left: auto;
+  }
+
+  .card-horizontal__status {
+    min-width: 10rem;
+  }
+
+  .card-horizontal__link {
+    margin-left: 15px;
+  }
+
   .card-container {
-    height:100%;
-    display:flex;
-    flex-direction:column;
     box-sizing: border-box;
-    // border-top:10px solid $blue-light;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .card-supporting-text {
+    margin: .6em .2em;
+
+    h3,
+    h4 {
+      margin: 0;
+      ;
+    }
+  }
+}
+
+.horizontal-card-section {
+
+  margin-bottom: 1em;
+
+  .card--horizontal {
+
+    &:first-child {
+      border-top: 1px solid $gray-mild;
+      border-top-left-radius: 4px;
+      border-top-right-radius: 4px;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  }
+}
+
+.card--horizontal {
+  background-color: $white;
+  border-radius: 0;
+  border-top: 0;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  text-align: left;
+
+  .flex-item {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .fal {
+    color: $black;
+    font-size: 1.6em;
+    padding-right: .2em;
+  }
+
+  .fa-users {
+    left: -4px;
+    position: relative;
+  }
+
+  a {
+    border-bottom: solid 1px $uikit-colour-Primary;
+  }
+
+  div {
+    padding: .8em;
+  }
+
+  @media screen and (max-width: $uikit-media-xs) {
+    div {
+      padding: .5em;
+    }
+  }
+
+  p {
+    font-size: 90%;
+    line-height: 1.4;
+    margin-bottom: 0;
+  }
+
+  strong {
+    font-size: 110%;
+  }
+}
+
+@keyframes glowing {
+  0% {
+    background: $white;
+  }
+
+  50% {
+    background: $gray-light;
+  }
+
+  100% {
+    background: $gray-mild;
   }
 }
 
 
+.card--amended {
+  animation: glowing 5000ms 1;
+  background: $gray-mild;
+}
 
+.card--action-required {
+  position: relative;
+
+  &::before {
+    border-left: 7px solid $orange;
+    content: $content-blank;
+    height: 100%;
+    left: 7px;
+    margin-left: -7px;
+    position: absolute;
+    z-index: 1;
+  }
+}
 
 .card--medium {
   flex-basis: 350px;
   max-width: 350px;
 }
 
+.card--simple {
+
+  &:focus,
+  &:hover {
+    background-color: $blue-5;
+  }
+
+  a {
+    span {
+      border-bottom: 0;
+
+      &:focus,
+      &:hover {
+        background-color: inherit;
+      }
+    }
+  }
+
+  .card__title {
+    margin-bottom: 2em;
+  }
+
+
+  .fal {
+    display: block;
+    font-size: 4em;
+    margin: .6em 0 .2em;
+    width: 100%;
+  }
+
+  .fa-user-plus,
+  .fa-user-edit {
+    &::before {
+      padding-left: .2em;
+    }
+  }
+
+
+}
+
+
+
+@media only screen and (min-width: $large-handheld) {
+
+  .uikit-body {
+    .card-supporting-text {
+      margin: 2.6em .2em;
+    }
+  }
+}
+
+
 .card__notifications {
   background-color: $blue;
   color: $white;
   font-size: 0.8em;
+  margin: auto;
   max-width: 80%;
-  text-align: center;
-  margin:auto;
   position: relative;
-  top:-10px;
+  text-align: center;
+  top: -10px;
   z-index: 2;
 }
 
@@ -117,9 +309,11 @@
     flex-basis: 220px;
     max-width: 220px;
   }
+
   .card__title {
-    margin-top:0;
+    margin-top: 0;
   }
+
 }
 
 @media only screen and (min-width: $AU-media-md) {
@@ -134,8 +328,9 @@
     flex-basis: 350px;
     max-width: 350px;
   }
+
   .card__title {
-    margin-top:0.5em;
+    margin-top: 0.5em;
   }
 }
 
@@ -143,18 +338,19 @@
 .card__title {
   padding: 0 1em 0 1em;
 }
+
 .card__supporting-text {
   font-size: 1.1em;
   margin: auto;
   max-width: 17em;
-  padding:0 2em 0 2em;
+  padding: 0 2em 0 2em;
 }
 
 .card__image {
-  height: 40%;
-	width: 40%;
   border: 0;
-  padding-top:1.5em;
+  height: 40%;
+  padding-top: 1.5em;
+  width: 40%;
 }
 
 // bootstrap cards
@@ -173,13 +369,14 @@
 
 .receipt,
 .receipt-status {
-  margin: $margin-zero;
   flex-basis: 700px;
-  max-width:100%;
+  margin: $margin-zero;
+  max-width: 100%;
 }
 
 
 @media only screen and (min-width: $uikit-media-md) {
+
   .receipt,
   .receipt-status {
     max-width: 700px;
@@ -187,84 +384,128 @@
 }
 
 .receipt__content {
-  padding: 2em;
   background-color: $white;
+  border-bottom: 1px solid $gray-mild;
   border-left: 1px solid $gray-mild;
   border-right: 1px solid $gray-mild;
-  border-bottom: 1px solid $gray-mild;
+  padding: 2em;
+}
+
+.receipt__content--border-top {
+  border-top: 1px solid #d4d4d4;
 }
 
 .receipt__heading {
-  padding: 1.3em 2em 0 2em;
   background-color: $white;
   border-bottom: 1px solid $gray-mild;
   border-left: 1px solid $gray-mild;
   border-right: 1px solid $gray-mild;
   border-top: 3px solid $gray-mid;
+  padding: 1.3em 2em 0;
+}
+
+// #widget-profile {
+//   @media only screen and (max-width: $medium-handheld) {
+//     #profile-content .profile-hide {
+//       display: none;
+//     }
+//   }
+// }
+
+.widget-number {
+  color: $blue;
+  font-size: 25.6px;
+  font-weight: bold;
+  line-height: 0.7em;
+  padding-right: 6px;
+}
+
+.widget-text {
+  height: 30px;
+}
+
+.widget-content{
+  display: block;
+  margin-bottom: -15px;
 }
 
 .widget {
   background-color: $white;
-  margin-bottom: 1em;
   border: 1px solid $gray-mild;
   margin: 0 0 2em;
+  margin-bottom: 1em;
   position: relative;
+
   p {
     margin: auto;
   }
+
   .widget-header {
     background-color: $white;
     border-bottom: 1px solid $gray-mild; // padding: 0.3em 2em 0 2em;
     padding: .4em 2em;
   }
+
   .widget-content {
     padding: 2em;
+
     .status {
-      margin-bottom: 1em;
-      font-style: italic;
       color: $gray-mid;
+      font-style: italic;
+      margin-bottom: 1em;
     }
   }
+
   .widget--noclaims {
     text-align: center;
   }
+
   .widget--justclaims {
-    border: 0px solid $gray-mild;
-    padding: 0em;
+    border: 0 solid $gray-mild;
     margin-bottom: -2em;
-    table.table-claims {
-      border-left: 0px solid $gray-mild;
-      border-right: 0px solid $gray-mild;
+    padding: 0;
+
+    .table-claims {
+      border-left: 0 solid $gray-mild;
+      border-right: 0 solid $gray-mild;
+
       td,
       th {
-        padding: 0.75em 2em 0.75em 2em;
+        padding: 0.75em 2em;
         vertical-align: middle; // border-bottom: 1px solid $gray-mild;
       }
+
       tr:last-child td {
-        border-bottom: none;
+        border-bottom: 0;
       }
+
       th {
         color: $gray-mid;
-        font-weight: normal;
         font-size: 0.9em;
+        font-weight: normal;
         padding: 1em 2em 1em 2em;
+
         &:last-child {
           padding: 1em 2.25em 1em 2em;
         }
       }
     }
+
     .widget-btn {
       margin: 0 0.5em 2em 2em;
     }
   }
+
   .col-sm-8 {
-    padding-right: 2em;
     padding-bottom: 2em;
+    padding-right: 2em;
   }
+
   .col-sm-4 {
     padding-left: 2em;
     padding-top: 2em;
   }
+
   ul {
     margin-bottom: 1em;
   }
@@ -283,6 +524,7 @@
     .col-sm-4 {
       padding-top: 0;
     }
+
     .widget--noclaims {
       padding: 2em 2em 2em;
     }
@@ -299,14 +541,17 @@
   .widget {
     .widget-actions {
       display: flex;
+
       .uikit-btn {
         flex-grow: 1;
         margin-bottom: 1em; // margin-left: .5em;
+
         +.uikit-btn {
           margin-left: .5em;
         }
       }
     }
+
     .widget-header__title {
       display: block;
       margin-bottom: 1em;
@@ -314,10 +559,11 @@
   }
 }
 
-@media screen and (max-width: $small-handheld) {
+@media screen and (max-width: 647px) {
   .widget-header {
     padding: .3em 1em;
   }
+
   .widget--justclaims {
     .table-claims {
       td {
@@ -326,6 +572,40 @@
       }
     }
   }
+
+  /* needs to be improved .. designing a mobile view for claims tiles */
+  .uikit-body {
+    .card--claims {
+      text-align: left;
+
+      .card__supporting-text {
+        padding-left: 1em !important;
+        margin-bottom: 1em;
+      }
+
+      &.card--claims-col-3 {
+        max-width: none !important;
+        background-color: #fff;
+      }
+
+      .card__button {
+        margin-bottom: 0 !important;
+        display: none;
+      }
+
+      .card__title {
+        margin-top: .75em !important;
+      }
+    }
+  }
+
+  .flex-item {
+    margin: 0 0 1em 0 !important;
+    width: 100%;
+  }
+
+  /* end design of mobile view for claims tiles */
+
 }
 
 // @media only screen and (min-width: $medium-tablet) {
@@ -338,28 +618,36 @@
   border: 1px solid $gray-mild;
   border-bottom: 0;
   border-radius: 0;
+
   th {
     background-color: $white;
     font-weight: 500;
   }
+
   td,
   th {
     border-bottom: 1px solid $gray-mild;
     padding: 0.75em 1em 0.75em 0.75em;
     vertical-align: middle;
   }
+
   td {
     padding: 0.75em 1em 0.75em 0.75em;
   }
+
   p {
     margin: $margin-zero;
   }
+
   em {
     color: $gray-mid;
   }
+
   .activity {
     width: 65%;
-  } // button {
+  }
+
+  // button {
   //   padding: 0.25em 0.7em 0.4em;
   //   font-size: 0.9rem;
   //   font-weight: normal;
@@ -371,6 +659,7 @@
   font-size: 1.6rem;
   line-height: 1;
   text-align: center;
+
   span {
     font-size: 1.1rem;
   }
@@ -378,13 +667,15 @@
 
 .status-icon {
   // background-position: -.25em 0;
+  background-position-y: .2em;
   background-repeat: no-repeat;
   background-size: 26px 26px;
   padding: 0.25em 0.25em 0.25em 40px;
-  background-position-y: .2em;
+
   span {
     font-size: .9rem;
   }
+
   em {
     color: $gray-mid;
     font-style: normal;
@@ -394,26 +685,38 @@
 .status-icon--large {
   background-size: 40px 40px;
   padding-left: 50px;
+
+  &.page-header {
+    background-position-y: -0.02em;
+    background-size: 36px 36px;
+  }
+
 }
 
 .status-icon--table {
-  padding: 1.2em 0.5em .75em 60px;
   background-position: 16px 50%;
+  padding: 1.2em 0.5em .75em 60px;
+
   &.status-incomplete {
     background-color: $error-background;
   }
+
   &.status-rejected {
     background-color: $error-background;
   }
+
   &.status-approved {
     background-color: $success-background;
   }
+
   &.status-error {
     background-color: $error-background;
   }
+
   &.status-withdrawn {
     background-color: $error-background;
   }
+
   &.status-in-progress {
     background-color: $success-background;
   }
@@ -421,47 +724,34 @@
 
 .status-required {
   // background-color: lighten($color: $blue, $amount: 55%);
+  //test for svg issue
 }
 
 .status-incomplete {
-  background-image: uikit-svguri('
-	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-		 width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">
-	<path fill="#F89722" d="M14.9,29.3c-8,0-14.5-6.5-14.5-14.5S6.9,0.3,14.9,0.3s14.5,6.5,14.5,14.5S22.9,29.3,14.9,29.3 M14.9,3.3
-		C8.5,3.4,3.4,8.6,3.4,14.9C3.5,21.2,8.7,26.3,15,26.2c6.3-0.1,11.4-5.3,11.3-11.6C26.2,8.4,21.2,3.3,14.9,3.3"/>
-	<path fill="#F89722" d="M7.5,13h14.8v3.2H7.5V13z"/>
-	</svg>
-	');
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ ' <path fill="#F89722" d="M14.9,29.3c-8,0-14.5-6.5-14.5-14.5S6.9,0.3,14.9,0.3s14.5,6.5,14.5,14.5S22.9,29.3,14.9,29.3 M14.9,3.3 C8.5, 3.4, 3.4, 8.6, 3.4, 14.9C3.5, 21.2, 8.7, 26.3, 15, 26.2c6.3-0.1, 11.4-5.3, 11.3-11.6C26.2, 8.4, 21.2, 3.3, 14.9, 3.3"/>'+ '<path fill="#F89722" d="M7.5,13h14.8v3.2H7.5V13z"/>'+ ' </svg> ');
+
 }
 
 .status-rejected {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><style>.st0{fill:#cb2026}</style><path class="st0" d="M14.9 29.5C6.9 29.5.4 23 .4 15S6.9.5 14.9.5 29.4 7 29.4 15s-6.5 14.5-14.5 14.5m0-26C8.5 3.6 3.4 8.8 3.4 15.1c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/><path class="st0" d="M19 8.8l-4.1 4.1-4.1-4.1-2.1 2 4.2 4.2-4.2 4.1 2.1 2 4.1-4.1 4.1 4.1 2-2-4.1-4.1 4.1-4.2z"/></svg>');
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ '<style>.st0 {fill:#cb2026} </style>'+ '<path class="st0" d="M14.9 29.5C6.9 29.5.4 23 .4 15S6.9.5 14.9.5 29.4 7 29.4 15s-6.5 14.5-14.5 14.5m0-26C8.5 3.6 3.4 8.8 3.4 15.1c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/>'+ '<path class="st0" d="M19 8.8l-4.1 4.1-4.1-4.1-2.1 2 4.2 4.2-4.2 4.1 2.1 2 4.1-4.1 4.1 4.1 2-2-4.1-4.1 4.1-4.2z"/>'+ '</svg>');
+
 }
 
 .status-approved {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><style>.st0{fill:#2ab34b}</style><path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/><path class="st0" d="M23.1 10.7l-2.1-2-8.2 8.2-4.1-4.1-2 2 4.1 4.2 2 2 2.1-2z"/></svg>');
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ '<style>.st0 {fill: #2ab34b} </style>'+ '<path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/>'+ '<path class="st0" d="M23.1 10.7l-2.1-2-8.2 8.2-4.1-4.1-2 2 4.1 4.2 2 2 2.1-2z"/>'+ '</svg>');
 }
 
 .status-submitted {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><style>.st0{fill:#1758a6}</style><path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/><path class="st0" d="M15.9 8.2l-2 2.1 3.1 3.2H7.4v2.8H17l-3.1 3.2 2 2 6.5-6.6z"/></svg>');
-}
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ '<style>.st0 {fill: #1758a6}</style>'+ '<path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6-.1-6.2-5.1-11.3-11.4-11.3"/>'+ '<path class="st0" d="M15.9 8.2l-2 2.1 3.1 3.2H7.4v2.8H17l-3.1 3.2 2 2 6.5-6.6z"/>'+ '</svg>');
 
-.status-error {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><path d="M46.6 40.24L29.84 8.81a2.43 2.43 0 0 0-2.14-1.27 2.4 2.4 0 0 0-2.12 1.27L8.73 40.24a2.4 2.4 0 0 0 .06 2.37 2.42 2.42 0 0 0 2.08 1.18h33.6a2.42 2.42 0 0 0 2.12-3.55zM27.71 39a2.41 2.41 0 1 1 2.42-2.4 2.41 2.41 0 0 1-2.42 2.4zm2.42-9.63a2.42 2.42 0 0 1-4.84 0v-9.71a2.42 2.42 0 1 1 4.84 0zm0 0" fill="#ca2026"/></svg>');
 }
 
 .status-in-progress {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><style>.st0{fill:#{$aqua}}</style><path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6 0-6.2-5.1-11.3-11.4-11.3"/><circle class="st0" cx="14.9" cy="14.6" r="2"/><circle class="st0" cx="20.7" cy="14.6" r="2"/><circle class="st0" cx="9.1" cy="14.6" r="2"/></svg>');
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ '<style>.st0{fill:#{$aqua}}</style>'+ '<path class="st0" d="M14.9 29.3C6.9 29.3.4 22.8.4 14.8S6.9.3 14.9.3s14.5 6.5 14.5 14.5-6.5 14.5-14.5 14.5m0-26C8.5 3.4 3.4 8.6 3.4 14.9c.1 6.3 5.3 11.4 11.6 11.3 6.3-.1 11.4-5.3 11.3-11.6 0-6.2-5.1-11.3-11.4-11.3"/>'+ '<circle class="st0" cx="14.9" cy="14.6" r="2"/>'+ '<circle class="st0" cx="20.7" cy="14.6" r="2"/>'+ '<circle class="st0" cx="9.1" cy="14.6" r="2"/>'+ '</svg>');
 }
 
 .status-withdrawn {
-  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7"><style>.st0{fill:#{$gray-mid}}</style><path class="st0" d="M14.8 29.3C6.9 29.3.4 22.9.4 15S6.9.6 14.8.6C22.8.6 29.2 7 29.2 15c0 7.9-6.4 14.3-14.4 14.3m0-25.7C8.5 3.6 3.5 8.8 3.5 15.1S8.7 26.4 15 26.3c6.3-.1 11.3-5.2 11.2-11.5-.1-6.2-5.1-11.2-11.4-11.2"/><path class="st0" d="M14.5 21.6l2.1-2-3.2-3.2H23v-2.9h-9.6l3.2-3.2-2.1-2L8 15z"/></svg>');
+  background-image: uikit-svguri('<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="29.7px" height="29.7px" viewBox="0 0 29.7 29.7">'+ '<style>.st0 {fill:#{$gray-mid}}</style>'+ '<path class="st0" d="M14.8 29.3C6.9 29.3.4 22.9.4 15S6.9.6 14.8.6C22.8.6 29.2 7 29.2 15c0 7.9-6.4 14.3-14.4 14.3m0-25.7C8.5 3.6 3.5 8.8 3.5 15.1S8.7 26.4 15 26.3c6.3-.1 11.3-5.2 11.2-11.5-.1-6.2-5.1-11.2-11.4-11.2"/>'+ '<path class="st0" d="M14.5 21.6l2.1-2-3.2-3.2H23v-2.9h-9.6l3.2-3.2-2.1-2L8 15z"/>'+ '</svg>');
 }
 
 .status-action-required {
@@ -473,66 +763,98 @@
   text-align: center;
 }
 
+.healthcard-container {
+  // width: 22em;
+  // margin-left: auto;
+  // margin-right: auto;
+  // display: block;
+  // position: relative;
 
+  // background: red !important;
+
+  // #card-number {
+  //   position: absolute;
+  //   top: 143px;
+  //   left: 200px;
+  // }
+
+  // #card-name {
+  //   position: absolute;
+  //   top: 100px;
+  //   left: 30px;
+  // }
+
+  // #card-date {
+  //   position: absolute;
+  //   top: 174px;
+  //   left: 275px;
+  // }
+
+  // #card-pending {
+  //   position: absolute;
+  //   top: 100px;
+  //   left: 35px;
+  // }
+
+  .card-text {
+    font-size: 14px;
+  }
+
+  // .card-text--red {
+  //   color: red;
+  //   font-weight: bold;
+  //   font-size: 1.3em;
+  //   padding: 0.5em 0 0.5em 0;
+  //   border-top: 2px solid red;
+  //   border-bottom: 2px solid red;
+  // }
+
+  // &#goldcard {
+  //   display: none;
+  // }
+
+  // .healthcard-container--card-tpi {
+  //   position: absolute;
+  //   top: 138px;
+  //   left: 30px;
+  // }
+}
 
 // for dashboard widget
+// please people, stop using IDs as selectors
 #healthcard-index-container {
-  width: 15em;
   display: block;
   margin: 0 auto;
   margin-bottom: -5em;
+  width: 15em;
+
   #card-number {
+    left: -20px;
     position: relative;
     top: -80px;
-    left: -20px;
   }
+
   #card-name {
+    left: -50px;
     position: relative;
     top: -75px;
-    left: -50px;
   }
+
   #card-date {
+    left: 80px;
     position: relative;
     top: -100px;
-    left: 80px;
   }
+
   .card-text {
     font-size: 14px;
   }
 }
 
-// .section-feature--white {
-//   background: $white;
-//   padding: 30px 0 40px 0;
-//   margin: 20px 0 20px 0;
-//   h2 {
-//     padding-bottom: 0.2em;
-//     border-bottom: 1px solid $gray-mild;
-//   }
-// }
-.healthcard-steps div {
-  margin: 2em 0 2em 0;
-  text-align: center;
-  margin: auto;
-}
-
-.healthcard-steps img {
-  width: 200px;
-}
-
-.healthcard-steps .description {
-  font-weight: 500;
-  font-size: 1.1em;
-}
-
-.healthcard-steps p {
-  margin: 10px 0 10px 0;
-}
-
-/* Tooltip */
+// Tooltip
 
 .tooltip {
-	display: inline-block;
+  display: inline-block;
 }
 
 .tooltip__control {
@@ -542,76 +864,83 @@
 }
 
 .tooltip__label {
-	font-weight: normal;
-  padding: 0 25px 0 0;
-  background: url(../images/ico-help-mid-gray.svg);
-  background-repeat: no-repeat;
+  background: url('../images/ico-help-mid-gray.svg');
   background-position: 100% 50%;
+  background-repeat: no-repeat;
   background-size: 20px 20px;
+  font-weight: normal;
+  padding: 0 25px 0 0;
   white-space: nowrap;
 
   &--icon-only {
-    overflow: hidden;
     background-position: 0 50%;
+    height: 20px;
+    overflow: hidden;
     padding: 0 0 0 20px;
     width: 0;
-    height: 20px;
   }
 }
 
 .tooltip__tab {
-  position: absolute;
+  height: 100%;
   padding: 13px 0;
+  position: absolute;
   top: -13px;
   width: 100%;
-  height: 100%;
+}
 
-  &--active::before {
-    content: '';
+.tooltip__tab--active {
+  &::before {
+    content: $content-blank;
     left: 50%;
     margin-left: -12px;
     position: absolute;
     z-index: 1;
   }
 
-  &--top::before {
-    border: 12px solid;
-    border-color: $blue-60 transparent transparent;
-    top: -1px;
-  }
-
-  &--bottom::before {
-    border: 12px solid;
-    border-color: transparent transparent $blue-60;
-    bottom: -1px;
-  }
-
-  &--active::after {
-    content: '';
+  &::after {
+    content: $content-blank;
     left: 50%;
     margin-left: -11px;
     position: absolute;
     z-index: 2;
   }
+}
 
-  &--top::after {
+.tooltip__tab--top {
+  &::before {
+    border: 12px solid;
+    border-color: $blue-60 transparent transparent;
+    top: -1px;
+  }
+
+  &::after {
     border: 11px solid;
     border-color: $blue-10 transparent transparent;
     top: -1px;
   }
+}
 
-  &--bottom::after {
+.tooltip__tab--bottom {
+  &::before {
+    border: 12px solid;
+    border-color: transparent transparent $blue-60;
+    bottom: -27px;
+  }
+
+  &::after {
     border: 11px solid;
     border-color: transparent transparent $blue-10;
-    bottom: -1px;
+    bottom: -27px;
   }
 }
 
+
 .tooltip__content {
-	position: absolute;
-	font-weight: normal;
-	z-index: 1;
-	left: 0;
+  font-weight: normal;
+  left: 0;
+  position: absolute;
+  z-index: 100;
 
   &[aria-hidden='true'] {
     display: none;
@@ -622,25 +951,37 @@
   background: $blue-10; // url("../images/ico-info-thin-blue.svg") no-repeat 1em 2.2em;
   border: 1px solid $blue-60;
   border-radius: 0.3em;
-  width: $uikit-maxwidth;
+  box-shadow: $rgba-black-20 0 2px 10px;
   opacity: 1;
   outline: medium none;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
   padding: 3em 2em 2em 2em;
+  width: $uikit-maxwidth;
+
+  @media only screen and (max-width: $small-handheld) {
+    width: 93vw;
+  }
+
+  @media only screen and (max-width: $medium-handheld) {
+    width: 95vw;
+  }
+
+  p {
+    margin-right: 6em;
+  }
 }
 
 .tooltip__close {
-  right: 0.5em;
-  top: 0.5em;
-  position: absolute;
-  max-height: 40px;
   background-image: url('../images/ico-close-thin-black.svg');
+  background-position: 6px 5px;
   background-repeat: no-repeat;
   background-size: 32px 32px;
-  background-position: 6px 5px;
-  padding: 0.5em 0.5em 0.5em 2.8em;
-  z-index: 2;
   cursor: pointer;
+  max-height: 40px;
+  padding: 0.5em 0.5em 0.5em 2.8em;
+  position: absolute;
+  right: 0.5em;
+  top: 0.5em;
+  z-index: 2;
 
   &:focus {
     background-color: #fff;
@@ -649,4 +990,179 @@
   &:hover {
     background-color: $uikit-colour-Link;
   }
+}
+
+.future {
+  &.nom-reps {
+
+    .intro-text {
+      max-width: 100%;
+      // margin: 0;
+    }
+
+    .speakerbox {
+      margin-bottom: 2em;
+      padding-bottom: 0.5em;
+      padding-top: 0;
+    }
+
+    #claim-activity {
+
+      .inactive {
+        filter: grayscale(1);
+
+        .roles {}
+
+      }
+
+      .table-claims {
+
+        margin-bottom: 1em;
+
+        &.clean {
+          .details {
+            padding-left: 0;
+          }
+        }
+
+        .details {
+          clear: both;
+          padding-left: 2.5em;
+        }
+
+      }
+
+      .status-icon {
+        float: left;
+        font-weight: 500;
+      }
+
+
+
+      .widget {
+        border: 0;
+      }
+
+      .roles {
+        float: left;
+        line-height: 2.075em;
+        list-style-type: none;
+        margin-bottom: 0;
+        padding-left: 0.25em;
+        padding-top: 0.45em;
+
+        &:after {
+          clear: both;
+        }
+
+        li {
+          background: #e7eef6;
+          border: 1px solid #709aca;
+          border-radius: 0.3em;
+          float: left;
+          font-size: 0.8em;
+          font-weight: 400;
+          line-height: 1.6em;
+          list-style-type: none;
+          margin: 0 0.5em 0 0;
+          outline: medium none;
+          padding: 0 0.5em 0 0.5em;
+          padding-left: 0.5em;
+          width: fit-content;
+
+        }
+      }
+    }
+  }
+}
+
+// ongoing incap rehab details
+.prison-or-similar-group,
+.damages-action-group,
+.soft-heading {
+  font-weight: 500;
+
+  label {
+    font-weight: 500;
+  }
+}
+
+// styles for dashboard with grid drag & drop functionality
+.authenticated-home.drag-and-drop {
+
+  // .container {
+  //   height: 1080px;
+  // }
+
+  .heading-one-wrapper {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 1em;
+
+    >h1 {
+      font-family: 'roboto slab';
+      font-weight: 800 !important;
+      text-align: center;
+
+      img {
+        height: auto;
+        margin-right: 0;
+        margin-top: 0;
+        vertical-align: initial;
+        width: auto;
+      }
+
+    }
+  }
+
+  .notifications {
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+}
+
+.dragbox-grid {
+  position: relative;
+}
+
+.dragbox-grid__item {
+  height: 200px;
+  line-height: 200px;
+  margin: 5px;
+  position: absolute;
+  width: 200px;
+  z-index: 1;
+}
+
+
+.dragbox-grid__item-content {
+  background: $gray-mid;
+  border: 1px solid $black;
+  color: $black;
+  cursor: pointer;
+  font-size: 50px;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  width: 100%;
+}
+
+.uikit-btn {
+  margin-right: 2px;
+}
+
+//TODO the following former-names CSS is for the civilian QS form
+// This CSS can be moved to a more specific file at a later time
+
+.review__content--data {
+  .former-names-list {
+    padding-left: 0;
+  }
+}
+
+.former-names-list__item {
+  list-style: none;
+}
+
+.review__content--label {
+  word-wrap: break-word;
 }

@@ -1,0 +1,107 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+          label: "User",
+          boxes: [
+            "Student",
+            "Parent/guardian"
+          ],
+          id: "user"
+        }); %>
+
+
+  <%- include(partials+"components/form-partials/checkbox", {
+          boxes: [
+            "Confirmation of enrolment provided"
+          ],
+          id:"confirmation"
+        }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    if (sessionStorage.getItem('student-coc-user') == "parent") {
+      updateContent("Parent/guardian");
+      $("#user-2").prop("checked", true);
+    } else {
+      updateContent("Student");
+      $("#user-1").prop("checked", true);
+    }
+
+    $('#user-container').change(function () {
+      var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
+      updateContent(mySelection)
+    });
+
+    if (sessionStorage.getItem('student-coc-confirmation') == "yes") {
+      $("#confirmation").prop("checked", true);
+      updateState(true);
+    } else {
+      $("#confirmation").prop("checked", false);
+      updateState(false)
+    }
+
+    $('#confirmation-1').change(function () {
+      if ($(this).is(":checked")) {
+        updateState(true)
+      } else {
+        updateState(false)
+      }
+    });
+
+    function updateState(conf) {
+      if (conf) {
+        sessionStorage.setItem('student-coc-confirmation', 'yes')
+        $("#no-doc").hide();
+        $("#doc").show();
+      } else {
+        sessionStorage.setItem('student-coc-confirmation', 'no')
+        $("#no-doc").show();
+        $("#doc").hide();
+
+      }
+
+    }
+
+    function updateContent(myUser) {
+
+      switch (myUser) {
+        case "Student":
+          $(".user-label-a").text("you");
+          $(".user-label-b").text("Do you");
+          $(".user-label-c").text("your");
+          $(".user-label-d").text("you expect to complete your");
+          $(".user-label-e").text("you do not");
+          $(".user-label-f").text("your");
+          sessionStorage.setItem('student-coc-user', "student");
+          break;
+        case "Parent/guardian":
+          $(".user-label-a").text("the student");
+          $(".user-label-b").text("Does the student");
+          $(".user-label-c").text("John Smith's");
+          $(".user-label-d").text("the student expects to complete their");
+          $(".user-label-e").text("the student does not");
+          $(".user-label-f").text("the student's");
+          sessionStorage.setItem('student-coc-user', "parent");
+          break;
+        default:
+          break;
+      }
+    }
+
+  });
+</script>

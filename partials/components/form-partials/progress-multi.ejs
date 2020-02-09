@@ -1,0 +1,50 @@
+<%
+  
+if (typeof id === "undefined") var id = formPartialsID("progress-multi");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+
+%>
+
+<div class="claim-progress-category <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" id="<%- id %>">
+  <% points.map((point, index) => { %>
+    <% 
+      var state = "";
+      var part = String.fromCharCode(97 + index);
+
+      if ((index + 1) === activeItem) {
+        state = "active";
+      } else if ((index + 1) < activeItem) {
+        state = "done";
+      } else {
+        state = "disabled";
+      }
+
+    %>
+
+    <div class="claim-progress-category__item claim-progress-category--<%- state %> claim-progress-category-new">
+      <a id="part-<%- part %>" href="<%- point.link %>">
+        <div class="claim-progress-category__wrapper">
+          <div class="claim-progress-category__status">
+            <div class="mys-file-uploads__status mys-file-uploads__status--<%- state === "active" ? state : (state === "disabled" ? "pending" : "success")  %>">
+              <div class="mys-file-uploads__status-icon"></div>
+              <div class="mys-file-uploads__status-sr">
+                <% if (state === "done") { %>
+                  Success
+                <% } else if (state === "active") { %>
+                  Active
+                <% } else if (state === "disabled") { %>
+                  Not yet available
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <div class="claim-progress-category__label">
+            <h3 class="claim-progress-category__heading"><span class="<%- state === "disabled" ? "" : "claim-progress-category__heading--active" %>">Part <%- part.toUpperCase() %> - <%- point.text %></span></h3>
+            <p class="claim-progress-category__description"><%- point.subtext %></p>
+          </div>
+        </div>
+      </a>
+    </div>
+  <% }) %>
+</div>

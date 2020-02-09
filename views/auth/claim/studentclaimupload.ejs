@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+  <style>
+    .hide-fields>div {
+      display: none;
+    }
+
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+
+      <h1>Document uploads</h1>
+      <h2>Please upload the documents below so that we can process your claim quickly.</h2>
+      <p>If you don't provide these now, a delegate will contact you for the documents and your claim could take longer
+        to process.</p>
+      <p>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB. </p>
+
+
+
+      <fieldset class="hide-fields">
+
+
+        <%- include(partials+"content/claims-uploads-full-width") %>
+
+      </fieldset>
+
+
+
+
+      <div class="pagination pagination--ss-reverse-order">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel claim</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth'">Save and exit</button>
+          <button class="uikit-btn btnNext" onclick="window.location.href= '/auth/claim/studentclaim5'">Save and review</button>
+        </div>
+      </div>
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+    </div>
+
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+  <script src="/docs/js/students.js"></script>
+
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+    $(document).ready(function () {
+      let age = localStorage.getItem('studentAge');
+      let tfn = localStorage.getItem('tfn');
+      console.debug('in studentclaimupload - age: ', age);
+      if (age && age >= 18 && tfn) {
+        $(".pt-tfnClaimantStudent").show();
+        $(".pt-tfnClaimantStudent").removeClass('display-none');
+      }
+    });
+  </script>
+
+</body>
+
+</html>

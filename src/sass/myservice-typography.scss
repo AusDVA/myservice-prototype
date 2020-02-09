@@ -4,8 +4,8 @@
 
 // matching li item's max-width to that of paragraphs and headings.
 ul {
-  max-width: $uikit-maxwidth;
   margin: 0 0 uikit-space(1);
+  max-width: $uikit-maxwidth;
 }
 
 .uikit-breadcrumbs {
@@ -13,9 +13,17 @@ ul {
 }
 
 hr {
-  padding: 1em 0 0;
-  margin-top: 3em;
   border-top: 1px solid $gray-light;
+  margin-top: 3em;
+  padding: 1em 0 0;
+
+  &.orange-divider {
+    border-top: 4px solid $orange;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 1.6em;
+    width: 4em;
+  }
 }
 
 .strike {
@@ -33,7 +41,7 @@ hr {
   &::before,
   &::after {
     border: 0;
-    content: '';
+    content: $content-blank;
     height: 1px;
     position: absolute;
     top: 50%;
@@ -48,8 +56,8 @@ hr {
 
   &::after {
     background-image: linear-gradient(to left, rgba(0, 0, 0, 0.75) 95%, rgba(0, 0, 0, 0));
-    margin-left: 15px;
     left: 100%;
+    margin-left: 15px;
   }
 }
 
@@ -65,7 +73,7 @@ hr {
 
 // Add Cover Icon - used in H1 tag on all Add Cover pages.
 .ico-addcover {
-  background: url("../images/ico-add.svg") no-repeat 0 12px;
+  background: url('../images/ico-add.svg') no-repeat 0 12px;
   background-size: 30px 30px;
   border-bottom: 0;
   color: $black;
@@ -75,35 +83,36 @@ hr {
 // Responsive headings
 
 h1 {
-  font-weight: normal !important;
   font-size: 1.75rem;
+  font-weight: normal !important;
 
   img {
-    width: 50px;
     height: 50px;
-    margin-top: -8px;
     margin-right: 10px;
+    margin-top: -8px;
     vertical-align: middle;
+    width: 50px;
   }
 }
 
-h2, h4 {
+h2,
+h4 {
   clear: both;
 
   img {
-    width: 40px;
     height: 40px;
     margin-right: 5px;
     vertical-align: middle;
+    width: 40px;
   }
 }
 
 h2 {
   font-weight: normal;
 
-  span {
-    font-size: 1.2rem;
-  }
+  // span {
+  //   font-size: 1.2rem;
+  // }
 }
 
 .heading-highlight {
@@ -126,19 +135,23 @@ h2 {
   }
 }
 
-// For displaying additional heading content with less visual importance
-// TODO:: fix this code smell
-h1,
-h2 {
-  span {
-    font-size: 1.5rem;
-    color: $gray;
-  }
-}
 
 .spanstyling-override {
-  font-size: inherit;
   color: $black;
+  font-size: inherit;
+}
+
+span.non-link-span {
+  border: 0;
+  background: 0;
+  color: inherit;
+  font-size: inherit;
+
+  &:hover,
+  &:focus {
+    background: 0;
+    border: 0;
+  }
 }
 
 
@@ -165,7 +178,8 @@ a {
     }
   }
 
-  &.uikit-btn { // treating a's as buttons
+  &.uikit-btn {
+    // treating a's as buttons
     box-sizing: border-box;
     line-height: normal;
     text-align: center;
@@ -175,8 +189,8 @@ a {
 // Terms and Conditions layout styling
 .tc-detail {
   li {
-    max-width: $uikit-maxwidth;
     margin: 0 0 uikit-space(1);
+    max-width: $uikit-maxwidth;
   }
 }
 
@@ -189,14 +203,10 @@ figure {
   margin: $margin-zero;
 }
 
-// Make text look like a label
-
+// TODO:: delete if not in use
 .labeltext {
-  font-weight: bold;
-  font-size: 1em;
-
   span {
-    font-weight: normal !important;
+    font-weight: normal;
   }
 }
 
@@ -212,9 +222,10 @@ figure {
 // Give headings an orange underline
 .heading {
   border-bottom: 3px solid $orange;
+  color: $uikit-colour-Text;
   font-size: inherit;
   padding-bottom: 3px;
-  color: $uikit-colour-Text;
+  -webkit-print-color-adjust: exact !important;
 }
 
 .heading--thin {
@@ -237,13 +248,15 @@ p {
   }
 }
 
-// typography styling for Claim summary table immitation headings
+// typography styling for Claim summary table imitation headings
 .claim-summary__label {
   font-size: 0.9em;
   font-weight: normal;
 }
 
-.cantered-item {
+.cantered-item,
+.centred-item,
+.centered-item {
   text-align: center;
 
   p {
@@ -259,14 +272,52 @@ p {
   max-width: 100%;
 }
 
-hr.orange-divider {
-  border-top: 4px solid $orange;
-  width: 4em;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top:1.6em;
-}
+
 
 .font-color__blue {
   color: $blue;
+}
+
+
+
+blockquote {
+  margin: 0;
+}
+
+.block-quote {
+  align-items: center;
+  border-left: 4px solid $blue;
+  display: flex;
+  padding: 0 .5em;
+
+  span {
+    flex-grow: 1;
+  }
+}
+
+.block-quote__icon {
+  align-self: flex-start;
+  font-size: 1.2rem;
+  max-width: 1.8em;
+  padding: 0 0 0 .2em;
+}
+
+.block-quote__header {
+  margin: 0;
+  padding: 0;
+}
+
+.green {
+  color: #5bb356;
+}
+
+.blue {
+  color: $blue;
+}
+
+// the current .fa-icons class overrides an existing icon
+.fontawesome-icon {
+  font-size: 1.7em;
+  margin-right: 10px;
+  vertical-align: -15%;
 }

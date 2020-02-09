@@ -1,0 +1,91 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 3;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Veteran Payment", 
+  heading: "Dependent children",
+  progress
+}) %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+    label: `Do you <span class="partnered" style="display: none;">and/or your partner </span>have any dependent children under 16 years of age?`,
+    yes_toggle: "#dependent-details",
+    no_toggle: "#save-next",
+    tooltip: {
+      screenreaderText: "Definition of dependent",
+     content: "Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care."
+    }
+  }); %>
+
+<div id="dependent-details" class="padding-above--none padding-below--none" hidden>
+
+  <p><b>Provide details of the youngest dependent child:</b></p>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Given name",
+      hint: "(first name)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Middle name",
+      hint: "(optional)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Surname",
+    hint: "(last name)"
+    }); %>
+
+    
+
+  <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth"
+    }); %>
+
+  <%- include(partials+"components/form-partials/prepop/gender", {
+      both_toggle: "#save-next"
+    }); %>
+
+</div>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veteran-payment/veteran-payment-02"
+      },
+      {
+        text: "Cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-03b",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include("veteran-payment-state-switcher-02") %>
+<script>
+  function stateSwitcher() {
+    if (relationshipStatus === "partnered") {
+      $(".partnered").show();
+    } else {
+      $(".partnered").hide();
+    }
+  }
+</script>
+
+<%- include(templates+"footer") %>

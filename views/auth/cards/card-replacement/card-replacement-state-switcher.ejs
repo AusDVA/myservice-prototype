@@ -1,0 +1,63 @@
+<div id="state-switcher">
+  <h3>State swticher</h3>
+  <% 
+    locals.el = new Object();
+    locals.el.question = 'Select state';
+    locals.el.optionalID = "select-state";
+    locals.el.items = ["Default","Address provisional","Card on the way","Card on the way - delayed","CSHC/PCC address overseas","Unable generic"];
+    locals.el.optionalItemID = ["default","address-provisional","card-on-way","card-on-way-delayed","cshc-overseas","unable-generic"];
+  %>
+  <%- include(partials+"components/form-elements/radio", locals) %>
+</div>
+
+<script>
+  $(Document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('input[name=select-state]').change(function () {
+      mySelection = $('input[name=select-state]:checked').val();
+      hideAll();
+      switch (mySelection) {
+        case "default":
+          $("#default").show();
+          break;
+        case "address-provisional":
+          $("#address-provisional").show();
+          break;
+        case "card-on-way":
+          $("#card-on-way").show();
+          break;
+          case "card-on-way-delayed":
+          $("#card-on-way-delayed").show();
+          break;
+        case "cshc-overseas":
+          $("#cshc-overseas").show();
+          break;
+        case "unable-generic":
+          $("#unable-generic").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    function hideAll() {
+      $("#default").hide();
+      $("#address-provisional").hide();
+      $("#card-on-way").hide();
+      $("#card-on-way-delayed").hide();
+      $("#cshc-overseas").hide();
+      $("#unable-generic").hide();
+    }
+
+  });
+
+</script>

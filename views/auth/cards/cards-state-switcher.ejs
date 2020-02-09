@@ -1,0 +1,141 @@
+<% var cards = JSON.parse(include("cards-data")) %>
+
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <% var boxes = []; %>
+
+  <%- include(partials+"components/forms", {
+          "forms": [
+            {
+              "type": "radio",
+              "config": {
+                "id": "card-states",
+                "label": "Card States",
+                "boxes": [
+                  {
+                    "text": "Gold"
+                  },
+                  {
+                    "text": "White"
+                  },
+                  {
+                    "text": "Card on the way"
+                  },
+                  {
+                    "text": `Gold TPI WW + ${locals.liveFeature.includes("cardsCSHC") ? "CSHC" : "White"} (2 cards)`
+                  }
+                ]
+              }
+            },
+            {
+              "type": "checkbox",
+              "config": {
+                "id": "state-is-currently-serving",
+                "label": "Individual toggles",
+                "boxes": [
+                {
+                  "label": "User is currently serving ",
+                  "hint": "(toggles text in conditions listed)",
+                  "toggle": ".is-currently-serving"
+                }]
+              }
+            }
+          ]
+        }) %>
+</div>
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#card-states-2").prop("checked", true);
+    $("#veteran-no-card").hide();
+    $("#veteran-white-on-way").hide();
+    $("#veteran-gold").hide();
+    $("#veteran-white").show();
+    $("#veteran-gold-tpi").hide();
+  <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+      $("#cshc").hide();
+  <% } %>
+
+      $("#card-states-1").on("click", function () { // Gold
+        $("#veteran-no-card").hide();
+        $("#veteran-white-on-way").hide();
+        $("#veteran-gold").show();
+        $("#veteran-white").hide();
+        $("#veteran-gold-tpi").hide();
+    <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+          $("#cshc").hide();
+    <% } %>
+  });
+
+    $("#card-states-2").on("click", function () { // White
+      $("#veteran-no-card").hide();
+      $("#veteran-white-on-way").hide();
+      $("#veteran-gold").hide();
+      $("#veteran-white").show();
+      $("#veteran-gold-tpi").hide();
+    <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+        $("#cshc").hide();
+    <% } %>
+  });
+
+    $("#card-states-3").on("click", function () { // White card on the way
+      $("#veteran-no-card").hide();
+      $("#veteran-white-on-way").show();
+      $("#veteran-gold").hide();
+      $("#veteran-white").hide();
+      $("#veteran-gold-tpi").hide();
+    <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+        $("#cshc").hide();
+    <% } %>
+  });
+
+    $("#card-states-4").on("click", function () { // Gold TPI + CSHC (2 cards)
+      $("#veteran-no-card").hide();
+      $("#veteran-white-on-way").hide();
+      $("#veteran-gold").hide();
+      $("#veteran-white").hide();
+      $("#veteran-gold-tpi").show();
+    <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+        $("#cshc").show();
+    <% } else { %>
+        $("#veteran-white").show();
+    <% } %>
+  });
+
+    $("#card-states-5").on("click", function () { // No card
+      $("#veteran-no-card").show();
+      $("#veteran-white-on-way").hide();
+      $("#veteran-gold").hide();
+      $("#veteran-white").hide();
+      $("#veteran-gold-tpi").hide();
+    <% if (locals.liveFeature.includes("cardsCSHC")) { %>
+        $("#cshc").hide();
+    <% } %>
+  });
+
+
+    let person = JSON.parse(localStorage.getItem('person'));
+
+    if (!person.isCurrentlyServing) {
+      $(".is-currently-serving").hide();
+    } else {
+      $("#state-is-currently-serving-1").prop("checked", true);
+    }
+
+
+  });
+</script>

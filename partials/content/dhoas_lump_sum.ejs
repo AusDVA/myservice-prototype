@@ -1,0 +1,105 @@
+<%- include(forms+"notice", {
+  type: "content",
+  message: `
+    <p>If you intend to request a lump sum payment you should do so as part of this application. The assessment of your lump sum eligibility is made at payment commencement time after you confirm your request.
+    </p>
+    <ul>
+      <li>You must request the lump sum before you purchase or complete building your home.</li>
+      <li>The lump sum can only be paid on the Subsidy Certificate you requested before your home was purchased or completed.</li>
+      <li>If that Subsidy Certificate expires, and you are required to request a new Certificate after the home is purchased or completed, you will not be eligible for a lump sum.</li>
+    </ul>`
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Would you like to you check your eligibility for a lump sum payment?",
+  yes_toggle: "#check-eligibility"
+}) %>
+
+<div id="check-eligibility" hidden>
+  <%- include(forms+"yes_no", {
+    label: "Do you expect to leave the ADF within 12 months of your subsidy payment being authorised?",
+    yes_toggle: "#leave-in-12-container, #save-next",
+    no_toggle: "#previously-owned-container"
+  }) %>
+
+  <%- include(forms+"notice", {
+    type: "warning",
+    message: "You are not eligible to receive a lump sum payment if you expect to leave the ADF within 12 months of your subsidy payment being authorised.",
+    modifiers: ["hidden"],
+    id: "leave-in-12"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    modifiers: ["hidden"],
+    label: "While serving in the ADF have you, or you and your co-owner/borrower, previously owned a 50% or greater stake in a home, either to live in or for an investment? ",
+    yes_toggle: "#previously-owned-50-container, #save-next",
+    no_toggle: "#may-be-eligible",
+    id: "previously-owned"
+  }) %>
+
+  <%- include(forms+"notice", {
+    type: "warning",
+    modifiers: ["hidden"],
+    message: "You are not eligible to receive a lump sum payment if you and your co-owner/borrower have owned a 50% or greater stake in a home, either to live in or for an investment.",
+    id: "previously-owned-50"
+  }) %>
+
+  <div id="may-be-eligible" hidden>
+    <%- include(forms+"notice", {
+      type: "info",
+      message: `
+        <h3>You may be eligible to receive a lump sum payment</h3>
+        <ul>
+          <li>The maximum lump sum amount cannot exceed 48 months of payments.</li>
+          <li>Your monthly DHOAS payments may cease if you transfer to the Reserves and have less than 12 months of entitlement remaining after your lump sum payment is received.</li>
+          <li>You can find out more about DHOAS lump sum payments on the <a href="http://dhoas.gov.au/8.-lump-sum.html" rel="external" target="_blank">DHOAS website</a></li>
+        </ul>`
+    }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Would you like to request a lump sum payment?",
+    no_toggle: "#save-next",
+    yes_toggle: "#request-lump-sum"
+  }) %>
+
+  <div id="request-lump-sum" hidden>
+    <%- include(forms+"radio", {
+      label: "How much of your total entitlement would you like to request as a lump sum?",
+      all_toggle: "#declaration",
+      boxes: [
+        "I would like to request the maximum amount available",
+        {
+          text: "I would like to request a partial amount...",
+          inject: "#how-many-months-container"
+        }
+      ]
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "How many months would you like to request?",
+      modifiers: ["hidden"],
+      id: "how-many-months"
+    }) %>
+
+    <div class="declaration" id="declaration" hidden>
+      <%- include(forms+"checkbox", {
+        label: "",
+        boxes: [
+          {
+            text: "I acknowledge and agree with the following statements:",
+            toggle: "#save-next"
+          }
+        ]
+      }) %>
+
+      <ol class="declaration__list">
+        <li>I acknowledge that the Scheme Administrator or the Department of Defence may recover an amount equal to my lump sum subsidy payment if I cease to be a member of the ADF within 12 months after payment is authorised.</li>
+        <li>I also agree that my eligibility for the lump sum payment will be reassessed at payment commencement time.</li>
+      </ol>
+    </div>
+  </div>
+
+  </div>
+</div>
+
+  <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
