@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Client Details: Nom Rep | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Client's details</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <form class="pt-submit-form">
+        <input type="hidden" name="id" id="clientId" value="">
+
+        <div class="form-group margin-above--large">
+          <div id="pt-gender-fields" class="form-group">
+            <h2>Provide information regarding the client you wish to represent</h2>
+
+            <div id="title-group" class="form-group">
+              <label class="uikit-text-input__label" for="title">Title
+                <br>
+                <span id="title-group--optional" class="hint" style="display:none;"> Used for correspondence (optional)</span>
+              </label>
+              <select class="uikit-text-input input-half" id="title" name="title">
+                <%- include(partials+"components/form-elements/title-list") %>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="nameFirst">Given name <span class="hint">(first name)</span></label>
+              <input class="uikit-text-input input-half" name="nameFirst" id="nameFirst" type="text" value="">
+            </div>
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="nameLast">Surname <span class="hint">(last name)</span></label>
+              <input class="uikit-text-input input-half" name="nameLast" id="nameLast" type="text" value="">
+            </div>
+          </div>
+
+          <div id="pt-gender-fields" class="form-group">
+            <% 
+              locals.el = {};
+              locals.el.question = 'Gender'; 
+              locals.el.optionalHelp = "Currently, our system only allows us to record the client's gender as male or female. If they don't identify as either, you can discuss this with a DVA staff member on <a href='tel:1800-555-254'>1800 555 254</a>."; 
+            %>
+            <%- include(partials+"components/form-elements/radio--gender", locals) %>
+          </div>
+
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="date">Date of birth
+              <span class="hint">(dd / mm / yyyy)</span>
+            </label>
+            <input class="uikit-text-input dd" type="number" name="dob-dd" id="dob-dd" maxlength="2" aria-label="2 digit day"> /
+            <input class="uikit-text-input mm" type="number" name="dob-mm" id="dob-mm" maxlength="2" aria-label="2 digit month"> /
+            <input class="uikit-text-input yyyy" type="number" name="dob-yyyy" id="dob-yyyy" maxlength="4" aria-label="4 digit year">
+          </div>
+
+          <div id="title-group" class="form-group">
+            <label class="uikit-text-input__label" for="relationshipType">Relationship to you
+              <br>
+              <span id="title-group--optional" class="hint" style="display:none;"> Used for correspondence (optional)</span>
+            </label>
+            <select class="uikit-text-input input-half" id="relationshipType" name="relationshipType">
+
+              <%- include(partials+"components/form-elements/relationship-list") %>
+
+
+            </select>
+          </div>
+
+          <div class="form-group" id="">
+            <label class="uikit-text-input__label" for="dVAClientNumber">DVA client number <span class="hint">(if known)</span></label>
+            <div class="margin-below--mid">If they have one, we recommend you provide it here.</div>
+            <input class="uikit-text-input input-half" name="dVAClientNumber" id="dVAClientNumber" type="text" value="">
+            <label class="uikit-text-input__label" for="pMKeysNumber">PMKeyS number <span class="hint">(optional)</span></label>
+            <input class="uikit-text-input input-half" name="pMKeysNumber" id="pMKeysNumber" type="text" value="">
+          </div>
+
+
+        </div>
+      </form>
+
+      <div class="pagination pagifnation--ss-reverse-order">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
+          <button class="uikit-btn btnNext" id="btnNext">Save and next</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <div id="warning" class="modal-window">
+    <div>
+      <a href="#modal-close" title="Close" class="modal-close">Close</a>
+      <h2>Your application will be cancelled</h2>
+      <p>Are you sure you want to cancel this application?</p>
+      <div class="modal-buttons">
+        <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
+      </div>
+    </div>
+  </div>
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    $('#fileNumberYes').click(function () {
+      $('#yesFileNumberChecked').show("fast");
+      $('#hideAllForm').hide();
+    });
+    $('#fileNumberNo').click(function () {
+      $('#noFileNumberChecked').show("fast");
+      $('#hideAllForm').show("fast");
+      $('#yesFileNumberChecked').hide("fast");
+    });
+    $('#pmKeyYes').click(function () {
+      $('#yesPmKeyChecked').show("fast");
+    });
+    $('#pmKeyNo').click(function () {
+      $('#noPmKeyChecked').show("fast");
+      $('#yesPmKeyChecked').hide();
+    });
+    $('#serviceNumberYes').click(function () {
+      $('#yesServiceNumberChecked').show("fast");
+      $('#hideAllForm').hide();
+
+    });
+    $('#serviceNumberNo').click(function () {
+      $('#yesServiceNumberChecked').hide();
+      $('#hideAllForm').show("fast");
+    });
+
+    // set a new session guid every time this page is called
+    var sessionGuid = (guidGenerator());
+    sessionStorage.setItem('sessionGuid', sessionGuid);
+    $('#clientId').val(sessionGuid);
+
+    $('#btnNext').click(function () {
+
+      event.stopImmediatePropagation();
+      event.preventDefault();
+
+
+
+
+      var data = ($('.pt-submit-form'));
+
+      writeClient(data);
+
+      if ($.trim($('#fileNumber').val()) == '') {
+        window.location.href = '/auth/profile/nomrep/form-client-2';
+      } else {
+        window.location.href = '/auth/profile/nomrep/form-client-3';
+      }
+
+    });
+
+  </script>
+
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>My profile | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <section>
+      <div class="container" id="main-content">
+        <div class="row margin-above">
+          <div class="col-sm-3">
+            <%- include(partials+"components/layout/profile-side-nav") %>
+          </div>
+          <div class="col-sm-9 margin-below--extra">
+            <h1 class="margin-above--none">Account settings</h1>
+            <fieldset class="fieldset-margin-top">
+              <div class="form-group">
+                <label for="password" class="uikit-text-input__label">Password
+                  <span class="hint display-block">It's a good idea to use a strong password that you're not using elsewhere</span>
+                </label>
+                <button class="uikit-btn uikit-btn--tertiary small">Change password</button>
+              </div>
+            </fieldset>
+          </div>
+    </section>
+    <a href="#" style="display: none">
+      <div class="toast">
+        <p role="alert">Profile updated</p>
+      </div>
+    </a>
+  </main>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(document).ready(function () {
+
+      // Show / hide hidden field
+      $(".show-password").click(function () {
+        if ($(".password").attr("type") == "password") {
+          $(".password").attr("type", "text");
+          $(".show-password").text('Hide').button("refresh");
+
+        } else {
+          $(".password").attr("type", "password");
+          $(".show-password").val('Show');
+          $(".show-password").text('Show').button("refresh");
+        }
+      });
+
+      // Client side field validation
+
+      // Client validation masquerading as server side
+      $(".btnSavePassword").click(function () {
+        if ($('#password').val() == '' && ($('#password-reenter').val() == '')) {
+          $("#error-empty-fields").toggle("fast");
+          $("#form-group-password").addClass("has-error");
+          $('html, body').animate({
+            scrollTop: $('#error-empty-fields').position().top
+          }, 'fast');
+          $(".heading-error").focus();
+        }
+      });
+
+      $("#password").focusout(function () {
+        $("#form-group-password").addClass("has-error");
+      });
+      $("#password-reenter").focusout(function () {
+        $("#form-group-password-reenter").addClass("has-error");
+      });
+
+
+    });
+
+    $('.call-toast').click(function () {
+      $('body,html').animate({
+        scrollTop: 0
+      }, 100);
+      // hack to reset focus to top of page
+      document.body.setAttribute('tabindex', '0');
+      document.body.focus();
+      document.body.removeAttribute('tabindex');
+      $("#toast__message").show("slow");
+    });
+
+    $("#toast__message").click(function () {
+      $("#toast__message").hide("slow");
+    });
+  </script>
+</body>
+
+</html>

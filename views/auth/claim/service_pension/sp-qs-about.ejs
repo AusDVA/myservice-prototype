@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service history - about your claim | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">About your claim</span>
+      </h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="margin-above--extra margin-below--extra">
+            <!-- Page content -->
+            <!-- what are you applying for -->
+            <div class="form-group margin-above--extra" id="sp-start-pension-type">
+              <legend class="legend-label">Select an option that best relates to you for this</legend>
+              <div class="container">
+                <div class="radio-tile--group row">
+                  <label class="radio-tile">
+                    <input id="pensionType-invalidity" class="sr" type="radio" name="pensionType" value="invaliditiy">
+                    <span>
+                      <span class="fal fa-user fa-icon-large"></span>
+                      <p class="margin-below--none">Australian Defence Force veteran</p>
+                    </span>
+                  </label>
+                  <label class="radio-tile">
+                    <input id="pensionType-age" class="sr" type="radio" name="pensionType" value="age">
+                    <span>
+                      <span class="fal fa-user fa-icon-large">
+                      </span>
+                      <p class="margin-below--none">Commonwealth or allied veteran</p>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Australian Defence Force veteran -->
+            <div class="form-group margin-above--large" id="sp-start-whatGrounds">
+
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="toggle-buttons">'Were you known by any other name during your service</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="yes">
+                    <input id="yes" type="radio" name="toggle-buttons">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="no">
+                    <input id="no" type="radio" name="toggle-buttons">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="uikit-text-input__label" for="ww2">Did you serve during World War 2</label>
+                <div class="radio-toggle">
+                  <label class="on label-left" for="ww2-yes">
+                    <input id="ww2-yes" type="radio" name="ww2">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right" for="ww2-no">
+                    <input id="ww2-no" type="radio" name="ww2">
+                    <span>No</span>
+                  </label>
+                </div>
+              </div>
+
+              <div class="uikit-page-alerts" role="alert">
+                <p>You will need to complete your application using XXX form. This form can be emailed or mailed to the department. </p>
+              </div>
+            </div>
+            <!-- Commonwealth or allied veteran -->
+            <div class="form-group margin-above--large" id="sp-start-who">
+              <p>add content</p>
+            </div>
+
+
+            <div id="save-and-next" class="margin-above--extra" style="display: none">
+              <p>Choose <b>save and next</b> to continue.</p>
+            </div>
+          </div> <!-- col-md-12 end -->
+        </div>
+        <div class="pagination">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/sp-start'">Save and exit</button>
+            <button class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/sp-qs'">Save and next</button>
+          </div>
+        </div>
+      </div> <!-- col-md-12 end -->
+    </div> <!-- row end -->
+    </div> <!-- container end -->
+  </main>
+  <%- include(partials+"content/modals/claims-cancel-modal") %>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+
+      // select type
+
+      $("#pensionType-invalidity").click(function () {
+        hideAll();
+        $("#sp-start-whatGrounds").show("fast");
+        $("#sp-start-pbs").show("fast");
+      });
+
+      $("#pensionType-age").click(function () {
+        if (ageMode == "inval-only") {
+          hideAll();
+          $("#inval-only").show("fast");
+          return;
+        }
+        hideAll();
+        $("#sp-start-who").show("fast");
+      });
+
+      // age pension
+
+      $("#pensionWho-single").click(function () {
+        $("#sp-start-pbs").show("fast");
+        $("#benefits").show("fast");
+        sessionStorage.setItem('partnerApply', 'false');
+      });
+
+      $("#pensionWho-double").click(function () {
+        $("#sp-start-pbs").show("fast");
+        $("#benefits").show("fast");
+        sessionStorage.setItem('partnerApply', 'true');
+      });
+
+      // $('.check_box').change(function() {
+      //     if ($('.check_box:checked').length == 0) {
+      //         $('#crn').hide();
+      //     } else {
+      //         $('#crn').show("fast");
+      //         $('.check_box:checked').each(function() {
+      //             $('#' + $(this).attr('data-ptag')).hide();
+      //         });
+      //     }
+      // });
+
+      // pbs
+
+      $("#pbs-yes").click(function () {
+        $("#pbs-explainer").show("fast");
+      });
+      $("#pbs-no").click(function () {
+        $("#pbs-explainer").hide("fast");
+      });
+
+      // centrelink
+
+      $("#centrelink-yes").click(function () {
+        $("#crn").show("fast");
+      });
+      $("#centrelink-no").click(function () {
+        $("#crn").hide("fast");
+        $("#save-and-next").show("fast");
+      });
+
+      //
+
+      function hideAll() {
+        $("#inval-only").hide();
+        $("#close").hide();
+        $("#age-only").hide();
+        $("#sp-start-who").hide();
+        $("#sp-start-pbs").hide();
+        $("#sp-start-whatGrounds").hide();
+        $("#benefits").hide();
+      }
+
+      // age mode
+
+      var ageMode = "either-pension";
+
+      function setUpAgeMode() {
+        hideAll();
+        $("#sp-start-pension-type").hide();
+        switch (ageMode) {
+          case "inval-only": // > 59.75 
+            $("#sp-start-pension-type").show();
+            break;
+          case "either-pension": // >= 59.75 && < 65
+            $("#sp-start-pension-type").show();
+            break;
+          case "age-only": // >= 65
+            console.log("age only")
+            $("#sp-start-who").show();
+            break;
+          default:
+
+        }
+
+      }
+
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 49: // > 59.75 
+            ageMode = "inval-only"
+            setUpAgeMode();
+            break;
+          case 50: // >= 59.75 && < 65
+            ageMode = "either-pension"
+            setUpAgeMode();
+            break;
+          case 51: // >= 65
+            ageMode = "age-only"
+            setUpAgeMode();
+            break;
+          default:
+
+        }
+      });
+
+      //
+
+      setUpAgeMode();
+
+    });
+  </script>
+</body>
+
+</html>

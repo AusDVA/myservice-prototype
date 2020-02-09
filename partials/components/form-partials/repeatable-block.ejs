@@ -1,0 +1,68 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("repeatable_block");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+var elemCounter = 0;
+
+%>
+
+<div id="<%- id %>-container"
+  class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>>
+  <% modifiers = modifiers.filter(item => item !== "hidden") %>
+
+  <div id="<%- id %>-fieldlist" class="repeatable-block__fieldlist">
+  </div>
+
+  <fieldset id="<%- id %>-template" hidden>
+    <div class="repeatable-block__legend-wrapper">
+      <legend class="d-inline legend--small-bold"><%- repeatedContent %> </legend>
+      <button class="d-inline repeatable-block__btn--remove"><i class="far fa-lg fa-minus-circle"></i> <span>Remove
+          <%- repeatedContent %></span></button>
+    </div>
+
+    <% form.forEach(elem => {
+        elemCounter++;
+        if (typeof elem.id === "undefined") elem.id = `${id}-${elemCounter}`;
+
+        if (typeof elem.customClass === "undefined") elem.customClass = []
+        if (typeof elem.customClass === "string") elem.customClass = [elem.customClass];
+        elem.customClass.push("repeatable-block--elem")
+      %>
+
+    <%- include(`${forms}${elem.type}`, elem) %>
+
+    <% }) %>
+  </fieldset>
+
+  <button class="uikit-btn uikit-btn--tertiary" id="<%- id %>-add">Add <%- repeatedContent %></button>
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    $("#<%- id %>-template").children().last().addClass("margin-below--mid");
+
+    function <% - id %> duplicate() {
+      var toAppend = $("#<%- id %>-template").clone(true);
+
+      toAppend.removeAttr("hidden");
+      toAppend.removeAttr("id");
+      toAppend.find("legend").text(`${toAppend.find("legend").text()} ${$("#<%- id %>-fieldlist").children().length + 1}`)
+
+      $("#<%- id %>-fieldlist").append(toAppend)
+    }
+
+    $("#<%- id %>-add").on("click", function () {
+      <% - id %> duplicate();
+    })
+
+    $("#<%- id %>-container").on("click", ".repeatable-block__btn--remove", function () {
+      $(this).closest("fieldset").remove();
+    })
+
+      <% - id %> duplicate();
+  })
+</script>

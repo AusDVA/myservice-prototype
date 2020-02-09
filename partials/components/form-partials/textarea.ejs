@@ -1,0 +1,28 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("textarea");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="form-group <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  id="<%- id %>-container">
+  
+  <%- generateLabel({
+      id,
+      modifiers,
+      label: typeof label !== "undefined" ? label : null,
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
+    <textarea 
+      class="uikit-text-input"
+      name="<%- id %>"
+      id="<%- id %>"
+      <%- typeof placeholder !== "undefined" ? `placeholder="${placeholder}"` : "" %>
+      <%- typeof rows !== "undefined" ? `rows="${rows}"` : `rows="5"` %>
+      <%- modifiers.includes("disabled") ? "disabled" : "" %>
+    ><%- typeof value !== "undefined" ? value : "" %></textarea>
+</div>

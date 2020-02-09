@@ -1,0 +1,156 @@
+<%- include(templates+"header", {
+  claim: "Veteran Recognition Package",
+  heading: "Review and submit"
+}) %>
+            
+  <%- include(forms+"notice", {
+    id: "all-provided",
+    message: `<p>We have everything we need to process your application for Recognition, this includes:</p>
+
+    <ul>
+      <li>service history</li>
+      <li>bank details that have previously been provided to DVA</li>
+      <li>your consent to pre-register your APOD account</li>
+    </ul>`,
+    type: "success",
+    modifiers: ["hidden"]
+  }) %>
+
+  <div id="review-submit">
+    <div class="review__wrapper" id="service-history" hidden>
+      <div class="review__header">
+        <div class="review__header--label">
+          <h2>Service history</h2>
+        </div>
+      </div>
+      <div class="review__content">
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Are you still serving?</div>
+          <div class="review__content--data col-xs-12 col-sm-5">No</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Have you ever been a member of the Australian Permanent Forces?</div>
+          <div class="review__content--data col-xs-12 col-sm-5">Yes</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Was your service ever considered Continuos Full-Time Service?</div>
+          <div class="review__content--data col-xs-12 col-sm-5">Yes</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">PMKeyS or Service number</div>
+          <div class="review__content--data col-xs-12 col-sm-5">9514562</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Date of enlistment</div>
+          <div class="review__content--data col-xs-12 col-sm-5">01 / 01 / 2000</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Date of discharge</div>
+          <div class="review__content--data col-xs-12 col-sm-5">01 / 01 / 2019</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Proof of service</div>
+          <div class="review__content--data col-xs-12 col-sm-5">test55.png 26.91 KB</div>
+        </div>
+        <button class="uikit-btn uikit-btn--tertiary small margin-above--mid" onclick="window.location.href = '/auth/claim/veterancard/vrp2'">Edit</button>
+      </div>
+    </div>
+    <div class="review__wrapper" id="bank-details" hidden>
+      <div class="review__header">
+        <div class="review__header--label">
+          <h2>Bank details</h2>
+        </div>
+      </div>
+      <div class="review__content">
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Account name:</div>
+          <div class="review__content--data col-xs-12 col-sm-5">Mr <span class="pt-current-user-name-full">Alex Kirby</span></div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Account number:</div>
+          <div class="review__content--data col-xs-12 col-sm-5">7123 8876 0023</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">BSB:</div>
+          <div class="review__content--data col-xs-12 col-sm-5">654 - 788</div>
+        </div>
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Financial Institution:</div>
+          <div class="review__content--data col-xs-12 col-sm-5">ANZ Bank</div>
+        </div>
+        <button class="uikit-btn uikit-btn--tertiary small margin-above--mid" onclick="window.location.href = '/auth/claim/veterancard/vrp3'">Edit</button>
+      </div>
+    </div>
+    <div class="review__wrapper" id="apod" hidden>
+      <div class="review__header">
+        <div class="review__header--label">
+          <h2>Access Offers</h2>
+        </div>
+      </div>
+      <div class="review__content">
+        <div class="review__content--item row">
+          <div class="review__content--label col-xs-12 col-sm-7">Would you like to pre-register with APOD?</div>
+          <div class="review__content--data col-xs-12 col-sm-5">Yes</span></div>
+        </div>
+        <button class="uikit-btn uikit-btn--tertiary small margin-above--mid" onclick="window.location.href = '/auth/claim/veterancard/vrp4'">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--extra",
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/veterancard/vrp4",
+        id: "btnPrev"
+      },
+      {
+        text: "Cancel",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Submit",
+        link: "/auth/claim/veterancard/vrp6",
+        modifiers: ["floated", "primary"],
+        id: "btnNext"
+      }
+    ]
+  }) %>
+
+  <%- include("vrp-state-switcher") %>
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script type="text/javascript">
+    function stateSwitcher() {
+      $("#all-provided-container").hide();
+      $("#review-submit").hide();
+      $("#service-history").hide();
+      $("#bank-details").hide();
+      $("#apod").hide();
+
+      var apod = sessionStorage.getItem("vrp-show-apod") === "true" ? true : false;
+      var bank = sessionStorage.getItem("vrp-bank-details") === "true" ? true : false;
+      var service = sessionStorage.getItem("vrp-known-service-history") === "true" ? true : false;
+
+      if (!(apod) && bank && service) {
+        $("#all-provided-container").show();
+      } else {     
+        $("#btnPrev").attr("href", "/auth/claim/veterancard/vrp4");
+
+        if (apod) {
+          $("#apod").show()
+        } else {
+        $("#btnPrev").attr("href", "/auth/claim/veterancard/vrp3");
+        }
+        
+        if (!bank) $("#bank-details").show();
+        if (!service) $("#service-history").show();
+
+        $("#review-submit").show();
+      }
+    }
+
+  </script>
+
+<%- include(templates+"footer") %>

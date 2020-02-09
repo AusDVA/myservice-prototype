@@ -1,0 +1,43 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("dropdown");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<div class="form-group formPartials_dropdown <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" <%- modifiers.includes("hidden") ? "hidden" : "" %> id="<%- id %>-container">
+  <%- generateLabel({
+      id,
+      modifiers,
+      label: typeof label !== "undefined" ? label : null,
+      hint: typeof hint !== "undefined" ? hint : null,
+      tooltip: typeof tooltip !== "undefined" ? tooltip : null
+    }) %>
+
+  <select class="uikit-text-input <%- modifiers.includes("inputFullLength") ? "" : "input-half" %>" id="<%- id %>" name="<%- id %>" <%- modifiers.includes("disabled") ? "disabled" : "" %>>
+
+    <% const opts = options.map(opt => {
+    if (typeof opt === "string") {
+      opt = {
+        text: opt
+      }
+    }
+    %>
+    <%- generateOption(opt).html; %>
+
+    <% 
+
+
+      let { toggle, rToggle } = generateOption(opt);
+      return {
+        toggle: toggle,
+        rToggle: rToggle
+      }
+
+    });
+    %>
+
+  </select>
+
+</div>

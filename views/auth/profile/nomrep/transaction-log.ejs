@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+
+  <title>Agreement: Nom Rep | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+
+  <style>
+    .pt-first-time,
+    .pt-first-time-no {
+      display: none;
+    }
+
+    #transLog-pagination tbody tr :first-child, #transLog-filter tbody tr :first-child {
+      white-space: pre;
+    }
+
+  </style>
+
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+
+
+  <%- include(partials+"components/layout/header-topbar") %>
+
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div class="container margin-above margin-below--extra" id="claim-activity">
+      <div class="row margin-above">
+        <div class="col-sm-3">
+
+          <%- include(partials+"components/layout/profile-side-nav") %>
+
+        </div>
+
+        <div class="col-sm-9">
+          <h1 class="margin-above--none margin-below--mid">Representation history</h1>
+
+          <h2>View transactions made by your representative or by yourself on behalf of a client for the last 90 days.</h2>
+
+          <p>If you would like to see transactions made before this time, please call us on 1800 555 254 or email a DVA representative <a
+            href="mailto:GeneralEnquiries@dva.gov.au" target="_top">GeneralEnquiries@dva.gov.au.</a></p>
+            <div class="row">
+
+
+              <div class="form-group">
+                <select class="uikit-text-input input-half" id="which-transactions" name="drop-down">
+                </select>
+                <input id="filter" class="uikit-text-input input-half" name="filter" type="text" placeholder="I want to find..." aria-required="false">
+              </div>
+
+            </div>
+
+            <div class="row">
+              <table id="transLog-pagination" class="table">
+                <thead>
+                  <tr>
+                    <th>Date / Time</th>
+                    <th>Made by</th>
+                    <th>Details</th>
+                    <th>Application ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+              <table id="transLog-filter" class="table" style="display: none;">
+                <thead>
+                  <tr>
+                    <th>Date / Time</th>
+                    <th>Made by</th>
+                    <th>Details</th>
+                    <th>Application ID</th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+            <div class="row payments-page">
+              <div class="pagination floated" id="pagination">
+              </div>
+            </div>
+
+            <div class="pagination">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Back to representation</button>
+              <button class="uikit-btn floated uikit-btn--tertiary" onclick="printFunction()">Print</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <%- include(partials+"components/layout/footer") %>
+  </body>
+  <script>
+    if ($(window.location.hash).length > 0) {
+      $('html, body').animate({
+        scrollTop: $(window.location.hash).offset().top - 100
+      }, 2000);
+    }
+
+    var itemsPerPage = 5;
+    var currentPageNo;
+    var viewingTransactions;
+
+    if (sessionStorage.getItem('currentPageNo') == null) {
+      sessionStorage.setItem('currentPageNo', "1");
+      currentPageNo = parseInt(sessionStorage.getItem('currentPageNo'));
+    } else {
+      currentPageNo = parseInt(sessionStorage.getItem('currentPageNo'));
+    }
+
+    if (sessionStorage.getItem('viewingTransactions') == null) {
+      sessionStorage.setItem('viewingTransactions', "all");
+      viewingTransactions = sessionStorage.getItem('viewingTransactions');
+    } else {
+      viewingTransactions = sessionStorage.getItem('viewingTransactions');
+    }
+
+    function generateTransactions() {
+      if (viewingTransactions == "client") {
+        $('#which-transactions').append(`
+          <option value="all">All Transactions</option>
+          <option selected value="client">Made on behalf of your client</option>
+          <option value="rep">Made by your representative</option>`);
+      } else if (viewingTransactions == "rep") {
+        $('#which-transactions').append(`
+          <option value="all">All Transactions</option>
+          <option value="client">Made on behalf of your client</option>
+          <option selected value="rep">Made by your representative</option>`);
+      } else {
+        $('#which-transactions').append(`
+          <option selected value="all">All Transactions</option>
+          <option value="client">Made on behalf of your client</option>
+          <option value="rep">Made by your representative</option>`);
+      }
+    }
+
+    function generatePagination() {
+      $('#pagination').html("");
+      if (currentPageNo <= 4) {
+        $("#pagination").append(`<a href="#${currentPageNo-1}">&laquo;</a>`);
+        for (var i = 1; i <= 7; i++) {
+          if (i == currentPageNo) {
+            $("#pagination").append(`<a class="active" href="#${i}">${i}</a>`)
+          } else {
+            $("#pagination").append(`<a href="#${i}">${i}</a>`)
+          }
+        }
+        $("#pagination").append(`<a href="#${currentPageNo+1}">&raquo;</a>`);
+
+      } else if (currentPageNo > 4) {
+        $("#pagination").append(`<a href="#${currentPageNo-1}">&laquo;</a>`);
+        for (var i = currentPageNo - 3; i <= currentPageNo + 3; i++) {
+          if (i == currentPageNo) {
+            $("#pagination").append(`<a class="active" href="#${i}">${i}</a>`)
+          } else {
+            $("#pagination").append(`<a href="#${i}">${i}</a>`)
+          }
+        }
+
+        $("#pagination").append(`<a href="#${currentPageNo+1}">&raquo;</a>`);
+      }
+    }
+
+    function loadData(type) {
+      $.ajax({
+        url: '/docs/data/transaction-log.json',
+        async: false,
+        dataType: 'json'
+      }).done(function(data) {
+        $('#transLog-pagination tbody').html("");
+        $('#transLog-filter tbody').html("");
+        let person = JSON.parse(localStorage.person)._id;
+
+      function transactions(transType) {
+        type == "all" ? localItemsPerPage = itemsPerPage / 2 : localItemsPerPage = itemsPerPage;
+        if (transType == "rep") {
+          $.each(data[person]["repTransactions"].slice((currentPageNo * localItemsPerPage) - localItemsPerPage, (currentPageNo * localItemsPerPage)), function (i, q) {
+            $('#transLog-pagination tbody').append(
+              "<tr>" +
+              " <td>" + q.datetime.split(" ")[0] + "\n" + q.datetime.split(" ")[1] + "</td>" +
+              " <td>" + q.name + "</td>" +
+              " <td>" + q.transactionDetails + "</td>" +
+              " <td>" + q.transactionId + "</td>" +
+              "</tr>");
+          });
+          $.each(data[person]["repTransactions"], function (i, q) {
+            $('#transLog-filter tbody').append(
+              "<tr>" +
+              " <td>" + q.datetime.split(" ")[0] + "\n" + q.datetime.split(" ")[1] + "</td>" +
+              " <td>" + q.name + "</td>" +
+              " <td>" + q.transactionDetails + "</td>" +
+              " <td>" + q.transactionId + "</td>" +
+              "</tr>");
+          });
+        } else if (transType == "client") {
+          $.each(data[person]["clientTransactions"].slice((currentPageNo * localItemsPerPage) - localItemsPerPage, (currentPageNo * localItemsPerPage)), function (i, q) {
+            $('#transLog-pagination tbody').append(
+              "<tr>" +
+              " <td>" + q.datetime.split(" ")[0] + "\n" + q.datetime.split(" ")[1] + "</td>" +
+              " <td>" + q.name + "</td>" +
+              " <td>" + q.transactionDetails + "</td>" +
+              " <td>" + q.transactionId + "</td>" +
+              "</tr>");
+          });
+          $.each(data[person]["clientTransactions"], function (i, q) {
+            $('#transLog-filter tbody').append(
+              "<tr>" +
+              " <td>" + q.datetime.split(" ")[0] + "\n" + q.datetime.split(" ")[1] + "</td>" +
+              " <td>" + q.name + "</td>" +
+              " <td>" + q.transactionDetails + "</td>" +
+              " <td>" + q.transactionId + "</td>" +
+              "</tr>");
+          });
+        }
+      }
+
+        if (type == "all") {
+          transactions("rep");
+          transactions("client");
+        } else if (type == "rep") {
+          transactions("rep");
+        } else if (type == "client") {
+          transactions("client");
+        }
+
+
+      });
+    }
+
+    $(document).ready(function() {
+      // don't think we need any of this now.
+      $('#myRepsBtn').click(function() {
+        $('#myReps').show();
+        $('#myReps1').show();
+        $('#myReps2').show();
+        $('#myReps3').show();
+        $('#myReps4').show();
+        $('#myReps5').show();
+        $('#iRep').hide();
+        $('#iRep1').hide();
+        $('#myRepsHead').show();
+        $('#iRepHead').hide();
+        $('#becomeRep').hide();
+        $('#addRep').show();
+        $('#myRepsBtn').removeClass('active-state');
+        $('#iRepresent').addClass('active-state');
+        $('#myRepsBtn').removeClass('on-load-state');
+      });
+      $('#iRepresent').click(function() {
+        $('#iRep').show();
+        $('#iRep1').show();
+        $('#iRepHead').show();
+        $('#myReps').hide();
+        $('#myReps1').hide();
+        $('#myReps2').hide();
+        $('#myReps3').hide();
+        $('#myReps4').hide();
+        $('#myReps5').hide();
+        $('#becomeRep').show();
+        $('#addRep').hide();
+        $('#myReps1').hide();
+        $('#myRepsHead').hide();
+        $('#myRepsBtn').addClass('active-state');
+        $('#iRepresent').removeClass('active-state');
+        $('#iRepresent').removeClass('on-load-state');
+      });
+
+      generatePagination();
+      generateTransactions();
+      loadData($('#which-transactions :selected').val());
+    });
+    readClient();
+    readRep();
+
+    $("#filter").on("keyup", function() {
+      if($("#filter").val() == "") { 
+        $("#transLog-pagination").css("display", "table");
+        $("#transLog-filter").css("display", "none");
+        $("#pagination").css("display", "inline-block");
+      } else {
+        $("#pagination").css("display", "none");
+        $("#transLog-pagination").css("display", "none");
+        $("#transLog-filter").css("display", "table");
+        var value = $(this).val().toLowerCase();
+        $("#transLog-filter tbody tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      }
+    });
+
+    $("#which-transactions").on("change", function() {
+      sessionStorage.setItem('viewingTransactions', $('#which-transactions :selected').val());
+      viewingTransactions = sessionStorage.getItem('viewingTransactions');
+      loadData(sessionStorage.getItem('viewingTransactions'));
+    });
+
+    $("#pagination").on("click", 'a', function() {
+      sessionStorage.setItem('currentPageNo', parseInt($(this).attr("href").replace("#", "")));
+      currentPageNo = parseInt(sessionStorage.getItem('currentPageNo'));
+      generatePagination();
+      loadData(sessionStorage.getItem('viewingTransactions'));
+    });
+
+  </script>
+
+  </html>

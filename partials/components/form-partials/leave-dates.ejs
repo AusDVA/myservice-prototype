@@ -1,0 +1,41 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("leave-dates");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+
+<div class="multi-date__container formPartials_leavedates" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
+  <button class="uikit-btn multi-date__button multi-date__button--add">Add</button>
+</div>
+
+<div class="multi-date" id="multi-date__template" style="display: none">
+  <fieldset class="multi-date__row multi-date--start">
+    <legend id="<%- id %>-start" class="multi-date__label legend-override">Start Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <%- include(partials+"components/form-partials/date", {hint: "", modifiers: ["noScript"]}) %>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="multi-date__row multi-date--end">
+    <legend id="<%- id %>-end" class="multi-date__label legend-override">End Date <span class="hint"> (dd / mm / yyyy)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <%- include(partials+"components/form-partials/date", {hint: "", modifiers: ["noScript"]}) %>
+      </div>
+      <button class="uikit-btn uikit-btn--tertiary multi-date__button multi-date__button--remove">Remove</button>
+      <%- generateCheckRadio({
+        text: "Ongoing",
+        boxID: `${id}-ongoing`,
+        baseID: `${id}-ongoing`,
+        suppliedID: true,
+        modifiers: [],
+        type: "checkbox",
+        customClass: "multi-date__input--checkbox multi-date__input multi-date__checkbox"
+      }).html %>
+    </div>
+  </fieldset>
+</div>

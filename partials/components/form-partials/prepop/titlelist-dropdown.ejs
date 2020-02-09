@@ -1,0 +1,45 @@
+<%
+
+  const removeEmpty = (obj) => 
+    Object.entries(obj).forEach(([key, val]) => {
+      if (val && typeof val === 'object') removeEmpty(val)
+      else if (val == null) delete obj[key]
+  })
+
+  var dropdown = {
+    label: typeof label !== "undefined" ? label : "Please select your title",
+    tooltip: typeof tooltip !== "undefined" ? tooltip : null,
+    modifiers: typeof modifiers !== "undefined" ? modifiers : [],
+    all_toggle: typeof both_toggle !== "undefined" ? both_toggle : null,
+    hint: typeof hint !== "undefined" ? hint : null,
+    customClass: typeof customClass !== "undefined" ? customClass : null,
+    options: [
+      "-- Select title --",
+      {
+        value: "Miss",
+        text: "Miss"
+      },
+      {
+        value: "Mr",
+        text: "Mr"
+      },
+      {
+        value: "Mrs",
+        text: "Mrs"
+      },
+      {
+        value: "Ms",
+        text: "Ms"
+      },
+      {
+        value: "Dr",
+        text: "Dr"
+      }
+    ]
+  }
+
+  removeEmpty(dropdown)
+
+%>
+
+<%- include(components+"form-partials/dropdown", dropdown) %>

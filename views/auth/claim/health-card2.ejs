@@ -1,0 +1,73 @@
+<%- include(templates+"header", {
+  title: "NLHC",
+  heading: "Veterans supplement"
+})%>
+
+      <div class="tip--wrapper line-break-after">
+        <p class="text-fullwidth no-space-after">White Card holders may also be entitled to a
+          <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement" rel="external" target="_blank">veterans supplement</a>. If eligible we will deposit this fortnightly
+          payment
+          into your nominated bank account. This could take up to 2 weeks. You will receive a letter from us to confirm your first payment.</p>
+      </div>
+
+
+      <h3>Your bank details
+        <span id="bankoptional">(optional)</span>
+      </h3>
+
+      <div id="btnAddBank-box" class="margin-below margin-below--extra">
+        <button id="btnAddBank" class="uikit-btn uikit-btn--tertiary">Add bank details</button>
+      </div>
+
+      <div class="bank-details-container" style="display:none;">
+        <div class="col-xs-12 col-sm-8 col-lg-6 boxed">
+          <button id="btnCancelBank" class="uikit-btn uikit-btn--tertiary no-left-margin small floated " style="display: none">Cancel</button>
+          <p class="padding-above">All fields are required.</p>
+          <%- include(partials+"bank-account-details") %>
+        </div>
+      </div>
+
+      <div class="pagination space-above">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/health-card1'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel request</button>
+        <div class="floated">
+          <button class="uikit-btn" onclick="window.location.href = '/auth/claim/health-card3'">Next</button>
+        </div>
+      </div>
+
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+    </div>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    // Progress percentage
+    document.getElementById("percentage").style.width = "60%";
+    document.getElementById("percentage_value").textContent = "60%";
+
+    // bank details button function
+
+    $("#btnAddBank").click(function () {
+      $(".bank-details-container").show("fast");
+      $("#btnAddBank-box").hide();
+      $("#bankoptional").hide();
+      $("#btnCancelBank").show();
+      $("#bank-name").focus();
+    });
+    $("#btnCancelBank").click(function () {
+      $(".bank-details-container").hide("fast");
+      $("#btnCancelBank").hide();
+      $("#bankoptional").show();
+      $("#btnAddBank-box").show();
+    });
+
+    $(".message-close").click(function () {
+      $(".bank-details-container").hide("fast");
+    });
+  </script>
+
+</body>
+
+</html>

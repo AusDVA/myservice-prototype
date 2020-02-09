@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Role Client: Nom Rep | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Representative's role</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="nr-accounts">
+      <div class="container">
+        <form class="pt-submit-form">
+          <h2>Tell us how you would like <span class="pt-current-rep-nameFirst"></span> <span class="pt-current-rep-nameLast"></span> to represent you</h2>
+
+          <div class="form-group">
+            <div class="radio-tile--group radio-tile-group--equal-width-height radio-tile-group--four">
+              <label class="radio-tile ">
+                <input id="enquire" class="sr" type="radio" name="role" value="Enquire on behalf">
+                <span>
+                  <i class="radio_tile__icon fal fa-comments-alt fa-3x"></i>
+                  <strong>Enquire on your behalf</strong><br />
+                  <p>Your representative can access information in relation to your DVA matters.</p>
+                </span>
+              </label>
+
+              <label class="radio-tile ">
+                <input id="act" class="sr" type="radio" name="role" value="Act on behalf">
+                <span>
+                  <i class="radio_tile__icon fal fa-hands-helping fa-3x"></i>
+                  <strong>Act on your behalf </strong><br />
+                  <p>Your representative can access information, make decisions and provide information in relation to your DVA matters.</p>
+                </span>
+              </label>
+
+              <label class="radio-tile ">
+                <input id="paymentOnly" class="sr" type="radio" name="role" value="Receive payments">
+                <span>
+                  <i class="radio_tile__icon fal fa-hand-holding-usd fa-3x"></i>
+                  <strong>Receive payments only</strong><br />
+                  <p>DVA can make payments to your representative's bank account. For example, to a trustee or nursing home.</p>
+                </span>
+              </label>
+
+              <label class="radio-tile pt-cease-rep">
+                <input id="cease" class="sr" type="radio" name="role" value="Cease">
+                <span>
+                  <i class="radio_tile__icon fal fa-user-minus fa-3x"></i>
+                  <strong>Cease representation</strong><br />
+                  <p>You can stop someone representing you if your circumstances change.</p>
+                </span>
+              </label>
+            </div>
+          </div>
+
+
+
+          <!-- start of hidden q's for enquire only -->
+          <div id="hideAllEnquire" style="display:none;">
+
+            <div class="form-group margin-below--large pt-showIfTertiary">
+              <label class="uikit-text-input__label" for="indefinitely">Is this arrangement for a fixed period?</label>
+              <fieldset>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input id="enquireIndefYes" type="radio" name="indefinitely" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input id="enquireIndefNo" type="radio" name="indefinitely" value="no" checked>
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+            <div class="form-group">
+              <div class="form-group margin-above--large" id="showEnquireDate" style="display:none;">
+
+                <label class="uikit-text-input__label">Specify dates<span id="lblData8"></span></label>
+                <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
+                <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+
+
+                <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
+                <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-end-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-end-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-end-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+
+
+              </div>
+              <div class="form-group pt-showIfTertiary">
+                <label class="uikit-text-input__label" for="enquireOnline">Would you like your representative to view your information online?</label>
+                <fieldset>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input id="enquireOnlineYes" type="radio" name="enquireOnline" value="yes" checked>
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input id="enquireOnlineNo" type="radio" name="enquireOnline" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+            </div>
+          </div>
+          <!-- end of enquire only q's -->
+
+          <!-- start of Act on behalf q's -->
+          <div id="hideAllAct" style="display:none;">
+
+
+            <div class="form-group">
+              <label class="uikit-text-input__label" for="operation-radios">Which areas of DVA would you like
+                <span class="pt-current-rep-nameFirst"></span> <span class="pt-current-rep-nameLast"></span>
+                to act on?</label>
+            </div>
+
+            <div class="form-group margin-above--large">
+              <p class="uiToolKitCheckBox">
+                <label class="uikit-control-input">
+                  <input id="actAllMatters" class="uikit-control-input__input" type="radio" name="operation-radios" value="">
+                  <span class="uikit-control-input__text">All DVA matters</span>
+                </label>
+              </p>
+              <p class="uiToolKitCheckBox">
+                <label class="uikit-control-input">
+                  <input id="actFinancialOnly" class="uikit-control-input__input" type="radio" name="operation-radios" value="">
+                  <span class="uikit-control-input__text">Health matters only</span>
+                </label>
+              </p>
+            </div>
+
+            <div id="hideThreeQs" style="display:none;">
+
+              <div id="actDate" class="form-group margin-below--large pt-showIfTertiary">
+
+
+                <div id="hideThreeQsMessage" style="display:none;">
+                  <div class="uikit-page-alerts uikit-page-alerts--info">
+                    <p><strong>You have selected for your representative to act on your behalf for health matters only.</strong></p>
+                    <ul>
+                      <li>They will be able to complete medical forms, make or change transport bookings. They can also claim for medical and travel expenses incurred during
+                        treatment.
+                      </li>
+                      <li>They will not be able to see payments received, income and assets or manage your online account.</li>
+                    </ul>
+                  </div>
+                </div>
+                <label class="uikit-text-input__label" for="actIndef">Is this arrangement for a fixed period?</label>
+                <fieldset>
+                  <div class="radio-toggle">
+                    <label class="on label-left">
+                      <input id="actIndefYes" type="radio" name="actIndef" value="yes">
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right">
+                      <input id="actIndefNo" type="radio" name="actIndef" value="no">
+                      <span>No</span>
+                    </label>
+                  </div>
+                </fieldset>
+              </div>
+              <div class="form-group">
+                <div class="form-group margin-above--large" id="showActDate" style="display:none;">
+
+                  <label class="uikit-text-input__label">Specify dates</label>
+                  <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
+                  <input class="uikit-text-input dd" type="number" name="dd-date" id="act-dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="number" name="mm-date" id="act-mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="act-yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                  <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
+                  <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                  <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                  <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+
+                </div>
+
+                <div id="correspondence" class="form-group margin-below--large pt-showIfTertiary">
+                  <label class="uikit-text-input__label" for="corro">Would you like your representative to receive correspondence on your behalf?</label>
+                  <fieldset>
+                    <div class="radio-toggle">
+                      <label class="on label-left">
+                        <input id="corroYes" type="radio" name="corro" value="yes">
+                        <span>Yes</span>
+                      </label>
+                      <label class="off label-right">
+                        <input id="corroNo" type="radio" name="corro" value="no">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </fieldset>
+                </div>
+
+                <div id="receivePayment" class="form-group margin-below--large pt-showIfTertiary">
+                  <label class="uikit-text-input__label" for="paymentBehalf">Would you like your representative to receive payments on your behalf?</label>
+
+                  <fieldset>
+                    <legend class="legend-label">
+                    </legend>
+                    <div class="radio-toggle">
+                      <label class="on label-left">
+                        <input id="paymentBehalfYes" type="radio" name="paymentBehalf" value="yes">
+                        <span>Yes</span>
+                      </label>
+                      <label class="off label-right">
+                        <input id="paymentBehalfNo" type="radio" name="paymentBehalf" value="no">
+                        <span>No</span>
+                      </label>
+                    </div>
+                  </fieldset>
+
+                </div>
+
+                <div id="receivePaymentMessage" style="display:none;">
+                  <div class="uikit-page-alerts" role="alert">
+                    <p><strong>Choosing this option will enable your representative to <a
+                          href="https://www.dva.gov.au/factsheet-leg01b-arrangements-other-people-receive-payments-your-behalf" class="href">receive payments on your behalf.</a>
+                      </strong></p>
+                    <p>You will need to provide one of the following forms:</p>
+                    <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2693.pdf" class="href">Application for an Appointment of an Agent (D2693)</a><br>
+                    <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2505.pdf" class="href">Application for an Appointment of a Trustee D2505)</a> <br>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- end of Act on behalf q's -->
+
+          <!-- start of receive payment q's -->
+
+          <div id="hideAllPayment" style="display:none;">
+
+
+            <div id="showBank1" class="bank-details-container">
+              <div class="uikit-page-alerts" role="alert">
+                <p><strong>Choosing this option will enable your representative to <a
+                      href="https://www.dva.gov.au/factsheet-leg01b-arrangements-other-people-receive-payments-your-behalf" class="href">receive payments on your behalf.</a>
+                  </strong></p>
+                <p>You will need to provide one of the following forms:</p>
+                <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2693.pdf" class="href">Application for an Appointment of an Agent (D2693)</a><br>
+                <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D2505.pdf" class="href">Application for an Appointment of a Trustee D2505)</a> <br>
+              </div>
+            </div>
+
+            <div id="paymentDate" class="form-group margin-above--large pt-showIfTertiary">
+              <label class="uikit-text-input__label" for="paymentIndef">Is this arrangement for a fixed period?</label>
+              <fieldset>
+                <div class="radio-toggle">
+                  <label class="on label-left">
+                    <input id="paymentIndefYes" type="radio" name="paymentIndef" value="yes">
+                    <span>Yes</span>
+                  </label>
+                  <label class="off label-right">
+                    <input id="paymentIndefNo" type="radio" name="paymentIndef" value="no">
+                    <span>No</span>
+                  </label>
+                </div>
+              </fieldset>
+            </div>
+
+            <div class="form-group">
+              <div class="form-group margin-above--large" id="showPaymentDate" style="display:none;">
+
+                <label class="uikit-text-input__label">Specify dates</label>
+                <label class="uikit-text-input__label">Start date <span class="hint">(dd / mm / yyyy)</span></label>
+                <input class="uikit-text-input dd" type="number" name="dd-date" id="pay-dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-date" id="pay-mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="pay-yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                <label class="uikit-text-input__label">End date <span class="hint">(dd / mm / yyyy)</span></label>
+                <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+
+              </div>
+
+            </div>
+        </form>
+      </div>
+
+      <div class="pagination pagination--ss-reverse-order margin-above--large">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="javascript:history.back()">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#warning'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Save and exit</button>
+          <button class="uikit-btn" id="btnNext">Save and next</button>
+        </div>
+      </div>
+
+      <div id="warning" class="modal-window">
+        <div>
+          <a href="#modal-close" title="Close" class="modal-close">Close</a>
+          <h2>Your application will be cancelled</h2>
+          <p>Are you sure you want to cancel this application?</p>
+          <div class="modal-buttons">
+            <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Stay on this page</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/profile/nomrep/'">Leave page</button>
+
+          </div>
+        </div>
+      </div>
+
+
+
+  </main>
+
+
+  <div id="open-example-modal" class="modal-window">
+    <div>
+      <a href="#modal-close" title="Close" class="modal-close">Close</a>
+      <h2> Are you sure you want to cease this arrangement?</h2>
+
+      <p>
+        <span class="pt-current-rep-nameFirst"></span> <span class="pt-current-rep-nameLast"></span>
+        <%# {{Full name}}  %>
+
+        will no longer be able to
+        <span class="pt-current-rep-role"></span>
+
+        <%# {{role type}} on your behalf %>
+
+        .
+      </p>
+      <div class="modal-buttons">
+        <button class="uikit-btn" id="yesCease" onclick="'">Yes, cease representation</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    readRep();
+
+    $(document).ready(function () {
+      if ($("#enquire").is(":checked")) {
+        $('#hideAllEnquire').show("fast");
+        $('.account-one').addClass('icon-tick');
+      }
+    });
+
+
+    $('#yesCease').click(function () {
+
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      var data = ($('.pt-submit-form'));
+
+      writeRep(data);
+
+      window.location.href = '/auth/profile/nomrep/';
+
+
+      // var randomGuid = (guidGenerator());
+      // var timeDelay = 3000;
+      // setTimeout(
+      //   function () {
+      //     // window.location.href = '/auth/profile/nomrep/?cache=' + randomGuid + '#rep-list';
+
+
+      //   }, timeDelay);
+
+    });
+
+
+
+    $('#enquire').click(function () {
+      $('#hideAllEnquire').show("fast");
+      $('.account-one').addClass('icon-tick');
+      $('#hideAllAct').hide();
+      $('#hideAllPayment').hide();
+      $('.account-two').removeClass('icon-tick');
+      $('.account-three').removeClass('icon-tick');
+
+      if ($(window).width() < 990) {
+        $('html, body').animate({
+          scrollTop: $("#hideAllEnquire").offset().top
+        }, 1000)
+      }
+
+    });
+
+    $('#act').click(function () {
+      $('#hideAllEnquire').hide();
+      $('#hideAllPayment').hide();
+      $('#hideAllAct').show("fast");
+      $('.account-two').addClass('icon-tick');
+      $('.account-one').removeClass('icon-tick');
+      $('.account-three').removeClass('icon-tick');
+
+      if ($(window).width() < 990) {
+        $('html, body').animate({
+          scrollTop: $("#hideAllAct").offset().top
+        }, 1000)
+      }
+    });
+
+    $('#paymentOnly').click(function () {
+      $('#hideAllPayment').show("fast");
+      $('#hideAllAct').hide();
+      $('#hideAllEnquire').hide();
+      $('.account-three').addClass('icon-tick');
+      $('.account-one').removeClass('icon-tick');
+      $('.account-two').removeClass('icon-tick');
+
+      if ($(window).width() < 990) {
+        $('html, body').animate({
+          scrollTop: $("#hideAllPayment").offset().top
+        }, 1000)
+      }
+    });
+
+    $('#cease').click(function () {
+      // $('#hideAllPayment').show("fast");
+      $('#hideAllAct').hide();
+      $('#hideAllEnquire').hide();
+      $('#hideAllPayment').hide();
+    });
+
+
+    $('#enquireIndefYes').click(function () {
+      $('#showEnquireDate').show("fast");
+    });
+    $('#enquireIndefNo').click(function () {
+      $('#showEnquireDate').hide();
+    });
+    $('#actIndefNo').click(function () {
+      $('#showActDate').hide();
+    });
+    $('#actIndefYes').click(function () {
+      $('#showActDate').show("fast");
+    });
+    $('#paymentIndefNo').click(function () {
+      $('#showPaymentDate').hide();
+    });
+    $('#paymentIndefYes').click(function () {
+      $('#showPaymentDate').show("fast");
+    });
+
+
+    $('#actAllMatters').click(function () {
+      $('#hideThreeQs').show("fast");
+      $('#receivePayment').show("fast");
+      $('#orgABN').show("fast");
+      // $('#receivePaymentMessage').show("fast");
+      $('#hideThreeQsMessage').hide("fast");
+    });
+    $('#actFinancialOnly').click(function () {
+      $('#hideThreeQs').show("fast");
+      $('#hideThreeQsMessage').show("fast");
+      $('#receivePayment').hide();
+      $('#orgABN').hide();
+      $('#trustee').hide();
+      // $('#receivePaymentMessage').hide("fast");
+    });
+    $('#paymentBehalfYes').click(function () {
+      $('#showBank1').show("fast");
+      $('#receivePaymentMessage').show("fast");
+      $('#receivePaymentMessageWarning').show("fast");
+    });
+    $('#paymentBehalfNo').click(function () {
+      $('#showBank1').hide("fast");
+      $('#receivePaymentMessage').hide("fast");
+      $('#receivePaymentMessageWarning').hide("fast");
+    });
+
+
+
+
+
+    var d = new Date();
+
+    var output = d.getFullYear()
+    var month = d.getMonth() + 1
+    var day = d.getDate()
+
+    $('#dd-date').val(day);
+    $('#mm-date').val(month);
+    $('#yyyy-date').val(output);
+    $('#act-dd-date').val(day);
+    $('#act-mm-date').val(month);
+    $('#act-yyyy-date').val(output);
+    $('#pay-dd-date').val(day);
+    $('#pay-mm-date').val(month);
+    $('#pay-yyyy-date').val(output);
+
+    var queryString = new Array();
+    $(function () {
+      if (queryString.length == 0) {
+        if (window.location.search.split('?').length > 1) {
+          var params = window.location.search.split('?')[1].split('&');
+          for (var i = 0; i < params.length; i++) {
+            var key = params[i].split('=')[0];
+            var value = decodeURIComponent(params[i].split('=')[1]);
+            queryString[key] = value;
+          }
+        }
+      }
+      if (queryString["name"] != null && queryString["technology"] != null) {
+        var newAmount = "";
+        var requestAmount = "";
+        newAmount += queryString["name"];
+        requestAmount += queryString["technology"];
+        $("#lblData").html(newAmount);
+        $("#lblData2").html(requestAmount);
+        $("#lblData3").html(requestAmount);
+        $("#lblData4").html(requestAmount);
+        $("#lblData5").html(requestAmount);
+        $("#lblData6").html(requestAmount);
+        $("#lblData7").html(requestAmount);
+        $("#lblData8").html(requestAmount);
+        if (requestAmount.indexOf('.') != -1) {
+          $("#lblData2").html(requestAmount);
+        } else {
+          $("#lblData2").html(requestAmount);
+        }
+      }
+    });
+
+
+    $('#paymentOnly').click(function () {
+      $('#enquire').prop('checked', false);
+    });
+    $('#act').click(function () {
+      $('#enquire').prop('checked', false);
+    });
+
+    $('#btnNext').click(function () {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      var data = ($('.pt-submit-form'));
+
+      writeRep(data);
+
+      if ($('#cease').is(':checked')) {
+
+        window.location.href = '#open-example-modal'
+      } else if ($('#enquire').is(':checked')) {
+        window.location.href = '/auth/profile/nomrep/form-rep-5'; // not sure
+      } else {
+        window.location.href = '/auth/profile/nomrep/form-rep-4';
+      }
+    });
+
+
+
+
+
+    var repState = getUrlParameter('repState');
+
+    if (repState) {
+
+      localStorage.setItem('repState', repState);
+
+    } else {
+      localStorage.removeItem('repState', repState);
+    }
+
+    if ((localStorage.getItem('repState') == 'new')) {
+      $(".pt-cease-rep").hide();
+    } else {
+      $(".pt-cease-rep").show();
+    }
+
+  </script>
+
+</body>
+
+</html>

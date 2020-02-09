@@ -1,0 +1,115 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Claim representative",
+  progress: {
+    activeItem: 5,
+      points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01"
+      },
+      {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/a-02"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/a-03"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/a-04"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/a-05"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/a-06"
+        },
+      ]
+    }
+}) %>
+
+<p class="margin-above"><b>Do you wish to nominate a claim representative for this claim?</b></p>
+Your representative can receive updates and make queries about this claim on your behalf.
+
+<hr>
+
+<%- include(forms+"yes_no", {
+    label: "Do you wish to nominate a claim representative?",
+    yes_toggle: "#claim-rep",
+    customClass: "margin-above"
+  }) %>
+
+<form id="claim-rep" hidden>
+  <h3>Representative details</h3>
+
+  <%- include(forms+"text", {
+      label: "Given name",
+      hint: "(first name)"
+    }) %>
+
+  <%- include(forms+"text", {
+      label: "Surname",
+      hint: "(last name)"
+    }) %>
+
+  <div class="form-group">
+    <label class="uikit-text-input__label" for="phoneHome">Partner's phone number
+      <span class="hint">(optional)</span>
+      <span class="hint display-block margin-below--none">Please include area code (for example, "03" for Victoria or
+        "04" for
+        Mobile)</span>
+      <select type="phone" class="uikit-text-input uikit-text-input--select-inline" name="countryCode-home"
+        id="countryCode-home">
+        <%- include(partials+"content/phone-areacode") %>
+      </select>
+      <input class="uikit-text-input input-half" name="phoneHome" id="phoneHome" type="phone" value="">
+    </label>
+  </div>
+
+  <%- include(forms+"text", {
+      label: "Email address",
+      hint: "(optional)"
+    }) %>
+
+  <h3>Representative postal address</h3>
+
+  <%- include(forms+"prepop/address", {
+      modifiers: ["allCountries"],
+      label: ""
+    }) %>
+</form>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/a-04",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/a-06",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+<%- include("state-switcher") %>

@@ -1,0 +1,159 @@
+<%- include(templates+"header", {
+  claim: "DHOAS Subsidy Certificate",
+  heading: "Co-owner or borrower"
+}) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Will there be a co-owner/borrower of the property?",
+    tooltip: {
+      content: `<p>A <strong>co-owner</strong> is someone who shares ownership of the property, their name will be on the property title deed.</p><p>A <strong>co-borrower</strong> is someone you plan to sign the loan with, their name will appear on the mortgage documents.</p>`,
+      screenreaderText: "Help"
+    },
+    yes_toggle: "#co-owner--yes",
+    no_toggle: "#save-next"
+  }) %>
+
+  <div id="co-owner--yes" hidden>
+    <h3 class="margin-below">Contact details of co-owner/borrower</h3>
+
+    <%- include(forms+"text", {
+      label: "Title/Rank",
+      id: "title-rank"
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Given name",
+      hint: " (first name)",
+      id: "firstname"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Middle name",
+      hint: " (optional)",
+      id: "middlename"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Surname",
+      hint: " (last name)",
+      id: "lastname"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "Has this co-owner/borrower ever used or been known by any other names?",
+      hint: "For example, name at birth, maiden name, previous married name",
+      modifiers: ["hintNewLine"],
+      yes_toggle: "#previous-names-container",
+      id: "previous-names-q"
+    }) %>
+
+    <%- include(forms+"previous-names", {
+      id: "previous-names",
+      modifiers: ["hidden"]
+    }) %>
+
+    <%- include(forms+"date", {
+      label: "Date of birth",
+      id: "dob"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Email",
+      hint: " (if known)",
+      id: "email"
+    }) %>
+
+    <%- include(forms+"text", {
+      label: "Contact phone number",
+      hint: " (if known)",
+      id: "phone"
+    }) %>
+
+    <%- include(forms+"radio", {
+      label: "Relationship to co-owner/borrower",
+      id: "relationship",
+      boxes: [
+        "Partner (co-owner and/or co-borrower)",
+        {
+          text: "Non-partner co-owner",
+          inject: "#non-partner-co-owner"
+        },
+        {
+          text: "Non-partner co-borrower",
+          inject: "#non-partner-co-borrower"
+        },
+        "Guarantor on loan",
+        "Non-partner point of contact"
+      ]
+    }) %>
+
+    <%- include(forms+"radio", {
+      label: "Is this person also applying for a DHOAS Subsidy Certificate?",
+      id: "also-applying",
+      boxes: [
+        "Yes, to use on this property",
+        "Yes, to use on another property",
+        "No"
+      ]
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "I agree that DVA can discuss my application with this co-owner/borrower.",
+      id: "discuss-with"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "I agree this co-owner/borrower can make decisions about my DHOAS entitlement on my behalf.",
+      id: "make-decisions"
+    }) %>
+
+    <%- include(forms+"yes_no", {
+      label: "Is there another co-owner/borrower of the property?",
+      id: "another-person",
+      both_toggle: "#save-next"
+    }) %>
+
+  </div>
+
+  <p id="save-next" hidden>Choose <b>save and next</b> to continue.</p>
+
+  <div class="margin-below form-group--secondary" id="non-partner-co-owner" hidden>
+    <label>
+      <span class="hint">My non-partner co-owner has</span>
+      <input class="uikit-text-input input-small yyyy" type="number" id="percent-interest"><span class="input-support-text hint">&nbsp;%</span>
+      <span class="hint">interest in the property</span>
+    </label>
+  </div>
+
+  <div class="margin-below form-group--secondary" id="non-partner-co-borrower" hidden>
+    <label>
+      <span class="hint">My non-partner co-borrower has</span>
+      <input class="uikit-text-input input-small yyyy" type="number" id="percent-interest"><span class="input-support-text hint">&nbsp;%</span>
+      <span class="hint">interest in the property</span>
+    </label>
+  </div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/dhoas/asc1"
+      },
+      {
+        text: "Cancel application",
+        link: "#open-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/dhoas/asc3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(templates+"footer") %>

@@ -1,0 +1,69 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Commonwealth Seniors Health Card"
+}) %>
+
+  <%- include(forms+"progress-simple", { percent: 75, modifiers: ["claimPercentage"] }) %>
+
+  <h3 class="margin-below--extra">You are almost done. The last step is to upload supporting documents.</h3>
+
+  <%- include(forms+"progress-multi", {
+    activeItem: 3,
+    points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01",
+        subtext: "Tell us about your circumstances."
+      },
+      {
+        text: "Income details",
+        link: "/auth/claim/cshc/b-01",
+        subtext: "Tell us about your income and account-based pensions."
+      },
+      {
+        text: "Required documents",
+        link: "/auth/claim/cshc/c-01",
+        subtext: "Upload supporting documents for your claim."
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/b-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "#",
+        text: "Review and submit",
+        modifiers: ["floated", "primary", "disabled"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <%- include("state-switcher") %>
+
+  <script>
+    function stateSwitcher() {
+      if (sessionStorage.getItem('cshc-relationship-status') == "Single") {
+        $("#part-c").attr("href", "/auth/claim/cshc/c-02")
+      } else {
+        $("#part-c").attr("href", "/auth/claim/cshc/c-01")
+      }
+    }
+
+  </script>
+
+<%- include(templates+"footer") %>

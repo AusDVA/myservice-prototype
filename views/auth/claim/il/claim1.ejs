@@ -1,0 +1,146 @@
+<%- include(templates+"header", {
+  title: "Initial Liability",
+  heading: "Diagnosis"
+})%>
+
+      <div id="diagnosis">
+
+        <div class="form-group">
+          <label class="uikit-text-input__label" for="tags">What is your diagnosis?
+            <span class="hint"><BR />Start typing the medical term if you know it. Example: 'Acute meniscal tear of the knee'.</span></label>
+          <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+        </div>
+
+        <% 
+          locals.el = {};
+          locals.el.question = 'Did the injury or condition occur on a specific date?'; 
+          locals.el.optionalID = 'single'; %>
+        <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+        <% 
+            locals.el = new Object();
+            locals.el.question = 'When did it happen?';
+            locals.el.optionalID = "single-incident";
+            locals.el.optionalHide = true;%>
+        <%- include(partials+"components/form-elements/date", locals) %>
+
+        <% 
+            locals.el = new Object();
+            locals.el.question = 'Approximately when did you start noticing symptoms?';
+            locals.el.optionalID = "over-time";
+            locals.el.optionalMonthOnly = true;
+            locals.el.optionalHide = true;%>
+        <%- include(partials+"components/form-elements/date", locals) %>
+
+        <% 
+          locals.el = {};
+          locals.el.question = 'Have you received, applied for, or are intending to apply for, compensation outside of DVA for this injury or condition?'; 
+          locals.el.optionalID = 'compensation'; 
+          locals.el.optionalHelp = 'This is where you take legal action against a party for a negligent or wrongful act or omission which has caused you injury.'
+          %>
+        <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+        <% 
+          locals.el = {};
+          locals.el.question = 'Did you have a lawyer represent you for this compensation?'; 
+          locals.el.optionalID = 'lawyer'; 
+          locals.el.optionalHide = true;%>
+        <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+
+        <form id="solicitor-details" style="display: none;">
+          <h2>Lawyer details</h2>
+          <input type="reset" style="display:none">
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="solicitor-name">Lawyer name</label>
+            <input class="uikit-text-input input-half" name="solicitor-name" id="solicitor-name" type="text" value="">
+          </div>
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="solicitor-firm">Firm name</label>
+            <input class="uikit-text-input input-half" name="solicitor-firm" id="solicitor-firm" type="text" value="">
+          </div>
+          
+          <%- include(forms+"prepop/phone-number") %>
+
+          <div class="form-group">
+            <label class="uikit-text-input__label" for="solicitor-email">Email address</label>
+            <input class="uikit-text-input input-half" name="solicitor-email" id="solicitor-email" type="text" value="">
+          </div>
+        </form>
+
+      </div>
+
+      <!-- Document list-->
+      <div class=" pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/'">Save and exit</button><button class="uikit-btn btnNext"
+            onclick="window.location.href = '/auth/claim/il/claim1a'">Save and next</button>
+        </div>
+      </div>
+
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+
+      <%- include(partials+"content/modals/claims-removefile-modal") %>
+
+    </div>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+
+  <script src="/docs/js/jquery-ui.min.js"></script>
+
+  <script src="/docs/js/claims.js"></script>
+
+  <script>
+    $("#single-yes").click(function () {
+      $("#single-incident").show("fast");
+      $("#over-time").hide();
+    });
+    $("#single-no").click(function () {
+      $("#single-incident").hide();
+      $("#over-time").show("fast");
+    });
+
+    $("#requiredDocs-yes").click(function () {
+      $(".pt-upload-list").show("fast");
+    });
+
+    $("#other_docs-yes").click(function () {
+      $(".pt-upload-other-docs").show("fast");
+    });
+    $("#other_docs-no").click(function () {
+      $(".pt-upload-other-docs").hide("fast");
+    });
+
+    $("#add-another-doc").click(function () {
+      $(".pt-medical-prac").toggle("fast");
+    });
+
+    $('input[name=compensation]').change(function () {
+      var compensation = $('input[name=compensation]:checked').val();
+      $('input[name = lawyer]').prop('checked', false);
+      $("#solicitor-details").hide();
+      if (compensation == "yes") {
+        $("#lawyer").show("fast");
+      } else {
+        $("#lawyer").hide("fast");
+      }
+    });
+
+    $('input[name=lawyer]').change(function () {
+      var lawyer = $('input[name=lawyer]:checked').val();
+      $("#solicitor-details").trigger("reset");
+      if (lawyer == "yes") {
+        $("#solicitor-details").show("fast");
+      } else {
+        $("#solicitor-details").hide("fast");
+      }
+    });
+
+  </script>
+</body>
+
+</html>

@@ -2,10 +2,10 @@
 <html class="js" lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta content="width=device-width" name="viewport">
   <title>Home | MyService</title>
+
   <link href="/docs/css/main.css" rel="stylesheet">
+
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -15,313 +15,242 @@
   <nav class="uikit-skip-link">
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
-  <% include ../global/partials/header-topbar.ejs %>
-  <% include ../global/partials/header-authenticated.ejs %>
-  <main>
-    <div class="authenticated-home section-feature section-feature--bg">
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <div class="mys-page-preloader">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation" />
+  </div>
+
+  <main class="page-loading">
+
+    <div class="authenticated-home authenticated-home--clear">
       <section>
-        <div class="container" id="main-content">
-          <h1>
-            <span class="heading" style="font-size:20px; border-bottom:2px solid orange;">Welcome Robert Johnson</span>
-          </h1>
-          <br>
-        </div>
-      </section>
-
-      <div class="container">
-        <section class="widget">
-          <div class="widget-header">
-            <h2>
-              <span class="widget-header__title">
-                <img src="../../../docs/images/ico-claims.svg" alt="">Claim activity
-              </span>
-              <span class="widget-actions floated">
-                <button class="uikit-btn small widget-btn" onclick="window.location.href = '/claims'">Make a claim</button>
-              </span>
-            </h2>
-          </div>
-          <div class="row widget-content">
-            <div class="col-md-12 widget--noclaims">
-              <p id="no-claims" class="text-fullwidth">Making a claim is the first step to accessing entitlements.
-                <a href="/claims">Add a claim</a>
-              </p>
-
-              <table id="claims" class="table-claims table-responsive">
-                <thead>
-                  <tr>
-                    <th class="widget-activity">Most recent claims</th>
-                    <th class="widget-actions">Actions</th>
-                  </tr>
-                </thead>
-                <tr id="qs-claim">
-                  <td>
-                    <p class="status-icon status-approved">
-                      Qualifying Service
-                      <br />
-                      <span>Approved
-                        <em>&ndash; 3 May 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'qs-claimdetail'">View</button>
-                  </td>
-                </tr>
-                <tr id="incap-claim">
-                  <td>
-                    <p class="status-icon status-incomplete">
-                      Incapacity Payments
-                      <br />
-                      <span>Incomplete
-                        <!-- <em>&ndash; Action Required</em> -->
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-resume'">Resume</button>
-                    <!-- <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-summary'">View</button> -->
-                    <!-- <button class="uikit-btn small uikit-btn--tertiary" id="button-withdrawclaimmodal">Withdraw</button> -->
-                  </td>
-                </tr>
-                <tr id="incap-claim-submitted">
-                  <td>
-                    <p class="status-icon status-submitted">
-                      Incapacity Payments
-                      <br />
-                      <span>Submitted
-                        <em>&ndash; 27 November 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'incap-summary'">View</button>
-                  </td>
-                </tr>
-                <tr id="lsq-claim">
-                  <td>
-                    <p class="status-icon status-incomplete">
-                      Permanent Impairment Lifestyle Assessment
-                      <br />
-                      <span>Incomplete
-                        <em>&ndash; 3 May 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'pi-lsq-start'">Resume</button>
-                  </td>
-                </tr>
-                <tr id="lsq-claim-submitted">
-                  <td>
-                    <p class="status-icon status-submitted">
-                      Permanent Impairment Lifestyle Assessment
-                      <br />
-                      <span>Submitted
-                        <em>&ndash; 3 May 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewPI-LSQ-detail'">View</button>
-                  </td>
-                </tr>
-                <tr id="nlhc-claim-approved">
-                  <td>
-                    <p class="status-icon status-approved">
-                      Mental Health Treatment (NLHC)
-                      <br />
-                      <span>Approved
-                        <em>&ndash; 3 May 2018</em>
-                      </span>
-                    </p>
-                  </td>
-                  <td class="widget-actions">
-                    <button class="uikit-btn small uikit-btn--tertiary" onclick="window.location.href = 'viewNLHCClaimDetail'">View</button>
-                  </td>
-                </tr>
-              </table>
-
+        <div class="margin-above--large">
+          <div class="container intro">
+            <h1 class="heading--greeting"><span id="lblGreetings"></span> <span
+                class="pt-current-user-name-first"></span></h1>
+            <div class="flex-container widgets-container">
+              <%- include(partials+"content/widget-tile-message-veteran-payment") %>
             </div>
+            <div class="flex-container widgets-container">
+              <%- include(partials+"content/widget-tile-message-welcome") %>
+              <%- include(partials+"content/widget-tile-message-profile") %>
+
+              <%- include(partials+"content/widget-tile-task") %>
+              <%- include(partials+"content/widget-tile-claim") %>
+              <%- include(partials+"content/widget-tile-payment") %>
+              <%- include(partials+"content/widget-tile-profile") %>
+            </div>
+            <hr class="home__seperator">
           </div>
-        </section>
-      </div>
+      </section>
     </div>
-    <div>
-      <div class="container margin-below--extra">
 
-        <h2 class="margin-above margin-below--none ss-align--center">
-          <span class="font-weight-heavy">What would you like to&nbsp;do?</span>
-        </h2>
+    <section id="claim-options">
+      <div class="container" id="claims-tiles">
+        <h2 class="ss-align--center margin-above--none">Claims &amp; applications</h2>
         <div class="flex-container flex-container--wrap hover-container">
+          <% 
+            locals.el = {};
+            locals.el.title = "Initial liability";
+            locals.el.optionalID = "il";
+            locals.el.body_text = "Your first step towards treatment and support for a service-related injury or condition.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/il/claim1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+          <% 
+            locals.el = {};
+            locals.el.title = "Veteran payment";
+            locals.el.optionalID = "vp";
+            locals.el.body_text = "Interim financial support while you wait for your initial liability determination.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/veteran-payment/veteran-payment-01";
+          %>
+          <%- include(partials+"components/claim-tile") %>
 
+          <% if (locals.liveFeature.includes("PITile")) { %>
+          <% 
+              locals.el = {};
+              locals.el.title = "Permanent impairment";
+              locals.el.optionalID = "pi";
+              locals.el.body_text = "Apply for compensation for ongoing impairments that are impacting your lifestyle.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/permanent-impairment/permanent-impairment-01";
+            %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
 
-          <div class="flex-item flex-item--centred card card--medium hover-element" id="nlhc-access">
-            <a href="/veteran-card-eligibility">
-              <figure>
-                <img class="card__image" src="../../../docs/images/ico-db-card.svg" alt="">
-              </figure>
-              <h2 class="card__title">
-                <span>Request a Veteran Card</span>
-              </h2>
-            </a>
-            <p class="card__supporting-text">The Veteran Card makes it easier to recognise and respect the unique contribution you have made to Australia.</p>
-          </div>
+          <% 
+            locals.el = {};
+            locals.el.title = "Mental health treatment";
+            locals.el.optionalID = "mental-health";
+            locals.el.body_text = "Access free mental health treatment.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/mental-health-eligibility";
+          %>
+          <%- include(partials+"components/claim-tile") %>
 
-          <div class="flex-item flex-item--centred card card--medium hover-element" id="nlhc-access">
-            <a href="/mental-health-eligibility">
-              <figure>
-                <img class="card__image" src="../../../docs/images/ico-db-treatment.svg" alt="">
-              </figure>
-              <h2 class="card__title">
-                <span>Access mental health treatment</span>
-              </h2>
-            </a>
-            <p class="card__supporting-text">Get immediate mental health treatment without the need to&nbsp;claim.</p>
-          </div>
+          <% 
+            locals.el = {};
+            locals.el.title = "Veteran Covenant";
+            locals.el.optionalID = "covenant";
+            locals.el.body_text = "Request the Covenant Oath, Lapel Pin and Veteran Card as recognition of your service.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/veterancard/vrp1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
 
-          <div class="flex-item flex-item--centred card card--medium hover-element">
-            <a href="/profile">
-              <figure>
-                <img class="card__image" src="../../../docs/images/ico-db-profile.svg" alt="">
-              </figure>
-              <h2 class="card__title">
-                <span>Review your profile</span>
-              </h2>
-            </a>
-            <p class="card__supporting-text">Keep your profile up to date so we can help&nbsp;you.</p>
-          </div>
+          <% 
+            locals.el = {};
+            locals.el.title = "Incapacity payments";
+            locals.el.optionalID = "incap";
+            locals.el.body_text = "Get compensated for your inability or reduced ability to work because of a service injury or condition.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/incap/before-start";
+          %>
+          <%- include(partials+"components/claim-tile") %>
 
+          <% 
+            locals.el = {};
+            locals.el.title = "Disability pension - application for increase";
+            locals.el.optionalID = "increase-disability";
+            locals.el.body_text = "Apply for a payment increase to your disability pension.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/afi/afi1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+
+          <% 
+            locals.el = {};
+            locals.el.title = "Education assistance";
+            locals.el.optionalID = "education";
+            locals.el.body_text = "Apply for assitance with the cost of education for children of eligible veterans.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/education-assistance/edu1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+
+          <% 
+
+            locals.el = {};
+            locals.el.title = "Qualifying service";
+            locals.el.optionalID = "qs";
+            locals.el.body_text = "Submit a claim to determine if you have qualifying service.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/qualifying-service/qs1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+
+          <% if (locals.liveFeature.includes("SPTile")) { %>
+
+          <% 
+            locals.el = {};
+            locals.el.title = "Service pension";
+            locals.el.optionalID = "service-pension";
+            locals.el.body_text = "Apply for age or invalidity service pension.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/service_pension/sp-progress-a";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
+
+          <% if (locals.liveFeature.includes("PPTile")) { %>
+          <% 
+            locals.el = {};
+            locals.el.title = "Partner pension";
+            locals.el.optionalID = "partner-pension";
+            locals.el.body_text = "Apply for partner service pension.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/service_pension/sp-progress-a";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
+
+          <%
+            locals.el = {};
+            locals.el.title = "Civilian qualifying service";
+            locals.el.optionalID = "civilian-qs";
+            locals.el.body_text = "Submit a claim to determine if you have qualifying service.";
+            locals.el.button_text = "Get started";
+            locals.el.link = "/auth/claim/civilian-qualifying-service/cqs1";
+          %>
+          <%- include(partials+"components/claim-tile") %>
+
+          <% 
+          locals.el = {};
+          locals.el.title = "Commonwealth Seniors Health Card";
+          locals.el.optionalID = "cshc";
+          locals.el.body_text = "Apply for the Commonwealth Seniors Health Card";
+          locals.el.button_text = "Get started";
+          locals.el.link = "/auth/claim/cshc/prog-01";
+        %>
+          <%- include(partials+"components/claim-tile") %>
+
+          <% if (locals.liveFeature.includes("LSATile")) { %>
+          <% 
+              locals.el = {};
+              locals.el.title = "Lump sum advance";
+              locals.el.optionalID = "lump-sum";
+              locals.el.body_text = "Request a lump sum advance payment.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/lsa/request";
+            %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
+
+            <% if (locals.liveFeature.includes("LSATile")) { %>
+            <% 
+              locals.el = {};
+              locals.el.title = "Support for employment";
+              locals.el.optionalID = "Support-Employment";
+              locals.el.body_text = "Apply for employment support transitioning into the civilian workforce.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/support-for-employment/sfe-01";
+            %>
+            <%- include(partials+"components/claim-tile") %>
+            <% } %>
+          
+          <% if (locals.liveFeature.includes('featureNomrep')) { %>
+          <% 
+              locals.el = {};
+              locals.el.title = "Representation";
+              locals.el.optionalID = "representation";
+              locals.el.body_text = "Allows someone to represent you or you can help someone in dealing with DVA matters.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/profile/nomrep";
+            %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
+          <% if (locals.liveFeature.includes('featureDhoas')) { %>
+          <% 
+              locals.el = {};
+              locals.el.title = "Defence Home Ownership Assistance Scheme";
+              locals.el.optionalID = "dhoas";
+              locals.el.body_text = " Apply for subsidy certificate to assist with the interest of your home loan.";
+              locals.el.button_text = "Get started";
+              locals.el.link = "/auth/claim/dhoas/landing-page";
+            %>
+          <%- include(partials+"components/claim-tile") %>
+          <% } %>
+          <% 
+            locals.el = {};
+            locals.el.title = "Defence Service Home Insurance Scheme";
+            locals.el.optionalID = "insurance";
+            locals.el.body_text = "Apply for home, contents and other insurance policies.";
+            locals.el.button_text = "<span class='external-link hover-none'>Defence Service Homes website</span>";
+            locals.el.link = "http://www.dsh.gov.au/insurance";
+          %>
+          <%- include(partials+"components/claim-tile") %>
         </div>
-
       </div>
+    </section>
+
   </main>
-
-  <% include ../global/partials/footer.ejs %>
+  <%- include(partials+"components/layout/footer") %>
 </body>
-<script>
-
-  $(document).ready(function () {
-    localStorage.clear();
-
-    var user = getUrlParameter('user');
-    if (user) {
-      localStorage.setItem('user', user);
-    }
-
-    $("#claims").hide();
-    $("#qs-claim").hide();
-    $("#nlhc-claim-approved").hide();
-    $("#incap-claim").hide();
-    $("#incap-claim-submitted").hide();
-    $("#lsq-claim").hide();
-    $("#lsq-claim-submitted").hide();
-
-    if (localStorage.getItem('user') === 'QSuser') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#nlhc-claim-approved").hide();
-      $("#incap-claim").hide();
-      $("#incap-claim-submitted").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#qs-claim").show();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'LSQuser') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#lsq-claim").show();
-      $("#incap-claim").hide();
-      $("#incap-claim-submitted").hide();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'LSQuser-submitted') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#incap-claim").hide();
-      $("#incap-claim-submitted").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").show();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'INCAPuser-incomplete') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#incap-claim").show();
-      $("#incap-claim-submitted").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else if (localStorage.getItem('user') === 'INCAPuser-submitted') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#nlhc-claim-approved").hide();
-      $("#incap-claim").hide();
-      $("#incap-claim-submitted").show();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-
-    else if (localStorage.getItem('user') === 'NLHCuser-approved') {
-      $("#no-claims").hide();
-      $("#claims").show();
-      $("#qs-claim").hide();
-      $("#incap-claim").hide();
-      $("#incap-claim-submitted").hide();
-      $("#lsq-claim").hide();
-      $("#lsq-claim-submitted").hide();
-      $("#nlhc-claim-approved").show();
-      $("#nlhc-access").hide();
-      $(".widget-content").addClass("widget--justclaims");
-      $(".widget-content").find(".widget--noclaims").removeClass("widget--noclaims");
-    }
-    else {
-      $("#no-claims").show();
-      $("#claims").hide();
-      $("#qs-claim").hide();
-    }
-  });
-
-  $(document).ready(function () {
-    const hoverContainer = document.getElementsByClassName('hover-container')[0]
-    const hoverElements = document.getElementsByClassName('hover-element')
-
-    Array.prototype.forEach.call(hoverElements, hoverElement => {
-      hoverElement.addEventListener('mouseover', (event) => {
-        hoverElement.classList.add('hover-element--active')
-      })
-
-      hoverElement.addEventListener('mouseout', (event) => {
-        hoverElement.classList.remove('hover-element--active')
-      })
-    })
-
-    hoverContainer.addEventListener('mouseover', (event) => {
-      if (event.target !== hoverContainer) {
-        hoverContainer.classList.add('hover-container--faded')
-      }
-    })
-
-    hoverContainer.addEventListener('mouseout', (event) => {
-      hoverContainer.classList.remove('hover-container--faded')
-    })
-  });
-
-</script>
+<%- include("index-state-switcher") %>
 
 </html>

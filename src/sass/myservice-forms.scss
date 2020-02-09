@@ -5,12 +5,14 @@
 
 // Button styling
 .uikit-body {
+  background: $white !important;
+
   .uikit-btn {
     background-color: $blue;
     border: 1px solid $blue;
     color: $white;
 
-    // Not sure the idea here. It causes alignment issues in http://localhost:5000/index-claims.
+    // Not sure the idea here. It causes alignment issues in http://localhost:5000/auth.
     // Probably not a good idea to do this to every button
     // margin-top: .5rem;
     span {
@@ -25,7 +27,7 @@
     &:disabled {
       background-color: $gray-light !important;
       border: 1px solid $gray-mid;
-      color: $gray;
+      color: $gray !important;
 
       &:focus,
       &:hover {
@@ -54,9 +56,9 @@
   }
 
   .uikit-btn__middle-image {
+    border: 0;
     padding-left: 3px;
-		width: 16px;
-		border: 0;
+    width: 16px;
   }
 
   .uikit-btn__highlight-text {
@@ -75,7 +77,21 @@
       .uikit-btn__highlight-text {
         color: $white;
       }
+
+      span {
+        color: $white;
+      }
     }
+
+    span {
+      margin: 0;
+    }
+  }
+
+  .reversed {
+    background-color: $blue;
+    border: 1px solid $white;
+    color: $white;
   }
 
   .uikit-btn--secondary {
@@ -98,6 +114,17 @@
     }
   }
 
+  .uikit-btn--full-on-small {
+    @media screen and (min-width: $AU-media-sm) {
+      // display: inline-block;
+      width: auto;
+    }
+
+    width: 100%;
+
+
+  }
+
   // Styling for Borderless button eg. Cancel button used across Add Cover pages
   .uikit-btn--borderless {
     background-color: $white;
@@ -112,11 +139,15 @@
     &:hover {
       background-color: $uikit-colour-Link;
     }
-	}
+  }
 
-	hr {
-		border-top-color: $gray-mild;
-	}
+  hr {
+    border-top-color: $gray-mild;
+  }
+
+  .panel-margin {
+    margin-bottom: 2em;
+  }
 }
 
 .small {
@@ -125,44 +156,68 @@
   padding: 0.5em 0.8em;
 }
 
+.warning {
+  border-color: #f00 !important;
+  color: #f00 !important;
+
+  &:focus,
+  &:hover {
+    background-color: #f00 !important;
+    border-color: #f00 !important;
+    color: $white !important;
+  }
+}
+
 // Container for navigation buttons at bottom of screen
 
 .pagination {
-  border-top: 1px solid $gray-mild !important;
+  border-top: 1px solid $gray-mild;
   clear: both;
   margin: 2em 0;
-	padding-top: 2em;
-	text-align: left;
+  padding-top: 2em;
+  text-align: left;
 
   // Remove bolding from selected radios
-  label {
-    font-weight: normal !important;
-  }
+  // a) this doesn't work, b) it's a bad idea. 
+  // label {
+  //   font-weight: normal !important;
+  // }
 
   @media only screen and (min-width: $small-handheld) {
     .uikit-btn {
-      padding: .8em 0.6em !important;
+      margin-right: .5em;
+      padding: 0.8em 0.6em !important;
     }
+
     .uikit-btn--borderless {
-      padding: 0em !important;
+      padding: 0 !important;
+    }
+
+    .floated {
+      .uikit-btn {
+        &:last-child {
+          margin-right: 0;
+        }
+      }
     }
   }
 
   @media only screen and (min-width: $medium-handheld) {
     .uikit-btn {
-      padding: .8em 1.2em !important;
+      padding: 0.8em 1.2em !important;
     }
+
     .uikit-btn--borderless {
-      padding: 0em !important;
+      padding: 0 !important;
     }
   }
 }
 
 // sorry for the max-width here, but this is really only for mobile.
-@media only screen and (max-width: $uikit-media-xs) {
+@media only screen and (max-width: $uikit-media-sm) {
   .pagination {
     .uikit-btn {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
   }
 
@@ -170,9 +225,11 @@
     display: flex;
     flex-flow: column-reverse;
 
-    .floated:not(button) {
-      display: flex;
-      flex-flow: column-reverse;
+    .floated {
+      &:not(button) {
+        display: flex;
+        flex-flow: column-reverse;
+      }
     }
   }
 }
@@ -180,7 +237,7 @@
 #optional-fields-message {
   margin: -1.5em 0 2em;
 
-  + p.sub-fields-message {
+  +p.sub-fields-message {
     margin-bottom: 0;
   }
 }
@@ -236,6 +293,7 @@
 // For embedding the show password button within password field
 
 @media only screen and (min-width: $small-handheld) {
+
   .show-password,
   .send-code {
     display: inline-block !important;
@@ -250,12 +308,17 @@
 // Gap between each label and input pair
 .form-group {
   clear: both;
-  margin: .5em 0 1em;
+  margin: $form-margin;
   position: relative;
+  ;
 }
 
 .form-group--secondary {
-  margin-left:2.5em;
+  margin-left: 2.5em;
+}
+
+.form-group--right-aligned {
+  text-align: right;
 }
 
 // Input styling
@@ -269,30 +332,40 @@ textarea {
 
   &:hover,
   &:focus {
-    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 8px 1px $rgba-black-20;
   }
 }
 
-input[type='text'],
-input[type='name'],
-input[type='date'],
-input[type='tel'],
-input[type='email'],
-input[type='number'],
-input[type='phone'],
-input[type='password'],
-input[type='url'],
-input[type='search'],
+// conforming button styles
+input[type="button"],
+input[type="submit"],
+input[type="reset"] {
+  line-height: initial;
+}
+
+input[type="text"],
+input[type="name"],
+input[type="date"],
+input[type="tel"],
+input[type="email"],
+input[type="number"],
+input[type="phone"],
+input[type="password"],
+input[type="url"],
+input[type="search"],
 textarea,
 select,
 .typeahead {
   border: 1px solid $gray-mild !important; // codesmell; why is this important?
-  border-radius: 4px;
+  border-radius: $uikit-border-radius;
+  box-sizing: border-box;
   color: $gray;
   margin: 0 1em 0.4em 0; // now zero top margin to come in line with DTA
   max-width: 42em;
   padding: 0.6em 0.4em;
-  width: 90%;
+  // width: 90%;
+  width: 100%;
+
 
   &:focus,
   &:hover {
@@ -318,7 +391,7 @@ select,
 .input-support-text {
   font-size: 1.4em;
   position: relative;
-  top: .1em;
+  top: 0.1em;
 }
 
 .input-support-text--middle {
@@ -328,7 +401,13 @@ select,
 }
 
 .input-support-text--after {
-  margin-left: -.6em;
+  margin-left: -0.6em;
+}
+
+select {
+  &.uikit-text-input {
+    height: 45px;
+  }
 }
 
 // start jQuery override
@@ -354,22 +433,26 @@ select,
   padding: 0.75em 1.5em;
 }
 
-.ui-state-highlight { // TODO:: Remove. It's not used in the repo
+.ui-state-highlight {
+  // TODO:: Remove. It's not used in the repo
   background-color: $orange-light;
 }
 
-.ui-helper-hidden-accessible { // TODO:: Remove. It's not used in the repo
+.ui-helper-hidden-accessible {
+  // TODO:: Remove. It's not used in the repo
   display: none;
 }
 
 // end jQuery override
 
 @include uikit-media(xs) {
+
   input,
   select,
   textarea {
+
     &.input-half,
-    &[type=phone] {
+    &[type="phone"] {
       max-width: 22em;
       width: 45%;
     }
@@ -378,6 +461,8 @@ select,
       width: auto;
     }
   }
+
+
 
   input {
     &.input-small {
@@ -398,16 +483,16 @@ select,
       margin: $margin-zero;
     }
 
-    &[type='number'] {
+    &[type="number"] {
       appearance: textfield;
     }
   }
 }
 
-
 input,
 select,
 textarea {
+
   &.input-half,
   &[type='phone'] {
     width: 90%;
@@ -444,23 +529,23 @@ label {
 
 // Style legends to appear like labels
 .legend-label {
+  display: inline-block;
   font-size: 1rem;
   font-weight: bold;
-	margin-bottom: .8em;
-	width: 100%;
-	display: inline-block;
+  margin-bottom: 0.8em;
+  width: 100%;
 }
 
 .legend-h3 {
   font-size: 1.17rem;
   font-weight: bold;
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
 }
 
 .legend-label--light {
   font-size: 1rem;
   font-weight: normal;
-  margin-bottom: .8em;
+  margin-bottom: 0.8em;
 
   .hint {
     color: $gray-mid;
@@ -483,14 +568,15 @@ label {
 .breakout {
   background: $gray-light;
   margin: 0 0 30px;
-	padding: 2.5em 2em 1em 2em;
-	&::after {
-		content: ' ';
-		visibility: hidden;
-		display: block;
-		height: 0;
-		clear: both;
-	}
+  padding: 2.5em 2em 1em 2em;
+
+  &::after {
+    clear: both;
+    content: $content-blank;
+    display: block;
+    height: 0;
+    visibility: hidden;
+  }
 
   .hint {
     display: block;
@@ -514,15 +600,17 @@ label {
 
 // Size of radio and checkbox span labels
 .uikit-control-input__text {
+  display: block;
   font-size: 1rem;
   font-weight: normal;
   margin: 0;
-  padding: 0 .5rem .5rem 2.5rem;
-  display: block;
+  padding: 0 0.5rem 0.5rem 2.5rem;
 }
 
 // Width of select boxes for drop downs that appear within a sentence eg. Add cover - Diagnosis
-.uikit-text-input__dropdowns { // TODO:: Remove. It's not used in the repo
+.uikit-text-input__dropdowns {
+
+  // TODO:: Remove. It's not used in the repo
   select {
     display: block;
     width: 210px;
@@ -560,7 +648,18 @@ label {
   margin-right: 0 !important;
   width: 2em !important;
 }
+.ss {
+  width: 3em !important;
+  text-align: center;
+}
 
+.ss-text{
+  float: left;
+  margin-top: 10px
+}
+.ss-box{
+  float: left;
+}
 .yyyy {
   width: 4em !important;
 }
@@ -620,12 +719,13 @@ label {
 }
 
 @media only screen and (min-width: $medium-handheld) {
-  .uikit-text-input__dropdowns { // TODO:: Remove. It's not used in the repo
+  .uikit-text-input__dropdowns {
+
+    // TODO:: Remove. It's not used in the repo
     select {
       display: inline;
 
       // width: 210px; // width doesn't work for inline elements
-
     }
   }
 }
@@ -638,28 +738,20 @@ label {
 
 // Radio button tiles
 .radio-tile--group {
-  margin: 1em 0 0;
-
-  // input[type='radio'] {
-  //   display: none;
-  // }
+  display: flex;
+  //margin: 1em 0 0;
 
   label {
-    position: relative;
-  }
 
-  span {
-    border: 1px solid $gray-mild;
-    border-radius: 3px;
-    display: inline-block;
+
+    display: block;
     margin: 0 1em 1em 0;
-    min-width: 91%;
-    padding: 1em;
+    min-width: 170px;
+    position: relative;
     text-align: center;
 
     &:hover {
       background-color: $gray-light;
-      border: 1px solid $blue;
       cursor: pointer;
     }
 
@@ -672,18 +764,89 @@ label {
     }
   }
 
-  input[type='radio']:checked + span {
-    background: $gray-light url("../images/ico-tick-blue-solid.svg") no-repeat;
-    border: 1px solid $blue;
-    background-position: right 10px top 10px;
-    background-size: 30px 30px;
+
+  span {
+    border: 1px solid $gray-mild;
+    border-radius: $uikit-border-radius;
+    display: block;
+    height: 100%;
+    padding: 1em;
   }
 
-  input[type='radio']:focus + span {
-    background: $gray-light url("../images/ico-tick-blue-solid.svg") no-repeat;
-    border: 1px solid $green;
-    background-position: right 10px top 10px;
-    background-size: 30px 30px;
+
+  input {
+    &[type='radio'] {
+
+      &:checked+span,
+      &:focus+span {
+        background: $gray-light url("../images/ico-tick-blue-solid.svg") no-repeat;
+        background-position: right 10px top 10px;
+        background-size: 30px 30px;
+        border: 1px solid $green;
+        border-radius: $uikit-border-radius;
+        height: 100%;
+      }
+    }
+  }
+}
+
+.radio-tile {
+
+  // I know this isn't BEM but the angular devs couldn't get .radio-tile__icon to work with this component 
+  .radio_tile__icon {
+    display: block;
+    padding: .4em;
+  }
+
+  .radio_tile__icon--padding {
+    padding: 15px 0;
+  }
+}
+
+
+
+.radio-tile-group--four,
+.radio-tile-group--three {
+  &.radio-tile--group {
+    display: block;
+  }
+}
+
+@include uikit-media(md) {
+
+  .radio-tile-group--four,
+  .radio-tile-group--three {
+    &.radio-tile--group {
+      display: flex;
+
+      label {
+        flex: 1;
+
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+    }
+  }
+}
+
+
+
+.radio-tile-group--equal-width-height {
+  .radio-tile {
+    icon {
+      // display: block;
+      // padding: .4em;
+    }
+
+    span {
+      min-width: 220px;
+    }
+
+    p {
+      font-weight: normal;
+    }
+
   }
 }
 
@@ -693,22 +856,23 @@ label {
   }
 }
 
-.file-upload__input {
+
+.file-upload__input,
+.file-upload-default__input {
   display: none;
   height: 0.1px;
   overflow: hidden;
   position: absolute;
   width: 0.1px;
   z-index: -1;
-}
 
-.file-upload__input + label {
-  cursor: pointer;
-  font-weight: normal;
-  line-height: normal;
-  white-space: nowrap;
+  &+label {
+    cursor: pointer;
+    font-weight: normal;
+    line-height: normal;
+    white-space: nowrap;
+  }
 
-  // overflow: hidden;
 }
 
 .file-upload__label {
@@ -724,37 +888,6 @@ label {
   }
 }
 
-@media only screen and (min-width: 646px) {
-  .radio-tile--group {
-    span {
-      min-width: 150px;
-    }
-  }
-}
-
-@media only screen and (min-width: 768px) {
-  .radio-tile--group {
-    span {
-      min-width: 180px;
-    }
-  }
-}
-
-@media only screen and (min-width: 992px) {
-  .radio-tile--group {
-    span {
-      min-width: 210px;
-    }
-  }
-}
-
-@media only screen and (min-width: 1200px) {
-  .radio-tile--group {
-    span {
-      min-width: 210px;
-    }
-  }
-}
 
 .select-container {
   display: inline;
@@ -768,10 +901,10 @@ label {
     appearance: none;
     background: $white;
     border: 0;
-    border-radius: 3px;
+    border-radius: $uikit-border-radius;
     font-size: 1em;
     font-weight: bold;
-    padding: .8em 1.2em;
+    padding: 0.8em 1.2em;
     width: 100%;
 
     &::-ms-expand {
@@ -783,39 +916,17 @@ label {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 8px solid $black;
-    content: '';
+    content: $content-blank;
     height: 0;
     opacity: 0.5;
     pointer-events: none;
     position: absolute;
     right: 2em;
-    top: .3em;
+    top: 0.3em;
     width: 0;
   }
 }
 
-.select-container {
-  display: inline;
-  position: relative;
-
-  label {
-    font-weight: normal;
-  }
-
-  &::after {
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 8px solid $black;
-    content: '';
-    height: 0;
-    opacity: 0.5;
-    pointer-events: none;
-    position: absolute;
-    right: 2em;
-    top: .3em;
-    width: 0;
-  }
-}
 
 .mys-dropdown {
   position: relative;
@@ -824,13 +935,13 @@ label {
     border-left: 5px solid transparent;
     border-right: 5px solid transparent;
     border-top: 8px solid $black;
-    content: '';
+    content: $content-blank;
     height: 0;
     opacity: 0.5;
     pointer-events: none;
     position: absolute;
     right: 1.7em;
-    top: .3em;
+    top: 0.3em;
     width: 0;
   }
 }
@@ -839,10 +950,10 @@ label {
   appearance: none;
   background: $white;
   border: 0;
-  border-radius: 3px;
+  border-radius: $uikit-border-radius;
   font-size: 1em;
   font-weight: bold;
-  padding: 0.5em 3em 0.5em .8em;
+  padding: 0.5em 3em 0.5em 0.8em;
   width: auto;
 
   &::-ms-expand {
@@ -863,28 +974,334 @@ label {
   }
 
   .mys-dropdown__select {
+    color: $blue;
     font-size: 1.3em;
     font-weight: normal;
-    color: $blue;
   }
 }
 
 //margin between buttons/formgroup
-.feedback-margin{
-  padding-bottom:20px;
+.feedback-margin {
+  padding-bottom: 20px;
 }
 
 .sign-dollar {
   font-size: 1.2em;
 }
 
-.uikit-body .panel-margin{
-  margin-bottom: 2em;
+
+
+.pipe {
+  margin-left: 15px;
 }
 
-.testbg{
-  background:#eee;
+#myaccount-content {
+  input {
+    width: 90% !important;
+  }
 }
-.pipe{
-  margin-left:15px;
+
+.radio-icons {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.radio-icon {
+  width: 100%;
+  margin-bottom: 0.25em;
+}
+
+.radio-icon__label {
+  display: flex;
+  padding: 1em 1.25em;
+  flex-direction: row;
+  border: 1px solid $gray-mild;
+  border-radius: $uikit-border-radius;
+  position: relative;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: $gray-mild;
+    border-color: #2868b0;
+  }
+
+  .radio_icons__icon {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    font-size: 1.75em;
+  }
+}
+
+.radio-icon__text {
+  word-break: break-word;
+  margin-left: 0.5em;
+  display: flex;
+  padding-left: 0.5em;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.radio-icon__control {
+  display: none;
+}
+
+.radio-icon__control:checked ~ .radio-icon__label {
+  border-color: #2868b0;
+
+  &:before {
+    position: absolute;
+    right: 10px;
+    content: "\f058";
+    color: #1759a5;
+    font-family: 'Font Awesome 5 Pro';
+    font-weight: 900;
+    font-size: 1.75em;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.radio-icons__icon-img {
+  width: 2rem;
+  height: auto;
+}
+
+@media screen and (min-width: $AU-media-md) {
+  .radio-icon {
+    width: unset;
+    margin: 0 0.25em 0.25em 0;
+  }
+
+  .radio-icons__icon-img {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: -0.3rem auto;
+
+    & ~ .radio-icon__text {
+      margin-top: 1rem;
+    }
+  }
+
+  .radio-icon__label {
+    flex-direction: column;
+    padding: 1.65em 0.7em 0.7em;
+    height: 100%;
+  }
+
+  .radio_icons__icon:before {
+    font-size: 2em;
+  }
+
+
+  .radio-icon__text {
+    margin-left: unset;
+    margin-top: 0.2em;
+    width: 10rem;
+    height: 3.125rem;
+    padding: 0.5em 0 0 0;
+    flex: 1;
+    display: block;
+  }
+
+  .radio-icons {
+    flex-direction: row;
+  }
+
+  .radio-icon__control:checked ~ .radio-icon__label {
+    &:before {
+      top: -5px;
+      right: 5px;
+      font-size: 2em;
+      transform: unset;
+    }
+  }
+}
+
+.check-radio {
+  .uiToolKitCheckBox:last-child {
+    margin-bottom: 0px !important;
+  }
+}
+
+.injected {
+    margin-left: 15px;
+}
+
+.cursor-disabled {
+  background-color: #d4d4d4;
+  border-color: #2868b0;
+  cursor: not-allowed;
+}
+.uikit-btn--another-file {
+  margin-left: 0px !important;
+  margin-top: 1rem;
+}
+
+.form-block-header {
+  font-weight: bold;
+  margin: 1em 0 1.3em;
+  font-size: 1.17em;
+}
+
+.text-and-select {
+  @media screen and (max-width: $AU-media-xs - 0.5px) {  
+    .text-and-select__text {
+      margin-bottom: 0.75rem;
+      
+      .uikit-text-input {
+        max-width: 15rem;
+      }
+
+      .input-support-text,
+      .uikit-text-input {
+        display: inline;
+      }
+    }
+
+    .text-and-select__select {
+      .uikit-text-input {
+        max-width: 16rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: $AU-media-xs) {
+    .text-and-select__text,
+    .text-and-select__select,
+    .text-and-select__select .uikit-text-input__label {
+      display: inline;
+    }
+
+    .text-and-select__text {
+      .uikit-text-input {
+        margin-right: 0.3rem;
+        width: 10rem;
+      }
+    }
+
+    .text-and-select__select {
+      .uikit-text-input {
+        margin-left: 0.3rem;
+        width: 15.75rem;
+      }
+
+      .uikit-text-input__label {
+        font-weight: normal;
+        text-transform: lowercase;
+      }
+    }
+  }
+}
+
+.select-and-text {
+  @media screen and (max-width: $AU-media-xs - 0.5px) {  
+    .select-and-text__select {
+      margin-bottom: 0.75rem;
+      
+      .uikit-text-input {
+        max-width: 22rem;
+      }
+
+      .input-support-text,
+      .uikit-text-input {
+        display: inline;
+      }
+    }
+
+    .select-and-text__text {
+      .uikit-text-input {
+        max-width: 22rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: $AU-media-xs) {  
+    .select-and-text__select,
+    .select-and-text__text,
+    .select-and-text__text .uikit-text-input__label {
+      display: inline;
+    }
+
+    .select-and-text__select {
+      .uikit-text-input {
+        margin-right: 0.3rem;
+        width: 15rem;
+      }
+    }
+
+    .select-and-text__text {
+      .uikit-text-input {
+        margin-left: 1rem;
+        width: 12rem;
+      }
+
+      .uikit-text-input__label {
+        font-weight: normal;
+        text-transform: lowercase;
+      }
+    }
+  }  
+}
+
+.repeatable-block__fieldlist {
+  fieldset:first-of-type {
+    .repeatable-block__btn--remove {
+      display: none;
+    }
+  }
+
+  .repeatable-block__legend-wrapper {
+    flex-direction: row;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+.repeatable-block__btn--remove {
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  font-size: 14px;
+  border: 0;
+  transform: translate(12%, 10%);
+  
+  &:hover,
+  &:focus {
+    background-color: #5bcbe3;
+    border-color: transparent;
+  }
+
+  span {
+    border-bottom: 1px solid rgb(27, 121, 145);
+    outline: none;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  i {
+    font-size: 1.23333em;
+    line-height: 0.75em;
+    vertical-align: -.0667em;
+  }
+}
+
+.custom_disabled--checkbox {
+  .uikit-control-input__input {
+    &:disabled {
+      & + .uikit-control-input__text {
+        color: #898989;
+      }
+
+      & + .uikit-control-input__text:after {
+        background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+          <path fill="#898989" d="M0 0h128v128H0z"/>
+          <path fill="#fff" d="M8 8h112v112H8z"/>
+        </svg>');
+      }
+    }
+  }
 }

@@ -1,0 +1,143 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Partner's Proof of ID"
+}) %>
+
+<h2>We will need some documents to confirm your partner's identity</h2>
+<p>There are three <a href="https://www.dva.gov.au/factsheet-dva06-proof-identity-requirements"
+    rel="external">categories of documents</a> you can use to prove your identity. Select the documents you intend to
+  provide below. You will then be able to upload these documents on the next page.</p>
+
+<%- include(forms+"dropdown", {
+    label: "Category A",
+    id: "cata",
+    hint: "Select one document to show your partner's Australian residency",
+    modifiers: ["hintNewLine"],
+    options: [
+      "-- Select a document --",
+      "Australian birth certificate",
+      "Australian passport",
+      "Certificate of evidence of residence status",
+      "Citizenship certificate",
+      "Foreign passport and current Australian Visa",
+      "Record of immigration status",
+      "Residency document"
+    ]
+  }) %>
+
+<%- include(forms+"checkbox", {
+    customClass: "custom_disabled--checkbox",
+    label: "Category B",
+    hint: "Select two documents to show evidence of your partner's identity",
+    id: "catb",
+    modifiers: ["hintNewLine"],
+    boxes: [
+      "Australian Defence Force (ADF) ID card",
+      "Australian driver’s licence (Current license with their name & photo. We can accept current learner permit and provisional license.)",
+      "Australian marriage certificate",
+      "Ceremonial marriage certificate (Issued by a marriage celebrant on the day of marriage)",
+      "Change of name certificate",
+      "Credit or bank account card",
+      "DVA Health card",
+      "Firearms licence ",
+      "Tertiary identification card"
+    ]
+  }) %>
+
+<%- include(forms+"yes_no", {
+    label: "Do any of the selected documents show your partner’s current address?",
+    yes_toggle: "#save-next",
+    no_toggle: "#cat-c-message-container"
+  }) %>
+
+<div id="save-next" class="margin-above margin-below--extra" hidden>
+  <p>Choose <b>save and next</b> to continue.</p>
+</div>
+
+<%- include(partials+"components/form-partials/notice", {
+    message: "You will be asked to provide an additional document to show your partner's residential address. You can upload this on the next page.",
+    id: "cat-c-message",
+    modifiers: ["hidden"]
+  }); %>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/prog-03",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/c-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include("state-switcher") %>
+
+<script>
+
+  $("#catb-container").on("change", "input", function () {
+    if ($("#catb-container :checked").length > 1) {
+      $("#catb-container input:not(:checked)").prop("disabled", true);
+    } else {
+      $("#catb-container input").prop("disabled", false);
+    }
+
+    if ($("#catb-container :checked").val() === "australianpassport") {
+      $(`#cata-container option[value="australianpassport"]`).hide();
+    } else {
+      $(`#cata-container option[value="australianpassport"]`).show();
+    }
+  })
+
+  $("#cata").on("change", function () {
+    if ($("#cata :selected").val() === "australianpassport") {
+      $(`#catb-container input[value="australianpassport"`).closest(".uiToolKitCheckBox").remove();
+    } else {
+      if (!$("#catb-passport").length) {
+        var checkboxAppend = `<%- generateCheckRadio({
+          text: "Australian Passport",
+          boxID: `catb-passport`,
+          baseID: `catb - passport`,
+          value: "australianpassport",
+          suppliedID: true,
+          modifiers: [],
+          type: "checkbox"
+        }).html %>`
+
+        $("#catb-container fieldset").append(checkboxAppend)
+      }
+    }
+  })
+
+  $(document).keypress(function (e) {
+    switch (e.which) {
+      case 49: // 1
+      case 97:
+        $("#checkbox").show();
+        $("#dropdown").hide();
+        break;
+      case 50: // 2
+      case 98:
+        $("#checkbox").hide();
+        $("#dropdown").show();
+        break;
+    }
+  });
+
+</script>
+
+<%- include(templates+"footer") %>

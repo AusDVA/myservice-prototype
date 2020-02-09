@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Mental health treatment | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <h1 class="margin-above--none ss-align--center">
+          <span class="heading">Bank details</span>
+        </h1>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+
+          <div class="margin-above--extra margin-below--extra">
+
+            <h2>Provide your bank details and we will check if you are eligible for the <a href="https://www.dva.gov.au/factsheet-is18-veterans-supplement" target="_blank"
+                rel="external">veteran&nbsp;supplement</a></h2>
+
+
+            <p>If you are, it will will be paid into this account. You will receive a letter from us to confirm your
+              first payment.</p>
+
+            <div id="btnAddBank-box" class="margin-below margin-below--extra">
+              <button id="btnAddBank" class="uikit-btn uikit-btn--tertiary">Add bank details</button> &nbsp;&nbsp;(optional)
+            </div>
+
+            <div class="bank-details-container" style="display:none;">
+              <div class="boxed">
+                <!-- <button id="btnCancelBank" class="uikit-btn uikit-btn--tertiary no-left-margin small floated" style="display: none">Cancel</button> -->
+                <h3 class="margin-above--none">Add bank details <span class="hint">(all fields are required)</span></h3>
+
+                <%- include(partials+"bank-account-details") %>
+                <div class="uikit-page-alerts uikit-page-alerts--info">
+                  <p class="margin-below--mid">This will also be your nominated bank account for all DVA payments</p>
+                </div>
+                <button id="btnCancelBank" class="uikit-btn uikit-btn--tertiary small" style="display: none">Cancel</button>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="pagination pagination--ss-reverse-order">
+            <button class="uikit-btn uikit-btn--tertiary" id="btnPrev">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+            <div class="floated">
+              <button class="uikit-btn btnNext" id="btnNext">Next</button>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+
+    <%- include(partials+"content/modals/claims-cancel-modal") %>
+    </div>
+
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+  <script>
+    $(Document).ready(function () {
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/mental-health-review"
+      });
+      $("#btnPrev").click(function () {
+        window.location.href = "/auth/claim/mental-health-1"
+      });
+
+      // bank details button function
+
+      $("#btnAddBank").click(function () {
+        $(".bank-details-container").show("fast");
+        $("#btnAddBank-box").hide();
+        $("#bankoptional").hide();
+        $("#btnCancelBank").show();
+        $("#bank-name").focus();
+      });
+      $("#btnCancelBank").click(function () {
+        $(".bank-details-container").hide("fast");
+        $("#btnCancelBank").hide();
+        $("#bankoptional").show();
+        $("#btnAddBank-box").show();
+      });
+
+      $(".message-close").click(function () {
+        $(".bank-details-container").hide("fast");
+      });
+
+    });
+  </script>
+
+</body>
+
+</html>

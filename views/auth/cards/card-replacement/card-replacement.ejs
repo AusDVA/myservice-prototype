@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Request a replacement Health card | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <style type="text/css">
+    div.table {
+      border: 0;
+      display: table;
+    }
+
+    div.tr {
+      border: 0;
+      display: table-row;
+    }
+
+    div.td {
+      border: 0;
+      display: table-cell;
+      padding-right: 15px;
+    }
+
+    hr {
+      margin: 0;
+    }
+
+    .ledger-rule {
+      margin: 15px 0 15px 0;
+      background-color: #ddd;
+      height: 1px;
+    }
+
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Request a replacement card</span>
+      </h1>
+    </div> <!-- container end -->
+    <%- include("card-replacement--address-provisional") %>
+    <%- include("card-replacement--card-on-way") %>
+    <%- include("card-replacement--card-on-way-delayed") %>
+    <%- include("card-replacement--cshc-overseas") %>
+    <%- include("card-replacement--unable-generic") %>
+    <div id="default" class="container">
+      <div class="row">
+        <div class="col-md-8 col-md-offset-2 margin-above--large">
+          <h2>Requesting your new card:</h2>
+          <ul>
+            <li>You may request a replacement card if your card has been lost, stolen or damaged.</li>
+            <li>Your new card will be sent to the postal address we have on file.</li>
+            <li>The new card may take up to four weeks to be delivered.</li>
+          </ul>
+          <div class="margin-above--extra margin-below--extra">
+            <div id="address" class="form-group">
+              <legend class="legend-label">Is this your current postal address?</legend>
+              <div class="table">
+                <div class="tr">
+                  <div class="td">Unit 3/41 Constitution Ave</div>
+                </div>
+                <div class="tr">
+                  <div class="td">Jamison Appartments</div>
+                </div>
+                <div class="tr">
+                  <div class="td">Canberra ACT 2612 </div>
+                </div>
+              </div>
+              <div class="radio-toggle margin-above">
+                <label class="on label-left" for="address-yes">
+                  <input id="address-yes" type="radio" value="yes" name="address-question">
+                  <span>Yes</span>
+                </label>
+                <label class="off label-right" for="address-no">
+                  <input id="address-no" type="radio" value="no" name="address-question">
+                  <span>No</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <% 
+          locals.el = {};
+          locals.el.message = "<p> You will need to update your postal address. You can do this by switching to <a href='/auth/cards/card-replacement/card-replacement#open-myaccount-modal'> My Account</a>. You will be unable to request a new card until the new address has been processed.</p>"
+          locals.el.optionalID = 'notice-myaccount';
+          locals.el.optionalHide = true;
+          %>
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <% 
+          locals.el = {};
+          locals.el.question = 'Why do you need a replacement card?';
+          locals.el.optionalID = 'reason';
+          locals.el.optionalHide = true;
+          locals.el.items = ["My card is damaged","My card was stolen","I lost my card"];
+          %>
+          <%- include(partials+"components/form-elements/radio", locals) %>
+          <div id="submit-notice" class="margin-above" style="display: none">
+            <p>Choose <b>submit request</b> to continue.</p>
+          </div>
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'cards-home'">Cancel request</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--inactive" id="submit" disabled onclick="window.location.href = 'cards-replacement-success'">Submit request</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <%- include("card-replacement-state-switcher") %>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+      $('#reason').change(function () {
+        $("#submit-notice").show("fast");
+        $("#submit").prop('disabled', false);
+      });
+
+      $("#address-yes").click(function () {
+        $("#notice-myaccount").hide();
+        $("#submit-notice").hide();
+        $("#reason").show("fast");
+      });
+      $("#address-no").click(function () {
+        $("#notice-myaccount").show("fast");
+        $("#submit-notice").hide();
+        $("#reason").hide();
+      });
+    });
+  </script>
+</body>
+
+</html>

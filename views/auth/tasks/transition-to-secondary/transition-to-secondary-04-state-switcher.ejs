@@ -1,0 +1,51 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+            label: "User",
+            boxes: [
+              "Fail",
+              "Success"
+            ],
+            id: "user"
+          }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    /* --- State switcher --- */
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#submitted").prop("checked", true);
+
+    $('#user-container').change(function () {
+      var mySelection = $('input[name=user]:checked').parent().find("span").text().trim();
+      switch (mySelection) {
+        case "Fail":
+          console.log('working');
+          $('#submitted').hide();
+          $('#submitting').hide();
+          $('#failed').removeClass('transition-content');
+          break;
+        case "Success":
+          $('#failed').addClass('transition-content');
+          $('#submitted').show();
+          ('#submitting').hide();
+          break;
+        default:
+          break;
+      }
+    });
+
+  });
+</script>

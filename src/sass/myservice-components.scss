@@ -1,8 +1,6 @@
-/**********************************
-	Components are small re-usable utility classes that can be used to extend or override existing elements.
-	For example: floats, clearfix, claim flow help button and visually hidden classes for screen readers.
+// Components are small re-usable utility classes that can be used to extend or override existing elements.
+// For example: floats, clearfix, claim flow help button and visually hidden classes for screen readers.
 
-**********************************/
 
 .uikit-callout {
   background-color: $gray-light;
@@ -11,8 +9,13 @@
   padding: 1em 2em;
 }
 
+.contact-phone {
+  display: inline-flex;
+}
+
 // Float right for wider displays
 @include uikit-media(sm) {
+
   // @media only screen and (min-width: $medium-handheld) {
   .floated {
     float: right;
@@ -21,6 +24,11 @@
   }
 }
 
+@media only screen and (max-width: 420px) {
+  .uikit-body {
+    display: block;
+  }
+}
 
 // Float right for mobile displays
 .floated {
@@ -35,20 +43,21 @@
 // Deprecated, please use the DTA's HTML structure. See /styleguide-notifications
 // Delete this block ASAP
 .tip--wrapper {
-  border-left: 4px solid $blue-60;
-  background: $blue-10 url("../images/ico-info-thin-blue.svg") no-repeat 1em 2.2em;
+  background: $blue-10 url('../images/ico-info-thin-blue.svg') no-repeat 1em 2.2em;
   background-size: 35px 35px; // explicit dimensions due to buggy SVG rendering in IE.
-  padding: 2em 2em 2em 4em;
+  border-left: 4px solid $blue-60;
   display: block;
   margin-bottom: 1.5em;
   max-width: $uikit-maxwidth;
+  padding: 2em 2em 2em 4em;
 
-  h2, h3 {
-    overflow: hidden;
+  h2,
+  h3 {
+    clear: none;
     font-size: 1.6rem;
     font-weight: 400;
     margin-top: 0;
-    clear: none;
+    overflow: hidden;
   }
 
   h3 {
@@ -58,10 +67,10 @@
   img {
     float: left;
     height: 38px;
-    width: 38px;
-    vertical-align: middle;
     margin: 0.2em 0.6em 0 0;
     opacity: 0.6;
+    vertical-align: middle;
+    width: 38px;
   }
 
   ul {
@@ -69,28 +78,28 @@
   }
 
   .figure {
-    width: 100%;
-    max-width: 300px !important;
     height: auto;
-    opacity: .85;
+    max-width: 300px !important;
+    opacity: 0.85;
     vertical-align: top;
+    width: 100%;
   }
 
   &.tip--white {
-    background: url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
+    background: url('../images/ico-info-thin-orange.svg') no-repeat 1em 2.2em;
     background-color: $white !important;
     background-size: 35px 35px;
   }
 
   &.tip-warning {
-    border-left: 4px solid $orange;
-    background: $gray-light url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
+    background: $gray-light url('../images/ico-info-thin-orange.svg') no-repeat 1em 2.2em;
     background-size: 35px 35px;
+    border-left: 4px solid $orange;
 
     h3 {
       color: $orange--20;
-      margin-top: 0.2em;
       font-weight: bold;
+      margin-top: 0.2em;
     }
 
     p {
@@ -102,15 +111,15 @@
     }
 
     &.short-text {
-      margin: 2em 0 2em 0;
+      margin: 2em 0;
       max-width: inherit;
 
-      div.wrapper-content {
+      .wrapper-content {
         width: $uikit-maxwidth;
       }
 
       &.tip--white {
-        background: $white url("../images/ico-info-thin-orange.svg") no-repeat 1em 2.2em;
+        background: $white url('../images/ico-info-thin-orange.svg') no-repeat 1em 2.2em;
         background-size: 35px;
       }
     }
@@ -118,63 +127,109 @@
 }
 
 //Page preloader
-
 .page-preloader {
+  margin: 3em 0;
   text-align: center;
-  margin: 3em 0 3em 0;
 
   img {
-    width: 80px;
-    height: 80px;
     animation: spin linear 1s infinite;
+    height: 80px;
+    width: 80px;
   }
 }
+
+
+.mys-page-preloader {
+  animation: fade-in 1s;
+  margin: 1em auto;
+  text-align: center;
+}
+
+.page-loading {
+  section {
+    opacity: 0;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% {  transform: rotate(359deg); }
+}
+
+.mys-page-preloader {
+  display: block;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.page-loading {
+  display: none;
+}
+
+.mys-page-preloader img {
+  animation: spin 2s linear infinite;
+  height: 95px;
+  width: 95px;
+}
+
+
+
 
 // Toggle styled radio buttons - must render on mobile width screens without wrapping
 // ------------------------------------------------------------------------------------------------------
 $radio-gutter: 0.2em;
 
-.mys-radio-group--cols-2 > .mys-radio,
-.mys-radio-group--cols-3 > .mys-radio,
-.mys-radio-group--cols-4 > .mys-radio {
+.mys-radio-group--cols-2>.mys-radio,
+.mys-radio-group--cols-3>.mys-radio,
+.mys-radio-group--cols-4>.mys-radio {
   flex: 0 0 100%;
   padding-bottom: #{$radio-gutter * 2};
 }
 
 .mys-radio__box {
-  margin-bottom: $radio-gutter;
-  height:100%;
+  border: 1px solid $gray-mild;
+  border-radius: $uikit-border-radius;
   box-sizing: border-box;
+  cursor: pointer;
+  display: block;
+  height: 100%;
+  margin-bottom: $radio-gutter;
+  padding: 0.3em 0;
+  text-align: center;
+}
+
+.mys-radio-group {
+  margin: $form-margin;
 }
 
 @include uikit-media(xs) {
   .mys-radio-group {
+    align-items: stretch;
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
     margin-left: -$radio-gutter;
-    align-items: stretch;
+
     .mys-radio {
       padding-left: $radio-gutter;
     }
-
   }
 
-  .mys-radio-group--cols-4 > .mys-radio,
-  .mys-radio-group--cols-2 > .mys-radio {
+  .mys-radio-group--cols-4>.mys-radio,
+  .mys-radio-group--cols-2>.mys-radio {
     flex: 0 0 calc(50% - #{$radio-gutter});
   }
 }
 
-
 @include uikit-media(sm) {
-  .mys-radio-group--cols-2 > .mys-radio,
-  .mys-radio-group--cols-3 > .mys-radio,
-  .mys-radio-group--cols-4 > .mys-radio {
+
+  .mys-radio-group--cols-2>.mys-radio,
+  .mys-radio-group--cols-3>.mys-radio,
+  .mys-radio-group--cols-4>.mys-radio {
     flex: 1;
   }
 }
-
 
 .mys-radio {
   background-color: $white;
@@ -184,12 +239,12 @@ $radio-gutter: 0.2em;
   @include uikit-sronly;
 
   &:checked {
-    + .mys-radio__box {
+    +.mys-radio__box {
       border: 1px solid $blue-90;
     }
 
-    + .mys-radio__box--large {
-      background: url("../images/ico-tick-blue-solid.svg") no-repeat;
+    +.mys-radio__box--large {
+      background: url('../images/ico-tick-blue-solid.svg') no-repeat;
       background-position: right 10px top 10px;
       background-size: 30px 30px;
       border: 1px solid $blue-90;
@@ -198,19 +253,19 @@ $radio-gutter: 0.2em;
 
   &:hover,
   &:focus {
-    + .mys-radio__box {
+    +.mys-radio__box {
       border: 1px solid $blue;
     }
   }
 
   &:hover {
-    + .mys-radio__box {
+    +.mys-radio__box {
       background-color: $blue;
       color: $white;
       font-weight: normal;
     }
 
-    + .mys-radio__box--large {
+    +.mys-radio__box--large {
       background-color: $gray-mild;
       color: $uikit-colour-Text;
       font-weight: bold;
@@ -218,26 +273,19 @@ $radio-gutter: 0.2em;
   }
 }
 
-.mys-radio__box {
-  border: 1px solid $gray-mild;
-  border-radius: 4px;
-  cursor: pointer;
-  display: block;
-  padding: .3em 0;
-  text-align: center;
-}
+
 
 .mys-radio__icon {
-  width: 60px;
-  height: 60px;
   display: block;
+  height: 60px;
   margin-left: auto;
   margin-right: auto;
+  width: 60px;
 }
 
 .mys-radio__large-icon {
-  width: auto;
   height: 70px;
+  width: auto;
 }
 
 .mys-radio__box--large {
@@ -260,12 +308,13 @@ $radio-gutter: 0.2em;
   font-size: 0.9em;
   font-style: italic;
   font-weight: normal;
-  padding: .4em 0;
+  padding: 0.4em 0;
 }
 
 // old radio component
 .radio-toggle {
   overflow: hidden;
+
   // @include uikit-clearfix;
   &.radio-toggle--center {
     display: flex;
@@ -275,22 +324,22 @@ $radio-gutter: 0.2em;
   label {
     background-color: $gray-light;
     border: 1px solid $gray-mild;
-    border-radius: 4px;
+    border-radius: $uikit-border-radius;
     float: left;
 
     overflow: visible;
-    padding: 0 0;
+    padding: 0;
     width: 140px;
 
     &.label-left,
     &.label-left span {
-      border-radius: 4px 0 0 4px;
+      border-radius: $uikit-border-radius 0 0 $uikit-border-radius;
       border-right: 0;
     }
 
     &.label-right,
     &.label-right span {
-      border-radius: 0 4px 4px 0;
+      border-radius: 0 $uikit-border-radius $uikit-border-radius 0;
     }
 
     &.label-middle {
@@ -311,7 +360,7 @@ $radio-gutter: 0.2em;
       text-align: center;
     }
 
-    &:hover + input[type='radio']:disabled {
+    &:hover+input[type='radio']:disabled {
       background-color: $black;
     }
 
@@ -323,35 +372,37 @@ $radio-gutter: 0.2em;
       position: absolute;
       width: 1px;
 
-      &:focus + span {
+      &:focus+span {
         background-color: $input-focus;
         border: 1px solid $blue;
-        box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 0 8px 1px $rgba-black-20;
         padding: 9px 0;
       }
 
-      &:checked + span {
+      &:checked+span {
         background: $blue;
         border-color: $blue-90;
         box-shadow: inset 0 1px 2px 2px rgba(0, 0, 0, 0.1);
         color: $white;
       }
 
-      &:checked:focus + span {
-        box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+      &:checked:focus+span {
+        box-shadow: 0 0 8px 1px $rgba-black-20;
       }
 
-      + span {
+      +span {
+
         &:hover,
         &:focus {
-          box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 8px 1px $rgba-black-20;
         }
       }
     }
 
     &:disabled {
-      & + span:hover,
-      & + span:focus {
+
+      &+span:hover,
+      &+span:focus {
         box-shadow: none;
       }
     }
@@ -386,8 +437,12 @@ $radio-gutter: 0.2em;
 }
 
 // Clearfix
-* html .clearfix {
-  height: 1%;
+* {
+  html {
+    .clearfix {
+      height: 1%;
+    }
+  }
 }
 
 .clearfix {
@@ -396,7 +451,7 @@ $radio-gutter: 0.2em;
 
   &::after {
     clear: both;
-    content: ' ';
+    content: $content-blank;
     display: block;
     font-size: 0;
     height: 0;
@@ -404,10 +459,8 @@ $radio-gutter: 0.2em;
   }
 }
 
-/* close commented backslash hack */
 
 // Used to draw special attention to content, like a callout
-
 .timebox--wrapper {
   background-color: $gray-light;
   display: block;
@@ -428,63 +481,30 @@ $radio-gutter: 0.2em;
   img {
     float: left;
     height: 40px;
-    margin: 0 1.2em 0 .8em;
+    margin: 0 1.2em 0 0.8em;
     vertical-align: middle;
     width: 40px;
   }
 }
 
-// Help button available on claim flow screens
-
-.btn-panel-help {
-  position: fixed;
-  z-index: 999;
-  right: 0;
-  bottom: 0.5em;
-  width: auto;
-  padding: 0;
-
-  .uikit-btn--help {
-    background-color: $gray-light;
-    color: $gray-dark;
-    display: inline-block;
-    -webkit-border-radius: 5px 0 0 5px !important;
-    border-radius: 5px 0 0 5px !important;
-    border: 1px solid $gray-dark;
-    border-right: none;
-    margin-right: -1px;
-    padding: 30px 13px 5px 13px;
-    background: $gray-light url("../images/ico-phone-gray.svg") no-repeat center 10px;
-    background-size: 20px 20px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.4);
-
-    &:focus,
-    &:hover {
-      color: $white;
-      background: $blue-dark url("../images/ico-phone-white.svg") no-repeat center 10px;
-      background-size: 20px 20px;
-    }
-  }
-}
-
 // External link icon
 .external-link {
-  background: url("../images/ico-external-blue.svg") no-repeat right 2px;
-  padding-right: 24px;
+  background: url('../images/ico-external-blue.svg') no-repeat right 2px;
   background-size: 16px 16px;
+  padding-right: 24px;
 }
 
 .external-link-white {
-  background: url("../images/ico-external-white.svg") no-repeat right 2px;
+  background: url('../images/ico-external-white.svg') no-repeat right 2px;
   background-size: 14px 14px;
 }
 
+// Doesn't look like this is used
 // Float content beside images
-
-.float-content {
-  float: left;
-  margin-right: 2em !important;
-}
+// .float-content {
+//   float: left;
+//   margin-right: 2em !important;
+// }
 
 .float-image-left {
   float: left;
@@ -504,8 +524,8 @@ $radio-gutter: 0.2em;
 
 // removes any spacing before the element
 .no-space-before {
-  margin-top: 0px !important;
-  padding-top: 0px !important;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
 }
 
 // removes any spacing after the element
@@ -517,7 +537,7 @@ $radio-gutter: 0.2em;
 // summary box styling
 
 .summary-box {
-  width: $uikit-maxwidth;
+  // width: $uikit-maxwidth;
   max-width: $uikit-maxwidth;
 
   .summary--header {
@@ -549,66 +569,66 @@ $radio-gutter: 0.2em;
 }
 
 .wave::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat;
-  height: 10px;
-  background-size: 20px 20px;
   background-image: radial-gradient(circle at 10px -5px, transparent 12px, $gray-light 13px);
+  background-repeat: repeat;
+  background-size: 20px 20px;
+  bottom: 0;
+  content: $content-blank;
+  height: 10px;
+  left: 0;
+  position: absolute;
+  right: 0;
 }
 
 .wave::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat;
-  height: 15px;
-  background-size: 40px 20px;
   background-image: radial-gradient(circle at 10px 15px, $gray-light 12px, transparent 13px);
+  background-repeat: repeat;
+  background-size: 40px 20px;
+  bottom: 0;
+  content: $content-blank;
+  height: 15px;
+  left: 0;
+  position: absolute;
+  right: 0;
 }
 
 .wave-reversed {
   background: transparent;
-  padding-bottom: 0.4em;
-  position: relative;
   border-left: 1px solid $gray-mild;
   border-right: 1px solid $gray-mild;
+  padding-bottom: 0.4em;
+  position: relative;
 }
 
 .wave-reversed::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat;
-  height: 8px;
-  background-size: 20px 20px;
   background-image: radial-gradient(circle at 10px -5px, transparent 12px, $white 13px);
+  background-repeat: repeat;
+  background-size: 20px 20px;
+  bottom: 0;
+  content: $content-blank;
+  height: 8px;
+  left: 0;
+  position: absolute;
+  right: 0;
 }
 
 .wave-reversed::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-repeat: repeat;
-  height: 12px;
-  background-size: 40px 40px;
   background-image: radial-gradient(circle at 10px 15px, $white 12px, transparent 13px);
+  background-repeat: repeat;
+  background-size: 40px 40px;
+  bottom: 0;
+  content: $content-blank;
+  height: 12px;
+  left: 0;
+  position: absolute;
+  right: 0;
 }
 
 // Boxed list items
 
 .boxed-list-items {
   list-style: none;
-  padding-left: 0px !important;
+  padding-left: 0 !important;
 
   li {
     border: 1px solid $gray-mild;
@@ -622,17 +642,17 @@ $radio-gutter: 0.2em;
 
   div {
     margin: 2em 0 2em 0;
-    text-align: center;
     margin: auto;
+    text-align: center;
   }
 
   .description {
-    font-weight: 500;
     font-size: 1.1em;
+    font-weight: 500;
   }
 
   p {
-    margin: 10px 0 10px 0;
+    margin: 10px 0;
   }
 
   img {
@@ -643,20 +663,20 @@ $radio-gutter: 0.2em;
 // Standard sections
 
 .section-standard {
-  padding: 0 0 40px 0;
+  padding: 0 0 40px;
 }
 
 // Feature section
 
 .section-feature {
   background: $gray-light;
-  border-top: 1px solid $gray-mild;
   border-bottom: 1px solid $gray-mild;
+  border-top: 1px solid $gray-mild;
   padding: 1.5em 0 1.5em;
 }
 
 .section-feature--bg {
-  // background: $gray-light url("../images/bg-claims.jpg") no-repeat;
+  // background: $gray-light url('../images/bg-claims.jpg') no-repeat;
   background-size: cover;
   margin: $margin-zero;
   padding: 0;
@@ -681,13 +701,28 @@ $radio-gutter: 0.2em;
 .section-feature--separator {
   margin: 0.75em 0.75em 0.75em 0.75em;
 }
-@media only print, screen and (min-width: $AU-media-sm) {
-  .section-feature--separator {
-    border-bottom: 1px solid $gray-mild;
-    margin: 0em 0em 0em 0em;
+
+.section-feature--full-height {
+  @include uikit-media(lg) {
+    top: 129px;
   }
+
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  top: 100px;
+  width: 100%;
+
 }
 
+@media only print,
+screen and (min-width: $AU-media-sm) {
+  .section-feature--separator {
+    border-bottom: 1px solid $gray-mild;
+    margin: 0 0 0 0;
+  }
+}
 
 .page-header {
   display: inline-block;
@@ -699,27 +734,28 @@ $radio-gutter: 0.2em;
 .uikit-grid {
   .boxed {
     border: 1px solid $gray-mild;
-    padding: 2em;
     margin: 0;
+    padding: 2em;
+
     &--white {
       background-color: $white;
     }
   }
 }
 
-@media only (max-width: $AU-media-sm) {
+@media only screen and (max-width: $AU-media-sm) {
   .uikit-grid {
     .boxed {
       border: 1px solid $gray-mild;
-      padding: 0.4em;
       margin: 0;
+      padding: 1em;
+
       &--white {
         background-color: $white;
       }
     }
   }
 }
-
 
 // simple accordian (used on Claims page)
 
@@ -732,7 +768,7 @@ $radio-gutter: 0.2em;
 .simple-accordion__trigger {
   padding: 1em 0.5em;
   text-align: center;
-  transition: all .2s ease-in;
+  transition: all 0.2s ease-in;
 
   &:hover {
     background-color: $uikit-hover;
@@ -772,11 +808,11 @@ $radio-gutter: 0.2em;
   position: relative;
 
   ::after {
-    background-image: url("../images/ico-arrow-down.svg");
+    background-image: url('../images/ico-arrow-down.svg');
     background-position: center;
     background-repeat: no-repeat;
     bottom: -2px;
-    content: ' ';
+    content: $content-blank;
     display: none;
     height: 1.2em;
     position: absolute;
@@ -788,22 +824,22 @@ $radio-gutter: 0.2em;
 
 @media only screen and (min-width: $medium-handheld) {
   .simple-accordion {
-    margin-top: 0;
-    border: 1px solid $gray-mild;
     background-color: rgba(250, 250, 250, 0.8);
+    border: 1px solid $gray-mild;
+    margin-top: 0;
   }
 
   .simple-accordion__trigger {
+    -moz-transition: all 0.2s ease-in;
+    -o-transition: all 0.2s ease-in;
+    -webkit-transition: all 0.2s ease-in;
     padding: 1em 0.5em 1em 0.5em;
     text-align: center;
-    -moz-transition: all .2s ease-in;
-    -o-transition: all .2s ease-in;
-    -webkit-transition: all .2s ease-in;
-    transition: all .2s ease-in;
+    transition: all 0.2s ease-in;
 
     &:hover {
-      cursor: pointer;
       background-color: $uikit-hover;
+      cursor: pointer;
     }
   }
 
@@ -812,21 +848,21 @@ $radio-gutter: 0.2em;
   }
 
   .simple-accordion__body {
+    border-top: 0 solid $gray-mild;
     padding: 1em 2em 0 2em;
-    border-top: 0px solid $gray-mild;
   }
 
   .toggle-arrow {
-    position: relative;
     margin-right: 30px;
+    position: relative;
 
     :after {
-      display: block;
-      background-image: url("../images/ico-arrow-down.svg");
+      background-image: url('../images/ico-arrow-down.svg');
       background-position: center;
       background-repeat: no-repeat;
       bottom: -2px;
-      content: ' ';
+      content: $content-blank;
+      display: block;
       height: 1.2em;
       position: absolute;
       right: -30px;
@@ -836,18 +872,18 @@ $radio-gutter: 0.2em;
 }
 
 .claims-accordion--singleclaim {
-  text-align: center;
   margin-left: auto;
   margin-right: auto;
+  text-align: center;
 
   h2 {
     margin-top: 1em;
   }
 
   p {
-    text-align: center;
     margin-left: auto;
     margin-right: auto;
+    text-align: center;
   }
 }
 
@@ -867,21 +903,21 @@ $radio-gutter: 0.2em;
 // dividing line between two columns
 .dividing-line {
   border-bottom: 1px solid $gray-mild;
-  border-right: 0px solid $gray-mild;
-  padding-right: 0;
-  margin-right: 0;
+  border-right: 0 solid $gray-mild;
   margin-bottom: 2em;
+  margin-right: 0;
   padding-bottom: 2em;
+  padding-right: 0;
 }
 
 @media only screen and (min-width: $large-handheld) {
   .dividing-line {
-    border-bottom: 0px solid $gray-mild;
+    border-bottom: 0 solid $gray-mild;
     border-right: 1px solid $gray-mild;
-    padding-right: 2em;
-    margin-right: 1em;
     margin-bottom: 0;
+    margin-right: 1em;
     padding-bottom: 0;
+    padding-right: 2em;
   }
 }
 
@@ -906,21 +942,21 @@ $radio-gutter: 0.2em;
 .accordion {}
 
 .accordion--button {
-  position: relative;
   padding-right: 50px;
+  position: relative;
 
   .accordion__trigger {
     position: absolute;
-    top: 12px;
     right: 12px;
+    top: 12px;
   }
 }
 
 a {
   &.accordion__trigger {
-    text-decoration: none;
     border: 1px solid transparent;
     border-bottom: 0;
+    text-decoration: none;
 
     &:focus,
     &:hover {
@@ -928,7 +964,6 @@ a {
     }
 
     // background: red;
- 
   }
 }
 
@@ -936,11 +971,11 @@ a {
   box-sizing: border-box;
   cursor: pointer;
   display: inline-block;
+  height: 24px;
   line-height: 1.3;
-  padding: .7em;
+  padding: 0.7em;
   padding: 0;
   position: relative;
-  height: 24px;
   width: 24px;
 
   &:focus,
@@ -958,13 +993,13 @@ a {
   }
 
   &::after {
-    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l16 16-64 64L0 64"/></svg>');
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">'+ '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l64 64-16 16-64-64"/>'+ '	<path fill="#{$uikit-colour-Secondary}" d="M64 0l16 16-64 64L0 64"/></svg>');
     background-position: center;
     background-repeat: no-repeat;
     bottom: 0;
-    content: ' ';
+    content: $content-blank;
     height: 1rem;
-    margin-top: -.5rem;
+    margin-top: -0.5rem;
     position: absolute;
     right: 0;
     top: 50%;
@@ -982,7 +1017,7 @@ a {
 
 .accordion__trigger--white {
   &::after {
-    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">' + '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>' + '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/></svg>');
+    background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">'+ '	<path fill="#{$white}" d="M64 0l64 64-16 16-64-64"/>'+ '	<path fill="#{$white}" d="M64 0l16 16-64 64L0 64"/></svg>');
   }
 }
 
@@ -1009,50 +1044,141 @@ a {
 }
 
 .natural-language-statement {
-  border: 1px solid #cccccc;
-  border-radius: 4px;
-  margin-right:auto;
+  border: 1px solid #ccc;
+  border-radius: $uikit-border-radius;
+  margin-right: auto;
   padding: 2em;
-  padding-top:2.4em;
   padding-left: 2em !important;
+  padding-top: 2.4em;
 }
 
 .simple-box {
-  border:1px solid $gray;
-  padding:1em;
+  border: 1px solid $gray;
+  padding: 1em;
 }
 
 // Listed data, used on the DHOAS /dhoas3 page
 
 .data-list__row {
   border-bottom: 1px solid $gray-light;
-  padding-bottom: 1em;
   margin-bottom: 1em;
+  padding-bottom: 1em;
 }
 
 .data-list__heading {
+  display: inline-block;
   font-weight: bold;
-  display:inline-block;
   padding-right: 0.2em;
 }
 
 .data-list__heading:after {
-  content:",";
+  content: ',';
 }
 
 .data-list--nosub:after {
-  content:"";
+  content: $content-blank;
 }
 
 .data-list__sub-heading {
+  display: inline-block;
   font-weight: normal;
-  display:inline-block;
   padding-right: 1em;
 }
 
 .data-list__date {
-  font-weight: normal;
-  display:block;
   color: $gray;
+  display: block;
   font-size: 0.9em;
+  font-weight: normal;
+}
+
+@media only screen and (max-width: $AU-media-sm) {
+  .uikit-grid {
+    .profile-card {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: space-between;
+    }
+  }
+}
+
+.uikit-grid {
+  .profile-card {
+    .td {
+      &:nth-child(even) {
+        padding-bottom: 10px;
+      }
+    }
+  }
+
+  .profile-card__edit {
+    @include uikit-media(sm) {
+      margin-top: 0;
+    }
+    margin-top: 15px;
+  }
+}
+
+// Key value pair
+.kv-pair__key {
+  font-weight: bold;
+}
+
+.kv-pair {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.1rem;
+}
+
+@media screen and (min-width: $AU-media-xs) {
+  .kv-pair {
+    flex-direction: row;
+  }
+
+  .kv-pair__key {
+    min-width: 15rem;
+  }
+}
+
+.submitted-content {
+  p {
+    margin: 0;
+    max-width: initial;
+  }
+
+  .next-steps {
+    margin: 0 auto;
+
+    li {
+      text-align: left;
+    }
+  }
+}
+
+.callout--veteran-payment {
+  align-items: center;
+  background: $white;
+  border: 1px solid $gray-mild;
+  border-radius: 0.3rem;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  justify-content: space-between;
+  margin: .2rem 2.5rem 1rem .2rem;
+  min-height: auto;
+  padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+  text-align: center;
+
+  .uikit-btn {
+    max-height: 80px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .callout--veteran-payment {
+    flex-direction: row;
+    padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+    text-align: left;
+  }
 }

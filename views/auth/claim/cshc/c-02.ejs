@@ -1,0 +1,139 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Required documents"
+}) %>
+
+<div id="partnered" hidden>
+  <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Marriage certificate",
+          description: "A document provided by the state/territory government or country, where the marriage was registered."
+        },
+        {
+          title: "Partner's Australian passport",
+          description: "Current passport issued in your partner's name."
+        },
+        {
+          title: "Partner's Australian driver’s licence",
+          description: "Current licence with their name & photo. We can accept current learner permit and provisional licence."
+        },
+        {
+          title: "Your Tax Notice of Assessment",
+          description: "2018-2019 document that lists your taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Partner's Tax Notice of Assessment",
+          description: "2018-2019 document that lists your partner's taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Your tax return",
+          description: "2018-2019 income tax return statement detailing your earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Your partner's tax return",
+          description: "2018-2019 income tax return statement detailing your partner's earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Your pay summary",
+          description: "2018-2019 statement from your employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your partner's pay summary",
+          description: "2018-2019 statement from your partner's employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your pension income stream",
+          description: "A document detailing payments from superannuation issued by your income stream provider."
+        },
+        {
+          title: "Your partner's pension income stream",
+          description: "A document detailing payments from superannuation issued by your partner's income stream provider."
+        },
+        {
+          title: "Partner’s current address",
+          description: "Provide a document showing your partner’s current address."
+        }
+      ]
+    }) %>
+</div>
+
+<div id="single" hidden>
+  <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Your Tax Notice of Assessment",
+          description: "2018-2019 document that lists your taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Your pension income stream",
+          description: "A document detailing payments from superannuation issued by your income stream provider."
+        },
+        {
+          title: "Your pay summary",
+          description: "2018-2019 statement from your employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your tax return",
+          description: "2018-2019 income tax return statement detailing your earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Foreign income",
+          description: "Supporting documents, for example, foreign tax assessments, your bank statements and/or certificates"
+        },
+
+
+
+      ]
+    }) %>
+</div>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc/c-01",
+        text: "Previous",
+        id: "btnPrev"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc/prog-04",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+
+<%- include("state-switcher") %>
+
+<script>
+  $(document).ready(function () {
+    stateSwitcher();
+  });
+
+  function stateSwitcher() {
+    if (sessionStorage.getItem('CSHC-partnered') == "false") {
+      $("#partnered").hide();
+      $("#single").show();
+      $("#btnPrev").attr("href", "/auth/claim/cshc/prog-03");
+    } else {
+      $("#partnered").show();
+      $("#single").hide();
+      $("#btnPrev").attr("href", "/auth/claim/cshc/c-01");
+    }
+  }
+
+</script>

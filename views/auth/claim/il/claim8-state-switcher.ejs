@@ -1,0 +1,51 @@
+<div id="state-switcher">
+    <h3>State switcher</h3>
+  
+    <%- include(partials+"components/form-partials/checkbox", {
+            boxes: [
+              "Veteran Payment eligible"
+            ],
+            id: "sw-veteran-payment"
+          }); %>
+  
+  </div>
+  
+  <script>
+  
+    $(document).ready(function () {
+      /* --- State switcher --- */
+      /* Toggle switcher */
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 96: //tilda
+            $('#state-switcher').toggle();
+            break;
+          default:
+        }
+      });
+
+    var vp_message = sessionStorage.getItem('vp_eligible');
+    if (!vp_message) vp_message = false;
+    if (vp_message == "true") {
+      $("#sw-veteran-payment-1").prop("checked", true);
+    } else {
+      $("#sw-veteran-payment-1").prop("checked", false);
+    }
+    update()
+  
+      $("#state-switcher").on("change", "input", function() {
+        update()
+      })
+
+      function update(){
+        if ($("#sw-veteran-payment-1").prop("checked")) {
+          $("div.vp-can-apply").css("display", "flex");
+          // $("li.vp-can-apply").css("display", "none");
+        } else {
+          $("div.vp-can-apply").css("display", "none");
+          // $("li.vp-can-apply").css("display", "list-item");
+        }
+      }
+  
+    });
+  </script>

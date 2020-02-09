@@ -1,0 +1,51 @@
+<% if (locals.el.optionalID) { 
+  var id = locals.el.optionalID;
+} else {
+  if (locals.el.question) { 
+    var question = locals.el.question;
+    var id = locals.el.question.replace(/ +/g, ''); 
+  } else {
+    var question = "Gender";
+    var id = Math.floor((Math.random() * 1000) + 1);
+  }
+}
+%>
+
+<% if (locals.el.optionalHide === true) { %>
+<style>
+  #<%=id %> {
+    display: none;
+  }
+
+</style>
+<% } %>
+
+<div class="form-group" id="<%= id %>">
+  <fieldset>
+    <div class="uikit-text-input__label-wrapper--inline-block">
+      <legend class="legend-label"><%=question%></legend>
+    </div>
+    <div class="tooltip">
+      <div id="tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="message" aria-expanded="false">
+        <div class="tooltip__label tooltip__label--icon-only">
+          <a>Help</a>
+        </div>
+        <div class="tooltip__tab"></div>
+      </div>
+      <div id="tt-message" class="tooltip__content" aria-labelledby="tt-label" role="region" tabindex="-1" aria-hidden="true">
+        <div class="tooltip__message">Currently, our system only allows us to record gender as male or female. If neither option is correct inform DVA after your claim is processed.</div>
+        <div class="tooltip__close" role="button" tabindex="0">Close</div>
+      </div>
+    </div>
+    <div class="radio-toggle">
+      <label class="on label-left" for="<%= id %>-male">
+        <input id="<%= id %>-male" type="radio" name="<%= id %>" value="male">
+        <span>Male</span>
+      </label>
+      <label class="off label-right" for="<%= id %>-female">
+        <input id="<%= id %>-female" type="radio" name="<%= id %>" value="female">
+        <span>Female</span>
+      </label>
+    </div>
+  </fieldset>
+</div>

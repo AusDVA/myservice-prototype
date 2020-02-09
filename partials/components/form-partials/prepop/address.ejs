@@ -1,0 +1,117 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("address");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+
+<fieldset
+  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+  class="<%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>"
+  id="<%- id %>-container">
+
+    <%- generateLabel({
+        id,
+        modifiers: [...modifiers, "formBlockLabel"],
+        label: typeof label !== "undefined" ? label : "Address",
+        hint: typeof hint !== "undefined" ? hint : null,
+        tooltip: typeof tooltip !== "undefined" ? tooltip : null
+      }) %>
+
+    <% if (modifiers.includes("allCountries")) { %>
+      <%- include(forms+"prepop/country-dropdown", {
+        label: "Country",
+        id: `${id}-country`
+      }) %>
+    <% } else if (!modifiers.includes("australiaOnly")) { %>
+      <%- include(forms+"dropdown", {
+        label: "Country",
+        id: `${id}-country`,
+        options: [
+          {
+            text: "Australia",
+            toggle: `#${id}-postcode-wrapper, #${id}-state-container`
+          },
+          "New Zealand"
+        ]
+      }) %>
+    <% } %>
+    
+    <%- include(forms+"text", {
+      label: "Address line 1",
+      modifiers: ["inputFullLength"],
+      id: `${id}-address-1`
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Address line 2",
+      id: `${id}-address-2`,
+      hint: " (optional)",
+      modifiers: ["inputFullLength"]
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Suburb or town",
+      modifiers: ["inputFullLength"],
+      id: `${id}-suburb`
+    }) %>
+    
+    <%- include(forms+"text", {
+      label: "Postcode",
+      modifiers: ["inputShort"],
+      id: `${id}-postcode`
+    }) %>
+
+    <%- include(forms+"dropdown", {
+      label: "State or territory",
+      id: `${id}-state`,
+      options: [
+        "-- Select state or territory --",
+        {
+          text: "Australian Capital Territory",
+          value: "act"
+        },
+        {
+          text: "New South Wales",
+          value: "nsw"
+        },
+        {
+          text: "Northern Territory",
+          value: "nt"
+        },
+        {
+          text: "Queensland",
+          value: "qld"
+        },
+        {
+          text: "South Australia",
+          value: "sa"
+        },
+        {
+          text: "Tasmania",
+          value: "tas"
+        },
+        {
+          text: "Victoria",
+          value: "vic"
+        },
+        {
+          text: "Western Australia",
+          value: "wa"
+        }
+      ]
+    }) %>
+    
+</fieldset>
+
+<script>
+  $("#<%- id %>-country").on("change", function() {
+    if ($("#<%- id %>-country :selected").text().trim() === "Australia") {
+      $("#<%- id %>-state-container").show();
+    } else {
+      $("#<%- id %>-state-container").hide();
+    }
+  })
+</script>

@@ -1,0 +1,83 @@
+<%
+
+var progress = JSON.parse(include("a-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Claim details",
+  progress
+}) %>
+
+  <%- include(forms+"notice", {
+    modifiers: ["hidden"],
+    id: "no-qs-info",
+    message: `<p>You can make a claim for <a href="#">Qualifying Service (QS)</a>. Having your QS determind, will allow you to apply for a range of benefits such as CSHC and Service Pension.</p>
+
+      <p>For more information, go to the <a rel="external" href="https://www.dva.gov.au/factsheet-is58-qualifying-service-post-second-world-war-conflicts">Factsheet IS58 - Qualifying Service</a></p>`
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Have you applied for or do you receive any benefits from Centrelink?",
+    id: "centrelink-benefits",
+    yes_toggle: "#maybe-not-eligible-container"
+  }) %>
+
+  <%- include(forms+"notice", {
+    message: `You may not be eligible for a Commonwealth Seniors Health Card. For further information please call DVA on <span class="dva-phone"></span>.`,
+    modifiers: ["hidden"],
+    type: "warning",
+    id: "maybe-not-eligible"
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Have you applied for or do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+    id: "centrelink-has-cshc"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "What is your Centrelink Customer Reference Number (CRN)?",
+    modifiers: ["hidden"],
+    id: "centrelink-cshc"
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/cshc-partner/prog-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/cshc-partner/a-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $("#centrelink-benefits-container, #centrelink-has-cshc-container").on("change", "input", function() {
+      if ($("#centrelink-benefits-container :checked").val() === "yes" || $("#centrelink-has-cshc-container :checked").val() === "yes") {
+        $("#centrelink-cshc-container").show();
+      } else {
+        $("#centrelink-cshc-container").hide();
+      }
+    })
+  </script>
+
+  <%- include("state-switcher/a-01-state-switcher") %>
+
+<%- include(templates+"footer") %>

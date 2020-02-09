@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Veteran details</h1>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Veteran's given name",
+        hint: "(first name)"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Veteran's surname",
+        hint: "(last name)"
+      }); %>
+      <%- include(partials+"components/form-partials/date", {
+        label: "Veteran's date of birth"
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+              label: "Veteran's DVA file number",
+              hint: "(if known)"
+            }); %>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu1'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <a id="next-button" href="edu3"><button class="uikit-btn floated btnNext">Save and next</button></a>
+        <button class="uikit-btn uikit-btn--tertiary floated" onclick="window.location.href = '/auth/'">Save and exit</button>
+      </div>
+
+    </div>
+  </main>
+  <%- include("edu-switcher/index.ejs") %>
+  <script>
+    $(document).ready(function () {
+      mySelection = $('input[name=edu-assist-state-switcher]:checked').parent().find("span").text().trim();
+      if (sessionStorage.getItem("parentFlow") === "true") {
+        document.getElementById("next-button").href = "edu3parent";
+      } else {
+        document.getElementById("next-button").href = "edu3";
+      }
+    });
+  </script>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>

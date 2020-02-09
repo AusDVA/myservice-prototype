@@ -1,0 +1,32 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("previous-names");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+
+<div class="formPartials_previousNames multi-name__container multi-date__container <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
+  <button class="uikit-btn multi-date__button multi-date__button--add">Add</button>
+</div>
+
+<div class="multi-date" id="multi-name__template" style="display: none">
+  <fieldset class="multi-date__row multi-date--start">
+    <legend id="<%- id %>-start" class="multi-date__label legend-override">Given name <span class="hint"> (first name)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <%- include(forms+"text", {label: "", modifiers: ["inputFullLength"]}) %>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="multi-date__row multi-date--end">
+    <legend id="<%- id %>-end" class="multi-date__label legend-override">Surname <span class="hint"> (last name)</span></legend>
+    <div class="multi-date__input-group">
+      <div class="multi-date__date-group">
+        <%- include(forms+"text", {label: "", modifiers: ["inputFullLength"]}) %>
+      </div>
+      <button class="uikit-btn uikit-btn--tertiary multi-date__button multi-date__button--remove">Remove</button>
+    </div>
+  </fieldset>
+</div>

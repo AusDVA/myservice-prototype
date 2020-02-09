@@ -1,0 +1,30 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("progress-advanced");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers];
+
+%>
+
+<ul class="progress-container <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" id="<%- id %>">
+  <% points.map((point, index) => { %>
+    <%
+      var classList = ["progress-step"];
+
+      if ((index + 1) === points.length) classList.push("progress-step--last");
+      if (index < (activeItem - 1)) classList.push("progress-step--done");
+      if (index === (activeItem - 1)) classList.push("progress-step--active")
+
+    %>
+    <li class="<%- classList.join(" ") %>">
+      <% if (classList.includes("progress-step--done")) { %>
+        <a href="<%- point.link %>">
+      <% } %>
+        <span class="progress-step__icon"></span>
+        <p class="progress-step-label"><%- point.text %></p>
+      <% if (classList.includes("progress-step--done")) { %>
+        </a>
+      <% } %>
+    </li>
+  <% }) %>
+</ul>

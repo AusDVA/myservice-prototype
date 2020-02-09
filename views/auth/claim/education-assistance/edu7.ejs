@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Student Claim | Financial Details</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-claims") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+
+  <main>
+    <div class="container container--8-column" id="main-content">
+      <h1>Document uploads</h1>
+      <h2>Uploading the required documents with your claim will assist us in processing it sooner.</h2>
+      <p class="hint">Accepted file types include, pdf, jpef and png. Maximum file size is 50MB.</p>
+      <div id="flow--student-21" class="student-doc-uploads">
+        <%- include("student/student-21/doc-uploads") %>
+      </div>
+      <div id="flow--student-17" class="student-doc-uploads">
+        <%- include("student/student-17/doc-uploads") %>
+      </div>
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = 'edu6'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-cancelrego-modal'">Cancel claim</button>
+        <button class="uikit-btn floated btnNext" onclick="window.location.href = 'edu8'">Save and review</button>
+        <button class="uikit-btn uikit-btn--tertiary floated btnExit" onclick="window.location.href = '/auth/'">Save and exit</button>
+
+      </div>
+    </div>
+  </main>
+  <%- include("edu-switcher/index.ejs") %>
+  <script>
+    if (sessionStorage.getItem("eduFlow") === "Student - 17") {
+      $("#flow--student-21").hide();
+      $("#flow--student-17").show();
+    } else {
+      $("#flow--student-21").show();
+    }
+  </script>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+
+</html>
