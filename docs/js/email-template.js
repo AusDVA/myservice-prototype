@@ -416,7 +416,7 @@ var data = `
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${printStorage("recreational-deta")}
+          ${printStorage("recreational-detai")}
         </td>
       </tr>
     </table>
@@ -527,11 +527,11 @@ var data = `
 
     <table class="boxed-table">
       <tr>
-        <td class="shade" width="200">Are you employed?</td>
-        <td> 
+      <td class="shade" width="200">Are you employed?</td>
+      <td> 
         ${printStorage("is-employed")}
-        </td>
-      </tr>
+      </td>
+    </tr>  
       <tr>
         <td class="shade" width="200">Has the way you work been affected?
 </td>
@@ -615,19 +615,18 @@ var data = `
     <table class="boxed-table">
       <tr>
         <td class="shade" width="200">Have you undertaken any treatment from your conditions?</td>
-        <td> ${printStorage("undertaken-treatment")}</td>
+        <td> ${printStorage("undertake-treatment")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Are you still undergoing treatment?</td>
         <td> ${printStorage("social-affected")}</td>
       </tr>
       <tr>
-        <td class="shade" width="200"Have you been advised that further treatment will not improve your conditions?</td>
+        <td class="shade" width="200">Have you been advised that further treatment will not improve your conditions?</td>
         <td> ${printStorage("been-advised")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Tell us in your own words any other impacts of your condition that have not been already covered.
-
        </td>
         <td>
         ${printStorage("interactions-affected")}
@@ -687,7 +686,6 @@ function sendEmail() {
 
 function printStorage(storageName) {
   storageValue = sessionStorage.getItem(storageName);
-  console.log(storageValue);
   storageValue ? (value = storageValue) : (value = "(no answer)");
 
   if (value === "yesalittle") value = "Yes, a little";

@@ -151,36 +151,61 @@ function dynamicAnswer(selector, answer) {
   if (answer.includes("deta")) {
     if (answer == "domestic-detai") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".domestic-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".domestic-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".domestic-detail .rev-sub__item-answer").text(printAnswer);
     }
 
     if (answer == "recreational-detai") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".recreational-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".recreational-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".recreational-detail .rev-sub__item-answer").text(printAnswer);
     }
     if (answer == "employment-detai") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".employment-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".employment-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".employment-detail .rev-sub__item-answer").text(printAnswer);
     }
     if (answer == "mobility-deta") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".mobility-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".mobility-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".mobility-detail .rev-sub__item-answer").text(printAnswer);
     }
 
     if (answer == "relationship-detai") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".personal-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".personal-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".personal-detail .rev-sub__item-answer").text(printAnswer);
     }
 
     if (answer == "treatment-detai") {
       printAnswer = sessionStorage.getItem(answer);
-      $(".treatments-detail .rev-sub__item-answer").text(printAnswer);
+      printAnswer === null
+        ? $(".treatments-detail .rev-sub__item-answer")
+            .parent()
+            .hide()
+        : $(".treatments-detail .rev-sub__item-answer").text(printAnswer);
     }
   } else {
     printAnswer = sessionStorage.getItem(answer);
-    $(".rev-sub__item-question:contains(" + selector + ")")
-      .next()
-      .text(validateAnswer(printAnswer));
+    let questionDiv = $(".rev-sub__item-question:contains(" + selector + ")");
+    printAnswer === null
+      ? questionDiv.parent().hide()
+      : questionDiv.next().text(validateAnswer(printAnswer));
   }
 }
 
