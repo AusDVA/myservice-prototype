@@ -176,18 +176,17 @@ var data = `
 <body>
   <table>
     <tr>
-      <td width="200"><img src="/docs/images/myservice-logo-blue.svg" height="40" /></td>
-      <td colspan="2" class="no-wrap">
+      <td class="no-wrap">
         <h1 style="text-align: center;">Support Assessment</h1>
       </td>
-      <td class="right"><img src="/docs/images/logo-dva-black.svg" height="40" /></td>
+      <td class="right"></td>
     </tr>
     <tr>
       <td colspan="4" class="italic center">This is an automatically generated document from MyService BETA.
         Please contact generalenquiries@dva.gov.au if assistance is required.</td>
     </tr>
     <tr>
-      <td colspan="4" class="successShade"><img src="/docs/images/icon-tick.png" width="15" alt="POI tick icon" />&#160;&#160;<strong>Proof of identity has been provided and
+      <td colspan="4" class="successShade">&#160;&#160;<strong>Proof of identity has been provided and
           verified through
           MyService</strong></td>
     </tr>
@@ -317,9 +316,9 @@ var data = `
             <th class="shade">End date</th>
           </tr>
           <tr>
-            <td>op.description</td>
-            <td>op.startDate</td>
-            <td>op.endDate</td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
         <br />
@@ -333,9 +332,9 @@ var data = `
             <th class="shade">Action</th>
           </tr>
           <tr>
-            <td>esd.date</td>
-            <td>esd.reason</td>
-            <td>esd.action</td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </table>
       </div>
@@ -355,31 +354,32 @@ var data = `
       <tr>
         <td class="shade" width="200">Is your ability to move around when undertaking your usual activities affected?</td>
         <td>
-          ${sessionStorage.getItem("move-ability")}
+        
+          ${printStorage("move-ability")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do you need the assistance of an aid to help you get around?</td>
         <td>
-          ${sessionStorage.getItem("move-aid")}
+          ${printStorage("move-aid")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do you require assistance to travel?</td>
         <td>
-          ${sessionStorage.getItem("travel-aid")}
+          ${printStorage("travel-aid")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do your conditions restrict you to your home?</td>
         <td>
-          ${sessionStorage.getItem("home-restricted")}
+          ${printStorage("home-restricted")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${sessionStorage.getItem("mobility-deta")}
+          ${printStorage("mobility-deta")}
         </td>
       </tr>
     </table>
@@ -398,25 +398,25 @@ var data = `
         <td class="shade" width="200">Have you given up any recreational activities?
 </td>
         <td>
-          ${sessionStorage.getItem("recreational-given-up")}
+          ${printStorage("recreational-given-up")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you reduced your involvement in any recreational activities?</td>
         <td>
-          ${sessionStorage.getItem("recreational-reduced")}
+          ${printStorage("recreational-reduced")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Are there activities you planned to undertake but now cannot?</td>
         <td>
-          ${sessionStorage.getItem("activities-cannot-undertake")}
+          ${printStorage("activities-cannot-undertake")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${sessionStorage.getItem("recreational-deta")}
+          ${printStorage("recreational-deta")}
         </td>
       </tr>
     </table>
@@ -434,28 +434,38 @@ var data = `
     <table class="boxed-table">
       <tr>
         <td class="shade" width="200">Is your social life affected?</td>
-        <td> ${sessionStorage.getItem("social-affected")}</td>
+        <td> 
+        ${printStorage("social-affected")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Are your daily interactions with people affected?</td>
-        <td> ${sessionStorage.getItem("interactions-affected")}</td>
+        <td>
+        ${printStorage("interactions-affected")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Is your ability to form or maintain intimate relationships affected?</td>
-        <td> ${sessionStorage.getItem("intimate-affected")}</td>
+        <td> 
+        ${printStorage("intimate-affected")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do you require assistance with personal care?</td>
-        <td> ${sessionStorage.getItem("personal-assistance")}</td>
+        <td> 
+        ${printStorage("personal-assistance")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Has your connection to the community been affected?</td>
-        <td> ${sessionStorage.getItem("community-connection")}</td>
+        <td> 
+        ${printStorage("community-connection")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${sessionStorage.getItem("relationship-detai")}
+        ${printStorage("relationship-detai")}
         </td>
       </tr>
     </table>
@@ -473,26 +483,34 @@ var data = `
     <table class="boxed-table">
       <tr>
         <td class="shade" width="200">Does it take longer for you to complete your domestic activities?</td>
-        <td> ${sessionStorage.getItem("domestic-longer")}</td>
+        <td>
+        ${printStorage("domestic-longer")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do you need help with domestic activities?
 </td>
-        <td> ${sessionStorage.getItem("domestic-help")}</td>
+        <td> 
+        ${printStorage("domestic-help")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you had to stop performing any domestic activities?</td>
-        <td> ${sessionStorage.getItem("domestic-stop")}</td>
+        <td> 
+        ${printStorage("domestic-stop")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have your immediate family taken over any domestic activities you normally undertook?
 </td>
-        <td> ${sessionStorage.getItem("domestic-family")}</td>
+        <td> 
+        ${printStorage("domestic-family")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${sessionStorage.getItem("domestic-detai")}
+        ${printStorage("domestic-detai")}
         </td>
       </tr>
     </table>
@@ -510,74 +528,76 @@ var data = `
     <table class="boxed-table">
       <tr>
         <td class="shade" width="200">Are you employed?</td>
-        <td> ${sessionStorage.getItem("is-employed")}</td>
+        <td> 
+        ${printStorage("is-employed")}
+        </td>
       </tr>
       <tr>
         <td class="shade" width="200">Has the way you work been affected?
 </td>
-        <td> ${sessionStorage.getItem("work-affected")}</td>
+        <td> ${printStorage("work-affected")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Have your duties or responsibilities changed?</td>
-        <td> ${sessionStorage.getItem("duties-changed")}</td>
+        <td> ${printStorage("duties-changed")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Have your work hours reduced or changed?
 </td>
-        <td> ${sessionStorage.getItem("work-reduced")}</td>
+      <td> ${printStorage("work-reduced")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you had to change jobs?</td>
         <td>
-          ${sessionStorage.getItem("changed-jobs")}
+        ${printStorage("changed-jobs")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you had a reduction in pay?</td>
         <td>
-          ${sessionStorage.getItem("pay-reduction")}
+        ${printStorage("pay-reduction")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Are you concerned you may lose your job?</td>
         <td>
-          ${sessionStorage.getItem("job-loss")}
+        ${printStorage("job-loss")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Are your promotional opportunities restricted?</td>
         <td>
-          ${sessionStorage.getItem("promotional-restricted")}
+        ${printStorage("promotional-restricted")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Do you believe you can be more effective in your job if you had additional suport/training to better manage your conditions?</td>
         <td>
-          ${sessionStorage.getItem("job-effective")}
+        ${printStorage("job-effective")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have your conditions affected your ability to work?</td>
         <td>
-          ${sessionStorage.getItem("work-ability")}
+        ${printStorage("work-ability")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you had any retraining to help you gain or retain employment?</td>
         <td>
-          ${sessionStorage.getItem("retain-employment")}
+        ${printStorage("retain-employment")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">Have you lost a job (excluding any medical discharge from the ADF) because of your conditions?</td>
         <td>
-          ${sessionStorage.getItem("job-lost")}
+        ${printStorage("job-lost")}
         </td>
       </tr>
       <tr>
         <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
         <td>
-          ${sessionStorage.getItem("employment-detai")}
+        ${printStorage("employment-detai")}
         </td>
       </tr>
     </table>
@@ -595,21 +615,23 @@ var data = `
     <table class="boxed-table">
       <tr>
         <td class="shade" width="200">Have you undertaken any treatment from your conditions?</td>
-        <td> ${sessionStorage.getItem("undertaken-treatment")}</td>
+        <td> ${printStorage("undertaken-treatment")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Are you still undergoing treatment?</td>
-        <td> ${sessionStorage.getItem("social-affected")}</td>
+        <td> ${printStorage("social-affected")}</td>
       </tr>
       <tr>
         <td class="shade" width="200"Have you been advised that further treatment will not improve your conditions?</td>
-        <td> ${sessionStorage.getItem("been-advised")}</td>
+        <td> ${printStorage("been-advised")}</td>
       </tr>
       <tr>
         <td class="shade" width="200">Tell us in your own words any other impacts of your condition that have not been already covered.
 
        </td>
-        <td> ${sessionStorage.getItem("interactions-affected")}</td>
+        <td>
+        ${printStorage("interactions-affected")}
+        </td>
       </tr>
     </table>
   </div>
@@ -661,4 +683,16 @@ function sendEmail() {
     Subject: "Support Assessment - A",
     Body: data
   }).then(message => alert(message));
+}
+
+function printStorage(storageName) {
+  storageValue = sessionStorage.getItem(storageName);
+  console.log(storageValue);
+  storageValue ? (value = storageValue) : (value = "(no answer)");
+
+  if (value === "yesalittle") value = "Yes, a little";
+  if (value === "yesalot") value = "Yes, a little";
+  if (value === "no") value = "No";
+  if (value === "yes") value = "Yes";
+  return value;
 }

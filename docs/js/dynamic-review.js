@@ -2,179 +2,195 @@ $(document).ready(function() {
   //Mobility
   dynamicAnswer(
     "Is your ability to move around when undertaking your usual activities affected?",
-    sessionStorage.getItem("move-ability")
+    "move-ability"
   );
   dynamicAnswer(
     "Do you need the assistance of an aid to help you get around?",
-    sessionStorage.getItem("move-aid")
+    "move-aid"
   );
-  dynamicAnswer(
-    "Do you require assistance to travel?",
-    sessionStorage.getItem("travel-aid")
-  );
+  dynamicAnswer("Do you require assistance to travel?", "travel-aid");
   dynamicAnswer(
     "Do your conditions restrict you to your home?",
-    sessionStorage.getItem("home-restricted")
+    "home-restricted"
   );
   dynamicAnswer(
     "The more detail you provide the more we can understand how we may be able to support you.",
-    sessionStorage.getItem("mobility-deta")
+    "mobility-deta"
   );
 
   //Recreational Activities
   dynamicAnswer(
     "Have you given up any recreational activities?",
-    sessionStorage.getItem("recreational-given-up")
+    "recreational-given-up"
   );
   dynamicAnswer(
     "Have you reduced your involvement in any recreational activities?",
-    sessionStorage.getItem("recreational-reduced")
+    "recreational-reduced"
   );
   dynamicAnswer(
     "Are there activities you planned to undertake but now cannot?",
-    sessionStorage.getItem("activities-cannot-undertake")
+    "activities-cannot-undertake"
   );
   dynamicAnswer(
     "The more detail you provide the more we can understand how we may be able to support you.",
-    sessionStorage.getItem("recreational-deta")
+    "recreational-detai"
   );
 
   //Personal Relationships
-  dynamicAnswer(
-    "Is your social life affected?",
-    sessionStorage.getItem("social-affected")
-  );
+  dynamicAnswer("Is your social life affected?", "social-affected");
   dynamicAnswer(
     "Are your daily interactions with people affected?",
-    sessionStorage.getItem("interactions-affected")
+    "interactions-affected"
+  );
+
+  dynamicAnswer(
+    "Are your relationships with your family affected?",
+    "relationships-affected"
   );
   dynamicAnswer(
     "Is your ability to form or maintain intimate relationships affected?",
-    sessionStorage.getItem("intimate-affected")
+    "intimate-affected"
   );
   dynamicAnswer(
     "Do you require assistance with personal care?",
-    sessionStorage.getItem("personal-assistance")
+    "personal-assistance"
   );
   dynamicAnswer(
     "Has your connection to the community been affected?",
-    sessionStorage.getItem("community-connection")
+    "community-connection"
+  );
+
+  dynamicAnswer(
+    "Has your conditions affected your ability to work?",
+    "work-affected"
   );
   dynamicAnswer(
     "The more detail you provide the more we can understand how we may be able to support you.",
-    sessionStorage.getItem("relationship-detai")
+    "relationship-detai"
   );
 
   //Domestic Activities
   dynamicAnswer(
     "Does it take longer for you to complete your domestic activities?",
-    sessionStorage.getItem("domestic-longer")
+    "domestic-longer"
   );
-  dynamicAnswer(
-    "Do you need help with domestic activities?",
-    sessionStorage.getItem("domestic-help")
-  );
+  dynamicAnswer("Do you need help with domestic activities?", "domestic-help");
   dynamicAnswer(
     "Have you had to stop performing any domestic activities?",
-    sessionStorage.getItem("domestic-stop")
+    "domestic-stop"
   );
   dynamicAnswer(
     "Have your immediate family taken over any domestic activities you normally undertook?",
-    sessionStorage.getItem("domestic-family")
+    "domestic-family"
   );
   dynamicAnswer(
     "The more detail you provide the more we can understand how we may be able to support you.",
-    sessionStorage.getItem("domestic-detail")
+    "domestic-detai"
   );
 
   //Employment
-  dynamicAnswer("Are you employed?", sessionStorage.getItem("is-employed"));
-  dynamicAnswer(
-    "Has the way you work been affected?",
-    sessionStorage.getItem("work-affected")
-  );
+  dynamicAnswer("Are you employed?", "is-employed");
+  dynamicAnswer("Has the way you work been affected?", "work-affected");
   dynamicAnswer(
     "Have your duties or responsibilities changed?",
-    sessionStorage.getItem("duties-changed")
+    "duties-changed"
   );
-  dynamicAnswer(
-    "Have your work hours reduced or changed?",
-    sessionStorage.getItem("work-reduced")
-  );
-  dynamicAnswer(
-    "Have you had to change jobs?",
-    sessionStorage.getItem("changed-jobs")
-  );
-  dynamicAnswer(
-    "Have you had a reduction in pay?",
-    sessionStorage.getItem("pay-reduction")
-  );
-  dynamicAnswer(
-    "Are you concerned you may lose your job?",
-    sessionStorage.getItem("job-loss")
-  );
+  dynamicAnswer("Have your work hours reduced or changed?", "work-reduced");
+  dynamicAnswer("Have you had to change jobs?", "changed-jobs");
+  dynamicAnswer("Have you had a reduction in pay?", "pay-reduction");
+  dynamicAnswer("Are you concerned you may lose your job?", "job-loss");
   dynamicAnswer(
     "Are your promotional opportunities restricted?",
-    sessionStorage.getItem("promotional-restricted")
+    "promotional-restricted"
   );
-  dynamicAnswer(
-    "Have you had to change jobs?",
-    sessionStorage.getItem("changed-jobs")
-  );
-  dynamicAnswer(
-    "Have you had a reduction in pay?",
-    sessionStorage.getItem("pay-reduction")
-  );
-  dynamicAnswer(
-    "Are you concerned you may lose your job?",
-    sessionStorage.getItem("job-loss")
-  );
+  dynamicAnswer("Have you had to change jobs?", "changed-jobs");
+  dynamicAnswer("Have you had a reduction in pay?", "pay-reduction");
+  dynamicAnswer("Are you concerned you may lose your job?", "job-loss");
   dynamicAnswer(
     "Are your promotional opportunities restricted?",
-    sessionStorage.getItem("promotional-restricted")
+    "promotional-restricted"
   );
   dynamicAnswer(
-    "Do you believe you can be more effective in your job if you had additional suport/training to better manage your conditions?",
-    sessionStorage.getItem("job-effective")
+    "Do you believe you can be more effective in your job if you had additional support/training to better manage your conditions?",
+    "job-effective"
   );
   dynamicAnswer(
     "Have your conditions affected your ability to work?",
-    sessionStorage.getItem("work-ability")
+    "work-ability"
   );
   dynamicAnswer(
     "Have you had any retraining to help you gain or retain employment?",
-    sessionStorage.getItem("retain-employment")
+    "retain-employment"
   );
   dynamicAnswer(
     "Have you lost a job (excluding any medical discharge from the ADF) because of your conditions?",
-    sessionStorage.getItem("job-lost")
+    "job-lost"
   );
   dynamicAnswer(
     "The more detail you provide the more we can understand how we may be able to support you.",
-    sessionStorage.getItem("work-ability")
+    "employment-detai"
   );
 
   //Treatment
   dynamicAnswer(
     "Have you undertaken any treatment from your conditions?",
-    sessionStorage.getItem("undertaken-treatment")
+    "undertake-treatment"
   );
-  dynamicAnswer(
-    "Are you still undergoing treatment?",
-    sessionStorage.getItem("social-affected")
-  );
+  dynamicAnswer("Are you still undergoing treatment?", "still-treatment");
   dynamicAnswer(
     "Have you been advised that further treatment will not improve your conditions?",
-    sessionStorage.getItem("been-advised")
+    "been-advised"
   );
   dynamicAnswer(
     "Tell us in your own words any other impacts of your condition that have not been already covered.",
-    sessionStorage.getItem("interactions-affected")
+    "treatment-detai"
   );
 });
 
 function dynamicAnswer(selector, answer) {
-  $(".rev-sub__item-question:contains(" + selector + ")")
-    .next()
-    .text(answer);
+  if (answer.includes("deta")) {
+    if (answer == "domestic-detai") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".domestic-detail .rev-sub__item-answer").text(printAnswer);
+    }
+
+    if (answer == "recreational-detai") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".recreational-detail .rev-sub__item-answer").text(printAnswer);
+    }
+    if (answer == "employment-detai") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".employment-detail .rev-sub__item-answer").text(printAnswer);
+    }
+    if (answer == "mobility-deta") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".mobility-detail .rev-sub__item-answer").text(printAnswer);
+    }
+
+    if (answer == "relationship-detai") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".personal-detail .rev-sub__item-answer").text(printAnswer);
+    }
+
+    if (answer == "treatment-detai") {
+      printAnswer = sessionStorage.getItem(answer);
+      $(".treatments-detail .rev-sub__item-answer").text(printAnswer);
+    }
+  } else {
+    printAnswer = sessionStorage.getItem(answer);
+    $(".rev-sub__item-question:contains(" + selector + ")")
+      .next()
+      .text(validateAnswer(printAnswer));
+  }
+}
+
+function validateAnswer(answer) {
+  if (answer) {
+    if (answer === "no") return "No";
+    if (answer === "yes") return "Yes";
+    if (answer === "yesalittle") return "Yes, a little";
+    if (answer === "yesalot") return "Yes, a lot";
+  } else {
+    return "(no answer)";
+  }
 }
