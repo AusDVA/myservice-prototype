@@ -61,6 +61,19 @@ function removeItem(cardType) {
 
 };
 
+/* Clicks on "delete" on new card edit */
+
+function removeSummary(cardType) {
+  hideAll();
+  var myDiv = "#" + cardType + "-summary";
+  userEntries.splice($.inArray(myDiv, userEntries), 1);
+  displayUserList();
+  $('html, body').animate({
+    scrollTop: $("#user-list").offset().top
+  }, 1000);
+};
+
+
 /* Clicks on "cancel" on full card */
 
 function cancelCard(cardType) {
@@ -106,12 +119,12 @@ function hideAll() {
 
   $(".hide-on-load").hide();
 
+  $("#bank-accounts-update1-card").hide();
+  $("#bank-accounts-update1-summary").hide();
+  $("#bank-accounts-update1-summary-deleted").hide();
+
   $("#bank-accounts-card").hide();
   $("#bank-accounts-summary").hide();
-  $("#bank-accounts-summary-deleted").hide();
-
-  $("#bank-accounts-new-card").hide();
-  $("#bank-accounts-new-summary").hide();
 
   $("#shares-listed-update-card").hide();
   $("#shares-listed-update-summary").hide();
@@ -120,6 +133,9 @@ function hideAll() {
   $("#shares-unlisted-update-card").hide();
   $("#shares-unlisted-update-summary").hide();
   $("#shares-unlisted-update-summary-deleted").hide();
+
+  $("#shares-card").hide();
+  $("#shares-summary").hide();
   
   // $("#church-account-ref").hide();
 
