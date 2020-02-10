@@ -1,0 +1,145 @@
+<%- include(templates+"header", {
+    claim: "Support Assessment",
+    heading: "Treatments",
+    progress: {
+      activeItem: 6,
+        points: [
+        {
+          text: "Mobility",
+          link: "/auth/claim/support-assessment-b/sa-02"
+        },
+        {
+            text: "Recreational activities",
+            link: "/auth/claim/support-assessment-b/sa-03"
+          },
+          {
+            text: "Personal relationships",
+            link: "/auth/claim/support-assessment-b/sa-04"
+          },
+          {
+            text: "Domestic activities",
+            link: "/auth/claim/support-assessment-b/sa-05"
+          },
+          {
+            text: "Employment",
+            link: "/auth/claim/support-assessment-b/sa-06"
+          },
+          {
+            text: "Treatments",
+            link: "/auth/claim/support-assessment-b/sa-07"
+          },
+        ]
+      }
+  }) %>
+
+<%- include(forms+"button_radio", {
+    label: "Have you undertaken any treatment for your conditions?",
+    id: "undertake-treatment",
+    boxes: [
+        "Yes",
+        "No"
+    ]
+  }) %>
+
+<%- include(forms+"textarea", {
+    label: "Tell us more",
+    id: "undertake-treatment-more",
+    modifiers: ["hidden"]
+  }) %>
+
+
+<%- include(forms+"button_radio", {
+    label: "Are you still undergoing treatment?",
+    id: "still-treatment",
+    boxes: [
+        "Yes",
+        "No"
+    ],
+    modifiers: ["hidden"]
+  }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "still-treatment-more",
+  modifiers: ["hidden"]
+}) %>
+
+<%- include(forms+"button_radio", {
+    label: "Have you been advised that further treatment will not improve your conditions?",
+    id: "been-advised",
+    boxes: [
+        "Yes",
+        "No"
+    ],
+    modifiers: ["hidden"]
+  }) %>
+
+<%- include(forms+"textarea", {
+    label: "Tell us in your own words any other impacts of your condition that have not already been covered.",
+    id: "been-advised-more",
+    modifiers: ["hidden"]
+  }) %>
+
+<script>
+
+  $(document).ready(function () {
+    $("#undertake-treatment-1").click(function () {
+      $("#been-advised-container").hide();
+      $("#been-advised-more-container").hide();
+      $("#still-treatment-container").show();
+      $("#undertake-treatment-more-container").show();
+    })
+
+    $("#undertake-treatment-2").click(function () {
+      $("#still-treatment-container").hide();
+      $("#undertake-treatment-more-container").hide();
+      $("#still-treatment-more-container").hide();
+      $("#been-advised-container").show();
+    })
+
+    $("#been-advised-2").click(function () {
+      $("#undertake-treatment-2").show();
+      $("#been-advised-more-container").show();
+    })
+
+    $("#still-treatment-1").click(() => {
+      $("#still-treatment-more-container").show();
+    })
+
+    $("#still-treatment-2").click(() => {
+      $("#still-treatment-more-container").hide();
+    })
+
+
+  });
+
+  function hideAll() {
+
+  }
+</script>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/support-assessment-b/sa-06",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/support-assessment-b/sa-08",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>

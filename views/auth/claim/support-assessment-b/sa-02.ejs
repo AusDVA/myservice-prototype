@@ -1,0 +1,137 @@
+<%- include(templates+"header", {
+  claim: "Support Assessment",
+  heading: "Mobility",
+  progress: {
+    activeItem: 1,
+      points: [
+      {
+        text: "Mobility",
+        link: "/auth/claim/support-assessment-b/sa-02"
+      },
+      {
+          text: "Recreational activities",
+          link: "/auth/claim/support-assessment-b/sa-03"
+        },
+        {
+          text: "Personal relationships",
+          link: "/auth/claim/support-assessment-b/sa-04"
+        },
+        {
+          text: "Domestic activities",
+          link: "/auth/claim/support-assessment-b/sa-05"
+        },
+        {
+          text: "Employment",
+          link: "/auth/claim/support-assessment-b/sa-06"
+        },
+        {
+          text: "Treatments",
+          link: "/auth/claim/support-assessment-b/sa-07"
+        },
+      ]
+    }
+}) %>
+
+<%- include(forms+"button_radio", {
+  label: "Is your ability to move around when undertaking your usual activities affected?",
+  id: "move-ability",
+  hint: "For example, driving, walking or socialising.",
+  boxes: [
+    "No",
+    "Yes"
+  ],
+  modifiers: ["hintNewLine"],
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  hint: "Mention examples when you feel pain, fatigue or unmotivated.",
+  id: "move-ability-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
+
+
+<%- include(forms+"button_radio", {
+  label: "Do you need the assistance of an aid to help you get around?",
+  hint: "For example, a walking stick or assistance animal.",
+  id: "move-aid",
+  boxes: [
+    "No",
+    "Yes"
+  ],
+  modifiers: ["hintNewLine"]
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "move-aid-more",
+  modifiers: ["hidden", "hidden"]
+}) %>
+
+<%- include(forms+"button_radio", {
+  label: "Do you require assistance to travel?",
+  hint: "Including short or long trips.",
+  id: "travel-aid",
+  boxes: [
+    "No",
+    "Yes"
+  ],
+  modifiers: ["hintNewLine"]
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "travel-aid-more",
+  modifiers: ["hidden"]
+}) %>
+
+<%- include(forms+"button_radio", {
+  label: "Do your conditions restrict you to your home?",
+  id: "home-restricted",
+  boxes: [
+    "No",
+    "Yes"
+  ],
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "home-restricted-more",
+  modifiers: ["hidden"]
+}) %>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      link: "/auth/claim/support-assessment-b/sa-01",
+      text: "Previous"
+    },
+    {
+      link: "#claim-cancel-modal",
+      text: "Cancel claim"
+    },
+    {
+      link: "/auth/claim",
+      text: "Save and exit",
+      modifiers: ["floated"]
+    },
+    {
+      link: "/auth/claim/support-assessment-b/sa-03",
+      text: "Save and next",
+      id: "btnNext",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
+
+
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>

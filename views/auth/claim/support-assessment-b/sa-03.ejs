@@ -1,0 +1,113 @@
+<%- include(templates+"header", {
+    claim: "Support Assessment",
+    heading: "Recreational activities",
+    progress: {
+      activeItem: 2,
+        points: [
+        {
+          text: "Mobility",
+          link: "/auth/claim/support-assessment-b/sa-02"
+        },
+        {
+            text: "Recreational activities",
+            link: "/auth/claim/support-assessment-b/sa-03"
+          },
+          {
+            text: "Personal relationships",
+            link: "/auth/claim/support-assessment-b/sa-04"
+          },
+          {
+            text: "Domestic activities",
+            link: "/auth/claim/support-assessment-b/sa-05"
+          },
+          {
+            text: "Employment",
+            link: "/auth/claim/support-assessment-b/sa-06"
+          },
+          {
+            text: "Treatments",
+            link: "/auth/claim/support-assessment-b/sa-07"
+          },
+        ]
+      }
+  }) %>
+
+<%- include(forms+"button_radio", {
+    label: "Have you given up any recreational activities?",
+    id: "recreational-given-up",
+    boxes: [
+      "No",
+      "Yes"
+    ]
+  }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  hint: "Mention how this has affected your lifestyle and wellbeing. For example, family, social life and other health conditions.",
+  id: "recreational-given-up-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
+
+<%- include(forms+"button_radio", {
+    label: "Have you reduced your involvement in any recreational activities?",
+    id: "recreational-reduced",
+    boxes: [
+      "No",
+      "Yes"
+    ]
+  }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "recreational-reduced-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
+
+<%- include(forms+"button_radio", {
+    label: "Are there activities you planned to undertake but now cannot?",
+    id: "activities-cannot-undertake",
+    boxes: [
+      "No",
+      "Yes"
+    ]
+  }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "activities-cannot-undertake-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/support-assessment-b/sa-02",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/support-assessment-b/sa-04",
+        text: "Save and next",
+        id: "btnNext",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
+
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
