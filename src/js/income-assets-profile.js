@@ -9,6 +9,9 @@ function scrollToAdd() {
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
+
+  alert( "Refer to current build for adding this category");
+  return;
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -119,9 +122,21 @@ function hideAll() {
 
   $(".hide-on-load").hide();
 
-  $("#bank-accounts-update1-card").hide();
-  $("#bank-accounts-update1-summary").hide();
-  $("#bank-accounts-update1-summary-deleted").hide();
+  // $("#bank-accounts-update-card").hide();
+  // $("#bank-accounts-update-summary").hide();
+  // $("#bank-accounts-update-summary-deleted").hide();
+
+  $("#bank-accounts-update-card").hide();
+  $("#bank-accounts-update-summary").hide();
+  $("#bank-accounts-update-summary-deleted").hide();
+
+  $("#bank-accounts-church-update-card").hide();
+  $("#bank-accounts-church-update-summary").hide();
+  $("#bank-accounts-church-update-summary-deleted").hide();
+
+  $("#bank-accounts-overseas-update-card").hide();
+  $("#bank-accounts-overseas-update-summary").hide();
+  $("#bank-accounts-overseas-update-summary-deleted").hide();
 
   $("#bank-accounts-card").hide();
   $("#bank-accounts-summary").hide();
