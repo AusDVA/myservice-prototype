@@ -673,6 +673,7 @@ var data = `
     `;
 
 function sendEmail() {
+  let emailSent = false;
   Email.send({
     Host: "smtp.gmail.com",
     Username: "myservice.prototype@gmail.com",
@@ -681,7 +682,11 @@ function sendEmail() {
     From: "myservice.prototype@gmail.com ",
     Subject: "Support Assessment - A",
     Body: data
-  }).then((window.location.href = "/auth/claim/support-assessment-a/sa-09"));
+  }).then(
+    setTimeout(function() {
+      window.location.href = "/auth/claim/support-assessment-a/sa-09";
+    }, 3000)
+  );
 }
 
 function printStorage(storageName) {
