@@ -639,7 +639,6 @@ var data = `
 </body>
 
 </html>
-
     `;
 
 function sendEmail() {
