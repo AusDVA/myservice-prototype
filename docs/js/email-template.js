@@ -679,18 +679,23 @@ function sendEmail() {
     Password: "Myserviceoh.012",
     To: "myservice.prototype@gmail.com",
     From: "myservice.prototype@gmail.com ",
-    Subject: "Support Assessment - A",
+    Subject: "Support Assessment - B",
     Body: data
-  }).then(message => alert(message));
+  }).then(
+    setTimeout(function() {
+      window.location.href = "/auth/claim/support-assessment-b/sa-09";
+    }, 3000)
+  );
 }
 
 function printStorage(storageName) {
   storageValue = sessionStorage.getItem(storageName);
   storageValue ? (value = storageValue) : (value = "(no answer)");
+  if (value === "no") value = "No. ";
+  if (value === "yes") value = "Yes. ";
+  sessionStorage.getItem(storageName + "-mo")
+    ? (value += sessionStorage.getItem(storageName + "-mo"))
+    : "";
 
-  if (value === "yesalittle") value = "Yes, a little";
-  if (value === "yesalot") value = "Yes, a little";
-  if (value === "no") value = "No";
-  if (value === "yes") value = "Yes";
   return value;
 }

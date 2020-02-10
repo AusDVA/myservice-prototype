@@ -202,19 +202,20 @@ function dynamicAnswer(selector, answer) {
     }
   } else {
     printAnswer = sessionStorage.getItem(answer);
+    moreAnswer = sessionStorage.getItem(answer + "-mo");
     let questionDiv = $(".rev-sub__item-question:contains(" + selector + ")");
     printAnswer === null
       ? questionDiv.parent().hide()
-      : questionDiv.next().text(validateAnswer(printAnswer));
+      : questionDiv
+          .next()
+          .text(validateAnswer(printAnswer) + (moreAnswer ? moreAnswer : ""));
   }
 }
 
 function validateAnswer(answer) {
   if (answer) {
-    if (answer === "no") return "No";
-    if (answer === "yes") return "Yes";
-    if (answer === "yesalittle") return "Yes, a little";
-    if (answer === "yesalot") return "Yes, a lot";
+    if (answer === "no") return "No. ";
+    if (answer === "yes") return "Yes. ";
   } else {
     return "(no answer)";
   }
