@@ -5,29 +5,10 @@
 
 
 <style>
-  .flag-icon {
-    color: white;
-    margin-left: 5px;
-  }
 
-  .flag-icon-header {
-    color: white;
-    display: inline-block;
-    margin-right: 4px;
-    vertical-align: 1px;
-  }
-
-  i.fa {
-    display: inline-block;
-    border-radius: 30px;
-    padding: 4px;
-    background-color: #2B7DCE;
-  }
-
+  /* flagging changed items */
 
   .info {
-    /* border: 2px #2B7DCE solid; */
-    /* border-bottom: 2px #2B7DCE solid; */
     border-radius: 3px 3px 0 0;
     background-color: rgb(245, 248, 252);
     padding: 10px;
@@ -40,15 +21,26 @@
     display: inline-block;
   }
 
+  .flag-icon {
+    color:#2B7DCE;
+    margin-left: 8px;
+  }
+
+  .flag-icon-header {
+    color:#2B7DCE;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  /* for two column layout of lists */
+
   .listbox {
     width: 360px;
     float: left;
     padding-right: 60px;
-
   }
 
   li {
-    /* text-decoration: underline; */
     list-style: none;
     padding: 0;
     padding-bottom: 7px;
@@ -58,16 +50,19 @@
     margin: 0;
     padding: 0 !important;
   }
+
 </style>
 
-<h2 class="font-weight-bold">Edit, add or delete income and assets</h2>
+<h2 class="font-weight-bold">Manage your income and assets</h2>
 
-<p>Update your income and assets as required. When you are ready, submit your changes or save to complete later.</p>
+<p>Add, edit or delete income and assets as required. When you are ready, submit your changes.</p>
 
 <div class="info" hidden>
-  <i class="flag-icon-header fa fa-ellipsis-h"></i>
+  
   <h3>Updates not submitted</h3>
   <p style="margin-bottom: 5px;">Submit your changes after completing all of your updates.</p>
+  <hr style="margin-bottom:0; margin-top: 20px">
+  <p style="font-size: 14px; margin-bottom: 5px"><i class="flag-icon-header fa fa-flag "></i>Your updated items</p>
 </div>
 
 <hr class="tophr" style="height: 2px; background-color: #000; margin-top: 0px; margin-bottom: 20px; padding: 0;">
@@ -78,25 +73,23 @@
     <div class="listbox" style="float: left;">
       <ul>
         <li>
-          <a href="/auth/profile/income-assets/bank-accounts">Bank accounts</a>&nbsp;&rsaquo;<i class="edited1 flag-icon fa fa-ellipsis-h fa-xs" style="display: none;"></i>
+          <a href="/auth/profile/income-assets/bank-accounts">Bank accounts</a>&nbsp;&rsaquo;<i class="edited1 flag-icon fa fa-flag fa-xs" style="display: none;"></i>
         </li>
         <li><a>Gifts</a>&nbsp;&rsaquo;</li>
-        <li><a>Managed investments</a>&nbsp;&rsaquo;<i class="added1 flag-icon fa fa-ellipsis-h fa-xs" style="display: none;"></i>
+        <li><a>Managed investments</a>&nbsp;&rsaquo;
         <li><a>Money loaned</a>&nbsp;&rsaquo;</li>
       </ul>
     </div>
     <div class="listbox" style="float: left;">
       <ul>
         <li><a>Real estate</a>&nbsp;&rsaquo;</li>
-        <li><a>Shares</a>&nbsp;&rsaquo;</li>
+        <li><a href="/auth/profile/income-assets/shares">Shares</a>&nbsp;&rsaquo;<i class="added1 flag-icon fa fa-flag fa-xs" style="display: none;"></i></li>
         <li><a>Vehicles</a>&nbsp;&rsaquo;</li>
       </ul>
     </div>
     <div style="clear: both;"></div>
   </div>
 </div>
-
-<!-- <p>Includes banks accounts and cash held.</p> -->
 
 <hr style="margin-bottom: 0; margin-top: 10px;">
 
@@ -135,35 +128,18 @@
   </div>
 </div>
 
-<!-- <hr style="height: 3px; background-color: #000; margin-top: 0; margin-bottom: 15px; padding: 0;">
-
-<div class="pagination" style="position: relative;">
-  <button class="cancel uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Delete transaction</button>
-  <div class="floated;">
-    <button class="submit uikit-btn uikit-btn--tertiary" onclick="location.href='/auth/profile/income-assets/'" disabled>Save and exit</button>
-    <button class="submit uikit-btn uikit-btn--primary" onclick="location.href='/auth/profile/income-assets/documents'" disabled>Submit updates</button>
-  </div>
-</div>
-
-<div class="pagination" style="position: relative;">
-  <div id="footer-buttons-mask" style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div>
-  <div class="floated">
-    <button class="uikit-btn btnNext" onClick="goBack()">Continue</button>
-  </div>
-</div> -->
-
 <%- include(forms+"pagination", {
   pagination: [
   {
     text: "Delete transaction",
     link: "#open-modal"
   },
-    {
+   /* {
       text: "Save and exit",
       link: "/auth/profile/income-assets/",
       modifiers: ["floated","disabled"],
       id: "save-exit"
-    },
+    }, */
     {
       text: "Submit",
       link: "/auth/profile/income-assets/documents",
