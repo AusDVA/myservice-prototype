@@ -681,7 +681,7 @@ function sendEmail() {
     From: "myservice.prototype@gmail.com ",
     Subject: "Support Assessment - A",
     Body: data
-  }).then(message => alert(message));
+  }).then((window.location.href = "/auth/claim/support-assessment-a/sa-09"));
 }
 
 function printStorage(storageName) {
