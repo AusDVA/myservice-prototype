@@ -376,12 +376,6 @@ var data = `
           ${printStorage("home-restricted")}
         </td>
       </tr>
-      <tr>
-        <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
-        <td>
-          ${printStorage("mobility-deta")}
-        </td>
-      </tr>
     </table>
   </div>
 
@@ -411,12 +405,6 @@ var data = `
         <td class="shade" width="200">Are there activities you planned to undertake but now cannot?</td>
         <td>
           ${printStorage("activities-cannot-undertake")}
-        </td>
-      </tr>
-      <tr>
-        <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
-        <td>
-          ${printStorage("recreational-detai")}
         </td>
       </tr>
     </table>
@@ -462,12 +450,6 @@ var data = `
         ${printStorage("community-connection")}
         </td>
       </tr>
-      <tr>
-        <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
-        <td>
-        ${printStorage("relationship-detai")}
-        </td>
-      </tr>
     </table>
   </div>
 
@@ -505,12 +487,6 @@ var data = `
 </td>
         <td> 
         ${printStorage("domestic-family")}
-        </td>
-      </tr>
-      <tr>
-        <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
-        <td>
-        ${printStorage("domestic-detai")}
         </td>
       </tr>
     </table>
@@ -592,12 +568,6 @@ var data = `
         <td class="shade" width="200">Have you lost a job (excluding any medical discharge from the ADF) because of your conditions?</td>
         <td>
         ${printStorage("job-lost")}
-        </td>
-      </tr>
-      <tr>
-        <td class="shade" width="200">The more detail you provide the more we can understand how we may be able to support you.</td>
-        <td>
-        ${printStorage("employment-detai")}
         </td>
       </tr>
     </table>
