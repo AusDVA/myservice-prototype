@@ -6,27 +6,27 @@
         points: [
         {
           text: "Mobility",
-          link: "/auth/claim/support-assessment-a/sa-02"
+          link: "/auth/claim/support-assessment-b/sa-02"
         },
         {
             text: "Recreational activities",
-            link: "/auth/claim/support-assessment-a/sa-03"
+            link: "/auth/claim/support-assessment-b/sa-03"
           },
           {
             text: "Personal relationships",
-            link: "/auth/claim/support-assessment-a/sa-04"
+            link: "/auth/claim/support-assessment-b/sa-04"
           },
           {
             text: "Domestic activities",
-            link: "/auth/claim/support-assessment-a/sa-05"
+            link: "/auth/claim/support-assessment-b/sa-05"
           },
           {
             text: "Employment",
-            link: "/auth/claim/support-assessment-a/sa-06"
+            link: "/auth/claim/support-assessment-b/sa-06"
           },
           {
             text: "Treatments",
-            link: "/auth/claim/support-assessment-a/sa-07"
+            link: "/auth/claim/support-assessment-b/sa-07"
           },
         ]
       }
@@ -38,11 +38,16 @@
     id: "domestic-longer",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "domestic-longer-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Do you need help with domestic activities?",
@@ -50,42 +55,53 @@
     id: "domestic-help",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "domestic-help-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Have you had to stop performing any domestic activities?",
     id: "domestic-stop",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "domestic-stop-more",
+  hint: "Mention things that are difficult or not safe for you to do.",
+  modifiers: ["hidden", "hintNewLine"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Have your immediate family taken over any domestic activities you normally undertook?",
     id: "domestic-family",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
-    ],
+      "Yes"
+    ]
   }) %>
-
 
 <%- include(forms+"textarea", {
-    label: "The more detail you provide the more we can understand how we may be able to support you.",
-    id: "domestic-details"
-  }) %>
+  label: "Tell us more",
+  id: "domestic-stop-more",
+  hint: "Reflect back on your difficult days or remind you of the times they've helped.",
+  modifiers: ["hidden", "hintNewLine"]
+}) %>
 
 <%- include(forms+"pagination", {
     pagination: [
       {
-        link: "/auth/claim/support-assessment-a/sa-04",
+        link: "/auth/claim/support-assessment-b/sa-04",
         text: "Previous"
       },
       {
@@ -98,12 +114,20 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/support-assessment-a/sa-06",
+        link: "/auth/claim/support-assessment-b/sa-06",
         text: "Save and next",
         id: "btnNext",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
+
 <%- include(forms+"modals/claim-cancel") %>
 <%- include(templates+"footer") %>

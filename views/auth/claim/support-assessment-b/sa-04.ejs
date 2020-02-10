@@ -6,27 +6,27 @@
         points: [
         {
           text: "Mobility",
-          link: "/auth/claim/support-assessment-a/sa-02"
+          link: "/auth/claim/support-assessment-b/sa-02"
         },
         {
             text: "Recreational activities",
-            link: "/auth/claim/support-assessment-a/sa-03"
+            link: "/auth/claim/support-assessment-b/sa-03"
           },
           {
             text: "Personal relationships",
-            link: "/auth/claim/support-assessment-a/sa-04"
+            link: "/auth/claim/support-assessment-b/sa-04"
           },
           {
             text: "Domestic activities",
-            link: "/auth/claim/support-assessment-a/sa-05"
+            link: "/auth/claim/support-assessment-b/sa-05"
           },
           {
             text: "Employment",
-            link: "/auth/claim/support-assessment-a/sa-06"
+            link: "/auth/claim/support-assessment-b/sa-06"
           },
           {
             text: "Treatments",
-            link: "/auth/claim/support-assessment-a/sa-07"
+            link: "/auth/claim/support-assessment-b/sa-07"
           },
         ]
       }
@@ -37,10 +37,15 @@
     id: "social-affected",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "social-affected-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Are your daily interactions with people affected?",
@@ -48,11 +53,16 @@
     id: "interactions-affected",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "interactions-affected-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Are your relationships with your family affected?",
@@ -60,11 +70,16 @@
     id: "relationships-affected",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "relationships-affected-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Is your ability to form or maintain intimate relationships affected?",
@@ -72,11 +87,16 @@
     id: "intimate-affected",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "intimate-affected-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Do you require assistance with personal care?",
@@ -84,31 +104,36 @@
     id: "personal-assistance",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ],
     modifiers: ["hintNewLine"]
   }) %>
 
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "personal-assistance-more",
+  modifiers: ["hidden"]
+}) %>
+
 <%- include(forms+"button_radio", {
     label: "Has your connection to the community been affected?",
     id: "community-connection",
-    boxes: [
+        boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
 
 <%- include(forms+"textarea", {
-    label: "The more detail you provide the more we can understand how we may be able to support you.",
-    id: "relationship-details"
-  }) %>
+  label: "Tell us more",
+  id: "community-connection-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"pagination", {
     pagination: [
       {
-        link: "/auth/claim/support-assessment-a/sa-03",
+        link: "/auth/claim/support-assessment-b/sa-03",
         text: "Previous"
       },
       {
@@ -121,12 +146,20 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/support-assessment-a/sa-05",
+        link: "/auth/claim/support-assessment-b/sa-05",
         text: "Save and next",
         id: "btnNext",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
+
 <%- include(forms+"modals/claim-cancel") %>
 <%- include(templates+"footer") %>

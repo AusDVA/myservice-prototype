@@ -6,27 +6,27 @@
         points: [
         {
           text: "Mobility",
-          link: "/auth/claim/support-assessment-a/sa-02"
+          link: "/auth/claim/support-assessment-b/sa-02"
         },
         {
             text: "Recreational activities",
-            link: "/auth/claim/support-assessment-a/sa-03"
+            link: "/auth/claim/support-assessment-b/sa-03"
           },
           {
             text: "Personal relationships",
-            link: "/auth/claim/support-assessment-a/sa-04"
+            link: "/auth/claim/support-assessment-b/sa-04"
           },
           {
             text: "Domestic activities",
-            link: "/auth/claim/support-assessment-a/sa-05"
+            link: "/auth/claim/support-assessment-b/sa-05"
           },
           {
             text: "Employment",
-            link: "/auth/claim/support-assessment-a/sa-06"
+            link: "/auth/claim/support-assessment-b/sa-06"
           },
           {
             text: "Treatments",
-            link: "/auth/claim/support-assessment-a/sa-07"
+            link: "/auth/claim/support-assessment-b/sa-07"
           },
         ]
       }
@@ -37,40 +37,51 @@
     id: "recreational-given-up",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  hint: "Mention how this has affected your lifestyle and wellbeing. For example, family, social life and other health conditions.",
+  id: "recreational-given-up-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Have you reduced your involvement in any recreational activities?",
     id: "recreational-reduced",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "recreational-reduced-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Are there activities you planned to undertake but now cannot?",
     id: "activities-cannot-undertake",
     boxes: [
       "No",
-      "Yes, a little",
-      "Yes, a lot"
+      "Yes"
     ]
   }) %>
 
 <%- include(forms+"textarea", {
-    label: "The more detail you provide the more we can understand how we may be able to support you.",
-    id: "recreational-details"
-  }) %>
+  label: "Tell us more",
+  id: "activities-cannot-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
 
 <%- include(forms+"pagination", {
     pagination: [
       {
-        link: "/auth/claim/support-assessment-a/sa-02",
+        link: "/auth/claim/support-assessment-b/sa-02",
         text: "Previous"
       },
       {
@@ -83,12 +94,20 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/support-assessment-a/sa-04",
+        link: "/auth/claim/support-assessment-b/sa-04",
         text: "Save and next",
         id: "btnNext",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
+
 <%- include(forms+"modals/claim-cancel") %>
 <%- include(templates+"footer") %>

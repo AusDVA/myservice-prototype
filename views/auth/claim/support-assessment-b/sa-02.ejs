@@ -6,27 +6,27 @@
       points: [
       {
         text: "Mobility",
-        link: "/auth/claim/support-assessment-a/sa-02"
+        link: "/auth/claim/support-assessment-b/sa-02"
       },
       {
           text: "Recreational activities",
-          link: "/auth/claim/support-assessment-a/sa-03"
+          link: "/auth/claim/support-assessment-b/sa-03"
         },
         {
           text: "Personal relationships",
-          link: "/auth/claim/support-assessment-a/sa-04"
+          link: "/auth/claim/support-assessment-b/sa-04"
         },
         {
           text: "Domestic activities",
-          link: "/auth/claim/support-assessment-a/sa-05"
+          link: "/auth/claim/support-assessment-b/sa-05"
         },
         {
           text: "Employment",
-          link: "/auth/claim/support-assessment-a/sa-06"
+          link: "/auth/claim/support-assessment-b/sa-06"
         },
         {
           text: "Treatments",
-          link: "/auth/claim/support-assessment-a/sa-07"
+          link: "/auth/claim/support-assessment-b/sa-07"
         },
       ]
     }
@@ -38,11 +38,18 @@
   hint: "For example, driving, walking or socialising.",
   boxes: [
     "No",
-    "Yes, a little",
-    "Yes, a lot"
+    "Yes"
   ],
-  modifiers: ["hintNewLine"]
+  modifiers: ["hintNewLine"],
 }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  hint: "Mention examples when you feel pain, fatigue or unmotivated.",
+  id: "move-ability-more",
+  modifiers: ["hintNewLine", "hidden"]
+}) %>
+
 
 <%- include(forms+"button_radio", {
   label: "Do you need the assistance of an aid to help you get around?",
@@ -50,10 +57,15 @@
   id: "move-aid",
   boxes: [
     "No",
-    "Yes, a little",
-    "Yes, a lot"
+    "Yes"
   ],
   modifiers: ["hintNewLine"]
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "move-aid-more",
+  modifiers: ["hidden", "hidden"]
 }) %>
 
 <%- include(forms+"button_radio", {
@@ -62,10 +74,15 @@
   id: "travel-aid",
   boxes: [
     "No",
-    "Yes, a little",
-    "Yes, a lot"
+    "Yes"
   ],
   modifiers: ["hintNewLine"]
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "travel-aid-more",
+  modifiers: ["hidden"]
 }) %>
 
 <%- include(forms+"button_radio", {
@@ -73,20 +90,20 @@
   id: "home-restricted",
   boxes: [
     "No",
-    "Yes, a little",
-    "Yes, a lot"
+    "Yes"
   ],
 }) %>
 
 <%- include(forms+"textarea", {
-  label: "The more detail you provide the more we can understand how we may be able to support you.",
-  id: "mobility-detail"
+  label: "Tell us more",
+  id: "home-restricted-more",
+  modifiers: ["hidden"]
 }) %>
 
 <%- include(forms+"pagination", {
   pagination: [
     {
-      link: "/auth/claim/support-assessment-a/sa-01",
+      link: "/auth/claim/support-assessment-b/sa-01",
       text: "Previous"
     },
     {
@@ -99,13 +116,21 @@
       modifiers: ["floated"]
     },
     {
-      link: "/auth/claim/support-assessment-a/sa-03",
+      link: "/auth/claim/support-assessment-b/sa-03",
       text: "Save and next",
       id: "btnNext",
       modifiers: ["floated", "primary"]
     }
   ]
 }) %>
+
+
+<script>
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+</script>
 
 
 <%- include(forms+"modals/claim-cancel") %>

@@ -6,27 +6,27 @@
         points: [
         {
           text: "Mobility",
-          link: "/auth/claim/support-assessment-a/sa-02"
+          link: "/auth/claim/support-assessment-b/sa-02"
         },
         {
             text: "Recreational activities",
-            link: "/auth/claim/support-assessment-a/sa-03"
+            link: "/auth/claim/support-assessment-b/sa-03"
           },
           {
             text: "Personal relationships",
-            link: "/auth/claim/support-assessment-a/sa-04"
+            link: "/auth/claim/support-assessment-b/sa-04"
           },
           {
             text: "Domestic activities",
-            link: "/auth/claim/support-assessment-a/sa-05"
+            link: "/auth/claim/support-assessment-b/sa-05"
           },
           {
             text: "Employment",
-            link: "/auth/claim/support-assessment-a/sa-06"
+            link: "/auth/claim/support-assessment-b/sa-06"
           },
           {
             text: "Treatments",
-            link: "/auth/claim/support-assessment-a/sa-07"
+            link: "/auth/claim/support-assessment-b/sa-07"
           },
         ]
       }
@@ -41,6 +41,12 @@
     ]
   }) %>
 
+<%- include(forms+"textarea", {
+    label: "Tell us more",
+    id: "undertake-treatment-more",
+    modifiers: ["hidden"]
+  }) %>
+
 
 <%- include(forms+"button_radio", {
     label: "Are you still undergoing treatment?",
@@ -51,6 +57,12 @@
     ],
     modifiers: ["hidden"]
   }) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more",
+  id: "still-treatment-more",
+  modifiers: ["hidden"]
+}) %>
 
 <%- include(forms+"button_radio", {
     label: "Have you been advised that further treatment will not improve your conditions?",
@@ -64,7 +76,8 @@
 
 <%- include(forms+"textarea", {
     label: "Tell us in your own words any other impacts of your condition that have not already been covered.",
-    id: "treatment-details"
+    id: "treatment-details-more",
+    modifiers: ["hidden"]
   }) %>
 
 <script>
@@ -84,12 +97,17 @@
   function hideAll() {
 
   }
+
+  $(".form-group input").click(function () {
+    $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
+      $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
 </script>
 
 <%- include(forms+"pagination", {
     pagination: [
       {
-        link: "/auth/claim/support-assessment-a/sa-06",
+        link: "/auth/claim/support-assessment-b/sa-06",
         text: "Previous"
       },
       {
@@ -102,7 +120,7 @@
         modifiers: ["floated"]
       },
       {
-        link: "/auth/claim/support-assessment-a/sa-08",
+        link: "/auth/claim/support-assessment-b/sa-08",
         text: "Save and next",
         id: "btnNext",
         modifiers: ["floated", "primary"]
