@@ -55,16 +55,21 @@
         <label class="uikit-text-input__label" for="drop-down">Account type</label>
         <select class="uikit-text-input input-half" id="accountType" name="drop-down">
           <option>-- Select an item --</option>
-          <option>Savings account</option>
-          <option>Cheque account</option>
-          <option>Term deposit account</option>
           <option>Cash management account</option>
+          <option>Cheque account</option>
           <option>Church/charity account</option>
           <option>Deeming account</option>
           <option>Overseas account</option>
+          <option>Savings account</option>
+          <option>Term deposit account</option>
         </select>
       </div>
-      <div class="form-group margin-above--large">
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to provide your church or charity statement in the documents section.",
+        id: "church-notice",
+        modifiers: ["hidden"]
+      }); %>
+      <div class="form-group margin-above--large" id="bsb" style="display: none;">
         <label class="uikit-text-input__label" for="tags">BSB number</label>
         <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
       </div>
@@ -80,7 +85,7 @@
         <label class="uikit-text-input__label" for="tags">Name of financial insitution</label>
         <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
       </div>
-      <div class="form-group margin-above--large">
+      <div class="form-group margin-above--large" id="account-number" style="display: none;">
         <label class="uikit-text-input__label" for="tags">Account number</label>
         <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
       </div>
@@ -88,11 +93,7 @@
         <label class="uikit-text-input__label" for="tags">Church/charity account or reference number</label>
         <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required aria-required="true">
       </div>
-      <div class="form-group margin-above--large">
-        <label class="uikit-text-input__label" for="Input field">Current balance</label>
-        <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required
-          aria-required="true">
-      </div>
+    
       <div class="form-group margin-above--large" id="country-payment" style="display: none;">
         <label class="uikit-text-input__label">Country of payment</label>
         <%- include(partials+"content/auth-select-list-country") %>
@@ -100,6 +101,11 @@
       <div class="form-group margin-above--large" id="currency" style="display: none;">
         <label class="uikit-text-input__label">Currency</label>
         <%- include(partials+"content/auth-select-list-currency") %>
+      </div>
+      <div class="form-group margin-above--large" id="balance" style="display: none;">
+        <label class="uikit-text-input__label" for="Input field">Current balance</label>
+        <span class="sign-dollar">&#36;</span><input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required
+          aria-required="true">
       </div>
     </form>
   </div>
@@ -114,37 +120,62 @@
 <script>
   $("#accountType").change(function () {
     mySelection = $('#accountType :selected').val();
+    hideFields();
     switch (mySelection) {
       case "Savings account":
+        showDefaults();
+        break;
       case "Cheque account":
+        showDefaults();
+        break;
       case "Term deposit account":
+        showDefaults();
+        break;
       case "Cash management account":
+        showDefaults();
+        break;
       case "Deeming account":
-        hideTypes();
+        $("#bsb").show();
         $("#institution-name").show();
+        $("#account-number").show();
+        $("#balance").show();
         break;
       case "Church/charity account":
-        hideTypes();
+        $("#church-notice-container").show();
         $("#church-account-name").show();
         $("#church-reference").show();
+        $("#balance").show();
         break;
       case "Overseas account":
-        hideTypes();
         $("#foreign-institution-name").show();
+        $("#account-number").show();
         $("#country-payment").show();
         $("#currency").show();
+        $("#balance").show();
         break;
       default:
-        // code block
+        break;
     }
   });
 
-  function hideTypes() {
+  function hideFields() {
     $("#church-account-name").hide();
     $("#foreign-institution-name").hide();
     $("#institution-name").hide();
     $("#church-reference").hide();
     $("#country-payment").hide();
     $("#currency").hide();
+    $("#bsb").hide();
+    $("#institution-name").hide();
+    $("#account-number").hide();
+    $("#balance").hide();
+    $("#church-notice-container").hide();
+  }
+
+  function showDefaults(){
+    $("#bsb").show();
+    $("#institution-name").show();
+    $("#account-number").show();
+    $("#balance").show();
   }
 </script>

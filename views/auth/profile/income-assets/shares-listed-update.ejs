@@ -1,7 +1,5 @@
-
-
 <!-- Summary card -->
-<div id="shares-unlisted-update-summary" class="plain-text-info" style="display:block;">
+<div id="shares-listed-update-summary" class="plain-text-info" style="display:block;">
   <div class="review__wrapper">
     <div class="review__content--item boxed">
       <div class="review__content--label margin-below">
@@ -9,20 +7,20 @@
           <i class="fal fa-file-certificate fontawesome-icon"></i>
           <span class="font-weight-heavy">Shares</span>
         </h2>
-        <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('shares-unlisted-update');">&nbsp;Edit&nbsp;</button>
+        <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('shares-listed-update');">&nbsp;Edit&nbsp;</button>
       </div>
       <div class="review__table">
         <div class="tr">
           <div class="td"><b>Type of share</b></div>
-          <div class="td">Unlisted</div>
+          <div class="td">Listed</div>
         </div>
         <div class="tr">
           <div class="td"><b>Owner</b></div>
           <div class="td">Myself</div>
         </div>
-         <div class="tr">
-          <div class="td"><b>Description</b></div>
-          <div class="td">AMP</div>
+        <div class="tr">
+          <div class="td"><b>Company name</b></div>
+          <div class="td">Telstra</div>
         </div>
         <div class="tr">
           <div class="td"><b>Number of shares</b></div>
@@ -33,9 +31,8 @@
     </div>
   </div>
 </div>
-
 <!-- Summary card deleted-->
-<div id="shares-unlisted-update-summary-deleted" class="plain-text-info" style="display:none;">
+<div id="shares-listed-update-summary-deleted" class="plain-text-info" style="display:none;">
   <div class="review__wrapper">
     <div class="review__content--item boxed" style="border: 1px dashed #ccc">
       <div class="review__content--label margin-below" style="opacity: .5;">
@@ -44,24 +41,30 @@
           <span class="font-weight-heavy">Shares</span>
         </h2>
       </div>
-      <div class="review__table" style="opacity: .5;">
+      <div class="review__table">
         <div class="tr">
-          <div class="td"><b>Type of shares</b></div>
-          <div class="td">Unlisted</div>
+          <div class="td"><b>Type of share</b></div>
+          <div class="td">Listed</div>
         </div>
         <div class="tr">
-          <div class="td"><b>Description</b></div>
-          <div class="td">AMP</div>
+          <div class="td"><b>Owner</b></div>
+          <div class="td">Myself</div>
         </div>
+        <div class="tr">
+          <div class="td"><b>Company name</b></div>
+          <div class="td">Telstra</div>
         </div>
+        <div class="tr">
+          <div class="td"><b>Number of shares</b></div>
+          <div class="td">200</div>
+        </div>
+      </div>
       <div class="deleted margin-above">DELETED</div>
-      <!-- <p class="margin-above--large margin-below--none"><b>Account deleted - pending</b></p> -->
-
     </div>
   </div>
 </div>
 <!-- Open card -->
-<div id="shares-unlisted-update-card" class="boxed margin-above margin-below" style="display: none;">
+<div id="shares-listed-update-card" class="boxed margin-above margin-below" style="display: none;">
   <div class="delete-content" hidden>
     <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-file-certificate fontawesome-icon"></span><span class="font-weight-heavy">Shares
     </span></h2>
@@ -74,40 +77,27 @@
       label: "Reason for deleting",
       hint: "(optional)"
     }); %>
-    <%- include(forms+"pagination", {
-      pagination: [
-      {
-        text: "Delete Shares",
-        modifiers: ["primary"],
-        id: "delete-shares",
-        link: "#"
-      },
-        {
-          text: "Cancel",
-          link: "#",
-          <!-- link: "/auth/profile/income-assets/", -->
-          <!-- modifiers: ["floated","disabled"], -->
-          id: "cancel-delete"
-        }
-      ],
-      customClass: ["margin-above--extra"]
-    }) %>
+
+    <div class="pagination pagination--ss-reverse-order   margin-above--extra" id="pagination700">
+      <a href="#" id="delete-bank-account" class="uikit-btn" onClick="confirmDeletePrePop('shares-listed-update')">Delete shares</a>
+      <a href="#" id="cancel-delete" class="uikit-btn uikit-btn--tertiary" onClick="cancelDeletePrePop()">Cancel</a>
+    </div>
     
   </div>
   <div class="edit-content">
   <div>
     <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-file-certificate fontawesome-icon"></span><span class="font-weight-heavy">Shares
-      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeItem('shares-unlisted-update');">&nbsp;Delete item&nbsp;</button>
+      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="deletePrePop('shares-listed-update');">&nbsp;Delete item&nbsp;</button>
   </div>
   <div id="card-details" class="margin-below--large">
     <div class="review__table">
       <div class="tr">
-        <div class="td"><b>Type of shares</b></div>
-        <div class="td">Unlisted</div>
+        <div class="td"><b>Type of share</b></div>
+        <div class="td">Listed</div>
       </div>
       <div class="tr">
         <div class="td"><b>Company name</b></div>
-        <div class="td">AMP</div>
+        <div class="td">Telstra</div>
       </div>
     </div>
     <hr>
@@ -118,21 +108,9 @@
         label: "Total number of shares"
       }); %>
 
-      <%- include(partials+"components/form-partials/dropdown", {
-        label: "Currency",
-        options: [
-          "-- Select currency --"
-        ]
-      }); %>
 
       <%- include(partials+"components/form-partials/date", {
         label: "Date of change"
-      }); %>
-
-      <%- include(partials+"components/form-partials/text", {
-        label: "Share price",
-        hint: "(unit value)",
-        modifiers: ["dollarSign"]
       }); %>
 
       <%- include(partials+"components/form-partials/dropdown", {
@@ -148,28 +126,9 @@
   </div>
   <hr>
   <div id="buttonset2" class="form-group margin-above--none">
-    <button id="addButton" class="uikit-btn" onclick="addSummary('shares-unlisted-update');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
+    <button id="addButton" class="uikit-btn" onclick="addSummary('shares-listed-update');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
       class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
   </div>
   </div>
 </div>
 <!-- card end -->
-
-<script>
-
-    $("#delete-shares").on("click", function () {
-      displayUserList();
-      $("#shares-unlisted-update-card").hide();
-      $("#shares-unlisted-update-summary").hide();
-      $("#shares-unlisted-update-summary-deleted").show();
-      $("#add-anchor-link-return").show();
-      $("#main-pagination").show();
-    })
-
-    $("#cancel-delete").on("click", function () {
-      $(".delete-content").hide();
-      $(".edit-content").show();
-    })
-
-</script>
-

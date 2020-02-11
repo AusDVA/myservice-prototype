@@ -7,39 +7,6 @@
   <script src="/docs/js/income-assets-profile.js"></script>
 </head>
 
-<style>
-  .updated {
-    border-radius: 0px;
-    background-color: #2B7DCE;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
-    padding: 0 5px 0 5px;
-    text-transform: capitalize;
-    display: none;
-  }
-  .deleted {
-    border-radius: 0px;
-    background-color: red;
-    display: inline-block;
-    font-size: 12px;
-    font-weight: bold;
-    color: white;
-    padding: 0 5px 0 5px;
-    text-transform: capitalize;
-  }
-
-  .tint {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: white;
-    opacity: .5;
-  }
-</style>
-
-
 <body class="uikit-body uikit-grid uikit-refactor">
   
   <noscript>
@@ -78,16 +45,13 @@
                   </p>
                 </div>
             <!-- Cards -->
-
-           
             <%- include("bank-accounts-update") %>
             <%- include("bank-accounts-overseas-update") %>
             <%- include("bank-accounts-church-update") %>
             <%#- include("bank-accounts-add") %>
-            <%#- include(partials+"content/income-assets/income-assets--bank-accounts") %>
+            <%- include(partials+"content/income-assets/income-assets--bank-accounts") %>
 
             <div id="main-pagination" class="pagination" style="position: relative;">
-              <!-- <div id="footer-buttons-mask" style="background-color: red; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div> -->
                 <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Back to list</button>
             </div>
 
@@ -106,32 +70,22 @@
 <script>
 
   function stateSwitcher() {
-
     switch (pageState) {
       case "emptylist":
-        $("#bank-accounts-update-summary").hide();
-        $("#bank-accounts-church-update-summary").hide();
-        $("#bank-accounts-overseas-update-summary").hide();
-        $("#add-anchor-link-start").show();
-        $("#add-anchor-link-return").hide();
+        showEmptyState();
         break;
       case "populatedlist":
-      $("#bank-accounts-summary").show();
-      $("#add-anchor-link-start").hide();
-        $("#add-anchor-link-return").show();
+       showPopState();
         break;
       default:
         break;
     }
-
   }
 
   function goBack() {
-      localStorage.setItem("coc-state", "update1");
-      // if ($("#bank-accounts-summary").is(":visible")) localStorage.setItem("coc-state", "update1");
-      // if ($("#bank-accounts-summary").is(":visible") && $("#bank-accounts-new-summary").is(":visible")) localStorage.setItem("coc-state", "update2");
-      window.location.href = 'start.ejs';
-    }
+    localStorage.setItem("coc-state", "update1");
+    window.location.href = 'start.ejs';
+  }
 
 </script>
 
