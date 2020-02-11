@@ -10,8 +10,8 @@ function scrollToAdd() {
 
 function showNewCard(cardType) {
 
-  alert( "Refer to current build for adding this category");
-  return;
+  // alert( "Refer to current build for adding this category");
+  // return;
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -34,7 +34,7 @@ function addSummary(cardType) {
   var myDiv = "#" + cardType + "-summary";
   userEntries.push($(myDiv));
   displayUserList();
-  $(myDiv).find(".updated").css("display", "inline-block");
+  $(myDiv).find(".coc-updated").css("display", "inline-block");
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
@@ -54,15 +54,34 @@ function editCard(cardType) {
 
 /* Clicks on "delete" on prepop card edit */
 
-function removeItem(cardType) {
-
-  // hideAll();
+function deletePrePop(cardType) {
   $("#perm-close-1").prop('checked', false);
   var myDiv = "#" + cardType + "-card";
   $( myDiv ).find( ".delete-content").show();
   $( myDiv ).find( ".edit-content").hide();
-
 };
+
+/* Initiates delete on prepop */
+
+function confirmDeletePrePop(cardType) {
+  var myCard = "#" + cardType + "-card"; 
+  var mySummary = "#" + cardType + "-summary"; 
+  var mySummaryDeleted = "#" + cardType + "-summary-deleted"; 
+  displayUserList();
+  $(myCard).hide();
+  $(mySummary).hide();
+  $(mySummaryDeleted).show();
+  $("#add-anchor-link-return").show();
+  $("#main-pagination").show();
+  
+}
+
+/* Cancels delete on prepop */
+
+function cancelDeletePrePop() {
+  $(".delete-content").hide();
+  $(".edit-content").show();
+}
 
 /* Clicks on "delete" on new card edit */
 
@@ -75,7 +94,6 @@ function removeSummary(cardType) {
     scrollTop: $("#user-list").offset().top
   }, 1000);
 };
-
 
 /* Clicks on "cancel" on full card */
 
@@ -113,18 +131,33 @@ function displayUserList() {
 
 }
 
+/* show empty state */
+
+function showEmptyState() {
+  captureUserList();
+  hideAll();
+  $("#add-anchor-link-start").show();
+  $("#user-list").show();
+  $("#main-pagination").show();
+}
+
+/* show pop state */
+
+function showPopState() {
+  displayUserList();
+  $("#add-anchor-link-return").show();
+}
+
+
 /* Generic hide all */
 
 function hideAll() {
 
   $("#user-list").hide();
   $("#main-pagination").hide();
-
   $(".hide-on-load").hide();
-
-  // $("#bank-accounts-update-card").hide();
-  // $("#bank-accounts-update-summary").hide();
-  // $("#bank-accounts-update-summary-deleted").hide();
+  $("#add-anchor-link-start").hide();
+  $("#add-anchor-link-return").hide();
 
   $("#bank-accounts-update-card").hide();
   $("#bank-accounts-update-summary").hide();
@@ -151,11 +184,6 @@ function hideAll() {
 
   $("#shares-card").hide();
   $("#shares-summary").hide();
-  
-  // $("#church-account-ref").hide();
-
-  // $("#add-anchor-link-start").hide();
-  // $("#add-anchor-link-return").hide();
 
 }
 

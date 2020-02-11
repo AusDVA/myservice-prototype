@@ -14,7 +14,7 @@
       <div class="review__table">
         <div class="tr">
           <div class="td"><b>Account type</b></div>
-          <div class="td">Savings account</div>
+          <div class="td">Church/charity account</div>
         </div>
         <div class="tr">
           <div class="td"><b>Account owner</b></div>
@@ -29,7 +29,7 @@
           <div class="td">$478.88</div>
         </div>
       </div>
-      <div class="updated margin-above" hidden>EDITED</div>
+      <div class="coc-updated margin-above" hidden>EDITED</div>
 
     </div>
   </div>
@@ -47,7 +47,7 @@
       <div class="review__table" style="opacity: .5;">
         <div class="tr">
           <div class="td"><b>Account type</b></div>
-          <div class="td">Savings account</div>
+          <div class="td">Church/charity account</div>
         </div>
         <div class="tr">
           <div class="td"><b>Account owner</b></div>
@@ -62,7 +62,7 @@
           <div class="td">$478.88</div>
         </div>
       </div>
-      <div class="deleted margin-above">DELETED</div>
+      <div class="coc-deleted margin-above">DELETED</div>
       <!-- <p class="margin-above--large margin-below--none"><b>Account deleted - pending</b></p> -->
 
     </div>
@@ -82,30 +82,17 @@
       label: "Reason for deleting",
       hint: "(optional)"
     }); %>
-    <%- include(forms+"pagination", {
-      pagination: [
-      {
-        text: "Delete bank account",
-        modifiers: ["primary"],
-        id: "delete-bank-account-church",
-        link: "#"
-      },
-        {
-          text: "Cancel",
-          link: "#",
-          <!-- link: "/auth/profile/income-assets/", -->
-          <!-- modifiers: ["floated","disabled"], -->
-          id: "cancel-delete"
-        }
-      ],
-      customClass: ["margin-above--extra"]
-    }) %>
+
+    <div class="pagination pagination--ss-reverse-order   margin-above--extra" id="pagination700">
+      <a href="#" id="delete-bank-account" class="uikit-btn" onClick="confirmDeletePrePop('bank-accounts-church-update')">Delete bank account</a>
+      <a href="#" id="cancel-delete" class="uikit-btn uikit-btn--tertiary" onClick="cancelDeletePrePop()">Cancel</a>
+    </div>
     
   </div>
   <div class="edit-content">
   <div>
     <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-university fontawesome-icon"></span><span class="font-weight-heavy">Bank account
-      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeItem('bank-accounts-church-update');">&nbsp;Delete item&nbsp;</button>
+      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="deletePrePop('bank-accounts-church-update');">&nbsp;Delete item&nbsp;</button>
   </div>
   <div id="card-details" class="margin-below--large">
     <!-- <h3>Last submitted:</h3> -->
@@ -116,7 +103,7 @@
       </div> -->
       <div class="tr">
         <div class="td"><b>Account type</b></div>
-        <div class="td">Savings account</div>
+        <div class="td">Church/charity account</div>
       </div>
       <div class="tr">
         <div class="td"><b>BSB number</b></div>
@@ -135,6 +122,11 @@
     <form id="myForm">
       <input type="reset" style="display:none">
 
+      <%- include(partials+"components/form-partials/text", {
+        label: "Account balance",
+        modifiers: ["dollarSign"]
+      }); %>
+
       <%- include(partials+"components/form-partials/dropdown", {
         label: "Account owner",
         options: [
@@ -143,12 +135,6 @@
           "Jointly with my partner"
         ]
       }); %>
-
-      <%- include(partials+"components/form-partials/text", {
-        label: "Account balance",
-        modifiers: ["dollarSign"]
-      }); %>
-
 
       <%- include(partials+"components/form-partials/date", {
         label: "Date of change"
@@ -165,20 +151,6 @@
 </div>
 <!-- card end -->
 
-<script>
 
-    $("#delete-bank-account-church").on("click", function () {
-      displayUserList();
-      $("#bank-accounts-church-update-card").hide();
-      $("#bank-accounts-church-update-summary").hide();
-      $("#bank-accounts-church-update-summary-deleted").show();
-      $("#add-anchor-link-return").show();
-      $("#main-pagination").show();
-    })
+  
 
-    $("#cancel-delete").on("click", function () {
-      $(".delete-content").hide();
-      $(".edit-content").show();
-    })
-
-</script>
