@@ -39,22 +39,9 @@
         <p class="margin-below--mid">Include listed and unlisted shares, shares traded in Australian and overseas markets (and exempt in exempt stock markets), options, rights, convertible notes or other securities.</p>
         <hr>
         <form id="myForm">
-            <input type="reset" style="display:none">
+            <input type="reset" style="display:none" >
             <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label margin-above--large" for="toggle-buttons">Are these shares issued in Australia?</label>
-                <div class="radio-toggle" id="shares-australia">
-                    <label class="on label-left" for="shares-australia-yes">
-                        <input id="shares-australia-yes" type="radio" value="yes" name="shares-australia" />
-                        <span>Yes</span>
-                    </label>
-                    <label class="off label-right" for="shares-australia-no">
-                        <input id="shares-australia-no" type="radio" value="no" name="shares-australia" />
-                        <span>No</span>
-                    </label>
-                </div>
-            </div>
-            <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="drop-down">Owner of shares</label>
+                <label class="uikit-text-input__label" for="drop-down">Owner</label>
                 <select class="uikit-text-input input-half" id="ownerType" name="drop-down">
                     <option selected="selected">-- Select an item --</option>
                     <option>Myself</option>
@@ -63,33 +50,58 @@
                     <option>Jointly with any other party</option>
                 </select>
             </div>
-            <div class="form-group margin-above--large" id="other-party-owner" style="display: none;">
-                <label class="uikit-text-input__label" for="Input field">Name of other party</label>
-                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+
+            <div class="form-group margin-above--large" id="other-party-amount" style="display: none;">
+                <label class="uikit-text-input__label" for="Input field">% Owned</label>
+                <span class="sign-dollar">&#37;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
+
             <div class="form-group margin-above--large">
                 <label class="uikit-text-input__label" for="drop-down">Type of share</label>
                 <select class="uikit-text-input input-half" id="share-type" name="drop-down">
                     <option selected="selected">-- Select an item --</option>
-                    <option>Listed</option>
-                    <option>Unlisted</option>
-                    <option>Overseas</option>
-                    <option>Options</option>
                     <option>Futures</option>
-                    <option>Warrants</option>
+                    <option>Listed</option>
+                    <option>Options</option>
+                    <option>Overseas</option>
                     <option>Structured product</option>
-                    <option>Other</option>
+                    <option>Unlisted</option>
+                    <option>Warrants</option>
                 </select>
             </div>
+
+            <%- include(partials+"components/form-partials/notice", {
+                message: "You will need to privde your shareholdings statement in the documents section.",
+                id: "generic-notice",
+                modifiers: ["hidden"]
+              }); %>
+
             <div class="form-group margin-above--large" id="share-code" style="display: none;">
-                <label class="uikit-text-input__label" for="Input field">Share code</label>
-                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+                <label class="uikit-text-input__label" for="drop-down">Share code</label>
+                <select class="uikit-text-input input-half" id="share-type" name="drop-down">
+                    <option selected="selected">-- Select an item --</option>
+                    <option>COL</option>
+                    <option>FUT</option>
+                    <option>OPT</option>
+                    <option>QS</option>
+                    <option>STR</option>
+                    <option>TLS</option>
+                    <option>UNLIST</option>
+                    <option>WAR</option>
+                    <option>WOW</option>
+                </select>
             </div>
-            <div class="form-group margin-above--large">
+
+            <div class="form-group margin-above--large" style="display: none;" id="company-name">
                 <label class="uikit-text-input__label" for="Input field">Company name</label>
                 <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group margin-above--large" id="date-marriage">
+
+            <div class="form-group margin-above--large" id="what-type">
+                <label class="uikit-text-input__label" for="Input field">What type of shares do you own?</label>
+                <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
+            </div>
+            <div class="form-group margin-above--large" id="date-aquired">
                 <fieldset>
                     <label class="uikit-text-input__label">Date acquired
                         <span class="hint">(dd / mm / yyyy)</span>
@@ -99,11 +111,11 @@
                     <input class="uikit-text-input yyyy" type="number" name="enlistStartYear" maxlength="4" required aria-required="true" aria-label="4 digit year">
                 </fieldset>
             </div>
-            <div class="form-group margin-above--large" id="number-of-shares" style="display: none;">
-                <label class="uikit-text-input__label" for="Input field">Total number of shares</label>
+            <div class="form-group margin-above--large" id="number-of-shares">
+                <label class="uikit-text-input__label" for="Input field">Number of shares</label>
                 <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
             </div>
-            <div class="form-group margin-above--large" id="currency" style="display: none;">
+            <div class="form-group margin-above--large" id="currency">
                 <label class="uikit-text-input__label" for="Input field">Currency</label>
                 <select class="uikit-text-input input-half" style="max-width: 80px;" id="drop-down" name="drop-down">
                     <option>-- Select an item --</option>
@@ -115,14 +127,11 @@
                     <option data-symbol="$" data-placeholder="0.00" selected>AUD</option>
                 </select>
             </div>
-            <div class="form-group margin-above--large" id="country-payment" style="display: none;">
-                <label class="uikit-text-input__label">Country of payment</label>
-                <%- include(partials+"content/auth-select-list-country") %>
-            </div>
-            <div class="form-group margin-above--large" id="market-value" style="display: none;">
-                <label class="uikit-text-input__label" for="Input field">Market value</label>
+            <div class="form-group margin-above--large" id="market-value">
+                <label class="uikit-text-input__label" for="Input field">Unit value</label>
                 <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
             </div>
+          
         </form>
         <hr>
         <div id="buttonset2" class="form-group margin-above--none">
@@ -132,42 +141,49 @@
 </div>
 <script src="/docs/js/jquery-3.2.1.min.js"></script>
 <script>
-var sharesAU;
-$("#share-type").change(function() {
-    if ($('#share-type :selected').val() == "Listed" && sharesAU) {
-        $("#share-code").show();
 
-    } else {
-        $("#share-code").hide();
 
-    }
-});
-$("#shares-australia").change(function() {
-    if ($("#shares-australia input[type='radio']:checked").val() == "yes") {
-        sharesAU = true;
-        if ($('#share-type :selected').val() == "Listed") $("#share-code").show();
+$("#share-type").change(function () {
+    mySelection = $('#share-type :selected').val();
+    hideFields();
+    switch (mySelection) {
+    case "Listed":
+        $("#generic-notice-container").show();
+        $("#share-code").show()
+        $("#company-name").show()
+        $("#date-aquired").show();
         $("#number-of-shares").show();
-        $("#currency").hide();
-        $("#country-payment").hide();
-        $("#market-value").hide();
-    } else {
-        sharesAU = false;
-        $("#currency").show();
-        $("#country-payment").show();
+      default:
+        $("#generic-notice-container").show();
+        $("#what-type").show();
+        $("#date-aquired").show();
+        $("#number-of-shares").show();
+        $("#currency").show(); 
         $("#market-value").show();
-        $("#share-code").hide();
-        $("#number-of-shares").hide();
-
+        break;
     }
-});
+  });
+
+  function hideFields() {
+    $("#generic-notice-container").hide();
+    $("#share-code").hide()
+    $("#company-name").hide()
+    $("#what-type").hide();
+    $("#date-aquired").hide();
+    $("#number-of-shares").hide();
+    $("#market-value").hide();
+    $("#currency").hide();
+  }
+
+
 $("#ownerType").change(function() {
     mySelection = $('#ownerType :selected').val();
     switch (mySelection) {
         case "Jointly with any other party":
-            $("#other-party-owner").show();
+            $("#other-party-amount").show();
             break;
         default:
-            $("#other-party-owner").hide();
+            $("#other-party-amount").hide();
     }
 });
 </script>
