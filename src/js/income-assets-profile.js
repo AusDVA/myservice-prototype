@@ -34,7 +34,7 @@ function addSummary(cardType) {
   var myDiv = "#" + cardType + "-summary";
   userEntries.push($(myDiv));
   displayUserList();
-  $(myDiv).find(".updated").css("display", "inline-block");
+  $(myDiv).find(".coc-updated").css("display", "inline-block");
   $('html, body').animate({
     scrollTop: $("#user-list").offset().top
   }, 1000);
