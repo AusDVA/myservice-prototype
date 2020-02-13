@@ -44,7 +44,7 @@
   }) %>
 
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   id: "domestic-longer-more",
   modifiers: ["hidden"]
 }) %>
@@ -61,7 +61,7 @@
   }) %>
 
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   id: "domestic-help-more",
   modifiers: ["hidden"]
 }) %>
@@ -76,27 +76,33 @@
   }) %>
 
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
+  id: "domestic-stop-more",
+  hint: "Reflect back on your difficult days or remind you of the times they've helped.",
+  modifiers: ["hidden", "hintNewLine"]
+}) %>
+
+
+<%- include(forms+"button_radio", {
+  label: "Have your immediate family taken over any domestic activities you normally undertook?",
+  id: "domestic-family",
+  boxes: [
+  "Yes",
+  "No"
+]
+}) %>
+
+<%- include(forms+"textarea", {
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   id: "domestic-family-more",
   hint: "Reflect on things that are difficult or not safe for you to do.",
   modifiers: ["hidden", "hintNewLine"]
 }) %>
 
-<%- include(forms+"button_radio", {
-    label: "Have your immediate family taken over any domestic activities you normally undertook?",
-    id: "domestic-family",
-    boxes: [
-    "Yes",
-    "No"
-  ]
-  }) %>
 
-<%- include(forms+"textarea", {
-  label: "Tell us more",
-  id: "domestic-stop-more",
-  hint: "Reflect back on your difficult days or remind you of the times they've helped.",
-  modifiers: ["hidden", "hintNewLine"]
-}) %>
+
+<p class="save-and-next" hidden>Choose <b>save and next</b> to continue</p>
+
 
 <%- include(forms+"pagination", {
     pagination: [
@@ -126,6 +132,16 @@
   $(".form-group input").click(function () {
     $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
       $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
+  });
+
+  $("#domestic-family-1").click(function () {
+    $(".save-and-next").hide();
+    $("#domestic-family-more-container").show();
+  });
+
+  $("#domestic-family-2").click(function () {
+    $(".save-and-next").show();
+    $("#domestic-family-more-container").hide();
   });
 </script>
 

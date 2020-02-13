@@ -43,7 +43,7 @@
   }) %>
 
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   hint: "Reflect on how this has affected your lifestyle and wellbeing. For example, family, social life and other health conditions.",
   id: "recreational-given-up-more",
   modifiers: ["hintNewLine", "hidden"]
@@ -59,7 +59,7 @@
   }) %>
 
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   id: "recreational-reduced-more",
   modifiers: ["hintNewLine", "hidden"]
 }) %>
@@ -73,8 +73,10 @@
   ]
   }) %>
 
+<p class="save-and-next" hidden>Choose <b>save and next</b> to continue</p>
+
 <%- include(forms+"textarea", {
-  label: "Tell us more",
+  label: "Tell us more <span class='not-bold'>(Optional) </span>",
   id: "activities-cannot-undertake-more",
   modifiers: ["hintNewLine", "hidden"]
 }) %>
@@ -108,6 +110,17 @@
     $(this).val() === "yes" ? $(this).parent().parent().parent().parent().next().find("textarea").parent().show() :
       $(this).parent().parent().parent().parent().next().find("textarea").parent().hide();
   });
+
+  $("#activities-cannot-undertake-1").click(function () {
+    $(".save-and-next").hide();
+    $("#activities-cannot-undertake-more-container").show();
+  });
+
+  $("#activities-cannot-undertake-2").click(function () {
+    $(".save-and-next").show();
+    $("#activities-cannot-undertake-more-container").hide();
+  });
+
 </script>
 
 <%- include(forms+"modals/claim-cancel") %>
