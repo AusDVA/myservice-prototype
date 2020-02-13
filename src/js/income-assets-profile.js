@@ -189,29 +189,7 @@ function hideAll() {
 
 $(Document).ready(function () {
 
-  $(document).keypress(function (e) {
-    switch (e.which) {
-      case 49:
-        hidePartner();
-        break;
-      case 50:
-        showPartner();
-        break;
-      default:
-    }
-  });
-
   captureUserList();
   displayUserList();
-
-  function showPartner() {
-    $(".partner").show();
-    $(".partner-label").text("Our");
-  }
-
-  function hidePartner() {
-    $(".partner").hide();
-    $(".partner-label").text("My");
-  }
 
 });
