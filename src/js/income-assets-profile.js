@@ -192,6 +192,13 @@ function hideAll() {
   $("#cash-held-card").hide();
   $("#cash-held-summary").hide();
 
+  $("#gifts-update-card").hide();
+  $("#gifts-update-summary").hide();
+  $("#gifts-update-summary-deleted").hide();
+
+  $("#gifts-card").hide();
+  $("#gifts-summary").hide();
+
 }
 
 $(Document).ready(function () {
