@@ -14,7 +14,7 @@ $(document).ready(function() {
     "home-restricted"
   );
   dynamicAnswer(
-    "The more detail you provide the more we can understand how we may be able to support you.",
+    "Tell us in your own words how your mobility has been affected.",
     "mobility-deta"
   );
 
@@ -32,7 +32,7 @@ $(document).ready(function() {
     "activities-cannot-undertake"
   );
   dynamicAnswer(
-    "The more detail you provide the more we can understand how we may be able to support you.",
+    " Tell us in your own words how your ability to participate in recreational activities has been affected.",
     "recreational-detai"
   );
 
