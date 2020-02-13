@@ -185,6 +185,13 @@ function hideAll() {
   $("#shares-card").hide();
   $("#shares-summary").hide();
 
+  $("#cash-held-update-card").hide();
+  $("#cash-held-update-summary").hide();
+  $("#cash-held-update-summary-deleted").hide();
+
+  $("#cash-held-card").hide();
+  $("#cash-held-summary").hide();
+
 }
 
 $(Document).ready(function () {
