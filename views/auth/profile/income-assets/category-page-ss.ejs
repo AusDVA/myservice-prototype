@@ -1,0 +1,90 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "State",
+    boxes: [
+      "Empty list",
+      "Populated list"
+    ],
+    id: "page-state"
+  }); %>
+
+  <h3>Other properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Partnered"
+    ],
+    id: "relationship-status"
+  }); %>
+
+</div>
+
+<script>
+
+  var pageState;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#page-state-2").prop("checked", true);
+
+    $('input[name=page-state]').change(function () {
+      pageState = $(this).val();
+      stateSwitcher();
+    });
+
+    stateSwitcher();
+
+  });
+
+  $('#relationship-status-1').change(function() {
+    updatePartner();  
+    console.log("gfdgdfgdfg")
+  });
+
+  updatePartner();
+  function updatePartner() {
+    var myStatus = $("#relationship-status-1").is(":checked");
+    if ( myStatus ) {
+          showPartner();
+    } else {
+          hidePartner();  
+    }
+  }  
+  
+  function showPartner() {
+    $(".owner-partner").show();
+    $(".owner-single").hide();
+    $(".partner").show();
+    $(".partner-label").text("Our");
+  }
+
+  function hidePartner() {
+    $(".owner-partner").hide();
+    $(".owner-single").show();
+    $(".partner").hide();
+    $(".partner-label").text("My");
+  }
+
+
+$(".ownerType").change(function() {
+  mySelection = $('option:selected',this).val();
+  switch (mySelection) {
+      case "Jointly with any other party":
+          $(".other-party-amount").show();
+          break;
+      default:
+          $(".other-party-amount").hide();
+  }
+});
+
+
+</script>

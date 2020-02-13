@@ -185,33 +185,25 @@ function hideAll() {
   $("#shares-card").hide();
   $("#shares-summary").hide();
 
+  $("#cash-held-update-card").hide();
+  $("#cash-held-update-summary").hide();
+  $("#cash-held-update-summary-deleted").hide();
+
+  $("#cash-held-card").hide();
+  $("#cash-held-summary").hide();
+
+  $("#gifts-update-card").hide();
+  $("#gifts-update-summary").hide();
+  $("#gifts-update-summary-deleted").hide();
+
+  $("#gifts-card").hide();
+  $("#gifts-summary").hide();
+
 }
 
 $(Document).ready(function () {
 
-  $(document).keypress(function (e) {
-    switch (e.which) {
-      case 49:
-        hidePartner();
-        break;
-      case 50:
-        showPartner();
-        break;
-      default:
-    }
-  });
-
   captureUserList();
   displayUserList();
-
-  function showPartner() {
-    $(".partner").show();
-    $(".partner-label").text("Our");
-  }
-
-  function hidePartner() {
-    $(".partner").hide();
-    $(".partner-label").text("My");
-  }
 
 });
