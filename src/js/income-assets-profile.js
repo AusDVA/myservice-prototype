@@ -199,6 +199,13 @@ function hideAll() {
   $("#gifts-card").hide();
   $("#gifts-summary").hide();
 
+  $("#money-loaned-update-card").hide();
+  $("#money-loaned-update-summary").hide();
+  $("#money-loaned-update-summary-deleted").hide();
+
+  $("#money-loaned-card").hide();
+  $("#money-loaned-summary").hide();
+
 }
 
 $(Document).ready(function () {
