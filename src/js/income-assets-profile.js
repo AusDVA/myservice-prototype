@@ -206,6 +206,13 @@ function hideAll() {
   $("#money-loaned-card").hide();
   $("#money-loaned-summary").hide();
 
+  $("#managed-investments-update-card").hide();
+  $("#managed-investments-update-summary").hide();
+  $("#managed-investments-update-summary-deleted").hide();
+
+  $("#managed-investments-card").hide();
+  $("#managed-investments-summary").hide();
+
 }
 
 $(Document).ready(function () {
