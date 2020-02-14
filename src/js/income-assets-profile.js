@@ -210,6 +210,14 @@ function hideAll() {
   $("#managed-investments-update-summary").hide();
   $("#managed-investments-update-summary-deleted").hide();
 
+  $("#managed-investments-prepaid-update-card").hide();
+  $("#managed-investments-prepaid-update-summary").hide();
+  $("#managed-investments-prepaid-update-summary-deleted").hide();
+
+  $("#managed-investments-bonds-update-card").hide();
+  $("#managed-investments-bonds-update-summary").hide();
+  $("#managed-investments-bonds-update-summary-deleted").hide();
+
   $("#managed-investments-card").hide();
   $("#managed-investments-summary").hide();
 
