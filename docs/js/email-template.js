@@ -646,7 +646,7 @@ function sendEmail() {
     Host: "smtp.gmail.com",
     Username: "myservice.prototype@gmail.com",
     Password: "Myserviceoh.012",
-    To: "myservice.prototype@gmail.com",
+    To: "vanessa.sung@dva.gov.au",
     From: "myservice.prototype@gmail.com ",
     Subject: "Support Assessment - B",
     Body: data
