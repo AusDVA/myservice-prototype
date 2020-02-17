@@ -199,6 +199,28 @@ function hideAll() {
   $("#gifts-card").hide();
   $("#gifts-summary").hide();
 
+  $("#money-loaned-update-card").hide();
+  $("#money-loaned-update-summary").hide();
+  $("#money-loaned-update-summary-deleted").hide();
+
+  $("#money-loaned-card").hide();
+  $("#money-loaned-summary").hide();
+
+  $("#managed-investments-update-card").hide();
+  $("#managed-investments-update-summary").hide();
+  $("#managed-investments-update-summary-deleted").hide();
+
+  $("#managed-investments-prepaid-update-card").hide();
+  $("#managed-investments-prepaid-update-summary").hide();
+  $("#managed-investments-prepaid-update-summary-deleted").hide();
+
+  $("#managed-investments-bonds-update-card").hide();
+  $("#managed-investments-bonds-update-summary").hide();
+  $("#managed-investments-bonds-update-summary-deleted").hide();
+
+  $("#managed-investments-card").hide();
+  $("#managed-investments-summary").hide();
+
 }
 
 $(Document).ready(function () {

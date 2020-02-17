@@ -5,10 +5,17 @@
     label: "State",
     boxes: [
       "Default",
-      "Update 1",
-      "Update 2"
+      "Update 1"
     ],
     id: "page-state"
+  }); %>
+
+  <h3>Other properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Design done"
+    ],
+    id: "design-done"
   }); %>
 
 </div>
@@ -35,15 +42,20 @@
       pageState = "update1";
       $("#page-state-2").prop("checked", true);
     }
-    if (localStorage.getItem("coc-state") === "update2") {
-      pageState = "update2";
-      $("#page-state-3").prop("checked", true);
-    }
 
     $('input[name=page-state]').change(function () {
       pageState = $(this).val();
       stateSwitcher();
     });
+
+    $('#design-done-1').change(function() {
+      var designDone = $("#design-done-1").is(":checked");
+      if ( designDone ) {
+        $(".designDone").show();
+      } else {
+        $(".designDone").hide();
+      }
+    }); 
 
     stateSwitcher();
 
