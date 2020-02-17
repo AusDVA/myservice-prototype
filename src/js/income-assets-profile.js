@@ -221,6 +221,14 @@ function hideAll() {
   $("#managed-investments-card").hide();
   $("#managed-investments-summary").hide();
 
+  $("#vehicles-update-card").hide();
+  $("#vehicles-update-summary").hide();
+  $("#vehicles-update-summary-deleted").hide();
+
+  $("#vehicles-card").hide();
+  $("#vehicles-summary").hide();
+
+
 }
 
 $(Document).ready(function () {
