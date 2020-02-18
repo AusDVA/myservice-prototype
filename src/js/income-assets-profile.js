@@ -12,8 +12,6 @@ function scrollToAdd() {
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
-  // alert( "Refer to current build for adding this category");
-  // return;
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -40,7 +38,7 @@ function addSummary(cardType) {
   userEntries.push($(myDiv));
   displayUserList();
   $(myDiv)
-    .find(".box-updated")
+    .find(".status-label--added")
     .css("display", "inline-block");
   $("html, body").animate(
     {
