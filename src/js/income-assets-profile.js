@@ -38,7 +38,7 @@ function addSummary(cardType) {
   userEntries.push($(myDiv));
   displayUserList();
   $(myDiv)
-    .find(".status-label--added")
+    .find(".status-label")
     .css("display", "inline-block");
   $("html, body").animate(
     {
