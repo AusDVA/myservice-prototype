@@ -1,15 +1,14 @@
-
-
 <!-- Summary card -->
-<div id="cash-held-update-summary" class="plain-text-info" style="display:block;">
+<div id="cash-held-update-summary" class="plain-text-info coc-box" style="display:block;">
   <div class="review__wrapper">
     <div class="review__content--item boxed">
-      <div class="review__content--label margin-below">
+      <div class="review__content--label margin-below review__header">
         <h2 class="margin-above--none" style="display: inline-block;">
           <i class="fal fa-money-bill-wave-alt fontawesome-icon"></i>
           <span class="font-weight-heavy">Cash held</span>
         </h2>
-        <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('cash-held-update');">&nbsp;Edit&nbsp;</button>
+        <button class="uikit-btn uikit-btn--tertiary small coc__edit-button"
+          onClick="editCard('cash-held-update');">&nbsp;Edit&nbsp;</button>
       </div>
       <div class="review__table">
         <div class="tr">
@@ -26,10 +25,10 @@
   </div>
 </div>
 <!-- Summary card deleted-->
-<div id="cash-held-update-summary-deleted" class="plain-text-info" style="display:none;">
+<div id="cash-held-update-summary-deleted" class="plain-text-info coc-box" style="display:none;">
   <div class="review__wrapper">
-    <div class="review__content--item boxed" style="border: 1px dashed #ccc">
-      <div class="review__content--label margin-below" style="opacity: .5;">
+    <div class="review__content--item boxed review__header" style="border: 1px dashed #ccc">
+      <div class="review__content--label review__header margin-below" style="opacity: .5;">
         <h2 class="margin-above--none" style="display: inline-block;">
           <i class="fal fa-money-bill-wave-alt fontawesome-icon"></i>
           <span class="font-weight-heavy">Cash held</span>
@@ -50,10 +49,13 @@
   </div>
 </div>
 <!-- Open card -->
-<div id="cash-held-update-card" class="boxed margin-above margin-below" style="display: none;">
+<div id="cash-held-update-card" class="boxed margin-above margin-below coc-box" style="display: none;">
   <div class="delete-content" hidden>
-    <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-money-bill-wave-alt fontawesome-icon"></span><span class="font-weight-heavy">Cash held
-    </span></h2>
+    <div class="review__header">
+      <h2 class="margin-above--none" style="display: inline-block;"><span
+          class="fal fa-money-bill-wave-alt fontawesome-icon"></span><span class="font-weight-heavy">Cash held
+        </span></h2>
+    </div>
     <hr style="margin-top: 10px; max-bottom: 0;">
     <%- include(partials+"components/form-partials/date", {
       label: "Date of change",
@@ -65,51 +67,53 @@
     }); %>
 
     <div class="pagination pagination--ss-reverse-order   margin-above--extra" id="pagination700">
-      <a href="#" id="delete-bank-account" class="uikit-btn" onClick="confirmDeletePrePop('cash-held-update')">Delete Cash held</a>
+      <a href="#" id="delete-bank-account" class="uikit-btn" onClick="confirmDeletePrePop('cash-held-update')">Delete
+        Cash held</a>
       <a href="#" id="cancel-delete" class="uikit-btn uikit-btn--tertiary" onClick="cancelDeletePrePop()">Cancel</a>
     </div>
-    
+
   </div>
   <div class="edit-content">
-  <div>
-    <h2 class="margin-above--none" style="display: inline-block;"><span class="fal fa-money-bill-wave-alt fontawesome-icon"></span><span class="font-weight-heavy">Cash held
-      </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="deletePrePop('cash-held-update');">&nbsp;Delete item&nbsp;</button>
-  </div>
-  <div id="card-details" class="margin-below--large">
-    <hr>
-    <form id="myForm">
-      <input type="reset" style="display:none">
+    <div class="review__header">
+      <h2 class="margin-above--none" style="display: inline-block;"><span
+          class="fal fa-money-bill-wave-alt fontawesome-icon"></span><span class="font-weight-heavy">Cash held
+        </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning coc__delete-button"
+        onclick="deletePrePop('cash-held-update');">&nbsp;Delete item&nbsp;</button>
+    </div>
+    <div id="card-details" class="margin-below--large">
+      <hr>
+      <form id="myForm">
+        <input type="reset" style="display:none">
 
-      <%- include(partials+"components/form-partials/text", {
+        <%- include(partials+"components/form-partials/text", {
         label: "Amount",
         modifiers: ["dollarSign"]
       }); %>
 
-      <!-- start owner -->
-      <div class="form-group margin-above--large partner" hidden>
-        <label class="uikit-text-input__label" for="drop-down">Account owner</label>
-        <select class="uikit-text-input input-half ownerType" name="drop-down">
-          <option selected="selected">-- Select an item --</option>
-          <option>Myself</option>
-          <option>My partner</option>
-          <option>Jointly with my partner</option>
-      </select>
-      </div>
-    
-      <%- include(partials+"components/form-partials/date", {
+        <!-- start owner -->
+        <div class="form-group margin-above--large partner" hidden>
+          <label class="uikit-text-input__label" for="drop-down">Account owner</label>
+          <select class="uikit-text-input input-half ownerType" name="drop-down">
+            <option selected="selected">-- Select an item --</option>
+            <option>Myself</option>
+            <option>My partner</option>
+            <option>Jointly with my partner</option>
+          </select>
+        </div>
+
+        <%- include(partials+"components/form-partials/date", {
         label: "Date of change"
       }); %>
 
-    </form>
-  </div>
-  <hr>
-  <div id="buttonset2" class="form-group margin-above--none">
-    <button id="addButton" class="uikit-btn" onclick="addSummary('cash-held-update');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
-      class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
-  </div>
+      </form>
+    </div>
+    <hr>
+    <div id="buttonset2" class="form-group margin-above--none">
+      <button id="addButton" class="uikit-btn"
+        onclick="addSummary('cash-held-update');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
+        class="uikit-btn uikit-btn--tertiary"
+        onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+    </div>
   </div>
 </div>
 <!-- card end -->
-
-
-
