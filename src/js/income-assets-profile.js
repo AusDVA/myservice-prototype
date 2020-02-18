@@ -1,15 +1,17 @@
 /* On page scrolling */
 
 function scrollToAdd() {
-  $('html, body').animate({
-    scrollTop: $("#add-options").offset().top
-  }, 500);
+  $("html, body").animate(
+    {
+      scrollTop: $("#add-options").offset().top
+    },
+    500
+  );
 }
 
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
-
   // alert( "Refer to current build for adding this category");
   // return;
   captureUserList();
@@ -22,9 +24,12 @@ function showNewCard(cardType) {
   $(myDelete).hide();
   $(myForm).trigger("reset");
   $(myDiv).show();
-  $('html, body').animate({
-    scrollTop: $("#user-list").offset().top
-  }, 1000);
+  $("html, body").animate(
+    {
+      scrollTop: $("#user-list").offset().top
+    },
+    1000
+  );
 }
 
 /* Clicks on "add" on full card */
@@ -34,11 +39,16 @@ function addSummary(cardType) {
   var myDiv = "#" + cardType + "-summary";
   userEntries.push($(myDiv));
   displayUserList();
-  $(myDiv).find(".coc-updated").css("display", "inline-block");
-  $('html, body').animate({
-    scrollTop: $("#user-list").offset().top
-  }, 1000);
-};
+  $(myDiv)
+    .find(".box-updated")
+    .css("display", "inline-block");
+  $("html, body").animate(
+    {
+      scrollTop: $("#user-list").offset().top
+    },
+    1000
+  );
+}
 
 /* Clicks on "edit" on Summary Card */
 
@@ -55,25 +65,28 @@ function editCard(cardType) {
 /* Clicks on "delete" on prepop card edit */
 
 function deletePrePop(cardType) {
-  $("#perm-close-1").prop('checked', false);
+  $("#perm-close-1").prop("checked", false);
   var myDiv = "#" + cardType + "-card";
-  $( myDiv ).find( ".delete-content").show();
-  $( myDiv ).find( ".edit-content").hide();
-};
+  $(myDiv)
+    .find(".delete-content")
+    .show();
+  $(myDiv)
+    .find(".edit-content")
+    .hide();
+}
 
 /* Initiates delete on prepop */
 
 function confirmDeletePrePop(cardType) {
-  var myCard = "#" + cardType + "-card"; 
-  var mySummary = "#" + cardType + "-summary"; 
-  var mySummaryDeleted = "#" + cardType + "-summary-deleted"; 
+  var myCard = "#" + cardType + "-card";
+  var mySummary = "#" + cardType + "-summary";
+  var mySummaryDeleted = "#" + cardType + "-summary-deleted";
   displayUserList();
   $(myCard).hide();
   $(mySummary).hide();
   $(mySummaryDeleted).show();
   $("#add-anchor-link-return").show();
   $("#main-pagination").show();
-  
 }
 
 /* Cancels delete on prepop */
@@ -90,18 +103,24 @@ function removeSummary(cardType) {
   var myDiv = "#" + cardType + "-summary";
   userEntries.splice($.inArray(myDiv, userEntries), 1);
   displayUserList();
-  $('html, body').animate({
-    scrollTop: $("#user-list").offset().top
-  }, 1000);
-};
+  $("html, body").animate(
+    {
+      scrollTop: $("#user-list").offset().top
+    },
+    1000
+  );
+}
 
 /* Clicks on "cancel" on full card */
 
 function cancelCard(cardType) {
   hideAll();
-  $('html, body').animate({
-    scrollTop: $("#user-list").offset().top
-  }, 1000);
+  $("html, body").animate(
+    {
+      scrollTop: $("#user-list").offset().top
+    },
+    1000
+  );
   displayUserList();
 }
 
@@ -111,11 +130,11 @@ var userEntries = [];
 
 function captureUserList() {
   userEntries = $("[id*=summary]:visible");
-  console.log( userEntries )
+  console.log(userEntries);
 }
 
 function displayUserList() {
-  $.each(userEntries, function (index, value) {
+  $.each(userEntries, function(index, value) {
     $(value).show();
   });
   if (userEntries.length > 0) {
@@ -128,7 +147,6 @@ function displayUserList() {
   // $("#add-options").show();
   $("#user-list").show();
   $("#main-pagination").show();
-
 }
 
 /* show empty state */
@@ -148,11 +166,9 @@ function showPopState() {
   $("#add-anchor-link-return").show();
 }
 
-
 /* Generic hide all */
 
 function hideAll() {
-
   $("#user-list").hide();
   $("#main-pagination").hide();
   $(".hide-on-load").hide();
@@ -227,13 +243,9 @@ function hideAll() {
 
   $("#vehicles-card").hide();
   $("#vehicles-summary").hide();
-
-
 }
 
-$(Document).ready(function () {
-
+$(Document).ready(function() {
   captureUserList();
   displayUserList();
-
 });
