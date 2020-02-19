@@ -73,7 +73,7 @@ function deletePrePop(cardType) {
     .hide();
 }
 
-/* Initiates delete on prepop */
+/* Confirms delete on prepop */
 
 function confirmDeletePrePop(cardType) {
   var myCard = "#" + cardType + "-card";
@@ -85,6 +85,7 @@ function confirmDeletePrePop(cardType) {
   $(mySummaryDeleted).show();
   $("#add-anchor-link-return").show();
   $("#main-pagination").show();
+  console.log( mySummaryDeleted )
 }
 
 /* Cancels delete on prepop */
@@ -241,6 +242,13 @@ function hideAll() {
 
   $("#vehicles-card").hide();
   $("#vehicles-summary").hide();
+
+  $("#bonds-and-debentures-update-card").hide();
+  $("#bonds-and-debentures-update-summary").hide();
+  $("#bonds-and-debentures-update-summary-deleted").hide();
+
+  $("#bonds-and-debentures-card").hide();
+  $("#bonds-and-debentures-summary").hide();
 }
 
 $(Document).ready(function() {
