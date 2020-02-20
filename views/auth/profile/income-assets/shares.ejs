@@ -1,79 +1,41 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
-
-<head>
-  <title>Service Pension - Financial details | Savings</title>
-  <%- include(partials+"components/layout/head") %>
-  <script src="/docs/js/income-assets-profile.js"></script>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-   
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-      <h1 class="margin-above--none ss-align--center"><span class="heading">Shares</span></h1>
+<%- include(templates+"header", {
+  title: "Shares",
+  heading: "Shares"
+})%>
+</div>
+<div class="container container--8-column">
+  <div id="user-list" class="box-list__header">
+    <h2 class="box--list__heading">
+      <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> shares
+    </h2>
+    <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="showNewCard('shares');">
+      <span class="fal fa-plus-circle fa-icons"></span>Add shares
     </div>
-    <section>
-      <div class="container margin-above margin-below--extra">
-        <div class="row">
-          <div class="col-md-offset-2 col-md-8 margin-below--large">
-            <!-- User list and category messaging -->
-            <div id="user-list">
-              <hr class="margin-below--none">
-              <h2 class="margin-above--none heading-width">
-                <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> shares
-              </h2>
-              <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="showNewCard('shares');">
-                <p style="margin-top: 10px;">
-                  <span class="fal fa-plus-circle fa-icons"></span>Add shares
-                </p>
-              </div>
-            </div>
-            <div id="add-anchor-link-start" class="cursor-pointer" onClick="showNewCard('shares');" hidden>
-                  <p class="margin-above--extra margin-below--extra ss-align--center">
-                    <span class="fal fa-plus-circle fa-icons"></span>Add shares
-                  </p>
-                </div>
-            <!-- Cards -->
+  </div>
+  <div id="add-anchor-link-start" class="cursor-pointer" onClick="showNewCard('shares');" hidden>
+    <p class="margin-above--extra margin-below--extra ss-align--center">
+      <span class="fal fa-plus-circle fa-icons"></span>Add shares
+    </p>
+  </div>
+  <!-- Cards -->
+  <%- include("shares-listed-update") %>
+  <%- include("shares-unlisted-update") %>
+  <%- include(partials+"content/income-assets/income-assets--shares") %>
 
-            <%- include("shares-listed-update") %>
-            <%- include("shares-unlisted-update") %>
-            <%- include(partials+"content/income-assets/income-assets--shares") %>
-
-            <div id="main-pagination" class="pagination" style="position: relative;">
-                <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Back to list</button>
-            </div>
-
-          </div>
-        </div>
-    </section>
-  </main>
-
-  <%- include(partials+"components/layout/footer") %>
-  <%- include("category-page-ss") %>
-
-</body>
-
-</html>
+  <div id="main-pagination" class="pagination" style="position: relative;">
+    <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Back to list</button>
+  </div>
+</div>
 
 <script>
 
-function stateSwitcher() {
+  function stateSwitcher() {
     switch (pageState) {
       case "emptylist":
         showEmptyState();
         break;
       case "populatedlist":
-       showPopState();
+        showPopState();
         break;
       default:
         break;
@@ -81,10 +43,13 @@ function stateSwitcher() {
   }
 
   function goBack() {
-      localStorage.setItem("coc-state", "update1");
-      window.location.href = 'start.ejs';
-    }
+    localStorage.setItem("coc-state", "update1");
+    window.location.href = 'start.ejs';
+  }
 
 </script>
 
+<script src="/docs/js/income-assets-profile.js"></script>
 
+<%- include(partials+"components/layout/footer") %>
+<%- include("category-page-ss") %>
