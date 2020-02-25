@@ -15,9 +15,11 @@ function showNewCard(cardType) {
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
+  console.log( myDiv )
   var myForm = myDiv + " #myForm";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
+  $(myDiv).find("#date-container").show();
   $(myAdd).html("Add");
   $(myDelete).hide();
   $(myForm).trigger("reset");
@@ -74,6 +76,7 @@ function deletePrePop(cardType) {
 }
 
 /* Confirms delete on prepop */
+
 function confirmDeletePrePop(cardType) {
   var myCard = "#" + cardType + "-card";
   var mySummary = "#" + cardType + "-summary";
@@ -99,10 +102,9 @@ function undoDeletePrePop(cardType) {
   var myDiv = "#" + cardType + "-summary-deleted";
   $(myDiv).hide();
   var myDiv = "#" + cardType + "-summary";
+  $(myDiv).find("#date-container").show();
   $(myDiv).show();
 }
-
-bank-accounts-update-summary-deleted
 
 /* Clicks on "delete" on new card edit */
 
@@ -258,6 +260,14 @@ function hideAll() {
 
   $("#bonds-and-debentures-card").hide();
   $("#bonds-and-debentures-summary").hide();
+
+  $("#boarders-and-lodgers-update-card").hide();
+  $("#boarders-and-lodgers-update-summary").hide();
+  $("#boarders-and-lodgers-update-summary-deleted").hide();
+
+  $("#boarders-and-lodgers-card").hide();
+  $("#boarders-and-lodgers-summary").hide();
+
 }
 
 $(Document).ready(function() {
