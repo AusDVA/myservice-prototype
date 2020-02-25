@@ -104,6 +104,13 @@ function undoDeletePrePop(cardType) {
   var myDiv = "#" + cardType + "-summary";
   $(myDiv).find("#date-container").show();
   $(myDiv).show();
+  var myDiv = "#" + cardType + "-card";
+  $(myDiv)
+    .find(".delete-content")
+    .hide();
+  $(myDiv)
+    .find(".edit-content")
+    .show();
 }
 
 /* Clicks on "delete" on new card edit */
