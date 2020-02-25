@@ -85,7 +85,6 @@ function confirmDeletePrePop(cardType) {
   $(mySummaryDeleted).show();
   $("#add-anchor-link-return").show();
   $("#main-pagination").show();
-  console.log( mySummaryDeleted )
 }
 
 /* Cancels delete on prepop */
@@ -94,6 +93,17 @@ function cancelDeletePrePop() {
   $(".delete-content").hide();
   $(".edit-content").show();
 }
+
+/* Undo delete on preoop */
+
+function undoDeletePrePop(cardType) {
+  var myDiv = "#" + cardType + "-summary-deleted";
+  $(myDiv).hide();
+  var myDiv = "#" + cardType + "-summary";
+  $(myDiv).show();
+}
+
+bank-accounts-update-summary-deleted
 
 /* Clicks on "delete" on new card edit */
 
