@@ -74,7 +74,6 @@ function deletePrePop(cardType) {
 }
 
 /* Confirms delete on prepop */
-
 function confirmDeletePrePop(cardType) {
   var myCard = "#" + cardType + "-card";
   var mySummary = "#" + cardType + "-summary";
