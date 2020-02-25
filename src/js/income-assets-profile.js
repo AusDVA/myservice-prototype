@@ -275,6 +275,13 @@ function hideAll() {
   $("#boarders-and-lodgers-card").hide();
   $("#boarders-and-lodgers-summary").hide();
 
+  $("#home-contents-update-card").hide();
+  $("#home-contents-update-summary").hide();
+  $("#home-contents-update-summary-deleted").hide();
+
+  $("#home-contents-card").hide();
+  $("#home-contents-summary").hide();
+
 }
 
 $(Document).ready(function() {
