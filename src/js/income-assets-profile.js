@@ -73,6 +73,17 @@ function deletePrePop(cardType) {
     .hide();
 }
 
+/* Clicks on "undelete" on prepop summary card */
+
+bank-accounts-update-summary-deleted
+
+function undeletPreProp(cardType) {
+  var myDiv = "#" + cardType + "-summary-deleted";
+  $(myDiv).hide();
+  var myDiv = "#" + cardType + "-summary";
+  $(myDiv).show();
+}
+
 /* Confirms delete on prepop */
 
 function confirmDeletePrePop(cardType) {
