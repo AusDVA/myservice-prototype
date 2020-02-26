@@ -18,6 +18,7 @@ function showNewCard(cardType) {
   var myForm = myDiv + " #myForm";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
+  $(myDiv).find("#date-container").show();
   $(myAdd).html("Add");
   $(myDelete).hide();
   $(myForm).trigger("reset");
@@ -74,6 +75,7 @@ function deletePrePop(cardType) {
 }
 
 /* Confirms delete on prepop */
+
 function confirmDeletePrePop(cardType) {
   var myCard = "#" + cardType + "-card";
   var mySummary = "#" + cardType + "-summary";
@@ -84,7 +86,6 @@ function confirmDeletePrePop(cardType) {
   $(mySummaryDeleted).show();
   $("#add-anchor-link-return").show();
   $("#main-pagination").show();
-  console.log( mySummaryDeleted )
 }
 
 /* Cancels delete on prepop */
@@ -92,6 +93,23 @@ function confirmDeletePrePop(cardType) {
 function cancelDeletePrePop() {
   $(".delete-content").hide();
   $(".edit-content").show();
+}
+
+/* Undo delete on preoop */
+
+function undoDeletePrePop(cardType) {
+  var myDiv = "#" + cardType + "-summary-deleted";
+  $(myDiv).hide();
+  var myDiv = "#" + cardType + "-summary";
+  $(myDiv).find("#date-container").show();
+  $(myDiv).show();
+  var myDiv = "#" + cardType + "-card";
+  $(myDiv)
+    .find(".delete-content")
+    .hide();
+  $(myDiv)
+    .find(".edit-content")
+    .show();
 }
 
 /* Clicks on "delete" on new card edit */
@@ -128,7 +146,6 @@ var userEntries = [];
 
 function captureUserList() {
   userEntries = $("[id*=summary]:visible");
-  console.log(userEntries);
 }
 
 function displayUserList() {
@@ -142,7 +159,6 @@ function displayUserList() {
     $("#add-anchor-link-start").show();
     $("#add-anchor-link-return").hide();
   }
-  // $("#add-options").show();
   $("#user-list").show();
   $("#main-pagination").show();
 }
@@ -248,6 +264,28 @@ function hideAll() {
 
   $("#bonds-and-debentures-card").hide();
   $("#bonds-and-debentures-summary").hide();
+
+  $("#boarders-and-lodgers-update-card").hide();
+  $("#boarders-and-lodgers-update-summary").hide();
+  $("#boarders-and-lodgers-update-summary-deleted").hide();
+
+  $("#boarders-and-lodgers-card").hide();
+  $("#boarders-and-lodgers-summary").hide();
+
+  $("#home-contents-update-card").hide();
+  $("#home-contents-update-summary").hide();
+  $("#home-contents-update-summary-deleted").hide();
+
+  $("#home-contents-card").hide();
+  $("#home-contents-summary").hide();
+
+  $("#other-financial-investments-update-card").hide();
+  $("#other-financial-investments-update-summary").hide();
+  $("#other-financial-investments-update-summary-deleted").hide();
+
+  $("#other-investments-card").hide();
+  $("#other-investments-summary").hide();
+
 }
 
 $(Document).ready(function() {
