@@ -286,6 +286,20 @@ function hideAll() {
   $("#other-investments-card").hide();
   $("#other-investments-summary").hide();
 
+  $("#other-payments-update-card").hide();
+  $("#other-payments-update-summary").hide();
+  $("#other-payments-update-summary-deleted").hide();
+
+  $("#other-payments-card").hide();
+  $("#other-payments-summary").hide();
+
+  $("#employment-income-update-card").hide();
+  $("#employment-income-update-summary").hide();
+  $("#employment-income-update-summary-deleted").hide();
+
+  $("#employment-income-card").hide();
+  $("#employment-income-summary").hide();
+
 }
 
 $(Document).ready(function() {
