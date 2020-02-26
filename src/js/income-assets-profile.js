@@ -15,7 +15,6 @@ function showNewCard(cardType) {
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
-  console.log( myDiv )
   var myForm = myDiv + " #myForm";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
@@ -147,7 +146,6 @@ var userEntries = [];
 
 function captureUserList() {
   userEntries = $("[id*=summary]:visible");
-  console.log(userEntries);
 }
 
 function displayUserList() {
@@ -161,7 +159,6 @@ function displayUserList() {
     $("#add-anchor-link-start").show();
     $("#add-anchor-link-return").hide();
   }
-  // $("#add-options").show();
   $("#user-list").show();
   $("#main-pagination").show();
 }
@@ -281,6 +278,13 @@ function hideAll() {
 
   $("#home-contents-card").hide();
   $("#home-contents-summary").hide();
+
+  $("#other-financial-investments-update-card").hide();
+  $("#other-financial-investments-update-summary").hide();
+  $("#other-financial-investments-update-summary-deleted").hide();
+
+  $("#other-investments-card").hide();
+  $("#other-investments-summary").hide();
 
 }
 
