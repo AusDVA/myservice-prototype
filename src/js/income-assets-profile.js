@@ -12,6 +12,11 @@ function scrollToAdd() {
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
+
+  if ( cardType == "purchased-income-streams") {
+    alert ("See build for this category")
+    return;
+  }
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -299,6 +304,20 @@ function hideAll() {
 
   $("#employment-income-card").hide();
   $("#employment-income-summary").hide();
+
+  $("#purchased-income-streams-update-card").hide();
+  $("#purchased-income-streams-update-summary").hide();
+  $("#purchased-income-streams-update-summary-deleted").hide();
+
+  $("#purchased-income-streams-card").hide();
+  $("#purchased-income-streams-summary").hide();
+
+  $("#foreign-pension-update-card").hide();
+  $("#foreign-pension-update-summary").hide();
+  $("#foreign-pension-update-summary-deleted").hide();
+
+  $("#foreign-pension-card").hide();
+  $("#foreign-pension-summary").hide();
 
 }
 
