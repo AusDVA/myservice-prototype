@@ -319,6 +319,13 @@ function hideAll() {
   $("#foreign-pension-card").hide();
   $("#foreign-pension-summary").hide();
 
+  $("#life-insurance-update-card").hide();
+  $("#life-insurance-update-summary").hide();
+  $("#life-insurance-update-summary-deleted").hide();
+
+  $("#life-insurance-card").hide();
+  $("#life-insurance-summary").hide();
+
 }
 
 $(Document).ready(function() {
