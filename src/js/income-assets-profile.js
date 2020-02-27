@@ -12,6 +12,11 @@ function scrollToAdd() {
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
+
+  if ( cardType == "purchased-income-streams") {
+    alert ("See build for this category")
+    return;
+  }
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -285,6 +290,41 @@ function hideAll() {
 
   $("#other-investments-card").hide();
   $("#other-investments-summary").hide();
+
+  $("#other-payments-update-card").hide();
+  $("#other-payments-update-summary").hide();
+  $("#other-payments-update-summary-deleted").hide();
+
+  $("#other-payments-card").hide();
+  $("#other-payments-summary").hide();
+
+  $("#employment-income-update-card").hide();
+  $("#employment-income-update-summary").hide();
+  $("#employment-income-update-summary-deleted").hide();
+
+  $("#employment-income-card").hide();
+  $("#employment-income-summary").hide();
+
+  $("#purchased-income-streams-update-card").hide();
+  $("#purchased-income-streams-update-summary").hide();
+  $("#purchased-income-streams-update-summary-deleted").hide();
+
+  $("#purchased-income-streams-card").hide();
+  $("#purchased-income-streams-summary").hide();
+
+  $("#foreign-pension-update-card").hide();
+  $("#foreign-pension-update-summary").hide();
+  $("#foreign-pension-update-summary-deleted").hide();
+
+  $("#foreign-pension-card").hide();
+  $("#foreign-pension-summary").hide();
+
+  $("#life-insurance-update-card").hide();
+  $("#life-insurance-update-summary").hide();
+  $("#life-insurance-update-summary-deleted").hide();
+
+  $("#life-insurance-card").hide();
+  $("#life-insurance-summary").hide();
 
 }
 

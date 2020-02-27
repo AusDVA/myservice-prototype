@@ -8,24 +8,25 @@
                 </h2>
                 <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('foreign-pension');">&nbsp;Edit&nbsp;</button>
             </div>
-            <div class="review__table">
+            <div class="box__table">
                 <div class="tr">
-                    <div class="td"><b>Type of payment</b></div>
-                    <div class="td">British other income</div>
+                  <div class="td"><b>Payment recipient</b></div>
+                  <div class="td">Myself</div>
                 </div>
                 <div class="tr">
-                    <div class="td"><b>Amount</b></div>
-                    <div class="td">&pound;365.00</div>
+                  <div class="td"><b>Type of payment</b></div>
+                  <div class="td">British other income</div>
+                </div>
+                <div class="tr">
+                  <div class="td"><b>Payment amount</b></div>
+                  <div class="td">&pound;365.00</div>
                 </div>
                 <div class="tr">
                     <div class="td"><b>Frequency</b></div>
                     <div class="td">Monthly</div>
                 </div>
-                <div class="tr">
-                    <div class="td"><b>Received by</b></div>
-                    <div class="td">My partner</div>
-                </div>
             </div>
+            <div class="status-label status-label--added  margin-above">ADDED</div>
         </div>
     </div>
 </div>
@@ -48,35 +49,25 @@
     <p class="margin-below--mid margin-above">If you are eligible for an overseas payment but don't receive it then you must apply and advise DVA when you receive it.</p>
         <hr>
     <form id="myForm">
+
         <input type="reset" style="display:none">
         <div class="form-group margin-above--large">
             <label class="uikit-text-input__label" for="drop-down">Type of payment</label>
-            <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
-                <option selected="selected">-- Select one --</option>
-                <option>British official public service/forces</option>
-                <option>British other income</option>
-                <option>British state pension</option>
-                <option>Other</option>
+            <select class="uikit-text-input input-half" id="payment-type" name="drop-down">
+                <option>-- Select one --</option>
+                <option>British Official Public Service/Forces</option>
+                <option>British Other Income</option>
+                <option>British State Pension</option>
+                <option>Other Pension</option>
             </select>
         </div>
-        <div class="form-group margin-above--large partner">
-            <label class="uikit-text-input__label" for="drop-down">Payment recipient</label>
-            <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
-                <option selected="selected">-- Select one --</option>
-                <option>Myself</option>
-                <option>My partner</option>
-            </select>
-        </div>
+
+        <%- include(partials+"components/form-partials/notice", {
+            message: "You will need to provide foreign pension documents form a foreign agency in the documents section."
+          }); %>
+
         <div class="form-group margin-above--large">
-            <label class="uikit-text-input__label" for="Input field">Payment description</label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-        <div class="form-group margin-above--large">
-            <label class="uikit-text-input__label" for="Input field">Reference number <span class="hint">(if known)</span></label>
-            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
-        </div>
-        <div class="form-group margin-above--large">
-            <legend class="legend-label">Country payment is received from</legend>
+            <legend class="legend-label">Country you receive the payment from</legend>
             <select class="uikit-text-input input-half" name="drop-down">
                 <option selected="">-- Select option --</option>
                 <option value="AF">Afghanistan</option>
@@ -330,23 +321,16 @@
                 <option value="ZW">Zimbabwe</option>
             </select>
         </div>
-        <div class="form-group margin-above--large">
-            <label class="uikit-text-input__label" for="tags">Payment amount</label>
-            <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
+
+        <div id="description" class="form-group margin-above--large" hidden>
+            <label class="uikit-text-input__label" for="Input field">Payment description</label>
+            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
         </div>
-        <div class="form-group margin-above--large">
-            <label class="uikit-text-input__label" for="tags">Payment currency</label>
-            <select class="uikit-text-input input-half" name="drop-down">
-                <option>-- Select an item --</option>
-                <option data-symbol="$" data-placeholder="0.00">USD</option>
-                <option data-symbol="€" data-placeholder="0.00">EUR</option>
-                <option data-symbol="£" data-placeholder="0.00">GBP</option>
-                <option data-symbol="¥" data-placeholder="0.00">JPY</option>
-                <option data-symbol="$" data-placeholder="0.00">CAD</option>
-                <option data-symbol="$" data-placeholder="0.00">AUD</option>
-                <option data-symbol="$" data-placeholder="0.00">others to be added</option>
-            </select>
+        <div id="ref" class="form-group margin-above--large" hidden>
+            <label class="uikit-text-input__label" for="Input field">Reference number <span class="hint">(optional)</span></label>
+            <input class="uikit-text-input input-half" name="Input field" id="Input field" type="text" value="" required aria-required="true">
         </div>
+ 
         <div class="form-group margin-above--large">
             <label class="uikit-text-input__label" for="drop-down">Payment frequency</label>
             <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
@@ -360,9 +344,76 @@
                 <option>Once off</option>
             </select>
         </div>
+
+        <div class="form-group margin-above--large">
+            <label class="uikit-text-input__label" for="tags">Payment currency</label>
+            <select class="uikit-text-input input-half" name="drop-down">
+                <option>-- Select an item --</option>
+                <option data-symbol="$" data-placeholder="0.00">USD</option>
+                <option data-symbol="€" data-placeholder="0.00">EUR</option>
+                <option data-symbol="£" data-placeholder="0.00">GBP</option>
+                <option data-symbol="¥" data-placeholder="0.00">JPY</option>
+                <option data-symbol="$" data-placeholder="0.00">CAD</option>
+                <option data-symbol="$" data-placeholder="0.00">AUD</option>
+                <option data-symbol="$" data-placeholder="0.00">others to be added</option>
+            </select>
+        </div>
+
+        <div class="form-group margin-above--large">
+            <label class="uikit-text-input__label" for="tags">Payment amount</label>
+            <span class="sign-dollar">&#36;</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required aria-required="true">
+        </div>
+       
+
+        <div class="form-group margin-above--large partner">
+            <label class="uikit-text-input__label" for="drop-down">Payment recipient</label>
+            <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                <option selected="selected">-- Select one --</option>
+                <option>Myself</option>
+                <option>My partner</option>
+            </select>
+        </div>
+       
+        <%- include(partials+"components/form-partials/date", {
+            label: "Date payment commenced",
+            id: "date",
+            modifiers: ["hidden"]
+          }); %>
+
+          <%- include(partials+"components/form-partials/date", {
+            label: "Start date",
+            id: "start-date",
+            modifiers: ["hidden"]
+          }); %>
     </form>
     <hr>
     <div id="buttonset2" class="form-group margin-above--none">
         <button id="addButton" class="uikit-btn" onclick="addSummary('foreign-pension');">&nbsp;&nbsp;&nbsp;Add&nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary" onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
     </div>
 </div>
+
+<script>
+    $("#payment-type").change(function () {
+      mySelection = $('#payment-type :selected').val();
+      hideFields();
+      switch (mySelection) {
+        case "Other Pension":
+            $("#description").show()
+            $("#ref").show();
+            $("#date-container").hide();
+            $("#start-date-container").show();
+          break;
+        default:
+        $("#date-container").show();
+          break;
+      }
+    });
+  
+    function hideFields() {
+        $("#description").hide()
+        $("#ref").hide();
+        $("#start-date-container").hide();
+    }
+  
+   
+  </script>
