@@ -326,6 +326,13 @@ function hideAll() {
   $("#life-insurance-card").hide();
   $("#life-insurance-summary").hide();
 
+  $("#other-personal-assets-update-card").hide();
+  $("#other-personal-assets-update-summary").hide();
+  $("#other-personal-assets-update-summary-deleted").hide();
+
+  $("#other-personal-assets-card").hide();
+  $("#other-personal-assets-summary").hide();
+
 }
 
 $(Document).ready(function() {
