@@ -10,6 +10,15 @@
     id: "page-state"
   }); %>
 
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Assesed on:",
+    boxes: [
+      "Assets",
+      "Income"
+    ],
+    id: "assessed"
+  }); %>
+
   <h3>Other properties</h3>
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
@@ -23,6 +32,7 @@
 <script>
 
   var pageState;
+  var assessed;
 
   $(document).ready(function () {
     $(document).keypress(function (e) {
@@ -45,6 +55,11 @@
 
     $('input[name=page-state]').change(function () {
       pageState = $(this).val();
+      stateSwitcher();
+    });
+
+    $('input[name=assessed]').change(function () {
+      assessed = $(this).val();
       stateSwitcher();
     });
 
