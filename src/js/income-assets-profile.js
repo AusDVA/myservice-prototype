@@ -52,6 +52,7 @@ function addSummary(cardType) {
     },
     1000
   );
+  $(".category-update").show();
 }
 
 /* Clicks on "edit" on Summary Card */
