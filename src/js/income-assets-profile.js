@@ -12,12 +12,18 @@ function scrollToAdd() {
 /* Clicks on "add" on tile */
 
 function showNewCard(cardType) {
+
+  if ( cardType == "purchased-income-streams") {
+    alert ("See build for this category")
+    return;
+  }
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
   var myForm = myDiv + " #myForm";
   var myDelete = myDiv + " #deleteButton";
   var myAdd = myDiv + " #addButton";
+  $(myDiv).find("#date-container").show();
   $(myAdd).html("Add");
   $(myDelete).hide();
   $(myForm).trigger("reset");
@@ -46,6 +52,7 @@ function addSummary(cardType) {
     },
     1000
   );
+  $(".category-update").show();
 }
 
 /* Clicks on "edit" on Summary Card */
@@ -85,7 +92,6 @@ function confirmDeletePrePop(cardType) {
   $(mySummaryDeleted).show();
   $("#add-anchor-link-return").show();
   $("#main-pagination").show();
-  console.log( mySummaryDeleted )
 }
 
 /* Cancels delete on prepop */
@@ -93,6 +99,23 @@ function confirmDeletePrePop(cardType) {
 function cancelDeletePrePop() {
   $(".delete-content").hide();
   $(".edit-content").show();
+}
+
+/* Undo delete on preoop */
+
+function undoDeletePrePop(cardType) {
+  var myDiv = "#" + cardType + "-summary-deleted";
+  $(myDiv).hide();
+  var myDiv = "#" + cardType + "-summary";
+  $(myDiv).find("#date-container").show();
+  $(myDiv).show();
+  var myDiv = "#" + cardType + "-card";
+  $(myDiv)
+    .find(".delete-content")
+    .hide();
+  $(myDiv)
+    .find(".edit-content")
+    .show();
 }
 
 /* Clicks on "delete" on new card edit */
@@ -129,7 +152,6 @@ var userEntries = [];
 
 function captureUserList() {
   userEntries = $("[id*=summary]:visible");
-  console.log(userEntries);
 }
 
 function displayUserList() {
@@ -143,7 +165,6 @@ function displayUserList() {
     $("#add-anchor-link-start").show();
     $("#add-anchor-link-return").hide();
   }
-  // $("#add-options").show();
   $("#user-list").show();
   $("#main-pagination").show();
 }
@@ -249,6 +270,70 @@ function hideAll() {
 
   $("#bonds-and-debentures-card").hide();
   $("#bonds-and-debentures-summary").hide();
+
+  $("#boarders-and-lodgers-update-card").hide();
+  $("#boarders-and-lodgers-update-summary").hide();
+  $("#boarders-and-lodgers-update-summary-deleted").hide();
+
+  $("#boarders-and-lodgers-card").hide();
+  $("#boarders-and-lodgers-summary").hide();
+
+  $("#home-contents-update-card").hide();
+  $("#home-contents-update-summary").hide();
+  $("#home-contents-update-summary-deleted").hide();
+
+  $("#home-contents-card").hide();
+  $("#home-contents-summary").hide();
+
+  $("#other-financial-investments-update-card").hide();
+  $("#other-financial-investments-update-summary").hide();
+  $("#other-financial-investments-update-summary-deleted").hide();
+
+  $("#other-investments-card").hide();
+  $("#other-investments-summary").hide();
+
+  $("#other-payments-update-card").hide();
+  $("#other-payments-update-summary").hide();
+  $("#other-payments-update-summary-deleted").hide();
+
+  $("#other-payments-card").hide();
+  $("#other-payments-summary").hide();
+
+  $("#employment-income-update-card").hide();
+  $("#employment-income-update-summary").hide();
+  $("#employment-income-update-summary-deleted").hide();
+
+  $("#employment-income-card").hide();
+  $("#employment-income-summary").hide();
+
+  $("#purchased-income-streams-update-card").hide();
+  $("#purchased-income-streams-update-summary").hide();
+  $("#purchased-income-streams-update-summary-deleted").hide();
+
+  $("#purchased-income-streams-card").hide();
+  $("#purchased-income-streams-summary").hide();
+
+  $("#foreign-pension-update-card").hide();
+  $("#foreign-pension-update-summary").hide();
+  $("#foreign-pension-update-summary-deleted").hide();
+
+  $("#foreign-pension-card").hide();
+  $("#foreign-pension-summary").hide();
+
+  $("#life-insurance-update-card").hide();
+  $("#life-insurance-update-summary").hide();
+  $("#life-insurance-update-summary-deleted").hide();
+
+  $("#life-insurance-card").hide();
+  $("#life-insurance-summary").hide();
+
+  $("#other-personal-assets-update-card").hide();
+  $("#other-personal-assets-update-summary").hide();
+  $("#other-personal-assets-update-summary-deleted").hide();
+
+  $("#other-personal-assets-card").hide();
+  $("#other-personal-assets-summary").hide();
+
 }
 
 $(Document).ready(function() {

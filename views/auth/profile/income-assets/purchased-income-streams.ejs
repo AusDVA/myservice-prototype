@@ -1,0 +1,53 @@
+<%- include(templates+"header", {
+  title: "Income &amp; assets | Purchased income streams",
+  heading: "Purchased income streams"
+})%>
+</div>
+
+<div class="container container--8-column margin-below--extra">
+  <!-- User list and category messaging -->
+  <div id="user-list" class="box-list__header">
+    <h2 class="box-list__heading">
+      <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> purchased income streams
+    </h2>
+    <div id="add-anchor-link-return" class="box-list__add" onClick="showNewCard('purchased-income-streams');">
+      <span class="fal fa-plus-circle fa-icons"></span>Add purchased income streams
+    </div>
+  </div>
+  <div id="add-anchor-link-start" class="cursor-pointer" onClick="showNewCard('purchased-income-streams');" hidden>
+    <p class="margin-above--extra margin-below--extra ss-align--center">
+      <span class="fal fa-plus-circle fa-icons"></span>Add purchased income streams
+    </p>
+  </div>
+  <!-- Cards -->
+  <%- include("purchased-income-streams-update") %>
+  <%- include(partials+"content/income-assets/income-assets--purchased-income-streams") %>
+  <div id="main-pagination" class="pagination">
+    <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Back to list</button>
+  </div>
+</div>
+
+<script>
+  function stateSwitcher() {
+    switch (pageState) {
+      case "emptylist":
+        showEmptyState();
+        break;
+      case "populatedlist":
+        showPopState();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function goBack() {
+    localStorage.setItem("coc-state", "update1");
+    window.location.href = 'start.ejs';
+  }
+</script>
+
+<script src="/docs/js/income-assets-profile.js"></script>
+
+<%- include(partials+"components/layout/footer") %>
+<%- include("category-page-ss") %>

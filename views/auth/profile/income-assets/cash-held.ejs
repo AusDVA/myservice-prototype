@@ -2,12 +2,13 @@
 <html class="js" lang="en">
 
 <head>
-  <title>Profile - Income &amp; assets</title>
+  <title>Income &amp; assets | Cash held</title>
   <%- include(partials+"components/layout/head") %>
   <script src="/docs/js/income-assets-profile.js"></script>
 </head>
 
-<body class="uikit-body uikit-grid uikit-refactor">
+<!-- <body class="uikit-body uikit-grid uikit-refactor" onbeforeunload="return handleClose()" > -->
+  <body class="uikit-body uikit-grid uikit-refactor">
   
   <noscript>
     <p role="alert">This website needs JavaScript to work properly.</p>
@@ -20,16 +21,23 @@
   <main>
    
     <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-
       <h1 class="margin-above--none ss-align--center"><span class="heading">Cash held</span></h1>
     </div>
+
     <section>
       <div class="container margin-above margin-below--extra">
+
         <div class="row">
-          <div class="col-md-offset-2 col-md-8 margin-below--large">
-            <!-- User list and category messaging -->
+          <div class="col-md-offset-2 col-md-8 margin-below--large" >
+             <div class="margin-below">
+              <a href="/auth/profile/income-assets/start">&lsaquo; Back to list</a>
+              <span class="category-update" hidden><i class="flag-icon fa fa-flag fa-xs"></i> Changes need to be submitted</span> 
+            </div> 
+             <!-- <div id="main-pagination" class="pagination" style="position: relative;"> -->
+                <!-- <button id="continue" class="uikit-btn uikit-btn--borderless margin-below" onClick="goBack()">Back to list</button> -->
+            <!-- </div> -->
             <div id="user-list">
-              <hr class="margin-below--none">
+              <hr class="margin-below--none margin-above--mid">
               <h2 class="margin-above--none heading-width">
                 <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> cash held
               </h2>
@@ -48,10 +56,9 @@
             <%- include("cash-held-update") %>
             <%- include(partials+"content/income-assets/income-assets--cash-held") %>
 
-            <div id="main-pagination" class="pagination" style="position: relative;">
+            <div id="main-pagination" class="pagination" style="position: relative;"> 
                 <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Back to list</button>
-            </div>
-
+             </div> 
           </div>
         </div>
     </section>
@@ -59,7 +66,6 @@
 
   <%- include(partials+"components/layout/footer") %>
   <%- include("category-page-ss") %>
-
 
 </body>
 
@@ -80,9 +86,17 @@
     }
   }
 
+  var allowExit = false;
   function goBack() {
+    allowExit = true;
     localStorage.setItem("coc-state", "update1");
     window.location.href = 'start.ejs';
+  }
+
+  function handleClose() {
+    // if ( !allowExit ) {
+    //   return "You have not submitted your changes. Click 'back to list' to review and submit your changes.";
+    // }
   }
 
 </script>
