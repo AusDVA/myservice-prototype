@@ -78,21 +78,44 @@
       <img class="logo-myservice" src="/docs/images/logo-myservice.svg" alt="Auth link - MyService beta - logo" />
     </a>
     <button class="toggle" aria-expanded="false">Menu</button>
-    <ul class="menu">      
-
+    <ul class="menu">
       <% nav.items.forEach(item => { %>
-        <li class="menu__item <%- item.id === "myaccount" ? "menu__item--external" : "" %>" id="<%- item.id %>">
-          <a href="<%- item.link %>" class="menu__item-link <%- isActive(item.link) ? "nav-active" : "" %>">
+      <% if (item.id === "profile") { %>
+      <li class="menu__item <%- item.id === "myaccount" ? "menu__item--external" : "" %>" id="<%- item.id %>">
+        <a href="#" class="menu__item-link <%- isActive(item.link) ? "nav-active" : "" %>">
+          <div>
             <div class="fal fa-2x fa-fw <%- item.icon %>"></div>
-            
+            <div class="menu__item-name"><%- item.text %>
+            </div>
+          </div>
+          <i class="far fa-chevron-down dropdown__icon rotate"></i>
+          <div class="dropdown">
+            <div class="dropdown-content">
+              <a href="/auth/profile">Personal details</a>
+              <a href="/auth/profile/contact">Contact details</a>
+              <a href="/auth/profile/history">Service history</a>
+              <a href="/auth/profile/relationships" class="first-login-hidden">Relationships</a>
+              <a href="/auth/profile/payment" class="first-login-hidden">Bank details</a>
+              <a href="/auth/profile/nomrep">Representation</a>
+              <a href="/auth/profile/income-assets" class="first-login-hidden">Income and assets</a>
+            </div>
+          </div>
+        </a>
+      </li>
+      <% }  else { %>
+      <li class="menu__item <%- item.id === "myaccount" ? "menu__item--external" : "" %>" id="<%- item.id %>">
+        <a href="<%- item.link %>" class="menu__item-link <%- isActive(item.link) ? "nav-active" : "" %>">
+          <div class="fal fa-2x fa-fw <%- item.icon %>"></div>
 
-            <% if (item.id === "tasks") { %>
-              <div class="tasks-badge"><%- nav.taskAmt %></div>
-            <% } %>
-            
-            <div class="menu__item-name"><%- item.text %></div>
-          </a>
-        </li>
+
+          <% if (item.id === "tasks") { %>
+          <div class="tasks-badge"><%- nav.taskAmt %></div>
+          <% } %>
+
+          <div class="menu__item-name"><%- item.text %></div>
+        </a>
+      </li>
+      <% } %>
       <% }) %>
 
     </ul>
@@ -107,5 +130,10 @@
   $("#travel").mouseleave(function () {
     $(this).find('.fal').addClass("fa-car-alt");
     $(this).find('.fal').removeClass("fa-car-bump");
+  });
+
+  $("#profile").click(function () {
+    $("#profile").toggleClass("dropdown--open");
+    $(".dropdown__icon").toggleClass("down");
   });
 </script>
