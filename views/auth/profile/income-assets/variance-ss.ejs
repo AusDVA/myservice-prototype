@@ -1,0 +1,39 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Asset variation is:",
+    boxes: [
+      "$50,000+ over previous total",
+      "$50,000+ under previous total"
+    ],
+    id: "variation"
+  }); %>
+
+</div>
+
+<script>
+
+  var variation;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('input[name=variation]').change(function () {
+      variation = $(this).val();
+      stateSwitcher();
+    });
+
+
+    stateSwitcher();
+
+  });
+
+</script>

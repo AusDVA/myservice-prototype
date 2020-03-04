@@ -1,0 +1,64 @@
+<%- include(templates+"header", {
+  title: "Income &amp; assets | Information required",
+  heading: "Information required"
+})%>
+
+<h3>Reason for variation</h3>
+<p>Submitting this update will result in a $76,000 increase in the value of your assets.</p>
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "What is the reason for this increase?",
+  options: [
+    "Inheritance",
+    "Paid for renovations",
+    "Holiday",
+    "General expenses",
+    "Decpreciation of asset",
+    "Other"
+  ]
+}); %>
+
+<%- include(forms+"pagination", {
+  customClass: "margin-above--extra margin-below--extra",
+  pagination: [
+    {
+      text: "Previous",
+      link: "/auth/profile/income-assets/start"
+    },
+    {
+      text: "Delete transaction",
+      link: "#open-coc-ai-delete-modal"
+    },
+    {
+      text: "Next",
+      link: "/auth/profile/income-assets/review",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+</div>
+
+<script>
+  function stateSwitcher() {
+    switch (variation) {
+      case "emptylist":
+        showEmptyState();
+        break;
+      case "populatedlist":
+        showPopState();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function goBack() {
+    localStorage.setItem("coc-state", "update1");
+    window.location.href = 'start.ejs';
+  }
+</script>
+
+<script src="/docs/js/income-assets-profile.js"></script>
+
+<%- include(partials+"components/layout/footer") %>
+<%- include("variance-ss") %>
