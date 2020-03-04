@@ -1,21 +1,40 @@
 <%- include(templates+"header", {
   title: "Income &amp; assets | Information required",
-  heading: "Information required"
+  heading: "Further information required"
 })%>
 
-<h3>Reason for variation</h3>
-<p>Submitting this update will result in a $76,000 increase in the value of your assets.</p>
+<h2>Reason for variation</h2>
+
+<div id="variance-plus">
+<p>Submitting this update will result in a $76,000 increase in your combined asset value. What is the reason for this increase?</p>
 <%- include(partials+"components/form-partials/dropdown", {
-  label: "What is the reason for this increase?",
   options: [
-    "Inheritance",
-    "Paid for renovations",
-    "Holiday",
-    "General expenses",
-    "Decpreciation of asset",
+    "-- Select reason --",
+    "Received inheritance",,
     "Other"
-  ]
+  ],
+  id: "reason1"
 }); %>
+</div>
+<div id="variance-minus" hidden>
+  <p>Submitting this update will result in a $55,000 decrease in your combined asset value. What is the reason for this decrease?</p>
+  <%- include(partials+"components/form-partials/dropdown", {
+    options: [
+      "-- Select reason --",
+      "Paid for renovations",
+      "Paid for holiday",
+      "Paid for general expenses",
+      "Depreciation of asset",
+      "Other"
+    ],
+    id: "reason2"
+  }); %>
+  </div>
+  <%- include(partials+"components/form-partials/textarea", {
+    label: "Provide a short explanation:",
+    id: "other-explain",
+    modifiers: ["hidden"]
+  }); %>
 
 <%- include(forms+"pagination", {
   customClass: "margin-above--extra margin-below--extra",
@@ -30,7 +49,7 @@
     },
     {
       text: "Next",
-      link: "/auth/profile/income-assets/review",
+      link: "/auth/profile/income-assets/documents",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -39,26 +58,46 @@
 </div>
 
 <script>
+
+  $("#reason1-container").change(function () {
+    var myReason = $(this).find("option:selected").attr('value');
+    if ( myReason == "other" ) {
+      $("#other-explain-container").show();
+    } else {
+      $("#other-explain-container").hide();
+    }
+  });
+  $("#reason2-container").change(function () {
+    var myReason = $(this).find("option:selected").attr('value');
+    if ( myReason == "other" ) {
+      $("#other-explain-container").show();
+    } else {
+      $("#other-explain-container").hide();
+    }
+  });
+
   function stateSwitcher() {
     switch (variation) {
-      case "emptylist":
-        showEmptyState();
+      case "over":
+        $("#variance-plus").show();
+        $("#variance-minus").hide();
         break;
-      case "populatedlist":
-        showPopState();
+      case "under":
+        $("#variance-minus").show();
+        $("#variance-plus").hide();
         break;
       default:
         break;
     }
+    $("#reason1-container select").val("selectreason");
+    $("#reason2-container select").val("selectreason");
+    $("#other-explain-container").hide();
   }
 
-  function goBack() {
-    localStorage.setItem("coc-state", "update1");
-    window.location.href = 'start.ejs';
-  }
 </script>
 
 <script src="/docs/js/income-assets-profile.js"></script>
-
 <%- include(partials+"components/layout/footer") %>
 <%- include("variance-ss") %>
+
+
