@@ -79,8 +79,10 @@ opacity: 1;
               <p>You are required to advise of any changes to your income and assets within 14 days. You can track the progress of your submitted updates below. Processing times will vary based upon the types of changes you report.</p>
               <button class="uikit-btn uikit-btn--primary"
                 onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
+
+              <div id="past-transactions" hidden>
               <hr>
-              <h2 class="font-weight--heavy margin-below--small">Past updates</h2>
+              <h2 class="font-weight--heavy margin-below--small">Submitted updates</h2>
               <div class="horizontal-card-section">
 
                 <div class="card card--horizontal status-flag">
@@ -97,6 +99,8 @@ opacity: 1;
                     <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
                   </div>
                 </div>
+
+                <div id="more-transactions" hidden>
 
                 <div class="card card--horizontal">
                   <div class="card-horizontal__status">
@@ -169,7 +173,9 @@ opacity: 1;
                 </div>
               </div>
 
-              <p class="margin-above margin-below--none">You can only view transactions submitted within the last six months.</p>
+              <p class="margin-above margin-below--none" id="sixmonth-message" hidden>You can only view transactions submitted within the last six months.</p>
+
+            </div>
 
               <!-- <div class="payments-page">
                 <div class="row">
@@ -183,6 +189,7 @@ opacity: 1;
                   </div>
                 </div>
               </div> -->
+            </div>
 
         </section>
       </div>
@@ -191,11 +198,40 @@ opacity: 1;
 
 
   <%- include(partials+"components/layout/footer") %>
+  <%- include("index-ss") %>
 </body>
 <script>
 
-  localStorage.setItem("updates", "false")
+var updates = localStorage.getItem("updates");
+if ( updates == "true" ) {
 
+} else {
+
+}
+
+function stateSwitcher() {
+
+    console.log( pastTransactions )
+
+    $("#past-transactions").hide();
+    $("#sixmonth-message").hide();
+    $("#more-transactions").hide();
+
+    switch (pastTransactions) {
+      case "none":
+        break;
+      case "one":
+        $("#past-transactions").show();
+        break;
+      case "many":
+        $("#past-transactions").show();
+        $("#more-transactions").show();
+        $("#sixmonth-message").show();
+        break;
+      default:
+        break;
+    }
+  }
 
 </script>
 
