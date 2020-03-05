@@ -334,6 +334,13 @@ function hideAll() {
   $("#other-personal-assets-card").hide();
   $("#other-personal-assets-summary").hide();
 
+  $("#maintenance-update-card").hide();
+  $("#maintenance-update-summary").hide();
+  $("#maintenance-update-summary-deleted").hide();
+
+  $("#maintenance-paid-to-former-partner-card").hide();
+  $("#maintenance-paid-to-former-partner-summary").hide();
+
 }
 
 $(Document).ready(function() {
