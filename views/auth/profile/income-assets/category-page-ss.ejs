@@ -25,6 +25,13 @@
     id: "provisional",
     customClass: "margin-below--none"
   }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Partner flow"
+    ],
+    id: "partner-flow",
+    customClass: "margin-below--none"
+  }); %>
 
 </div>
 
@@ -56,11 +63,14 @@
     updatePartner();  
   });
 
+  $('#partner-flow-1').change(function() {
+    toggleOwner();  
+  });
+
   $('#provisional-1').change(function() {
     updateProvisional();  
   });
 
-  updatePartner();
   function updatePartner() {
     var myStatus = $("#relationship-status-1").is(":checked");
     if ( myStatus ) {
@@ -83,7 +93,16 @@
     $(".other-party-amount").hide();
     $(".partner").hide();
     $(".partner-label").text("My");
-    console.log("gffdgfdgfdg")
+  }
+
+  function toggleOwner(){
+    $('.switch-owner').each(function(){
+      if ( $(this).text() === "Myself" ) {
+        $(this).text("My partner");
+      } else {
+        $(this).text("Myself");
+      }
+    })
   }
 
 
