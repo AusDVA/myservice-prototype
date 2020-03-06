@@ -16,118 +16,125 @@
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-nom-rep") %>
   <main>
-    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+    <div id="main-content"
+      class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
 
       <!-- Page heading -->
       <h1 class="margin-above--none ss-align--center">
         <span class="heading">About your claim</span>
       </h1>
     </div>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-          <div class="margin-above--extra margin-below--extra">
-            <h3>Intent to claim</h3>
-            <!-- <p>If you complete this claim within 3 months of commencement, your service claim can be backdated to maximise your pension and benefits.</p> -->
-            <!-- <p>Completing this page will register the date of your 'intent to claim' as today. Complete your claim within 3 months to ensure the claim can be backdated, to maximise your pension and benefits.</p> -->
-            <p>Completing this page will register the date of your ‘intent to claim’ as today. Complete within 3 months to ensure your claim can be backdated to this date. Backdating will maximise your pension and benefits.</p>
-            <hr>
-            <!-- What are you applying for? -->
-            <form id="myFormQ1">
-              <input type="reset" style="display: none;">
-              <% 
-                            locals.el = {};
-                            locals.el.question = 'What are you applying for?';
-                            locals.el.items = ["Invalidity service pension","Age service pension"];
-                            locals.el.icons = ["fa-user","fa-user"];
-                            locals.el.optionalID = 'pension_type';
-                            %>
-              <%- include(partials+"components/form-elements/radio-with-icon", locals) %>
-            </form>
-            <form id="myForm">
-              <input type="reset" style="display: none;">
-              <!-- Show if <58 -->
-              <% 
-                            locals.el = {};
-                            locals.el.message = 'You must be at least 59 years and 9 months old to apply for age service pension.'
-                            locals.el.optionalID = 'too_young';
-                            locals.el.optionalType = "warning"
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-              <!-- Show if 65+ -->
-              <% 
-                            locals.el = {};
-                            locals.el.message = 'You cannot apply for invalidity service pension if you are over 65 years of age. Apply for age service pension instead.'
-                            locals.el.optionalID = 'too_old_for_invalidity';
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-              <!-- Invalidity -->
-              <% 
-                            locals.el = {};
-                            locals.el.question = 'On what grounds are you applying for Invalidity Pension?';
-                            locals.el.items = ["Totally and permanently incapacitated (TPI) or special rate disability pension (SRDP)","Blind","Neither"];
-                            locals.el.optionalItemID = ["tpi","blind","neither"];
-                            locals.el.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","Regarded as permanently blind in both eyes. For further information see <a href='https://www.dva.gov.au/factsheet-is147-blind-pensioners' target='blank'><span class='external-link'>Factsheet IS147 - Blind Pensioners</span></a>",""];
-                            locals.el.optionalID = 'invalidity_what_grounds';
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/radio", locals) %>
-              <!-- if has TPI -->
-              <% 
-                            locals.el = {};
-                            locals.el.message = 'As you already have an assessed level of impairment you are able to proceed without providing further documentation.'
-                            locals.el.optionalID = 'has_tpi_notice';
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-              <!-- If "neither" -->
-              <% 
-                            locals.el = {};
-                            locals.el.message = "<p>You will need to provide the following forms:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf' target='blank'><span class='external-link'>Invalidity Details form (D569)</a></span><BR /><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0570.pdf' target='blank'><span class='external-link'>Work Test Questionnaire (D570)</a></span></p><p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>";
-                            locals.el.optionalID = "invalidity_neither_notice";
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-              <!-- If "blind" -->
-              <% 
-                            locals.el = {};
-                            locals.el.message = "<p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p><p>You can attach this report at the end of your claim.</p>";
-                            locals.el.optionalID = "invalidity_blind_notice";
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/notice", locals) %>
-              <!-- Who are you applying for? -->
-              <% 
-                            locals.el = {};
-                            locals.el.question = 'Who are you applying for?';
-                            locals.el.items = ["Myself","Both myself and my partner"];
-                            locals.el.icons = ["fa-user","fa-user-friends"];
-                            locals.el.optionalID = 'pension_who';
-                            locals.el.optionalHide = true;
-                            %>
-              <%- include(partials+"components/form-elements/radio-with-icon", locals) %>
-              <!-- PBS -->
-              <% 
+    <div class="container container--8-column">
+      <div class="margin-above--extra margin-below--extra">
+        <h3>Intent to claim</h3>
+        <!-- <p>If you complete this claim within 3 months of commencement, your service claim can be backdated to maximise your pension and benefits.</p> -->
+        <!-- <p>Completing this page will register the date of your 'intent to claim' as today. Complete your claim within 3 months to ensure the claim can be backdated, to maximise your pension and benefits.</p> -->
+        <p>Completing this page will register the date of your ‘intent to claim’ as today. Complete within 3 months to
+          ensure your claim can be backdated to this date. Backdating will maximise your pension and benefits.</p>
+        <hr>
+        <!-- What are you applying for? -->
+        <form id="myFormQ1">
+          <input type="reset" style="display: none;">
+          <% 
+          locals.el = {};
+          locals.el.question = 'What are you applying for?';
+          locals.el.items = ["Invalidity service pension","Age service pension"];
+          locals.el.icons = ["fa-user","fa-user"];
+          locals.el.optionalID = 'pension_type';
+          %>
+
+          <%- include(partials+"components/form-elements/radio-with-icon", locals) %>
+        </form>
+        <form id="myForm">
+          <input type="reset" style="display: none;">
+          <!-- Show if <58 -->
+          <% 
+          locals.el = {};
+          locals.el.message = 'You must be at least 59 years and 9 months old to apply for age service pension.'
+          locals.el.optionalID = 'too_young';
+          locals.el.optionalType = "warning"
+          locals.el.optionalHide = true;
+          %>
+
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <!-- Show if 65+ -->
+          <% 
+          locals.el = {};
+          locals.el.message = 'You cannot apply for invalidity service pension if you are over 65 years of age. Apply for age service pension instead.'
+          locals.el.optionalID = 'too_old_for_invalidity';
+          locals.el.optionalHide = true;
+          %>
+
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <!-- Invalidity -->
+          <% 
+          locals.el = {};
+          locals.el.question = 'On what grounds are you applying for Invalidity Pension?';
+          locals.el.items = ["Totally and permanently incapacitated (TPI) or special rate disability pension (SRDP)","Blind","Neither"];
+          locals.el.optionalItemID = ["tpi","blind","neither"];
+          locals.el.optionalItemHelp = ["Only select this option if you are entitled to disability pension at the TPI rate or Special Rate Disability Pension.","Regarded as permanently blind in both eyes. For further information see <a href='https://www.dva.gov.au/factsheet-is147-blind-pensioners' target='blank'><span class='external-link'>Factsheet IS147 - Blind Pensioners</span></a>",""];
+          locals.el.optionalID = 'invalidity_what_grounds';
+          locals.el.optionalHide = true;
+          %>
+
+          <%- include(partials+"components/form-elements/radio", locals) %>
+          <!-- if has TPI -->
+          <% 
+          locals.el = {};
+          locals.el.message = 'As you already have an assessed level of impairment you are able to proceed without providing further documentation.'
+          locals.el.optionalID = 'has_tpi_notice';
+          locals.el.optionalHide = true;
+          %>
+
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <!-- If "neither" -->
+          <% 
+          locals.el = {};
+          locals.el.message = "<p>You will need to provide the following forms:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0569.pdf' target='blank'><span class='external-link'>Invalidity Details form (D569)</a></span><BR /><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0570.pdf' target='blank'><span class='external-link'>Work Test Questionnaire (D570)</a></span></p><p> Some sections will need to be completed by your doctor. You can attach the completed forms at the end of your claim.</p>";
+          locals.el.optionalID = "invalidity_neither_notice";
+          locals.el.optionalHide = true;
+          %>
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <!-- If "blind" -->
+          <% 
+          locals.el = {};
+          locals.el.message = "<p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p><p>You can attach this report at the end of your claim.</p>";
+          locals.el.optionalID = "invalidity_blind_notice";
+          locals.el.optionalHide = true;
+          %>
+          <%- include(partials+"components/form-elements/notice", locals) %>
+          <!-- Who are you applying for? -->
+          <% 
+          locals.el = {};
+          locals.el.question = 'Who are you applying for?';
+          locals.el.items = ["Myself","Both myself and my partner"];
+          locals.el.icons = ["fa-user","fa-user-friends"];
+          locals.el.optionalID = 'pension_who';
+          locals.el.optionalHide = true;
+          %>
+          <%- include(partials+"components/form-elements/radio-with-icon", locals) %>
+          <!-- PBS -->
+          <% 
                             locals.el = {};
                             locals.el.question = 'Will you be claiming the Pension Bonus?'; 
                             locals.el.optionalID = 'pbs'; 
                             locals.el.optionalHelp = "To claim you must already be a registered member of the Pension Bonus Scheme (closed to new members). For more information see <a href='https://www.dva.gov.au/factsheet-is07-pension-bonus-scheme' target='blank'><span class='external-link'>Factsheet IS07 - Pension Bonus Scheme</span></a>"
                             locals.el.optionalHide = true;
                             %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-              <!-- If "yes" -->
-              <div class="uikit-page-alerts" role="alert" id="pbs_notice" style="display: none;">
-                <p>To claim the pension bonus you must apply as part of your service pension claim. Complete this form and attach at the end of your claim:</p>
-                <p>
-                  <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf"><span class='external-link'>Claim for Pension Bonus form (D559)</span></a>
-                  <BR />
-                </p>
-                <!-- <p>You can attach this form at the end of your service pension claim.</p> -->
-              </div>
-              <!-- Centrelink -->
-              <% 
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+          <!-- If "yes" -->
+          <div class="uikit-page-alerts" role="alert" id="pbs_notice" style="display: none;">
+            <p>To claim the pension bonus you must apply as part of your service pension claim. Complete this form and
+              attach at the end of your claim:</p>
+            <p>
+              <a href="https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf"><span class='external-link'>Claim
+                  for Pension Bonus form (D559)</span></a>
+              <BR />
+            </p>
+            <!-- <p>You can attach this form at the end of your service pension claim.</p> -->
+          </div>
+          <!-- Centrelink -->
+          <% 
                             locals.el = {};
                             locals.el.question = 'Have you applied for or do you receive any of the following Centrelink payments?'; 
                             locals.el.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
@@ -135,53 +142,54 @@
                             locals.el.optionalID = "cs_centrelink";  
                             locals.el.optionalHide = true;           
                             %>
-              <%- include(partials+"components/form-elements/checkbox", locals) %>
-              <!-- CSHC -->
-              <% 
+          <%- include(partials+"components/form-elements/checkbox", locals) %>
+          <!-- CSHC -->
+          <% 
                             locals.el = {};
                             locals.el.question = 'Have you applied for or do you currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
                             locals.el.optionalID = 'cs_cshc'; 
                             locals.el.optionalHide = true;
                             %>
-              <%- include(partials+"components/form-elements/radio--yes-no") %>
-              <!-- CRN number -->
-              <% 
+          <%- include(partials+"components/form-elements/radio--yes-no") %>
+          <!-- CRN number -->
+          <% 
                             locals.el = {};
                             locals.el.question = 'What is your Centrelink Reference Number (CRN)?'; 
                             locals.el.optionalID = 'cs_crn';
                             locals.el.optionalShort = true; 
                             locals.el.optionalHide = true;
                             %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-              <!-- visual impairment -->
-              <% 
+          <%- include(partials+"components/form-elements/field", locals) %>
+          <!-- visual impairment -->
+          <% 
                 locals.el = {};
                 locals.el.question = 'Are you applying as a person who is blind or visually impaired?'; 
                 locals.el.optionalID = 'visual_impairment'; 
                 locals.el.optionalHide = true;
                 %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-              <!-- if Yes -->
-              <div class="uikit-page-alerts" role="alert" id="invalidity_blind_notice-1" style="display: none;">
-                <p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual impairment.</p>
-                <p>You can attach this report at the end of your claim.</p>
-              </div>
-              <div id="save_and_next" class="margin-above--extra" style="display: none">
-                <p>Choose <b>save and next</b> to continue.</p>
-              </div>
-            </form>
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+          <!-- if Yes -->
+          <div class="uikit-page-alerts" role="alert" id="invalidity_blind_notice-1" style="display: none;">
+            <p>You will need to obtain a report from an ophthalmologist giving details of the degree of visual
+              impairment.</p>
+            <p>You can attach this report at the end of your claim.</p>
           </div>
-        </div>
+          <div id="save_and_next" class="margin-above--extra" style="display: none">
+            <p>Choose <b>save and next</b> to continue.</p>
+          </div>
+        </form>
         <div class="pagination">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-a'">Previous</button>
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
+          <button class="uikit-btn uikit-btn--tertiary"
+            onclick="window.location.href = '/auth/claim/service_pension/sp-progress-a'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel
+            claim</button>
           <div class="floated">
-            <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-start'">Save and exit</button>
-            <button id="save-and-next-button" class="uikit-btn btnNext" onclick="window.location.href = '/auth/claim/service_pension/sp-progress-b'">Save and next</button>
+            <button id="save-and-exit-button" class="uikit-btn uikit-btn--tertiary"
+              onclick="window.location.href = '/auth/claim/service_pension/sp-start'">Save and exit</button>
+            <button id="save-and-next-button" class="uikit-btn btnNext"
+              onclick="window.location.href = '/auth/claim/service_pension/sp-progress-b'">Save and next</button>
           </div>
         </div>
-      </div>
-    </div>
   </main>
   <%- include(partials+"content/modals/claims-cancel-modal") %>
   <%- include(partials+"components/layout/footer") %>
