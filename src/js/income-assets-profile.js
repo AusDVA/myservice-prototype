@@ -17,6 +17,10 @@ function showNewCard(cardType) {
     alert ("See build for this category")
     return;
   }
+  if ( cardType == "businesses") {
+    alert ("See build for this category")
+    return;
+  }
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -340,6 +344,13 @@ function hideAll() {
 
   $("#maintenance-paid-to-former-partner-card").hide();
   $("#maintenance-paid-to-former-partner-summary").hide();
+
+  $("#businesses-update-card").hide();
+  $("#businesses-update-summary").hide();
+  $("#businesses-update-summary-deleted").hide();
+
+  $("#businesses-card").hide();
+  $("#businesses-summary").hide();
 
 }
 
