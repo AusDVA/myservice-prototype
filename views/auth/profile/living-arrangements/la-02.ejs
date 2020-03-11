@@ -1,0 +1,155 @@
+<%- include(templates+"header", {
+  title: "Change of address",
+  heading: "Change of address"
+})%>
+
+<style>
+
+</style>
+
+<h2>About your previous residence</h2>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Do you own your previous residence?",
+  yes_toggle: "#ownership-questions"
+}); %>
+
+<div id="ownership-questions" hidden>
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "What has been done with the previous residence?",
+    options: [
+      "-- Select an option --",
+     {
+       text: "Sold",
+       toggle: "#sold-questions"
+     },
+     {
+      text: "Not sold"
+     },
+     {
+      text: "Gifted to another person"
+     }
+    ]
+  }); %>
+
+  <div id="sold-questions" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Sale price",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Net profit",
+      tooltip: {
+        content: "Amount received after deductions for mortgage, legal and agent fees.",
+      },
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Settlement date"
+    }); %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Are you intending to purchase a new home within the next 12 months?",
+      yes_toggle: "#build-buy-container"
+    }); %>
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Do you intend to build or buy a new home?",
+      options: [
+        "-- Select an option --",
+       {
+         text: "Build",
+         toggle: "#sold-questions"
+       },
+       {
+        text: "Buy"
+       },
+       {
+        text: "Unsure"
+       }
+      ],
+      id: "build-buy",
+      modifiers: ["hidden"]
+    }); %>
+  </div>
+  
+
+</div>
+
+
+<h2>About your new residence</h2>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Which of the following best describes your new home:",
+  options: [
+    "-- Select an option --",
+    "A home I own",
+    "Rental accommodation",
+    "Aged care facility or nursing home",
+    "Retirement village",
+    "Boarding and lodging",
+    "Mobile home owner",
+    "Free accommodation",
+    "Other"
+  ]
+}); %>
+
+<%- include(forms+"prepop/address", {
+  id: "residential-address",
+  modifiers: ["hidden1"],
+  label: "New residential address"
+}) %>
+
+<%- include(partials+"components/form-partials/checkbox", {
+  boxes: [
+    {
+      text: "Use as postal address",
+      rToggle: "#postal-address-container",
+      modifiers: ["checked"]
+    }
+  ]
+}); %>
+
+<%- include(forms+"prepop/address", {
+  id: "postal-address",
+  modifiers: ["hidden"],
+  label: "New postal address"
+}) %>
+ 
+  <!-- <div id="main-pagination" class="pagination">
+    <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Cancel</button>
+    <button id="continue" class="uikit-btn btnNext floated" onClick="goBack()">Next</button>
+  </div> -->
+
+  <%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/profile/living-arrangements/index"
+    },
+    {
+      text: "Delete transaction",
+      link: "#open-coc-ai-delete-modal"
+    },
+      {
+        text: "Next",
+        link: "/auth/profile/living-arrangements/la-02",
+        modifiers: ["floated", "primary"],
+        id: "submit"
+      }
+    ],
+    customClass: ["margin-above--extra"]
+  }) %>
+
+</div>
+
+<script>
+  function stateSwitcher() {
+  }
+
+  // function goBack() {
+  //   localStorage.setItem("coc-state", "update1");
+  //   window.location.href = 'start.ejs';
+  // }
+</script>
+
+<%- include(partials+"components/layout/footer") %>
+<%#- include("category-page-ss") %>
