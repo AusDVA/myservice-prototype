@@ -352,6 +352,13 @@ function hideAll() {
   $("#businesses-card").hide();
   $("#businesses-summary").hide();
 
+  $("#compensation-and-damages-update-card").hide();
+  $("#compensation-and-damages-update-summary").hide();
+  $("#compensation-and-damages-update-summary-deleted").hide();
+
+  $("#compensation-and-damages-card").hide();
+  $("#compensation-and-damages-summary").hide();
+
 }
 
 $(Document).ready(function() {
