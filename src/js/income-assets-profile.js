@@ -310,6 +310,10 @@ function hideAll() {
   $("#employment-income-card").hide();
   $("#employment-income-summary").hide();
 
+  $("#purchased-income-streams-deemed-update-card").hide();
+  $("#purchased-income-streams-deemed-update-summary").hide();
+  $("#purchased-income-streams-deemed-update-summary-deleted").hide();
+
   $("#purchased-income-streams-update-card").hide();
   $("#purchased-income-streams-update-summary").hide();
   $("#purchased-income-streams-update-summary-deleted").hide();
