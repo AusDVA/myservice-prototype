@@ -6,37 +6,149 @@
 <%- include(partials+"components/form-partials/radio", {
   label: "Which of the following best describes your new living arrangements:",
   boxes: [
-    "A home I own",
-    "Rental accommodation",
-    "Aged care facility or nursing home",
-    "Retirement village",
-    "Boarding and lodging",
-    "Mobile home owner",
-    "Free accommodation",
-    "Other"
-  ]
-}); %>
-
-<%- include(forms+"prepop/address", {
-  id: "residential-address",
-  modifiers: ["hidden1"],
-  label: "New residential address"
-}) %>
-
-<%- include(partials+"components/form-partials/checkbox", {
-  boxes: [
     {
-      text: "Update my postal address to use this address",
-      toggle: "#postal-address-container",
-      modifiers: ["checked11"]
+      text: "A home I own",
+      toggle: "#home-owner"
+    },
+    {
+      text: "Rental accommodation",
+      toggle: "#rental"
+    },
+    {
+      text: "Aged care facility or nursing home"
+    },
+    {
+      text: "Retirement village",
+      toggle: "#retirement"
+    },
+    {
+      text: "Boarding and lodging"
+    },
+    {
+      text: "Mobile home owner",
+      toggle: "#mobile"
+    },
+    {
+      text: "Free accommodation"
+    },
+    {
+      text: "Other"
     }
   ]
 }); %>
 
-<%#- include(partials+"components/form-partials/notice", {
-  message: "<p>You will also need to report on the financial impact of this change of address within the 'Income &amp; Assets' section of your MyService profile.</p><p>For example: changes to bank balances, shares, managed investments, real estate holdings or any other categories that have been impacted by the change.</p>",
-  id: "postal-address"
-}); %>
+<div id="home-owner" hidden>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Purchase price of new residence",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/date", {
+    label: "Settlement date"
+  }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Source of funds for purchase of this home",
+    hint: "For example sale of previous residence; taking out a mortgage; using money from investments."
+  }); %>
+
+</div>
+
+<div id="rental" hidden>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount of rent paid",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Payment frequency",
+    options: [
+      "-- Select one --",
+      "Weekly",
+      "Fortnightly"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Is the rent paid to a Housing Authority?",
+    tooltip: {
+      content: "Add housing authorities .."
+    }
+  }); %>
+
+  <%- include(partials+"components/form-partials/date", {
+    label: "Date rental payments commenced or will commence"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Does the rent paid include meals?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/textarea", {
+    label: "Name and address of person or organisation to whom the rent is paid"
+  }); %>
+
+</div>
+
+<div id="retirement" hidden>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Retirement village entry contribution amount",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount of maintenance fees paid",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Payment frequency",
+    options: [
+      "-- Select one --",
+      "Weekly",
+      "Fortnightly"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/date", {
+    label: "What date did you or will you move in?"
+  }); %>
+
+</div>
+
+<div id="mobile" hidden>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount of rent paid",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Payment frequency",
+    options: [
+      "-- Select one --",
+      "Daily",
+      "Weekly",
+      "Fortnightly",
+      "Monthly",
+      "Quarterly",
+      "Yearly"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/date", {
+    label: "What date did you or will you move in?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "What is the amount of entry contribution you paid?",
+    modifiers: ["dollarSign"]
+  }); %>
+
+</div>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -50,7 +162,7 @@
     },
       {
         text: "Next",
-        link: "/auth/profile/living-arrangements/la-02",
+        link: "/auth/profile/living-arrangements/la-04",
         modifiers: ["floated", "primary"],
         id: "submit"
       }
@@ -63,11 +175,6 @@
 <script>
   function stateSwitcher() {
   }
-
-  // function goBack() {
-  //   localStorage.setItem("coc-state", "update1");
-  //   window.location.href = 'start.ejs';
-  // }
 </script>
 
 <%- include(partials+"components/layout/footer") %>
