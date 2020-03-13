@@ -246,9 +246,13 @@ function hideAll() {
   $("#money-loaned-card").hide();
   $("#money-loaned-summary").hide();
 
-  $("#managed-investments-update-card").hide();
-  $("#managed-investments-update-summary").hide();
-  $("#managed-investments-update-summary-deleted").hide();
+  $("#managed-investments-account-based-update-card").hide();
+  $("#managed-investments-account-based-update-summary").hide();
+  $("#managed-investments-account-based-update-summary-deleted").hide();
+
+  $("#managed-investments-unit-based-update-card").hide();
+  $("#managed-investments-unit-based-update-summary").hide();
+  $("#managed-investments-unit-based-update-summary-deleted").hide();
 
   $("#managed-investments-prepaid-update-card").hide();
   $("#managed-investments-prepaid-update-summary").hide();
