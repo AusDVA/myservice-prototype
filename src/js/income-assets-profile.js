@@ -370,6 +370,13 @@ function hideAll() {
   $("#real-estate-card").hide();
   $("#real-estate-summary").hide();
 
+  $("#farms-update-card").hide();
+  $("#farms-update-summary").hide();
+  $("#farms-update-summary-deleted").hide();
+
+  $("#farm-card").hide();
+  $("#farm-summary").hide();
+
 }
 
 $(Document).ready(function() {
