@@ -381,6 +381,20 @@ function hideAll() {
   $("#farm-card").hide();
   $("#farm-summary").hide();
 
+  $("#superannuation-update-card").hide();
+  $("#superannuation-update-summary").hide();
+  $("#superannuation-update-summary-deleted").hide();
+
+  $("#superannuation-card").hide();
+  $("#superannuation-summary").hide();
+
+  $("#smsf-update-card").hide();
+  $("#smsf-update-summary").hide();
+  $("#smsf-update-summary-deleted").hide();
+
+  $("#self-managed-super-card").hide();
+  $("#self-managed-super-summary").hide();
+
 }
 
 $(Document).ready(function() {
