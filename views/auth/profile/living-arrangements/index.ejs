@@ -1,40 +1,27 @@
 <%- include(templates+"header", {
   title: "Change of address",
-  heading: "Further information"
+  heading: "Your new address"
 })%>
 
-<style>
-
-</style>
-
-
+<h2>Enter your new residential address</h2>
 
 <%- include(forms+"prepop/address", {
   id: "residential-address",
-  modifiers: ["hidden1"],
-  label: "New residential address"
+  label: ""
 }) %>
 
 <%- include(partials+"components/form-partials/checkbox", {
   boxes: [
     {
-      text: "Use as postal address",
-      rToggle: "#postal-address-container",
-      modifiers: ["checked"]
+      text: "Update my postal address to this address"
     }
   ]
 }); %>
 
-<%- include(forms+"prepop/address", {
-  id: "postal-address",
-  modifiers: ["hidden"],
-  label: "New postal address"
-}) %>
- 
-  <!-- <div id="main-pagination" class="pagination">
-    <button id="continue" class="uikit-btn btnNext" onClick="goBack()">Cancel</button>
-    <button id="continue" class="uikit-btn btnNext floated" onClick="goBack()">Next</button>
-  </div> -->
+<div id="overseas" hidden>
+
+  Show overseas questions if needed
+</div>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -62,10 +49,13 @@
   function stateSwitcher() {
   }
 
-  // function goBack() {
-  //   localStorage.setItem("coc-state", "update1");
-  //   window.location.href = 'start.ejs';
-  // }
+  $('#residential-address-country').on('change', function() {
+  if( this.value != "australia") {
+    $("#overseas").show();
+  } else {
+    $("#overseas").hide()
+  }
+});
 </script>
 
 <%- include(partials+"components/layout/footer") %>
