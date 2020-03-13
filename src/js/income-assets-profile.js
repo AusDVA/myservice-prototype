@@ -363,6 +363,13 @@ function hideAll() {
   $("#compensation-and-damages-card").hide();
   $("#compensation-and-damages-summary").hide();
 
+  $("#real-estate-update-card").hide();
+  $("#real-estate-update-summary").hide();
+  $("#real-estate-update-summary-deleted").hide();
+
+  $("#real-estate-card").hide();
+  $("#real-estate-summary").hide();
+
 }
 
 $(Document).ready(function() {
