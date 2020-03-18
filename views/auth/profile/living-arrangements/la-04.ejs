@@ -1,16 +1,12 @@
 <%- include(templates+"header", {
   title: "Change of address",
-  heading: "About your previous residence"
+  heading: "About your previous home"
 })%>
 
-<style>
-
-</style>
-
-<!-- <h2>About your previous residence</h2> -->
 
 <%- include(partials+"components/form-partials/radio", {
   label: "Did you own your previous home?",
+  id: "ownership-questions",
   boxes: [
     {
         text: "Did not own",
@@ -31,6 +27,10 @@
   ]
 }); %>
 
+<form id="myForm">
+
+  <input type="reset" style="display: none;">
+
 <div id="sold-questions" hidden>
 
     <%- include(partials+"components/form-partials/text", {
@@ -48,7 +48,7 @@
       label: "Settlement date"
     }); %>
     <%- include(partials+"components/form-partials/radio", {
-      label: "Do you intend to purchase a new residence within the next 12 months?",
+      label: "Do you intend to purchase a new home within the next 12 months?",
       boxes: [
         {
             text: "Yes - purchase a new home",
@@ -95,7 +95,7 @@
   }); %>
 
   <%- include(partials+"components/form-partials/text", {
-    label: "Amount you expect to spend on new residence:",
+    label: "Amount you expect to spend on new home:",
     id: "unsure-estimate",
     modifiers: ["dollarSign","hidden"]
   }); %>
@@ -118,7 +118,7 @@
   <div id="still-own-questions" hidden>
 
     <%- include(partials+"components/form-partials/dropdown", {
-      label: "Why has the previous residence not been sold?",
+      label: "Why has the previous home not been sold?",
       options: [
         {
           text: "-- Select one --"
@@ -193,17 +193,12 @@
       label: "Date of transfer"
     }); %>
   </div>
-
-<%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will also need to report on the financial impact of this change of address within the 'Income &amp; Assets' section of your MyService profile.</p><p>For example: changes to bank balances, shares, managed investments, real estate holdings or any other categories that have been impacted by the change.</p>",
-  id: "coc-nudge",
-  type: "warning",
-  modifiers: ["hidden"]
-}); %>
  
 <div id="save-and-next" style="display:none;">
   <p>Choose <b>save and next</b> to continue.</p>
 </div>
+
+</form>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -217,7 +212,7 @@
     },
       {
         text: "Next",
-        link: "/auth/profile/living-arrangements/la-05",
+        link: "/auth/profile/living-arrangements/review",
         modifiers: ["floated", "primary"],
         id: "submit"
       }
@@ -231,10 +226,23 @@
   function stateSwitcher() {
   }
 
-  // function goBack() {
-  //   localStorage.setItem("coc-state", "update1");
-  //   window.location.href = 'start.ejs';
-  // }
+  $("#ownership-questions-container").click(function(){
+    $("#myForm").trigger("reset");
+    hideAll();
+  });
+
+  function hideAll() {
+    $("#sold-questions").hide();
+    $("#purchased-land-questions").hide();
+    $("#build-estimate-container").hide();
+    $("#unsure-estimate-container").hide();
+    $("#buy-estimate-container").hide();
+    $("#no-12-months").hide();
+    $("#still-own-questions").hide();
+    $("#reason-not-sold-container").hide();
+    $("#rent-questions").hide();
+    $("#gifted-questions").hide();
+  }
 </script>
 
 <%- include(partials+"components/layout/footer") %>
