@@ -90,9 +90,8 @@
     <div class="box__header">
       <h2 class="margin-above--none" style="display: inline-block;"><span
           class="fal fa-briefcase fontawesome-icon"></span><span class="font-weight-heavy">Employment income
-        </span></h2>
-        <!-- <button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button "
-        onclick="deletePrePop('employment-income-update');">&nbsp;Delete item&nbsp;</button> -->
+        </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button "
+        onclick="deletePrePop('employment-income-update');">&nbsp;Delete item&nbsp;</button>
     </div>
     <div id="card-details" class="margin-below--large">
       <div class="box__table">
@@ -113,16 +112,48 @@
       <form id="myForm">
         <input type="reset" style="display:none">
 
-        <%- include(partials+"components/form-partials/textarea", {
-          label: "What has changed in regards to this employment?",
-          hint: "For example income amount, changes in pattern of work, or cessation of employment.",
-          modifiers: ["hintNewLine"]
+        <%- include(partials+"components/form-partials/radio", {
+          label: "What is your pattern of work for this employer?",
+          boxes: [
+            {
+              text: "Regular - You work the same number of hours and receive a regular wage each week/fortnight/month"
+            },
+            {
+              text: "Variable - You work variable hours and receive a variable wage each week/fortnight/month",
+              toggle: "#pay-period-container"
+            },
+            {
+              text: "Once off - Short term work that is unlikely to be repeated in the next 12 months"
+            }
+          ]
         }); %>
 
-      <%- include(partials+"components/form-partials/date", {
-        label: "Date of change"
+        <%- include(partials+"components/form-partials/date", {
+          label: "First pay period start date",
+          id: "pay-period",
+          modifiers: ["hidden"]
+        }); %>
+
+        <%- include(partials+"components/form-partials/text", {
+        label: "Gross income",
+        modifiers: ["dollarSign"]
       }); %>
 
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Frequency",
+        options: [
+          "-- Select an option --",
+          "Weekly",
+          "Fortnightly",
+          "Monthly",
+          "Quarterly",
+          "Annually"
+        ]
+      }); %>
+
+      <%- include(partials+"components/form-partials/date", {
+        label: "When did the change occur?"
+      }); %>
 
       <%- include(partials+"components/form-partials/notice", {
         message: "You will need to provide evidences of your employment, for example, payslips, contract or a letter from the employer in the document section."
