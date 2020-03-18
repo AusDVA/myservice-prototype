@@ -10,18 +10,29 @@
   label: ""
 }) %>
 
-<%- include(partials+"components/form-partials/checkbox", {
+<!-- <h2>Postal address</h2> -->
+
+<%#- include(partials+"components/form-partials/checkbox", {
   boxes: [
     {
-      text: "Update my postal address to this address"
+      text: "Update "
     }
   ]
 }); %>
 
-<div id="overseas" hidden>
+<h2>Postal address</h2>
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Would you like to update your postal address to use the new residential address?",
+  yes_toggle: "#save-and-next"
+}); %>
 
-  Show overseas questions if needed
+<div id="save-and-next" style="display:none;">
+  <p>Choose <b>save and next</b> to continue.</p>
 </div>
+
+<!-- <div id="overseas" hidden>
+  Show overseas questions if needed
+</div> -->
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -45,17 +56,18 @@
 
 </div>
 
+
+
 <script>
   function stateSwitcher() {
   }
-
   $('#residential-address-country').on('change', function() {
-  if( this.value != "australia") {
-    $("#overseas").show();
-  } else {
-    $("#overseas").hide()
-  }
-});
+    if( this.value != "australia") {
+      $("#overseas").show();
+    } else {
+      $("#overseas").hide()
+    }
+  });
 </script>
 
 <%- include(partials+"components/layout/footer") %>
