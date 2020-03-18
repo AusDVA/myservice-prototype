@@ -1,16 +1,209 @@
 <%- include(templates+"header", {
   title: "Change of address",
-  heading: "Further information"
+  heading: "About your previous residence"
 })%>
 
+<style>
+
+</style>
+
+<!-- <h2>About your previous residence</h2> -->
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "Did you own your previous home?",
+  boxes: [
+    {
+        text: "Did not own",
+        toggle: "#save-and-next"
+    },
+    {
+        text: "Owned and now sold",
+        toggle: "#sold-questions"
+    },
+    {
+        text: "Owned and now gifted to another person",
+        toggle: "#gifted-questions"
+    },
+    {
+        text: "Still own",
+        toggle: "#still-own-questions"
+    }
+  ]
+}); %>
+
+<div id="sold-questions" hidden>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Sale price",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Net profit",
+      tooltip: {
+        content: "Amount received after deductions for mortgage, legal and agent fees.",
+      },
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Settlement date"
+    }); %>
+    <%- include(partials+"components/form-partials/radio", {
+      label: "Do you intend to purchase a new residence within the next 12 months?",
+      boxes: [
+        {
+            text: "Yes - purchase a new home",
+            toggle: "#buy-estimate-container"
+        },
+        {
+            text: "Yes - planning to purchase land and build a new home",
+            toggle: "#build-estimate-container"
+        },
+        ,
+        {
+            text: "Yes - have already purchased land to build a new home",
+            toggle: "#purchased-land-questions"
+        },
+        {
+            text: "Yes - unsure whether I will buy or build",
+            toggle: "#unsure-estimate-container"
+        },
+        {
+            text: "No - I do not intend to purchase a new home within the next 12 months",
+            toggle: "#no-12-months"
+        }
+      ]
+    }); %>
+  </div>
+
+  <div id="purchased-land-questions" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Purchase price of land",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Settlement date for land purchase"
+    }); %>
+    <%- include(forms+"prepop/address", {
+      label: "Address of the land"
+    }) %>
+  </div>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount you expect to spend on land and construction:",
+    id: "build-estimate",
+    modifiers: ["dollarSign","hidden"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount you expect to spend on new residence:",
+    id: "unsure-estimate",
+    modifiers: ["dollarSign","hidden"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount you expect to spend on the new home:",
+    id: "buy-estimate",
+    modifiers: ["dollarSign","hidden"]
+  }); %>
+
+  <div id="no-12-months" hidden>
+    <%- include(partials+"components/form-partials/textarea", {
+      label: "How have any remaining funds from the settlement been invested or disposed?"
+    }); %>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "You will need to report all related changes to your income and assets."
+    }); %>
+  </div>
+
+  <div id="still-own-questions" hidden>
+
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Why has the previous residence not been sold?",
+      options: [
+        {
+          text: "-- Select one --"
+        },
+        {
+          text: "Home kept as holiday home"
+        },
+        {
+          text: "Home kept as investment property"
+        },
+        {
+          text: "Home kept as residence for partner or child"
+        },
+        {
+          text: "Left vacant"
+        },
+        {
+          text: "Temporarily awaiting developments"
+        },
+        {
+          text: "Other",
+          toggle: "#reason-not-sold-container"
+        }
+      ]
+    }); %>
+    <%- include(partials+"components/form-partials/textarea", {
+      label: "Specify reason",
+      id: "reason-not-sold",
+      modifiers: ["hidden"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Current market value estimate",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Outstanding mortage amount",
+      hint: "(if none enter $0.00)",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Is the home rented?",
+      yes_toggle: "#rent-questions"
+    }); %>
+    <div id="rent-questions" hidden>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Rent received:",
+        modifiers: ["dollarSign"]
+      }); %>
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Payment frequency",
+        options: [
+          "-- Select one --",
+          "Weekly",
+          "Fortnightly"
+        ]
+      }); %>
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Is the home rented to an immediate family member?",
+        tooltip: {
+          content: "Immediate family refers to your parents, grand parents, children or your brothers or sisters."
+        }
+      }); %>
+    </div>
+  </div>
+
+  <div id="gifted-questions" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Estimated value at date of transfer",
+      modifiers: ["dollarSign"]
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of transfer"
+    }); %>
+  </div>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will need to report on the financial impact of this change of address within the 'Income &amp; Assets' section of your MyService profile.</p><p>For example: changes to bank balances, shares, managed investments, real estate holdings or any other categories that have been impacted by the change.</p>"
+  message: "<p>You will also need to report on the financial impact of this change of address within the 'Income &amp; Assets' section of your MyService profile.</p><p>For example: changes to bank balances, shares, managed investments, real estate holdings or any other categories that have been impacted by the change.</p>",
+  id: "coc-nudge",
+  type: "warning",
+  modifiers: ["hidden"]
 }); %>
-
-<%- include(partials+"components/form-partials/textarea", {
-  label: "Tell us any additional information relevant to your change of address."
-}); %>
+ 
+<div id="save-and-next" style="display:none;">
+  <p>Choose <b>save and next</b> to continue.</p>
+</div>
 
   <%- include(forms+"pagination", {
     pagination: [
@@ -24,7 +217,7 @@
     },
       {
         text: "Next",
-        link: "/auth/profile/living-arrangements/review",
+        link: "/auth/profile/living-arrangements/la-05",
         modifiers: ["floated", "primary"],
         id: "submit"
       }
@@ -37,6 +230,11 @@
 <script>
   function stateSwitcher() {
   }
+
+  // function goBack() {
+  //   localStorage.setItem("coc-state", "update1");
+  //   window.location.href = 'start.ejs';
+  // }
 </script>
 
 <%- include(partials+"components/layout/footer") %>
