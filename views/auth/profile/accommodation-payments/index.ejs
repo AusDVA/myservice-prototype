@@ -113,7 +113,20 @@
   }
 
   $("#accommodation-type-container").change(function () {
-    pageState = $('#accommodation-type :selected').val();
+    mySelection = $('#accommodation-type :selected').val();
+    switch (mySelection) {
+      case "rentalaccommodation":
+      pageState = "rentpublichousing";
+        break;
+      case "publichousing":
+      pageState = "rentpublichousing";
+        break;
+      case "privateboardandlodging":
+      pageState = "boardandlodging";
+        break;
+      default:
+        break;
+    }
     updatePage()
   });
 
@@ -121,18 +134,18 @@
     updatePage();
   }
 
+  $('#accommodation-type option:eq(0)').prop('selected', true);
+
   function updatePage(){
     hideAll();
-    console.log(pageState)
     switch (pageState) {
-      case "rentalaccommodation":
+      case "rentpublichousing":
         $("#rent").show();
+        $('#accommodation-type option:eq(0)').prop('selected', true);
         break;
-      case "publichousing":
-        $("#rent").show();
-        break;
-      case "privateboardandlodging":
+      case "boardandlodging":
         $("#board").show();
+        $('#accommodation-type option:eq(2)').prop('selected', true);
         break;
       default:
         break;
