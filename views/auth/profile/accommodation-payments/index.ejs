@@ -20,6 +20,8 @@
 
 <div id="rent">
 
+  <h2>Update your rental payment details</h2>
+
     <%- include(partials+"components/form-partials/text", {
       label: "Rental payment",
       modifiers: ["dollarSign"]
@@ -39,7 +41,7 @@
 
 <div id="board" hidden>
 
-  <h4>Update your board and lodging payments</h4>
+  <h2>Update your board and lodging payment details</h2>
 
   <div id="op10-la-content" style="">
     <!-- <h2><span class="font-weight-heavy">Give details about your selection</span></h2> -->
@@ -96,6 +98,7 @@
 <%- include("index-ss") %>
 
 <script>
+
    function stateSwitcher() {
     switch (pageState) {
       case "emptylist":
@@ -110,43 +113,35 @@
   }
 
   $("#accommodation-type-container").change(function () {
-    mySelection = $('#accommodation-type :selected').val();
-    console.log (mySelection)
-    // hideFields();
-    switch (mySelection) {
-      case "Savings account":
-        showDefaults();
+    pageState = $('#accommodation-type :selected').val();
+    updatePage()
+  });
+
+  function stateSwitcher() {
+    updatePage();
+  }
+
+  function updatePage(){
+    hideAll();
+    console.log(pageState)
+    switch (pageState) {
+      case "rentalaccommodation":
+        $("#rent").show();
         break;
-      case "Cheque account":
-        showDefaults();
+      case "publichousing":
+        $("#rent").show();
         break;
-      case "Term deposit account":
-        showDefaults();
-        break;
-      case "Cash management account":
-        showDefaults();
-        break;
-      case "Deeming account":
-        $("#bsb").show();
-        $("#institution-name").show();
-        $("#account-number").show();
-        $("#balance").show();
-        break;
-      case "Church/charity account":
-        $("#church-notice-container").show();
-        $("#church-account-name").show();
-        $("#church-reference").show();
-        $("#balance").show();
-        break;
-      case "Overseas account":
-        $("#foreign-institution-name").show();
-        $("#account-number").show();
-        $("#country-payment").show();
-        $("#currency").show();
-        $("#balance").show();
+      case "privateboardandlodging":
+        $("#board").show();
         break;
       default:
         break;
     }
-  });
+  }
+
+  function hideAll(){
+    $("#rent").hide();
+    $("#board").hide();
+  }
+
 </script>
