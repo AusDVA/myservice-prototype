@@ -1,0 +1,152 @@
+<%- include(templates+"header", {
+  title: "Profile | MyService",
+  heading: "Update accommodation payments"
+})%>
+
+<!-- <h2>Enter your new postal address</h2> -->
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Accommodation type",
+  id: "accommodation-type",
+  options: [
+    "Rental accommodation",
+    "Public housing",
+    "Private board and lodging",
+    "In a place where you pay site fees",
+    "In a retirement village or independent living unit",
+    "In residential aged care home (nursing home) which provides nursing care"
+  ]
+}); %>
+
+<div id="rent">
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Rental payment",
+      modifiers: ["dollarSign"]
+    }); %>
+  
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Payment frequency",
+      options: [
+        "Weekly",
+        "Fortnightly",
+        "Monthly",
+        "Annually"
+      ]
+    }); %>
+
+</div>
+
+<div id="board" hidden>
+
+  <h4>Update your board and lodging payments</h4>
+
+  <div id="op10-la-content" style="">
+    <!-- <h2><span class="font-weight-heavy">Give details about your selection</span></h2> -->
+    <div class="form-group margin-above" id="sp-la-op10-meals">
+      <label class="uikit-text-input__label" for="tags">Amount paid for meals:</label>
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
+        <option selected="selected">-- Select frequency --</option>
+        <option id="sp-la-op78-type-01">Weekly</option>
+        <option id="sp-la-op78-type-02">Fortnightly</option>
+        <option id="sp-la-op78-type-03">Monthly</option>
+        <option id="sp-la-op78-type-03">Annually</option>
+      </select>
+    </div>
+    <div class="form-group margin-above" id="sp-la-op10-lodging">
+      <label class="uikit-text-input__label" for="tags">Amount paid for lodging</label>
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
+        <option selected="selected">-- Select frequency --</option>
+        <option id="sp-la-op78-type-01">Weekly</option>
+        <option id="sp-la-op78-type-02">Fortnightly</option>
+        <option id="sp-la-op78-type-03">Monthly</option>
+        <option id="sp-la-op78-type-03">Annually</option>
+      </select>
+    </div>
+  </div>
+  
+</div>
+
+<div id="save-and-next" style="display:none;">
+  <p>Choose <b>save and next</b> to continue.</p>
+</div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Cancel",
+      link:  "/auth/profile/contact",
+    },
+      {
+        text: "Update",
+        link: "/auth/profile/contact",
+        modifiers: ["floated", "primary"],
+        id: "submit"
+      }
+    ],
+    customClass: ["margin-above--extra"]
+  }) %>
+
+</div>
+
+
+<%- include(partials+"components/layout/footer") %>
+<%- include("index-ss") %>
+
+<script>
+   function stateSwitcher() {
+    switch (pageState) {
+      case "emptylist":
+        showEmptyState();
+        break;
+      case "populatedlist":
+        showPopState();
+        break;
+      default:
+        break;
+    }
+  }
+
+  $("#accommodation-type-container").change(function () {
+    mySelection = $('#accommodation-type :selected').val();
+    console.log (mySelection)
+    // hideFields();
+    switch (mySelection) {
+      case "Savings account":
+        showDefaults();
+        break;
+      case "Cheque account":
+        showDefaults();
+        break;
+      case "Term deposit account":
+        showDefaults();
+        break;
+      case "Cash management account":
+        showDefaults();
+        break;
+      case "Deeming account":
+        $("#bsb").show();
+        $("#institution-name").show();
+        $("#account-number").show();
+        $("#balance").show();
+        break;
+      case "Church/charity account":
+        $("#church-notice-container").show();
+        $("#church-account-name").show();
+        $("#church-reference").show();
+        $("#balance").show();
+        break;
+      case "Overseas account":
+        $("#foreign-institution-name").show();
+        $("#account-number").show();
+        $("#country-payment").show();
+        $("#currency").show();
+        $("#balance").show();
+        break;
+      default:
+        break;
+    }
+  });
+</script>

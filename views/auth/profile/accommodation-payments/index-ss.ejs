@@ -1,0 +1,67 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Known arrangement",
+    boxes: [
+      "Rent, public housing",
+      "Board and lodging"
+    ],
+    id: "page-state"
+  }); %>
+
+  <!-- <h3>Other properties</h3> -->
+
+  <%#- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Provisional"
+    ],
+    id: "provisional",
+    customClass: "margin-below--none"
+  }); %>
+ 
+
+</div>
+
+<script>
+
+  var pageState;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#page-state-2").prop("checked", true);
+    $('input[name=page-state]').change(function () {
+      pageState = $(this).val();
+      stateSwitcher();
+    });
+
+    stateSwitcher();
+
+  });
+
+  $('#provisional-1').change(function() {
+    updateProvisional();  
+  });
+
+function updateProvisional() {
+    var myProvisional = $("#provisional-1").is(":checked");
+    console.log( myProvisional );
+    if ( myProvisional ) {
+      $(".provisional").show();
+    } else {
+      $(".provisional").hide();
+    }
+  }  
+
+
+
+
+</script>
