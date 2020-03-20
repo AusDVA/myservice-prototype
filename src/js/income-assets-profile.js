@@ -17,6 +17,10 @@ function showNewCard(cardType) {
     alert ("See build for this category")
     return;
   }
+  if ( cardType == "businesses") {
+    alert ("See build for this category")
+    return;
+  }
   captureUserList();
   hideAll();
   var myDiv = "#" + cardType + "-card";
@@ -242,9 +246,13 @@ function hideAll() {
   $("#money-loaned-card").hide();
   $("#money-loaned-summary").hide();
 
-  $("#managed-investments-update-card").hide();
-  $("#managed-investments-update-summary").hide();
-  $("#managed-investments-update-summary-deleted").hide();
+  $("#managed-investments-account-based-update-card").hide();
+  $("#managed-investments-account-based-update-summary").hide();
+  $("#managed-investments-account-based-update-summary-deleted").hide();
+
+  $("#managed-investments-unit-based-update-card").hide();
+  $("#managed-investments-unit-based-update-summary").hide();
+  $("#managed-investments-unit-based-update-summary-deleted").hide();
 
   $("#managed-investments-prepaid-update-card").hide();
   $("#managed-investments-prepaid-update-summary").hide();
@@ -306,6 +314,10 @@ function hideAll() {
   $("#employment-income-card").hide();
   $("#employment-income-summary").hide();
 
+  $("#purchased-income-streams-deemed-update-card").hide();
+  $("#purchased-income-streams-deemed-update-summary").hide();
+  $("#purchased-income-streams-deemed-update-summary-deleted").hide();
+
   $("#purchased-income-streams-update-card").hide();
   $("#purchased-income-streams-update-summary").hide();
   $("#purchased-income-streams-update-summary-deleted").hide();
@@ -340,6 +352,48 @@ function hideAll() {
 
   $("#maintenance-paid-to-former-partner-card").hide();
   $("#maintenance-paid-to-former-partner-summary").hide();
+
+  $("#businesses-update-card").hide();
+  $("#businesses-update-summary").hide();
+  $("#businesses-update-summary-deleted").hide();
+
+  $("#businesses-card").hide();
+  $("#businesses-summary").hide();
+
+  $("#compensation-and-damages-update-card").hide();
+  $("#compensation-and-damages-update-summary").hide();
+  $("#compensation-and-damages-update-summary-deleted").hide();
+
+  $("#compensation-and-damages-card").hide();
+  $("#compensation-and-damages-summary").hide();
+
+  $("#real-estate-update-card").hide();
+  $("#real-estate-update-summary").hide();
+  $("#real-estate-update-summary-deleted").hide();
+
+  $("#real-estate-card").hide();
+  $("#real-estate-summary").hide();
+
+  $("#farms-update-card").hide();
+  $("#farms-update-summary").hide();
+  $("#farms-update-summary-deleted").hide();
+
+  $("#farm-card").hide();
+  $("#farm-summary").hide();
+
+  $("#superannuation-update-card").hide();
+  $("#superannuation-update-summary").hide();
+  $("#superannuation-update-summary-deleted").hide();
+
+  $("#superannuation-card").hide();
+  $("#superannuation-summary").hide();
+
+  $("#smsf-update-card").hide();
+  $("#smsf-update-summary").hide();
+  $("#smsf-update-summary-deleted").hide();
+
+  $("#self-managed-super-card").hide();
+  $("#self-managed-super-summary").hide();
 
 }
 

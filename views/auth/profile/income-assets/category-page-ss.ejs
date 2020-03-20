@@ -15,7 +15,22 @@
     boxes: [
       "Partnered"
     ],
-    id: "relationship-status"
+    id: "relationship-status",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Provisional"
+    ],
+    id: "provisional",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Partner flow"
+    ],
+    id: "partner-flow",
+    customClass: "margin-below--none"
   }); %>
 
 </div>
@@ -35,7 +50,6 @@
     });
 
     $("#page-state-2").prop("checked", true);
-
     $('input[name=page-state]').change(function () {
       pageState = $(this).val();
       stateSwitcher();
@@ -49,7 +63,14 @@
     updatePartner();  
   });
 
-  updatePartner();
+  $('#partner-flow-1').change(function() {
+    toggleOwner();  
+  });
+
+  $('#provisional-1').change(function() {
+    updateProvisional();  
+  });
+
   function updatePartner() {
     var myStatus = $("#relationship-status-1").is(":checked");
     if ( myStatus ) {
@@ -72,7 +93,16 @@
     $(".other-party-amount").hide();
     $(".partner").hide();
     $(".partner-label").text("My");
-    console.log("gffdgfdgfdg")
+  }
+
+  function toggleOwner(){
+    $('.switch-owner').each(function(){
+      if ( $(this).text() === "Myself" ) {
+        $(this).text("My partner");
+      } else {
+        $(this).text("Myself");
+      }
+    })
   }
 
 
@@ -86,6 +116,16 @@ $(".ownerType").change(function() {
           $(".other-party-amount").hide();
   }
 });
+
+function updateProvisional() {
+    var myProvisional = $("#provisional-1").is(":checked");
+    console.log( myProvisional );
+    if ( myProvisional ) {
+      $(".provisional").show();
+    } else {
+      $(".provisional").hide();
+    }
+  }  
 
 
 

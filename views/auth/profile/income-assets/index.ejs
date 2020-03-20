@@ -5,9 +5,6 @@
 
   <title>MyService</title>
   <%- include(partials+"components/layout/head") %>
-
-  <link rel="stylesheet" type="text/css" href="coc-proto-only.css">
-
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor future nom-reps">
@@ -28,149 +25,35 @@
         <section class="">
           <div class="row margin-above">
             <div class="col-sm-3">
-
               <%- include(partials+"components/layout/profile-side-nav") %>
-
             </div>
-
             <div class="col-sm-9">
-              <h1 class="margin-above--none margin-below--mid">Income &amp; assets</h1>
-              <p>You are required to advise of any changes to your income and assets within 14 days. You can track the progress of your submitted updates below. Processing times will vary based upon the types of changes you report.</p>
+              <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
+              <p>You are required to advise of any changes to your income and assets within 14 days. You can track the
+                progress of your submitted updates below. Processing times will vary based upon the types of changes you
+                report.</p>
               <button class="uikit-btn uikit-btn--primary"
                 onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
-
-              <div id="past-transactions" hidden>
-              <hr>
-              <h2 class="font-weight--heavy margin-below--small">Submitted updates</h2>
-              <div class="horizontal-card-section">
-
-                <div class="card card--horizontal status-flag">
-                  <div class="card-horizontal__status">
-                    <p> <strong>Documents required</strong></p>
-                    <p>29 Dec 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                    <a class="card-horizontal__link" href="#">Add documents</a>
-                    <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
-                  </div>
-                </div>
-
-                <div id="more-transactions" hidden>
-
-                <div class="card card--horizontal">
-                  <div class="card-horizontal__status">
-                    <p> <strong>In progress</strong></p>
-                    <p>14 Dec 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                    <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
-                  </div>
-                </div>
-
-                <div class="card card--horizontal">
-                  <div class="card-horizontal__status">
-                    <p> <strong>In progress</strong></p>
-                    <p>23 Sep 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                      <span class="tooltip2"data-tooltip2="You are only able to view transactions submitted in MyService.">?</span>
-                  </div>
-                </div>
-
-                <div class="card card--horizontal">
-                  <div class="card-horizontal__status">
-                    <p> <strong>Approved</strong></p>
-                    <p>5 Aug 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                    <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
-                  </div>
-                </div>
-
-                <div class="card card--horizontal">
-                  <div class="card-horizontal__status">
-                    <p> <strong>Approved</strong></p>
-                    <p>22 Jul 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                    <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
-                  </div>
-                </div>
-
-                <div class="card card--horizontal">
-                  <div class="card-horizontal__status">
-                    <p> <strong>Approved</strong></p>
-                    <p>20 Jul 2019</p>
-                  </div>
-                  <div>
-                    <p><strong>Income and assets update</strong></p>
-                    <p>Transaction ID: 2343456</p>
-                  </div>
-                  <div class="card-horizontal__buttons">
-                    <a class="card-horizontal__link" href="/auth/profile/income-assets/view-01">View</a>
-                  </div>
-                </div>
-              </div>
-
-              <p class="margin-above margin-below--none" id="sixmonth-message" hidden>You can only view transactions submitted within the last six months.</p>
-
-            </div>
-
-              <!-- <div class="payments-page">
-                <div class="row">
-                  <div class="pagination">
-                    <a href="#">&laquo;</a>
-                    <a href="#" class="active">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">&raquo;</a>
-                  </div>
-                </div>
-              </div> -->
-            </div>
-
+              <%- include("transactions-table"); %>
         </section>
       </div>
     </section>
   </main>
-
-
   <%- include(partials+"components/layout/footer") %>
   <%- include("index-ss") %>
 </body>
 <script>
 
-var updates = localStorage.getItem("updates");
-if ( updates == "true" ) {
+  var updates = localStorage.getItem("updates");
+  if (updates == "true") {
 
-} else {
+  } else {
 
-}
+  }
 
-function stateSwitcher() {
+  function stateSwitcher() {
 
-    console.log( pastTransactions )
+    console.log(pastTransactions)
 
     $("#past-transactions").hide();
     $("#sixmonth-message").hide();
@@ -181,9 +64,13 @@ function stateSwitcher() {
         break;
       case "one":
         $("#past-transactions").show();
+        $("#more-transactions").hide();
+        $("#one-transaction").show();
         break;
       case "many":
+        $("#one-transaction").hide();
         $("#past-transactions").show();
+        $("#card-hidden").hide();
         $("#more-transactions").show();
         $("#sixmonth-message").show();
         break;
