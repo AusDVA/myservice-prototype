@@ -3,39 +3,44 @@
   heading: "Update accommodation payments"
 })%>
 
-<!-- <h2>Enter your new postal address</h2> -->
-
-<%- include(partials+"components/form-partials/dropdown", {
+<%- include(partials+"components/form-partials/radio", {
   label: "Accommodation type",
-  id: "accommodation-type",
-  options: [
+  id: "rental-or-board",
+  boxes: [
     "Rental accommodation",
-    "Public housing",
-    "Private board and lodging",
-    "In a place where you pay site fees",
-    "In a retirement village or independent living unit",
-    "In residential aged care home (nursing home) which provides nursing care"
+     "Private board and lodging"
   ]
 }); %>
 
-<div id="rent">
+<%- include(partials+"components/form-partials/notice", {
+  message: "Is your address changing? If so <a href='/auth/profile/residential-address'>update your address</a> instead.",
+  id: "message",
+  modifiers: ["hidden"]
+}); %>
 
-  <h2>Update your rental payment details</h2>
+<div id="general">
 
-    <%- include(partials+"components/form-partials/text", {
-      label: "Rental payment",
-      modifiers: ["dollarSign"]
-    }); %>
-  
-    <%- include(partials+"components/form-partials/dropdown", {
-      label: "Payment frequency",
-      options: [
-        "Weekly",
-        "Fortnightly",
-        "Monthly",
-        "Annually"
-      ]
-    }); %>
+  <h2 id="rental-message">Update your rental payment details</h2>
+  <h2 id="public-housing-message" hidden>Update your housing payment details</h2>
+  <h2 id="site-fees-message" hidden>Update your site fee payment details</h2>
+  <h2 id="retirement-village-message" hidden>Update your retirement village payment details</h2>
+  <h2 id="aged-care-message" hidden>Update your residential aged care payment details</h2>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Payment amount",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Payment frequency",
+    options: [
+      "-- Select frequency --",
+      "Weekly",
+      "Fortnightly",
+      "Monthly",
+      "Annually"
+    ]
+  }); %>
 
 </div>
 
@@ -71,11 +76,7 @@
   
 </div>
 
-<div id="save-and-next" style="display:none;">
-  <p>Choose <b>save and next</b> to continue.</p>
-</div>
-
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
     {
       text: "Cancel",
@@ -90,62 +91,70 @@
     ],
     customClass: ["margin-above--extra"]
   }) %>
-
 </div>
-
 
 <%- include(partials+"components/layout/footer") %>
 <%- include("index-ss") %>
 
 <script>
 
-   function stateSwitcher() {
-    switch (pageState) {
-      case "emptylist":
-        showEmptyState();
-        break;
-      case "populatedlist":
-        showPopState();
-        break;
-      default:
-        break;
-    }
-  }
-
-  $("#accommodation-type-container").change(function () {
-    mySelection = $('#accommodation-type :selected').val();
+  $('#rental-or-board-container').change(function () {
+    mySelection = $('input[name=rental-or-board]:checked').val();
     switch (mySelection) {
       case "rentalaccommodation":
-      pageState = "rentpublichousing";
-        break;
-      case "publichousing":
-      pageState = "rentpublichousing";
+        if ( pageState == "boardandlodging" ) {
+          $("#message-container").show();
+        } else {
+          $("#message-container").hide();
+        }
         break;
       case "privateboardandlodging":
-      pageState = "boardandlodging";
+          if ( pageState == "rent" ) {
+            $("#message-container").show();
+          } else {
+            $("#message-container").hide();
+          }
         break;
       default:
         break;
     }
-    updatePage()
   });
 
   function stateSwitcher() {
     updatePage();
   }
 
-  $('#accommodation-type option:eq(0)').prop('selected', true);
+  $("#rental-or-board-1").prop("checked", true);
 
   function updatePage(){
     hideAll();
     switch (pageState) {
-      case "rentpublichousing":
-        $("#rent").show();
-        $('#accommodation-type option:eq(0)').prop('selected', true);
+      case "rent":
+        $("#general").show();
+        $("#rental-message").show();
+        $("#rental-or-board-1").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "publichousing":
+        $("#general").show();
+        $("#public-housing-message").show();
         break;
       case "boardandlodging":
         $("#board").show();
-        $('#accommodation-type option:eq(2)').prop('selected', true);
+        $("#rental-or-board-2").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "sitefees":
+        $("#general").show();
+        $("#site-fees-message").show();
+        break;
+      case "retirementvillage":
+        $("#general").show();
+        $("#retirement-village-message").show();
+        break;
+      case "residentialagedcare":
+        $("#general").show();
+        $("#aged-care-message").show();
         break;
       default:
         break;
@@ -153,8 +162,18 @@
   }
 
   function hideAll(){
-    $("#rent").hide();
+
+    $("#rental-message").hide();
+    $("#public-housing-message").hide();
+    $("#site-fees-message").hide();
+    $("#retirement-village-message").hide();
+    $("#aged-care-message").hide();
+
+    $("#rental-or-board-container").hide();
+    $("#general").hide();
     $("#board").hide();
+
+    $("#message-container").hide();
   }
 
 </script>
