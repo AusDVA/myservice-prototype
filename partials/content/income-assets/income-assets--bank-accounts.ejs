@@ -49,22 +49,31 @@
       Australia and overseas.</p>
     <p class="margin-below--mid">Do not include bonds and debentures or any superanuation funds you hold. You will be
       asked about these elsewhere.</p>
+     
     <hr>
     <form id="myForm">
       <input type="reset" style="display:none">
 
+      <%- include(partials+"components/form-partials/notice", {
+        message: "To add items owned by your partner we require your <a href='/auth/profile/relationships'>partner's consent</a>.",
+        id: ["no-consent-message"],
+        customClass: "show-if-no-consent",
+        modifiers: ["hidden"]
+      }); %>
+
       <!-- start owner -->
-      <div class="form-group margin-above--large owner-partner" hidden>
+      <div class="form-group margin-above--large owner-partner">
         <label class="uikit-text-input__label" for="drop-down">Account owner</label>
         <select class="uikit-text-input input-half ownerType" name="drop-down">
           <option selected="selected">-- Select an item --</option>
           <option>Myself</option>
-          <option>My partner</option>
+          <option class="hide-if-no-consent">My partner</option>
           <option>Jointly with my partner</option>
-          <option>Jointly with any other party</option>
+          <!-- <option>Jointly with any other party</option> -->
         </select>
       </div>
-      <div class="form-group margin-above--large owner-single">
+     
+      <!-- <div class="form-group margin-above--large owner-single">
         <label class="uikit-text-input__label" for="drop-down">Account owner</label>
         <select class="uikit-text-input input-half ownerType" name="drop-down">
           <option selected="selected">-- Select an item --</option>
@@ -76,7 +85,7 @@
         <label class="uikit-text-input__label" for="Input field">% Owned</label>
         <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="" required
           aria-required="true">
-      </div>
+      </div> -->
       <!-- end owner -->
 
       <!-- <div class="form-group margin-above--large partner">
