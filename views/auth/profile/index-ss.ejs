@@ -1,0 +1,102 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Accommodation payments",
+    boxes: [
+      "Rent, public housing, mooring fees, site fees, retirement, residential etc",
+      "Board and lodging",
+      "Free accommodation",
+      "No payments, ie home owner"
+    ],
+    id: "accommodation-status"
+  }); %>
+
+  <h3>Other properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Postal address updated successfully"
+    ],
+    id: "po-success",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Accommodation payments updated successfully"
+    ],
+    id: "accomm-success",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  // var pageState;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+  });
+
+  $('#po-success-1').change(function() {
+    updatePostal();  
+  });
+
+  function updatePostal() {
+    var myStatus = $("#po-success-1").is(":checked");
+    if ( myStatus ) {
+        $("#postal-update-success").show();
+    } else {
+      $("#postal-update-success").hide();
+    }
+  }  
+
+  $('#accomm-success-1').change(function() {
+    updateAccomm();  
+  });
+
+  function updateAccomm() {
+    var myStatus = $("#accomm-success-1").is(":checked");
+    if ( myStatus ) {
+        $("#accomm-update-success").show();
+    } else {
+      $("#accomm-update-success").hide();
+    }
+  }  
+
+  $("#accommodation-status-1").prop("checked", true);
+
+  $('input[name=accommodation-status]').change(function () {
+      accommodationType = $(this).val().substring(0,4);
+      $("#other-details-rent").hide();
+      $("#other-details-board").hide();
+      $("#other-details-free").hide();
+    switch (accommodationType) {
+      case "rent":
+        $("#other-details-rent").show();
+        $("#other-details").show();
+        break;
+      case "boar":
+        $("#other-details-board").show();
+        $("#other-details").show();
+        break;
+      case "free":
+        $("#other-details-free").show();
+        $("#other-details").show();
+        break;
+      case "nopa":
+        $("#other-details").hide();
+        break;
+      default:
+        break;
+    }
+  });
+
+</script>
