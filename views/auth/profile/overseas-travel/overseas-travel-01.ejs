@@ -5,6 +5,7 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you moving overseas permanently?",
+  id: "overseas-perm",
   no_toggle: "#not-perm",
   yes_toggle: "#perm"
 }); %>
@@ -12,7 +13,7 @@
 <div id="perm" hidden>
   
   <%- include(partials+"components/form-partials/notice", {
-    message: "To notify DVA of your permanent overseas travel, update your resideintial address with your new overseas address."
+    message: "To notify DVA of your permanent overseas travel, <a href='/auth/profile/residential-address/residential-address-01'>update your residential address</a> with your new overseas address."
   }); %>
   
 </div>
@@ -77,15 +78,15 @@
     pagination: [
     {
       text: "Previous",
-      link: "/auth/profile/contact"
+      link: "/auth/profile/overseas-travel"
     },
     {
       text: "Delete",
       link: "#open-delete-modal"
     },
       {
-        text: "Next",
-        link: "/auth/profile/residential-address/residential-address-02",
+        text: "Submit",
+        link: "/auth/profile/overseas-travel/",
         modifiers: ["floated", "primary"],
         id: "submit"
       }
@@ -107,6 +108,18 @@
       $("#overseas").hide()
     }
   });
+
+  $('input[name=overseas-perm]').change(function () {
+        mySelection = $('input[name=overseas-perm]:checked').val();
+        
+        if (mySelection == "yes") {
+          $("#submit").attr("disabled", "true")
+        } else {
+          $("#submit").removeAttr("disabled")
+        }
+      });
+
+  
 </script>
 
 <%- include(partials+"components/layout/footer") %>
