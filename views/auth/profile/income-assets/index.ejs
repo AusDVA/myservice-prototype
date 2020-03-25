@@ -15,7 +15,6 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
 
-
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
 
@@ -29,20 +28,34 @@
             </div>
             <div class="col-sm-9">
               <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
-              <p>You are required to advise of any changes to your income and assets within 14 days. You can track the
-                progress of your submitted updates below. Processing times will vary based upon the types of changes you
-                report.</p>
+              <div id="coc-start-view">
+                <p>You are required to advise of any changes to your income and assets within 14 days. You can track the
+                  progress of your submitted updates below. Processing times will vary based upon the types of changes
+                  you
+                  report.</p>
 
                 <%- include(partials+"components/form-partials/notice", {
-                  message: "You have income and assets items recorded that are owned by your partner. To update these items we require your <a href='/auth/profile/relationships'>partner's consent</a>.",
-                  id: ["no-consent-message"],
-                  type: "warning",
-                  modifiers: ["hidden"]
-                }); %>
+                    message: "You have income and assets items recorded that are owned by your partner. To update these items we require your <a href='/auth/profile/relationships'>partner's consent</a>.",
+                    id: ["no-consent-message"],
+                    type: "warning",
+                    modifiers: ["hidden"]
+                  }); %>
 
-              <button class="uikit-btn uikit-btn--primary"
-                onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
-              <%- include("transactions-table"); %>
+                <button class="uikit-btn uikit-btn--primary"
+                  onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
+                <%- include("transactions-table"); %>
+              </div>
+              <div id="request-statement-view" hidden>
+                <p>I would like a copy of my assessed income and assets emailed to me.</p>
+                <div class=" pagination">
+                  <button class="uikit-btn uikit-btn--tertiary" onclick="startCOCView()">Cancel</button>
+                  <div class="floated">
+                    <button class="uikit-btn btnNext"
+                      onclick="window.location.href = '/auth/profile/income-assets/request-IA-statement-submit'">Submit</button>
+                  </div>
+                </div>
+              </div>
+
         </section>
       </div>
     </section>
@@ -86,6 +99,18 @@
         break;
     }
   }
+
+  function requestStatementView() {
+    $("#coc-start-view").hide();
+    $("#request-statement-view").show();
+  }
+
+  function startCOCView() {
+    $("#request-statement-view").hide();
+    $("#coc-start-view").show();
+  }
+
+
 
 </script>
 
