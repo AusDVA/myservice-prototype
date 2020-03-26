@@ -27,6 +27,13 @@
   }); %>
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
+      "Provisional and already updated today"
+    ],
+    id: "update-today",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
       "Partner flow"
     ],
     id: "partner-flow",
@@ -78,6 +85,10 @@
     updateProvisional();  
   });
 
+  $('#update-today-1').change(function() {
+    updateToday();  
+  });
+
   function updatePartner() {
     var myStatus = $("#relationship-status-1").is(":checked");
     if ( myStatus ) {
@@ -125,7 +136,6 @@ $(".ownerType").change(function() {
 
 function updateProvisional() {
     var myProvisional = $("#provisional-1").is(":checked");
-    console.log( myProvisional );
     if ( myProvisional ) {
       $(".provisional").show();
       $(".provisional-hide").hide();
@@ -133,7 +143,18 @@ function updateProvisional() {
       $(".provisional").hide();
       $(".provisional-hide").show();
     }
-  }  
+  } 
+
+  function updateToday() {
+    var myToday = $("#update-today-1").is(":checked");
+    if ( myToday ) {
+      $(".today-hide").hide();
+      $(".today-show").show();
+    } else {
+      $(".today-hide").show();
+      $(".today-show").hide();
+    }
+  }   
 
   $('#no-consent-1').change(function() {
     updateConsent();  
