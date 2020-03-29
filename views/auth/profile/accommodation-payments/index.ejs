@@ -1,0 +1,202 @@
+<%- include(templates+"header", {
+  title: "Profile | MyService",
+  heading: "Update accommodation payments"
+})%>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "Accommodation type",
+  id: "rental-or-board",
+  boxes: [
+    "Rental accommodation",
+     "Private board and lodging"
+  ]
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "Is your address changing? If so <a href='/auth/profile/residential-address'>update your address</a> instead.",
+  id: "message",
+  modifiers: ["hidden"]
+}); %>
+
+<div id="general">
+
+  <h2 id="rental-message">Update your rental payment details</h2>
+  <h2 id="public-housing-message" hidden>Update your housing payment details</h2>
+  <h2 id="mooring-fees-message" hidden>Update your mooring fee payment details</h2>
+  <h2 id="site-fees-message" hidden>Update your site fee payment details</h2>
+  <h2 id="retirement-village-message" hidden>Update your retirement village payment details</h2>
+  <h2 id="aged-care-message" hidden>Update your residential aged care payment details</h2>
+  <h2 id="free-message" hidden>Update your accommodation payment details</h2>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Payment amount",
+    modifiers: ["dollarSign"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Payment frequency",
+    options: [
+      "-- Select frequency --",
+      "Weekly",
+      "Fortnightly",
+      "Monthly",
+      "Annually"
+    ]
+  }); %>
+
+</div>
+
+<div id="board" hidden>
+
+  <h2>Update your board and lodging payment details</h2>
+
+  <div id="op10-la-content" style="">
+    <!-- <h2><span class="font-weight-heavy">Give details about your selection</span></h2> -->
+    <div class="form-group margin-above" id="sp-la-op10-meals">
+      <label class="uikit-text-input__label" for="tags">Amount paid for meals:</label>
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
+        <option selected="selected">-- Select frequency --</option>
+        <option id="sp-la-op78-type-01">Weekly</option>
+        <option id="sp-la-op78-type-02">Fortnightly</option>
+        <option id="sp-la-op78-type-03">Monthly</option>
+        <option id="sp-la-op78-type-03">Annually</option>
+      </select>
+    </div>
+    <div class="form-group margin-above" id="sp-la-op10-lodging">
+      <label class="uikit-text-input__label" for="tags">Amount paid for lodging</label>
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
+        <option selected="selected">-- Select frequency --</option>
+        <option id="sp-la-op78-type-01">Weekly</option>
+        <option id="sp-la-op78-type-02">Fortnightly</option>
+        <option id="sp-la-op78-type-03">Monthly</option>
+        <option id="sp-la-op78-type-03">Annually</option>
+      </select>
+    </div>
+  </div>
+  
+</div>
+
+<%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Cancel",
+      link:  "/auth/profile/",
+    },
+      {
+        text: "Update",
+        link: "/auth/profile/",
+        modifiers: ["floated", "primary"],
+        id: "submit"
+      }
+    ],
+    customClass: ["margin-above--extra"]
+  }) %>
+</div>
+
+<%- include(partials+"components/layout/footer") %>
+<%- include("index-ss") %>
+
+<script>
+
+  $('#rental-or-board-container').change(function () {
+    mySelection = $('input[name=rental-or-board]:checked').val();
+    hideAll();
+    $(this).show();
+    switch (mySelection) {
+      case "rentalaccommodation":
+        $("#general").show();
+        $("#rental-message").show();
+        if ( pageState == "boardandlodging" || "freeaccommodation" ) {
+          $("#message-container").show();
+        } else {
+          $("#message-container").hide();
+        }
+        break;
+      case "privateboardandlodging":
+        $("#board").show();
+          if ( pageState == "rent" || "freeaccommodation" ) {
+            $("#message-container").show();
+          } else {
+            $("#message-container").hide();
+          }
+        break;
+      default:
+        break;
+    }
+  });
+
+  function stateSwitcher() {
+    updatePage();
+  }
+
+  $("#rental-or-board-1").prop("checked", true);
+
+  function updatePage(){
+    hideAll();
+    console.log( pageState )
+    switch (pageState) {
+      case "rent":
+        $("#general").show();
+        $("#rental-message").show();
+        $("#rental-or-board-1").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "publichousing":
+        $("#general").show();
+        $("#public-housing-message").show();
+        break;
+      case "boardandlodging":
+        $("#board").show();
+        $("#rental-or-board-2").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "caravanparksitefees":
+        $("#general").show();
+        $("#site-fees-message").show();
+        break;
+      case "mooringfees":
+        $("#general").show();
+        $("#mooring-fees-message").show();
+        break;
+      case "retirementvillage":
+        $("#general").show();
+        $("#retirement-village-message").show();
+        break;
+      case "residentialagedcare":
+        $("#general").show();
+        $("#aged-care-message").show();
+        break;
+      case "freeaccommodation":
+        $("#general").show();
+        $("#free-message").show();
+        $("#rental-or-board-1").prop("checked", false);
+        $("#rental-or-board-2").prop("checked", false);
+        $("#rental-or-board-container").show();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function hideAll(){
+
+    $("#rental-message").hide();
+    $("#public-housing-message").hide();
+    $("#site-fees-message").hide();
+    $("#mooring-fees-message").hide();
+    $("#retirement-village-message").hide();
+    $("#aged-care-message").hide();
+    $("#free-message").hide();
+
+    $("#rental-or-board-container").hide();
+    $("#general").hide();
+    $("#board").hide();
+
+    $("#message-container").hide();
+
+
+  }
+
+</script>

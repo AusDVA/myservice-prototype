@@ -240,7 +240,7 @@
         greet = 'Good afternoon';
       else if (hrs >= 17 && hrs <= 24)
         greet = 'Good evening';
-      document.getElementById('lblGreetings').innerHTML = greet;
+      // document.getElementById('lblGreetings').innerHTML = greet;
     }
 
     /* message box */
@@ -305,14 +305,13 @@
     /* Update everything */
 
     function updateScenario() {
-      updateLayout();
+      updateVisibleWidgets();
       hideAll();
       updateGreeting();
       updateTasksWidget();
       updateClaimsWidget();
       updatePaymentsWidget();
       updateProfileWidget();
-      // updateLayout();
 
       /* Over ride for first login */
       updateLoadingState();
@@ -353,38 +352,16 @@
     /* Layout */
 
     $(window).resize(function () {
-      updateLayout();
+      updateVisibleWidgets();
     });
 
-    function updateLayout() {
-
-      totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
-      var mobile = $(window).width() < 679;
-      var tablet = $(window).width() > 679 && $(window).width() < 1200;
-      var desktop = $(window).width() > 1200;
-      if (mobile) {
-        if (totalWidgets === 3) $("#widget-profile").show();
-        // totalWidgets == 3 ? $("#widget-profile").show("fast"): false ;
-        totalWidgets == 2 ? $("#widget-profile").hide("fast") : false;
+    function updateVisibleWidgets() {
+      // totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
+      if ($(window).width() > 768) {
+        $("#widget-tasks").show();
+      } else {
+        $("#widget-tasks").hide();
       }
-      if (tablet) {
-        totalWidgets == 2 ? $("#widget-profile").show("fast") : false;
-        totalWidgets == 3 ? $("#widget-profile").hide("fast") : false;
-      }
-      if (desktop) {
-        if (totalWidgets < 1 && $("#widget-profile").is(":visible")) {
-          $("#widget-profile").hide("fast");
-          $("#profile-message").show("fast");
-        }
-        if (totalWidgets === 1) {
-          $("#profile-message").hide("fast");
-          $("#widget-profile").show("fast");
-        }
-        totalWidgets < 2 ? $(".tablet-hide").show("fast") : $(".tablet-hide").hide("fast");
-        totalWidgets == 3 ? $("#widget-profile").show("fast") : false;
-      }
-      totalWidgets <= 2 ? $('.widget-tile').addClass('widget-tile--half-width') : false;
-      totalWidgets == 3 ? $(".tablet-hide").hide("fast") : false;
     }
   });
 

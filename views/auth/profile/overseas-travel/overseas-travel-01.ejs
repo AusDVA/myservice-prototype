@@ -1,0 +1,128 @@
+<%- include(templates+"header", {
+  title: "Notify of overseas travel",
+  heading: "Travel details"
+})%>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you moving overseas permanently?",
+  id: "overseas-perm",
+  no_toggle: "#not-perm",
+  yes_toggle: "#perm"
+}); %>
+
+<div id="perm" hidden>
+  
+  <%- include(partials+"components/form-partials/notice", {
+    message: "To notify DVA of your permanent overseas travel, <a href='/auth/profile/residential-address/residential-address-01'>update your residential address</a> with your new overseas address."
+  }); %>
+  
+</div>
+
+<div id="not-perm" hidden>
+
+<%- include(forms+"prepop/country-dropdown", {
+  label: "What country will you be spending the most time in?",
+  id: "country"
+}) %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Departure date"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Do you have a return date?",
+  yes_toggle: "#return-date-container",
+  no_toggle: "#6-weeks-container"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Return date",
+  id: "return-date",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you likely to be overseas for more than 6 weeks?",
+  id: "6-weeks",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Will you be paying rent in Australia while you are overseas?",
+  yes_toggle: "return-date"
+}); %>
+
+<%- include(partials+"components/form-partials/checkbox", {
+  label: "Select any of the following people travelling with you:",
+  id: "who-else",
+  boxes: [
+    {
+        text: "Jane Citizen"
+    },
+    {
+        text: "Tim Citizen"
+    },
+    {
+        text: "Amy Citizen"
+    }
+  ]
+}); %>
+
+<%- include(partials+"components/form-partials/textarea", {
+  label: "Add any further information about your trip that you think is important for DVA to know:"
+}); %>
+
+</div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/profile/overseas-travel"
+    },
+    {
+      text: "Delete",
+      link: "#open-delete-modal"
+    },
+      {
+        text: "Submit",
+        link: "/auth/profile/overseas-travel/",
+        modifiers: ["floated", "primary"],
+        id: "submit"
+      }
+    ],
+    customClass: ["margin-above--extra"]
+  }) %>
+
+</div>
+
+
+
+<script>
+  function stateSwitcher() {
+  }
+  $('#residential-address-country').on('change', function() {
+    if( this.value != "australia") {
+      $("#overseas").show();
+    } else {
+      $("#overseas").hide()
+    }
+  });
+
+  $('input[name=overseas-perm]').change(function () {
+        mySelection = $('input[name=overseas-perm]:checked').val();
+        
+        if (mySelection == "yes") {
+          $("#submit").attr("disabled", "true")
+        } else {
+          $("#submit").removeAttr("disabled")
+        }
+      });
+
+  
+</script>
+
+<%- include(partials+"components/layout/footer") %>
+<%- include(partials+"content/modals/delete-modal") %>
+<%#- include("category-page-ss") %>
+

@@ -1,12 +1,11 @@
 <%- include(templates+"header", {
   title: "Change of address",
-  heading: "About your new residence"
+  heading: "Your living arrangements"
 })%>
 
-      <!-- <div class="accordion-group"> -->
 <%- include(partials+"components/form-partials/radio-icon", {
     label: "Which of the following best describes your new living arrangements?",
-    id: "testID",
+    id: "la",
     boxes: [
       {
         id: "sp-la-a",
@@ -42,6 +41,10 @@
       }
     ]
   }); %>
+
+  <form id="myForm">
+
+    <input type="reset" style="display:none">
 
   <fieldset id="living-arrangements-a" class="margin-above" hidden>
     <div class="uikit-page-alerts" role="alert" id="home-own-explainer">
@@ -375,12 +378,6 @@
           <option id="sp-la-op9-type-03">Annually</option>
         </select>
       </div>
-      <!-- <div class="form-group margin-above" id="sp-la-op9-whoTo">
-                                        <label class="uikit-text-input__label" for="tags">Who do you pay it to?</label>
-                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                    </div> -->
       <div class="uikit-page-alerts" role="alert">
         <p>You will need to attach a copy of your latest lease or tenancy agreement in the documents
           section.</p>
@@ -424,32 +421,11 @@
         address of the person to whom you pay is written on the
         receipt.</p>
     </div>
-    <!-- <div class="form-group margin-above" id="sp-la-op10-payment">
-                                    <h3>Who do you pay it to?</h3>
-                                    <div class=" form-group margin-above" id="sp-la-op6-marketValue">
-                                        <label class="uikit-text-input__label" for="tags">First name</label>
-                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                    </div>
-                                    <div class=" form-group margin-above" id="sp-la-op6-marketValue">
-                                        <label class="uikit-text-input__label" for="tags">Last name</label>
-                                        <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                    </div>
-                                    <div class=" form-group margin-above" id="sp-la-op6-marketValue">
-                                        <label class="uikit-text-input__label" for="tags">Contact details</label>
-                                        <span style="color:red;font-weight:bold;font-variant: italic">Currently undefined: requirement "must be able to select contact method and details"</span>
-                                    </div>
-                                </div> -->
+   
   </div>
   <div id="op11-la-content" hidden>
     <h2><span class="font-weight-heavy">Give details about your selection</span></h2>
-    <!-- <div class="form-group margin-above" id="sp-la-op78-howMuch">
-                                    <label class="uikit-text-input__label" for="tags">Name of provider of free accommodation</label>
-                                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                </div>
-                                <div class="form-group margin-above" id="sp-la-op78-whoTo">
-                                    <label class="uikit-text-input__label" for="tags">Relationship to you</label>
-                                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                                </div> -->
+  
     <fieldset>
       <div class="form-group" id="date-separation">
         <label class="uikit-text-input__label">On what date did you move in to this accommodation?
@@ -476,6 +452,8 @@
     </div>
   </div>
 
+</form>
+
 
   <div id="save-and-next" class="margin-above" hidden>
     <p>Choose <b>save and next</b> to continue.</p>
@@ -485,15 +463,15 @@
     pagination: [
     {
       text: "Previous",
-      link: "/auth/profile/living-arrangements/la-01"
+      link: "/auth/profile/residential-address/residential-address-01"
     },
     {
-      text: "Delete transaction",
-      link: "#open-coc-ai-delete-modal"
+      text: "Delete",
+      link: "#open-delete-modal"
     },
       {
         text: "Next",
-        link: "/auth/profile/living-arrangements/la-03",
+        link: "/auth/profile/residential-address/residential-address-03",
         modifiers: ["floated", "primary"],
         id: "submit"
       }
@@ -506,7 +484,58 @@
 <script>
   function stateSwitcher() {
   }
+
+  $('#la-container').change(function () {
+    hideAll();
+  });
+
+  function hideAll() {
+
+    $("#myForm").trigger("reset");
+
+    $("#living-arrangements-a").hide();
+    $("#living-arrangements-b").hide();
+    $("#living-arrangements-c").hide();
+    $("#living-arrangements-d").hide();
+
+      $("#sp-la-partnerRef-01").hide();
+      $("#sp-la-partnerRef-02").hide();
+      $("#sp-la-partner").hide();
+
+    /* op3 */
+    $("#op3-la-content").hide();
+    $("#sp-la-op3-howMuch").hide();
+    /* op4 */
+    $("#op4-la-content").hide();
+    $("#sp-la-op4-howMuch").hide();
+    $("#sp-la-op4-alert").hide();
+    /* op5 */
+    $("#op5-la-content").hide();
+    /* op6 */
+    $("#op6-la-content").hide();
+    $("#sp-la-op6-additional").hide();
+    /* op7 */
+    $("#op7-la-content").hide();
+    $("#sp-la-op7-whoTo").hide();
+     /* op7 */
+     $("#op8-la-content").hide();
+    // $("#sp-la-op7-whoTo").hide();
+    /* op9 */
+    $("#op9-la-content").hide();
+    /* op10 */
+    $("#op10-la-content").hide();
+    /* op11 */
+    $("#op11-la-content").hide();
+    /* op12 */
+    /* op13 */
+    $("#op13-la-content").hide();
+    $("#op14-la-content-container").hide();
+    //
+    $("#save-and-next").hide();
+  }
+
 </script>
 
 <%- include(partials+"components/layout/footer") %>
+<%- include(partials+"content/modals/delete-modal") %>
 <%#- include("category-page-ss") %>

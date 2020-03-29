@@ -32,6 +32,13 @@
     id: "partner-flow",
     customClass: "margin-below--none"
   }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "No partner consent"
+    ],
+    id: "no-consent",
+    customClass: "margin-below--none"
+  }); %>
 
 </div>
 
@@ -105,7 +112,6 @@
     })
   }
 
-
 $(".ownerType").change(function() {
   mySelection = $('option:selected',this).val();
   switch (mySelection) {
@@ -122,12 +128,28 @@ function updateProvisional() {
     console.log( myProvisional );
     if ( myProvisional ) {
       $(".provisional").show();
+      $(".provisional-hide").hide();
     } else {
       $(".provisional").hide();
+      $(".provisional-hide").show();
     }
   }  
 
+  $('#no-consent-1').change(function() {
+    updateConsent();  
+  });
 
+  $(".show-if-no-consent").hide();
 
+function updateConsent() {
+    var noConsent = $("#no-consent-1").is(":checked");
+    if ( noConsent ) {
+      $(".hide-if-no-consent").hide();
+      $(".show-if-no-consent").show();
+    } else {
+      $(".hide-if-no-consent").show();
+      $(".show-if-no-consent").hide();
+    }
+  }  
 
 </script>
