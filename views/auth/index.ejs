@@ -1,3 +1,29 @@
+<% 
+var cards = [
+  {title: "Initial Liability", text: "Your first step towards treatment and support for a service-related injury or condition.", link: "/auth/claim/il/claim1"},
+  {id: "vp", title: "Veteran payment", text: "Interim financial support while you wait for your initial liability determination."},
+  {title: "Permanent Impairment", text: "Apply for compensation for ongoing impairments that are impacting your lifestyle.", link: "/auth/claim/permanent-impairment/permanent-impairment-01"},
+  {title: "Mental health treatment", text: "Access free mental health treatment.", link: "/auth/claim/mental-health-eligibility"},
+  {title: "Veteran Covenant", text: "Request the Covenant Oath, Lapel Pin and Veteran Card as recognition of your service.", link: "/auth/claim/veterancard/vrp1"},
+  {title: "Incapacity Payments", text: "Get compensated for your inability or reduced ability to work because of a service injury or condition.", link: "/auth/claim/incap/before-start"},
+  {title: "Disability pension - application for increase", text: "Apply for a payment increase to your disability pension.", link: "/auth/claim/afi/afi1"},
+  {title: "Qualifying Service", text: "Submit a claim to determine if you have qualifying service.", link: "/auth/claim/qualifying-service/qs1", link: "/auth/claim/civilian-qualifying-service/cqs1"},
+  {title: "Service Pension", text: "Apply for age or invalidity service pension.", link: "/auth/claim/service_pension/sp-progress-a"},
+  {title: "Partner Pension", text: "Apply for partner pension."},
+  {title: "Commonwealth Seniors Health Card", text: "Apply for the Commonwealth Seniors Health Card.", link: "/auth/claim/cshc/prog-01"},
+  {title: "Lump sum advance", text: "Request a lump sum advance payment.", link: "/auth/claim/lsa/request"},
+  {title: "Representation", text: "Allows someone to represent you or you can help someone in dealing with DVA matters.", link: "/auth/profile/nomrep"},
+] 
+
+var quickLinks = [
+  {title: "Civilian qualifying service", text: "Submit a claim to determine if you have qualifying service.", link: "/auth/claim/civilian-qualifying-service/cqs1" },
+  {title: "Defence Home Ownership Assistance Scheme", text: "Apply for subsidy certificate to assist with the interest of your home loan.", link: "/auth/claim/dhoas/landing-page"},
+  {title: "Defence Service Home Insurance Scheme", text: "Apply for home, contents and other insurance policies.", link: "http://www.dsh.gov.au/insurance/"},
+  {title: "Education assistance", text: "Apply for assistance with the cost of education for children of eligible veterans.", link: "/auth/claim/education-assistance/edu1"},
+  {title: "Support for employment", text: "Apply for employment support transitioning into the civilian workforce.", link: "/auth/claim/support-for-employment/sfe-01"},
+]
+%>
+
 <!DOCTYPE html>
 <html class="js" lang="en">
 
@@ -25,20 +51,33 @@
     <div class="authenticated-home authenticated-home--clear container">
 
       <section class="dashboard-widgets">
-        <h2 class="dashboard-title">Good morning Alex...</h2>
+        <h2 class="dashboard-title"><span id="lblGreetings">Good morning</span> Alex</h2>
+        <%- include(partials+"components/dashboard-callout", {
+          id: "message-box-veteran-payment",
+          title: "You may now apply for veteran payment",
+        message: 'Your recent claim for initial liability indicated you may be eligible for veteran payment. If you would like DVA to check your eligibilty for this interim payment, <a href="http://www.dva.gov.au/factsheet-is190-how-access-veteran-payment">apply now.</a>'
+        }) %>
+
+        <%- include(partials+"components/dashboard-callout", {
+          id: "welcome-message",
+          title: "Welcome to MyService",
+          message: " We are working to streamline and modernise the process of claiming. Wherever possible, we have reduced the amount of time it will take to complete your claims. This means you can access services faster. Get started by making a claim from the options shown below."
+        }) %>
         <div class="widgets__wrapper">
 
           <%- include(partials+"components/dashboard-widget", {
             id: "widget-tasks",
             title: "Tasks",
-            text: "tasks to complete",
-            number: 2,
+            text: "Tasks to complete",
+            link: "/auth/tasks/",
+            number: 3,
             highlight: true
           }) %>
 
           <%- include(partials+"components/dashboard-widget", {
             id: "widget-claims",
             title: "Claims",
+            link: "/auth/claim/",
             text: "Incomplete",
             number: 3,
           }) %>
@@ -46,15 +85,17 @@
           <%- include(partials+"components/dashboard-widget", {
             id: "widget-payments",
             title: "Payments",
-            text: "Paid on the 12/03/2019",
+            link: "/auth/payments/",
+            text: "Paid<span id='payment-text'> on the 12/03/2019</span>",
             number: "$256.79"
           }) %>
 
           <%- include(partials+"components/dashboard-widget", {
               id: "widget-transport",
               title: "Transport",
-              text: "tasks to complete",
-              number: 2
+              link: "/auth/transport/",
+              text: "Upcoming booking",
+              number: 1
           }) %>
 
         </div>
@@ -63,19 +104,29 @@
       <section class="dashboard-cards">
         <h2 class="dashboard-title">How can we help you?</h2>
         <div class="cards__wrapper" id="claims-tiles">
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
-          <%- include(partials+"components/card-v2") %>
+          <% cards.forEach(function(card) { %>
+          <%- include(partials+"components/card-v2", {
+            id: card.id,
+            title: card.title,
+            text: card.text,
+            link: card.link
+          }) %>
+          <% }); %>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h2 class="dashboard-title">Further options</h2>
+        <div class="quick-links__wrapper">
+          <% quickLinks.forEach(function(link) { %>
+          <div class="quick-link">
+            <h3 class="quick-link__heading">
+              <a href="<%- link.link %>">
+                <%- link.title %>
+              </a>
+            </h3>
+            <p class="quick-link__text"><%- link.text %></p>
+          </div>
+          <% }); %>
         </div>
       </section>
     </div>

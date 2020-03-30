@@ -24,15 +24,15 @@
     </div>
     <div class="tr">
       <div class="ss-box">
-        <input id="text-input-submitted" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
-      </div>
-      <div class="ss-text">Submitted claims</div>
-    </div>
-    <div class="tr">
-      <div class="ss-box">
         <input id="text-input-tasks" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
       </div>
       <div class="ss-text">Tasks to complete</div>
+    </div>
+    <div class="tr">
+      <div class="ss-box">
+        <input id="text-input-transport" class="uikit-text-input ss" type="text" maxlength="2" name="numWidgets">
+      </div>
+      <div class="ss-text">Transport bookings</div>
     </div>
 
     <div class="form-group review__table">
@@ -130,19 +130,17 @@
     });
 
     /* Tasks widget */
-
-    var tasks = sessionStorage.getItem('tasks');
-    if (!tasks) tasks = 3;
+    var tasks = 3;
     $("#text-input-tasks").val(tasks);
     $("#text-input-tasks").keyup(function () {
       updateTasksWidget();
-      updateLayout();
+      updateScenario();
     });
 
     /* Claims widget */
 
     var claims_incomplete = sessionStorage.getItem('claims-incomplete');
-    if (!claims_incomplete) claims_incomplete = 1;
+    if (!claims_incomplete) claims_incomplete = 2;
     $("#text-input-incomplete").val(claims_incomplete);
     $("#text-input-incomplete").keyup(function () {
       updateScenario();
@@ -161,6 +159,16 @@
     if (!payments_received) payments_received = false;
     $('#payment-received').prop("checked", payments_received);
     $("#payment-received").click(function (e) {
+      updateScenario();
+    });
+
+    /* Transport widget */
+
+    var transport = sessionStorage.getItem('transport');
+    if (!transport) transport = 1;
+    $("#text-input-transport").val(transport);
+    $("#text-input-transport").keyup(function () {
+      updateTransportWidget();
       updateScenario();
     });
 
@@ -240,7 +248,7 @@
         greet = 'Good afternoon';
       else if (hrs >= 17 && hrs <= 24)
         greet = 'Good evening';
-      // document.getElementById('lblGreetings').innerHTML = greet;
+      document.getElementById('lblGreetings').innerHTML = greet;
     }
 
     /* message box */
@@ -249,6 +257,10 @@
 
       if ($("#vp_eligible").prop("checked") == true) {
         sessionStorage.setItem('vp_eligible', true);
+        sessionStorage.setItem('first_login', false);
+
+        $("#first-login").prop("checked", false);
+        $("#welcome-message").hide();
         $("#message-box-veteran-payment").show();
         $("#il_mental_health_being_processed").prop("checked", true);
         updateVPTile();
@@ -258,6 +270,7 @@
         updateVPTile();
         $("#message-box-veteran-payment").hide();
       }
+      updateScenario();
     }
 
     /* message box */
@@ -277,13 +290,15 @@
     function updateFirstLogin() {
       if ($("#first-login").prop("checked") == true) {
         hideAll();
-        $("#widget-profile").hide();
         $(".first-login-hidden").hide();
-        $("#welcome-message").show("fast");
+        $("#message-box-veteran-payment").hide();
+        $("#welcome-message").show();
+        $("#vp_eligible").prop("checked", false);
+        sessionStorage.setItem('vp_eligible', false);
         sessionStorage.setItem('first_login', true);
       } else {
         $(".first-login-hidden").show();
-        $("#welcome-message").hide("fast");
+        $("#welcome-message").hide();
         sessionStorage.setItem('first_login', false);
       }
     }
@@ -305,13 +320,12 @@
     /* Update everything */
 
     function updateScenario() {
-      updateVisibleWidgets();
-      hideAll();
+      // updateVisibleWidgets();
       updateGreeting();
       updateTasksWidget();
       updateClaimsWidget();
       updatePaymentsWidget();
-      updateProfileWidget();
+      updateTransportWidget();
 
       /* Over ride for first login */
       updateLoadingState();
@@ -326,8 +340,9 @@
     function hideAll() {
       $("#widget-tasks").hide();
       $("#widget-claims").hide();
-      $("#widget-payment").hide();
+      $("#widget-payments").hide();
       $("#widget-profile").hide();
+      $("#widget-transport").hide();
       $("#welcome-message").hide();
       $("#profile-message").hide();
     }
@@ -351,23 +366,27 @@
 
     /* Layout */
 
-    $(window).resize(function () {
-      updateVisibleWidgets();
-    });
+    // $(window).resize(function () {
+    //   updateVisibleWidgets();
+    // });
 
-    function updateVisibleWidgets() {
-      // totalWidgets = $('.widget-tile:visible').not('#widget-profile').not("#profile-message").length;
-      if ($(window).width() > 768) {
-        $("#widget-tasks").show();
-      } else {
-        $("#widget-tasks").hide();
-      }
-    }
+    //   function updateVisibleWidgets() {
+
+    //     // interim solution to hide the tasks widget on devices below 991px
+    //     if ($(window).width() > 991) {
+    //       if (sessionStorage.getItem("first-login") == false && sessionStorage.getItem('tasks') > 0) {
+    //         $("#widget-tasks").show();
+    //       }
+    //     } else {
+    //       $("#widget-tasks").hide();
+    //     }
+    //   }
   });
 
 
 
-  //capitalises the first letter in a string
+  //helper function to capitalize the first letter in a string
+
   function jsUcfirst(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
@@ -388,4 +407,79 @@
       }
     });
   });
+
+  //functions for updating text within each widget and controlling their display
+  function updateTasksWidget() {
+    var tasks = $("#text-input-tasks").val();
+    sessionStorage.setItem('tasks', tasks);
+    $("#widget-tasks .dashboard-widget__number").text(tasks);
+    if (tasks == 1) $("#tasks-text").text('Task to complete');
+    if (tasks > 0) {
+      $("#widget-tasks").show("fast");
+      $("#task_text").show();
+    } else {
+      $("#widget-tasks").hide("fast");
+      $("#task_text").hide();
+    }
+    if (tasks == 0) {
+      console.log("tasks is 0");
+      $("#tasks").hide();
+    }
+    else {
+      $("#tasks").show();
+    }
+  }
+
+  function updateTransportWidget() {
+    var bookings = $("#text-input-transport").val();
+    sessionStorage.setItem('bookings', tasks);
+    $("#widget-transport .dashboard-widget__number").text(bookings);
+    if (bookings > 0) {
+      $("#widget-transport").show("fast");
+    } else {
+      $("#widget-transport").hide("fast");
+    }
+  }
+
+  function updatePaymentsWidget() {
+    if ($('#payment-received').prop("checked") == true) {
+      $("#widget-payments").show("fast");
+      $("#payments").show();
+      sessionStorage.setItem('payments_received', true);
+    } else {
+      $("#widget-payments").hide("fast");
+      $("#payments").hide();
+      sessionStorage.setItem('payments_received', false);
+    }
+  }
+
+  function updateClaimsWidget() {
+    var incomplete = $("#text-input-incomplete").val();
+    $("#widget-claims .dashboard-widget__number").html(incomplete);
+    sessionStorage.setItem('claims-incomplete', incomplete);
+    var submitted = $("#text-input-submitted").val();
+    $("#text-reflect-submitted").html(submitted);
+    sessionStorage.setItem('claims-submitted', submitted);
+    // if (incomplete > 0) {
+    //   $("#claims-incomplete").css('display', 'flex');
+    // } else {
+    //   $("#claims-incomplete").hide();
+    // }
+    // if (submitted > 0) {
+    //   $("#claims-submitted").css('display', 'flex');
+    // } else {
+    //   $("#claims-submitted").hide();
+    // }
+    if (incomplete > 0 || submitted > 0) {
+      $("#widget-claims").show("fast");
+    } else {
+      $("#widget-claims").hide("fast");
+    }
+    if (incomplete == 0 && submitted == 0) {
+      $("#claim").hide();
+    } else {
+      $("#claim").show();
+    }
+  }
+
 </script>
