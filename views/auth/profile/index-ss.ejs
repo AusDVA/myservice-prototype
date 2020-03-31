@@ -12,6 +12,16 @@
     id: "accommodation-status"
   }); %>
 
+  <h3>Parnter consent</h3>
+  <%- include(partials+"components/form-partials/radio", {
+    boxes: [
+      "Required - not provided",
+      "Provided and pending",
+      "Not required"
+    ],
+    id: "partner-consent"
+  }); %>
+
   <h3>Other properties</h3>
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
@@ -27,6 +37,9 @@
     id: "accomm-success",
     customClass: "margin-below--none"
   }); %>
+
+
+ 
 
 </div>
 
@@ -93,6 +106,35 @@
         break;
       case "nopa":
         $("#other-details").hide();
+        break;
+      default:
+        break;
+    }
+  });
+
+  $("#partner-consent-1").prop("checked", true);
+
+  $('input[name=partner-consent]').change(function () {
+      var myConsent = $(this).val().substring(0,4);
+      // $("#other-details-rent").hide();
+      // $("#other-details-board").hide();
+      // $("#other-details-free").hide();
+    switch (myConsent) {
+      case "requ":
+        $(".partner-consent-status").html("<em>Not provided</em>");
+        $(".partner-consent-status-change").removeAttr("disabled");
+        $(".partner-consent-row").show();
+        break;
+      case "prov":
+      $(".partner-consent-status").html("<em>Pending</em>");
+      $(".partner-consent-status-change").attr("disabled", "true");
+      $(".partner-consent-row").show();
+        break;
+      case "notr":
+        $(".partner-consent-row").hide();
+        break;
+      case "nopa":
+        // $("#other-details").hide();
         break;
       default:
         break;
