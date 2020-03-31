@@ -17,6 +17,7 @@
     boxes: [
       "Required - not provided",
       "Provided and pending",
+      "Confirmed",
       "Not required"
     ],
     id: "partner-consent"
@@ -114,24 +115,34 @@
 
   $("#partner-consent-1").prop("checked", true);
 
+
   $('input[name=partner-consent]').change(function () {
       var myConsent = $(this).val().substring(0,4);
-      // $("#other-details-rent").hide();
-      // $("#other-details-board").hide();
-      // $("#other-details-free").hide();
+      $(".partnered-definition").hide();
     switch (myConsent) {
       case "requ":
         $(".partner-consent-status").html("<em>Not provided</em>");
         $(".partner-consent-status-change").removeAttr("disabled");
         $(".partner-consent-row").show();
+        $(".relationship-status-text").html("Partnered");
+        $(".partnered-definition").show();
         break;
       case "prov":
       $(".partner-consent-status").html("<em>Pending</em>");
       $(".partner-consent-status-change").attr("disabled", "true");
       $(".partner-consent-row").show();
+      $(".relationship-status-text").html("Partnered");
+      $(".partnered-definition").show();
+        break;
+      case "conf":
+      $(".partner-consent-status").html("Provided");
+      $(".relationship-status-text").html("Defacto with John Citizen");
+      $(".partner-consent-status-change").removeAttr("disabled");
+      $(".partner-consent-row").show();
         break;
       case "notr":
         $(".partner-consent-row").hide();
+        $(".relationship-status-text").html("Partnered");
         break;
       case "nopa":
         // $("#other-details").hide();
