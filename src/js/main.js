@@ -1035,4 +1035,21 @@ $(document).ready(() => {
 
     $(this).parent().find(".accordion-content").toggle();
   });
+
+  $(document).on("click", "a", function(e) {
+
+    if (!(typeof $(this).attr("disabled") !== undefined && $(this).attr("disabled") !== "disabled" && $(this).attr("disabled") !== "")) {
+      e.preventDefault();
+      return false
+    }
+
+  })
 })
+
+$(document).ready(function() {
+  $(".dva-phone").replaceWith(`<a href="tel:1800555254">1800 555 254</a>`);
+})
+
+document.addEventListener('swiped-right', function (e) {
+  $('#state-switcher').toggle();
+});

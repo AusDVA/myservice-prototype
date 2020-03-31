@@ -4,7 +4,7 @@
         <div class="review__content--item boxed">
             <div class="review__content--label margin-below">
                 <h2 class="margin-above--none" style="display: inline-block;">
-                    <span class="fal fa-store fa-icons"></span><span class="font-weight-heavy">Businesses</span></h2>
+                    <span class="fal fa-store fontawesome-icon"></span><span class="font-weight-heavy">Businesses</span></h2>
                 </h2>
                 <button class="uikit-btn uikit-btn--tertiary small floated" onClick="editCard('businesses');">&nbsp;Edit&nbsp;</button>
             </div>
@@ -29,27 +29,35 @@
 <div id="businesses-card" class="boxed margin-above margin-below" style="display: none;">
     <div>
         <h2 class="margin-above--none" style="display: inline-block;">
-            <span class="fal fa-store fa-icons"></span><span class="font-weight-heavy">Businesses</span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeSummary('businesses');">&nbsp;Delete item&nbsp;
+            <span class="fal fa-store fontawesome-icon"></span><span class="font-weight-heavy">Businesses</span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning floated" onclick="removeSummary('businesses');">&nbsp;Delete item&nbsp;
         </button>
     </div>
     <div id="card-details" class="margin-below--large">
-        <h4 class="margin-below--mid margin-above--none">Add any businesses you <span class="partner">(and/or your partner)</span> have been involvement with in the last 5 years.</h4>
-        <p>Include sole trader, partnerships, private trusts and private companies.</p>
+        <h4 class="margin-below--mid margin-above--none">Add all businesses you <span class="partner">and/or your partner</span> have been involved with in the last 5 years.</h4>
+        <p>A business includes private companies, private and special disability trusts, partnerships and sole trader.
+        </p>
         <hr>
         <form id="myForm">
             <input type="reset" style="display:none">
             <!-- form goes here -->
-            <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="owner">Where does the business/company/trust operate?
+            <%- include(partials+"components/form-partials/radio", {
+  label: "Where does the business operate?",
+  boxes: [
+    "Within Australia",
+    "Overseas"
+  ]
+}); %>
+            <!-- <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="owner">Where does the business operate?
                 </label>
                 <select class="uikit-text-input input-half" id="owner" name="owner">
                     <option selected="selected">-- Select an item --</option>
                     <option>Within Australia</option>
                     <option>Overseas</option>
                 </select>
-            </div>
+            </div> -->
             <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="drop-down">Business owner</label>
+                <label class="uikit-text-input__label" for="drop-down">Who is the business owner?</label>
                 <select class="uikit-text-input input-half" id="ownerType" name="drop-down">
                     <option selected="selected">-- Select an item --</option>
                     <option>Myself</option>
@@ -82,21 +90,31 @@
                 <textarea id="type-company" name="type-company" rows="5"></textarea>
             </div> -->
             <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="date-company">Date commenced operating
+                <label class="uikit-text-input__label" for="date-company">When did the business start operating?
                     <span class="hint">(dd / mm / yyyy)</span>
                 </label>
                 <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
                 <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                 <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
             </div>
-            <div class="form-group margin-above--large">
-                <label class="uikit-text-input__label" for="date-company-ceased">Date ceased operating
+                <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Is this business still operating?",
+                  no_toggle: ["#date-ceased-container"] 
+                }); %>
+
+                <%- include(partials+"components/form-partials/date", {
+                  label: "Date business ceased operating",
+                  id: "date-ceased",
+                  modifiers: ["hidden"]
+                }); %>
+            <!-- <div class="form-group margin-above--large">
+                <label class="uikit-text-input__label" for="date-company-ceased">Date business ceased operating
                     <span class="hint">(dd / mm / yyyy)</span>
                 </label>
                 <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
                 <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
                 <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
-            </div>
+            </div> -->
             <div class="uikit-page-alerts margin-above--large" role="alert" id="alert-private-company" style="display: none;">
                 <p>You will need to complete <a href="https://www.dva.gov.au/dvaforms/Documents/D0600.pdf">Private Company form (D600)</a> and attach in the documents section.</p>
             </div>

@@ -1,0 +1,91 @@
+<%
+
+var progress = JSON.parse(include("b-progressbar")) 
+progress.activeItem = 5;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Account-based pensions",
+  progress
+}) %>
+
+  <%- include(forms+"notice", {
+    message: `<p>You need to tell us about any account-based income streams that you own. For CSHC assessment purposes, income will be deemed on the total of the current account balances of your account-based pension(s) and added to the income you have declared. For more informatoin on deemed income, please see <a rel="external" target="__blank" href="https://www.dva.gov.au/factsheet-is89-deeming-and-financial-assets">DVA Factsheet IS89 - Deeming and Financial Assets</a>.</p>`
+  }) %>
+
+  <%- include(forms+"yes_no", {
+    label: "Do you receive income from an account-based pension (also known as an allocated pension or transition to retirement pension)?",
+    yes_toggle: "#accountpensions-container"
+  }) %>
+
+  <%- include(forms+"editable-box", {
+    heading: "Account-based pensions",
+    customClass: "margin-below--extra",
+    descriptions: "Please provide details below.",
+    icon: "fa-envelope-open-dollar",
+    buttonText: "Add account-based pension",
+    id: "accountpensions",
+    modifiers: ["hidden"],
+    addAnotherText: "Add another account-based pension",
+    addedHeading: [0, 2],
+    form: [
+      {
+        type: "text",
+        label: "Pension provider / SMSF / SAF"
+      },
+      {
+        type: "date",
+        displayName: "Start date",
+        label: "Start date"
+      },
+      {
+        type: "text",
+        label: "Pension reference number"
+      }
+    ]
+  }) %>
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "#",
+        text: "Previous",
+        id: "btnPrev"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/cshc-partner/prog-04",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+  
+    $(document).ready(function() {
+      $("#btnPrev").on("click", function() {
+        if (sessionStorage.getItem("in-relationship") === "true") {
+          $(this).attr("href", "/auth/claim/cshc-partner/b-02a");
+        } else {
+          $(this).attr("href", "/auth/claim/cshc-partner/b-02");
+        }
+      })
+  </script>
+  
+  <%- include("b-scripts") %>
+
+<%- include(templates+"footer") %>

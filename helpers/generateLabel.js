@@ -15,10 +15,11 @@ module.exports = formLabel => {
 
   let legend = modifiers.includes("legend") ? true : false;
   let legendLabel = modifiers.includes("legendLabel") ? true : false;
+  let formBlockLabel = modifiers.includes("formBlockLabel") ? true : false;
 
-  if (legend || legendLabel) {
+  if (legend || legendLabel || formBlockLabel) {
     html += `
-      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""}">
+      <legend class="uikit-text-input__label ${label === "" ? "hidden" : ""} ${legendLabel ? "legend-override" : ""} ${formBlockLabel ? "form-block-header" : ""}">
     `
   } else {
     html += `
@@ -39,11 +40,7 @@ module.exports = formLabel => {
   }
 
   if (hint) {
-    html += `<span class="hint`;
-
-    if (modifiers.includes("hintNewline")) html += " display-block margin-above--none margin-below--none";
-
-    html += `"> ${hint} </span>`
+    html += `<span class="hint ${modifiers.includes("hintNewLine") ? "display-block margin-above--none margin-below--none" : ""}"> ${hint}</span>`
   }
 
   if (tooltip !== null && (modifiers.includes("tooltipOnHint"))) {
@@ -55,7 +52,7 @@ module.exports = formLabel => {
     })
   }
 
-  if (legend || legendLabel) {
+  if (legend || legendLabel || formBlockLabel) {
     html += "</legend>";
   } else {
     html += "</label>";

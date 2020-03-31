@@ -19,7 +19,7 @@
   <main>
     <div class="container" id="main-content">
       <div class="row">
-        <div class="col-md-offset-1 col-md-10">
+        <div>
           <div class="claim-end">
             <div class="pt-claim-type--normal">
               <div class="margin-above ie-success-animation">
@@ -39,18 +39,26 @@
               </div>
               <hr class="orange-divider">
               <h2 class="ss-align--center"><b>What's next?</b></h2>
-              <div class="container">
-                <div class="col-sm-offset-1 col-sm-8">
-                  <ul class="next-steps">
-                    <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.</li>
-                    <li>You will receive an email confirmation and be contacted about your claim.</li>
-                    <li>If your claim is accepted you will be able to view your accepted conditions on your MyService Cards page.</li>
-                  </ul>
+              <div class="container container--8-column">
+                <div class="callout--veteran-payment margin-below--large d-none vp-can-apply">
+                  <h4>You are now able to apply for Veteran Payment</h4>
+                  <a id="gotoVP" class="uikit-btn uikit-btn--tertiary">Apply now</a>
                 </div>
-                <div class="pagination">
-                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to home</button>
-                  <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/il/claim1'">Add another claim</button>
-                </div>
+
+                <ul class="next-steps">
+                  <li>If you are in financial hardship or require urgent treatment please call DVA on 1800 555 254.
+                  </li>
+                  <li>You will receive an email confirmation and be contacted about your claim.</li>
+                  <li>If your claim is accepted you will be able to view your accepted conditions on your MyService
+                    Cards page.</li>
+                 
+                </ul>
+              </div>
+              <div class="pagination">
+                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth'">Back to
+                  home</button>
+                <button class="uikit-btn uikit-btn--tertiary"
+                  onclick="window.location.href = '/auth/claim/il/claim1'">Add another claim</button>
               </div>
             </div>
           </div>
@@ -62,13 +70,21 @@
   <form class="pt-submit-form">
     <input type="hidden" name="submittedApplication" id="submittedApplication" value="true">
   </form>
+
+  <%- include("claim8-state-switcher") %>
   <script>
+
+    $(document).ready(function () {
+
+      sessionStorage.setItem('il_mental_health_being_processed', true);
+
+    });
+
     readRep();
 
     var data = ($('.pt-submit-form'));
 
     writeRep(data);
-
 
     var timeDelay = 3000;
     setTimeout(
@@ -103,6 +119,13 @@
         }
       }
     });
+
+    $("#gotoVP").click(function () {
+      localStorage.setItem("came-from-il", "true");
+        window.location.href = "/auth/claim/veteran-payment/veteran-payment-01"
+      });
+
+  
 
   </script>
 </body>

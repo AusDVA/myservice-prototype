@@ -83,7 +83,6 @@ $(document).keypress(function (e) {
 // });
 
 document.addEventListener('swiped-left', function (e) {
-  console.log(e.target); // element that was swiped
   $('.pt-persona-switcher').toggle();
 });
 
@@ -213,15 +212,11 @@ $.ajax({
   dataType: 'json'
 }).done(function (data) {
 
-  console.log('User data back');
-
-
   localStorage.setItem('allPersons', JSON.stringify(data.person));
 
   // set the default MyService user if no user has been requested 
   if (!(localStorage.getItem('person'))) {
     localStorage.setItem('person', JSON.stringify(data.person[0]));
-    console.log('setting the default user');
   }
 
   // populate the user dropdown list with users from the json
@@ -256,8 +251,6 @@ $.ajax({
 
 // put the user from user.js in to local storage and the users clients in to session storage 
 function writeUser() {
-
-  console.log('Writing user  ');
 
   const user = JSON.parse(localStorage.getItem('person'));
   const sessionClients = JSON.parse(sessionStorage.getItem('usersClients'));
@@ -323,13 +316,11 @@ function writeUser() {
     }
 
   } else if (window.allClients.length > 0) {
-    console.log(' representing');
     localStorage.setItem('repFlow', 'representing');
     if (user.clients) {
       sessionClientSubmitted = true;
     }
   } else if (window.allReps.length > 0) {
-    console.log(' represented');
     localStorage.setItem('repFlow', 'represented');
     if (user.reps) {
       sessionRepSubmitted = true;
@@ -470,7 +461,6 @@ function writeClient(form) {
   var clients = sessionStorage.getItem('usersClients');
 
   if (clients) { // clients in session data
-    console.log('There are clients in session');
     var existingClient = false;
     var parsedClients = JSON.parse(clients);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
@@ -478,7 +468,6 @@ function writeClient(form) {
     $.each(parsedClients, function (index, element) {
 
       if (element.id === sessionGuid) {
-        console.log('writing to an EXISTING client');
 
         // add new form data to an existing client
         $.extend(true, window.allClients[index], formData);
@@ -487,12 +476,10 @@ function writeClient(form) {
     });
 
     if (existingClient === false) {
-      console.log('writing to a NEW client');
       window.allClients.push(formData);
     }
 
   } else {
-    console.log('no clients so writing to a NEW client');
     window.allClients.push(formData);
   }
 
@@ -506,7 +493,6 @@ function writeRep(form) {
   var reps = sessionStorage.getItem('usersReps');
 
   if (reps) { // reps in session data
-    console.log('There are reps in session');
     var existingRep = false;
     var parsedReps = JSON.parse(reps);
     var sessionGuid = sessionStorage.getItem('sessionGuid');
@@ -514,7 +500,6 @@ function writeRep(form) {
     $.each(parsedReps, function (index, element) {
 
       if (element.id === sessionGuid) {
-        console.log('writing to an EXISTING client');
 
         // add new form data to an existing client
         $.extend(true, window.allReps[index], formData);
@@ -523,12 +508,10 @@ function writeRep(form) {
     });
 
     if (existingRep === false) {
-      console.log('writing to a NEW client');
       window.allReps.push(formData);
     }
 
   } else {
-    console.log('no reps so writing to a NEW client');
     window.allReps.push(formData);
   }
 
@@ -536,7 +519,6 @@ function writeRep(form) {
 }
 
 function readClient() {
-  console.log('Reading client data');
 
   var urlId = getUrlParameter('id');
 
@@ -626,7 +608,6 @@ function readClient() {
 readClient();
 
 function readRep() {
-  console.log('Reading rep data');
   var reps = sessionStorage.getItem('usersReps');
   var parsedReps = JSON.parse(reps);
   var sessionGuid = sessionStorage.getItem('sessionGuid');

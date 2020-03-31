@@ -1,0 +1,65 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Past transactions",
+    boxes: [
+      "None",
+      "One",
+      "Many"
+    ],
+    id: "past-transactions"
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "No partner consent"
+    ],
+    id: "no-consent",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  var pastTransactions;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    if (localStorage.getItem("coc-state") === "update1") {
+      $("#past-transactions-2").prop("checked", true);
+      pastTransactions = "one";
+      stateSwitcher();
+    }
+
+    $('input[name=past-transactions]').change(function () {
+      pastTransactions = $(this).val();
+      stateSwitcher();
+    });
+
+    stateSwitcher();
+
+    $('#no-consent-1').change(function() {
+    updateConsent();  
+  });
+
+function updateConsent() {
+    var myConsent = $("#no-consent-1").is(":checked");
+    if ( myConsent ) {
+      $("#no-consent-message-container").show();
+    } else {
+      $("#no-consent-message-container").hide();
+    }
+  }  
+});
+
+</script>

@@ -1,0 +1,140 @@
+
+  <!-- don't worry about this JS stuff - the behaviour is already implemented in React codebase -->
+  <script src="/docs/js/jquery-3.2.1.min.js"></script>
+  <script language="javascript">
+    var stInput = stList = stItem = stItemSelected = null;
+
+    $(document).ready(function() {
+      var updateSelection = function(input) {
+        stItemSelected.removeClass('s-typeahead-list-item--selected');
+        stItemSelected.attr('aria-hidden', true);
+        stItemSelected.removeAttr('aria-selected');
+
+        stItemSelected = $(input);
+        stItemSelected.addClass('s-typeahead-list-item--selected');
+        stItemSelected.attr('aria-hidden', false);
+        stItemSelected.attr('aria-selected', true);
+        stInput.attr('value', stItemSelected.children('span').text());
+        stInput.val(stItemSelected.children('span').text());
+      };
+
+      var updateScroll = function() {
+        var container = stList.get(0);
+        var domItem = stItemSelected.get(0);
+        container.scrollTop = domItem.offsetTop - (container.clientHeight / 2.5);
+      };
+
+      stInput = $(".s-typeahead-input").first();
+      stList = $('.s-typeahead-list');
+      stItem = $('.s-typeahead-list-item');
+      stItemSelected = stItem.filter('.s-typeahead-list-item--selected');
+
+      var selectedIdx = 0;
+      var selectedSize = stItem.length;
+
+      // Trigger to make list appear
+      stInput.on('focus', function(e) {
+        stList.show();
+      });
+
+      stInput.on('blur', function(e) {
+        if ($('.s-typeahead-list:hover').length == 0) {
+          stList.hide();
+        }
+      });
+
+      // selection behaviours
+      stInput.on('keydown', function(e) {
+        console.log('test ' + e.key);
+
+        switch (e.key) {
+          case 'ArrowUp':
+            --selectedIdx;
+            if (selectedIdx < 0) {
+              selectedIdx = selectedSize - 1;
+            }
+            updateSelection(stItem.get(selectedIdx));
+            updateScroll();
+            break;
+
+          case 'ArrowDown':
+            ++selectedIdx;
+            if (selectedIdx >= selectedSize) {
+              selectedIdx = 0;
+            }
+            updateSelection(stItem.get(selectedIdx));
+            updateScroll();
+            break;
+          case 'Enter':
+            stList.hide();
+            break;
+          case 'Escape':
+            stList.hide();
+            stInput.blur();
+            break;
+          default:
+            stList.show();
+            break;
+        }
+      });
+
+      stItem.on('mouseup', function(e) {
+        updateSelection(e.currentTarget);
+      });
+      stInput.focus();
+      stInput.select();
+
+      $(document).on('mouseup', function(e) {
+        if ($('.s-typeahead-input:hover').length == 0) {
+          stList.hide();
+          stInput.blur();
+        }
+      });
+    });
+  </script>
+
+  <div class="form-group">
+    <h3 class="">
+      What have you been medically diagnosed with? (Required)
+    </h3>
+    <p>
+      Enter the term provided by your GP or Specialist used to describe the condition you would like to be covered for, for example 'Acute meniscal tear of the knee'.
+    </p>
+
+    <!-- SimpleTypeahead component starts here -->
+    <div class="s-typeahead-wrapper" role="search" aria-label="medical condition dropdown" aria-haspopup="true" aria-autocomplete="listbox">
+
+      <!-- Could be removed, although could it act as a faded background text before a user types something in? -->
+      <!--
+      <label class="s-typeahead-input--label" for="medicalCondition">
+        Please enter your Medical Condition
+      </label>
+      -->
+      <input type="search" class="uikit-text-input s-typeahead-input" id="medicalCondition" name="medicalCondition" placeholder="" autocomplete="off" role="presentation" value="accommodation disorder" />
+      <div class="s-typeahead-list--wrapper">
+        <ul class="s-typeahead-list" role="menu" aria-expanded="false">
+          <!-- Note that all child elements here are programatically populated using JavaScript.-->
+          <!-- Special note for active selected classes: this changes based on Javascript-driven changes -->
+          <li class="s-typeahead-list-item s-typeahead-list-item--selected" aria-hidden="false" aria-live="rude"><span role="menuitem">accommodation disorder</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles bursitis involving the deep bursa</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles tendinopathy and bursitis</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">achilles tendinosis</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">adenosquamous-carcinoma of the stomach</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">age-related macular degeneration</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">age-related maculopathy</span></li>
+          <li class="s-typeahead-list-item" aria-hidden="true" aria-live="rude"><span role="menuitem">allergic contact dermatitis</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      This text should appear behind the dropdown menu options but directly below the input field.
+    </div>
+
+    <div class="form-group">
+      <!-- Testing if subsequent fields appear correctly and not on top of each other -->
+      <div class="s-typeahead-wrapper" role="search" aria-label="medical condition dropdown" aria-haspopup="true" aria-autocomplete="listbox">
+        <input type="text" class="uikit-text-input s-typeahead-input" id="medicalCondition" name="medicalCondition" placeholder="" autocomplete="off" role="presentation" value="this should not appear in front of the above dropdown's list" />
+      </div>
+    </div>
+  </div>

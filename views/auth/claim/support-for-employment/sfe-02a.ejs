@@ -1,0 +1,135 @@
+<%- include(templates+"header", {
+  claim: "Support for employment",
+  heading: "Claim details"
+}) %>
+
+<%- include(forms+"date", {
+    label: "What date did you leave the permanent Australian Defence Forces?",
+    id: "discharge-date"
+  }) %>
+
+
+<div id="vet-under4-notification" class="parent-veteran uikit-page-alerts uikit-page-alerts--error" role="alert" hidden>
+  <p>To receive SFE services your transition date should be 12 months but not greater than 5 years.</p>
+  <p>If you would like to discuss your eligibility, please contact DVA on 1800 555 254.</p>
+</div>
+
+<%- include(forms+"checkbox", {
+    label: "Tell us about your situation",
+    hint: "Select all that apply:",
+    modifiers: ["hintNewLine", "hidden"],
+    id: "situation-checkboxes",
+    boxes: [
+      {
+        text: "Underemployment",
+        hint: "(fewer hours than you would like to work)."
+      },
+      "Unemployed",
+      "Seeking assistance to change careers",
+      "Require support to adjust to the civilian workplace"
+    ]
+  }) %>
+
+
+<!-- <%- include(forms+"text", {
+    label: "Reason for discarge"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Rank at date of discharge"
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Pay group at date of discharge",
+    hint: "(optional)"
+  }) %>
+
+  <%- include(forms+"textarea", {
+    label: "Tell us about your loss of career progression",
+    hint: "(optional)<br>This could include initial employment training, discharging as a recruit or cadet, or still serving but graduating later."
+  }) %> -->
+
+
+
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/support-for-employment/sfe-01"
+      },
+      {
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
+      },
+
+      {
+        text: "Submit",
+        link: "/auth/claim/support-for-employment/sfe-03",
+        id: "btnNext",
+        modifiers: ["primary", "floated"]
+      }
+    ]
+  }) %>
+
+<script>
+
+  function diff_years(dt2, dt1) {
+    dt2 = new Date(dischargeDate);
+    dt1 = new Date(today);
+
+    var diff = (dt2.getTime() - dt1.getTime()) / 1000;
+    diff /= (60 * 60 * 24);
+    return Math.abs(Math.round(diff / 365.25));
+
+  }
+
+  // dt1 = new Date(2014, 10, 2);
+  // dt2 = new Date(2014, 10, 11);
+  // console.log(diff_years(dt1, dt2));
+
+  // dt1 = new Date("June 13, 2014 08:11:00");
+  // dt2 = new Date("October 19, 2017 11:13:00");
+  // console.log(diff_years(dt1, dt2));
+
+  $("#discharge-date-container input").keyup(function () {
+    //get the year month and day after each input change
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, '0');
+    var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = mm + '/' + dd + '/' + yyyy;
+    console.log(today);
+
+    if ($("#discharge-date-yyyy").val().length >= 4) {
+      year = $("#discharge-date-yyyy").val();
+      month = $("#discharge-date-mm").val();
+      day = $("#discharge-date-dd").val();
+      dischargeDate = month + '/' + day + '/' + year;
+      if (diff_years(dischargeDate, today) > 5) {
+        $("#situation-checkboxes-container").hide();
+        $("#vet-under4-notification").show();
+      } else {
+        $("#vet-under4-notification").hide();
+        $("#situation-checkboxes-container").show();
+      }
+    }
+
+  });
+</script>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+ <%- include("sfe-state-switcher") %>
+
+ <script>
+   $("#btnNext").on("click", function () {
+     if (localStorage.getItem("sfe-service-provided") === "true") {
+       $(this).attr("href", "/auth/claim/support-for-employment/sfe-03");
+     } else {
+       $(this).attr("href", "/auth/claim/support-for-employment/sfe-03");
+     }
+   })
+ </script>
+<%- include(templates+"footer") %>

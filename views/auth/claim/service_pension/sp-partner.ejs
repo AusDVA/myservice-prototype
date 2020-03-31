@@ -30,7 +30,6 @@
       background-color: #ddd;
       height: 1px;
     }
-
   </style>
 </head>
 
@@ -44,7 +43,8 @@
 <%- include(partials+"components/layout/header-topbar") %>
 <%- include(partials+"components/layout/header-nom-rep") %>
 <main>
-  <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+  <div id="main-content"
+    class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
     <div class="container margin-above--none">
       <!-- Progress bar -->
       <div class="col-md-12">
@@ -95,301 +95,290 @@
       <span class="heading">Relationship status</span>
     </h1>
   </div> <!-- container end -->
-  <div class="container" id="cleanskin">
-    <div class="row">
-      <div class="col-md-offset-2 col-md-8">
-        <div class="margin-above--extra margin-below--extra">
-          <form id="myForm">
-            <input type="reset" style="display: none;">
-            <!-- Relationship status -->
-            <% 
+  <div class="container container--8-column" id="cleanskin">
+    <div class="margin-above--extra margin-below--extra">
+      <form id="myForm">
+        <input type="reset" style="display: none;">
+        <!-- Relationship status -->
+        <% 
           locals.el = {};
           locals.el.question = 'What is your CURRENT relationship status?';
           locals.el.optionalID = 'relationship-status';
-          locals.el.items = ["Single","Married","De-facto","Separated (while still legally married)","Divorced","Widowed"];
-          locals.el.optionalItemID = ["single","married","defacto","separated","divorced","widowed"];
+          locals.el.items = ["Single","De facto","Married","Separated (while still legally married)","Divorced","Widowed"];
+          locals.el.optionalItemID = ["single","defacto","married","separated","divorced","widowed"];
         %>
-            <%- include(partials+"components/form-elements/radio", locals) %>
-            <!-- Married -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date of marriage';
-          locals.el.optionalID = 'date-marriage';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-            <!-- Defacto -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date commenced living together';
-          locals.el.optionalID = 'date-living-together';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-            <!-- Seperated -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date separated';
-          locals.el.optionalID = 'date-separation';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-            <% 
+
+
+        <%- include(partials+"faqs/relationship-status") %>
+        <!-- Married -->
+
+        <%- include(forms+"date", {
+          label: "Date of marriage",
+          id: "date-marriage"
+        }) %>
+
+        <!-- Defacto -->
+
+        <%- include(forms+"date", {
+          label: "Date commenced living together",
+          id: "date-living-together"
+        }) %>
+
+        <!-- Seperated -->
+
+        <%- include(forms+"date", {
+          label: "Date separated",
+          id: "date-separation"
+        }) %>
+
+        <% 
           locals.el = {};
           locals.el.message = "<p>You will need to provide the following form:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0513.pdf' target='blank'><span class='external-link'>Separation from partner (D0513)</a></span></p><p>You can attach the completed form at the end of your claim.</p>"
           locals.el.optionalID = 'notice-separation';
           locals.el.optionalHide = true;
         %>
-            <%- include(partials+"components/form-elements/notice", locals) %>
-            <!-- Date divorced -->
-            <% 
-          locals.el = new Object();
-          locals.el.question = 'Date of divorce';
-          locals.el.optionalID = 'date-divorced';
-        %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-            <!-- Partner details -->
-            <div class="form-group" id="partner-details">
-              <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
+        <%- include(partials+"components/form-elements/notice", locals) %>
+        <!-- Date divorced -->
 
-              <!-- Title -->
-              <%#- include(partials+"components/form-elements/title-list") %>
+        <%- include(forms+"date", {
+          label: "Date of divorce",
+          id: "date-divorced"
+        }) %>
 
-              <%- include(partials+"components/form-partials/dropdown", {
-                label: "Partner title",
-                options: [
-                  "--Select title--",
-                  "Mr",
-                  "Mrs",
-                  "Master",
-                  "Miss",
-                  "Dr"
-                ]
+        <!-- Partner details -->
+        <div class="form-group" id="partner-details">
+          <h2 class="margin-above margin-below"><span class="font-weight-heavy">Partner details</span></h2>
+
+          <!-- Title -->
+          <%#- include(partials+"components/form-elements/title-list") %>
+
+          <%- include(partials+"components/form-partials/prepop/titlelist-dropdown", {
+                label: "Partner title"
               }); %>
-              <!-- Given name -->
-              <%
+          <!-- Given name -->
+          <%
 locals.el = {};
 locals.el.question = "Given name";
 locals.el.optionalHint = '(first name)';
 %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-              <!-- Surname name -->
-              <%
+          <%- include(partials+"components/form-elements/field", locals) %>
+          <!-- Surname name -->
+          <%
 locals.el = {};
 locals.el.question = "Surname";
 locals.el.optionalHint = '(last name)';
 %>
-              <%- include(partials+"components/form-elements/field", locals) %>
+          <%- include(partials+"components/form-elements/field", locals) %>
 
-              <!-- Former names -->
-              <%
-              locals.el = {};
-              locals.el.optionalQuestion = "Has your partner ever been known by an other names?";
-              %>
-              <%- include(partials+"content/former_names") %>
-              <!-- Partner DOB -->
-              <% 
-          locals.el = new Object();
-          locals.el.question = 'Partner’s date of birth';
-        %>
-              <%- include(partials+"components/form-elements/date", locals) %>
-              <%
+          <!-- Former names -->
+          <%- include(forms+"yes_no", {
+                label: "Has your partner ever been known by any other names?",
+                hint: "For example, name at birth, maiden name, previous married name.",
+                yes_toggle: "#previous-names-container"
+              }) %>
+
+          <%- include(forms+"previous-names", {
+                modifiers: ["hidden"],
+                id: "previous-names"
+              }) %>
+
+          <!-- Partner DOB -->
+
+          <%- include(forms+"date", {
+                label: "Partner's date of birth"
+              }) %>
+
+          <%
           locals.el = {};
           locals.el.question = "Partner's phone number";
           locals.el.optionalID = 'partner_phone';
         %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-              <!-- Partner email address -->
-              <%
+          <%- include(partials+"components/form-elements/field", locals) %>
+          <!-- Partner email address -->
+          <%
           locals.el = {};
           locals.el.question = "Partner's email address";
           locals.el.optionalID = 'partner_email';
         %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-              <!-- Partner gender -->
-              <%
+          <%- include(partials+"components/form-elements/field", locals) %>
+          <!-- Partner gender -->
+          <%
           locals.el = {};
           locals.el.question = "Partner's gender";
         %>
-              <%- include(partials+"components/form-elements/radio--gender", locals) %>
-              <!-- Centrelink -->
-              <% 
+          <%- include(partials+"components/form-elements/radio--gender", locals) %>
+          <!-- Centrelink -->
+          <% 
           locals.el = {};
           locals.el.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
           locals.el.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
           locals.el.optionalHint = 'Select all that apply.'; 
           locals.el.optionalID = "cs_centrelink";            
         %>
-              <%- include(partials+"components/form-elements/checkbox", locals) %>
-              <!-- CSHC -->
-              <%
+          <%- include(partials+"components/form-elements/checkbox", locals) %>
+          <!-- CSHC -->
+          <%
           locals.el = {};
           locals.el.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
           locals.el.optionalID = 'cs_cshc'; 
         %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-              <!-- CRN -->
-              <% 
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+          <!-- CRN -->
+          <% 
           locals.el = {}
           locals.el.question = "What is your partner's Centrelink reference number (CRN)?"; 
           locals.el.optionalID = 'cs_crn';
           locals.el.optionalShort = true; 
           locals.el.optionalHide = true;
           %>
-              <%- include(partials+"components/form-elements/field", locals) %>
-              <!-- Visual impairment -->
-              <% 
+          <%- include(partials+"components/form-elements/field", locals) %>
+          <!-- Visual impairment -->
+          <% 
           locals.el = {};
           locals.el.question = 'Is your partner blind or visually impaired?'; 
           locals.el.optionalID = 'visual_impairment'; 
         %>
-              <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-            </div>
-            <div id="save-and-next" class="margin-above" style="display: none">
-              <p>Choose <b>save and next</b> to continue.</p>
-            </div>
+          <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
         </div>
-      </div>
+        <div id="save-and-next" class="margin-above" style="display: none">
+          <p>Choose <b>save and next</b> to continue.</p>
+        </div>
     </div><!-- bottom page navigation end -->
     <%- include(partials+"content/modals/claims-cancel-modal") %>
   </div>
-  <div class="container" id="partnered-pre-pop" style="display: none;">
-    <div class="row">
-      <div class="col-md-offset-2 col-md-8">
-        <div class="margin-above--extra margin-below--extra">
-          <div id="partnered-pre-pop--current-partner" class="form-group">
-            <legend class="legend-label">Is this your current partner?</legend>
-            <div class="table">
-              <div class="tr">
-                <div class="td"><b>Partner name</b></div>
-                <div class="td">Jan Citizen</div>
-              </div>
-              <div class="tr">
-                <div class="td"><b>Date of birth</b></div>
-                <div class="td">12/04/1985</div>
-              </div>
-            </div>
-            <div class="radio-toggle margin-above">
-              <label class="on label-left" for="partnered-pre-pop--current-partner--yes">
-                <input id="partnered-pre-pop--current-partner--yes" type="radio" name="partnered-pre-pop--current-partner--question">
-                <span>Yes</span>
-              </label>
-              <label class="off label-right" for="partnered-pre-pop--current-partner--no">
-                <input id="partnered-pre-pop--current-partner--no" type="radio" name="partnered-pre-pop--current-partner--question">
-                <span>No</span>
-              </label>
-            </div>
+  <div class="container container--8-column" id="partnered-pre-pop" style="display: none;">
+    <div class="margin-above--extra margin-below--extra">
+      <div id="partnered-pre-pop--current-partner" class="form-group">
+        <legend class="legend-label">Is this your current partner?</legend>
+        <div class="table">
+          <div class="tr">
+            <div class="td"><b>Partner name</b></div>
+            <div class="td">Jan Citizen</div>
           </div>
-          <div id="partnered-pre-pop--options" class="margin-above--extra" style="display: none">
-            <div class="ledger-rule"></div>
-            <div class="">
-              <h3>Please review the following details and update if necessary</h3>
-            </div>
-            <div id="partnered-pre-pop--relationship-status" class="form-group margin-above--large" style="display: block;">
-              <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
-              <select id="ppp-relationship" class="uikit-text-input input-half" id="drop-down" name="drop-down">
-                <option>-- Select one --</option>
-                <option>Married</option>
-                <option selected="selected">De facto</option>
-              </select>
-            </div>
-            <!-- Date of marriage -->
-            <% 
-              locals.el = {};
-              locals.el.question = 'Date of marriage';
-              locals.el.optionalID = 'ppp-married-date'; 
-              locals.el.optionalHide= true;
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
-            <!-- Centrelink -->
-            <% 
+          <div class="tr">
+            <div class="td"><b>Date of birth</b></div>
+            <div class="td">12/04/1985</div>
+          </div>
+        </div>
+        <div class="radio-toggle margin-above">
+          <label class="on label-left" for="partnered-pre-pop--current-partner--yes">
+            <input id="partnered-pre-pop--current-partner--yes" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>Yes</span>
+          </label>
+          <label class="off label-right" for="partnered-pre-pop--current-partner--no">
+            <input id="partnered-pre-pop--current-partner--no" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+      <div id="partnered-pre-pop--options" class="margin-above--extra" style="display: none">
+        <div class="ledger-rule"></div>
+        <div class="">
+          <h3>Please review the following details and update if necessary</h3>
+        </div>
+        <div id="partnered-pre-pop--relationship-status" class="form-group margin-above--large" style="display: block;">
+          <label class="uikit-text-input__label" for="drop-down">Relationship status</label>
+          <select id="ppp-relationship" class="uikit-text-input input-half" id="drop-down" name="drop-down">
+            <option>-- Select one --</option>
+            <option>Married</option>
+            <option selected="selected">De facto</option>
+          </select>
+        </div>
+        <!-- Date of marriage -->
+        <%- include(forms+"date", {
+              label: "Date of marriage",
+              id: "ppp-married-date",
+              modifiers: ["hidden"]
+            }) %>
+
+        <!-- Centrelink -->
+        <% 
               locals.el = {};
               locals.el.question = 'Has your partner applied for or do they receive any of the following Centrelink payments?'; 
               locals.el.items = ["Age pension","Disability support pension","Carer payment","Newstart allowance","Other"];
               locals.el.optionalHint = 'Select all that apply.'; 
               locals.el.optionalID = "ppp_cs_centrelink";            
             %>
-            <%- include(partials+"components/form-elements/checkbox", locals) %>
-            <!-- CSHC -->
-            <%
+        <%- include(partials+"components/form-elements/checkbox", locals) %>
+        <!-- CSHC -->
+        <%
               locals.el = {};
               locals.el.question = 'Has your partner applied for or do they currently hold a Commonwealth seniors health card (CSHC) from Centrelink?'; 
               locals.el.optionalID = 'ppp_cs_cshc'; 
             %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-            <!-- CRN -->
-            <% 
+        <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+        <!-- CRN -->
+        <% 
               locals.el = {}
               locals.el.question = "What is your partner's Centrelink reference number (CRN)?"; 
               locals.el.optionalID = 'ppp_cs_crn';
               locals.el.optionalShort = true; 
               locals.el.optionalHide = true; 
               %>
-            <%- include(partials+"components/form-elements/field", locals) %>
-            <!-- Visual impairment -->
-            <% 
+        <%- include(partials+"components/form-elements/field", locals) %>
+        <!-- Visual impairment -->
+        <% 
               locals.el = {};
               locals.el.question = 'Is your partner blind or visually impaired?'; 
               locals.el.optionalID = 'ppp_visual_impairment'; 
             %>
-            <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
-          </div>
+        <%- include(partials+"components/form-elements/radio--yes-no", locals) %>
+      </div>
 
-          <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
-            <div class="ledger-rule"></div>
-            <% 
-              locals.el = {};
-              locals.el.question = 'When did this relationship end?'; 
-              locals.el.optionalID = 'date-marriage'; 
-            %>
-            <%- include(partials+"components/form-elements/date", locals) %>
+      <div id="partnered-no-longer" class="margin-above--extra" style="display: none">
+        <div class="ledger-rule"></div>
+        <%- include(forms+"date", {
+                label: "What date did the relationship end?",
+                id: "relationship-end-date"
+              }) %>
+      </div>
+    </div>
+    <div id="ppp--save-and-next" class="margin-above" style="display: none">
+      <p>Choose <b>save and next</b> to continue.</p>
+    </div>
+  </div>
+  <div class="container container--8-column" id="single-pre-pop" style="display: none;">
+    <form id="myForm">
+      <div class="margin-above--extra margin-below--extra">
+        <div id="single-pre-pop--current-status" class="form-group">
+          <legend class="legend-label">Is this your CURRENT relationship status?</legend>
+          <div class="table">
+            <div class="tr">
+              <div class="td"><b>Relationship status</b></div>
+              <div class="td">Divorced</div>
+            </div>
+          </div>
+          <div class="radio-toggle margin-above">
+            <label class="on label-left" for="single-pre-pop--current-status--yes">
+              <input id="single-pre-pop--current-status--yes" type="radio" value="yes"
+                name="single-pre-pop--current-status--question">
+              <span>Yes</span>
+            </label>
+            <label class="off label-right" for="single-pre-pop--current-status--no">
+              <input id="single-pre-pop--current-status--no" type="radio" value="no"
+                name="single-pre-pop--current-status--question">
+              <span>No</span>
+            </label>
           </div>
         </div>
-        <div id="ppp--save-and-next" class="margin-above" style="display: none">
+        <div id="spp--save-and-next" class="margin-above" style="display: none">
           <p>Choose <b>save and next</b> to continue.</p>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="container" id="single-pre-pop" style="display: none;">
-    <div class="row">
-      <form id="myForm">
-        <div class="col-md-offset-2 col-md-8">
-          <div class="margin-above--extra margin-below--extra">
-            <div id="single-pre-pop--current-status" class="form-group">
-              <legend class="legend-label">Is this your CURRENT relationship status?</legend>
-              <div class="table">
-                <div class="tr">
-                  <div class="td"><b>Relationship status</b></div>
-                  <div class="td">Divorced</div>
-                </div>
-              </div>
-              <div class="radio-toggle margin-above">
-                <label class="on label-left" for="single-pre-pop--current-status--yes">
-                  <input id="single-pre-pop--current-status--yes" type="radio" value="yes" name="single-pre-pop--current-status--question">
-                  <span>Yes</span>
-                </label>
-                <label class="off label-right" for="single-pre-pop--current-status--no">
-                  <input id="single-pre-pop--current-status--no" type="radio" value="no" name="single-pre-pop--current-status--question">
-                  <span>No</span>
-                </label>
-              </div>
-            </div>
-            <div id="spp--save-and-next" class="margin-above" style="display: none">
-              <p>Choose <b>save and next</b> to continue.</p>
-            </div>
-          </div>
-        </div>
-      </form>
-    </div>
+    </form>
     <%- include(partials+"content/modals/claims-cancel-modal") %>
   </div> <!-- container end -->
-  <div class="row">
-    <div class="col-md-offset-2 col-md-8">
-      <div class="pagination">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
-        <div class="floated">
-          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and exit</button>
-          <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
-        </div>
+  <div class="container container--8-column">
+    <div class="pagination">
+      <button class="uikit-btn uikit-btn--tertiary"
+        onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
+      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
+      <div class="floated">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and
+          exit</button>
+        <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
       </div>
     </div>
   </div>
@@ -556,9 +545,9 @@ locals.el.optionalHint = '(last name)';
 
     $("#ppp-relationship").change(function () {
       if ($('#ppp-relationship :selected').val() == "Married") {
-        $("#ppp-married-date").show();
+        $("#ppp-married-date-container").show();
       } else {
-        $("#ppp-married-date").hide();
+        $("#ppp-married-date-container").hide();
       }
     });
 
@@ -623,25 +612,25 @@ locals.el.optionalHint = '(last name)';
           break;
         case "divorced":
           sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-divorced").show("fast");
+          $("#date-divorced-container").show("fast");
           break;
         case "widowed":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#save-and-next").show("fast");
           break;
-        case "separated":
+        case "separatedwhilestilllegallymarried":
           sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-separation").show("fast");
+          $("#date-separation-container").show("fast");
           $("#notice-separation").show("fast");
           break;
         case "married":
           sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-marriage").show("fast");
+          $("#date-marriage-container").show("fast");
           $("#partner-details").show("fast");
           break;
         case "defacto":
           sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-living-together").show("fast");
+          $("#date-living-together-container").show("fast");
           $("#partner-details").show("fast");
           break;
         default:
@@ -700,12 +689,13 @@ locals.el.optionalHint = '(last name)';
     }
 
     function hideAll() {
-      $("#date-marriage").hide();
-      $("#date-living-together").hide();
+      $("#date-marriage-container").hide();
+      $("#date-living-together-container").hide();
       $("#other-ps").hide();
-      $("#date-separation").hide();
+      $("#date-separation-container").hide();
+      $("#relationship-end-date").hide();
       $("#notice-separation").hide();
-      $("#date-divorced").hide();
+      $("#date-divorced-container").hide();
       $("#partner-details").hide();
       $("#crn").hide();
       $("#save-and-next").hide();

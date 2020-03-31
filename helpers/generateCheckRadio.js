@@ -14,7 +14,8 @@ module.exports = box => {
         suppliedID,
         tooltip,
         customClass,
-        value
+        value,
+        customOuterClass
        } = box;
 
   let generatedID = suppliedID ? boxID : `${baseID}-${boxID}`;
@@ -29,7 +30,7 @@ module.exports = box => {
   }
 
   let html = `
-    <div class="uiToolKitCheckBox">
+    <div class="uiToolKitCheckBox ${customOuterClass ? customOuterClass : ""}">
       <label class="uikit-control-input">
         <input 
           type="${type}" 

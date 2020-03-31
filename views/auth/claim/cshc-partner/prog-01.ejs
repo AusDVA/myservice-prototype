@@ -1,0 +1,40 @@
+<%
+
+var progress = JSON.parse(include("prog-progressbar")) 
+progress.activeItem = 1;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card Partner",
+  heading: "Commonwealth Seniors Health Card (CSHC)"
+}) %>
+
+  <%- include(forms+"progress-simple", { percent: 0, modifiers: ["claimPercentage"] }) %>
+
+  <h3 class="margin-below--extra">Hi Arnold, tell us about your claim.</h3>
+
+  <%- include(forms+"progress-multi", progress) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "#",
+        text: "Review and submit",
+        modifiers: ["floated", "primary", "disabled"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>

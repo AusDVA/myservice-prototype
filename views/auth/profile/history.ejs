@@ -4,33 +4,8 @@
 <head>
   <title>My profile | MyService</title>
   <%- include(partials+"components/layout/head") %>
-  <style>
-    #templates {
-      display: none;
-    }
 
-  </style>
-  <style>
-    #templates {
-      display: none;
-    }
 
-    #state-switcher {
-      background-color: white;
-      padding: 20px;
-      border: 1px solid grey;
-      width: 300px;
-      height: 300px;
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      z-index: 100;
-      border-radius: 5px;
-      box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, .2);
-      display: none;
-    }
-
-  </style>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -56,13 +31,16 @@
             <!-- <p>This is required to help us assess whether you have the required qualifying service.</p> -->
             <!-- <p>Keep your service history up-to-date in order to make the claiming process easier.</p> -->
 
-            <% if (locals.liveFeature.includes('featureServiceHistoryUpdate')) { %>
+            <% if (!locals.liveFeature.includes('featureServiceHistoryUpdate')) { %>
 
             <p>DVA is improving how we manage your service history. Ensure your service history is up-to-date to make claiming easier.</p>
 
             <%- include(partials+"content/service-history") %>
 
+            asdasdasdas
+
             <% } else { %>
+              
             <div class="profile-table" role="list">
               <div class="row profile-row" role="listitem">
                 <div class="col-sm-9 col-xs-7 description-fields">
@@ -81,9 +59,9 @@
               <div class="row profile-row" role="listitem">
                 <div class="col-sm-9 col-xs-7 description-fields">
                   <div class="row">
-                    <div class="col-sm-4 title-field">Enlistment date</div>
+                    <div class="col-sm-4 title-field">Original hire date</div>
                     <div class="col-sm-8 uneditable">
-                      <span>13 / 10 / 2006</span>
+                      <span>13/10/2006</span>
                     </div>
                   </div>
                 </div>
@@ -95,7 +73,7 @@
               <div class="row profile-row" role="listitem">
                 <div class="col-sm-9 col-xs-7 description-fields">
                   <div class="row">
-                    <div class="col-sm-4 title-field">Highest rank acheived</div>
+                    <div class="col-sm-4 title-field">Current rank</div>
                     <div class="col-sm-8 uneditable rank-uneditable-div">
                       <span id="rank-span">Wing Commander</span>
                     </div>
@@ -174,7 +152,69 @@
 
             </div>
 
-            <% } %></h1>
+ 
+
+
+            <div id="prepop">
+
+            <h3 class="margin-above--extra">PMKeyS Service History</h3>
+
+            <table class="table--fixed margin-above">
+              <thead>
+                <tr>
+                  <th>Branch</th>
+                  <th>Dates</th>
+                  <th>Operations</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><span class="soft-heading">Royal Australian Navy</span><BR/>Regular/Permanent Force</td>
+                  <td>13/10/2006 - 14/01/2007</td>
+                  <td>No operations</td>
+                </tr>
+                <tr style="background-color: #fafafa;">
+                  <td><span class="soft-heading">Royal Australian Navy</span><BR/>High Readiness Spec Res - CFTS</td>
+                  <td>15/01/2007 - 29/02/2008</td>
+                  <td>
+                      <p>
+                          Operation RESOLUTE
+                          <br/>
+                          11/08/2008 - 27/09/2008
+                    
+                      </p>
+                      <p>
+                          Operation SLIPPER
+                          <br/>
+                        20/06/2009 - 15/11/2009
+     
+                      </p>
+                      <p>
+                          Operation RESOLUTE
+                          <br/>
+                        12/11/2012 - 13/12/2012
+                      
+                        
+                      </p>
+                    </td>
+                </tr>
+                <tr>
+                  <td><span class="soft-heading">Royal Australian Navy</span><BR/>Active Reserve Force</td>
+                  <td>
+                    From 01/03/2008
+                  </td>
+                  <td>
+                   No operations
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <p>If this data appears incorrect you will need to contact the Department of Defence to amend your record.</p>
+
+          </div>
+
+            <% } %>
 
 
 
@@ -206,7 +246,7 @@
   <%- include(partials+"components/layout/footer") %>
 
   <script>
-    $(Document).ready(function () {
+    $(document).ready(function () {
       /* state-switcher */
       var userStatus = "cleanskin";
       if (userStatus == "cleanskin") {
@@ -221,17 +261,30 @@
           default:
         }
       });
-      $("#user-status--cleanskin").click(function (e) {
-        location.reload();
-      });
-      $("#user-status--prepopulated").click(function (e) {
-        $("#service-period-add").click();
-        $('#operation-add').click();
-        $('#operation-add').click();
-        $('#add-another-service-period').click();
-        $("#service-period-add").click();
 
-      });
+      <% if (!locals.liveFeature.includes('featureServiceHistoryUpdate')) { %>        
+        $("#user-status--cleanskin").on("click", function (e) {
+          location.reload();
+        });
+        $("#user-status--prepopulated").on("click", function (e) {
+          $("#service-period-add").click();
+          $('#operation-add').click();
+          $('#operation-add').click();
+          $('#add-another-service-period').click();
+          $("#service-period-add").click();
+
+        });
+      <% } else { %>
+        $("#user-status--prepopulated").prop("checked", true)
+        $("#user-status--cleanskin").on("click", function (e) {
+          $("#prepop").hide();
+        });
+
+        $("#user-status--prepopulated").on("click", function (e) {
+          $("#prepop").show();
+        });
+      <% } %>
+
     });
 
   </script>

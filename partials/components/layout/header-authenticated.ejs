@@ -1,52 +1,120 @@
-<%
-locals.el = {};
-locals.el.items = ["Home","Claims","Payments","Cards","Transport","Profile","My Account"];
-locals.el.itemID = ["home","claim","payments","healthcard","travel","profile","myaccount"];
-locals.el.itemLink = ["/auth", "/auth/claim","/auth/payments","/auth/cards","/auth/travel","/auth/profile","#open-myaccount-modal"];
-locals.el.icons = ["fa-home","fa-list-alt","fa-calendar-check","fa-credit-card-blank","fa-car-alt","fa-user-circle","fa-exchange"];
-locals.el.taskAmount = 2;
+<% 
 
-if (locals.liveFeature.includes("tasks")) {
-  locals.el.items.splice(2, 0, "Tasks");
-  locals.el.itemID.splice(2, 0, "tasks");
-  locals.el.itemLink.splice(2, 0, "/auth/tasks");
-  locals.el.icons.splice(2, 0, "fa-tasks");
-}
+  var nav = {
+    taskAmt: 2,
+    items: [
+      {
+        text: "Home",
+        id: "home",
+        link: "/auth",
+        icon: "fa-home"
+      },
+      {
+        text: "Claims",
+        id: "claim",
+        link: "/auth/claim",
+        icon: "fa-list-alt"
+      },
+      {
+        text: "Payments",
+        id: "payments",
+        link: "/auth/payments",
+        icon: "fa-calendar-check"
+      },
+      {
+        text: "Cards",
+        id: "healthcard",
+        link: "/auth/cards",
+        icon: "fa-credit-card-blank"
+      },
+      {
+        text: "Transport",
+        id: "travel",
+        link: "/auth/transport",
+        icon: "fa-car-alt"
+      },
+      {
+        text: "Profile",
+        id: "profile",
+        link: "/auth/profile",
+        icon: "fa-user-circle"
+      },
+      {
+        text: "My Account",
+        id: "myaccount",
+        link: "#open-myaccount-modal",
+        icon: "fa-exchange"
+      }
+    ]
+  }
+
+  if (locals.liveFeature.includes("tasks")) {
+    nav.items.splice(2, 0, {
+      text: "Tasks",
+      id: "tasks",
+      link: "/auth/tasks",
+      icon: "fa-tasks"
+    })
+  }
+
+  function isActive(link) {
+    if (source_url.substr(-1) === "") source_url = source_url.slice(0, -1);
+    source_url = source_url.replace(".ejs", "");
+    if (link === "/auth" && (source_url === "/auth" || source_url === "/auth/index")) {
+      return true
+    } else {
+      return source_url.includes(link.split("/")[2])
+    }
+  }
 %>
 
-<header class="uikit-header">
-  <div class="container">
-    <a id="mys-logo" data-long-press-delay="2000" class="nounderline" href="/auth">
-      <img class="logo-myservice" src="/docs/images/logo-myservice.svg" alt="Auth link - MyService beta - logo" />
-    </a>
-    <button class="toggle" aria-expanded="false">Menu</button>
+<header class="uikit-header mys-header">
+  <div class="mys-header__container">
+    <div class="mys-header__main">
+      <a id="mys-logo" data-long-press-delay="2000" class="nounderline" href="/auth">
+        <img class="logo-myservice" src="/docs/images/logo-myservice.svg" alt="Auth link - MyService beta - logo" />
+      </a>
+      <button class="toggle" aria-expanded="false">Menu</button>
+    </div>
     <ul class="menu">
-      <% locals.el.items.forEach(function(element, index) {
-          var itemID = locals.el.itemID[index];
-          var itemLink = locals.el.itemLink[index];
-          var link = '<a href="' + itemLink + '" class="';
-          var external = '';
-
-          if (!!locals.main_nav_active && locals.main_nav_active === itemID) { 
-            link += 'menu__item-link nav-active'; 
-          } else {
-            link += 'menu__item-link'; 
-          }
-          if (itemID === 'myaccount') { 
-            external = 'menu__item--external'; 
-          }
-          link += '">';
-          %>
-      <li class="menu__item <%- external %>" id=<%- itemID %>>
-        <%- link %>
-        <div class="fal <%= locals.el.icons[index] %> fa-2x fa-fw"></div>
-        <% if(itemID == "tasks"){ %>
-        <div class="tasks-badge"><%= locals.el.taskAmount%></div>
-        <% } %>
-        <div class="menu__item-name"><%= element %></div>
+      <% nav.items.forEach(item => { %>
+      <% if (item.id === "profile") { %>
+      <li class="menu__item <%- item.id === "myaccount" ? "menu__item--external" : "" %>" id="<%- item.id %>">
+        <a href="#" class="menu__item-link <%- isActive(item.link) ? "nav-active" : "" %>">
+          <div>
+            <div class="fal fa-2x fa-fw <%- item.icon %>"></div>
+            <div class="menu__item-name"><%- item.text %>
+            </div>
+          </div>
+          <i class="far fa-chevron-down dropdown__icon rotate"></i>
+          <div class="dropdown">
+            <div class="dropdown-content">
+              <a href="/auth/profile">My details</a>
+              <a href="/auth/profile/history">Service history</a>
+              <a href="/auth/profile/relationships" class="first-login-hidden">Relationships</a>
+              <a href="/auth/profile/payment" class="first-login-hidden">Payment destination</a>
+              <a href="/auth/profile/nomrep">Representation</a>
+              <a href="/auth/profile/income-assets">Income and assets</a>
+              <a href="/auth/profile/overseas-travel">Notify of overseas travel</a>
+            </div>
+          </div>
         </a>
       </li>
-      <%});%>
+      <% }  else { %>
+      <li class="menu__item <%- item.id === "myaccount" ? "menu__item--external" : "" %>" id="<%- item.id %>">
+        <a href="<%- item.link %>" class="menu__item-link <%- isActive(item.link) ? "nav-active" : "" %>">
+          <div class="fal fa-2x fa-fw <%- item.icon %>"></div>
+
+          <% if (item.id === "tasks") { %>
+          <div class="tasks-badge"><%- nav.taskAmt %></div>
+          <% } %>
+
+          <div class="menu__item-name"><%- item.text %></div>
+        </a>
+      </li>
+      <% } %>
+      <% }) %>
+
     </ul>
   </div>
 </header>
@@ -59,5 +127,10 @@ if (locals.liveFeature.includes("tasks")) {
   $("#travel").mouseleave(function () {
     $(this).find('.fal').addClass("fa-car-alt");
     $(this).find('.fal').removeClass("fa-car-bump");
+  });
+
+  $("#profile").click(function () {
+    $("#profile").toggleClass("dropdown--open");
+    $(".dropdown__icon").toggleClass("down");
   });
 </script>
