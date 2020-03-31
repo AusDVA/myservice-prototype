@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width" name="viewport" />
+  <title>Service Pension - Getting started | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <style>
+  </style>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Service history</span>
+      </h1>
+    </div>
+    <div class="container" style="background:transparent;">
+      <div class="row">
+        <!-- Page content -->
+        <div class="col-md-8 col-md-offset-2">
+          <div class="margin-above--extra margin-below--extra">
+            <div id="alert-no-service" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
+              <span class="uikit-display-1">You need to add your service history to proceed with the claim.</span>
+            </div>
+            <div id="alert-no-ops" style="display: none;" class="uikit-page-alerts uikit-page-alerts--error" role="alert">
+              <span class="uikit-display-1">You need to add an operation or warlike service to continue.</span>
+            </div>
+            <div id="message">
+              <h2 class="margin-below--none">Tell us about your service history</h2>
+              <p>
+                This is required to help us assess whether you have the required
+                qualifying service.
+              </p>
+            </div>
+            <button class="uikit-btn" id="add-service">Add service</button>
+            <!-- Service period card -->
+            <div id="service-period-card" class="boxed margin-above margin-below--large" style="display: none">
+              <h2 class="margin-above--none" style="display: inline-block;">
+                <icon class="fal fa-calendar-star" style="font-size: 1.7em; vertical-align: -15%;"></icon>&nbsp;&nbsp;<span class="font-weight-heavy">Service period</span>
+              </h2><button id="deleteButtonSP" class="uikit-btn uikit-btn--tertiary small warning floated">&nbsp;Delete item&nbsp;</button>
+              <div id="card-details" class="margin-below--large">
+                <form id="myFormSP">
+                  <input type="reset" style="display:none">
+                  <p>Tell us about your service history. If you have broken service, have transferred to a different branch or additional reservist service, you will need to add
+                    additional service periods.</p>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="Input field">Service number <span class="hint">(if known)</span></label>
+                    <input class="uikit-text-input input-half" name="service_number" id="service_number" type="text" value="123 456 789 K" required aria-required="true" />
+                  </div>
+                  <div style="display:none" id="type-of-service" class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="radio-buttons">Type of service</label>
+                    <select class="uikit-text-input input-half" id="drop-down" name="drop-down">
+                      <option>-- Select a type --</option>
+                      <option>Permanent</option>
+                      <option>Reservist</option>
+                    </select>
+                  </div>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="date">Date of enlistment
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day" />
+                    /
+                    <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month" />
+                    /
+                    <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year" />
+                  </div>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="date">Date of discharge
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day" />
+                    /
+                    <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month" />
+                    /
+                    <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;OR&nbsp;&nbsp;&nbsp;&nbsp;<label class="uikit-control-input">
+                      <input class="uikit-control-input__input" type="checkbox" name="" id="">
+                      <span class="uikit-control-input__text">Still serving</span>
+                    </label>
+                  </div>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="radio-buttons">Branch of service</label>
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="radio-ex" />
+                        <span class="uikit-control-input__text">Navy</span>
+                      </label>
+                    </p>
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="radio-ex" />
+                        <span class="uikit-control-input__text">Army</span>
+                      </label>
+                    </p>
+                    <p class="uiToolKitCheckBox">
+                      <label class="uikit-control-input">
+                        <input class="uikit-control-input__input" type="radio" name="radio-ex" />
+                        <span class="uikit-control-input__text">Airforce</span>
+                      </label>
+                    </p>
+                  </div>
+                </form>
+                <hr />
+                <div class="form-group margin-above--none">
+                  <button id="service-period-add" class="uikit-btn">
+                    &nbsp;&nbsp;&nbsp; Save &nbsp;&nbsp;&nbsp;
+                  </button>
+                  &nbsp;<button id="service-period-cancel" class="uikit-btn uikit-btn--tertiary">
+                    &nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- OP card -->
+            <div id="operation-card" class="boxed margin-above margin-below--large" style="display: none;">
+              <h2 class="margin-above--none" style="display: inline-block;">
+                <icon class="fal fa-map-marker-alt" style="font-size: 1.7em; vertical-align: -15%;"></icon>&nbsp;<span class="font-weight-heavy">Operation</span>
+              </h2><button id="deleteButtonOP" class="uikit-btn uikit-btn--tertiary small warning floated">&nbsp;Delete item&nbsp;</button>
+              <div id="card-details" class="margin-below--large">
+                <form id="myFormOP">
+                  <input type="reset" style="display:none">
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="drop-down">Conflict</label>
+                    <input type="reset" style="display:none">
+                    <select class="uikit-text-input input-half" id="region-select" name="drop-down">
+                      <option selected="selected">-- Select region --</option>
+                      <option>Afghanistan</option>
+                      <option>East Timor/Timor-Leste</option>
+                      <option>Rwanda</option>
+                      <option>Iraq</option>
+                      <option>Iraq and Western Asia</option>
+                      <option>Sierra Leone</option>
+                      <option>Vietnam</option>
+                      <option>Western Asia, Souhern Asia, Central Asia, Northern Africa and Eatern Africa</option>
+                      <option>The Land Area, Territorial Waters and Superjacent Airspace of Iraq and Syria</option>
+                    </select>
+                  </div>
+                  <div class="form-group margin-above--large" id="operations" style="display:none;">
+                    <div class="uikit-text-input__label-wrapper--inline-block"><label class="uikit-text-input__label" for="drop-down">Operation name</label></div>
+                    <div class="tooltip">
+                      <div id="gender-tt-label" class="tooltip__control" tabindex="0" role="button" aria-controls="gender-tt-message" aria-expanded="false">
+                        <div class="tooltip__label tooltip__label--icon-only">
+                          <a>Operations help</a>
+                        </div>
+                        <div class="tooltip__tab"></div>
+                      </div>
+                      <div id="gender-tt-message" class="tooltip__content" aria-labelledby="gender-tt-label" role="region" tabindex="-1" aria-hidden="true">
+                        <div class="tooltip__message">If you are unable to find the operation in the list provided, please call DVA on 1800 555 254. </div>
+                        <div class="tooltip__close" role="button" tabindex="0">Close</div>
+                      </div>
+                    </div>
+                    <div>
+                      <input type="reset" style="display:none">
+                      <select style="display:none;" class="uikit-text-input input-half" id="select-operation-afghanistan" name="drop-down" onchange="typeSelected()">
+                        <option selected="selected">-- Select an operation --</option>
+                        <option>Operation Ariki</option>
+                        <option>Operation Athena</option>
+                        <option>Operation Enduring Freedom</option>
+                        <option>Operation Herrick</option>
+                        <option>Operation Highroad</option>
+                        <option>International Security Assist</option>
+                        <option>Operation Palate</option>
+                        <option>Operation Palate II</option>
+                        <option>Operation Slipper</option>
+                      </select>
+                      <select style="display:none;" class="uikit-text-input input-half" id="select-operation-east-timor" name="drop-down" onchange="typeSelected()">
+                        <option selected="selected">-- Select an operation --</option>
+                        <option>Operation Citadel</option>
+                        <option>Operation Faber (Unamet)</option>
+                        <option>Operation Stabilise</option>
+                        <option>Operation Tanager</option>
+                        <option>Operation Warden</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group margin-above--large" id="operation-other" style="display: none;">
+                    <label class="uikit-text-input__label" for="tags">What was the name of the operation?</label>
+                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                  </div>
+                  <div class="form-group margin-above--large" id="operation-other">
+                    <label class="uikit-text-input__label" for="tags">Unit/Ship/Squadron<span class="hint">(optional)</span></label>
+                    <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
+                  </div>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="date">Start date
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                    <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                    <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                  </div>
+                  <div class="form-group margin-above--large">
+                    <label class="uikit-text-input__label" for="date">End date
+                      <span class="hint">(dd / mm / yyyy)</span>
+                    </label>
+                    <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2" required aria-required="true" aria-label="2 digit day"> /
+                    <input class="uikit-text-input mm" type="number" name="mm-date" id="mm-date" maxlength="2" required aria-required="true" aria-label="2 digit month"> /
+                    <input class="uikit-text-input yyyy" type="number" name="yyyy-date" id="yyyy-date" maxlength="4" required aria-required="true" aria-label="4 digit year">
+                  </div>
+                </form>
+                <hr>
+                <div id="buttonset2" class="form-group margin-above--none">
+                  <button class="uikit-btn" id="operation-add">&nbsp;&nbsp;&nbsp; Save &nbsp;&nbsp;&nbsp;</button> &nbsp;<button class="uikit-btn uikit-btn--tertiary"
+                    id="operation-cancel">&nbsp;&nbsp;&nbsp;
+                    Cancel &nbsp;&nbsp;&nbsp;</button>
+                </div>
+              </div>
+            </div>
+            <!-- End OP card -->
+            <!-- SP card end -->
+            <div id="client-list" style="min-height: 400px; display: none;">
+              <!-- SP summary card -->
+              <div id="service-period-summary" class="sp-summary plain-text-info" style="display: none;">
+                <div class="row">
+                  <div class="review__content--label col-sm-10">
+                    <h2>Navy</h2>
+                    <p class="margin-below--none">Permanent</p>
+                    <p class="margin-below--none margin-above--mid">12/11/1998 &mdash; 14/01/2015</p>
+                  </div>
+                  <div class="col-sm-2" style="margin: 0; text-align: right;"><button id="edit-service-period"
+                      class="uikit-btn uikit-btn--tertiary small reversed">&nbsp;Edit&nbsp;</button>
+                  </div>
+                </div>
+              </div>
+              <!-- SP summary card end -->
+              <!-- OP summary card -->
+              <div id="ops" style="display: none;">
+                <div id="op-summary" class="op-summary-container">
+                  <div id="timeline" class="timeline"></div>
+                  <div id="op-summary-1" class="op-summary plain-text-info" style="display: none;">
+                    <div class="row">
+                      <div class="review__content--label col-sm-10">
+                        <h2>War on terrorism</h2>
+                        <p class="margin-below--none">Operation Athena</p>
+                        <p class="margin-below--none margin-above--mid">13/12/2006 &mdash; 07/01/2007</p>
+                      </div>
+                      <div class="col-sm-2" style="margin: 0; text-align: right;"><button id="op-edit" class="op-edit uikit-btn uikit-btn--tertiary small">&nbsp;Edit&nbsp;</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- End OP summary card -->
+              <button class="uikit-btn uikit-btn--tertiary margin-above" id="add-operation" style="margin: 19px 0 0 33px; display: none;">&nbsp;Add operation / warlike
+                service</button>
+              <!-- SP summary card 2 -->
+              <div id="service-period-summary-2" class="sp-summary plain-text-info margin-above--extra" style="display: none;">
+                <div class="row">
+                  <div class="review__content--label col-sm-10">
+                    <h2>Army</h2>
+                    <p class="margin-below--none">Permanent</p>
+                    <p class="margin-below--none margin-above--mid">12/11/2016 &mdash; Still serving</p>
+                  </div>
+                  <div class="col-sm-2" style="margin: 0; text-align: right;"><button id="edit-service-period-2"
+                      class="uikit-btn uikit-btn--tertiary small reversed">&nbsp;Edit&nbsp;</button>
+                  </div>
+                </div>
+              </div>
+              <!-- SP summary card 2 end -->
+              <button class="uikit-btn uikit-btn--tertiary margin-above" id="add-operation-2" style="margin: 19px 0 0 33px; display: none;">&nbsp;Add operation / warlike
+                service</button>
+            </div>
+            <div id="add-service-period-footer" class="margin-above--extra" style="display: none;">
+              <div style="height: 1px; background-color: #1057a7;" class="margin-below--mid"></div>
+              <button id="add-another-service-period" class="icon-link-button">
+                <icon class="icon far fa-plus-circle"></icon>
+                <span class="link">Add another service period</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- bottom page navigation -->
+        <div class="pagination" style="position: relative;">
+          <div id="footer-buttons-mask" style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/qualifying-service/qs-1'">
+            Previous
+          </button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">
+            Cancel claim
+          </button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">
+              Save and exit
+            </button>
+            <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">
+              Save and next
+            </button>
+          </div>
+        </div>
+        <!-- col-md-12 end -->
+      </div>
+      <!-- row end -->
+      <!-- container end -->
+    </div>
+  </main>
+  <%- include(partials+"content/modals/claims-cancel-modal") %>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+<script>
+  $(Document).ready(function () {
+
+    if (sessionStorage.getItem('commonwealth-allied') != 'yes') {
+      $("#type-of-service").show("fast");
+    } else {
+      $("#type-of-service").hide();
+    }
+
+    /* Clicks on 'add service' button */
+    $("#add-service").click(function () {
+      hideAll();
+      $("#footer-buttons-mask").show();
+      $("#myFormSP").trigger("reset");
+      $("#service-period-add").html("Save");
+      $("#service-period-card").show("fast");
+      $("#deleteButtonSP").hide();
+    });
+
+    /* Clicks save */
+    var firstServicePeriodAdded = false;
+    $("#service-period-add").click(function () {
+      hideAll();
+      firstServicePeriodAdded = true;
+      $("#client-list").show();
+      $("#add-operation").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      if (addingSecondSP) {
+        $("#service-period-summary-2").show("fast");
+        $("#add-operation-2").show("fast");
+        $("#ops").show();
+        $("#client-list").show();
+      }
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks cancel */
+    $("#service-period-cancel").click(function () {
+      hideAll();
+      if (addingSecondSP) {
+        $("#ops").show();
+        $("#client-list").show();
+        $("#add-operation").show();
+        $("#add-service-period-footer").show();
+        $("#service-period-summary").show("fast");
+      } else {
+        $("#add-service").show();
+        $("#message").show();
+      }
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks edit on SP summary */
+    $("#edit-service-period").click(function () {
+      hideAll();
+      $("#service-period-add").html("Update");
+      $("#service-period-card").show("fast");
+      $("#deleteButtonSP").show();
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks on 'add operation' button */
+    $("#add-operation").click(function () {
+      hideAll();
+      $("#operation-add").html("Save");
+      $("#myFormOP").trigger("reset");
+      $("#footer-buttons-mask").show();
+      $("#operation-card").show("fast");
+      $("#deleteButtonOP").hide();
+    });
+
+    /* Clicks 'add' in operation card */
+    var firstSummaryAdded = false;
+    $('#operation-add').click(function () {
+      hideAll();
+      $("#client-list").show();
+      $("#ops").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      $("#add-operation").show();
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+      if (firstSummaryAdded) {
+        $('#op-summary').clone(true, true).appendTo('#ops');
+      } else {
+        $('#op-summary-1').show();
+      }
+      firstSummaryAdded = true;
+    });
+
+    /* Clicks 'cancel' in operation card */
+    $('#operation-cancel').click(function () {
+      hideAll();
+      $("#client-list").show();
+      $("#ops").show();
+      $("#add-service-period-footer").show();
+      $("#service-period-summary").show("fast");
+      $("#add-operation").show();
+      $("#add-service-period-footer").show();
+      $("#timeline-1").show();
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+    });
+
+    /* Clicks edit on OP summary */
+    $(".op-edit").click(function () {
+      hideAll();
+      $("#deleteButtonOP").show();
+      $("#operation-add").html("Update");
+      $("#footer-buttons-mask").show();
+      $("#operation-card").show("fast");
+      $("html, body").animate({
+          scrollTop: $("#main-content").offset().top
+        },
+        1000
+      );
+    });
+
+    /* Clicks on 'add another service period' */
+    var addingSecondSP = false;
+    $('#add-another-service-period').click(function () {
+      hideAll();
+      addingSecondSP = true;
+      $("#deleteButtonSP").hide();
+      $("#footer-buttons-mask").show();
+      $("#myFormSP").trigger("reset");
+      $("#service-period-add").html("Add");
+      $("#service-period-card").show("fast");
+      $('html, body').animate({
+        scrollTop: $("#main-content").offset().top
+      }, 1000);
+    });
+
+    /* Selects conflict/region in open card */
+    $("#region-select").change(function () {
+      mySelection = $('#region-select :selected').val();
+      hideOperationLists();
+      switch (mySelection) {
+        case "Afghanistan":
+          $("#select-operation-afghanistan").show();
+          $("#operations").show();
+          break;
+        case "East Timor/Timor-Leste":
+          $("#select-operation-east-timor").show();
+          $("#operations").show();
+          break;
+        case "vietnam":
+          $("#operations").hide();
+          break;
+        default:
+          $("#operations").hide();
+      }
+    });
+
+    function hideOperationLists() {
+      $("#select-operation-afghanistan").hide();
+      $("#select-operation-east-timor").hide();
+    }
+
+    function hideAll() {
+      $("#client-list").hide();
+      $("#timeline-1").hide();
+      $("#footer-buttons-mask").hide();
+      $("#ops").hide();
+      $("#add-service").hide();
+      $("#service-period-card").hide();
+      $("#message").hide();
+      $("#service-period-summary").hide();
+      $("#add-operation").hide();
+      $("#add-service-period-footer").hide();
+      $("#operation-card").hide();
+      $("#alert-no-service").hide();
+      $("#alert-no-ops").hide();
+    }
+
+    window.checkSaveAndNext = function () {
+      if (!firstServicePeriodAdded) {
+        $("#alert-no-service").show("fast");
+        $("body,html").animate({
+            scrollTop: 0 // set to half way down the screen
+          },
+          700
+        );
+        return;
+      }
+      if (!firstSummaryAdded) {
+        $("#alert-no-ops").show("fast");
+        $("body,html").animate({
+            scrollTop: 0 // set to half way down the screen
+          },
+          700
+        );
+        return;
+      }
+
+      myNav = "/auth/claim/qualifying-service/qs-3";
+      if (sessionStorage.getItem('commonwealth-allied') == 'yes') myNav = "/auth/claim/qualifying-service/qs-2a";
+      // myNav = "#open-ops-modal"
+      window.location.href = myNav;
+    }
+  });
+
+  function typeSelected(event) {
+    var field = document.getElementById("operation-other");
+    var select = document.getElementById("operation-name");
+    var selectedString = select.options[select.selectedIndex].value;
+    if (selectedString == "Other") {
+      field.style.display = 'block';
+    } else {
+      field.style.display = 'none';
+    }
+  }
+
+</script>
+
+</html>
