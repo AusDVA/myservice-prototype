@@ -1,0 +1,188 @@
+<!-- Summary card -->
+<div id="real-estate-update-summary" class="box boxed">
+  <div class="box__header">
+    <h2 class="box__heading">
+      <i class="fal fa-home fontawesome-icon"></i>
+      <span class="font-weight-heavy">Real estate</span>
+    </h2>
+    <button class="uikit-btn uikit-btn--tertiary small"
+      onClick="editCard('real-estate-update');">&nbsp;Edit&nbsp;</button>
+  </div>
+  <div class="box__table">
+    <div class="tr">
+      <div class="td"><b>What type of property do you have?</b></div>
+      <div class="td">Town house</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Who owns the property?</b></div>
+      <div class="td">Myself</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>The address of the property:</b></div>
+      <div class="td">17 Toorak Lane, Smithfield, ACT 2604 </div>
+    </div>
+  </div>
+  <div class="status-label status-label--edited margin-above" style="display: none !important;">EDITED</div>
+</div>
+
+<!-- Summary card deleted-->
+<div id="real-estate-update-summary-deleted" class="box boxed box--deleted" style="display: none;">
+  <div class="box__header ">
+    <h2 class="box__heading disabled-opacity">
+      <i class="fal fa-home fontawesome-icon"></i>
+      <span class="font-weight-heavy">Real estate</span>
+    </h2>
+    <button class="uikit-btn uikit-btn--tertiary small"
+    onClick="undoDeletePrePop('real-estate-update');">&nbsp;Undo delete&nbsp;</button>
+  </div>
+  <div class="box__table disabled-opacity">
+    <div class="tr">
+      <div class="td"><b>What type of property do you have?</b></div>
+      <div class="td">Town house</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Who owns the property?</b></div>
+      <div class="td">Myself</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>The address of the property:</b></div>
+      <div class="td">17 Toorak Lane, Smithfield, ACT 2604 </div>
+    </div>
+  </div>
+  <div class="status-label status-label--deleted margin-above" style="display: none;">DELETED</div>
+</div>
+
+<!-- Open card -->
+<div id="real-estate-update-card" class="box boxed box--open" style="display: none;">
+  <div class="delete-content" hidden>
+    <h2 class="margin-above--none" style="display: inline-block;"><span
+        class="fal fa-home fontawesome-icon"></span><span class="font-weight-heavy">Real estate
+      </span></h2>
+    <hr style="margin-top: 10px; max-bottom: 0;">
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of change/disposal"
+    }); %>
+   
+    <div class="pagination pagination--ss-reverse-order   margin-above--extra" id="pagination700">
+      <a href="#" id="delete-bank-account" class="uikit-btn"
+        onClick="confirmDeletePrePop('real-estate-update')">Delete</a>
+      <a href="#" id="cancel-delete" class="uikit-btn uikit-btn--tertiary" onClick="cancelDeletePrePop()">Cancel</a>
+    </div>
+  </div>
+  <div class="edit-content">
+   
+    <div class="box__header">
+      <h2 class="margin-above--none" style="display: inline-block;"><span
+          class="fal fa-home fontawesome-icon"></span><span class="font-weight-heavy">Real estate
+        </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button "
+        onclick="deletePrePop('real-estate-update');">&nbsp;Delete item&nbsp;</button>
+    </div>
+    <div id="card-details" class="margin-below--large">
+      <!-- <h3>Last submitted:</h3> -->
+      <div class="box__table">
+        <div class="tr">
+          <div class="td"><b>Type of property</b></div>
+          <div class="td">Town house</div>
+        </div>
+        <div class="tr">
+          <div class="td"><b>Owner</b></div>
+          <div class="td">Myself</div>
+        </div>
+        <div class="tr">
+          <div class="td"><b>Address</b></div>
+          <div class="td">255 Goyder st</div>
+        </div>
+      </div>
+      <hr>
+      <form id="myForm">
+        <input type="reset" style="display:none">
+
+        <%- include(partials+"components/form-partials/text", {
+        label: "Property valuation",
+        modifiers: ["dollarSign"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+        label: "Are you receiving income from this property?",
+        yes_toggle: "#income"
+      }); %>
+
+      <did id="income" hidden>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "Income received from property",
+        modifiers: ["dollarSign"]
+      }); %>
+
+      <%- include(partials+"components/form-partials/dropdown", {
+        label: "Frequency",
+        options: [
+          "-- Select an option --",
+          "Weekly",
+          "Fortnightly",
+          "Monthly",
+          "Quarterly",
+          "Annually"
+        ]
+      }); %>
+
+    </did>
+
+      <%- include(partials+"components/form-partials/textarea", {
+        label: "Tell us about any updates to the property?",
+        hint: "(optional) <BR />For example update to address, upgrades affecting valuation, or percentage owned."
+      }); %>
+
+
+
+
+<%- include(forms+"yes_no", {
+        label: "Do you give permission for DVA's licensed valuer to enter and inspect the property?",
+        yes_toggle: "#valuer"
+      }) %>
+
+<div id="valuer" hidden>
+  <%- include(forms+"notice", {
+          message: `<p>A valuer will enter and inspect the property for the purposes of a valuation in relation to the <em>Social Security (Administration) Act 1999</em> and the <em>Veterans’ Entitlements Act 1986.</em></p>
+            <p>I understand that if the property to be inspected is not occupied by the owner, it is my responsibility to give the actual occupant reasonable notice, or such notice as is required by agreement, of the possible inspection.</p>
+            <p>This authorisation does not permit the valuer to enter the home of the tenant, or any dwelling that the tenant may own, during the inspection, unless invited to do so.</p>
+            <p>I further understand that DVA’s licensed valuer will contact the person noted below, to arrange a mutually convenient time for any necessary inspection of the property.</p>`
+        }) %>
+
+  <%- include(forms+"text", {
+          modifiers: ["inputFullLength"],
+          label: "Person to be contacted by valuer"
+        }) %>
+
+  <%- include(forms+"prepop/phone-number", {
+          label: "Contact person's daytime phone number"
+        }) %>
+</div>
+
+<%- include(forms+"notice", {
+  message: `<p>You will be required to provide the following in the documents section:</p>
+        <ul>
+          <li>Latest tax return include any partnership account balances, depreciation list and profit and loss statements.</li>
+          <li>Latest rates notice for all property held</li>
+          <li>Mortgage statment showing debts related to the propert</li>
+        </ul>`
+      }) %>
+
+      <%- include(partials+"components/form-partials/date", {
+        label: "When did the change occur?"
+      }); %>
+  
+
+      </form>
+    </div>
+    <hr>
+    <div id="buttonset2" class="form-group margin-above--none">
+      <button id="addButton" class="uikit-btn"
+        onclick="addSummary('real-estate-update');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button> &nbsp;<button
+        class="uikit-btn uikit-btn--tertiary"
+        onclick="cancelCard();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+    </div>
+  </div>
+</div>
+<!-- card end -->
+

@@ -1,9 +1,9 @@
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
+  claim: "Veteran Payment", 
   heading: "Review and submit"
 }) %>
 
-  <%- include(components+"review-submit", {
+<%- include(components+"review-submit", {
     claim_title: "Application for veteran payment",
     categories: [
       {
@@ -12,7 +12,7 @@
         data: [
           {
             q: "Are you unable to work more than 8 hours per week due to your medical conditions?",
-            a: "Yes"
+            a: "Yes (note this will only show if client has been asked this question during VP claim)"
           },
           {
             q: "Do you currently receive payments from Centrelink?",
@@ -190,13 +190,33 @@
       }
     ]
   }) %>
-  
-          
-  <%- include(forms+"pagination", {
+
+  <div id="have-requested" class="margin-below--extra">
+    <h2>Declaration</h2>
+    <div class="declaration">
+      <%- include(forms+"checkbox", {
+        modifiers: ["noMargin"],
+        boxes: [
+          {
+            text: "I agree to the following:",
+            id: "checkbox-agree"
+          }
+        ]
+      }) %>
+      <ol class="declaration__list">
+        <li>I declare that the information I have given <span class="partnered">about myself and/or my partner</span> is correct.</li>
+        <li>I understand that there are penalties for deliberately giving false or misleading information.</li>
+        <li>I authorise Australian Government Departments or agencies (including Centrelink and the Australian Tax Office) and other organisations to disclose to the Department of Veterans’ Affairs any information required to determine eligibility for veteran payment.</li>
+      </ol>
+    </div>
+  </div>
+
+
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
-        link: "/auth/claim/veteran-payment/veteran-payment-06",
+        link: "/auth/claim/veteran-payment/veteran-payment-07",
         id: "pagination-previous"
       },
       {
@@ -211,49 +231,52 @@
       {
         text: "Submit claim",
         link: "/auth/claim/veteran-payment/veteran-payment-09",
+        id: "submit",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<%- include("veteran-payment-state-switcher-02") %>
 
-  <script>
-    function stateSwitcher() {
-      if (immigrationStatus === "citizen") {
-        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-06")
-        $(".immigrant").hide();
-        $(".citizen").show();
-      } else {
-        $("#pagination-previous").attr("href", "/auth/claim/veteran-payment/veteran-payment-07")
-        $(".citizen").hide();
-        $(".immigrant").show();
-      }
+<script>
 
-      if (relationshipStatus === "single") {
-        $(".partnered").hide();
-        $(".single").show();
-        $(".citizen").hide();
-        $(".immigrant").hide();
-      } else {
-        $(".single").hide();
-        $(".partnered").show();
-      }
+  $("#submit").attr('disabled','disabled');
 
-      switch (relationshipStatus) {
-        case "single":
-          $(".user-label-a").text("your");
-          $(".user-label-b").text("");
-          break;
-        case "partnered":
-          $(".user-label-a").text("you and/or your partner's");
-          $(".user-label-b").text("by you and/or your partner");
-          break;
-        default:
-          break;
-      }
-
+  $('#checkbox-agree').change(function() {
+    if (this.checked) {
+      $("#submit").removeAttr('disabled');
+    } else {
+      $("#submit").attr('disabled','disabled');
     }
-  </script>
-  
+});
+
+  function stateSwitcher() {
+
+    if (relationshipStatus === "single") {
+      $(".partnered").hide();
+      $(".single").show();
+      $(".citizen").hide();
+      $(".immigrant").hide();
+    } else {
+      $(".single").hide();
+      $(".partnered").show();
+    }
+
+    switch (relationshipStatus) {
+      case "single":
+        $(".user-label-a").text("your");
+        $(".user-label-b").text("");
+        break;
+      case "partnered":
+        $(".user-label-a").text("you and/or your partner's");
+        $(".user-label-b").text("by you and/or your partner");
+        break;
+      default:
+        break;
+    }
+
+  }
+</script>
+
 <%- include(templates+"footer") %>

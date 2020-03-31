@@ -1,0 +1,52 @@
+<%- include(templates+"header", {
+  claim: "Qualifying Service",
+  heading: "Service history"
+}) %>
+
+  <%- include(content+"service-history", {modifiers: ["tellUs"]}) %>
+
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--extra",
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/qualifying-service/qs1"
+      },
+      {
+        text: "Cancel claim",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/claim",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "pag-save-next",
+        link: "/auth/claim/qualifying-service/qs3",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+  <script>
+    $(document).ready(function() {
+      $("#pag-save-next").on("click", function(e) {
+        if (!checkSaveAndNext()) {
+          e.preventDefault()
+        }
+        if (sessionStorage.getItem("commonwealth-allied") === "yes") {
+          $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs2a");
+        } else {
+          $("#pag-save-next").attr("href", "/auth/claim/qualifying-service/qs3");
+        }
+      })
+    })
+
+  </script>
+
+<%- include(templates+"footer") %>

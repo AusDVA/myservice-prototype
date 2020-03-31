@@ -7,11 +7,11 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 %>
 
 
-<div class="multi-name__container multi-date__container" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
+<div class="formPartials_previousNames multi-name__container multi-date__container <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" id="<%- id %>-container" <%- modifiers.includes("hidden") ? `style="display: none"` : "" %>>
   <button class="uikit-btn multi-date__button multi-date__button--add">Add</button>
 </div>
 
-<div class="multi-date" id="multi-date__template" style="display: none">
+<div class="multi-date" id="multi-name__template" style="display: none">
   <fieldset class="multi-date__row multi-date--start">
     <legend id="<%- id %>-start" class="multi-date__label legend-override">Given name <span class="hint"> (first name)</span></legend>
     <div class="multi-date__input-group">
@@ -30,34 +30,3 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     </div>
   </fieldset>
 </div>
-
-
-<script>
-
-$(document).ready(function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
-})
-
-
-
-$("#<%- id %>-container").on("click", ".multi-date__button--add", function() {
-  $("#multi-date__template").clone().removeAttr("id").removeAttr("style").insertBefore("#<%- id %>-container .multi-date__button--add");
-  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").val("");
-  $(this).closest(".multi-date__container").find(".multi-date").last().find(".multi-date__input").removeAttr("disabled");
-
-  $("#<%- id %>-container .multi-date").each(function(i) {
-    $(this).removeClass("multi-date--static");
-    $(this).find("input").removeAttr("disabled")
-    if (i < ($("#<%- id %>-container .multi-date").length) - 1) {
-      $(this).addClass("multi-date--static")
-      $(this).find("input").attr("disabled", "true")
-    }
-
-  })
-})
-
-$("#<%- id %>-container").on("click", ".multi-date__button--remove", function() {
-  $(this).closest(".multi-date").remove();
-});
-
-</script>

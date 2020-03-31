@@ -1,10 +1,15 @@
+<%
+  var progress = JSON.parse(include("c-progressbar")) 
+  progress.activeItem = 4;
+%>
+
 <!DOCTYPE html>
 <html class="js" lang="en">
 
 <head>
   <title>Service Pension - Financial details | Property &amp; business</title>
   <%- include(partials+"components/layout/head") %>
-    <script src="/docs/js/income-assets.js"></script>
+  <script src="/docs/js/income-assets.js"></script>
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor">
@@ -15,140 +20,112 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
   <%- include(partials+"components/layout/header-topbar") %>
-    <%- include(partials+"components/layout/header-nom-rep") %>
-      <main>
-        <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-          <div class="container margin-above--none">
-            <!-- Progress bar -->
-            <div class="col-md-12">
-              <nav>
-                <ul class="progress-container">
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c1">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Savings</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c2">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Investments</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c3">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Income</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step--active">
-                    <a href="/auth/claim/service_pension/sp-c4">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Property &amp; businesses</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step">
-                    <a href="/auth/claim/service_pension/sp-c5">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Other assets</p>
-                    </a>
-                  </li>
-                  <li class="progress-step progress-step--last">
-                    <a href="/auth/claim/service_pension/sp-c6">
-                      <span class="progress-step__icon"></span>
-                      <p class="progress-step-label">Additional circumstances</p>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content"
+      class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container">
+        <%- include(forms+"progress-advanced", progress) %>
+      </div>
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Property &amp; businesses</span></h1>
+    </div>
+    <section>
+      <div class="container margin-above margin-below--extra">
+        <div class="row">
+          <div class="col-md-offset-2 col-md-8 margin-below--large">
+            <div id="user-list">
+              <hr class="margin-below--none">
+              <span class="fal fa-list-alt fa-icons"></span>
+              <h2 class="margin-above--none heading-width"><span class="partner-label">My</span> property &amp;
+                businesses</h2>
+              <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="scrollToAdd();">
+                <p style="margin-top: 10px;">
+                  <span class="fal fa-plus-circle fa-icons"></span>Add another property or businesses
+                </p>
+              </div>
+            </div>
+            <div id="add-anchor-link-start" class="cursor-pointer" onClick="scrollToAdd();">
+              <p class="margin-above--extra ss-align--center">
+                <span class="fal fa-plus-circle fa-icons"></span>Add property or businesses
+              </p>
+            </div>
+            <!-- Cards -->
+            <%- include(partials+"content/income-assets/income-assets--real-estate") %>
+            <%- include(partials+"content/income-assets/income-assets--businesses") %>
+            <%- include(partials+"content/income-assets/income-assets--farm") %>
+            <!-- Tiles -->
+            <div id="add-options">
+              <hr>
+              <h2 class="margin-above--none margin-below--none ss-align--center"><span
+                  class="font-weight-heavy">Property &amp; businesses</span></h2>
+
+              <span class="hint display-block ss-align--center">Add each of the below currently owned or held<span
+                  class="partner"> by you and/or your partner</span>.
+
+                <div class="flex-container flex-container--wrap hover-container">
+                  <%- include(partials+"content/income-assets/income-assets--tile--real-estate") %>
+                  <%- include(partials+"content/income-assets/income-assets--tile--businesses") %>
+                  <%- include(partials+"content/income-assets/income-assets--tile--farm") %>
+                </div>
             </div>
           </div>
-          <!-- Page heading -->
-          <h1 class="margin-above--none ss-align--center">
-            <span class="heading">Property &amp; businesses</span></h1>
         </div>
-        <section>
-          <div class="container margin-above margin-below--extra">
-            <div class="row">
-              <div class="col-md-offset-2 col-md-8 margin-below--large">
-                <div id="user-list">
-                  <hr class="margin-below--none">
-                  <span class="fal fa-list-alt fa-icons"></span>
-                  <h2 class="margin-above--none heading-width"><span class="partner-label">My</span> property &amp; businesses</h2>
-                  <div id="add-anchor-link-return" class="cursor-pointer-right" onClick="scrollToAdd();">
-                    <p style="margin-top: 10px;">
-                      <span class="fal fa-plus-circle fa-icons"></span>Add another property or businesses
-                    </p>
-                  </div>
-                </div>
-                <div id="add-anchor-link-start" class="cursor-pointer" onClick="scrollToAdd();">
-                  <p class="margin-above--extra ss-align--center">
-                    <span class="fal fa-plus-circle fa-icons"></span>Add property or businesses
-                  </p>
-                </div>
-                <!-- Cards -->
-                <%- include(partials+"content/income-assets/income-assets--real-estate") %>
-                  <%- include(partials+"content/income-assets/income-assets--businesses") %>
-                    <%- include(partials+"content/income-assets/income-assets--farm") %>
-                      <!-- Tiles -->
-                      <div id="add-options">
-                        <hr>
-                        <h2 class="margin-above--none margin-below--none ss-align--center"><span class="font-weight-heavy">Property &amp; businesses</span></h2>
-                        <span class="hint display-block ss-align--center">Add all of your <span class="partner">(and/or your partner's)</span> properties and businesses, so we can calculate
-                          your payments.</span>
-                        <div class="flex-container flex-container--wrap hover-container">
-                          <%- include(partials+"content/income-assets/income-assets--tile--real-estate") %>
-                            <%- include(partials+"content/income-assets/income-assets--tile--businesses") %>
-                              <%- include(partials+"content/income-assets/income-assets--tile--farm") %>
-                        </div>
-                      </div>
-              </div>
-            </div>
-            <!-- bottom page navigation -->
-            <BR />
-            <BR />
-            <BR />
-            <BR />
-            <div class="pagination" style="position: relative;">
-              <div id="footer-buttons-mask" style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;"></div>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/sp-c3'">Previous</button>
-              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel claim</button>
-              <div class="floated">
-                <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and exit</button>
-                <button class="uikit-btn btnNext" onclick="window.location.href = 'sp-c5'">Next</button>
-              </div>
-            </div>
+        <!-- bottom page navigation -->
+        <BR />
+        <BR />
+        <BR />
+        <BR />
+        <div class="pagination container container--8-column" style="position: relative;">
+          <div id="footer-buttons-mask"
+            style="background-color: #ffffff; opacity: .5; position: absolute; width: 100%; height: 100%; z-index: 10; display: none;">
           </div>
-        </section>
-      </main>
-      <%- include(partials+"components/layout/footer") %>
-        <script>
-          $(Document).ready(function () {
+          <button class="uikit-btn uikit-btn--tertiary"
+            onclick="window.location.href = '/auth/claim/service_pension/sp-c3'">Previous</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel
+            claim</button>
+          <div class="floated">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and
+              exit</button>
+            <button class="uikit-btn btnNext" onclick="window.location.href = 'sp-c5'">Next</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(document).ready(function () {
 
-            $(document).keypress(function (e) {
-              switch (e.which) {
-                case 49:
-                  hidePartner();
-                  break;
-                case 50:
-                  showPartner();
-                  break;
-                default:
-              }
-            });
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 49:
+            hidePartner();
+            break;
+          case 50:
+            showPartner();
+            break;
+          default:
+        }
+      });
 
-            function showPartner() {
-              $(".partner").show();
-              $(".partner-label").text("Our");
-            }
+      function showPartner() {
+        $(".partner").show();
+        $(".partner-label").text("Our");
+      }
 
-            function hidePartner() {
-              $(".partner").hide();
-              $(".partner-label").text("My");
-            }
+      function hidePartner() {
+        $(".partner").hide();
+        $(".partner-label").text("My");
+      }
 
-          });
-        </script>
+      $("form").on("submit", function (e) {
+        e.preventDefault();
+      })
+
+    });
+  </script>
 </body>
 
 </html>

@@ -1,42 +1,57 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 5;
+
+%>
+
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Living arrangements"
+  claim: "Veteran Payment", 
+  heading: "Living arrangements",
+  progress
 }) %>
 
-  <%- include(partials+"components/form-partials/radio", {
+<%- include(partials+"components/form-partials/radio", {
     label: "Which of the following best describes your current living arrangements?",
+    id: "accomodation-type",
     boxes: [
       {
-        text: "Home",
-        toggle: "#save-next"
+        text: "A home I own"
       },
       {
-        text: "Private rental",
-        toggle: "#rent",
+        text: "Private rental"
       },
       {
-        text: "Other",
-        toggle: "#other-living-arrangements-container"
+        text: "In public housing",
+        tooltip: {
+          content: "You pay rent to a State or Territory government housing authority."
+        }
+      },
+      {
+        text: "In free accomodation"
+      },
+      {
+        text: "Other"
       }
     ]
   }); %>
 
-  <%- include(forms+"textarea", {
+<%- include(forms+"textarea", {
     id: "other-living-arrangements",
     label: "Briefly describe your current living arrangements:",
     modifiers: ["hidden"],
     rows: 3
   }) %>
 
-  <div id="rent" class="text-and-select margin-below--extra" hidden>
-    <%- include(forms+"text", {
+<div id="rent" class="text-and-select margin-below--extra" hidden>
+  <%- include(forms+"text", {
       customClass: "text-and-select__text",
-      modifiers: ["dollarSign", "inputShort"],
+      modifiers: ["dollarSign"],
       label: "How much rent do you pay?",
       placeholder: "0.00"
     }) %>
 
-    <%- include(forms+"dropdown", {
+  <%- include(forms+"dropdown", {
       customClass: "text-and-select__select",
       modifiers: ["inputShort"],
       label: "Per",
@@ -48,13 +63,72 @@
         "Annually"
       ]
     }) %>
-    
-  </div>
+</div>
+
+<%- include(forms+"notice", {
+    message: "<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p><p>If you don't have one, you may attach a copy of the latest rent receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>",
+    id: "rental-info",
+    modifiers: ["hidden"]
+  }) %>
+
+<div id="meals" class="text-and-select margin-below--extra" hidden>
+  <%- include(forms+"text", {
+      customClass: "text-and-select__text",
+      modifiers: ["dollarSign"],
+      label: "Amount paid for meals:",
+      placeholder: "0.00"
+    }) %>
+
+  <%- include(forms+"dropdown", {
+      customClass: "text-and-select__select",
+      modifiers: ["inputShort"],
+      label: "Per",
+      options: [
+        "-- Select frequency --",
+        "Weekly",
+        "Fortnightly",
+        "Monthly",
+        "Annually"
+      ]
+    }) %>
+</div>
+
+<div id="board-lodging" class="text-and-select margin-below--extra" hidden>
+  <%- include(forms+"text", {
+      customClass: "text-and-select__text",
+      modifiers: ["dollarSign"],
+      label: "Amount paid for lodging",
+      placeholder: "0.00"
+    }) %>
+
+  <%- include(forms+"dropdown", {
+      customClass: "text-and-select__select",
+      modifiers: ["inputShort"],
+      label: "Per",
+      options: [
+        "-- Select frequency --",
+        "Weekly",
+        "Fortnightly",
+        "Monthly",
+        "Annually"
+      ]
+    }) %>
+</div>
+
+<div id="free-accomodation" hidden>
+  <%- include(forms+"date", {
+      label: "On what date did you move in to this accomodation?"
+    }) %>
+
+  <%- include(forms+"prepop/address", {
+      label: "Address"
+    }) %>
+</div>
 
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -77,31 +151,39 @@
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<script>
+  $("#accomodation-type-container").on("change", "input", function () {
+    $("#save-next").hide();
+    $("#rent").hide();
+    $("#board-lodging").hide();
+    $("#meals").hide();
+    $("#rental-info-container").hide();
+    $("#free-accomodation").hide();
+    $("#other-living-arrangements-container").hide();
 
-  <script>
-    $(document).ready(function () {
 
-      $('input[name=postal]').change(function () {
-        var postal = $('input[name=postal]:checked').val();
-        if (postal == "yes") {
-          $("#postal-reason").show("fast");
-          $("#save-next").hide();
-        } else {
-          $("#postal-reason").hide();
-          $("#save-next").hide();
-        }
-      });
+    switch ($("#accomodation-type-container :checked").val()) {
+      case "ahomeiown":
+        $("#save-next").show();
+        break;
+      case "privaterental":
 
-      $('input[name=update_address]').change(function () {
-        var updateAddress = $('input[name=update_address]:checked').val();
-        if (updateAddress == "yes") {
-          $("#save-next").show("fast");
-        } else {
-          $("#save-next").show("fast");
-        }
-      });
+        $("#rental-info-container").show();
+        $("#rent").show()
+        break;
+      case "inpublichousing":
+        $("#save-next").show();
+        break;
+      case "infreeaccomodation":
+        $("#save-next").show();
+        break;
+      case "other":
+        $("#other-living-arrangements-container").show();
+        break;
+    }
+  })
 
-    });
-  </script>
+
+</script>
+
 <%- include(templates+"footer") %>

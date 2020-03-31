@@ -1,47 +1,9 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<%- include(templates+"header", {
+  title: "Initial Liability",
+  heading: "Claim Representative"
+})%>
 
-<head>
-  <title>Add claim: Diagnosis | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-  <style>
-    .pt-requigulred-docs,
-    .pt-no-required-docs,
-    .pt-upload-list,
-    .pt-upload-list-optional,
-    .pt-upload-other-docs,
-    .pt-medical-prac {
-      display: none;
-    }
-
-  </style>
-</head>
-
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-claims") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-
-  <main>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
-          <div class="margin-above--extra margin-below--extra">
-            <div id="progressbar">
-              <div id="percentage">
-                <p id="percentage_value"></p>
-              </div>
-
-            </div>
-            <h1>Claim representative</h1>
-
-            <div class="margin-above--extra margin-below--extra">
+            <div class="margin-below--extra">
               <div class="form-group">
                 <label class="legend-label margin-below--none">Do you wish to nominate a claim representative for this claim?<span class="hint display-block">Your representative
                     can receive updates and make queries about this claim on your behalf.</span></label>
@@ -75,10 +37,11 @@
                   <label class="uikit-text-input__label" for="tags">Organisation / business name (if applicable)</label>
                   <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
                 </div>
-                <div class="form-group">
-                  <label class="uikit-text-input__label" for="tags">Contact phone number</label>
-                  <input class="uikit-text-input" name="tags" id="tags" type="text" value="">
-                </div>
+                
+                <%- include(forms+"prepop/phone-number", {
+                  label: "Contact phone number"
+                }) %>
+
                 <div class="form-group">
                   <label class="uikit-text-input__label" for="tags">Email Address
                     <span class="hint">(optional)</span>
@@ -114,10 +77,6 @@
   <%- include(partials+"components/layout/footer") %>
 
   <script>
-    // Progress percentage
-    document.getElementById("percentage").style.width = "95%";
-    document.getElementById("percentage_value").textContent = "95%";
-
     $("#rep-nominate-yes").click(function () {
       $("#claim-contact-details").show("fast");
     });

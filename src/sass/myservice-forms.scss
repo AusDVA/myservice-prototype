@@ -27,7 +27,7 @@
     &:disabled {
       background-color: $gray-light !important;
       border: 1px solid $gray-mid;
-      color: $gray;
+      color: $gray !important;
 
       &:focus,
       &:hover {
@@ -1034,16 +1034,18 @@ label {
 }
 
 .radio-icon__text {
+  word-break: break-word;
   margin-left: 0.5em;
   display: flex;
-  text-align: center;
-
+  padding-left: 0.5em;
+  text-align: left;
   justify-content: center;
   align-items: center;
 }
 
 .radio-icon__control {
   display: none;
+  position: relative;
 }
 
 .radio-icon__control:checked ~ .radio-icon__label {
@@ -1069,7 +1071,7 @@ label {
 
 @media screen and (min-width: $AU-media-md) {
   .radio-icon {
-    width: unset;
+    width: 23%;
     margin: 0 0.25em 0.25em 0;
   }
 
@@ -1085,7 +1087,8 @@ label {
 
   .radio-icon__label {
     flex-direction: column;
-    padding: 1.75em 2em;
+    padding: 1.65em 0.7em 0.7em;
+    height: 100%;
   }
 
   .radio_icons__icon:before {
@@ -1094,10 +1097,13 @@ label {
 
 
   .radio-icon__text {
-    margin-left: unset;
-    margin-top: 1.6em;
-    width: 10rem;
+    margin: 0.2em auto 0.5em;
+    width: 100%;
     height: 3.125rem;
+    padding: 0.5em 0 0 0;
+    flex: 1 0 auto;
+    display: block;
+    text-align: center;
   }
 
   .radio-icons {
@@ -1105,11 +1111,15 @@ label {
   }
 
   .radio-icon__control:checked ~ .radio-icon__label {
-    &:before {
-      top: -5px;
-      right: 5px;
-      font-size: 2em;
-      transform: unset;
+      &:before {
+      position: absolute;
+      right: 10px;
+      content: "\f058";
+      color: #1759a5;
+      font-family: 'Font Awesome 5 Pro';
+      font-weight: 900;
+      font-size: 1.9rem;
+      top: 25px;
     }
   }
 }
@@ -1132,4 +1142,171 @@ label {
 .uikit-btn--another-file {
   margin-left: 0px !important;
   margin-top: 1rem;
+}
+
+.form-block-header {
+  font-weight: bold;
+  margin: 1em 0 1.3em;
+  font-size: 1.17em;
+}
+
+.text-and-select {
+  @media screen and (max-width: $AU-media-xs - 0.5px) {  
+    .text-and-select__text {
+      margin-bottom: 0.75rem;
+      
+      .uikit-text-input {
+        max-width: 15rem;
+      }
+
+      .input-support-text,
+      .uikit-text-input {
+        display: inline;
+      }
+    }
+
+    .text-and-select__select {
+      .uikit-text-input {
+        max-width: 16rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: $AU-media-xs) {
+    .text-and-select__text,
+    .text-and-select__select,
+    .text-and-select__select .uikit-text-input__label {
+      display: inline;
+    }
+
+    .text-and-select__text {
+      .uikit-text-input {
+        margin-right: 0.3rem;
+        width: 10rem;
+      }
+    }
+
+    .text-and-select__select {
+      .uikit-text-input {
+        margin-left: 0.3rem;
+        width: 15.75rem;
+      }
+
+      .uikit-text-input__label {
+        font-weight: normal;
+        text-transform: lowercase;
+      }
+    }
+  }
+}
+
+.select-and-text {
+  @media screen and (max-width: $AU-media-xs - 0.5px) {  
+    .select-and-text__select {
+      margin-bottom: 0.75rem;
+      
+      .uikit-text-input {
+        max-width: 22rem;
+      }
+
+      .input-support-text,
+      .uikit-text-input {
+        display: inline;
+      }
+    }
+
+    .select-and-text__text {
+      .uikit-text-input {
+        max-width: 22rem;
+      }
+    }
+  }
+
+  @media screen and (min-width: $AU-media-xs) {  
+    .select-and-text__select,
+    .select-and-text__text,
+    .select-and-text__text .uikit-text-input__label {
+      display: inline;
+    }
+
+    .select-and-text__select {
+      .uikit-text-input {
+        margin-right: 0.3rem;
+        width: 15rem;
+      }
+    }
+
+    .select-and-text__text {
+      .uikit-text-input {
+        margin-left: 1rem;
+        width: 12rem;
+      }
+
+      .uikit-text-input__label {
+        font-weight: normal;
+        text-transform: lowercase;
+      }
+    }
+  }  
+}
+
+.repeatable-block__fieldlist {
+  fieldset:first-of-type {
+    .repeatable-block__btn--remove {
+      display: none;
+    }
+  }
+
+  .repeatable-block__legend-wrapper {
+    flex-direction: row;
+    margin: 1rem 0;
+    display: flex;
+    align-items: center;
+  }
+
+}
+
+.repeatable-block__btn--remove {
+  cursor: pointer;
+  background: none;
+  padding: 0;
+  font-size: 14px;
+  border: 0;
+  transform: translate(12%, 10%);
+  
+  &:hover,
+  &:focus {
+    background-color: #5bcbe3;
+    border-color: transparent;
+  }
+
+  span {
+    border-bottom: 1px solid rgb(27, 121, 145);
+    outline: none;
+    font-size: 16px;
+    font-weight: normal;
+  }
+
+  i {
+    font-size: 1.23333em;
+    line-height: 0.75em;
+    vertical-align: -.0667em;
+  }
+}
+
+.custom_disabled--checkbox {
+  .uikit-control-input__input {
+    &:disabled {
+      & + .uikit-control-input__text {
+        color: #898989;
+      }
+
+      & + .uikit-control-input__text:after {
+        background-image: uikit-svguri('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+          <path fill="#898989" d="M0 0h128v128H0z"/>
+          <path fill="#fff" d="M8 8h112v112H8z"/>
+        </svg>');
+      }
+    }
+  }
 }

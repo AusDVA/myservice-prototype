@@ -1,439 +1,182 @@
-<!DOCTYPE html>
-<html class="js" lang="en">
+<% 
+  claims = [
+    { 
+      claimID: "33657809",
+      name: "Education assistance for Kim",
+      viewLink: "/auth/",
+      status: "In Progress",
+      date: "29 Aug 2019",
+      buttons: [
+        { text: "Update", link: "/auth/claim/updateClaimInProgress`" },
+        { text: "View", link: "/auth/claim/view/education-assistance" },
+        { text: "Withdraw", link: "#" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Qualifying Service",
+      viewLink: "/auth/",
+      status: "Approved",
+      date: "03 May 2019",
+      buttons: [
+        { text: "View", link: "/auth/claim/view/qs" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Increase to Disability Pension",
+      viewLink: "/auth/",
+      status: "Incomplete",
+      date: "29 April 2019",
+      buttons: [
+        { "text": "View", "link": "/auth/claim/view/afi" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "DHOAS Subsidy Certificate",
+      viewLink: "/auth/",
+      status: "Submitted",
+      date: "27 April 2019",
+      buttons: [
+        { text: "View", link: "/auth/claim/view/dhoas" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Permanent Impairment Lifestyle Questionnaire",
+      viewLink: "/auth/",
+      status: "Incomplete",
+      date: "29 May 2019",
+      buttons: [
+        { text: "Resume", link: "/auth/claim/permanent-impairment/permanent-impairment-01" },
+        { text: "Delete", link: "/auth/" },
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Permanent Impairment Lifestyle Questionnaire",
+      viewLink: "/auth/",
+      status: "Submitted",
+      date: "08 Feb 2019",
+      buttons: [
+        { text: "View", link: "/auth/claim/view/pi" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Subacromial Bursitis of the Shoulder",
+      viewLink: "/auth/",
+      status: "Incomplete",
+      date: "29 Aug 2019",
+      buttons: [
+        { text: "Resume", link: "/auth/claim/il/claim1" },
+        { text: "Delete", link: "#" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Mental Health Treatment (NLHC)",
+      viewLink: "/auth/",
+      status: "Approved",
+      date: "04 Jan 2019",
+      buttons: [
+        { text: "View", link: "/auth/claim/view/nlhc" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Internal derangement of the knee",
+      viewLink: "/auth/",
+      status: "Submitted",
+      date: "03 Jan 2019",
+      buttons: [
+      { text: "Resume", link: "/auth/claim/il/claim1" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Education assistance for Lee Gall",
+      viewLink: "/auth/",
+      status: "Approved",
+      date: "03 March 2019",
+      buttons: [
+        { text: "View", link: "/auth/claim/view/education-assistance" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Education assistance for Pi",
+      viewLink: "/auth/",
+      status: "Rejected",
+      date: "21 Jan 2019",
+      buttons: [
+      { text: "View", link: "/auth/claim/view/education-assistance" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Education assistance for Li",
+      viewLink: "/auth/",
+      status: "Withdrawn",
+      date: "29 Aug 2019",
+      buttons: [
+      { text: "View", link: "/auth/claim/view/education-assistance" }
+      ]
+    },
+    { 
+      claimID: "33657809",
+      name: "Education assistance for Kim",
+      viewLink: "/auth/",
+      status: "Withdrawn",
+      date: "29 Aug 2019",
+      buttons: [
+      { text: "View", link: "/auth/claim/view/education-assistance" }
+      ]
+    }
+  ]
+%>
 
-<head>
-  <title>Claims | MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+<%- include(templates+"header", { "title": "Your claims", "type": "default", "modifiers":
+["noMarginAbove", "12column", "noHeading", "noContainer", "noPagination"] }) 
+%>
 
-<body class="uikit-body uikit-grid uikit-refactor">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-authenticated") %>
-  <%- include(partials+"components/layout/header-nom-rep") %>
-  <main>
-    <section class="claims-page" id="claim-activity">
-      <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
-        <h1 class="margin-above--none container">
-          <span class="heading">Your claims</span>
-        </h1>
-        <div class="container">
-          <%# <div class="container-fluid" id="line-1">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status-flag">
-                  <p><a class="flag-text">Documents required</a></p>
-                </div>
-                <div class="col-md-4 col-xs-4 flex-item-2 claim-title-status">
-                  <p class="main">Service Pension</p>
-                  <p class="details">Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 claim-actions-status claim-actions">
-                 <a href="/auth/claim/add-documents"> <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a></a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '#open-example-modal'">View</button>
-                </div>
-              </div>
+<section class="claims-page" id="claim-activity">
+  <div id="main-content" class="section-feature border-bottom--mild
+  margin-above--none margin-below--none padding-below">
+    <h1 class="margin-above--none container">
+      <span class="heading">Your claims</span>
+    </h1>
+    <div class="container">
+      <% claims.map(function(claim) { %>
+      <div class="container-fluid" id="line-1">
+        <div class="row">
+          <div class="col-md-12 uikit-grid" id="claim-activity">
+            <div class="col-md-3 col-xs-3 flex-item-1 
+            <%- claim.status === "Documents Required" ? 'status-flag' : 'status' %>">
+              <% if(claim.status === "Documents Required") { %>
+              <p><a class="flag-text">Documents required</a></p>
+              <% } else { %>
+              <p class="main"> <%- claim.status %> </p>
+              <p class="details"> <%- claim.date %> </p>
+              <% } %>
             </div>
-          </div> %>
-
-          <%# <div class="container-fluid">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity-top">
-                <div class="col-md-9 col-sm-12 flex-item-1-top margin-above--large margin-below--large">
-                  <h3 class="claim-heading">Manage and track your claims</h3>
-                </div>
-                <div class="col-md-3 col-sml-12 flex-item-2-top margin-above--large" style="padding-right: 0;">
-                  <button id="scroll-to-claim" class="uikit-btn uikit-btn--primary" onclick="scrollToAdd();">&nbsp;Make a claim&nbsp;</button>
-                </div>
-              </div>
+            <div class="col-md-4 col-xs-4 flex-item-2 claim-title-status">
+              <p class="main"><%- claim.name %></p>
+              <p class="details">Claim ID: <%- claim.claimID %></p>
             </div>
-          </div> %>
-          <!-- <div class="row widget-content widget--justclaims"> -->
-          <!-- <div class="col-md-12 margin-below--none widget--justclaims padding-none"> -->
-          <div class="container-fluid" id="line-1">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status-flag">
-                  <p><a class="flag-text">Documents required</a></p>
-                </div>
-                <div class="col-md-4 col-xs-4 flex-item-2 claim-title-status">
-                  <p class="main">Service Pension</p>
-                  <p class="details">Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 claim-actions-status claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '#open-example-modal'">View</button>
-                </div>
-              </div>
+            <div class="col-md-5 col-xs-5 flex-item-3 claim-actions-status claim-actions">
+              <% claim.buttons.map(function(button) { %>
+              <a href="<%- button.link %>" class="uikit-btn small uikit-btn--borderless"><%- button.text %></a>
+              <% }); %>
             </div>
           </div>
-          <div class="container-fluid" id="line-2">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">Submitted</p>
-                  <p class="details">29 Aug 2019</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Veteran Covenant </p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless" onclick="window.location.href = '/auth/claim/view/viewVRPClaimDetail'">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" id="line-3">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">In progress</p>
-                  <p class="details">22 March 2019</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Education assistance</p>
-                  <p class="details">Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" id="line-4">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">Submitted</p>
-                  <p class="details">18 Sep 2018</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Qualifying Service</p>
-                  <p class="details">Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <a href="/auth/claim/qs-view-claim" class="uikit-btn small uikit-btn--borderless">View</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" id="line-5" style="">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">Submitted</p>
-                  <p class="details">18 Sep 2018</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Initial liability</p>
-                  <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" id="line-6" style="">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">Submitted</p>
-                  <p class="details">18 Sep 2018</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Initial liability</p>
-                  <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container-fluid" id="line-7" style="">
-            <div class="row">
-              <div class="col-md-12 uikit-grid" id="claim-activity">
-                <div class="col-md-3 col-xs-3 flex-item-1 status">
-                  <p class="main">Submitted</p>
-                  <p class="details">18 Sep 2018</p>
-                </div>
-                <div class="col-md-4 col-xs-4 uikit-grid flex-item-2 claim-title">
-                  <p class="main">Initial liability</p>
-                  <p class="details">Compartment syndrome<br> Claim ID: 33657809</p>
-                </div>
-                <div class="col-md-5 col-xs-5 flex-item-3 uikit-grid claim-actions">
-                  <a href="/auth/claim/add-documents" class="uikit-btn small uikit-btn--borderless">Add documents</a>
-                  <button class="uikit-btn small uikit-btn--borderless">Withdraw</button>
-                  <button class="uikit-btn small uikit-btn--borderless">View</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
-      <!-- <div class="row widget-content widget--justclaims"> -->
-      <!-- <div class="col-md-12 margin-below--none widget--justclaims padding-none"> -->
-
-    </section>
-
-  </main>
-  <!-- Modal code -->
-  <div id="open-example-modal" class="modal-window">
-    <div>
-      <a href="#modal-close" title="Close" class="modal-close">Close</a>
-      <!-- <h5>MODAL EXAMPLE</h5> -->
-      <h2>Your qualifying service claim has been rejected. </h2>
-      <p>Your service pension claim may now be ineligible.</p>
-      <div class="modal-buttons">
-        <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Proceed with claim</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel claim</button>
-      </div>
-    </div>
-    <button id="show-more-button" class="uikit-btn uikit-btn small margin-above" onclick="showToggle();">Show more</button>
-  </div>
-  </div>
-  </section>
-  <% if (!locals.liveFeature.includes('featureNewHomePage')) { %>
-
-  <section id="claim-options">
-    <div class="container margin-above margin-below--extra" id="claims-tiles">
-      <!-- <div class="row" style="width: 100%; padding: 0;"> -->
-      <h2 class="ss-align--center margin-above"><span class="font-weight-heavy">Make a claim to access treatment and support</span></h2>
-      <div class="flex-container flex-container--wrap hover-container">
-        <!-- <div class="col-md-12 margin-below--none" style="padding: 0;"> -->
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/il/claim1">
-            <h3 class="card__title"><span class="font-weight-heavy">Initial Liability</span></h3>
-            <p class="card__supporting-text text-fullwidth">Your first step towards treatment and support for a service-related injury&nbsp;or&nbsp;condition.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
-            </div>
-          </a>
-        </div>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/health-card0">
-            <h3 class="card__title"><span class="font-weight-heavy">Mental health treatment</span></h3>
-            <p class="card__supporting-text text-fullwidth">Access free mental health treatment.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
-            </div>
-          </a>
-        </div>
-
-
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/veterancard/vrp1">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Veteran Covenant</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Request the Oath, Lapel Pin and Veteran Card as recognition of your service.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small"><span class="hover-none">Get started</span>
-              </button>
-            </div>
-          </a>
-        </div>
-
-
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/afi/afi1">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Increase your disability&nbsp;pension (AFI)</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">
-              Apply for a payment increase to your disability pension.
-            </p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/incap/progress">
-            <h3 class="card__title"><span class="font-weight-heavy">Incapacity Payments</span></h3>
-            <p class="card__supporting-text text-fullwidth">Get compensated for your inability or reduced ability to work because of a service injury or condition.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
-            </div>
-          </a>
-        </div>
-
-
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/studentpreeligibility?flow=veteranFlow">
-            <h3 class="card__title"><span class="font-weight-heavy">Education assistance</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">
-              Get help with the cost of education for your family.
-            </p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-
-
-        <% if (locals.liveFeature.includes('featureDhoas')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/dhoas/asc1">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Defence Home Ownership Assistance Subsidy Scheme</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">
-              Apply for subsidy certificate to assist with the interest of your home loan.
-            </p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-
-        <% } %>
-
-
-        <% if (locals.liveFeature.includes('featureDhoas')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/dhoas-start">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">DHOAS subsidy certificate</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">
-              Apply for a subsidy on the interest of your home loan.
-            </p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-
-        <% } %>
-
-
-
-
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="http://www.dsh.gov.au/insurance">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Defence Service Home Insurance Scheme</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Apply for home, contents and other insurance policies.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small"><span class="external-link hover-none">Defence Service Homes website</span>
-              </button>
-            </div>
-          </a>
-        </div>
-        <% if (locals.liveFeature.includes('featureServicePension')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/service_pension/sp-progress-a">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Service Pension</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Apply for age, invalidity or partner service pension</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">Get started</button>
-            </div>
-          </a>
-        </div>
-        <% } %>
-        <% if (locals.liveFeature.includes('featureQS')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/qualifying-service/qs1">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Qualifying service</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Submit a claim to determine if you have qualifying service.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-        <% } %>
-        <% if (locals.liveFeature.includes('featureCivilianQS')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/civilian-qualifying-service/cqs1">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Civilian qualifying service</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Submit a claim to determine if you have qualifying service.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-        <% } %>
-        <% if (locals.liveFeature.includes('featureLsa')) { %>
-        <div class="flex-item flex-item--centred card card--claims card--claims-col-3 hover-element" id="nlhc-access">
-          <a class="card-container" href="/auth/claim/lsa/request">
-            <h3 class="card__title">
-              <span class="font-weight-heavy">Lump sum advance</span>
-            </h3>
-            <p class="card__supporting-text text-fullwidth">Request a lump sum advance payment.</p>
-            <div class="card__button">
-              <button class="uikit-btn uikit-btn--tertiary small">
-                Get started
-              </button>
-            </div>
-          </a>
-        </div>
-        <% } %>
-      </div>
-    </div>
-  </section>
-
-  <% } %>
-  </main>
-  <!-- Modal code -->
-  <div id="open-example-modal" class="modal-window">
-    <div>
-      <a href="#modal-close" title="Close" class="modal-close">Close</a>
-      <!-- <h5>MODAL EXAMPLE</h5> -->
-      <h2>Your qualifying service claim has been rejected. </h2>
-      <p>Your service pension claim may now be ineligible.</p>
-      <div class="modal-buttons">
-        <button class="uikit-btn" onclick="window.location.href = '#modal-close'">Proceed with claim</button>
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#modal-close'">Cancel claim</button>
-      </div>
+      <% }); %>
     </div>
   </div>
+</section>
 
-  <%- include(partials+"components/layout/footer") %>
-  <%- include(partials+"content/modals/claims-dhoas-start-modal") %>
-  <script>
-
-  </script>
-</body>
-
-</html>
+<%- include(partials+"content/modals/claims-dhoas-start-modal") %>
+<%- include(partials+"components/layout/footer") %>

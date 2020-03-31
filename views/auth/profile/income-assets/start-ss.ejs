@@ -1,0 +1,79 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "State",
+    boxes: [
+      "Default",
+      "Update 1"
+    ],
+    id: "page-state"
+  }); %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Assesed on:",
+    boxes: [
+      "Assets",
+      "Income"
+    ],
+    id: "assessed"
+  }); %>
+
+  <h3>Other properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Design done"
+    ],
+    id: "design-done"
+  }); %>
+
+</div>
+
+<script>
+
+  var pageState;
+  var assessed;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    if (localStorage.getItem("coc-state") === "default") {
+      pageState = "default";
+      $("#page-state-1").prop("checked", true);
+    }
+    if (localStorage.getItem("coc-state") === "update1") {
+      pageState = "update1";
+      $("#page-state-2").prop("checked", true);
+    }
+
+    $('input[name=page-state]').change(function () {
+      pageState = $(this).val();
+      stateSwitcher();
+    });
+
+    $('input[name=assessed]').change(function () {
+      assessed = $(this).val();
+      stateSwitcher();
+    });
+
+    $('#design-done-1').change(function() {
+      var designDone = $("#design-done-1").is(":checked");
+      if ( designDone ) {
+        $(".designDone").show();
+      } else {
+        $(".designDone").hide();
+      }
+    }); 
+
+    stateSwitcher();
+
+  });
+
+</script>

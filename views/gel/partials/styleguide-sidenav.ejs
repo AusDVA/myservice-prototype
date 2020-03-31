@@ -1,0 +1,39 @@
+<% var links = 
+[
+  { text: "Form Partials", link: "index"},
+  { text: "Icons", link: "faqs"},
+]; 
+%>
+<div class="col-sm-3">
+  <nav id="nav" class="local-nav" aria-label="category navigation" aria-hidden="false">
+    <ul id="sidenav">
+      <%- links.map((link, i) => `<li><a href="${link.link}">${link.text}</a></li>`).join(''); %>
+    </ul>
+  </nav>
+
+  <div class="sg-side-block">
+    <h2>Lets talk on Slack.
+      <img src="/docs/images/styleguide/sg-ico-slack.png" alt="Slack icon">
+    </h2>
+    <p>Do you have questions or would you like to provide some feedback? We'd love to hear from you!</p>
+    <p>
+      <a class="uikit-btn uikit-btn--tertiary small" href="https://dva-dev.slack.com/messages/ux" rel="external">Join our Slack channel</a>
+      <br>
+      <span class="small-text">(Only available to DVA employees)</span>
+    </p>
+  </div>
+
+</div>
+
+
+<script>
+  $(document).ready(function () {
+    var url = window.location;
+    var element = $('ul#sidenav a').filter(function () {
+      return this.href == url || url.href.indexOf(this.href) == 0;
+    }).parent().addClass('is-active');
+    if (element.is('li')) {
+      element.addClass('is-active').parent().parent('li').addClass('is-active')
+    }
+  });
+</script>

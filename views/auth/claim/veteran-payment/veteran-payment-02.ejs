@@ -1,92 +1,90 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 2;
+
+%>
+
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Relationship status"
+  claim: "Veteran Payment", 
+  heading: "Relationship status",
+  progress
 }) %>
 
-  <%- include(partials+"components/form-partials/radio", {
-    label: "What is your relationship status?",
-    boxes: [
-      {
-        text: "Single",
-        rToggle: "#partner-details"
-      },
-      "Married and currently living together",
-      "Living in a marriage-like relationship"
-    ],
-    id: "relationship-status"
-  }); %>
+<%#- include(partials+"faqs/relationship-status"); %>
 
-  <div id="partner-details" hidden>
+<%- include(partials+"components/form-partials/radio", {
+  label: "What is your relationship status?",
+  boxes: [
+    {
+      text: "Single",
+    },
+    {
+      text: "De facto"
+    },
+    {
+      text: "Married"
+    },
+    {
+      text: "Separated (while still legally married)",
+      tooltip: 
+        {
+          content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
+        }
+    }
+  ],
+  id: "relationship-status"
+}); %>
 
-    <h3>Partner details</h3>
+<div id="partner-details" hidden>
 
-    <%- include(partials+"components/form-partials/text", {
+  <h3>Partner details</h3>
+
+  <%- include(partials+"components/form-partials/text", {
       label: "Given name",
       hint: "(first name)"
     }); %>
 
-    <%- include(partials+"components/form-partials/text", {
+  <%- include(partials+"components/form-partials/text", {
       label: "Surname",
       hint: "(last name)"
     }); %>
 
-    <%- include(partials+"components/form-partials/prepop/gender"); %>
+  <%- include(partials+"components/form-partials/prepop/gender"); %>
 
-    <br>
+  <br>
 
-    <%- include(partials+"components/form-partials/date", {
+  <%- include(partials+"components/form-partials/date", {
       label: "Date of birth"
     }); %>
 
-    <%- include(partials+"components/form-partials/yes_no", {
-      label: "Does your partner wish to receive payment?",
+  <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner wish to receive Veteran Payment?",
+      id: "partner-wants-vp",
       yes_toggle: "#partner-payment-questions"
     }); %>
 
-    <div id="partner-payment-questions" hidden>
+  <div id="partner-payment-questions" hidden>
 
-      <%- include(partials+"components/form-partials/yes_no", {
-        label: "Is your partner an Australian citizen?",
-        id: "partner-is-citizen",
-        no_toggle: ["#partner-visa-container","#visa-doc-container"]
-      }); %>
-
-      <%- include(partials+"components/form-partials/radio", {
-        label: "What type of visa does your partner hold?",
-        boxes: [
-          "Permanent visa",
-          "Special purpose visa",
-          "Special category visa"
-        ],
-        id: "partner-visa",
-        modifiers: ["hidden"]
-      }); %>
-
-      <%- include(partials+"components/form-partials/notice", {
-        message: "You will need to provide a copy of your partner's current visa or special category visa.</p><p>You can attach this document at the end of your claim.</p>",
-        id: "visa-doc",
-        modifiers: ["hidden"]
-      }); %>
-
-      <%- include(partials+"components/form-partials/yes_no", {
+    <%- include(partials+"components/form-partials/yes_no", {
           label: "Does your partner currently receive payments from Centrelink?",
           id: "partner-centrelink",
           yes_toggle: "#partner-crn-container",
           no_toggle: "#save-next"
       }); %>
 
-      <%- include(partials+"components/form-partials/text", {
+    <%- include(partials+"components/form-partials/text", {
           label: "What is your partner's Customer Reference Number (CRN)?",
           id: "partner-crn",
           modifiers: ["hidden"]
       }); %>
 
-    </div>
   </div>
+</div>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -109,27 +107,39 @@
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
+<script>
 
-  <script>
+  $("input:radio").prop("checked", false);
 
-$("input:radio").prop("checked", false);
-
-
-    $("#relationship-status-container").on("change", "input", function() {
-      if ($(this).val() === "single") {
+  $('input[name=relationship-status]').change(function () {
+    $("#save-next").hide();
+    $("#partner-details").hide();
+    switch ( $(this).val() ) {
+      case "single":
+        $("#save-next").show();
         localStorage.setItem("relationship-status", "single");
-      } else {
-        localStorage.setItem("relationship-status", "couple");
-      }
-    })
-
-    $("#partner-is-citizen-container").on("change", "input", function() {
-      if ($(this).val() === "yes") {
-        localStorage.setItem("immigration-status", "citizen");
-      } else {
-        localStorage.setItem("immigration-status", "immigrant");
-      }
-    })
-  </script>
+        break;
+      case "married":
+        $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      case "defacto":
+        $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      case "separatedwhilestilllegallymarried":
+      $("#partner-details").show();
+        localStorage.setItem("relationship-status", "partnered");
+        break;
+      default:
+    }
+  });
+  $("#partner-wants-vp-container").on("change", "input", function () {
+    if ($(this).val() === "yes") {
+      localStorage.setItem("partner-wants-vp", "true");
+    } else {
+      localStorage.setItem("partner-wants-vp", "false");
+    }
+  })
+</script>
 <%- include(templates+"footer") %>

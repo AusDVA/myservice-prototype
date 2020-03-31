@@ -1,26 +1,71 @@
+<%
+
+var progress = JSON.parse(include("veteran-payment-progressbar")) 
+progress.activeItem = 7;
+
+%>
+
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Payment details"
+  claim: "Veteran Payment", 
+  heading: "Payment details",
+  progress
 }) %>
 
-<%- include(partials+"components/form-partials/prepop/bank-details", {
-  label: "Bank details"
-}); %>
+<h2>Bank details</h2>
+
+<div id="enter-bank-details">
+  <%- include(partials+"components/form-partials/prepop/bank-details", {
+    label: "",
+      id: "bank-details-vp"
+    }); %>
+
+</div>
+
+<div class="pre-pop-on" hidden>
+
+  <p>If eligible, payments will be made to the bank account shown below. You can update this in your profile.</p>
+  <div class="kv-pair">
+    <span class="kv-pair__key">Account Name:</span>
+    <span class="kv-pair__value">Rebecca Orange</span>
+  </div>
+  <div class="kv-pair">
+    <span class="kv-pair__key">Account number:</span>
+    <span class="kv-pair__value">7123 8876 0023</span>
+  </div>
+  <div class="kv-pair">
+    <span class="kv-pair__key">BSB:</span>
+    <span class="kv-pair__value">654 - 788</span>
+  </div>
+  <div class="kv-pair">
+    <span class="kv-pair__key">Financial Institution:</span>
+    <span class="kv-pair__value">ANZ Bank</span>
+  </div>
+  
+</div>
 
 <div class="couple" hidden>
-  
+
   <%- include(forms+"yes_no", {
     label: "Would your partner like to use the same bank details?",
-    no_toggle: "#partner-bank-container"
+    no_toggle: ["#partner-bank","#partner-bank-container"],
+    customClass: "margin-above--large"
   }) %>
+  
+
+
+  <h2 id="partner-bank" hidden>Partner bank details</h2>
 
   <%- include(partials+"components/form-partials/prepop/bank-details", {
-    label: "Partner bank details",
+    label: "",
     id: "partner-bank",
     modifiers: ["hidden"]
   }); %>
 
+ 
 </div>
+
+<hr>
+
 
 <h2>TFN details</h2>
 
@@ -31,7 +76,7 @@
 }) %>
 
 <%- include(forms+"notice", {
-  message: `<p>You need to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a> to avoid your payment being taxed at a higher rate.</p>`,
+  message: "To receive Veteran Payment, you will need to have a tax file number (TFN). You can apply for a TFN from the <a>Australian Taxation Office</a> after you have submitted your claim.",
   id: "need-tfn",
   modifiers: ["hidden"]
 }) %>
@@ -47,12 +92,14 @@
   <%- include(forms+"yes_no", {
     label: "Does your partner have a tax file number?",
     yes_toggle: "#tfn-partner-container",
-    no_toggle: "#need-tfn-partner-container"
+    no_toggle: "#partner-need-tfn-container"
   }) %>
 
   <%- include(forms+"notice", {
-    message: `<p>Your partner needs to apply for a tax file number from the <a href="https://www.ato.gov.au/"> Australian Taxation Office</a> to avoid their payment being taxed at a higher rate.</p>`,
-    id: "need-tfn-partner",
+    message: `<p>Your partner will need to apply for a Tax File Number from the <a href="https://www.ato.gov.au/"> Australian Taxation
+      Office</a> and provide it to us.</p>`,
+      message: "To receive Veteran Payment, your partner will need to have a tax file number (TFN). They can apply for a TFN from the <a>Australian Taxation Office</a> after the claim has been submitted.",
+    id: "partner-need-tfn",
     modifiers: ["hidden"]
   }) %>
 
@@ -64,9 +111,9 @@
 
 </div>
 
-  <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", {
+<%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -82,32 +129,33 @@
         modifiers: ["floated"]
       },
       {
-        text: "Save and review",
-        link: "/auth/claim/veteran-payment/veteran-payment-08",
+        text: "Save and next",
+        link: "/auth/claim/veteran-payment/veteran-payment-06a",
         modifiers: ["floated", "primary"],
         id: "pagination-next"
       }
     ]
   }) %>
 
-  <%- include("veteran-payment-state-switcher") %>
 
-  <script>
-    function stateSwitcher() {
-      if (relationshipStatus === "partnered") {
-        $(".couple").show();
-      } else {
-        $(".couple").hide();
-      }
-
-      if (immigrationStatus === "immigrant") {
-        $("#pagination-next").text("Save and next");
-        $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-07");
-      } else {
-        $("#pagination-next").text("Save and review");
-        $("#pagination-next").attr("href", "/auth/claim/veteran-payment/veteran-payment-08");
-      }
+<script>
+  function stateSwitcher() {
+    if (localStorage.getItem("relationship-status") === "partnered" && localStorage.getItem("partner-wants-vp") === "true" ) {
+    // if (localStorage.getItem("relationship-status") === "partnered") {
+      $(".couple").show();
+    } else {
+      $(".couple").hide();
     }
-  </script>
+    if (localStorage.getItem("bank-details-known") === "true") {
+      $("#enter-bank-details").hide();
+      $(".pre-pop-on").show();
+    } else {
+      $("#enter-bank-details").show();
+      $(".pre-pop-on").hide();
+    }
+  }
+</script>
+
+<%- include("veteran-payment-state-switcher-04") %>
 
 <%- include(templates+"footer") %>

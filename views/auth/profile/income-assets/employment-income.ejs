@@ -1,0 +1,53 @@
+<%- include(templates+"header", {
+  title: "Income &amp; assets | Employment income",
+  heading: "Employment income"
+})%>
+</div>
+
+<div class="container container--8-column margin-below--extra">
+  <!-- User list and category messaging -->
+  <div id="user-list" class="box-list__header">
+    <h2 class="box-list__heading">
+      <span class="fal fa-list-alt fa-icons"></span><span class="partner-label">My</span> Employment income
+    </h2>
+    <div id="add-anchor-link-return" class="box-list__add" onClick="showNewCard('employment-income');">
+      <span class="fal fa-plus-circle fa-icons"></span>Add employment income
+    </div>
+  </div>
+  <div id="add-anchor-link-start" class="cursor-pointer" onClick="showNewCard('employment-income');" hidden>
+    <p class="margin-above--extra margin-below--extra ss-align--center">
+      <span class="fal fa-plus-circle fa-icons"></span>Add employment income
+    </p>
+  </div>
+  <!-- Cards -->
+  <%- include("employment-income-update") %>
+  <%- include(partials+"content/income-assets/income-assets--employment-income") %>
+  <div id="main-pagination" class="pagination">
+    <button id="continue" class="uikit-btn btnNext floated" onClick="goBack()">Next</button>
+  </div>
+</div>
+
+<script>
+  function stateSwitcher() {
+    switch (pageState) {
+      case "emptylist":
+        showEmptyState();
+        break;
+      case "populatedlist":
+        showPopState();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function goBack() {
+    localStorage.setItem("coc-state", "update1");
+    window.location.href = 'start.ejs';
+  }
+</script>
+
+<script src="/docs/js/income-assets-profile.js"></script>
+
+<%- include(partials+"components/layout/footer") %>
+<%- include("category-page-ss") %>

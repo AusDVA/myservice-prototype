@@ -182,6 +182,9 @@ function hideAll() {
   $("#addtional-other-personal-assets-card").hide();
   $("#addtional-other-personal-assets-summary").hide();
 
+  $("#compensation-and-damages-card").hide();
+  $("#compensation-and-damages-summary").hide();
+
   $("#add-options").hide();
   $("#add-anchor-link-start").hide();
   $("#add-anchor-link-return").hide();

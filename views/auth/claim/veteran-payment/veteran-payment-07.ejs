@@ -1,56 +1,134 @@
 <%- include(templates+"header", {
-  title: "Veteran Payment", 
-  heading: "Upload visa documents"
+  claim: "Veteran Payment", 
+  heading: "Upload documents"
 }) %>
 
-  <h3>Upload your partner's visa documents</h3>
+<div id="partnered">
+  <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Marriage certificate",
+          description: "A document provided by the state/territory government or country, where the marriage was registered."
+        },
+        {
+          title: "Partner's Australian passport",
+          description: "Current passport issued in your partner's name."
+        },
+        {
+          title: "Partners Australian driver’s licence",
+          description: "Current licence with their name & photo. We can accept current learner permit and provisional licence."
+        },
+        {
+          title: "Your Tax Notice of Assessment",
+          description: "2018-2019 document that lists your taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Partner's Tax Notice of Assessment",
+          description: "2018-2019 document that lists your partner's taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Your tax return",
+          description: "2018-2019 income tax return statement detailing your earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Your partner's tax return",
+          description: "2018-2019 income tax return statement detailing your partner's earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Your pay summary",
+          description: "2018-2019 statement from your employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your partner's pay summary",
+          description: "2018-2019 statement from your partner's employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your pension income stream",
+          description: "A document detailing payments from superannuation issued by your income stream provider."
+        },
+        {
+          title: "Your partner's pension income stream",
+          description: "A document detailing payments from superannuation issued by your partner's income stream provider."
+        },
+        {
+          title: "Partner’s current address",
+          description: "Provide a document showing your partner’s current address."
+        }
+      ]
+    }) %>
+</div>
 
-  <section class="mys-file-uploads">
-    <div class="mys-file-uploads__items">
-      <div class="mys-file-uploads__item-border">
-        <div class="mys-file-uploads__item mys-file-uploads__item--message">
-          <div class="mys-file-uploads__message">No documents uploaded</div>
-          <div>
-            <button class="uikit-btn uikit-btn--tertiary">Upload document</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+<div id="single" hidden>
+  <%- include(forms+"legacy-upload", {
+      docs: [
+        {
+          title: "Your Tax Notice of Assessment",
+          description: "2018-2019 document that lists your taxable income, the tax owed or refund entitled issued by ATO."
+        },
+        {
+          title: "Your pension income stream",
+          description: "A document detailing payments from superannuation issued by your income stream provider."
+        },
+        {
+          title: "Your pay summary",
+          description: "2018-2019 statement from your employer detailing your wages earned and the amount of tax paid. "
+        },
+        {
+          title: "Your tax return",
+          description: "2018-2019 income tax return statement detailing your earnings and deductions submitted to the ATO."
+        },
+        {
+          title: "Foreign income",
+          description: "Supporting documents, for example, foreign tax assessments, your bank statements and/or certificates"
+        },
+      ]
+    }) %>
+</div>
 
-  <%- include(forms+"pagination", {
-    pagination: [
-      {
-        text: "Previous",
-        link: "/auth/claim/veteran-payment/veteran-payment-06"
-      },
-      {
-        text: "Cancel",
-        link: "#open-modal"
-      },
-      {
-        text: "Save and exit",
-        link: "/auth/claim",
-        modifiers: ["floated"]
-      },
-      {
-        text: "Save and next",
-        link: "/auth/claim/veteran-payment/veteran-payment-08",
-        modifiers: ["floated", "primary"]
-      }
-    ]
-  }) %>
-
-  <%- include("veteran-payment-state-switcher") %>
-
-  <script>
-
-    function stateSwitcher() {
-      if (immigrationStatus === "citizen") {
-        window.location.href = "/auth/claim/veteran-payment/veteran-payment-08";
-      }
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      link: "/auth/claim/veteran-payment/veteran-payment-06"
+    },
+    {
+      text: "Cancel",
+      link: "#open-modal"
+    },
+    {
+      text: "Save and exit",
+      link: "/auth/claim",
+      modifiers: ["floated"]
+    },
+    {
+      text: "Save and next",
+      link: "/auth/claim/veteran-payment/veteran-payment-08",
+      modifiers: ["floated", "primary"]
     }
-    
-  </script>
+  ]
+}) %>
+
+<%- include(forms+"modals/claim-cancel") %>
 
 <%- include(templates+"footer") %>
+
+<%#- include("state-switcher") %>
+
+<script>
+  // $(document).ready(function () {
+  //   stateSwitcher();
+  // });
+
+  // function stateSwitcher() {
+  //   if (sessionStorage.getItem('CSHC-partnered') == "false") {
+  //     $("#partnered").hide();
+  //     $("#single").show();
+  //     $("#btnPrev").attr("href", "/auth/claim/cshc/prog-03");
+  //   } else {
+  //     $("#partnered").show();
+  //     $("#single").hide();
+  //     $("#btnPrev").attr("href", "/auth/claim/cshc/c-01");
+  //   }
+  // }
+
+</script>

@@ -1,0 +1,177 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "State",
+    boxes: [
+      "Empty list",
+      "Populated list"
+    ],
+    id: "page-state"
+  }); %>
+
+  <h3>Other properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Partnered"
+    ],
+    id: "relationship-status",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Provisional"
+    ],
+    id: "provisional",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Provisional update same date"
+    ],
+    id: "update-today",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Partner flow"
+    ],
+    id: "partner-flow",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "No partner consent"
+    ],
+    id: "no-consent",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  var pageState;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#page-state-2").prop("checked", true);
+    $('input[name=page-state]').change(function () {
+      pageState = $(this).val();
+      stateSwitcher();
+    });
+
+    stateSwitcher();
+
+  });
+
+  $('#relationship-status-1').change(function() {
+    updatePartner();  
+  });
+
+  $('#partner-flow-1').change(function() {
+    toggleOwner();  
+  });
+
+  $('#provisional-1').change(function() {
+    updateProvisional();  
+  });
+
+  $('#update-today-1').change(function() {
+    updateToday();  
+  });
+
+  function updatePartner() {
+    var myStatus = $("#relationship-status-1").is(":checked");
+    if ( myStatus ) {
+          showPartner();
+    } else {
+          hidePartner();  
+    }
+  }  
+  
+  function showPartner() {
+    $(".owner-partner").show();
+    $(".owner-single").hide();
+    $(".partner").show();
+    $(".partner-label").text("Our");
+  }
+
+  function hidePartner() {
+    $(".owner-partner").hide();
+    $(".owner-single").show();
+    $(".other-party-amount").hide();
+    $(".partner").hide();
+    $(".partner-label").text("My");
+  }
+
+  function toggleOwner(){
+    $('.switch-owner').each(function(){
+      if ( $(this).text() === "Myself" ) {
+        $(this).text("My partner");
+      } else {
+        $(this).text("Myself");
+      }
+    })
+  }
+
+$(".ownerType").change(function() {
+  mySelection = $('option:selected',this).val();
+  switch (mySelection) {
+      case "Jointly with any other party":
+          $(".other-party-amount").show();
+          break;
+      default:
+          $(".other-party-amount").hide();
+  }
+});
+
+function updateProvisional() {
+    var myProvisional = $("#provisional-1").is(":checked");
+    if ( myProvisional ) {
+      $(".provisional").show();
+      $(".provisional-hide").hide();
+    } else {
+      $(".provisional").hide();
+      $(".provisional-hide").show();
+    }
+  } 
+
+  function updateToday() {
+    var myToday = $("#update-today-1").is(":checked");
+    if ( myToday ) {
+      $(".today-hide").hide();
+      $(".today-show").show();
+    } else {
+      $(".today-hide").show();
+      $(".today-show").hide();
+    }
+  }  
+  $(".today-show").hide(); 
+
+  $('#no-consent-1').change(function() {
+    updateConsent();  
+  });
+
+  $(".show-if-no-consent").hide();
+
+function updateConsent() {
+    var noConsent = $("#no-consent-1").is(":checked");
+    if ( noConsent ) {
+      $(".hide-if-no-consent").hide();
+      $(".show-if-no-consent").show();
+    } else {
+      $(".hide-if-no-consent").show();
+      $(".show-if-no-consent").hide();
+    }
+  }  
+
+</script>
