@@ -12,15 +12,23 @@
     id: "accommodation-status"
   }); %>
 
-  <h3>Parnter consent</h3>
+  <h3>Partner consent </h3>
+  <h4>Relationship status unknown</h4>
   <%- include(partials+"components/form-partials/radio", {
     boxes: [
-      "Required - not provided",
-      "Provided and pending",
-      "Confirmed",
-      "Not required"
+      "Relationship unknown - e.g cleanskin (1)",
+      "Provided and pending (2)",
+      "Confirmed (3)"
     ],
     id: "partner-consent"
+  }); %>
+  <h4>Relationship status known</h4>
+  <%- include(partials+"components/form-partials/radio", {
+    boxes: [
+      "Consent required - not provided",
+      "Not required"
+    ],
+    id: "partner-consent-known"
   }); %>
 
   <h3>Other properties</h3>
@@ -114,42 +122,55 @@
   });
 
   $("#partner-consent-1").prop("checked", true);
-
+  $(".partnered-definition").hide();
 
   $('input[name=partner-consent]').change(function () {
-      var myConsent = $(this).val().substring(0,4);
-      $(".partnered-definition").hide();
+    var myConsent = $(this).val().substring(0,4);
+    hideConsent();
     switch (myConsent) {
-      case "requ":
-        $(".partner-consent-status").html("<em>Not provided</em>");
-        $(".partner-consent-status-change").removeAttr("disabled");
-        $(".partner-consent-row").show();
-        $(".relationship-status-text").html("Partnered");
-        $(".partnered-definition").show();
+      case "rela":
+        $(".relationship-status-text").html("<em>Not provided</em>");
+        $(".relationship-status-change").show();
         break;
-      case "prov":
-      $(".partner-consent-status").html("<em>Pending</em>");
-      $(".partner-consent-status-change").attr("disabled", "true");
-      $(".partner-consent-row").show();
-      $(".relationship-status-text").html("Partnered");
-      $(".partnered-definition").show();
+        case "prov":
+        $(".partner-consent-status").html("<em>Pending</em>");
+        $(".relationship-status-text").html("<em>Pending</em>");
+        $(".partner-consent-row").show();
         break;
       case "conf":
-      $(".partner-consent-status").html("Provided");
-      $(".relationship-status-text").html("Defacto with John Citizen");
-      $(".partner-consent-status-change").removeAttr("disabled");
-      $(".partner-consent-row").show();
-        break;
-      case "notr":
-        $(".partner-consent-row").hide();
-        $(".relationship-status-text").html("Partnered");
-        break;
-      case "nopa":
-        // $("#other-details").hide();
+        $(".partner-consent-status").html("Provided");
+        $(".relationship-status-text").html("Defacto with John Citizen");
+        $(".partner-consent-row").show();
         break;
       default:
         break;
     }
   });
+
+  $('input[name=partner-consent-known]').change(function () {
+    var myConsent = $(this).val().substring(0,4);
+    hideConsent();
+    switch (myConsent) {
+      case "cons":
+        $(".partner-consent-status").html("<em>Not provided</em>");
+        $(".partner-consent-status-change").show();
+        $(".relationship-status-text").html("Partnered");
+        $(".partner-consent-row").show();
+        $(".partnered-definition").show();
+        break;
+      case "notr":
+        $(".relationship-status-text").html("Single");
+        break;
+      default:
+        break;
+    }
+  });
+
+  function hideConsent(){
+    $(".partner-consent-row").hide();
+    $(".relationship-status-change").hide();
+    $(".partner-consent-status-change").hide();
+    $(".partnered-definition").hide();
+  }
 
 </script>
