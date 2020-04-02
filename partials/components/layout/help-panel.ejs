@@ -26,7 +26,7 @@
 
 
         <section class="au-accordion">
-          <button class="au-accordion__title au-accordion--closed js-au-accordion" aria-controls="accordion-send-message" aria-expanded="true"
+          <button id="send-message-accordion" class="au-accordion__title au-accordion--closed js-au-accordion" aria-controls="accordion-send-message" aria-expanded="true"
             onclick="return AU.accordion.Toggle( this )">
             <i class="far fa-envelope"></i> Send a message
           </button>
@@ -138,16 +138,18 @@
   var sendMessage = document.getElementById("send-message");
   var requestCallback = document.getElementById("request-callback")
 
+
   function showPanel(pEvent) {
-    event.preventDefault();
+    if ( event != null ) event.preventDefault();
     panel.classList.add('is-visible');
   }
 
   function hidePanel(pEvent) {
-    event.preventDefault();
-
-    var target = pEvent.target;
-    if (target === panel || target === close) {
+    if ( event != null ) {
+      event.preventDefault();
+      var target = pEvent.target;
+      if (target === panel || target === close) panel.classList.remove('is-visible');
+    } else {
       panel.classList.remove('is-visible');
     }
   }
