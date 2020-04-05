@@ -34,21 +34,39 @@
                 report.</p>
 
                 <%- include(partials+"components/form-partials/notice", {
-                  message: "You have income and assets items recorded that are owned by your partner. To update these items we require your <a href='/auth/profile/relationships'>partner's consent</a>.",
+                  message: "You have income and assets items recorded that are jointly owned, or owned by your partner. For the ongoing management of these items you should <a href='/auth/profile/partner-consent'>provide your partner's consent</a>.",
                   id: ["no-consent-message"],
-                  type: "warning",
-                  modifiers: ["hidden"]
+                  modifiers: ["hidden1"]
                 }); %>
 
               <button class="uikit-btn uikit-btn--primary"
                 onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
+
+                <hr>
+
+                <p id="statement" class="margin-above--large" hidden><b>Current income and assets statement:</b><BR/><a href="#open-request-modal">Request statement by email</a></b>
+
               <%- include("transactions-table"); %>
+
+              
+
         </section>
+        <div id="statement-success" class="toast-container" style="display: none;">
+          <button class="uikit-btn toast" role="alert" type="button">
+            <div class="toast__type toast__type--success">
+              <span class="sr">Success</span>
+            </div>
+            <div class="toast__message">
+              <p>Your request has been submitted successfully.</p>
+            </div>
+          </button>
+        </div>
       </div>
     </section>
   </main>
   <%- include(partials+"components/layout/footer") %>
   <%- include("index-ss") %>
+  <%- include("request-confirm-modal") %>
 </body>
 <script>
 
@@ -61,19 +79,19 @@
 
   function stateSwitcher() {
 
-    console.log(pastTransactions)
-
     $("#past-transactions").hide();
     $("#sixmonth-message").hide();
     $("#more-transactions").hide();
 
     switch (pastTransactions) {
       case "none":
+      $("#statement").show();
         break;
       case "one":
         $("#past-transactions").show();
         $("#more-transactions").hide();
         $("#one-transaction").show();
+        $("#statement").hide();
         break;
       case "many":
         $("#one-transaction").hide();
@@ -81,6 +99,7 @@
         $("#card-hidden").hide();
         $("#more-transactions").show();
         $("#sixmonth-message").show();
+        $("#statement").hide();
         break;
       default:
         break;

@@ -12,12 +12,38 @@
     id: "accommodation-status"
   }); %>
 
+  <h3>Partner consent </h3>
+  <h4>Relationship status unknown</h4>
+  <%- include(partials+"components/form-partials/radio", {
+    boxes: [
+      "Relationship unknown - e.g cleanskin (1)",
+      "Provided and pending (2)",
+      "Confirmed (3)"
+    ],
+    id: "partner-consent"
+  }); %>
+  <h4>Relationship status known</h4>
+  <%- include(partials+"components/form-partials/radio", {
+    boxes: [
+      "Consent required - not provided",
+      "Not required"
+    ],
+    id: "partner-consent-known"
+  }); %>
+
   <h3>Other properties</h3>
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
       "Postal address updated successfully"
     ],
     id: "po-success",
+    customClass: "margin-below--none"
+  }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Residential address updated successfully (not in payment)"
+    ],
+    id: "residential-success",
     customClass: "margin-below--none"
   }); %>
   <%- include(partials+"components/form-partials/checkbox", {
@@ -58,6 +84,19 @@
     }
   }  
 
+  $('#residential-success-1').change(function() {
+    updateResidential();  
+  });
+
+  function updateResidential() {
+    var myStatus = $("#residential-success-1").is(":checked");
+    if ( myStatus ) {
+        $("#residential-update-success").show();
+    } else {
+      $("#residential-update-success").hide();
+    }
+  }  
+
   $('#accomm-success-1').change(function() {
     updateAccomm();  
   });
@@ -74,6 +113,7 @@
   $("#accommodation-status-1").prop("checked", true);
 
   $('input[name=accommodation-status]').change(function () {
+    // $("#accommodation-status-1").prop("checked", true);
       accommodationType = $(this).val().substring(0,4);
       $("#other-details-rent").hide();
       $("#other-details-board").hide();
@@ -98,5 +138,61 @@
         break;
     }
   });
+
+  $("#partner-consent-1").prop("checked", true);
+  $(".partnered-definition").hide();
+
+  $('input[name=partner-consent]').change(function () {
+    var myConsent = $(this).val().substring(0,4);
+    $("#partner-consent-known-container input").prop("checked", false);
+    hideConsent();
+    switch (myConsent) {
+      case "rela":
+        $(".relationship-status-text").html("<em>Not provided</em>");
+        $(".relationship-status-change").show();
+        break;
+        case "prov":
+        $(".partner-consent-status").html("<em>Pending</em>");
+        $(".relationship-status-text").html("<em>Pending</em>");
+        $(".partner-consent-row").show();
+        break;
+      case "conf":
+        $(".partner-consent-status").html("Provided");
+        $(".relationship-status-text").html("Defacto with John Citizen");
+        $(".partner-consent-row").show();
+        $(".relationship-status-change").show();
+        break;
+      default:
+        break;
+    }
+  });
+
+  $('input[name=partner-consent-known]').change(function () {
+    var myConsent = $(this).val().substring(0,4);
+    $("#partner-consent-container input").prop("checked", false);
+    hideConsent();
+    switch (myConsent) {
+      case "cons":
+        $(".partner-consent-status").html("<em>Not provided</em>");
+        $(".partner-consent-status-change").show();
+        $(".relationship-status-text").html("Partnered");
+        $(".partner-consent-row").show();
+        $(".partnered-definition").show();
+        break;
+      case "notr":
+        $(".relationship-status-text").html("Single");
+        $(".relationship-status-change").show();
+        break;
+      default:
+        break;
+    }
+  });
+
+  function hideConsent(){
+    $(".partner-consent-row").hide();
+    $(".relationship-status-change").hide();
+    $(".partner-consent-status-change").hide();
+    $(".partnered-definition").hide();
+  }
 
 </script>

@@ -58,47 +58,66 @@
                   </div>
                 </div>
                 <div class="col-sm-3 col-xs-5 change-button">
-
-                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small" disabled>Locked</button>
+                  <!-- <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small" disabled>Locked</button> -->
                 </div>
               </div>
-
               <div class="row profile-row" role="listitem">
                 <div class="col-sm-9 col-xs-7 description-fields">
                   <div class="row">
                     <div class="col-sm-4 title-field">File number</div>
                     <div class="col-sm-8 uneditable">
-                      <span><span class="pt-current-user-file-number">Not provided</span></span>
+                      <span><span class="pt-current-user-file-number"><em>Not provided</em></span></span>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-3 col-xs-5 change-button">
-
-                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small" disabled>Locked</button>
+                  <!-- <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small" disabled>Locked</button> -->
                 </div>
               </div>
-              <%#               
-              <div class="row profile-row" role="listitem">
+              <div class="row profile-row relationship-row" role="listitem">
                 <div class="col-sm-9 col-xs-7 description-fields">
                   <div class="row">
-                    <div class="col-sm-4 title-field">Highest rank achieved</div>
+                    <div class="col-sm-4 title-field">Relationship status</div>
                     <div class="col-sm-8 uneditable">
-                      <span>Leading seaman</span>
+                      <span class="pt-current-user-file-number relationship-status-text"><em>Not provided</em></span>
+                      <%- include(partials+"components/tooltip-global", {
+                        text: "You are considered partnered if you are married, in a de facto relationship, or in a registered relationship.",
+                        customClass: ["partnered-definition"]
+                      }) %>
                     </div>
                   </div>
                 </div>
                 <div class="col-sm-3 col-xs-5 change-button">
-                  <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small" disabled>Locked</button>
+                  <a href="/auth/profile/partner-consent/"><button class="uikit-btn uikit-btn--block uikit-btn--tertiary small relationship-status-change">Change</button></a>
                 </div>
-              </div> %>
-          </div>
+              </div>
+              
+              <div class="row profile-row partner-consent-row" role="listitem" hidden>
+                <div class="col-sm-9 col-xs-7 description-fields">
+                  <div class="row">
+                    <div class="col-sm-4 title-field">Partner consent 
+                      <%- include(partials+"components/tooltip-global", {
+                        text: "Providing your partner's consent enables you to submit information on their behalf."
+                      }) %>
+                    </div>
+                    <div class="col-sm-8 uneditable">
+                      <span><span class="partner-consent-status"><em>Not provided</em></span></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-3 col-xs-5 change-button">
+                  <a href="/auth/profile/partner-consent/"><button class="uikit-btn uikit-btn--block uikit-btn--tertiary small partner-consent-status-change">Change</button></a>
+                </div>
+              </div>
 
-          <div class="margin-above--extra margin-below--extra">
-            <i>To change locked information, call
-              <a href="tel:1800555254">1800 555 254</a> or email
-              <a href="mailto:generalenquiries@dva.gov.au">generalenquiries@dva.gov.au</a>
+            </div>
+            
+
+          <div class="margin-above margin-below--extra">
+            <i>Some of the above information cannot be updated in MyService. To update call <a href="tel:1800555254">1800 555 254</a> or <a href="javascript: revealSendMessage();">send us a message</a>.
             </i>
           </div>
+
           <div>
                 <h2 class="margin-above--large">Contact details</h2>
                 <div class="profile-table margin-below--extra">
@@ -602,9 +621,6 @@
                       <button class="uikit-btn uikit-btn--block uikit-btn--tertiary small edit-mobile-button">Change</button>
                     </div>
                   </div>
-
-                  
-                
                   <div class="row profile-row">
                     <div class="col-sm-9 col-xs-7 description-fields">
                       <div class="row">
@@ -670,12 +686,12 @@
                 </div>
 
                 <div id="other-details">
-                <h2 class="margin-above--large">Other details</h2>
+                <h2 class="margin-above--large">Accommodation details</h2>
                 <div class="profile-table margin-below--extra">
                   <div class="row profile-row">
                     <div class="col-sm-9 col-xs-7 description-fields">
                       <div class="row">
-                        <div class="col-sm-4 title-field">Accommodation payments</div>
+                        <div class="col-sm-4 title-field">Accommodation costs</div>
                         <div class="col-sm-8 uneditable residential-uneditable-div"  id="other-details-rent">
                           <span id="address0-span" style="display:none;"></span>
                           <span id="address1-span">$250</span> <br />
@@ -724,6 +740,16 @@
         </div>
         <div class="toast__message">
           <p>Your postal address has been updated successfully.</p>
+        </div>
+      </button>
+    </div>
+    <div id="residential-update-success" class="toast-container" style="display: none;">
+      <button class="uikit-btn toast" role="alert" type="button">
+        <div class="toast__type toast__type--success">
+          <span class="sr">Success</span>
+        </div>
+        <div class="toast__message">
+          <p>Your residential address has been updated successfully.</p>
         </div>
       </button>
     </div>
@@ -1117,6 +1143,11 @@
     // re-enable other edit fields
     $('.edit-email-button, .edit-home-button, .edit-mobile-button, .edit-postal-button').prop('disabled', false);
   });
+
+  function revealSendMessage() {
+    showPanel(null); 
+    AU.accordion.Toggle( document.getElementById('send-message-accordion') );
+  }
 </script>
 </body>
 
