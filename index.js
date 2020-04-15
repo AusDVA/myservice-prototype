@@ -141,6 +141,7 @@ app.get('/', (req, res) => {
 
 app.get('*', (req, res) => {
   var url = req.originalUrl.replace(".ejs", "");
+  url = url.split("?")[0];
 
   if (url.charAt(0) === "/") url = url.substr(1);
 
