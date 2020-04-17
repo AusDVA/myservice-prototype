@@ -11,77 +11,70 @@ progress.activeItem = 3;
   progress
 }) %>
 
+
 <%- include(partials+"components/form-partials/yes_no", {
-    label: `Do you <span class="partnered" style="display: none;">and/or your partner </span>have any dependent children under 16 years of age?`,
-    yes_toggle: "#dependent-details",
-    no_toggle: "#save-next",
-    tooltip: {
-      screenreaderText: "Definition of dependent",
-     content: "Dependent means that you are legally responsible for the day-to-day care, welfare and development of a child who is in your care or wholly or substantially in your care."
-    }
+  label: "Have you undergone any treatment for your condition(s)?",
+  id: "treatment-question",
+  yes_toggle: "#treatment-yes",
+  no_toggle: "#treatment-no"
+}) %>
+
+<form id="myForm">
+
+  <input type="reset" style="display:none">
+
+<div id="treatment-yes" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you undergone surgery in the last 12 months?"
   }); %>
 
-<div id="dependent-details" class="padding-above--none padding-below--none" hidden>
-
-  <p><b>Provide details of the youngest dependent child:</b></p>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "Given name",
-      hint: "(first name)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "Middle name",
-      hint: "(optional)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/text", {
-    label: "Surname",
-    hint: "(last name)"
-    }); %>
-
-    
-
-  <%- include(partials+"components/form-partials/date", {
-      label: "Date of birth"
-    }); %>
-
-  <%- include(partials+"components/form-partials/prepop/gender", {
-      both_toggle: "#save-next"
-    }); %>
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you been advised that further treatment will not improve your condition(s)? ",
+    all_toggle: "#save-next"
+  }); %>
 
 </div>
+
+<div id="treatment-no" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you been advised that treatment will not improve your condition(s)?",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+</form>
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
 <%- include(forms+"pagination", {
-  pagination: [
-    {
-      text: "Previous",
-      link: "/auth/claim/support-assessment/support-assessment-02"
-    },
-    {
-      text: "Cancel",
-      link: "#open-modal"
-    },
-    {
-      text: "Save",
-      link: "/auth/claim/support-assessment/support-assessment-04",
-      modifiers: ["floated", "primary"]
-    }
-  ]
-}) %>
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/support-assessment/support-assessment-02",
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/support-assessment/support-assessment-04",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
 
-<%- include("state-switcher-01") %>
-
-<script>
-  function stateSwitcher() {
-    if (relationshipStatus === "partnered") {
-      $(".partnered").show();
-    } else {
-      $(".partnered").hide();
-    }
-  }
-</script>
+<%#- include("state-switcher-01") %>
 
 <%- include(templates+"footer") %>
+
+<script>
+   $("#treatment-question-container").on("change", function () {
+    $("#save-next").hide();
+    $("#myForm").trigger("reset");
+  })
+</script>

@@ -1,8 +1,6 @@
 <%
-
 var progress = JSON.parse(include("progressbar")) 
 progress.activeItem = 2;
-
 %>
 
 <%- include(templates+"header", {
@@ -11,76 +9,66 @@ progress.activeItem = 2;
   progress
 }) %>
 
-<%#- include(partials+"faqs/relationship-status"); %>
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you employed?",
+  id: "employed-question",
+  yes_toggle: "#employed-yes",
+  no_toggle: "#employed-no"
+}) %>
 
-<%- include(partials+"components/form-partials/radio", {
-  label: "What is your relationship status?",
-  boxes: [
-    {
-      text: "Single",
-    },
-    {
-      text: "De facto"
-    },
-    {
-      text: "Married"
-    },
-    {
-      text: "Separated (while still legally married)",
-      tooltip: 
-        {
-          content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
-        }
-    }
-  ],
-  id: "relationship-status"
-}); %>
+<form id="myForm">
 
-<div id="partner-details" hidden>
+  <input type="reset" style="display:none">
 
-  <h3>Partner details</h3>
+<div id="employed-yes" hidden>
 
-  <%- include(partials+"components/form-partials/text", {
-      label: "Given name",
-      hint: "(first name)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "Surname",
-      hint: "(last name)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/prepop/gender"); %>
-
-  <br>
-
-  <%- include(partials+"components/form-partials/date", {
-      label: "Date of birth"
-    }); %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "Have you experienced any of the following as a result of your condition(s)?",
+    hint: "(select all that apply)",
+    boxes: [
+      "work hours reduced or changed",
+      "reduction in pay",
+      "concerns you may lose your job"
+    ]
+  }); %>
 
   <%- include(partials+"components/form-partials/yes_no", {
-      label: "Does your partner wish to receive Veteran Payment?",
-      id: "partner-wants-vp",
-      yes_toggle: "#partner-payment-questions"
-    }); %>
+    label: "Are you seeking additional support/training to better manage your condition(s) in the workplace?"
+  }); %>
 
-  <div id="partner-payment-questions" hidden>
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you looking for a different job?",
+    all_toggle: "#save-next"
+  }); %>
 
-    <%- include(partials+"components/form-partials/yes_no", {
-          label: "Does your partner currently receive payments from Centrelink?",
-          id: "partner-centrelink",
-          yes_toggle: "#partner-crn-container",
-          no_toggle: "#save-next"
-      }); %>
-
-    <%- include(partials+"components/form-partials/text", {
-          label: "What is your partner's Customer Reference Number (CRN)?",
-          id: "partner-crn",
-          modifiers: ["hidden"]
-      }); %>
-
-  </div>
 </div>
+
+<div id="employed-no" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you seeking employment?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you recently lost your job due to your condition(s)?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you previously lost a job because of your condition(s)?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Has your condition(s) affected your ability to work in the future?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Do you require retraining to help you gain employment?",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+</form>
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
@@ -88,55 +76,28 @@ progress.activeItem = 2;
     pagination: [
       {
         text: "Previous",
-        link: "/auth/claim/support-assessment/support-assessment-01"
+        link: "/auth/claim/support-assessment/support-assessment-01",
       },
       {
-        text: "Cancel",
-        link: "#open-modal"
+        text: "Save and exit",
+        link: "/auth/",
+        modifiers: ["floated"]
       },
       {
-        text: "Save",
+        text: "Save and next",
         link: "/auth/claim/support-assessment/support-assessment-03",
         modifiers: ["floated", "primary"]
       }
     ]
   }) %>
 
-  <%- include("state-switcher-01") %>
+<%#- include("state-switcher-01") %>
+
+<%- include(templates+"footer") %>
 
 <script>
-
-  $("input:radio").prop("checked", false);
-
-  $('input[name=relationship-status]').change(function () {
+   $("#employed-question-container").on("change", function () {
     $("#save-next").hide();
-    $("#partner-details").hide();
-    switch ( $(this).val() ) {
-      case "single":
-        $("#save-next").show();
-        localStorage.setItem("relationship-status", "single");
-        break;
-      case "married":
-        $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
-        break;
-      case "defacto":
-        $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
-        break;
-      case "separatedwhilestilllegallymarried":
-      $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
-        break;
-      default:
-    }
-  });
-  $("#partner-wants-vp-container").on("change", "input", function () {
-    if ($(this).val() === "yes") {
-      localStorage.setItem("partner-wants-vp", "true");
-    } else {
-      localStorage.setItem("partner-wants-vp", "false");
-    }
+    $("#myForm").trigger("reset");
   })
 </script>
-<%- include(templates+"footer") %>
