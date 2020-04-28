@@ -1,0 +1,84 @@
+<% 
+var cards = [
+  {title: "Initial Liability", text: "Your first step towards treatment and support for a service-related injury or condition.", link: "/auth/claim/il/claim1"},
+  {id: "vp", title: "Veteran payment", text: "Interim financial support while you wait for your initial liability determination."},
+  {title: "Permanent Impairment", text: "Apply for compensation for ongoing impairments that are impacting your lifestyle.", link: "/auth/claim/permanent-impairment/permanent-impairment-01"},
+  {title: "Mental health treatment", text: "Access free mental health treatment.", link: "/auth/claim/mental-health-eligibility"},
+  {title: "Veteran Covenant", text: "Request the Covenant Oath, Lapel Pin and Veteran Card as recognition of your service.", link: "/auth/claim/veterancard/vrp1"},
+  {title: "Incapacity Payments", text: "Get compensated for your inability or reduced ability to work because of a service injury or condition.", link: "/auth/claim/incap/before-start"},
+  {title: "Disability pension - application for increase", text: "Apply for a payment increase to your disability pension.", link: "/auth/claim/afi/afi1"}
+] 
+
+var quickLinks = [
+  {title: "Civilian qualifying service", text: "Submit a claim to determine if you have qualifying service.", link: "/auth/claim/civilian-qualifying-service/cqs1" },
+  {title: "Defence Home Ownership Assistance Scheme", text: "Apply for subsidy certificate to assist with the interest of your home loan.", link: "/auth/claim/dhoas/landing-page"},
+  {title: "Defence Service Home Insurance Scheme", text: "Apply for home, contents and other insurance policies.", link: "http://www.dsh.gov.au/insurance/"},
+  {title: "Education assistance", text: "Apply for assistance with the cost of education for children of eligible veterans.", link: "/auth/claim/education-assistance/edu1"},
+  {title: "Support for employment", text: "Apply for employment support transitioning into the civilian workforce.", link: "/auth/claim/support-for-employment/sfe-01"},
+]
+%>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Home | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+
+  <div class="mys-page-preloader">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation" />
+  </div>
+
+  <main class="page-loading">
+    <div class="authenticated-home authenticated-home--clear container">
+     
+     
+      <section class="dashboard-cards">
+        <h2 class="dashboard-title">New applications</h2>
+        <div class="cards__wrapper" id="claims-tiles">
+          <% cards.forEach(function(card) { %>
+          <%- include(partials+"components/card-v2", {
+            id: card.id,
+            title: card.title,
+            text: card.text,
+            link: card.link
+          }) %>
+          <% }); %>
+        </div>
+        <a href="">View all</a>
+      </section>
+      <!-- <section class="quick-links">
+        <h2 class="dashboard-title">Further options</h2>
+        <div class="quick-links__wrapper">
+          <% quickLinks.forEach(function(link) { %>
+          <div class="quick-link">
+            <h3 class="quick-link__heading">
+              <a href="<%- link.link %>">
+                <%- link.title %>
+              </a>
+            </h3>
+            <p class="quick-link__text"><%- link.text %></p>
+          </div>
+          <% }); %>
+        </div>
+      </section> -->
+    </div>
+  </main>
+  <%- include(partials+"components/layout/footer") %>
+</body>
+<%- include("index-state-switcher") %>
+
+</html>
+
