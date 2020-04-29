@@ -1,0 +1,103 @@
+<%
+var progress = JSON.parse(include("progressbar")) 
+progress.activeItem = 2;
+%>
+
+<%- include(templates+"header", {
+  claim: "Support assessment", 
+  heading: "Employment",
+  progress
+}) %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you employed?",
+  id: "employed-question",
+  yes_toggle: "#employed-yes",
+  no_toggle: "#employed-no"
+}) %>
+
+<form id="myForm">
+
+  <input type="reset" style="display:none">
+
+<div id="employed-yes" hidden>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "Have you experienced any of the following as a result of your condition(s)?",
+    hint: "(select all that apply)",
+    boxes: [
+      "work hours reduced or changed",
+      "reduction in pay",
+      "concerns you may lose your job"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you seeking additional support/training to better manage your condition(s) in the workplace?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you looking for a different job?",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+<div id="employed-no" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you seeking employment?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you recently lost your job due to your condition(s)?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you previously lost a job because of your condition(s)?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Has your condition(s) affected your ability to work in the future?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Do you require retraining to help you gain employment?",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+</form>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/support-assessment/support-assessment-01",
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/support-assessment/support-assessment-03",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%#- include("state-switcher-01") %>
+
+<%- include(templates+"footer") %>
+
+<script>
+   $("#employed-question-container").on("change", function () {
+    $("#save-next").hide();
+    $("#myForm").trigger("reset");
+  })
+</script>

@@ -1,0 +1,48 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Financial circumstance have changed"
+    ],
+    id: "financial",
+    customClass: "margin-below--none"
+  }); %>
+ 
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+  });
+
+  $(".pagination").hide();
+
+  $("#financial-1").prop("checked", true);
+
+  $('#financial-1').change(function() {
+    updateFinancial();  
+  });
+
+  function updateFinancial() {
+    var myStatus = $("#financial-1").is(":checked");
+    if ( myStatus ) {
+      $(".financial-nudge").show();
+      $(".pagination").hide();
+    } else {
+      $(".financial-nudge").hide();
+      $(".pagination").show();
+    }
+  }  
+
+
+</script>
