@@ -1,0 +1,80 @@
+<%
+
+var progress = JSON.parse(include("progressbar")) 
+progress.activeItem = 3;
+
+%>
+
+<%- include(templates+"header", {
+  claim: "Support assessment", 
+  heading: "Treatment",
+  progress
+}) %>
+
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Have you undergone any treatment for your condition(s)?",
+  id: "treatment-question",
+  yes_toggle: "#treatment-yes",
+  no_toggle: "#treatment-no"
+}) %>
+
+<form id="myForm">
+
+  <input type="reset" style="display:none">
+
+<div id="treatment-yes" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you undergone surgery in the last 12 months?"
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you been advised that further treatment will not improve your condition(s)? ",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+<div id="treatment-no" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Have you been advised that treatment will not improve your condition(s)?",
+    all_toggle: "#save-next"
+  }); %>
+
+</div>
+
+</form>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/support-assessment/support-assessment-02",
+      },
+      {
+        text: "Save and exit",
+        link: "/auth/",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        link: "/auth/claim/support-assessment/support-assessment-04",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%#- include("state-switcher-01") %>
+
+<%- include(templates+"footer") %>
+
+<script>
+   $("#treatment-question-container").on("change", function () {
+    $("#save-next").hide();
+    $("#myForm").trigger("reset");
+  })
+</script>

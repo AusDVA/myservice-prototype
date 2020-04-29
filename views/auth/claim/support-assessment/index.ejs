@@ -1,0 +1,67 @@
+
+
+<%- include(templates+"header", {
+  claim: "Support assessment", 
+  heading: "Support assessment"
+}) %>
+
+<p>The Support Assessment should be completed after all liability claims have been submitted.</p>
+
+<p>The purpose of the Support Assessment is for DVA to get a better understanding of how your condition is affecting your lifestyle, and to identify which services you may be eligible for.</p>
+
+<p>Please provide details of the impact of all your conditions on your lifestyle. The more information you provide, the better we may be able to support you. There are no ‘wrong’ or ‘incorrect’ answers.</p> 
+
+<p>You can update the Support Assessment at any time if your circumstances change.</p>
+
+<p>Please be advised that completion of this form does not guarantee access to all services that DVA has to offer.</p>
+
+<p id="save-next" class="margin-above--extra">Choose <b>next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel",
+        id: "cancel",
+        link: "#open-modal"
+      },
+      {
+        text: "Next",
+        id: "save-next-button",
+        link: "/auth/claim/support-assessment/support-assessment-01",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include("state-switcher-01") %>
+
+<script>
+  
+  $('input[name=unable-question]').change(function () {
+    var mySelection = $('input[name=unable-question]:checked').parent().find("span").text();
+    if ( mySelection == "Yes") {
+        $("#save-next-button").removeAttr("disabled");
+    } else {
+        $("#save-next-button").attr("disabled", "true");
+    }
+    $("#save-next").hide();
+    $("#crn-container").hide();
+    $("#warning-container").hide();
+  })
+
+
+function stateSwitcher() {
+    if (cameFromIl === "true") {
+      $("#unable-question-container").hide();
+      $("#centrelink-container").show();
+      $(".came-from-il").show();
+    } else {
+      $("#unable-question-container").show();
+      $("#centrelink-container").hide();
+      $(".came-from-il").hide();
+    }
+  }
+
+</script>
+
+<%- include(templates+"footer") %>
