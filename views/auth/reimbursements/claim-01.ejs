@@ -1,0 +1,144 @@
+<%#- include(templates+"header", {
+  heading: "Claim for reimbursements",
+  claim: "Travelling expenses"
+}) %>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<style>
+  .items {
+    border-top: 2px solid #000;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 30px;
+  }
+
+  .items .item {
+    float: left;
+    box-sizing: border-box;
+    background: #fff;
+    color: #171e42;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+  }
+
+  .items .item.header {
+    background-color: #eee;
+    border-bottom: 1px solid #000;
+    font-weight: bold;
+  }
+
+  .items .item.a {
+    width: 15%;
+  }
+
+  .items .item.b {
+    width: 20%;
+  }
+
+  .items .item.c {
+    width: 20%;
+  }
+
+  .items .item.d {
+    width: 20%;
+  }
+
+  .items .item.e {
+    width: 15%;
+    text-align: right;
+  }
+
+  .items .item.f {
+    width: 10%;
+    text-align: right;
+  }
+
+  .pseudoRow {
+    clear: both;
+  }
+
+  .footer {
+    border-top: 1px solid #000;
+    padding: 12px;
+    font-weight: bold;
+    padding-right: 85px;
+    clear: both;
+  }
+</style>
+
+<head>
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <div class="page-heading">
+    <h1 class="orange-underline">Claim for reimbursements</h1>
+  </div>
+  <main>
+    <div class="container margin-above--extra margin-below--extra">
+      <div class="items">
+        <div class="pseudoRow">
+          <div class="item header a">Date</div>
+          <div class="item header b">Provider</div>
+          <div class="item header c">Cost type</div>
+          <div class="item header d">Details</div>
+          <div class="item header e">Amount</div>
+          <div class="item header f">&nbsp;</div>
+        </div>
+        <div class="pseudoRow">
+          <div class="item a">--</div>
+          <div class="item b">--</div>
+          <div class="item c">--</div>
+          <div class="item d">--</div>
+          <div class="item e">--</div>
+          <!-- <div class="item f"><span class="fal fa-pencil fa-lg"></span>&nbsp;&nbsp;<span class="fal fa-trash-alt fa-lg"></span></div> -->
+        </div>
+        <div class="pseudoRow">
+          <div class="footer">
+            Total claim amount<span class="floated">$00.00</span>
+          </div>
+        </div>
+      </div>
+      <!-- <button id="new-claim" class="uikit-btn margin-below"><span
+          class="fal fa-plus-circle fa-lg"></span>&nbsp;&nbsp;Add first expense</button> -->
+          <button id="new-claim" class="uikit-btn margin-below">Add first expense</button>
+          <%- include(forms+"pagination", {
+            pagination: [
+              {
+                text: "Cancel",
+                link: "#open-modal"
+              },
+              {
+                text: "Submit",
+                link: "/auth/transport/transport-claim-04",
+                modifiers: ["floated","disabled"]
+              }
+            ]
+          }) %>
+    </div>
+    
+  </main>
+ 
+<%- include(templates+"footer") %>
+</body>
+
+<script>
+  $(document).ready(function () {
+    $("#new-claim").on("click", function () {
+      window.location.href = "/auth/transport/transport-claim-02";
+    })
+    $(".fa-pencil").on("click", function () {
+      window.location.href = "/auth/transport/transport-claim-02";
+    })
+  })
+</script>
