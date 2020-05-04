@@ -3,9 +3,10 @@
   claim: "New medical expenses"
 }) %>
 
-<h2>Provider details</h2>
+<h2 class="mys">Provider details</h2>
 <%- include(partials+"components/form-partials/dropdown", {
   label: "Select provider, hospital or pharmacy",
+  id: "provider",
   options: [
     {
       text: "-- Select an option --"
@@ -28,7 +29,7 @@
   ]
 }); %>
 
-<div id="going-to-enter" hidden>
+<div id="provider-details" hidden>
   <%- include(partials+"components/form-partials/text", {
     label: "Practice/Doctor's name"
   }); %>
@@ -91,7 +92,7 @@
     ]
   }) %>
 </div>
-<h2>Expense details</h2>
+<h2 class="mys">Expense details</h2>
 <%- include(partials+"components/form-partials/date", {
       label: "Date of service"
   }); %>
@@ -151,7 +152,7 @@
 
 <div id="evidence">
 
-  <h2 style="display: inline-block; margin-top: 0;"><span class="font-weight-heavy">Supporting evidence</span></h2>
+  <h2 class="mys">Supporting evidence</h2>
 
   <p>Attach a tax invoice or other evidence of the expense for easier processing. In this case retain evidence until
     your claim is approved.</p>
@@ -205,18 +206,15 @@
 
 <script>
   $(document).ready(function () {
-    // $("input:radio").prop("checked", false);
-    // $("input:checkbox").prop("checked", false);
-    $('input[name=going-to-prepop]').change(function () {
-      var mySelection = $('input[name=going-to-prepop]:checked').parent().find("span").text().trim();
-      $("#going-to-prepop-container").hide("fast");
-      $("#edit-going-to").css("display", "inline-block");
-      if (mySelection == "New provider") {
-        $("#going-to-enter").show();
+
+    $('#provider').on('change', function () {
+      var mySelect = $("#provider option:selected").text().trim();
+      if (mySelect == "New provider") {
+        $("#provider-details").show();
       } else {
-        $("#going-to-enter").hide();
-        $("#going-to-prepop").show();
+        $("#provider-details").hide()
       }
     });
+
   });
 </script>
