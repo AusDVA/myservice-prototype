@@ -1,12 +1,35 @@
+/* block of tiles underneath the dashboard widgets */
+
 .homepage__content {
   position: relative;
   width   : 100%;
 }
 
+.homepage__content .homepage__icon {
+  font-size   : 15px;
+  margin-right: 8px;
+}
+
+.homepage__content a {
+  text-decoration: none;
+  display        : block;
+  font-size      : 16px;
+  color          : $mys-black;
+  border-bottom  : none;
+}
+
+.homepage__content a:hover,
+.homepage__content a:focus {
+  background-color: transparent;
+  text-decoration : underline;
+}
+
+/* row - container for columns */
+
 .homepage__row {
   display       : flex;
   flex-direction: column;
-  padding       : 0 0 25px 0;
+  padding       : 0 0 0 0;
 
   @media screen and (min-width: 992px) {
     flex-direction  : row;
@@ -16,17 +39,13 @@
   }
 }
 
+/* column - container for items */
+
 .homepage__column {
-  display         : flex;
-  flex-wrap       : wrap;
-  flex-direction  : column;
-  width           : 100%;
-  padding         : 15px;
-  max-width       : none;
-  margin-left     : 0px;
-  margin-bottom   : 20px;
-  background-color: $mys-grey-1;
-  border-radius   : 2px;
+  display       : flex;
+  flex-wrap     : wrap;
+  flex-direction: column;
+  width         : 100%;
 
   @media screen and (min-width: 992px) {
     margin-left: 20px;
@@ -37,41 +56,73 @@
   margin-left: 0;
 }
 
-.homepage__column>ul {
+.homepage__column li a {
+  padding: 5px 10px 5px 0;
+}
+
+/* Items - individual tiles that stack within a column */
+
+.homepage__column-item {
+  width           : 100%;
+  padding         : 10px 15px 15px 15px;
+  max-width       : none;
+  margin-left     : 0px;
+  background-color: $mys-grey-1;
+  border-radius   : 2px;
+  margin-bottom   : 20px;
+}
+
+.homepage__column-item:only-child {
+  height: 100%;
+}
+
+// .homepage__column-item:last-child {
+//   margin-bottom: 0;
+// }
+
+.homepage__column-item>ul {
   list-style-type: none;
   padding        : 0;
   margin         : 0;
 }
 
-.homepage__column>li {
+.homepage__column-item>li {
   margin : 0;
   display: block;
 }
 
-.homepage__icon {
-  font-size   : 15px;
-  // line-height : -1.5em !important;
-  margin-right: 8px;
+/* Modifiers for specific columns */
+
+.homepage__column--card {
+
+  display: flex;
+  order  : -1;
+
+  @media screen and (min-width: 992px) {
+    display: none;
+    order  : initial;
+  }
+
 }
 
-.homepage__content a {
-  text-decoration: none;
-  display        : block;
-  font-size      : 16px;
-  color          : $mys-black;
-  border-bottom  : none;
-  padding        : 5px 10px 5px 0;
+/* Modifiers for specific column items */
+
+/* --card-small is shown under 'Report changes' for Income Support clients when in desktop view, in mob they see the big card */
+
+.homepage__column-item--card-small {
+  min-height: 200px;
+  display: none;
+  @media screen and (min-width: 992px) {
+    display: block;
+  }
 }
 
-.homepage__content a:hover,
-.homepage__content a:focus {
-  background-color: transparent;
-  text-decoration : underline;
-}
+/* --card is shown in mobile for all clients, in desktop for non Income Support clients */
 
-.homepage__column {
+.homepage__column-item--card {
+
   .my-card__container {
-    position: relative;
+    position : relative;
     max-width: 450px;
 
     .my-card__image {
@@ -85,16 +136,18 @@
       background: transparent;
       position  : absolute;
       font-size : 4vw;
+
       @media screen and (min-width: 450px) {
         font-size: 20px;
       }
+
       @media screen and (min-width: 992px) {
         font-size: 14px;
       }
     }
 
     .card-holder-name {
-      top: 42%;
+      top : 42%;
       left: 5%;
     }
 
@@ -109,8 +162,8 @@
     }
 
     .card-expiry-label {
-      top : 58%;
-      left: 45%;
+      top        : 58%;
+      left       : 45%;
       line-height: 1.1em;
     }
 
@@ -120,4 +173,16 @@
     }
 
   }
+
+  .card-link {
+    font-size: 14px; 
+    text-align: right; 
+    padding: 3px 0 0 0;
+  }
+  .card-link i {
+    margin-left: 7px;
+  }
+
 }
+
+
