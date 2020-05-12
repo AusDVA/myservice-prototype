@@ -1,0 +1,49 @@
+<%- include(templates+"header", {
+  claim: "Veteran Recognition Package",
+  heading: "Qualifying Service explained"
+}) %>
+
+  <p>
+    An Australian, Commonwealth or Allied Veterans is seen to have Qualifying Service if they have served in warlike conflicts.   This means that you served:
+  </p>
+  <ul>
+    <li>in operations against the enemy;</li>
+    <li>were in an operational area during certain time periods; or</li>
+    <li>at a time when you incurred danger from hostile forces of the enemy.</li>
+  </ul>
+  <p>
+    To be eligible to have Qualifying Service recognised you must have served in areas of warlike conflict, and within certain time periods.  For a full list of relevant conflicts/operations and time periods please see <a target="_blank" href="https://www.dva.gov.au/financial-support/income-support/qualifying-service" rel="external">DVA Website - Qualifying Service.</a>
+  </p>
+  <p>
+    Once DVA has verified that you have Qualifying Service, this information will be used when claiming for other eligible services when you are ready, such as a DVA Service Pension.
+  </p>
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--extra",
+    pagination: [
+      {
+        text: "Cancel",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Next",
+        link: "/auth/claim/veterancard/vrp2",
+        modifiers: ["floated", "primary"],
+        id: "btnNext"
+      }
+    ]
+  }) %>
+
+  <%#- include("vrp-state-switcher") %>
+  <%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+
+  <script type="text/javascript">
+    function stateSwitcher() {
+      if (sessionStorage.getItem("vrp-known-service-history") === "true") {
+        $("#btnNext").attr("href", "/auth/claim/veterancard/vrp3");
+      } else {
+        $("#btnNext").attr("href", "/auth/claim/veterancard/vrp2");
+      }
+    }
+  </script>
