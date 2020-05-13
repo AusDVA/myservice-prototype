@@ -68,7 +68,7 @@
               <span class="sr">Success</span>
             </div>
             <div class="toast__message">
-              <p>Your request has been submitted successfully.</p>
+              <p>Documents successfully submitted.</p>
             </div>
           </button>
         </div>
@@ -110,15 +110,6 @@
     }
   }
 
-  var toast = $.urlParam('toast');
-  switch (toast) {
-    case "documents-success":
-      $("#toast-documents-success").show();
-      break;
-    default:
-      break;
-  }
-
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)')
       .exec(window.location.href);
@@ -128,6 +119,19 @@
     return results[1] || 0;
   }
 
+  var toast = $.urlParam('toast');
+  switch (toast) {
+    case "documents-success":
+      $("#toast-documents-success").show();
+      pastTransactions = "many";
+      stateSwitcher();
+      break;
+    case "show-docs-many":
+      pastTransactions = "many";
+      stateSwitcher();
+    default:
+      break;
+  }
 
 </script>
 
