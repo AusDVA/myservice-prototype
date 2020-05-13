@@ -7,7 +7,7 @@
       status: "In Progress",
       date: "29 Aug 2019",
       buttons: [
-        { text: "Update", link: "/auth/claim/updateClaimInProgress`" },
+        { text: "Add documents", link: "/auth/claim/updateClaimInProgress" },
         { text: "View", link: "/auth/claim/view/education-assistance" },
         { text: "Withdraw", link: "#" }
       ]
@@ -178,5 +178,36 @@
   </div>
 </section>
 
+<div id="toast-documents-success" class="toast-container" style="display: none;">
+  <button class="uikit-btn toast" role="alert" type="button">
+    <div class="toast__type toast__type--success">
+      <span class="sr">Success</span>
+    </div>
+    <div class="toast__message">
+      <p>Documents successfully submitted.</p>
+    </div>
+  </button>
+</div>
+
 <%- include(partials+"content/modals/claims-dhoas-start-modal") %>
 <%- include(partials+"components/layout/footer") %>
+
+<script>
+    $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+
+  var toast = $.urlParam('toast');
+  switch (toast) {
+    case "documents-success":
+      $("#toast-documents-success").show();
+      break;
+    default:
+      break;
+  }
+</script>

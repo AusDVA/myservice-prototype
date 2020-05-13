@@ -1,0 +1,52 @@
+<%- include(templates+"header", {
+  claim: "Qualifying Service | MyService",
+  heading: "Qualifying Service"
+}) %>
+
+  <p>
+    You are seen to have Qualifying Service if you have served in warlike conflicts as an Australian, Commonwealth or Allied Veteran. This means that you served:
+  </p>
+  <ul>
+    <li>in operations against the enemy;</li>
+    <li>were in an operational area during certain time periods; or</li>
+    <li>at a time when you incurred danger from hostile forces of the enemy.</li>
+  </ul>
+   <p>
+    For a full list of relevant conflicts/operations and time periods please see <a target="_blank" href="https://www.dva.gov.au/financial-support/income-support/qualifying-service" rel="external">DVA Website - Qualifying Service</a>.
+  </p>
+  <p>
+    Veterans with qualifying service are eligible for services such as DVA Service pension and a gold card at the age of 70.
+  </p>
+  <p>If you believe you have qualifying service, click 'next' to continue.</p>
+
+  
+
+  <%- include(forms+"pagination", {
+    customClass: "margin-above--extra",
+    pagination: [
+      {
+        text: "Cancel",
+        link: "/auth/"
+      },
+      {
+        text: "Next",
+        link: "/auth/claim/qualifying-service/qs1",
+        modifiers: ["floated", "primary"],
+        id: "btnNext"
+      }
+    ]
+  }) %>
+
+  <%#- include("vrp-state-switcher") %>
+  <%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+
+  <script type="text/javascript">
+    function stateSwitcher() {
+      if (sessionStorage.getItem("vrp-known-service-history") === "true") {
+        $("#btnNext").attr("href", "/auth/claim/veterancard/vrp3");
+      } else {
+        $("#btnNext").attr("href", "/auth/claim/veterancard/vrp2");
+      }
+    }
+  </script>
