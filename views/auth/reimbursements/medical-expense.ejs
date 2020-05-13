@@ -1,0 +1,220 @@
+<%- include(templates+"header", {
+  heading: "New medical expense",
+  claim: "New medical expenses"
+}) %>
+
+<h2 class="mys">Provider details</h2>
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Select provider, hospital or pharmacy",
+  id: "provider",
+  options: [
+    {
+      text: "-- Select an option --"
+    },
+    { 
+      text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+    },
+    {
+      text: "Capital Hospital / Dr Jane Smith 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+    },
+    {
+      text: "Dr Al Appleton, 334 Heathcliff Rd, Melrose place, NSW 2045"
+    },
+    {
+      text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
+    },
+    {
+      text: "<strong>New provider</strong>"
+    }
+  ]
+}); %>
+
+<div id="provider-details" hidden>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Practice/Doctor's name"
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Phone number",
+    hint: "text"
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Address line 1",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Address line 2",
+    hint: "(optional)",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Suburb or town",
+    modifiers: ["inputFullLength"]
+  }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "Postcode"
+  }); %>
+  <%- include(forms+"dropdown", {
+    label: "State or territory",
+    options: [
+      "-- Select state or territory --",
+      {
+        text: "Australian Capital Territory",
+        value: "act"
+      },
+      {
+        text: "New South Wales",
+        value: "nsw"
+      },
+      {
+        text: "Northern Territory",
+        value: "nt"
+      },
+      {
+        text: "Queensland",
+        value: "qld"
+      },
+      {
+        text: "South Australia",
+        value: "sa"
+      },
+      {
+        text: "Tasmania",
+        value: "tas"
+      },
+      {
+        text: "Victoria",
+        value: "vic"
+      },
+      {
+        text: "Western Australia",
+        value: "wa"
+      }
+    ]
+  }) %>
+</div>
+<h2 class="mys">Expense details</h2>
+<%- include(partials+"components/form-partials/date", {
+      label: "Date of service"
+  }); %>
+<%- include(partials+"components/form-partials/text", {
+      label: "Item or service being claimed"
+  }); %>
+<%- include(partials+"components/form-partials/text", {
+    label: "Cost of treatment",
+    modifiers: ["dollarSign"]
+  }); %>
+<%- include(partials+"components/form-partials/text", {
+    label: "Benefits received from Medicare",
+    modifiers: ["dollarSign"]
+  }); %>
+<%- include(partials+"components/form-partials/text", {
+    label: "Benefits received from health fund",
+    modifiers: ["dollarSign"]
+}); %>
+<div class="form-group " id="text647-container">
+  <label for="text647" class="uikit-text-input__label">Total being claimed</label>
+  <span class="input-support-text">$</span><span>&nbsp;0.00</span>
+  <!-- <input type="text" id="country" name="country" value="Norway" readonly><br><br> -->
+  <!-- <input type="text" class="uikit-text-input  input-half  " name="text647" id="text647" readonly> -->
+</div>
+<%- include(partials+"components/form-partials/dropdown", {
+    label: "Why were you unable to use your DVA Gold or White card?",
+    options: [
+      {
+        text: "-- Select reason --"
+      },
+      { 
+        text: "Reason 1"
+      },
+      {
+        text: "Reason 2"
+      },
+      {
+        text: "Reason 3"
+      },
+      {
+        text: "Other"
+      }   
+    ]
+  }); %>
+<%- include(partials+"components/form-partials/yes_no", {
+    label: "If your DRCA/MRCA claim was declined, do you currently have an outstanding appeal?"
+  }); %>
+<%- include(partials+"components/form-partials/yes_no", {
+    label: "Is this reimbursement being claimed as part of the Provisional Access to Medical Treatment PAMT trial?"
+  }); %>
+<%- include(partials+"components/form-partials/yes_no", {
+    label: "Are you a resident of an aged facility?"
+  }); %>
+<%- include(partials+"components/form-partials/textarea", {
+    label: "Additional details"
+  }); %>
+
+<div id="evidence">
+
+  <h2 class="mys">Supporting evidence</h2>
+
+  <p>Attach a tax invoice or other evidence of the expense for easier processing. In this case retain evidence until
+    your claim is approved.</p>
+
+  <div class="pt-upload-other-docs margin-below--extra">
+    <div class="form-group">
+      <table class="table-responsive file-upload-default">
+        <tr id="trData1" class="file-upload-default__row">
+          <td>
+            <span class="file-upload-default__document">
+              <span class="fal fa-file-upload fa-2x"></span>&nbsp;&nbsp;Document <a
+                class="file-upload-default__file-name"></a>
+            </span>
+          </td>
+          <td class="right">
+            <div>
+              <input type="file" class="file-upload-default__input" id="file-0">
+              <label class="file-upload-default__label" for="file-0">
+
+                <span id="document-type-button" class="file-upload-default__button">
+                  <span class="uikit-btn small">Upload</span>
+                </span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "If you do not provide evidence now you may be required to provide evidence up to 4 months from claim approval."
+  }); %>
+</div>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      id: "reset-form",
+      link: "/auth/reimbursements/claim"
+    },
+    {
+      text: "Add expense",
+      link: "/auth/reimbursements/claim?medical=1",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(templates+"footer") %>
+
+<script>
+  $(document).ready(function () {
+
+    $('#provider').on('change', function () {
+      var mySelect = $("#provider option:selected").text().trim();
+      if (mySelect == "New provider") {
+        $("#provider-details").show();
+      } else {
+        $("#provider-details").hide()
+      }
+    });
+
+  });
+</script>

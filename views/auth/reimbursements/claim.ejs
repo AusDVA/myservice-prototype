@@ -1,0 +1,137 @@
+<%#- include(templates+"header", {
+  heading: "Claim for reimbursements",
+  claim: "Travelling expenses"
+}) %>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+
+<head>
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <div class="page-heading">
+    <h1 class="orange-underline">Claim for reimbursements</h1>
+  </div>
+  <main>
+    <div class="container margin-above--extra margin-below--extra">
+      <table class="mys-table1">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Provider</th>
+            <th>Expense type</th>
+            <th>Amount</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="blank">
+            <td colspan="5" class="placeholder">No expenses added</td>
+          </tr>
+          <tr id="medical-1" hidden>
+            <td data-title="Date">21 Aug 2020</td>
+            <td data-title="Provider">South St Doctors</td>
+            <td data-title="Expense type">Medical</td>
+            <td data-title="Amount">$123.45</td>
+            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
+          </tr>
+          <tr id="travel-1" hidden>
+            <td data-title="Date">21 Aug 2020</td>
+            <td data-title="Provider">South St Doctors</td>
+            <td data-title="Expense type">Travel: parking</td>
+            <td data-title="Amount">$12.86</td>
+            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3">Claim total</td>
+            <td id="total">$0.00</td>
+            <td></td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <a href="/auth/reimbursements/medical-expense"><button id="new-claim"
+        class="uikit-btn uikit-btn--tertiary margin-below floated">Add medical expense</button></a>
+      <a href="/auth/reimbursements/travel-expense"><button id="new-claim"
+          class="uikit-btn uikit-btn--tertiary margin-below floated">Add travel expense</button></a>
+      <%- include(forms+"pagination", {
+            pagination: [
+              {
+                text: "Cancel",
+                link: "#open-modal"
+              },
+              {
+                text: "Submit claim",
+                id: "submit",
+                link: "/auth/transport/transport-claim-04",
+                modifiers: ["floated","disabled","primary"]
+              }
+            ]
+          }) %>
+    </div>
+
+  </main>
+
+  <%- include(templates+"footer") %>
+</body>
+
+<script>
+  $(document).ready(function () {
+    // $("#new-claim").on("click", function () {
+    //   window.location.href = "/auth/transport/transport-claim-02";
+    // })
+    $(".fa-pencil").on("click", function () {
+      window.location.href = "/auth/transport/transport-claim-02";
+    })
+  })
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+
+  $("#submit").attr("disabled", "true");
+
+  var travel = $.urlParam('travel');
+  switch (travel) {
+    case "1":
+      $("#travel-1").show();
+      $("#blank").hide();
+      $("#total").html("$12.86");
+      $("#submit").removeAttr("disabled");
+      break;
+    default:
+      break;
+  }
+  var medical = $.urlParam('medical');
+  switch (medical) {
+    case "1":
+      $("#medical-1").show();
+      $("#travel-1").show();
+      $("#blank").hide();
+      $("#total").html("$136.31");
+      $("#submit").removeAttr("disabled");
+      break;
+    default:
+      break;
+  }
+
+</script>
