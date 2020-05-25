@@ -2,7 +2,6 @@
 <html class="js" lang="en">
 
 <head>
-
   <title>MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
@@ -15,7 +14,6 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
 
-
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
 
@@ -23,32 +21,29 @@
     <section>
       <div class="container margin-above margin-below--extra" id="claim-activity">
         <section>
-          <!-- <div class="row"> -->
-            <!-- <div class="col-md-offset-2 col-md-8"> -->
-              <div class="back-button">
-                <a href="/auth"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
-              </div>
-            <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
-            <p>You are required to advise of any changes to your income and assets within 14 days. You can track the
-              progress of your submitted updates below. Processing times will vary based upon the types of changes you
-              report.</p>
+          <div class="back-button">
+            <a href="/auth"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+          </div>
+          <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
+          <p>You are required to advise of any changes to your income and assets within 14 days. You can track the
+            progress of your submitted updates below. Processing times will vary based upon the types of changes you
+            report.</p>
 
-              <%- include(partials+"components/form-partials/notice", {
+          <%- include(partials+"components/form-partials/notice", {
                 message: "You have income and assets items recorded that are jointly owned, or owned by your partner. For the ongoing management of these items you should <a href='/auth/profile/partner-consent'>provide your partner's consent</a>.",
                 id: ["no-consent-message"],
-                modifiers: ["hidden1"]
+                modifiers: ["hidden"]
               }); %>
 
-            <button class="uikit-btn uikit-btn--primary"
-              onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
+          <button class="uikit-btn uikit-btn--primary" onclick="location.href='/auth/profile/income-assets/start'">Get
+            started</button>
 
-              <hr>
+          <div id="statement" class="margin-above--large">
+            <hr><p><b>Current income and assets statement:</b><BR /><a href="#open-request-modal">Request statement by
+              email</a></p></div>
 
-              <p id="statement" class="margin-above--large" hidden><b>Current income and assets statement:</b><BR/><a href="#open-request-modal">Request statement by email</a></b>
 
-            <%- include("transactions-table"); %>
-
-              
+          <%- include("transactions-table"); %>
 
         </section>
         <div id="statement-success" class="toast-container" style="display: none;">
@@ -70,22 +65,16 @@
 </body>
 <script>
 
-  var updates = localStorage.getItem("updates");
-  if (updates == "true") {
-
-  } else {
-
-  }
-
   function stateSwitcher() {
 
     $("#past-transactions").hide();
     $("#sixmonth-message").hide();
     $("#more-transactions").hide();
+    $("#statement").hide();
 
     switch (pastTransactions) {
       case "none":
-      $("#statement").show();
+        $("#statement").show();
         break;
       case "one":
         $("#past-transactions").show();
@@ -105,6 +94,26 @@
         break;
     }
   }
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  var state = $.urlParam('state');
+  switch (state) {
+    case "past-transaction-show-one":
+    pastTransactions = "one";
+    stateSwitcher();
+    // $("#statement-success").show();
+      break;
+    default:
+      break;
+  }
+
 
 </script>
 
