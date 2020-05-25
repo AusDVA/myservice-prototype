@@ -45,21 +45,19 @@
               class="link-external">here</a>.</p> -->
           <button class="uikit-btn uikit-btn--primary" onclick="location.href='/auth/reimbursements/claim'">New
             claim</button>
-          <div id="past-transactions">
+          <div id="past-transactions" hidden>
             <hr>
             <h2 class="font-weight--heavy margin-below--small">Submitted claims</h2>
             <div class="horizontal-card-section">
 
               <div id="card-hidden" class="card card--horizontal card--single status-flag">
                 <div class="card-horizontal__status">
-                  <p> <strong>Destination</strong></p>
-                  <p>145 Trent St</p>
-                  <p>Salsbury NSW 2034</p>
+                  <p> <strong>Reimbursment claim</strong></p>
+                  <p>$136.78</p>
                 </div>
                 <div class="card-horizontal__title">
-                  <p> <strong>Date</strong></p>
+                  <p> <strong>Submitted</strong></p>
                   <p>Thursday 12 Dec, 2020</p>
-                  <p>1.30PM</p>
                 </div>
                 <div class="card-horizontal__buttons">
                   <a class="card-horizontal__link" href="#open-delete-item-modal">Delete</a>
@@ -67,33 +65,23 @@
                     href="/auth/profile/overseas-travel/overseas-travel-01-prepop">Edit</a>
                 </div>
               </div>
-
-              <div id="card-hidden" class="card card--horizontal card--single status-flag">
-                <div class="card-horizontal__status">
-                  <p> <strong>Destination</strong></p>
-                  <p>145 Trent St</p>
-                  <p>Salsbury NSW 2034</p>
-                </div>
-                <div class="card-horizontal__title">
-                  <p> <strong>Date</strong></p>
-                  <p>Thursday 19 Dec, 2020</p>
-                  <p>1.30PM</p>
-                </div>
-                <div class="card-horizontal__buttons">
-                  <a class="card-horizontal__link" href="#open-delete-item-modal">Delete</a>
-                  <a class="card-horizontal__link"
-                    href="/auth/profile/overseas-travel/overseas-travel-01-prepop">Edit</a>
-                </div>
-              </div>
-
               <br />
-              <!-- <p>Only upcoming trips will be shown here. If you wish to discuss trips that are not listed please contact DVA.</p> -->
             </div>
           </div>
         </section>
       </div>
     </section>
   </main>
+  <div id="toast" class="toast-container" hidden>
+    <button class="uikit-btn toast" role="alert" type="button">
+      <div class="toast__type toast__type--success">
+        <span class="sr">Success</span>
+      </div>
+      <div class="toast__message">
+        <p>Your reimbursement claim has been submitted successfully.</p>
+      </div>
+    </button>
+  </div>
   <%- include(partials+"components/layout/footer") %>
   <%#- include("index-ss") %>
   <%#- include("delete-item-modal") %>
@@ -113,6 +101,25 @@
       default:
         break;
     }
+  }
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  var toast = $.urlParam('toast');
+  switch (toast) {
+    case "item-added":
+      pastTransactions = "some";
+      stateSwitcher();
+      $("#toast").show()
+      break;
+    default:
+      break;
   }
 
 </script>
