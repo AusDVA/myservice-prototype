@@ -1,0 +1,61 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <h3>Properties</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "No data"
+    ],
+    id: "in-payment",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    // $("#in-payment-1").prop("checked", true);
+
+  $('#in-payment-1').change(function() {
+    updateInPayment();  
+  });
+
+  updateInPayment();
+  function updateInPayment() {
+    var myInPayment = $("#in-payment-1").is(":checked");
+    if ( myInPayment ) {
+      $("#delete").show();
+      $("#next").text("Next");
+      $(".next-or-submit").text("next");
+    } else {
+      $("#delete").hide();
+      $("#next").text("Submit");
+      $(".next-or-submit").text("submit");
+    }
+  }
+
+  $('#next').click(function () {
+    submitNav();
+  });
+
+  function submitNav(){
+    if ( $("#next").text() == "Next" ) {
+      window.location.href = '/auth/profile/residential-address/residential-address-02';
+    } else {
+      window.location.href = '/auth/profile/index?toast=residential';
+    }
+  }
+
+});
+
+</script>
