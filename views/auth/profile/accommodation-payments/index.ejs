@@ -87,24 +87,32 @@
 </div>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p><p>If you don’t have one, you may attach a copy of the latest accommodation payment receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>"
+  message: "<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p><p>If you don’t have one, you may attach a copy of the latest accommodation payment receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>",
+  id: "docs-notice"
 }); %>
 
 <%- include(forms+"pagination", {
     pagination: [
     {
-      text: "Cancel",
-      link:  "/auth/profile/",
+      text: "Previous",
+      link: "/auth/profile"
+    },
+    {
+      text: "Delete",
+      id: "delete",
+      link: "#open-delete-modal"
     },
       {
         text: "Next",
-        link: "/auth/profile/accommodation-payments/documents",
+        id: "next",
+        link: "#submitNav",
         modifiers: ["floated", "primary"],
-        id: "submit"
+        id: "next"
       }
     ],
     customClass: ["margin-above--extra"]
   }) %>
+
 </div>
 
 <%- include(partials+"components/layout/footer") %>
@@ -138,77 +146,5 @@
         break;
     }
   });
-
-  function stateSwitcher() {
-    updatePage();
-  }
-
-  $("#rental-or-board-1").prop("checked", true);
-
-  function updatePage(){
-    hideAll();
-    console.log( pageState )
-    switch (pageState) {
-      case "rent":
-        $("#general").show();
-        $("#rental-message").show();
-        $("#rental-or-board-1").prop("checked", true);
-        $("#rental-or-board-container").show();
-        break;
-      case "publichousing":
-        $("#general").show();
-        $("#public-housing-message").show();
-        break;
-      case "boardandlodging":
-        $("#board").show();
-        $("#rental-or-board-2").prop("checked", true);
-        $("#rental-or-board-container").show();
-        break;
-      case "caravanparksitefees":
-        $("#general").show();
-        $("#site-fees-message").show();
-        break;
-      case "mooringfees":
-        $("#general").show();
-        $("#mooring-fees-message").show();
-        break;
-      case "retirementvillage":
-        $("#general").show();
-        $("#retirement-village-message").show();
-        break;
-      case "residentialagedcare":
-        $("#general").show();
-        $("#aged-care-message").show();
-        break;
-      case "freeaccommodation":
-        $("#general").show();
-        $("#free-message").show();
-        $("#rental-or-board-1").prop("checked", false);
-        $("#rental-or-board-2").prop("checked", false);
-        $("#rental-or-board-container").show();
-        break;
-      default:
-        break;
-    }
-  }
-
-  function hideAll(){
-
-    $("#rental-message").hide();
-    $("#public-housing-message").hide();
-    $("#site-fees-message").hide();
-    $("#mooring-fees-message").hide();
-    $("#retirement-village-message").hide();
-    $("#aged-care-message").hide();
-    $("#free-message").hide();
-
-    $("#rental-or-board-container").hide();
-    $("#general").hide();
-    $("#board").hide();
-
-    $("#message-container").hide();
-
-
-  }
 
 </script>

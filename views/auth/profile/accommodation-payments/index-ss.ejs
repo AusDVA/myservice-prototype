@@ -15,7 +15,15 @@
     ],
     id: "page-state"
   }); %>
- 
+  
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Docs not required (free accomm, or less than $50 change)"
+    ],
+    id: "doc-required",
+    customClass: "margin-below--none"
+  }); %>
+
 </div>
 
 <script>
@@ -36,5 +44,106 @@
       pageState = $(this).val();
       stateSwitcher();
     });
+
+    $('#doc-required-1').change(function() {
+    updateDocs();  
+  });
+
+  function updateDocs() {
+    var myDocs = $("#doc-required-1").is(":checked");
+    console.log( myDocs );
+    if ( myDocs ) {
+      $("#delete").hide();
+      $("#next").text("Submit");
+      $("#docs-notice-container").hide();
+    } else {
+      $("#delete").show();
+      $("#next").text("Next");
+      $("#docs-notice-container").show();
+    }
+  }
+
+  $('#next').click(function () {
+    submitNav();
+  });
+
+  function submitNav(){
+    if ( $("#next").text() == "Next" ) {
+      window.location.href = '/auth/profile/accommodation-payments/documents';
+    } else {
+      window.location.href = '/auth/profile/index?toast=accommodation';
+    }
+  }
+
+  function stateSwitcher() {
+    updatePage();
+  }
+
+  $("#rental-or-board-1").prop("checked", true);
+
+  function updatePage(){
+    hideAll();
+    console.log( pageState )
+    switch (pageState) {
+      case "rent":
+        $("#general").show();
+        $("#rental-message").show();
+        $("#rental-or-board-1").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "publichousing":
+        $("#general").show();
+        $("#public-housing-message").show();
+        break;
+      case "boardandlodging":
+        $("#board").show();
+        $("#rental-or-board-2").prop("checked", true);
+        $("#rental-or-board-container").show();
+        break;
+      case "caravanparksitefees":
+        $("#general").show();
+        $("#site-fees-message").show();
+        break;
+      case "mooringfees":
+        $("#general").show();
+        $("#mooring-fees-message").show();
+        break;
+      case "retirementvillage":
+        $("#general").show();
+        $("#retirement-village-message").show();
+        break;
+      case "residentialagedcare":
+        $("#general").show();
+        $("#aged-care-message").show();
+        break;
+      case "freeaccommodation":
+        $("#general").show();
+        $("#free-message").show();
+        $("#rental-or-board-1").prop("checked", false);
+        $("#rental-or-board-2").prop("checked", false);
+        $("#rental-or-board-container").show();
+        break;
+      default:
+        break;
+    }
+  }
+
+  function hideAll(){
+
+    $("#rental-message").hide();
+    $("#public-housing-message").hide();
+    $("#site-fees-message").hide();
+    $("#mooring-fees-message").hide();
+    $("#retirement-village-message").hide();
+    $("#aged-care-message").hide();
+    $("#free-message").hide();
+
+    $("#rental-or-board-container").hide();
+    $("#general").hide();
+    $("#board").hide();
+
+    $("#message-container").hide();
+
+  }
 
 </script>
