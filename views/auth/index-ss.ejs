@@ -1,5 +1,15 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Page states",
+    id: "state",
+    boxes: [
+      "Card, COC",
+      "Card, no COC",
+      "No card, COC",
+      "No card, no COC"
+    ]
+  }); %>
 
   <div class="form-group review__table">
     <h4>User details</h4>
@@ -9,54 +19,99 @@
         <span class="uikit-control-input__text">Income support recipient</span>
       </label>
     </p>
-    
-</div>
 
-<script>
+  </div>
 
-  $(document).ready(function () {
-    /* Toggle switcher */
-    $(document).keypress(function (e) {
-      switch (e.which) {
-        case 96: //tilda
-          $('#state-switcher').toggle();
+  <script>
+
+    $(document).ready(function () {
+      /* Toggle switcher */
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 96: //tilda
+            $('#state-switcher').toggle();
+            break;
+          default:
+        }
+      });
+
+      $('#is-recipient').prop('checked', true);
+      $("#is-recipient").click(function (e) {
+        if ($("#is-recipient").prop("checked") == true) {
+          $(".homepage__column--income-support").show();
+          $(".homepage__column--card").addClass("homepage__column--hide");
+        } else {
+          $(".homepage__column--income-support").hide();
+          $(".homepage__column--card").removeClass("homepage__column--hide");
+        }
+      })
+
+      /* Greeting */
+
+      function updateGreeting() {
+        var myDate = new Date();
+        var hrs = myDate.getHours();
+        var greet;
+        if (hrs < 12)
+          greet = 'Good morning';
+        else if (hrs >= 12 && hrs <= 17)
+          greet = 'Good afternoon';
+        else if (hrs >= 17 && hrs <= 24)
+          greet = 'Good evening';
+        document.getElementById('lblGreetings').innerHTML = greet;
+      }
+
+    });
+
+    //helper function to capitalize the first letter in a string
+
+    function jsUcfirst(string) {
+      return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
+    $("#state-1").prop("checked", true);
+
+    $('input[name=state]').change(function () {
+      selectedOption = $(this).val();
+      console.log( selectedOption )
+      hideAll();
+      switch (selectedOption) {
+        case "cardcoc":
+          // $(".homepage__column--income-support").show();
+          
+
+          $(".homepage__column--income-support").show();
+          $(".homepage__column--card").addClass("homepage__column--hide");
+          $("#small-card").show();
+
+          break;
+        case "cardnococ":
+         
+        $(".homepage__column--income-support").hide();
+          $(".homepage__column--card").removeClass("homepage__column--hide");
+
+          // $(".homepage__column--income-support").hide();
+          // $(".homepage__column--card").addClass("homepage__column--hide");
+
+          break;
+        case "nocardcoc":
+          $("#homepage__column--income-support").show();
+          $("#small-card").hide();
+          break;
+        case "nocardnococ":
+        $(".homepage__column--card").addClass("homepage__column--hide");
+          // $(".homepage__column--income-support").hide();
           break;
         default:
+          break;
       }
     });
 
-    $('#is-recipient').prop('checked', true);
-    $("#is-recipient").click(function (e) {
-      if ($("#is-recipient").prop("checked") == true) {
-        $(".homepage__column--income-support").show();
-        $(".homepage__column--card").addClass("homepage__column--hide");
-      } else {
-        $(".homepage__column--income-support").hide();
-        $(".homepage__column--card").removeClass("homepage__column--hide");
-      }
-    })
-
-    /* Greeting */
-
-    function updateGreeting() {
-      var myDate = new Date();
-      var hrs = myDate.getHours();
-      var greet;
-      if (hrs < 12)
-        greet = 'Good morning';
-      else if (hrs >= 12 && hrs <= 17)
-        greet = 'Good afternoon';
-      else if (hrs >= 17 && hrs <= 24)
-        greet = 'Good evening';
-      document.getElementById('lblGreetings').innerHTML = greet;
+    function hideAll() {
+      // $("#veteran-no-card").hide();
+      // $("#veteran-white-on-way").hide();
+      // $("#veteran-gold").hide();
+      // $("#veteran-white").hide();
     }
 
-  });
-
-  //helper function to capitalize the first letter in a string
-
-  function jsUcfirst(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-  
-</script>
+  </script>
