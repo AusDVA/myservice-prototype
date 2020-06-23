@@ -18,7 +18,7 @@
   
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
-      "Docs not required (free accomm, or less than $50 change)"
+      "Docs not required"
     ],
     id: "doc-required",
     customClass: "margin-below--none"
@@ -49,9 +49,9 @@
     updateDocs();  
   });
 
+
   function updateDocs() {
     var myDocs = $("#doc-required-1").is(":checked");
-    console.log( myDocs );
     if ( myDocs ) {
       $("#delete").hide();
       $("#next").text("Submit");
@@ -90,31 +90,38 @@
         $("#rental-message").show();
         $("#rental-or-board-1").prop("checked", true);
         $("#rental-or-board-container").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "publichousing":
         $("#general").show();
         $("#public-housing-message").show();
+        $("#doc-required-1").prop("checked", true);
         break;
       case "boardandlodging":
         $("#board").show();
         $("#rental-or-board-2").prop("checked", true);
         $("#rental-or-board-container").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "caravanparksitefees":
         $("#general").show();
         $("#site-fees-message").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "mooringfees":
         $("#general").show();
         $("#mooring-fees-message").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "retirementvillage":
         $("#general").show();
         $("#retirement-village-message").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "residentialagedcare":
         $("#general").show();
         $("#aged-care-message").show();
+        $("#doc-required-1").prop("checked", false);
         break;
       case "freeaccommodation":
         $("#general").show();
@@ -126,6 +133,7 @@
       default:
         break;
     }
+    updateDocs();
   }
 
   function hideAll(){
