@@ -8,7 +8,8 @@
   id: "rental-or-board",
   boxes: [
     "Rental accommodation",
-     "Private board and lodging"
+     "Private board and lodging",
+     "Free accommodation"
   ]
 }); %>
 
@@ -30,11 +31,13 @@
 
   <%- include(partials+"components/form-partials/text", {
     label: "Payment amount",
+    id: "payment-amount",
     modifiers: ["dollarSign"]
   }); %>
 
   <%- include(partials+"components/form-partials/dropdown", {
     label: "Payment frequency",
+    id: "frequency",
     options: [
       "-- Select frequency --",
       "Weekly",
@@ -58,7 +61,8 @@
     <!-- <h2><span class="font-weight-heavy">Give details about your selection</span></h2> -->
     <div class="form-group margin-above" id="sp-la-op10-meals">
       <label class="uikit-text-input__label" for="tags">Amount paid for meals:</label>
-      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field"
+        type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
       <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
         <option selected="selected">-- Select frequency --</option>
         <option id="sp-la-op78-type-01">Weekly</option>
@@ -69,7 +73,8 @@
     </div>
     <div class="form-group margin-above" id="sp-la-op10-lodging">
       <label class="uikit-text-input__label" for="tags">Amount paid for lodging</label>
-      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field" type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
+      <span class="sign-dollar">$</span> <input class="uikit-text-input input-small" name="Input field" id="Input field"
+        type="text" value="0.00" required="" aria-required="true">per&nbsp;&nbsp;
       <select class="uikit-text-input input-half" id="payment-type" name="payment-type">
         <option selected="selected">-- Select frequency --</option>
         <option id="sp-la-op78-type-01">Weekly</option>
@@ -83,13 +88,55 @@
   <%- include(partials+"components/form-partials/date", {
     label: "When did the change occur?"
   }); %>
-  
+
 </div>
 
-<%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p><p>If you don’t have one, you may attach a copy of the latest accommodation payment receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>",
-  id: "docs-notice"
-}); %>
+<div id="docs-upload">
+  <hr>
+  <h2>Upload proof of accommodation costs</h2>
+  <%#- include(partials+"components/form-partials/notice", {
+    message: "<p>You will need to attach a copy of your latest lease or tenancy agreement in the documents section.</p><p>If you don’t have one, you may attach a copy of the latest accommodation payment receipt. Make sure the name and address of the person to whom you pay is written on the receipt.</p>",
+    id: "docs-notice"
+  }); %>
+  <div class="uikit-page-alerts uikit-page-alerts--info margin-above margin-below">
+    <p class="margin-below--mid"><strong>You will need to provide us with one document as proof of your current
+        accommodation costs.</strong></p>
+
+    <p>Documents you can provide are:</p>
+
+    <ul>
+      <li>Lease or tenancy agreement</li>
+      <li>Latest accommodation payment receipt. Make sure the name and address of the person to whom you pay is written
+        on the receipt.</li>
+      <li>Any document that shows your current accommodation costs.</li>
+    </ul>
+
+    <p>Accepted file types are pdf, jpeg or png. Maximum file size is 50MB</p>
+    <p>If there are reasons that prevent you from providing proof of your current accommodation costs contact us on 1800
+      555 254 and we'll
+      try to assist you.</p>
+  </div>
+  <h3>Uploads</h3>
+  <div class="upload-list">
+    <table class="document-uploads">
+      <tbody>
+        <tr>
+          <th>Document title</th>
+          <th class="centred">Actions</th>
+        </tr>
+        <tr>
+          <td>
+            <a href="#">rental-agreement.pdf (1.5 MB PDF)</a>
+          </td>
+          <td class="centred">
+            <button class="uikit-btn small uikit-btn--tertiary">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <button class="uikit-btn uikit-btn--tertiary btnUpload">Upload a document</button>
+  </div>
+</div>
 
 <%- include(forms+"pagination", {
     pagination: [
@@ -97,15 +144,10 @@
       text: "Previous",
       link: "/auth/profile"
     },
-    {
-      text: "Delete",
-      id: "delete",
-      link: "#open-delete-modal"
-    },
       {
-        text: "Next",
-        id: "next",
-        link: "#submitNav",
+        text: "Submit",
+        id: "submit",
+        link: "/auth/profile/index?toast=accommodation",
         modifiers: ["floated", "primary"],
         id: "next"
       }
@@ -122,25 +164,40 @@
 
   $('#rental-or-board-container').change(function () {
     mySelection = $('input[name=rental-or-board]:checked').val();
+    console.log( mySelection )
     hideAll();
+    $("#payment-amount-container").show();
+    $("#frequency-container").show();
+    $("#message-container").show();
     $(this).show();
     switch (mySelection) {
       case "rentalaccommodation":
+      $("#doc-required-1").prop("checked", true);
+        updateDocs();
         $("#general").show();
         $("#rental-message").show();
-        if ( pageState == "boardandlodging" || "freeaccommodation" ) {
-          $("#message-container").show();
-        } else {
-          $("#message-container").hide();
-        }
+        // if (pageState == "boardandlodging" || "freeaccommodation") {
+        //   $("#message-container").show();
+        // } else {
+        //   $("#message-container").hide();
+        // }
         break;
       case "privateboardandlodging":
+      $("#doc-required-1").prop("checked", true);
+        updateDocs();
         $("#board").show();
-          if ( pageState == "rent" || "freeaccommodation" ) {
-            $("#message-container").show();
-          } else {
-            $("#message-container").hide();
-          }
+        // if (pageState == "rent" || "freeaccommodation") {
+        //   $("#message-container").show();
+        // } else {
+        //   $("#message-container").hide();
+        // }
+        break;
+      case "freeaccommodation":
+        $("#payment-amount-container").hide();
+        $("#frequency-container").hide();
+        $("#general").show();
+        $("#doc-required-1").prop("checked", false);
+        updateDocs();
         break;
       default:
         break;
