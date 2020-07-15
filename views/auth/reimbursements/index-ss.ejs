@@ -1,0 +1,60 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Past transactions",
+    boxes: [
+      "None",
+      "Medical",
+      "Travel",
+      "Both"
+    ],
+    id: "past-transactions"
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Notification submitted successfully"
+    ],
+    id: "notify-success",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  var pastTransactions;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#past-transactions-2").prop("checked", true);
+    $('input[name=past-transactions]').change(function () {
+      pastTransactions = $(this).val();
+      stateSwitcher();
+    });
+
+    $('#notify-success-1').change(function() {
+    updateNotify();  
+  });
+
+  function updateNotify() {
+    var myStatus = $("#notify-success-1").is(":checked");
+    if ( myStatus ) {
+        $("#notify-update-success").show();
+    } else {
+      $("#notify-update-success").hide();
+    }
+  }  
+
+  });
+
+</script>
