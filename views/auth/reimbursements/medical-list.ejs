@@ -29,9 +29,9 @@
       <table class="mys-table1">
         <thead>
           <tr>
-            <th>Date</th>
             <th>Provider</th>
-            <th>Expense type</th>
+            <th>Appointment date</th>
+            <th>Item or service</th>
             <th>Amount</th>
             <th></th>
           </tr>
@@ -40,18 +40,18 @@
           <tr id="blank">
             <td colspan="5" class="placeholder">No expenses added</td>
           </tr>
-          <tr id="medical-1" hidden>
-            <td data-title="Date">21 Aug 2020</td>
+          <tr id="expense-1" hidden>
             <td data-title="Provider">South St Doctors</td>
-            <td data-title="Expense type">Medical type 1</td>
-            <td data-title="Amount">$123.45</td>
+            <td data-title="Appointment date">21 Aug 2020</td>
+            <td data-title="Item or service">Consultation</td>
+            <td data-title="Amount">$48.45</td>
             <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
           </tr>
-          <tr id="travel-1" hidden>
-            <td data-title="Date">21 Aug 2020</td>
+          <tr id="expense-2" hidden>
             <td data-title="Provider">South St Doctors</td>
-            <td data-title="Expense type">Medical type 2</td>
-            <td data-title="Amount">$12.86</td>
+            <td data-title="Appointment date">21 Aug 2020</td>
+            <td data-title="Item or service">Scan</td>
+            <td data-title="Amount">$15.80</td>
             <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
           </tr>
         </tbody>
@@ -76,7 +76,7 @@
               {
                 text: "Submit claim",
                 id: "submit",
-                link: "/auth/reimbursements/index?toast=item-added",
+                link: "/auth/reimbursements/index?toast=medical-added",
                 modifiers: ["floated","disabled","primary"]
               }
             ]
@@ -86,17 +86,40 @@
   </main>
 
   <%- include(templates+"footer") %>
+  <%- include("medical-list-ss") %>
+
 </body>
 
 <script>
   $(document).ready(function () {
-    // $("#new-claim").on("click", function () {
-    //   window.location.href = "/auth/transport/transport-claim-02";
-    // })
     $(".fa-pencil").on("click", function () {
       window.location.href = "/auth/transport/transport-claim-02";
     })
   })
+
+  function stateSwitcher() {
+    $("#blank").hide();
+    $("#expense-1").hide();
+    $("#expense-2").hide();
+    switch (pastTransactions) {
+      case "none":
+        $("#blank").show();
+        break;
+      case "one":
+        $("#expense-1").show();
+        $("#total").html("$48.45");
+        $("#submit").removeAttr("disabled");
+        break;
+      case "many":
+      $("#expense-1").show();
+      $("#expense-2").show();
+      $("#total").html("$64.25");
+      $("#submit").removeAttr("disabled");
+        break;
+      default:
+        break;
+    }
+  }
 
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)')
@@ -112,8 +135,15 @@
   var expenses = $.urlParam('expenses');
   switch (expenses) {
     case "1":
-      $("#medical-1").show();
-      $("#medical-2").show();
+      $("#expense-1").show();
+      // $("#expense-2").show();
+      $("#blank").hide();
+      $("#total").html("$136.31");
+      $("#submit").removeAttr("disabled");
+      break;
+      case "2":
+      $("#expense-1").show();
+      $("#expense-2").show();
       $("#blank").hide();
       $("#total").html("$136.31");
       $("#submit").removeAttr("disabled");
