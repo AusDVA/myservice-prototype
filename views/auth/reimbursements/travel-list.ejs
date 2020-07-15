@@ -33,7 +33,7 @@
             <th>Appointment date</th>
             <th>Cost type</th>
             <th>Amount</th>
-            <th></th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -44,20 +44,30 @@
             <td data-title="Provider">South St Doctors</td>
             <td data-title="Appointment date">21 Aug 2020</td>
             <td data-title="Cost type">Private vehicle</td>
-            <td data-title="Amount">$48.45</td>
-            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
+            <td data-title="Amount">268 kms</td>
+            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span
+                class="button delete fal fa-trash-alt"></span></td>
           </tr>
           <tr id="expense-2" hidden>
             <td data-title="Provider">South St Doctors</td>
             <td data-title="Appointment date">21 Aug 2020</td>
             <td data-title="Cost type">Parking fees</td>
             <td data-title="Amount">$15.80</td>
-            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span class="button delete fal fa-trash-alt"></span></td>
+            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span
+                class="button delete fal fa-trash-alt"></span></td>
+          </tr>
+          <tr id="expense-3" hidden>
+            <td data-title="Provider">South St Doctors</td>
+            <td data-title="Appointment date">21 Aug 2020</td>
+            <td data-title="Cost type">Road tolls</td>
+            <td data-title="Amount">$26.20</td>
+            <td data-title="Options"><span class="button edit fal fa-pencil"></span><span
+                class="button delete fal fa-trash-alt"></span></td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="3">Claim total</td>
+            <td colspan="3">Total being claimed</td>
             <td id="total">$0.00</td>
             <td></td>
           </tr>
@@ -65,7 +75,7 @@
       </table>
 
       <a href="/auth/reimbursements/travel-expense"><button id="new-claim"
-          class="uikit-btn uikit-btn--tertiary margin-below floated">Add travel expense</button></a>
+          class="uikit-btn uikit-btn--tertiary margin-above--small margin-below--extra floated">Add travel expense</button></a>
       <%- include(forms+"pagination", {
             pagination: [
               {
@@ -99,20 +109,33 @@
     $("#blank").hide();
     $("#expense-1").hide();
     $("#expense-2").hide();
+    $("#expense-3").hide();
+    $(".claim-disclaimer").hide();
     switch (pastTransactions) {
       case "none":
         $("#blank").show();
+        $("#total").html("$0.00");
         break;
       case "one":
+        $(".claim-disclaimer").show();
         $("#expense-1").show();
-        $("#total").html("$48.45");
+        $("#total").html("268 kms");
         $("#submit").removeAttr("disabled");
         break;
       case "many":
-      $("#expense-1").show();
-      $("#expense-2").show();
-      $("#total").html("$64.25");
-      $("#submit").removeAttr("disabled");
+        $(".claim-disclaimer").show();
+        $("#expense-1").show();
+        $("#expense-2").show();
+        $("#expense-3").show();
+        $("#total").html("268 kms / $42.00");
+        $("#submit").removeAttr("disabled");
+        break;
+      case "noprivatevehicle":
+        $(".claim-disclaimer").hide();
+        $("#expense-2").show();
+        $("#expense-3").show();
+        $("#total").html("$42.00");
+        $("#submit").removeAttr("disabled");
         break;
       default:
         break;
@@ -130,24 +153,24 @@
 
   $("#submit").attr("disabled", "true");
 
-var expenses = $.urlParam('expenses');
-switch (expenses) {
-  case "1":
-    $("#expense-1").show();
-    // $("#expense-2").show();
-    $("#blank").hide();
-    $("#total").html("$136.31");
-    $("#submit").removeAttr("disabled");
-    break;
+  var expenses = $.urlParam('expenses');
+  switch (expenses) {
+    case "1":
+      $("#expense-1").show();
+      // $("#expense-2").show();
+      $("#blank").hide();
+      $("#total").html("$136.31");
+      $("#submit").removeAttr("disabled");
+      break;
     case "2":
-    $("#expense-1").show();
-    $("#expense-2").show();
-    $("#blank").hide();
-    $("#total").html("$136.31");
-    $("#submit").removeAttr("disabled");
-    break;
-  default:
-    break;
-}
+      $("#expense-1").show();
+      $("#expense-2").show();
+      $("#blank").hide();
+      $("#total").html("$136.31");
+      $("#submit").removeAttr("disabled");
+      break;
+    default:
+      break;
+  }
 
 </script>
