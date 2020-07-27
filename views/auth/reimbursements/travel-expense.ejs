@@ -94,15 +94,17 @@
     ]
   }) %>
 </div>
-<h2 class="mys h2">Trip details</h2>
-<%- include(partials+"components/form-partials/date", {
+
+<div>
+  <h2 class="mys h2">Trip details</h2>
+  <%- include(partials+"components/form-partials/date", {
     label: "Appointment date"
   }); %>
-<%- include(partials+"components/form-partials/text", {
+  <%- include(partials+"components/form-partials/text", {
     label: "Appointment time",
     id: "time"
   }); %>
-<%- include(partials+"components/form-partials/dropdown", {
+  <%- include(partials+"components/form-partials/dropdown", {
     label: "Purpose of trip",
     id: "purpose",
     options: [
@@ -116,11 +118,13 @@
       "To attend Before the Administrative Appeals Tribunal"
     ]
   }); %>
+</div>
 
 <div>
-  <h2 class="mys h2">Cost type</h2>
+  <h2 class="mys h2">Cost details</h2>
 
   <%- include(partials+"components/form-partials/dropdown", {
+    label: "Cost type",
 options: [
   "--Select type--",
   "Private vehicle",
@@ -138,12 +142,14 @@ id: "cost-type"
   <%- include(partials+"components/form-partials/text", {
 label: "Kilometres travelled:",
 id: "kms",
-modifiers: ["hidden"]
+afterText: "kms",
+modifiers: ["hidden", "inputShort" ]
 }); %>
 
   <%- include(partials+"components/form-partials/text", {
+    label: "Amount",
 id: "dollars",
-modifiers: ["hidden","dollarSign"]
+modifiers: ["hidden","dollarSign", "inputShort"]
 }); %>
 
   <%- include(partials+"components/form-partials/yes_no", {
@@ -170,12 +176,14 @@ id: "accommodation"
 
   <%- include(partials+"components/form-partials/text", {
 label: "Length of stay",
-id: "accomm-nights"
+id: "accomm-nights",
+afterText: "nights",
+modifiers: ["inputShort"]
 }); %>
 
   <%- include(partials+"components/form-partials/text", {
-label: "Amount paid",
-modifiers: ["dollarSign"]
+label: "Total amount paid",
+modifiers: ["dollarSign","inputShort"]
 }); %>
 
   <%- include(partials+"components/form-partials/yes_no", {
@@ -191,14 +199,11 @@ modifiers: ["hidden"]
 
 </div>
 
-<div id="evidence" hidden>
-
+<div id="evidence" class="margin-below--extra" hidden>
   <h2 class="mys h2">Supporting evidence</h2>
-
-  <p>Attach a tax invoice or other evidence of the expense for easier processing. In this case retain evidence until
-    your claim is approved.</p>
-
-  <div class="pt-upload-other-docs margin-below--extra">
+  <p>Attach a tax invoice or other evidence of the expense. You will need to retain evidence until your claim is
+    approved.</p>
+  <div class="pt-upload-other-docs">
     <div class="form-group">
       <table class="table-responsive file-upload-default">
         <tr id="trData1" class="file-upload-default__row">
@@ -223,11 +228,6 @@ modifiers: ["hidden"]
       </table>
     </div>
   </div>
-
-  <%- include(partials+"components/form-partials/notice", {
-  message: "If you do not provide evidence now you may be required to provide evidence up to 4 months from claim approval."
-}); %>
-
 </div>
 
 <%- include(forms+"pagination", {
@@ -239,7 +239,7 @@ modifiers: ["hidden"]
     },
     {
       text: "Add expense",
-      link: "/auth/reimbursements/travel-list?travel=1",
+      link: "/auth/reimbursements/travel-list?expenses=1",
       modifiers: ["floated", "primary"]
     }
   ]
