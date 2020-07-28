@@ -1,6 +1,6 @@
 <%- include(templates+"header", {
-  heading: "New travelling expense",
-  claim: "New travelling expenses"
+  heading: "Travel expense",
+  claim: "Travel expenses"
 }) %>
 
 <div id="going-to" class="margin-above--large">
@@ -235,13 +235,13 @@ modifiers: ["hidden"]
 <%- include(forms+"pagination", {
   pagination: [
     {
-      text: "Previous",
+      text: "Cancel",
       id: "reset-form",
-      link: "/auth/reimbursements/travel-list"
+      link: "/auth/reimbursements/travel-list?expenses=2"
     },
     {
-      text: "Add expense",
-      link: "/auth/reimbursements/travel-list?expenses=1",
+      text: "Update expense",
+      link: "/auth/reimbursements/travel-list?expenses=2",
       modifiers: ["floated", "primary"]
     }
   ]
@@ -252,16 +252,6 @@ modifiers: ["hidden"]
 <script>
 
   $(document).ready(function () {
-
-    // $('[name=date]').val( "italy" );
-
-    // $('[name=date]').val( "italy" );
-
-$("[value=treatment]").prop("checked", true);
- $("#privatevehicle").prop("checked", true);
-// $("#who-else-1").prop("checked", true);
-// $("#who-else-2").prop("checked", true);
-
 
     $('#provider').on('change', function () {
       var mySelect = $("#provider option:selected").text().trim();
@@ -329,6 +319,17 @@ $("[value=treatment]").prop("checked", true);
           break;
       }
     });
+
+    /* prepop */
+
+    $('.date-picker').val( "2020-08-26" );
+    $('.time-selector--hours').val( "2" );
+    $('.time-selector--minutes').val( "45" );
+    $('.time-selector--ampm').val( "pm" );
+    $('#provider>option:eq(3)').prop('selected', true);
+    $('#purpose').val('treatment').trigger('change');
+    $('#cost-type').val('privatevehicle').trigger('change');
+    $('#kms').val('128');
 
   });
 </script>
