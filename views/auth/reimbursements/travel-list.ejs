@@ -40,27 +40,43 @@
           <tr id="blank">
             <td colspan="5" class="placeholder">No expenses added</td>
           </tr>
-          <tr id="expense-1" hidden>
-            <td data-title="Provider">South St Doctors</td>
-            <td data-title="Appointment date">21 Aug 2020</td>
+          <tr id="expense-1" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR/>334 Heath Road<BR/>Melrose Place</BR>NSW 2045</td>
+            <td data-title="Appointment date">21 August 2020</td>
             <td data-title="Cost type">Private vehicle</td>
             <td data-title="Amount">268 kms</td>
             <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
                 class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
           </tr>
-          <tr id="expense-2" hidden>
-            <td data-title="Provider">South St Doctors</td>
+          <tr id="expense-2" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR/>334 Heath Road<BR/>Melrose Place</BR>NSW 2045</td>
             <td data-title="Appointment date">21 Aug 2020</td>
-            <td data-title="Cost type">Parking fees</td>
-            <td data-title="Amount">$15.80</td>
+            <td data-title="Cost type">Road tolls</td>
+            <td data-title="Amount">$15.64</td>
             <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
                 class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
           </tr>
-          <tr id="expense-3" hidden>
-            <td data-title="Provider">South St Doctors</td>
-            <td data-title="Appointment date">21 Aug 2020</td>
-            <td data-title="Cost type">Road tolls</td>
-            <td data-title="Amount">$26.20</td>
+          <tr id="expense-3" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR/>334 Heath Road<BR/>Melrose Place</BR>NSW 2045</td>
+            <td data-title="Appointment date">21 August 2020</td>
+            <td data-title="Cost type">Parking fees</td>
+            <td data-title="Amount">$28.34</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+          <tr id="expense-4" class="expense" hidden>
+            <td data-title="Provider">Dr Genevieve Shey<BR/>Mapletree practice<BR/>L2 145 Trent St<BR/>Salsbury<BR/>VIC 3033</td>
+            <td data-title="Appointment date">26 August 2020</td>
+            <td data-title="Cost type">Air</td>
+            <td data-title="Amount">$576.45</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+          <tr id="expense-5" class="expense" hidden>
+            <td data-title="Provider">Dr Genevieve Shey<BR/>Mapletree practice<BR/>L2 145 Trent St<BR/>Salsbury<BR/>VIC 3033</td>
+            <td data-title="Appointment date">26 August 2020</td>
+            <td data-title="Cost type">Accommodation</td>
+            <td data-title="Amount">$213.20</td>
             <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
                 class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
           </tr>
@@ -105,9 +121,7 @@
 
   function stateSwitcher() {
     $("#blank").hide();
-    $("#expense-1").hide();
-    $("#expense-2").hide();
-    $("#expense-3").hide();
+    $(".expense").hide();
     $(".claim-disclaimer").hide();
     switch (pastTransactions) {
       case "none":
@@ -120,19 +134,19 @@
         $("#total").html("268 kms");
         $("#submit").removeAttr("disabled");
         break;
-      case "many":
+      case "one-deleted":
         $(".claim-disclaimer").show();
         $("#expense-1").show();
         $("#expense-2").show();
         $("#expense-3").show();
-        $("#total").html("268 kms + $42.00");
+        $("#expense-4").show();
+        $("#total").html("$620.43 + 268 kms");
         $("#submit").removeAttr("disabled");
         break;
-      case "noprivatevehicle":
-        $(".claim-disclaimer").hide();
-        $("#expense-2").show();
-        $("#expense-3").show();
-        $("#total").html("$42.00");
+        case "many":
+        $(".claim-disclaimer").show();
+        $(".expense").show();
+        $("#total").html("$833.63 + 268 kms");
         $("#submit").removeAttr("disabled");
         break;
       default:
@@ -147,6 +161,11 @@
       return 0;
     }
     return results[1] || 0;
+  }
+  var expenses = $.urlParam('expenses');
+  if (expenses!=0) {
+  pastTransactions = expenses;
+  stateSwitcher();
   }
 
   $("#submit").attr("disabled", "true");
