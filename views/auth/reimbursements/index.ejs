@@ -70,20 +70,21 @@
               <tr id="blank">
                 <td colspan="5" class="placeholder">You currently have no submitted claims.</td>
               </tr>
-              <tr id="medical-1" hidden>
-                <td data-title="Date submitted">12 Aug 2019</td>
-                <td data-title="Claim type">Medical</td>
+              <tr id="travel-1" hidden>
+                <td data-title="Date submitted">2 September 2020</td>
+                <td data-title="Claim type">Travel</td>
                 <td data-title="Claim status">Submitted</td>
+                <td data-title="Total claimed">$833.63 + 268 kms</td>
+                <td><button class="view-travel uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
+              </tr>
+              <tr id="medical-1" hidden>
+                <td data-title="Date submitted">5 July 2019</td>
+                <td data-title="Claim type">Medical</td>
+                <td data-title="Claim status">Approved</td>
                 <td data-title="Total claimed">$123.45</td>
                 <td><button class="view-medical uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
               </tr>
-              <tr id="travel-1" hidden>
-                <td data-title="Date submitted">12 Aug 2019</td>
-                <td data-title="Claim type">Travel</td>
-                <td data-title="Claim status">Submitted</td>
-                <td data-title="Total claimed">$42.00 + 268 kms</td>
-                <td><button class="view-medical uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
-              </tr>
+             
             </tbody>
           </table>
 
@@ -149,9 +150,14 @@
     default:
       break;
   }
+  var claims = $.urlParam('claims');
+  if (claims!=0) {
+  pastTransactions = claims;
+  stateSwitcher();
+  }
 
-  $("#travel-1, .edit-travel").click(function(){
-   window.location = "/auth/reimbursements/travel-list";
+  $("#travel-1, .view-travel").click(function(){
+   window.location = "/auth/reimbursements/view-submitted";
  });
 
   $("#medical-1, .edit-medical").on("click", function () {
