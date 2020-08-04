@@ -1,0 +1,109 @@
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("repeat-booking");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+%>
+
+<style>
+  .frequency-selector {
+    width: 220px;
+    margin: 0;
+  }
+
+  .repeat-selector {
+    width: 200px;
+    margin: 0;
+  }
+</style>
+
+<div class="form-group">
+
+  <%- generateLabel({
+    id,
+    modifiers: modifiers.concat(["legendLabel"]),
+    label: typeof label !== "undefined" ? label : null,
+    tooltip: typeof tooltip !== "undefined" ? tooltip : null
+  }) %>
+
+  <div class="uiToolKitCheckBox ">
+    <label class="uikit-control-input">
+      <input type="checkbox" class="uikit-control-input__input" id="repeat-option-1" name="repeat-option"
+        value="repeatthisbooking">
+      <span class="uikit-control-input__text">
+        I would like to repeat this booking
+      </span>
+    </label>
+  </div>
+
+  <select class="frequency-selector" disabled>
+    <option selected="selected">-- Select frequency --</option>
+    <option>Daily</option>
+    <option>Weekly</option>
+    <option>Fortnightly</option>
+  </select>
+  &nbsp; for &nbsp;
+  <select class="repeat-selector" disabled>
+    <option val="-- Select option --" selected="selected">-- Select option --</option>
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+    <option>5</option>
+    <option>6</option>
+    <option>7</option>
+  </select>
+  <span class="frequency"></span>
+</div>
+
+<script>
+
+  $('#repeat-option-1').change(function () {
+    updateRepeat();
+  });
+
+  function updateRepeat() {
+    var myStatus = $("#repeat-option-1").is(":checked");
+    if (myStatus) {
+      $(".frequency-selector").removeAttr("disabled");
+      $(".repeat-selector").removeAttr("disabled");
+    } else {
+      $(".frequency-selector").attr("disabled", "true");
+      $(".repeat-selector").attr("disabled", "true");
+      $('.frequency-selector option:eq(0)').prop('selected', true);
+      $('.repeat-selector option:eq(0)').prop('selected', true);
+      $(".frequency").html("");
+      $('.repeat-selector :selected').text("-- Select option --");
+    }
+  }
+
+  var frequency;
+  $('.frequency-selector').change(function () {
+    frequency = $(this).val();
+    updateFrequency();
+  });
+
+  function updateFrequency() {
+    $('.repeat-selector option:eq(0)').prop('selected', true);
+    switch (frequency) {
+      case "Daily":
+        $(".frequency").html("&nbsp;&nbsp;days");
+        $('.repeat-selector :selected').text("-- Select days --");
+        break;
+      case "Weekly":
+        $(".frequency").html("&nbsp;&nbsp;weeks");
+        $('.repeat-selector :selected').text("-- Select weeks --");
+        break;
+      case "Fortnightly":
+        $(".frequency").html("&nbsp;&nbsp;fortnights");
+        $('.repeat-selector :selected').text("-- Select fortnights --");
+        break;
+
+      default:
+        break;
+    }
+  }
+
+
+</script>
