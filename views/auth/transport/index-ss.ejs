@@ -10,6 +10,14 @@
     id: "past-trips"
   }); %>
 
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Notification submitted successfully"
+    ],
+    id: "notify-success",
+    customClass: "margin-below--none"
+  }); %>
+
 </div>
 
 <script>
@@ -31,6 +39,19 @@
       pastTrips = $(this).val();
       stateSwitcher();
     });
+
+    $('#notify-success-1').change(function() {
+    updateNotify();  
+  });
+
+  function updateNotify() {
+    var myStatus = $("#notify-success-1").is(":checked");
+    if ( myStatus ) {
+        $("#success-container").show();
+    } else {
+      $("#success-container").hide();
+    }
+  }  
 
   });
 

@@ -40,6 +40,14 @@
 
           <div id="past-trips" hidden>
             <hr>
+            <%- include(partials+"components/form-partials/notice", {
+              message: "Your travel booking has been submitted successfully.",
+              type: "success",
+              id: "success",
+              modifiers: ["hidden"],
+              customClass: ["margin-below--none"]
+            }); %>
+
             <h2 class="font-weight--heavy margin-below--small">Upcoming trips</h2>
             <div class="horizontal-card-section">
               <div id="trip-1" class="card card--horizontal card--single status-flag">
@@ -67,16 +75,7 @@
       </div>
     </section>
   </main>
-  <div id="toast" class="toast-container" hidden>
-    <button class="uikit-btn toast" role="alert" type="button">
-      <div class="toast__type toast__type--success">
-        <span class="sr">Success</span>
-      </div>
-      <div class="toast__message">
-        <p>Your travel booking has been submitted successfully.</p>
-      </div>
-    </button>
-  </div>
+
   <%- include(partials+"components/layout/footer") %>
   <%- include("index-ss") %>
   <%- include("delete-item-modal") %>
@@ -109,7 +108,7 @@
     case "trip-added":
       pastTrips = "some";
       stateSwitcher();
-      $("#toast").show()
+      $("#success-container").show()
       break;
     default:
       break;
