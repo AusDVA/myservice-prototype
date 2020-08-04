@@ -67,7 +67,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
     var myStatus = $("#repeat-option-1").is(":checked");
     if (myStatus) {
       $(".frequency-selector").removeAttr("disabled");
-      $(".repeat-selector").removeAttr("disabled");
+      // $(".repeat-selector").removeAttr("disabled");
     } else {
       $(".frequency-selector").attr("disabled", "true");
       $(".repeat-selector").attr("disabled", "true");
@@ -86,6 +86,7 @@ if (typeof modifiers === "string") modifiers = [modifiers];
 
   function updateFrequency() {
     $('.repeat-selector option:eq(0)').prop('selected', true);
+    $(".repeat-selector").removeAttr("disabled");
     switch (frequency) {
       case "Daily":
         $(".frequency").html("&nbsp;&nbsp;days");
@@ -99,8 +100,10 @@ if (typeof modifiers === "string") modifiers = [modifiers];
         $(".frequency").html("&nbsp;&nbsp;fortnights");
         $('.repeat-selector :selected').text("-- Select fortnights --");
         break;
-
       default:
+      $(".repeat-selector").attr("disabled", "true");
+      $(".frequency").html("");
+      $('.repeat-selector :selected').text("-- Select option --");
         break;
     }
   }
