@@ -38,7 +38,7 @@
           <button class="uikit-btn uikit-btn--primary" onclick="location.href='/auth/transport/book'">Book
             transport</button>
 
-          <div id="past-trips" hidden>
+          <div id="past-trips">
             <hr>
             <%- include(partials+"components/form-partials/notice", {
               message: "Your travel booking has been submitted successfully.",
@@ -49,24 +49,31 @@
             }); %>
 
             <h2 class="font-weight--heavy margin-below--small">Upcoming trips</h2>
-            <div class="horizontal-card-section">
-              <div id="trip-1" class="card card--horizontal card--single status-flag">
-                <div class="card-horizontal__status">
-                  <p> <strong>Destination</strong></p>
-                  <p>145 Trent St</p>
-                  <p>Salsbury NSW 2034</p>
-                </div>
-                <div class="card-horizontal__title">
-                  <p> <strong>Date</strong></p>
-                  <p>Thursday 12 Dec, 2020</p>
-                  <p>1.30PM</p>
-                </div>
-                <div class="card-horizontal__buttons">
-                  <a class="card-horizontal__link" href="#open-delete-item-modal">Delete</a>
-                  <a class="card-horizontal__link" href="/auth/transport/book">Edit</a>
-                </div>
-              </div>
-              <br />
+
+            <table class="mys-table1">
+              <thead>
+                <tr>
+                  <th>Date and time</th>
+                  <th>Pick up address</th>
+                  <th>Going to</th>
+                  <th>Booking details</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="blank">
+                  <td colspan="5" class="placeholder">You currently have no bookings.</td>
+                </tr>
+                <tr id="trip-1" class="view-travel-submitted" hidden>
+                  <td data-title="Date and time">2 September 2020<br/>2.00pm</td>
+                  <td data-title="Pick up address">3/41 Constitution Ave<BR/>Reid<BR/>Canberra A.C.T 2613</td>
+                  <td data-title="Going to">Canberra Hospital<BR/>Yamba Drive<BR/>Garran A.C.T 2605</td>
+                  <td data-title="Booking details"><span class="inline-label">Booking number:</span> 1425367<BR/><span class="inline-label">Status:</span> Submitted<BR/><span class="inline-label">Provider:</span> Pending</td>
+                  <td><button
+                      class="view-trip-submitted uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
+                </tr>
+              </tbody>
+            </table>
               <p>Only upcoming trips will be shown here. If you wish to discuss trips that are not listed please contact
                 DVA.</p>
             </div>
@@ -81,20 +88,27 @@
   <%- include("delete-item-modal") %>
 </body>
 <script>
+  
   function stateSwitcher() {
+    $("#blank").hide();
+    $("#trip-1").hide();
+    $("#trip-2").hide();
     switch (pastTrips) {
       case "none":
-        $("#past-trips").hide();
-        $("#past-trips-1").prop("checked", true);
+        $("#blank").show();
         break;
-      case "some":
-        $("#past-trips").show();
-        $("#past-trips-2").prop("checked", true);
+      case "one":
+        $("#trip-1").show();
+        break;
+      case "two":
+      $("#trip-1").show();
+      $("#trip-2").show();
         break;
       default:
         break;
     }
   }
+
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)')
       .exec(window.location.href);
@@ -122,6 +136,10 @@
     default:
       break;
   }
+
+  $(".view-trip-submitted").click(function () {
+    window.location = "/auth/transport/book";
+  });
 </script>
 
 </html>
