@@ -65,21 +65,23 @@
                   <td colspan="5" class="placeholder">You currently have no bookings.</td>
                 </tr>
                 <tr id="trip-1" class="view-travel-submitted" hidden>
-                  <td data-title="Date and time">2 September 2020<br/>2.00pm</td>
-                  <td data-title="Pick up address">3/41 Constitution Ave<BR/>Reid<BR/>Canberra A.C.T 2613</td>
-                  <td data-title="Going to">Canberra Hospital<BR/>Yamba Drive<BR/>Garran A.C.T 2605</td>
-                  <td data-title="Booking details"><span class="inline-label">Booking number:</span> 1425367<BR/><span class="inline-label">Status:</span> Submitted<BR/><span class="inline-label">Provider:</span> Pending</td>
+                  <td data-title="Date and time">2 September 2020<br />2.00pm</td>
+                  <td data-title="Pick up address">3/41 Constitution Ave<BR />Reid<BR />Canberra A.C.T 2613</td>
+                  <td data-title="Going to">Canberra Hospital<BR />Yamba Drive<BR />Garran A.C.T 2605</td>
+                  <td data-title="Booking details"><span class="inline-label">Booking number:</span> 1425367<BR /><span
+                      class="inline-label">Status:</span> Submitted<BR /><span class="inline-label">Provider:</span>
+                    Pending</td>
                   <td><button
                       class="view-trip-submitted uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
                 </tr>
               </tbody>
             </table>
-              <p>Only upcoming trips will be shown here. If you wish to discuss trips that are not listed please contact
-                DVA.</p>
-            </div>
+            <p>Only upcoming trips will be shown here. If you wish to discuss trips that are not listed please contact
+              DVA.</p>
           </div>
-        </section>
       </div>
+    </section>
+    </div>
     </section>
   </main>
 
@@ -88,7 +90,7 @@
   <%- include("delete-item-modal") %>
 </body>
 <script>
-  
+
   function stateSwitcher() {
     $("#blank").hide();
     $("#trip-1").hide();
@@ -99,10 +101,12 @@
         break;
       case "one":
         $("#trip-1").show();
+        $("#past-trips-3").prop("checked", true);
+        console.log('dfdsfdsfsdf')
         break;
       case "two":
-      $("#trip-1").show();
-      $("#trip-2").show();
+        $("#trip-1").show();
+        $("#trip-2").show();
         break;
       default:
         break;
@@ -110,8 +114,7 @@
   }
 
   $.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
-      .exec(window.location.href);
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
       return 0;
     }
@@ -120,22 +123,23 @@
   var toast = $.urlParam('toast');
   switch (toast) {
     case "trip-added":
-      pastTrips = "some";
+      pastTrips = "one";
       stateSwitcher();
-      $("#success-container").show()
+      $("#success-container").show();
+      $("#notify-success-1").prop("checked", true);
       break;
     default:
       break;
   }
-  var state = $.urlParam('toast');
-  switch (state) {
-    case "no-trips":
-      pastTrips = "none";
-      stateSwitcher()
-      break;
-    default:
-      break;
-  }
+  // var state = $.urlParam('state');
+  // switch (state) {
+  //   case "no-trips":
+  //     pastTrips = "none";
+  //     stateSwitcher()
+  //     break;
+  //   default:
+  //     break;
+  // }
 
   $(".view-trip-submitted").click(function () {
     window.location = "/auth/transport/book";
