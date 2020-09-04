@@ -1,0 +1,58 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Primary condition ACT",
+    boxes: [
+      "VEA",
+      "MRCA/DRCA"
+    ],
+    id: "act"
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "First expense in claim"
+    ],
+    id: "first-expense",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  var act = "vea";
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#act-1").prop("checked", true);
+    $('input[name=act]').change(function () {
+      act = $(this).val();
+      stateSwitcher();
+    });
+
+    $('#first-expense-1').change(function () {
+      updateFirstExpense();
+    });
+
+    function updateFirstExpense() {
+      var myStatus = $("#first-expense-1").is(":checked");
+      if (myStatus) {
+        $("#first-expense").hide();
+      } else {
+        $("#first-expense").show();
+      }
+    }
+
+  });
+
+</script>

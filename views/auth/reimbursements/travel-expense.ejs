@@ -3,8 +3,16 @@
   claim: "Travel expense"
 }) %>
 
+<div class="uikit-page-alerts uikit-page-alerts--notice margin-above--none" id="first-expense" role="alert" style="display: block;" hidden="">
+
+  <p class="margin-below--mid">Would you like to use the provider and appointment details from your previous expense?</p>
+
+  <button id="use-previous" class="uikit-btn uikit-btn--tertiary small margin-below--extra">Use previous details</button>
+
+</div>
+
 <div id="going-to" class="margin-above--large">
-  <h2 class="mys h2">Provider details</h2>
+  <h2 class="mys h2 margin-below--mid">Provider details</h2>
   <%- include(partials+"components/form-partials/dropdown", {
   label: "Select provider or hospital",
   id: "provider",
@@ -96,7 +104,7 @@
 </div>
 
 <div>
-  <h2 class="mys h2">Trip details</h2>
+  <h2 class="mys h2 margin-below--mid">Appointment details</h2>
   <%- include(partials+"components/form-partials/date-picker", {
     label: "Appointment date",
     id: "date"
@@ -104,6 +112,20 @@
   <%- include(partials+"components/form-partials/time-picker", {
     label: "Appointment time",
     id: "time"
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Primary condition",
+    id: "condition",
+    options: [
+      "-- Select condition --",
+      "Lumbar spondylosis",
+      "Osteoarthritis",
+      "Ankle sprain",
+      "Lumbar strain",
+      "Other"
+    ],
+    modifiers: [ "hintNewLine"]
   }); %>
 
   <%- include(partials+"components/form-partials/dropdown", {
@@ -116,14 +138,15 @@
       "Disability claim",
       "To obtain medical evidence for the Veterans' Review board",
       "To obtain medical evidence for the Specialist Medical Review Council",
-      "To attend a hearing at the Veteranss Review Board",
-      "To attend Before the Administrative Appeals Tribunal"
+      "To attend a hearing at the Veterans Review Board",
+      "To attend before the Administrative Appeals Tribunal"
     ]
   }); %>
+
 </div>
 
 <div>
-  <h2 class="mys h2">Cost details</h2>
+  <h2 class="mys h2 margin-below--mid">Cost details</h2>
 
   <%- include(partials+"components/form-partials/dropdown", {
     label: "Cost type",
@@ -131,8 +154,8 @@ options: [
   "--Select type--",
   "Private vehicle",
   "Public transport",
-  "Taxi",
-  "Community",
+  "Taxi and rideshare",
+  "Community transport",
   "Air",
   "Road tolls",
   "Parking fees",
@@ -148,6 +171,14 @@ afterText: "kms",
 modifiers: ["hidden", "inputShort" ]
 }); %>
 
+  <%- include(partials+"components/form-partials/notice", {
+  message: "Road tolls are not reimbursed for MRCA/DRCA conditions.",
+  type: "notice",
+  id: ["tolls-message"],
+  modifiers: ["hidden"],
+  customClass: ["margin-above--none"]
+}); %>
+
   <%- include(partials+"components/form-partials/text", {
     label: "Amount",
 id: "dollars",
@@ -160,6 +191,12 @@ hint: "For example: booked car with driver, air travel or ambulance.",
 modifiers: ["hintNewLine", "hidden"],
 id: "bcwd"
 }); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you travel with a medically required attendant?",
+  id: "attendant",
+  modifiers: ["hidden"]
+  }); %>
 
 </div>
 
@@ -185,6 +222,7 @@ modifiers: ["inputShort"]
 
   <%- include(partials+"components/form-partials/text", {
 label: "Total amount paid",
+id: "total-accomm",
 modifiers: ["dollarSign","inputShort"]
 }); %>
 
@@ -248,11 +286,90 @@ modifiers: ["hidden"]
 }) %>
 
 <%- include(templates+"footer") %>
+<%- include("travel-expense-ss") %>
 
 <script>
 
-  $(document).ready(function () {
+  function stateSwitcher() {
+    updateLayout();
+  }
 
+  function updateLayout() {
+    var mySelection = $("#cost-type").find("option:selected").text().trim();
+    $("#dollars-container").hide();
+    $("#kms-container").hide();
+    $("#accommodation-questions").hide();
+    $("#evidence").hide();
+    $("#bcwd-container").hide();
+    $("#tolls-message-container").hide();
+    $("#attendant-container").hide();
+    console.log(mySelection)
+    switch (mySelection) {
+      case "Private vehicle":
+        $("#kms-container").show();
+        break;
+      case "Public transport":
+        $("#dollars-container").show();
+        if (act != 'vea') $("#evidence").show();
+        break;
+      case "Taxi and rideshare":
+        $("#dollars-container").show();
+        $("#bcwd-container").show();
+        $("#attendant-container").show();
+        if (act != 'vea') $("#evidence").show();
+        break;
+      case "Community transport":
+        $("#dollars-container").show();
+        if (act != 'vea') $("#evidence").show();
+        break;
+      case "Air":
+        $("#dollars-container").show();
+        $("#bcwd-container").show();
+        $("#attendant-container").show();
+        if (act != 'vea') $("#evidence").show();
+        break;
+      case "Road tolls":
+        if (act == "mrcadrca") {
+          $("#tolls-message-container").show();
+          $("#dollars-container").hide();
+        } else {
+          $("#dollars-container").show();
+        }
+        break;
+      case "Parking fees":
+        $("#dollars-container").show();
+        if (act != 'vea') $("#evidence").show();
+        break;
+      case "Accommodation":
+        $("#accommodation-questions").show("fast");
+        if (act != 'vea') {
+          $("#total-accomm-container").show();
+          $("#evidence").show();
+        } else {
+          $("#total-accomm-container").show();
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  $("#use-previous").on("click", function () {
+    usePrevious();
+  })
+
+  function usePrevious(){
+    $('.date-picker').val( "2020-08-26" );
+    $('.time-selector--hours').val( "2" );
+    $('.time-selector--minutes').val( "45" );
+    $('.time-selector--ampm').val( "pm" );
+    $('#provider>option:eq(3)').prop('selected', true);
+    $('#condition').val('osteoarthritis').trigger('change');
+    $('#purpose').val('treatment').trigger('change');
+
+  }
+
+  $(document).ready(function () {
     $('#provider').on('change', function () {
       var mySelect = $("#provider option:selected").text().trim();
       if (mySelect == "New provider") {
@@ -261,56 +378,12 @@ modifiers: ["hidden"]
         $("#provider-details").hide()
       }
     });
-
     $('#cost-type').change(function () {
-      var mySelection = $(this).find("option:selected").text().trim();
-      console.log("hhh" + mySelection)
-      $("#bcwd-container").hide();
-      $("#dollars-container").hide();
-      $("#kms-container").hide();
-      $("#accommodation-questions").hide();
-      $("#evidence").hide();
-      switch (mySelection) {
-        case "Private vehicle":
-          $("#kms-container").show();
-          break;
-        case "Public transport":
-          $("#dollars-container").show();
-          $("#evidence").show();
-          break;
-        case "Taxi":
-          $("#dollars-container").show();
-          $("#bcwd-container").show();
-          $("#evidence").show();
-          break;
-        case "Community":
-          $("#dollars-container").show();
-          $("#evidence").show();
-          break;
-        case "Air":
-          $("#dollars-container").show();
-          $("#bcwd-container").show();
-          $("#evidence").show();
-          break;
-        case "Road tolls":
-          $("#dollars-container").show();
-          $("#evidence").show();
-          break;
-        case "Parking fees":
-          $("#dollars-container").show();
-          $("#evidence").show();
-          break;
-        case "Accommodation":
-          $("#accommodation-questions").show("fast");
-          $("#evidence").show();
-          break;
-        default:
-          break;
-      }
+      updateLayout();
     });
-
     $('#accommodation').change(function () {
       var mySelection = $(this).find("option:selected").text().trim();
+      console.log( mySelection )
       switch (mySelection) {
         case "Commercial":
           $("#accommodation-questions").show();
