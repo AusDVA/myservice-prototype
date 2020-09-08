@@ -2,12 +2,8 @@
 <html class="js" lang="en">
 
 <head>
-
   <title>MyService</title>
   <%- include(partials+"components/layout/head") %>
-
-  <!-- <link rel="stylesheet" type="text/css" href="coc-proto-only.css"> -->
-
 </head>
 
 <body class="uikit-body uikit-grid uikit-refactor future nom-reps">
@@ -101,14 +97,13 @@
         break;
       case "one":
         $("#trip-1").show();
-        $("#past-trips-3").prop("checked", true);
-        console.log('dfdsfdsfsdf')
-        break;
-      case "two":
-        $("#trip-1").show();
-        $("#trip-2").show();
+        $("#past-trips-2").prop("checked", true);
+        $("#notify-success-1").prop("checked", true);
+        updateNotify();
         break;
       default:
+        $("#blank").show();
+        $("#past-trips-1").prop("checked", true);
         break;
     }
   }
@@ -120,26 +115,8 @@
     }
     return results[1] || 0;
   }
-  var toast = $.urlParam('toast');
-  switch (toast) {
-    case "trip-added":
-      pastTrips = "one";
-      stateSwitcher();
-      $("#success-container").show();
-      $("#notify-success-1").prop("checked", true);
-      break;
-    default:
-      break;
-  }
-  // var state = $.urlParam('state');
-  // switch (state) {
-  //   case "no-trips":
-  //     pastTrips = "none";
-  //     stateSwitcher()
-  //     break;
-  //   default:
-  //     break;
-  // }
+  var pastTrips = $.urlParam('state');
+  stateSwitcher();
 
   $(".view-trip-submitted").click(function () {
     window.location = "/auth/transport/book";
