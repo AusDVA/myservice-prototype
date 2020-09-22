@@ -7,6 +7,7 @@
   message: "For details of your eligibility for transport refer to the <a href='https://www.dva.gov.au/factsheet-hsv03-dva-arranged-transport-under-repatriation-transport-scheme' class='external-link'>factsheet</a>. If you have further questions call DVA transport on <a>1800 550 455</a>"
 }); %>
 
+
 <div id="appointment-details" class="margin-above--large">
 
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
@@ -34,6 +35,12 @@
         "Specialist",
         "Other"
       ]
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Describe the appointment type:",
+      id: "appt-free",
+      modifiers: ["hidden"]
     }); %>
 </div>
 
@@ -116,7 +123,7 @@
   <h2 class="h2 mys margin-below--mid">Going to</h2>
   <%- include(partials+"components/form-partials/dropdown", {
     id: "provider",
-    label: "Select previous medical provider or enter new",
+    label: "Select previous provider or enter new",
     options: [
         {
           text: "-- Select provider --"
@@ -257,6 +264,22 @@
 
 </div>
 
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Is this the closest practical provider?",
+  tooltip: "Is the treating provider the closest practical provider able to administer the required treatment?",
+  yes_toggle: "#click-submit",
+  no_toggle: "#not-practical-container"
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "You are required to visit the closest practical provider able to administer the required treatment. If there are reasons why this is not possible call DVA to discuss.",
+  id: "not-practical",
+  type: "warning",
+  modifiers: ["hidden"]
+}); %>
+
+<p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+
 <%- include(forms+"pagination", {
     pagination: [
       {
@@ -289,11 +312,19 @@
     });
     $('#provider-container').on('change', function () {
       var mySelect = $("#provider-container option:selected").text().trim();
-      console.log( mySelect )
       if (mySelect == "Enter new provider") {
         $("#going-to-enter").show();
       } else {
         $("#going-to-enter").hide()
+      }
+    });
+    $('#type-container').on('change', function () {
+      var mySelect = $("#type-container option:selected").text().trim();
+      console.log( mySelect );
+      if (mySelect == "Other") {
+        $("#appt-free-container").show();
+      } else {
+        $("#appt-free-container").hide()
       }
     });
 
