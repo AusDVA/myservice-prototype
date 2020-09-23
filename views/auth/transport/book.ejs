@@ -4,7 +4,7 @@
 }) %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "For details of your eligibility for transport refer to the <a href='https://www.dva.gov.au/factsheet-hsv03-dva-arranged-transport-under-repatriation-transport-scheme' class='external-link'>factsheet</a>. If you have further questions call DVA transport on <a>1800 550 455</a>"
+  message: "For details of your eligibility for transport see <a href='https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/arrange-taxi-or-hire-car' rel='external'>arrange for a taxi or hire car</a> or call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>)"
 }); %>
 
 
@@ -23,7 +23,16 @@
         "Lumbar strain",
         "Other"
       ],
+      tooltip: {
+        content: "You are only able to book transport online for conditions covered under VEA."
+      },
       modifiers: [ "hintNewLine"]
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "What is the condition:",
+      id: "condition-free",
+      modifiers: ["hidden"]
     }); %>
 
   <%- include(partials+"components/form-partials/dropdown", {
@@ -37,11 +46,7 @@
       ]
     }); %>
 
-    <%- include(partials+"components/form-partials/text", {
-      label: "Describe the appointment type:",
-      id: "appt-free",
-      modifiers: ["hidden"]
-    }); %>
+  
 </div>
 
 <div id="pickup" class="margin-above--large">
@@ -318,13 +323,12 @@
         $("#going-to-enter").hide()
       }
     });
-    $('#type-container').on('change', function () {
-      var mySelect = $("#type-container option:selected").text().trim();
-      console.log( mySelect );
+    $('#condition-container').on('change', function () {
+      var mySelect = $("#condition-container option:selected").text().trim();
       if (mySelect == "Other") {
-        $("#appt-free-container").show();
+        $("#condition-free-container").show();
       } else {
-        $("#appt-free-container").hide()
+        $("#condition-free-container").hide()
       }
     });
 
