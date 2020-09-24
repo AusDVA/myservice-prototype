@@ -22,9 +22,19 @@
           <div class="back-button">
             <a href="/auth"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
           </div>
-          <h1 class="mys h1 margin-above--none margin-below--mid">Claim reimbursements</h1>
+          <h1 class="mys h1 margin-above--none margin-below--mid">Claim travel expenses</h1>
 
-          <p>Claim for the reimbursement of medical and travel expenses. You may be required to upload receipts as
+          <p class="margin-below--mid">You are able to claim for travelling expenses relating to:</p>
+          <ul >
+            <li>treatment</li>
+            <li>a disability pension claim</li>
+            <li>an invalidity income support claim</li>
+          </ul>
+          <p>You must keep your receipts (over $30) for four months from the date your claim is submitted. You may be asked to provide them during this period. To be reimbursed for travel costs, you must lodge the form within 12 months after you completed your travel. <BR/>For further information see the <a href="https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/claim-travel-expenses-under-rts" rel="external">DVA website</a>.</p>
+
+
+          <!-- keep for future - when we add MEPI -->
+          <!-- <p>Claim for the reimbursement of medical and travel expenses. You may be required to upload receipts as
             evidence. You can track the progress of your submitted claims below. </p>
 
           <div class="menu__item" id="claim-type">
@@ -37,7 +47,10 @@
                 <a href="/auth/reimbursements/medical-list">Claim for medical expenses</a>
               </div>
             </div>
-          </div>
+          </div> -->
+
+          <a href="/auth/reimbursements/travel-list"><button class="uikit-btn uikit-btn--primary new-claim">New
+              claim</button></a>
 
           <hr>
           <%- include(partials+"components/form-partials/notice", {
@@ -52,40 +65,40 @@
             <thead>
               <tr>
                 <th>Date submitted</th>
-                <th>Claim type</th>
-
+                <!-- <th>Claim type</th> -->
                 <th>Claim status</th>
                 <th>Total claimed</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              <tr id="blank">
+              <tr id="blank" hidden>
                 <td colspan="5" class="placeholder">You currently have no submitted claims.</td>
               </tr>
-              <tr id="travel-1" class="view-travel-submitted" hidden>
+              <tr id="travel-1" class="view-travel-submitted">
                 <td data-title="Date submitted">2 September 2020</td>
-                <td data-title="Claim type">Travel</td>
+                <!-- <td data-title="Claim type">Travel</td> -->
                 <td data-title="Claim status">Submitted</td>
                 <td data-title="Total claimed">$833.63 + 268 kms</td>
                 <td><button
                     class="view-travel-submitted uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
               </tr>
-              <tr id="travel-2" class="view-travel-approved" hidden>
+              <tr id="travel-2" class="view-travel-approved">
                 <td data-title="Date submitted">16 July 2020</td>
-                <td data-title="Claim type">Travel</td>
+                <!-- <td data-title="Claim type">Travel</td> -->
                 <td data-title="Claim status">Approved</td>
                 <td data-title="Total claimed">$362.45</td>
                 <td><button
                     class="view-travel-approved uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
               </tr>
-              <tr id="medical-1" hidden>
+              <!-- keep for when we add MEPI -->
+              <!-- <tr id="medical-1" hidden>
                 <td data-title="Date submitted">5 August 2019</td>
                 <td data-title="Claim type">Medical</td>
                 <td data-title="Claim status">Submitted</td>
                 <td data-title="Total claimed">$123.45</td>
                 <td><button class="view-medical uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
-              </tr>
+              </tr> -->
 
             </tbody>
           </table>
@@ -101,10 +114,11 @@
 </body>
 <script>
 
-  $("#claim-type").click(function () {
-    $("#claim-type").toggleClass("dropdown--open");
-    $(".dropdown__icon").toggleClass("down");
-  });
+  /* Keep for when we add MEPI */
+  // $("#claim-type").click(function () {
+  //   $("#claim-type").toggleClass("dropdown--open");
+  //   $(".dropdown__icon").toggleClass("down");
+  // });
 
   function stateSwitcher() {
     $("#blank").hide();
@@ -115,17 +129,17 @@
       case "none":
         $("#blank").show();
         break;
-      case "medical":
-        $("#medical-1").show();
-        break;
-      case "travel":
-        $("#travel-1").show();
-        // $("#travel-2").show();
-        break;
+      // case "medical":
+      //   $("#medical-1").show();
+      //   break;
+      // case "travel":
+      //   $("#travel-1").show();
+      //   $("#travel-2").show();
+      //   break;
       case "all":
         $("#travel-1").show();
         $("#travel-2").show();
-        $("#medical-1").show();
+        // $("#medical-1").show();
         break;
       default:
         break;
@@ -167,6 +181,8 @@
   $(".view-travel-approved").click(function () {
     window.location = "/auth/reimbursements/view-approved";
   });
+
+
 
   // $("#medical-1, .edit-medical").on("click", function () {
   //   window.location.href = "/auth/reimbursements/medical-list";

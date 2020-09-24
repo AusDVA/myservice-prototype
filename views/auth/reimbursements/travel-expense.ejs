@@ -5,7 +5,7 @@
 
 <!-- <div id="first-expense" role="alert"
   style="background-color: #e7eef6; display: block; padding: 15px; border: 1px solid rgba(0,0,0,0.1)" hidden="">
-  <p class="margin-below--mid">Would you like to use the provider and appointment details from your previous expense?
+  <p class="margin-below--mid">If this expense relates to the same appointment as the previous click below 
   </p>
   <button id="use-previous" class="uikit-btn uikit-btn--tertiary small">Use previous details</button>
 </div> -->
@@ -13,7 +13,7 @@
 <div class="margin-above--large">
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
-  <div id="previous-or-new">
+  <!-- <div id="previous-or-new">
     <div class="form-group formPartials_buttonRadio " id="buttonradio251-container">
       <fieldset>
         <legend class="uikit-text-input__label  legend-override ">
@@ -30,9 +30,9 @@
         </div>
       </fieldset>
     </div>
-  </div>
+  </div> -->
 
-  <div id="previous-details" class="pre-pop-on margin-below--large" hidden>
+  <!-- <div id="previous-details" class="pre-pop-on margin-below--large">
     <div class="kv-pair">
       <span class="kv-pair__key">Provider or hospital</span>
       <span class="kv-pair__value">Dr Carl Practice<BR />1245 Dax Crossing <BR/>Melrose Place, NSW 2897</span>
@@ -45,18 +45,71 @@
       <span class="kv-pair__key">Purpose</span>
       <span class="kv-pair__value">Treatment, Lumbar strain</span>
     </div>
-  </div>
+  </div> -->
+  <!-- 
+  <div id="enter-new"> -->
 
-  <div id="enter-new" hidden>
+  <%- include(partials+"components/form-partials/dropdown", {
+      label: "Purpose of trip",
+      id: "purpose",
+      options: [
+        "-- Select purpose --",
+        "Treatment",
+        "Disability",
+        "Hospital admission",
+        "Hospital discharge",
+        "Income support claim",
+        "To obtain medical evidence for the Veterans' Review board",
+        "To obtain medical evidence for the Specialist Medical Review Council",
+        "To attend a hearing at the Veterans Review Board",
+        "To attend before the Administrative Appeals Tribunal",
+        "Other"
+      ]
+    }); %>
 
-    <div id="appointment-details-content">
-      <div id="going-to" class="margin-above--large">
-        <%- include(partials+"components/form-partials/dropdown", {
+  <%- include(partials+"components/form-partials/text", {
+      label: "What is the purpose:",
+      id: "purpose-free",
+      modifiers: ["hidden"]
+    }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+      label: "Condition being treated/assessed",
+      id: "condition",
+      options: [
+        "-- Select condition --",
+        "Lumbar spondylosis",
+        "Osteoarthritis",
+        "Ankle sprain",
+        "Lumbar strain",
+        "Other"
+      ],
+      modifiers: [ "hintNewLine"]
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "What is the condition:",
+      id: "condition-free",
+      modifiers: ["hidden"]
+    }); %>
+
+  <%- include(partials+"components/form-partials/date-picker", {
+      label: "Appointment date",
+      id: "date"
+    }); %>
+  <%- include(partials+"components/form-partials/time-picker", {
+      label: "Appointment time",
+      id: "time"
+    }); %>
+
+  <div id="appointment-details-content">
+    <div id="going-to" class="margin-above--large">
+      <%- include(partials+"components/form-partials/dropdown", {
     label: "Select provider or hospital",
     id: "provider",
     options: [
         {
-          text: "-- Select an option --"
+          text: "-- Select provider --"
         },
         { 
           text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
@@ -75,32 +128,57 @@
         }
       ]
     }); %>
-      </div>
-      <div id="provider-details" hidden>
-        <%- include(partials+"components/form-partials/text", {
+    </div>
+    <div id="provider-details" hidden>
+      <%- include(partials+"components/form-partials/dropdown", {
+          label: "Type of practitioner",
+          id: "practitioner-type",
+          options: [
+            "-- Select type --",
+            "General practitioner",
+            "Cardiologist",   
+            "Dentist",
+            "Exercise Physiologist",
+            "Ophthalmologist",   
+            "Optometrist",
+            "Orthopaedic surgeon",
+            "Physiotherapist",
+            "Podiatrist",
+            "Psychiatrist", 
+            "Psychologist",
+            "Radiologist/Xray",
+            "Other"   
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/text", {
+          label: "Enter type of practitioner:",
+          id: "practitioner-free",
+          modifiers: ["hidden"]
+        }); %>
+      <%- include(partials+"components/form-partials/text", {
       label: "Practice/Doctor's name"
     }); %>
-        <%- include(partials+"components/form-partials/text", {
+      <%- include(partials+"components/form-partials/text", {
       label: "Phone number",
       hint: "text"
     }); %>
-        <%- include(partials+"components/form-partials/text", {
+      <%- include(partials+"components/form-partials/text", {
       label: "Address line 1",
       modifiers: ["inputFullLength"]
     }); %>
-        <%- include(partials+"components/form-partials/text", {
+      <%- include(partials+"components/form-partials/text", {
       label: "Address line 2",
       hint: "(optional)",
       modifiers: ["inputFullLength"]
     }); %>
-        <%- include(partials+"components/form-partials/text", {
+      <%- include(partials+"components/form-partials/text", {
       label: "Suburb or town",
       modifiers: ["inputFullLength"]
     }); %>
-        <%- include(partials+"components/form-partials/text", {
+      <%- include(partials+"components/form-partials/text", {
       label: "Postcode"
     }); %>
-        <%- include(forms+"dropdown", {
+      <%- include(forms+"dropdown", {
       label: "State or territory",
       options: [
         "-- Select state or territory --",
@@ -138,58 +216,24 @@
         }
       ]
     }) %>
-      </div>
-      <div id="date-time" style="display: flex;">
-        <%- include(partials+"components/form-partials/date-picker", {
-    label: "Appointment date",
-    id: "date"
-  }); %>
-        <%- include(partials+"components/form-partials/time-picker", {
-    label: "Appointment time",
-    id: "time"
-  }); %>
-      </div>
-
-      <%- include(partials+"components/form-partials/dropdown", {
-    label: "Purpose of trip",
-    id: "purpose",
-    options: [
-      "--Select type--",
-      "Treatment",
-      "Hospital admission",
-      "Disability claim",
-      "To obtain medical evidence for the Veterans' Review board",
-      "To obtain medical evidence for the Specialist Medical Review Council",
-      "To attend a hearing at the Veterans Review Board",
-      "To attend before the Administrative Appeals Tribunal"
-    ]
-  }); %>
-
-      <%- include(partials+"components/form-partials/dropdown", {
-    label: "Condition being treated/assessed",
-    id: "condition",
-    options: [
-      "-- Select condition --",
-      "Lumbar spondylosis",
-      "Osteoarthritis",
-      "Ankle sprain",
-      "Lumbar strain",
-      "Other"
-    ],
-    modifiers: [ "hintNewLine"]
-  }); %>
     </div>
+
+
+
+
 
   </div>
 
+  <!-- </div> -->
+
 </div>
 
-<div id="expense-details" hidden>
+<div id="expense-details">
   <h2 class="mys h2 margin-below--mid">Expense details</h2>
   <%- include(partials+"components/form-partials/dropdown", {
     label: "Cost type",
 options: [
-  "--Select type--",
+  "-- Select type --",
   "Private vehicle",
   "Public transport",
   "Taxi and rideshare",
@@ -259,10 +303,30 @@ modifiers: ["inputShort"]
 }); %>
 
   <%- include(partials+"components/form-partials/text", {
-label: "Total amount paid",
+label: "Total accommodation cost",
 id: "total-accomm",
 modifiers: ["dollarSign","inputShort"]
 }); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you pay for meals as a separate cost?",
+  yes_toggle: "#meals-container"
+  }); %>
+
+  <div id="meals-container" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "Breakfast",
+      modifiers: ["dollarSign","inputShort"]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Lunch",
+        modifiers: ["dollarSign","inputShort"]
+        }); %>
+        <%- include(partials+"components/form-partials/text", {
+          label: "Dinner",
+          modifiers: ["dollarSign","inputShort"]
+          }); %>
+  </div>
 
   <%- include(partials+"components/form-partials/yes_no", {
 label: "Did you travel with a medically required attendant?",
@@ -392,26 +456,52 @@ modifiers: ["hidden"]
     }
   }
 
-  $("#use-previous").on("click", function () {
-    usePrevious();
-  })
+  $('#condition-container').on('change', function () {
+    var mySelect = $("#condition-container option:selected").text().trim();
+    if (mySelect == "Other") {
+      $("#condition-free-container").show();
+    } else {
+      $("#condition-free-container").hide()
+    }
+  });
 
+  $('#purpose-container').on('change', function () {
+    var mySelect = $("#purpose-container option:selected").text().trim();
+    if (mySelect == "Other") {
+      $("#purpose-free-container").show();
+    } else {
+      $("#purpose-free-container").hide()
+    }
+  });
+
+  $('#practitioner-type-container').on('change', function () {
+    var mySelect = $("#practitioner-type-container option:selected").text().trim();
+    if (mySelect == "Other") {
+      $("#practitioner-free-container").show();
+    } else {
+      $("#practitioner-free-container").hide()
+    }
+  });
 
   // $("#buttonradio251-1").prop("checked", true);
 
-  $("#buttonradio251-1").on("click", function () {
-    $("#previous-details").show();
-    $("#expense-details").show();
-    $("#enter-new").hide();
+  // $("#buttonradio251-1").on("click", function () {
+  //   $("#previous-details").show();
+  //   $("#expense-details").show();
+  //   $("#enter-new").hide();
+  // })
+
+  // $("#buttonradio251-2").on("click", function () {
+  //   $("#previous-details").hide();
+  //   $("#enter-new").show();
+  //   $("#expense-details").show();
+  // })
+
+  /* Use previous */
+
+  $("#use-previous").on("click", function () {
+    usePrevious();
   })
-
-  $("#buttonradio251-2").on("click", function () {
-    $("#previous-details").hide();
-    $("#enter-new").show();
-    $("#expense-details").show();
-  })
-
-
 
   function usePrevious() {
     $('.date-picker').val("2020-08-26");
