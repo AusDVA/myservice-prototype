@@ -10,6 +10,15 @@
   <button id="use-previous" class="uikit-btn uikit-btn--tertiary small">Use previous details</button>
 </div> -->
 
+
+<%- include(partials+"components/form-partials/checkbox", {
+  id: "use-previous",
+  boxes: [
+    "Prefill with previous appointment details"
+  ],
+  modifiers: ["hidden"]
+}); %>
+
 <div class="margin-above--large">
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
@@ -218,13 +227,7 @@
     }) %>
     </div>
 
-
-
-
-
   </div>
-
-  <!-- </div> -->
 
 </div>
 
@@ -486,25 +489,20 @@ modifiers: ["hidden"]
     }
   });
 
-  // $("#buttonradio251-1").prop("checked", true);
-
-  // $("#buttonradio251-1").on("click", function () {
-  //   $("#previous-details").show();
-  //   $("#expense-details").show();
-  //   $("#enter-new").hide();
-  // })
-
-  // $("#buttonradio251-2").on("click", function () {
-  //   $("#previous-details").hide();
-  //   $("#enter-new").show();
-  //   $("#expense-details").show();
-  // })
-
   /* Use previous */
 
   $("#use-previous").on("click", function () {
     usePrevious();
   })
+
+    $('input[name=use-previous]').change(function () {
+    var myStatus = $("#use-previous-1").is(":checked");
+    if ( myStatus ) {
+      usePrevious()
+    } else {
+      clearPrevious();
+    }
+  });
 
   function usePrevious() {
     $('.date-picker').val("2020-08-26");
@@ -514,16 +512,21 @@ modifiers: ["hidden"]
     $('#provider>option:eq(3)').prop('selected', true);
     $('#condition').val('osteoarthritis').trigger('change');
     $('#purpose').val('treatment').trigger('change');
-    $('body,html').animate({
-      scrollTop: 0 // Scroll to top of body
-    }, 500);
-    $("#appointment-details-content").hide();
     $("html, body").animate({
       scrollTop: $("#expense-details").offset().top
     },
       200
     );
-
+  }
+  function clearPrevious() {
+    $('.date-picker').val("dd / mm / yyyy");
+    $('.time-selector--hours').val("12");
+    $('.time-selector--minutes').val("00");
+    $('.time-selector--ampm').val("pm");
+    $('#purpose').val('selectpurpose').trigger('change');
+    $('#condition').val('selectcondition').trigger('change');
+    $('#provider').val('selectprovider').trigger('change');
+    $('#cost-type').val('selecttype').trigger('change');
   }
 
   $(document).ready(function () {
