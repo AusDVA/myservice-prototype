@@ -22,42 +22,6 @@
 <div class="margin-above--large">
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
-  <!-- <div id="previous-or-new">
-    <div class="form-group formPartials_buttonRadio " id="buttonradio251-container">
-      <fieldset>
-        <legend class="uikit-text-input__label  legend-override ">
-          Use previous details or enter new?</legend>
-        <div class="radio-toggle">
-          <label class="label-left">
-            <input type="radio" id="buttonradio251-1" name="buttonradio251" value="yes">
-            <span>Use previous</span>
-          </label>
-          <label class="label-right">
-            <input type="radio" id="buttonradio251-2" name="buttonradio251" value="no">
-            <span>Enter new</span>
-          </label>
-        </div>
-      </fieldset>
-    </div>
-  </div> -->
-
-  <!-- <div id="previous-details" class="pre-pop-on margin-below--large">
-    <div class="kv-pair">
-      <span class="kv-pair__key">Provider or hospital</span>
-      <span class="kv-pair__value">Dr Carl Practice<BR />1245 Dax Crossing <BR/>Melrose Place, NSW 2897</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Date and time</span>
-      <span class="kv-pair__value">12 Aug 2020 at 11.00 AM</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Purpose</span>
-      <span class="kv-pair__value">Treatment, Lumbar strain</span>
-    </div>
-  </div> -->
-  <!-- 
-  <div id="enter-new"> -->
-
   <%- include(partials+"components/form-partials/dropdown", {
       label: "Purpose of trip",
       id: "purpose",
@@ -94,12 +58,6 @@
         "Other"
       ],
       modifiers: [ "hintNewLine"]
-    }); %>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "What is the condition:",
-      id: "condition-free",
-      modifiers: ["hidden"]
     }); %>
 
   <%- include(partials+"components/form-partials/date-picker", {
@@ -237,7 +195,7 @@
     label: "Cost type",
 options: [
   "-- Select type --",
-  "Private vehicle",
+  "Private vehicle - kms",
   "Public transport",
   "Taxi and rideshare",
   "Community transport",
@@ -306,33 +264,25 @@ afterText: "nights",
 modifiers: ["inputShort"]
 }); %>
 
-  <%- include(partials+"components/form-partials/text", {
-label: "Total accommodation cost",
-id: "total-accomm",
-modifiers: ["dollarSign","inputShort"]
-}); %>
+  <div id="mrca-accomm" hidden>
 
-<%- include(partials+"components/form-partials/yes_no", {
+    <%- include(partials+"components/form-partials/text", {
+    label: "Total accommodation cost",
+    id: "total-accomm",
+    modifiers: ["dollarSign","inputShort"]
+    }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
   label: "Did you pay for meals as a separate cost?",
   yes_toggle: "#meals-container"
   }); %>
 
-  <div id="meals-container" hidden>
     <%- include(partials+"components/form-partials/text", {
-      label: "Breakfast",
-      hint: "(enter total for length of stay)",
-      modifiers: ["dollarSign","inputShort"]
+      label: "Total cost of meals",
+      id: "meals",
+      modifiers: ["dollarSign","inputShort","hidden"]
       }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Lunch",
-        hint: "(enter total for length of stay)",
-        modifiers: ["dollarSign","inputShort"]
-        }); %>
-        <%- include(partials+"components/form-partials/text", {
-          label: "Dinner",
-          hint: "(enter total for length of stay)",
-          modifiers: ["dollarSign","inputShort"]
-          }); %>
+
   </div>
 
   <%- include(partials+"components/form-partials/yes_no", {
@@ -413,7 +363,7 @@ modifiers: ["hidden"]
     $("#tolls-message-container").hide();
     $("#attendant-1-container").hide();
     switch (mySelection) {
-      case "Private vehicle":
+      case "Private vehicle - kms":
         $("#kms-container").show();
         break;
       case "Public transport":
@@ -450,27 +400,17 @@ modifiers: ["hidden"]
         break;
       case "Accommodation":
         $("#accommodation-questions").show("fast");
-        console.log(act);
         if (act != 'vea') {
-          $("#total-accomm-container").show();
+          $("#mrca-accomm").show();
           $("#evidence").show();
         } else {
-          $("#total-accomm-container").hide();
+          $("#mrca-accomm").hide();
         }
         break;
       default:
         break;
     }
   }
-
-  $('#condition-container').on('change', function () {
-    var mySelect = $("#condition-container option:selected").text().trim();
-    if (mySelect == "Other") {
-      $("#condition-free-container").show();
-    } else {
-      $("#condition-free-container").hide()
-    }
-  });
 
   $('#purpose-container').on('change', function () {
     var mySelect = $("#purpose-container option:selected").text().trim();
@@ -492,13 +432,13 @@ modifiers: ["hidden"]
 
   /* Use previous */
 
-  $("#use-previous").on("click", function () {
-    usePrevious();
-  })
+  // $("#use-previous").on("click", function () {
+  //   usePrevious();
+  // })
 
-    $('input[name=use-previous]').change(function () {
+  $('input[name=use-previous]').change(function () {
     var myStatus = $("#use-previous-1").is(":checked");
-    if ( myStatus ) {
+    if (myStatus) {
       usePrevious()
     } else {
       clearPrevious();
@@ -542,17 +482,17 @@ modifiers: ["hidden"]
     $('#cost-type').change(function () {
       updateLayout();
     });
-    $('#accommodation').change(function () {
-      var mySelection = $(this).find("option:selected").text().trim();
-      console.log(mySelection)
-      switch (mySelection) {
-        case "Commercial":
-          $("#accommodation-questions").show();
-          break;
-        default:
-          break;
-      }
-    });
+    // $('#accommodation').change(function () {
+    //   var mySelection = $(this).find("option:selected").text().trim();
+    //   console.log(mySelection)
+    //   switch (mySelection) {
+    //     case "Commercial":
+    //       $("#accommodation-questions").show();
+    //       break;
+    //     default:
+    //       break;
+    //   }
+    // });
 
   });
 </script>
