@@ -32,7 +32,6 @@
           </ul>
           <p>You must keep your receipts (over $30) for four months from the date your claim is submitted. You may be asked to provide them during this period. To be reimbursed for travel costs, you must lodge the form within 12 months after you completed your travel. <BR/>For further information see the <a href="https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/claim-travel-expenses-under-rts" rel="external">DVA website</a>.</p>
 
-
           <!-- keep for future - when we add MEPI -->
           <!-- <p>Claim for the reimbursement of medical and travel expenses. You may be required to upload receipts as
             evidence. You can track the progress of your submitted claims below. </p>
@@ -51,7 +50,6 @@
 
           <a href="/auth/reimbursements/travel-list"><button class="uikit-btn uikit-btn--primary new-claim">New
               claim</button></a>
-
           <hr>
           <%- include(partials+"components/form-partials/notice", {
             message: "Your reimbursement claim has been submitted successfully.",
@@ -125,7 +123,8 @@
     $("#medical-1").hide();
     $("#travel-1").hide();
     $("#travel-2").hide();
-    switch (pastTransactions) {
+    $("#success-container").hide()
+    switch (state) {
       case "none":
         $("#blank").show();
         break;
@@ -139,9 +138,12 @@
       case "all":
         $("#travel-1").show();
         $("#travel-2").show();
+        $("#success-container").show()
         // $("#medical-1").show();
         break;
       default:
+      $("#travel-1").show();
+        $("#travel-2").show();
         break;
     }
   }
@@ -154,26 +156,27 @@
     }
     return results[1] || 0;
   }
-  var toast = $.urlParam('toast');
-  switch (toast) {
-    case "medical-added":
-      pastTransactions = "medical";
-      stateSwitcher();
-      $("#success-container").show()
-      break;
-    case "travel-added":
-      pastTransactions = "travel";
-      stateSwitcher();
-      $("#success-container").show()
-      break;
-    default:
-      break;
-  }
-  var claims = $.urlParam('claims');
-  if (claims != 0) {
-    pastTransactions = claims;
-    stateSwitcher();
-  }
+  var state = $.urlParam('state');
+  stateSwitcher();
+  // switch (state) {
+  //   // case "medical-added":
+  //   //   pastTransactions = "medical";
+  //   //   stateSwitcher();
+  //   //   $("#success-container").show()
+  //   //   break;
+  //   case "travel-added":
+  //     state = "all";
+  //     stateSwitcher();
+  //     $("#success-container").show()
+  //     break;
+  //   default:
+  //     break;
+  // }
+  // var claims = $.urlParam('claims');
+  // if (claims != 0) {
+  //   pastTransactions = claims;
+  //   stateSwitcher();
+  // }
 
   $(".view-travel-submitted").click(function () {
     window.location = "/auth/reimbursements/view-submitted";
@@ -181,8 +184,6 @@
   $(".view-travel-approved").click(function () {
     window.location = "/auth/reimbursements/view-approved";
   });
-
-
 
   // $("#medical-1, .edit-medical").on("click", function () {
   //   window.location.href = "/auth/reimbursements/medical-list";
