@@ -128,10 +128,10 @@
   <h2 class="h2 mys margin-below--mid">Going to</h2>
   <%- include(partials+"components/form-partials/dropdown", {
     id: "provider",
-    label: "Select previous provider or enter new",
+    label: "Select previous destination or enter new",
     options: [
         {
-          text: "-- Select provider --"
+          text: "-- Select destination --"
         },
         { 
           text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
@@ -146,12 +146,23 @@
           text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
         },
         {
-          text: "<strong>Enter new provider</strong>"
+          text: "<strong>Enter new destination</strong>"
         }
       ]
   }); %>
 
   <div id="going-to-enter" hidden>
+
+    <%- include(partials+"components/form-partials/radio", {
+      label: "Destination type:",
+      id: "dest-type",
+      boxes: [
+        "Medical provider",
+        "Private address"
+      ]
+    }); %>
+
+    <div id="dest-type-med">
     <%- include(partials+"components/form-partials/text", {
         label: "Practice/Doctor's name",
         hint: "(optional)"
@@ -213,6 +224,63 @@
           }
         ]
       }) %>
+    </div>
+    <div id="dest-type-private" hidden>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Address line 1",
+        modifiers: ["inputFullLength"]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Address line 2",
+        hint: "(optional)",
+        modifiers: ["inputFullLength"]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Suburb or town",
+        modifiers: ["inputFullLength"]
+      }); %>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Postcode"
+      }); %>
+      <%- include(forms+"dropdown", {
+        label: "State or territory",
+        options: [
+          "-- Select state or territory --",
+          {
+            text: "Australian Capital Territory",
+            value: "act"
+          },
+          {
+            text: "New South Wales",
+            value: "nsw"
+          },
+          {
+            text: "Northern Territory",
+            value: "nt"
+          },
+          {
+            text: "Queensland",
+            value: "qld"
+          },
+          {
+            text: "South Australia",
+            value: "sa"
+          },
+          {
+            text: "Tasmania",
+            value: "tas"
+          },
+          {
+            text: "Victoria",
+            value: "vic"
+          },
+          {
+            text: "Western Australia",
+            value: "wa"
+          }
+        ]
+      }) %>
+    </div>
   </div>
 </div>
 
@@ -305,7 +373,14 @@
 <script>
   $(document).ready(function () {
 
-    $("#return-option-1").prop("checked", true);
+    $('#condition-container').on('change', function () {
+      var mySelect = $("#condition-container option:selected").text().trim();
+      if (mySelect == "Other") {
+        $("#condition-free-container").show();
+      } else {
+        $("#condition-free-container").hide()
+      }
+    });
 
     $('#pickup-container').on('change', function () {
       var mySelect = $("#pickup-container option:selected").text().trim();
@@ -315,20 +390,26 @@
         $("#new-pickup").hide()
       }
     });
+
+    $("#act-1").prop("checked", true);
     $('#provider-container').on('change', function () {
       var mySelect = $("#provider-container option:selected").text().trim();
-      if (mySelect == "Enter new provider") {
+      if (mySelect == "Enter new destination") {
         $("#going-to-enter").show();
       } else {
         $("#going-to-enter").hide()
       }
     });
-    $('#condition-container').on('change', function () {
-      var mySelect = $("#condition-container option:selected").text().trim();
-      if (mySelect == "Other") {
-        $("#condition-free-container").show();
+
+    $("#dest-type-1").prop("checked", true);
+    $('#dest-type-container').change(function () {
+      var myStatus = $("#dest-type-1").is(":checked");
+      if (myStatus) {
+        $("#dest-type-med").show();
+        $("#dest-type-private").hide();
       } else {
-        $("#condition-free-container").hide()
+        $("#dest-type-med").hide();
+        $("#dest-type-private").show();
       }
     });
 
