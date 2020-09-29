@@ -3,326 +3,83 @@
   heading: "Book transport"
 }) %>
 
-<%- include(partials+"components/form-partials/notice", {
-  message: "For details of your eligibility for transport see <a href='https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/arrange-taxi-or-hire-car' rel='external'>arrange for a taxi or hire car</a> or call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>)"
+<%- include(partials+"components/form-partials/radio", {
+  label: "Type of trip:",
+  id: "trip-type",
+  boxes: [
+    "To appointment and back",
+    "To appointment only",
+    "From appointment only"
+  ]
 }); %>
 
+<%- include(partials+"components/form-partials/notice", {
+  message: "When you arrive at your appointment, ask your driver for a contact number. Call to arrange your return trip when you are ready. You should only book a return trip if you are travelling back on the same day",
+  id: "return-notice",
+  modifiers: ["hidden"]
+}); %>
 
-<div id="appointment-details" class="margin-above--large">
+<div id="details" hidden>
 
-  <h2 class="mys h2 margin-below--mid">Appointment details</h2>
-
-  <%- include(partials+"components/form-partials/dropdown", {
-      label: "Primary condition being treated",
-      id: "condition",
-      options: [
-        "-- Select condition --",
-        "Lumbar spondylosis",
-        "Osteoarthritis",
-        "Ankle sprain",
-        "Lumbar strain",
-        "Other"
-      ],
-      tooltip: {
-        content: "You are only able to book transport online for conditions covered under VEA."
-      },
-      modifiers: [ "hintNewLine"]
-    }); %>
-
-    <%- include(partials+"components/form-partials/text", {
-      label: "What is the condition:",
-      id: "condition-free",
-      modifiers: ["hidden"]
-    }); %>
-
-  <%- include(partials+"components/form-partials/dropdown", {
-      label: "Appointment type",
-      id: "type",
-      options: [
-        "-- Select appointment type --",
-        "Hospital",
-        "Specialist",
-        "Other"
-      ]
-    }); %>
-
-  
-</div>
-
-<div id="pickup" class="margin-above--large">
   <h2 class="h2 mys margin-below--mid">Pick up address</h2>
-  <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select home or enter alternative address",
-  id: "pickup",
-  options: [
-  {
-    text: "-- Select pick up address --"
-  },
-  { 
-    text: "Unit 3/41 Constitution Ave, Jamison Appartments, Canberra ACT 2612"
-  },
-  {
-    text: "<strong>Enter new address</strong>"
-  }
-    ]
-  }); %>
-  <div id="new-pickup" hidden>
-    <%- include(partials+"components/form-partials/text", {
-      label: "Address line 1",
-      modifiers: ["inputFullLength"]
-    }); %>
-    <%- include(partials+"components/form-partials/text", {
-      label: "Address line 2",
-      hint: "(optional)",
-      modifiers: ["inputFullLength"]
-    }); %>
-    <%- include(partials+"components/form-partials/text", {
-      label: "Suburb or town",
-      modifiers: ["inputFullLength"]
-    }); %>
-    <%- include(partials+"components/form-partials/text", {
-      label: "Postcode"
-    }); %>
-    <%- include(forms+"dropdown", {
-      label: "State or territory",
-      options: [
-        "-- Select state or territory --",
-        {
-          text: "Australian Capital Territory",
-          value: "act"
-        },
-        {
-          text: "New South Wales",
-          value: "nsw"
-        },
-        {
-          text: "Northern Territory",
-          value: "nt"
-        },
-        {
-          text: "Queensland",
-          value: "qld"
-        },
-        {
-          text: "South Australia",
-          value: "sa"
-        },
-        {
-          text: "Tasmania",
-          value: "tas"
-        },
-        {
-          text: "Victoria",
-          value: "vic"
-        },
-        {
-          text: "Western Australia",
-          value: "wa"
-        }
-      ]
-    }) %>
-  </div>
-</div>
+  <div id="pickup-from-home" hidden><%- include("home-address") %></div>
+  <div id="pickup-from-provider" hidden><%- include("provider-address") %></div>
 
-<div id="going-to" class="margin-above--large">
   <h2 class="h2 mys margin-below--mid">Going to</h2>
-  <%- include(partials+"components/form-partials/dropdown", {
-    id: "provider",
-    label: "Select previous destination or enter new",
-    options: [
-        {
-          text: "-- Select destination --"
-        },
-        { 
-          text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
-        },
-        { 
-          text: "Capital Hospital / Dr Jane Smith 1245 Dax Crossing Apt. Melrose place, NSW 2897"
-        },
-        { 
-          text: "Dr Al Appleton, 334 Heathcliff Rd, Melrose place, NSW 2045"
-        },
-        { 
-          text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
-        },
-        {
-          text: "<strong>Enter new destination</strong>"
-        }
-      ]
-  }); %>
+  <div id="going-to-provider" hidden><%- include("provider-address") %></div>
+  <div id="going-to-home" hidden><%- include("home-address") %></div>
 
-  <div id="going-to-enter" hidden>
-
-    <%- include(partials+"components/form-partials/radio", {
-      label: "Destination type:",
-      id: "dest-type",
-      boxes: [
-        "Medical provider",
-        "Private address"
-      ]
-    }); %>
-
-    <div id="dest-type-med">
-    <%- include(partials+"components/form-partials/text", {
-        label: "Practice/Doctor's name",
-        hint: "(optional)"
-      }); %>
-    <%- include(partials+"components/form-partials/text", {
-        label: "Phone number"
-      }); %>
-    <%- include(partials+"components/form-partials/text", {
-        label: "Address line 1",
-        modifiers: ["inputFullLength"]
-      }); %>
-    <%- include(partials+"components/form-partials/text", {
-        label: "Address line 2",
-        hint: "(optional)",
-        modifiers: ["inputFullLength"]
-      }); %>
-    <%- include(partials+"components/form-partials/text", {
-        label: "Suburb or town",
-        modifiers: ["inputFullLength"]
-      }); %>
-    <%- include(partials+"components/form-partials/text", {
-        label: "Postcode"
-      }); %>
-    <%- include(forms+"dropdown", {
-        label: "State or territory",
-        options: [
-          "-- Select state or territory --",
-          {
-            text: "Australian Capital Territory",
-            value: "act"
-          },
-          {
-            text: "New South Wales",
-            value: "nsw"
-          },
-          {
-            text: "Northern Territory",
-            value: "nt"
-          },
-          {
-            text: "Queensland",
-            value: "qld"
-          },
-          {
-            text: "South Australia",
-            value: "sa"
-          },
-          {
-            text: "Tasmania",
-            value: "tas"
-          },
-          {
-            text: "Victoria",
-            value: "vic"
-          },
-          {
-            text: "Western Australia",
-            value: "wa"
-          }
-        ]
-      }) %>
-    </div>
-    <div id="dest-type-private" hidden>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Address line 1",
-        modifiers: ["inputFullLength"]
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Address line 2",
-        hint: "(optional)",
-        modifiers: ["inputFullLength"]
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Suburb or town",
-        modifiers: ["inputFullLength"]
-      }); %>
-      <%- include(partials+"components/form-partials/text", {
-        label: "Postcode"
-      }); %>
-      <%- include(forms+"dropdown", {
-        label: "State or territory",
-        options: [
-          "-- Select state or territory --",
-          {
-            text: "Australian Capital Territory",
-            value: "act"
-          },
-          {
-            text: "New South Wales",
-            value: "nsw"
-          },
-          {
-            text: "Northern Territory",
-            value: "nt"
-          },
-          {
-            text: "Queensland",
-            value: "qld"
-          },
-          {
-            text: "South Australia",
-            value: "sa"
-          },
-          {
-            text: "Tasmania",
-            value: "tas"
-          },
-          {
-            text: "Victoria",
-            value: "vic"
-          },
-          {
-            text: "Western Australia",
-            value: "wa"
-          }
-        ]
-      }) %>
-    </div>
-  </div>
-</div>
-
-<div id="when" class="margin-above--large">
-  <h2 class="mys h2 margin-below--mid">Date and time</h2>
-  <%- include(partials+"components/form-partials/date-picker", {
+  <div id="when" class="margin-above--large">
+    <h2 class="mys h2 margin-below--mid">Appointment details</h2>
+    <%- include(partials+"components/form-partials/date-picker", {
     label: "Appointment date",
     id: "date"
   }); %>
-  <%- include(partials+"components/form-partials/time-picker", {
+    <%- include(partials+"components/form-partials/time-picker", {
     label: "Appointment time",
     id: "time"
   }); %>
-  <%- include(partials+"components/form-partials/checkbox", {
-      id: "return-option",
-      boxes: [
-        {
-          text: "Return trip required",
-          toggle: "#return-notice-container"
-        }
-      ],
-      modifiers: ["hintNewLine","margin-below--none"],
-      customClass: ["margin-below--none"]
-    }); %>
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Primary condition being treated",
+    id: "condition",
+    options: [
+      "-- Select condition --",
+      "Lumbar spondylosis",
+      "Osteoarthritis",
+      "Ankle sprain",
+      "Lumbar strain",
+      "Other"
+    ],
+    tooltip: {
+      content: "You are only able to book transport online for conditions covered under VEA."
+    },
+    modifiers: [ "hintNewLine"]
+  }); %>
 
-    <!-- no longer required but keeping just in case -->
-    <%#- include(partials+"components/form-partials/repeat-booking", {
-      label: "Repeat booking",
-      id: "repeat"
-    }); %>
+  <%- include(partials+"components/form-partials/text", {
+    label: "What is the condition:",
+    id: "condition-free",
+    modifiers: ["hidden"]
+  }); %>
 
-  <%- include(partials+"components/form-partials/notice", {
-      message: "When you arrive at your appointment, ask your driver for a contact number. Call to arrange your return trip when you are ready.",
-      id: "return-notice"
-    }); %>
-</div>
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Appointment type",
+    id: "type",
+    options: [
+      "-- Select appointment type --",
+      "Hospital",
+      "Specialist",
+      "Other"
+    ]
+  }); %>
 
-<div id="trip-details" class="margin-above--extra">
+  </div>
 
-  <h2 class="mys h2 margin-below--mid">Trip requirements</h2>
+  <div id="trip-details" class="margin-above--extra">
 
-  <%- include(partials+"components/form-partials/checkbox", {
+    <h2 class="mys h2 margin-below--mid">Trip requirements</h2>
+
+    <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
       "I require a wheelchair accessible vehicle",
       "I will be travelling with an attendant"
@@ -330,30 +87,30 @@
     customClass: "margin-below"
   }); %>
 
-  <%- include(partials+"components/form-partials/textarea", {
+    <%- include(partials+"components/form-partials/textarea", {
     label: "Instructions for transport provider:",
     id:"instructions"
   }); %>
 
-</div>
+  </div>
 
-<%- include(partials+"components/form-partials/yes_no", {
+  <%- include(partials+"components/form-partials/yes_no", {
   label: "Is this the closest practical provider?",
   tooltip: "Is the treating provider the closest practical provider able to administer the required treatment?",
   yes_toggle: "#click-submit",
   no_toggle: "#not-practical-container"
 }); %>
 
-<%- include(partials+"components/form-partials/notice", {
+  <%- include(partials+"components/form-partials/notice", {
   message: "You are required to visit the closest practical provider able to administer the required treatment. If there are reasons why this is not possible call DVA to discuss.",
   id: "not-practical",
   type: "warning",
   modifiers: ["hidden"]
 }); %>
 
-<p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+  <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
 
-<%- include(forms+"pagination", {
+  <%- include(forms+"pagination", {
     pagination: [
       {
         text: "Previous",
@@ -367,62 +124,101 @@
     ]
   }) %>
 
-<%- include(templates+"footer") %>
-<%- include("book-ss") %>
+  <%- include(templates+"footer") %>
+  <%- include("book-ss") %>
 
-<script>
-  $(document).ready(function () {
+  <script>
+    $(document).ready(function () {
 
-    $('#condition-container').on('change', function () {
-      var mySelect = $("#condition-container option:selected").text().trim();
-      if (mySelect == "Other") {
-        $("#condition-free-container").show();
-      } else {
-        $("#condition-free-container").hide()
-      }
+      $('#condition-container').on('change', function () {
+        var mySelect = $("#condition-container option:selected").text().trim();
+        if (mySelect == "Other") {
+          $("#condition-free-container").show();
+        } else {
+          $("#condition-free-container").hide()
+        }
+      });
+
+      $('#pickup-container').on('change', function () {
+        var mySelect = $("#pickup-container option:selected").text().trim();
+        if (mySelect == "Enter new address") {
+          $("#new-pickup").show();
+        } else {
+          $("#new-pickup").hide()
+        }
+      });
+
+      $("#act-1").prop("checked", true);
+      $('#provider-container').on('change', function () {
+        var mySelect = $("#provider-container option:selected").text().trim();
+        if (mySelect == "Enter new destination") {
+          $("#going-to-enter").show();
+        } else {
+          $("#going-to-enter").hide()
+        }
+      });
+
+      $("#dest-type-1").prop("checked", true);
+      $('#dest-type-container').change(function () {
+        var myStatus = $("#dest-type-1").is(":checked");
+        if (myStatus) {
+          $("#dest-type-med").show();
+          $("#dest-type-private").hide();
+        } else {
+          $("#dest-type-med").hide();
+          $("#dest-type-private").show();
+        }
+      });
+
     });
 
-    $('#pickup-container').on('change', function () {
-      var mySelect = $("#pickup-container option:selected").text().trim();
-      if (mySelect == "Enter new address") {
-        $("#new-pickup").show();
-      } else {
-        $("#new-pickup").hide()
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+        return 0;
       }
-    });
+      return results[1] || 0;
+    }
 
     $("#act-1").prop("checked", true);
-    $('#provider-container').on('change', function () {
-      var mySelect = $("#provider-container option:selected").text().trim();
-      if (mySelect == "Enter new destination") {
-        $("#going-to-enter").show();
-      } else {
-        $("#going-to-enter").hide()
-      }
+
+
+    var state;
+    $('input[name=trip-type]').change(function () {
+      state = $(this).val();
+      updateLayout();
     });
 
-    $("#dest-type-1").prop("checked", true);
-    $('#dest-type-container').change(function () {
-      var myStatus = $("#dest-type-1").is(":checked");
-      if (myStatus) {
-        $("#dest-type-med").show();
-        $("#dest-type-private").hide();
-      } else {
-        $("#dest-type-med").hide();
-        $("#dest-type-private").show();
+    function updateLayout() {
+
+      $("#details").hide()
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();
+
+      switch (state) {
+        case "toappointmentandback":
+          $("#return-notice-container").show();
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+        case "toappointmentonly":
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+          case "fromappointmentonly":
+          $("#pickup-from-provider").show();
+          $("#going-to-home").show();
+          $("#details").show();
+          break;
+        default:
+          break;
       }
-    });
-
-  });
-
-  $.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-      return 0;
     }
-    return results[1] || 0;
-  }
 
-   $("#act-1").prop("checked", true);
 
-</script>
+  </script>
