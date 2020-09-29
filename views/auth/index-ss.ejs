@@ -43,37 +43,63 @@
 
     //helper function to capitalize the first letter in a string
 
-    function jsUcfirst(string) {
-      return string.charAt(0).toUpperCase() + string.slice(1);
-    }
+    // function jsUcfirst(string) {
+    //   return string.charAt(0).toUpperCase() + string.slice(1);
+    // }
 
     $("#state-1").prop("checked", true);
+    var state = "cardcoc";
+    updateLayout();
 
     $('input[name=state]').change(function () {
-      selectedOption = $(this).val();
-      switch (selectedOption) {
-        case "cardcoc":
-          $(".homepage__column--income-support").show();
-          $(".homepage__column--card").addClass("homepage__column--hide");
-          $("#small-card").show();
-          break;
-        case "cardnococ":
-          $(".homepage__column--income-support").hide();
-          $(".homepage__column--card").removeClass("homepage__column--hide");
-          $("#small-card").hide();
-          break;
-        case "nocardcoc":
-          $(".homepage__column--income-support").show();
-          $(".homepage__column--card").addClass("homepage__column--hide");
-          $("#small-card").hide();
-          break;
-        case "nocardnococ":
-          $(".homepage__column--income-support").hide();
-          $(".homepage__column--card").addClass("homepage__column--hide");
-          break;
-        default:
-          break;
-      }
+      state = $(this).val();
+      updateLayout();
     });
+
+    function updateLayout() {
+
+        $("#widget-tasks").hide();
+        $("#widget-claims").hide();
+        $("#widget-payments").hide();
+        $("#widget-transport").hide();
+        $(".homepage__column--income-support").hide();
+        $("#small-card").hide();
+        $(".homepage__column--card").hide();
+
+        switch (state) {
+          case "cardcoc":
+            $("#widget-tasks").show();
+            $("#widget-claims").show();
+            $("#widget-payments").show();
+            $("#widget-transport").show();
+            if ($(window).width() < 990) {
+              $(".homepage__column--card").show();
+            } else {
+              $("#small-card").show();
+            }
+            $(".homepage__column--income-support").show();
+            break;
+          case "cardnococ":
+            $("#widget-tasks").show();
+            $("#widget-claims").show();
+            $("#widget-payments").show();
+            $("#widget-transport").show();
+            $(".homepage__column--card").show();
+            break;
+          case "nocardcoc":
+            $("#widget-tasks").show();
+            $("#widget-claims").show();
+            $("#widget-payments").show();
+            $("#widget-transport").show();
+            $(".homepage__column--income-support").show();
+            break;
+          case "nocardnococ":
+            $("#widget-tasks").show();
+            $("#widget-claims").show();
+            break;
+          default:
+            break;
+        }
+    }
 
   </script>
