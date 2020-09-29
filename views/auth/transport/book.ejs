@@ -3,14 +3,25 @@
   heading: "Book transport"
 }) %>
 
+<h2 class="h2 mys margin-below--mid margin-above">Type of trip</h2>
+
 <%- include(partials+"components/form-partials/radio", {
-  label: "Type of trip:",
+  label: "What type of trip do you require?",
   id: "trip-type",
   boxes: [
-    "To appointment and back",
-    "To appointment only",
-    "From appointment only"
+    "Return",
+    "One way"
   ]
+}); %>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "Where are you going?",
+  id: "one-way-type",
+  boxes: [
+    "To a medical appointment",
+    "From a medical appointment"
+  ],
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/notice", {
@@ -39,7 +50,7 @@
     label: "Appointment time",
     id: "time"
   }); %>
-  <%- include(partials+"components/form-partials/dropdown", {
+    <%- include(partials+"components/form-partials/dropdown", {
     label: "Primary condition being treated",
     id: "condition",
     options: [
@@ -56,13 +67,13 @@
     modifiers: [ "hintNewLine"]
   }); %>
 
-  <%- include(partials+"components/form-partials/text", {
+    <%- include(partials+"components/form-partials/text", {
     label: "What is the condition:",
     id: "condition-free",
     modifiers: ["hidden"]
   }); %>
 
-  <%- include(partials+"components/form-partials/dropdown", {
+    <%- include(partials+"components/form-partials/dropdown", {
     label: "Appointment type",
     id: "type",
     options: [
@@ -87,6 +98,12 @@
     customClass: "margin-below"
   }); %>
 
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Is this the closest practical provider?",
+    tooltip: "Is the treating provider the closest practical provider able to administer the required treatment?"
+  }); %>
+  
+
     <%- include(partials+"components/form-partials/textarea", {
     label: "Instructions for transport provider:",
     id:"instructions"
@@ -94,19 +111,7 @@
 
   </div>
 
-  <%- include(partials+"components/form-partials/yes_no", {
-  label: "Is this the closest practical provider?",
-  tooltip: "Is the treating provider the closest practical provider able to administer the required treatment?",
-  yes_toggle: "#click-submit",
-  no_toggle: "#not-practical-container"
-}); %>
 
-  <%- include(partials+"components/form-partials/notice", {
-  message: "You are required to visit the closest practical provider able to administer the required treatment. If there are reasons why this is not possible call DVA to discuss.",
-  id: "not-practical",
-  type: "warning",
-  modifiers: ["hidden"]
-}); %>
 
   <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
 
@@ -191,7 +196,8 @@
 
     function updateLayout() {
 
-      $("#details").hide()
+      $("#one-way-type-container").hide();
+      $("#details").hide();
       $("#return-notice-container").hide();
       $("#pickup-from-home").hide();
       $("#pickup-from-provider").hide();
@@ -199,18 +205,40 @@
       $("#going-to-home").hide();
 
       switch (state) {
-        case "toappointmentandback":
+        case "return":
           $("#return-notice-container").show();
           $("#pickup-from-home").show();
           $("#going-to-provider").show();
           $("#details").show();
           break;
-        case "toappointmentonly":
+        case "oneway":
+        $("#one-way-type-1").prop("checked", false);
+        $("#one-way-type-2").prop("checked", false);
+          $("#one-way-type-container").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+    $('input[name=one-way-type]').change(function () {
+
+      $("#details").hide();
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();
+
+      mySelect = $(this).val();
+      console.log( mySelect )
+      switch (mySelect) {
+        case "toamedicalappointment":
           $("#pickup-from-home").show();
           $("#going-to-provider").show();
           $("#details").show();
           break;
-          case "fromappointmentonly":
+        case "fromamedicalappointment":
           $("#pickup-from-provider").show();
           $("#going-to-home").show();
           $("#details").show();
@@ -218,7 +246,7 @@
         default:
           break;
       }
-    }
+    });
 
 
   </script>
