@@ -58,54 +58,76 @@
 
     function updateLayout() {
 
-        $("#widget-tasks").hide();
-        $("#widget-claims").hide();
-        $("#widget-payments").hide();
-        $("#widget-transport").hide();
-        $(".homepage__column--income-support").hide();
-        $("#small-card").hide();
-        $(".homepage__column--card").hide();
+      $("#widget-tasks").hide();
+      $("#widget-claims").hide();
+      $("#widget-payments").hide();
+      $("#widget-transport").hide();
+      $(".homepage__column--income-support").hide();
+      $("#small-card").hide();
+      $(".homepage__column--card").hide();
 
-        switch (state) {
-          case "cardcoc":
-            $("#widget-tasks").show();
-            $("#widget-claims").show();
-            $("#widget-payments").show();
-            $("#widget-transport").show();
-            if ($(window).width() < 990) {
-              $(".homepage__column--card").show();
-            } else {
-              $("#small-card").show();
-            }
-            $(".homepage__column--income-support").show();
-            break;
-          case "cardnococ":
-            $("#widget-tasks").show();
-            $("#widget-claims").show();
-            $("#widget-payments").show();
+      switch (state) {
+        case "cardcoc":
+          tasksOn();
+          claimsOn();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $("#widget-transport").show();
+          if ($(window).width() < 990) {
             $(".homepage__column--card").show();
-            break;
-          case "nocardcoc":
-            $("#widget-tasks").show();
-            $("#widget-claims").show();
-            $("#widget-payments").show();
-            $("#widget-transport").show();
-            $(".homepage__column--income-support").show();
-            break;
-          case "nocardnococ":
-          toggleTasks();
-            $("#widget-tasks").show();
-            $("#widget-claims").show();
-            break;
-          default:
-            break;
-        }
+          } else {
+            $("#small-card").show();
+          }
+          $(".homepage__column--income-support").show();
+          break;
+        case "cardnococ":
+          tasksOn();
+          claimsOn();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $(".homepage__column--card").show();
+          break;
+        case "nocardcoc":
+          tasksOn();
+          claimsOn();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $("#widget-transport").show();
+          $(".homepage__column--income-support").show();
+          break;
+        case "nocardnococ":
+          tasksOff();
+          claimsOff();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          break;
+        default:
+          break;
+      }
     }
 
-    function toggleTasks(){
+    function tasksOff() {
       $("#widget-tasks .dashboard-widget__number").hide();
       $("#widget-tasks .dashboard-widget__icon").hide();
       $("#widget-tasks .dashboard-widget__text").text("No new tasks");
+    }
+    function tasksOn() {
+      $("#widget-tasks .dashboard-widget__number").show();
+      $("#widget-tasks .dashboard-widget__icon").show();
+      $("#widget-tasks .dashboard-widget__text").text("tasks to complete");
+    }
+    function claimsOff() {
+      $("#widget-claims .dashboard-widget__number").hide();
+      $("#widget-claims .dashboard-widget__icon").hide();
+      $("#widget-claims .dashboard-widget__text").text("No claims");
+    }
+    function claimsOn() {
+      $("#widget-claims .dashboard-widget__number").show();
+      $("#widget-claims .dashboard-widget__icon").show();
+      $("#widget-claims .dashboard-widget__text").text("submitted");
     }
 
   </script>
