@@ -98,11 +98,11 @@
     customClass: "margin-below"
   }); %>
 
-  <%- include(partials+"components/form-partials/yes_no", {
+    <%- include(partials+"components/form-partials/yes_no", {
     label: "Is this the closest practical provider?",
     tooltip: "Is the treating provider the closest practical provider able to administer the required treatment?"
   }); %>
-  
+
 
     <%- include(partials+"components/form-partials/textarea", {
     label: "Instructions for transport provider:",
@@ -133,60 +133,6 @@
   <%- include("book-ss") %>
 
   <script>
-    $(document).ready(function () {
-
-      $('#condition-container').on('change', function () {
-        var mySelect = $("#condition-container option:selected").text().trim();
-        if (mySelect == "Other") {
-          $("#condition-free-container").show();
-        } else {
-          $("#condition-free-container").hide()
-        }
-      });
-
-      $('#pickup-container').on('change', function () {
-        var mySelect = $("#pickup-container option:selected").text().trim();
-        if (mySelect == "Enter new address") {
-          $("#new-pickup").show();
-        } else {
-          $("#new-pickup").hide()
-        }
-      });
-
-      $("#act-1").prop("checked", true);
-      $('#provider-container').on('change', function () {
-        var mySelect = $("#provider-container option:selected").text().trim();
-        if (mySelect == "Enter new destination") {
-          $("#going-to-enter").show();
-        } else {
-          $("#going-to-enter").hide()
-        }
-      });
-
-      $("#dest-type-1").prop("checked", true);
-      $('#dest-type-container').change(function () {
-        var myStatus = $("#dest-type-1").is(":checked");
-        if (myStatus) {
-          $("#dest-type-med").show();
-          $("#dest-type-private").hide();
-        } else {
-          $("#dest-type-med").hide();
-          $("#dest-type-private").show();
-        }
-      });
-
-    });
-
-    $.urlParam = function (name) {
-      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-      if (results == null) {
-        return 0;
-      }
-      return results[1] || 0;
-    }
-
-    $("#act-1").prop("checked", true);
-
 
     var state;
     $('input[name=trip-type]').change(function () {
@@ -212,8 +158,8 @@
           $("#details").show();
           break;
         case "oneway":
-        $("#one-way-type-1").prop("checked", false);
-        $("#one-way-type-2").prop("checked", false);
+          $("#one-way-type-1").prop("checked", false);
+          $("#one-way-type-2").prop("checked", false);
           $("#one-way-type-container").show();
           break;
         default:
@@ -231,7 +177,6 @@
       $("#going-to-home").hide();
 
       mySelect = $(this).val();
-      console.log( mySelect )
       switch (mySelect) {
         case "toamedicalappointment":
           $("#pickup-from-home").show();
@@ -248,5 +193,39 @@
       }
     });
 
+    $('#pickup-container').on('change', function () {
+      var mySelect = $("#pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#new-pickup").show();
+      } else {
+        $("#new-pickup").hide()
+      }
+    });
+
+    $('#provider-container').on('change', function () {
+      var mySelect = $("#provider-container option:selected").text().trim();
+      if (mySelect == "Enter new destination") {
+        $("#going-to-enter").show();
+      } else {
+        $("#going-to-enter").hide()
+      }
+    });
+
+    $('#condition-container').on('change', function () {
+      var mySelect = $("#condition-container option:selected").text().trim();
+      if (mySelect == "Other") {
+        $("#condition-free-container").show();
+      } else {
+        $("#condition-free-container").hide()
+      }
+    });
+
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    }
 
   </script>
