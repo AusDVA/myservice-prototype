@@ -150,6 +150,9 @@
       $("#going-to-provider").hide();
       $("#going-to-home").hide();
 
+      $(".new-pickup").hide();
+      $(".going-to-enter").hide();
+
       switch (state) {
         case "return":
           $("#return-notice-container").show();
@@ -193,21 +196,38 @@
       }
     });
 
-    $('#pickup-container').on('change', function () {
-      var mySelect = $("#pickup-container option:selected").text().trim();
+    $('#pickup-from-home').on('change', function () {
+      var mySelect = $("#pickup-from-home #pickup-container option:selected").text().trim();
       if (mySelect == "Enter new address") {
-        $("#new-pickup").show();
+        $("#pickup-from-home .new-pickup").show();
       } else {
-        $("#new-pickup").hide()
+        $("#pickup-from-home .new-pickup").hide();
+      }
+    });
+    $('#pickup-from-provider').on('change', function () {
+      var mySelect = $("#pickup-from-provider #provider-container option:selected").text().trim();
+      console.log(mySelect)
+      if (mySelect == "Enter new destination") {
+        $("#pickup-from-provider .going-to-enter").show();
+      } else {
+        $("#pickup-from-provider .going-to-enter").hide();
       }
     });
 
-    $('#provider-container').on('change', function () {
-      var mySelect = $("#provider-container option:selected").text().trim();
+    $('#going-to-provider').on('change', function () {
+      var mySelect = $("#going-to-provider #provider-container option:selected").text().trim();
       if (mySelect == "Enter new destination") {
-        $("#going-to-enter").show();
+        $("#going-to-provider .going-to-enter").show();
       } else {
-        $("#going-to-enter").hide()
+        $("#going-to-provider .going-to-enter").hide()
+      }
+    });
+    $('#going-to-home').on('change', function () {
+      var mySelect = $("#going-to-home #pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#going-to-home .new-pickup").show();
+      } else {
+        $("#going-to-home .new-pickup").hide();
       }
     });
 
