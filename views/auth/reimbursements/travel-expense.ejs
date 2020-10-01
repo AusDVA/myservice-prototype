@@ -16,10 +16,11 @@
   boxes: [
     "Prefill with previous appointment details"
   ],
-  modifiers: ["hidden"]
+  modifiers: ["hidden"],
+  customClass: ["margin-below--large"]
 }); %>
 
-<div class="margin-above--large">
+
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
   <%- include(partials+"components/form-partials/dropdown", {
@@ -99,6 +100,9 @@
     <div id="provider-details" hidden>
       <%- include(partials+"components/form-partials/dropdown", {
           label: "Type of practitioner",
+          tooltip: {
+            content: "If your practitioner type is not shown here you may not be eligible to claim travel expenses for this appointment."
+          },
           id: "practitioner-type",
           options: [
             "-- Select type --",
@@ -184,10 +188,40 @@
       ]
     }) %>
     </div>
-
   </div>
 
-</div>
+<%- include(partials+"components/form-partials/dropdown", {
+    label: "Appointment location",
+options: [
+  "-- Select location --",
+  "Sydney NSW 2001",
+  "Brisbane QLD 4000",
+  "Melbourne VIC 3000",
+  "Perth WA 6000",
+  "(Note to dev - this list is not yet validated)"
+],
+id: "vrb-location",
+modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Appointment location",
+options: [
+"-- Select location --",
+"Canberra ACT 2601",
+"Sydney NSW 2000",
+"Adelaide SA 5000",
+"Brisbane QLD 4000",
+"Hobart TAS 7000",
+"Melbourne VIC 3000",
+"Perth WA 6000",
+"(Note to dev - this list is not yet validated)"
+],
+id: "aat-location",
+modifiers: ["hidden"]
+}); %>
+
+
 
 <div id="expense-details">
   <h2 class="mys h2 margin-below--mid">Expense details</h2>
@@ -300,7 +334,8 @@ modifiers: ["hidden"]
 <div id="evidence" class="margin-below--extra" hidden>
   <h2 class="mys h2">Supporting evidence</h2>
   <p>Attach a tax invoice or other evidence of the expense. You will need to retain evidence until your claim is
-    approved.</p><p>Note to dev: add supported doc types and file size - thanks guys :)</p>
+    approved.</p>
+  <p>Note to dev: add supported doc types and file size - thanks guys :)</p>
   <div class="pt-upload-other-docs">
     <div class="form-group">
       <table class="table-responsive file-upload-default">
@@ -412,12 +447,28 @@ modifiers: ["hidden"]
   }
 
   $('#purpose-container').on('change', function () {
-    var mySelect = $("#purpose-container option:selected").text().trim();
-    if (mySelect == "Other") {
-      $("#purpose-free-container").show();
-    } else {
-      $("#purpose-free-container").hide()
+    $("#purpose-free-container").hide();
+    $("#vrb-location-container").hide();
+    $("#aat-location-container").hide();
+    $("#appointment-details-content").hide();
+    var mySelect = $("#purpose-container option:selected").text().trim().substr(0, 15).toLocaleLowerCase();
+    console.log(mySelect);
+    switch (mySelect) {
+      case "other":
+        $("#purpose-free-container").show();
+        $("#appointment-details-content").show();
+        break;
+      case "to attend a hea":
+        $("#vrb-location-container").show();
+        break;
+      case "to attend befor":
+        $("#aat-location-container").show();
+        break;
+      default:
+      $("#appointment-details-content").show();
+        break;
     }
+
   });
 
   $('#practitioner-type-container').on('change', function () {
