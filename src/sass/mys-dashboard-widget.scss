@@ -173,3 +173,73 @@ $widget-box-shadow: #D9D9D9;
     background: transparent;
   }
 }
+
+
+/* Loading stuff */
+/* Not sure how much of this is still in use other than .widget-tile__content and .widget-tile__loading */
+
+// POC loading widget 
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+}
+
+%widget-tile--loading-ph {
+  animation-duration: 2s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: placeHolderShimmer;
+  animation-timing-function: linear;
+  background: linear-gradient(to right, $gray-light 8%, darken($gray-light, 05) 18%, $gray-light 33%);
+  background-size: 800px 104px;
+  position: relative;
+}
+
+.widget-tile__content {
+  animation: fade-in 1s;
+}
+
+.widget-tile--loading {
+
+  .widget-tile__content {
+    @extend %widget-tile--loading-ph;
+    height: 11px;
+    margin: 2.2em 1em 1em;
+    padding: 5px;
+    width: 85%;
+    &::before,
+    &::after {
+      @extend %widget-tile--loading-ph;
+      content: $content-blank;
+      height: 6px;
+      left: 0;
+      margin: 0;
+      padding: 5px 0 0;
+      position: absolute;
+    }
+
+    &::before {
+      top: -20px;
+      width: 85%;
+    }
+
+    &::after {
+      top: 20px;
+      width: 60%;
+    }
+
+    >div,
+    >span {
+      display: none !important; // this is only important because of other "!important" uses in this file. Need to remove all of them! 
+    }
+  }
+}
+
+.widget-ang-component {
+  display: flex;
+  flex: 1;
+}
