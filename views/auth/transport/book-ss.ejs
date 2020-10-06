@@ -1,15 +1,15 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
 
-  No states ... 
-  
-  <%#- include(partials+"components/form-partials/checkbox", {
+  <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
-      "Gold card holder (VEA only)"
+      "Under 80 years"
     ],
-    id: "gold-card",
+    id: "under-80",
     customClass: "margin-below--none"
   }); %>
+
+  Note greyed out values in medical practitioner select list if under 80.
 
 </div>
 
@@ -26,16 +26,22 @@
       }
     });
 
-    $('#gold-card-1').change(function () {
-      updateGoldCard();
+    $('#under-80-1').change(function () {
+      updateUnder80();
     });
 
-    function updateGoldCard() {
-      var myStatus = $("#gold-card-1").is(":checked");
+    function updateUnder80() {
+      var myStatus = $("#under-80-1").is(":checked");
       if (myStatus) {
-        $("#condition-container").hide();
+        $("#under-80-notice-container").show();
+        $("#practitioner-type option[value=generalpractitioner]").attr("disabled","true");
+        $("#practitioner-type option[value=dentist]").attr("disabled","true");
+        $("#practitioner-type option[value=optometrist]").attr("disabled","true");
       } else {
-        $("#condition-container").show();
+        $("#under-80-notice-container").hide();
+        $("#practitioner-type option[value=generalpractitioner]").removeAttr("disabled");
+        $("#practitioner-type option[value=dentist]").removeAttr("disabled");
+        $("#practitioner-type option[value=optometrist]").removeAttr("disabled");
       }
     }
 
