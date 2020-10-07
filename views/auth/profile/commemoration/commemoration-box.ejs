@@ -1,5 +1,5 @@
 <!-- Summary card -->
-<div id="commemoration-summary" class="box boxed">
+<div id="commemoration-summary" class="box boxed" hidden>
   <div class="box__header">
     <h2 class="box__heading">
       <!-- <i class="fal fa-university fontawesome-icon"></i> -->
@@ -35,7 +35,7 @@
     </div>
     <div class="tr">
       <div class="td"><b>Religious emblem</b></div>
-      <div class="td">Hindu</div>
+      <div class="td">Example 1</div>
     </div>
   </div>
   <div class="status-label status-label--edited margin-above" style="display: none !important;">EDITED</div>
@@ -88,37 +88,14 @@
 
   </div>
 
-
   <div class="edit-content">
     <div class="box__header">
       <h2 class="margin-above--none" style="display: inline-block;">
-        <!-- <span class="fal fa-university fontawesome-icon"></span> -->
         <span class="font-weight-heavy">Commemoration preferences
-        </span></h2>
-      <!-- <button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button" -->
-      <!-- onclick="deletePrePop('commemoration');">&nbsp;Delete item&nbsp;</button> -->
+        </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button "
+        onclick="deleteBox();">&nbsp;Delete&nbsp;</button>
     </div>
     <div id="card-details" class="margin-below--large">
-      <!-- <h3>Last submitted:</h3> -->
-      <!-- <div class="box__table">
-        <div class="tr">
-          <div class="td"><b>Account type</b></div>
-          <div class="td">Church/charity account</div>
-        </div>
-        <div class="tr">
-          <div class="td"><b>Account owner</b></div>
-          <div class="td">Jointly with my partner</div>
-        </div>
-        <div class="tr">
-          <div class="td"><b>Name of church/charity account</b></div>
-          <div class="td">Church of SP</div>
-        </div>
-        <div class="tr">
-          <div class="td"><b>Account number</b></div>
-          <div class="td">2334 6654</div>
-        </div>
-      </div> -->
-      <!-- <hr> -->
       <form id="myForm">
         <input type="reset" style="display:none">
 
@@ -225,7 +202,7 @@
             options: [
               "-- Select emblem --",
               "None",
-              "Hindu",
+              "Example 1",
               "Example 2",
               "Example 3"
             ]
@@ -257,8 +234,6 @@
             <%- include(partials+"components/form-partials/text", {
               label: "Name of niche garden"
               }); %>
-         
-         
 
         </div>
 
@@ -279,7 +254,7 @@
 
 <script>
 
-prePop();
+// prePop();
   function prePop(){
     $("#receive-commemoration-1").prop("checked", true);
     $("#commemoration").show();
@@ -289,11 +264,35 @@ prePop();
     $("#name-cemetery").val("Veteran Hall Cemetery");
     $("#cemetery-type-2").prop("checked", true);
     $('[name=cemetery-state]').val( "nsw" );
-    $('[name=emblem]').val( "hindu" );
+    $('[name=emblem]').val( "Example 1" );
   }
 
+  function clearPrePop(){
+    $("#receive-commemoration-1").prop("checked", false);
+    $("#commemoration").hide();
+    $("#commemoration-type-2").prop("checked", false);
+    $("#cemetery-container").hide();
+    $("#reserved-question-2").prop("checked", false);   
+    $("#name-cemetery").val("");
+    $("#cemetery-type-2").prop("checked", false);
+    $('[name=cemetery-state]').val( "-- Select state --" );
+    $('[name=emblem]').val( "-- Select emblem --" );
+  }
+
+  function openNewCard(cardType) {
+    hideAll();
+    clearPrePop();
+    var myDiv = "#" + cardType + "-card";
+    var myDelete = myDiv + " #deleteButton";
+    var myAdd = myDiv + " #addButton";
+    $(myDelete).hide();
+    $(myDiv).show();
+    $(".manage").hide();
+  }
+  
   function editCard(cardType) {
     hideAll();
+    prePop();
     var myDiv = "#" + cardType + "-card";
     var myDelete = myDiv + " #deleteButton";
     var myAdd = myDiv + " #addButton";
@@ -305,18 +304,17 @@ prePop();
   hideAll();
   var myDiv = "#" + cardType + "-summary";
   $(myDiv).show();
-  // $("html, body").animate(
-  //   {
-  //     scrollTop: $("#user-list").offset().top
-  //   },
-  //   1000
-  // );
 }
 
   function hideAll() {
     $("#commemoration-card").hide();
     $("#commemoration-summary").hide();
     $("#commemoration-summary-deleted").hide();
+  }
+
+  function deleteBox(){
+    hideAll();
+    $(".manage").show();
   }
 
 </script>
