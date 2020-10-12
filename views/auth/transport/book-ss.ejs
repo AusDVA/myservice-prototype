@@ -11,6 +11,16 @@
 
   Note greyed out values in medical practitioner select list if under 80.
 
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Gold card holder"
+    ],
+    id: "gold-card",
+    customClass: "margin-below--none"
+  }); %>
+
+  Note don't show primary condition for gold card.
+
 </div>
 
 <script>
@@ -42,6 +52,19 @@
         $("#practitioner-type option[value=generalpractitioner]").removeAttr("disabled");
         $("#practitioner-type option[value=dentist]").removeAttr("disabled");
         $("#practitioner-type option[value=optometrist]").removeAttr("disabled");
+      }
+    }
+
+    $('#gold-card-1').change(function () {
+      updateGoldCard();
+    });
+
+    function updateGoldCard() {
+      var myStatus = $("#gold-card-1").is(":checked");
+      if (myStatus) {
+        $("#condition-container").show();
+      } else {
+        $("#condition-container").hide();
       }
     }
 
