@@ -93,20 +93,28 @@
         </tfoot>
       </table>
 
+        <button id="new-expense" class="uikit-btn uikit-btn--tertiary small floated margin-above--small margin-below--extra"
+          onclick="window.location='/auth/expenses/travel-expense'">Add expense</button>
 
-
-      <a href="/auth/expenses/travel-expense"><button id="new-expense"
-          class="uikit-btn uikit-btn--tertiary small floated margin-above--small margin-below--extra">Add
-          expense</button></a>
-
-      <%- include(partials+"components/form-partials/notice", {
+      <%#- include(partials+"components/form-partials/notice", {
             message: "You have entered the maximum expenses allowed per claim.",
             type: "warning",
             id: "max-expense-note",
             modifiers: ["hidden"]
           }); %>
 
-      <%- include(forms+"pagination", {
+      <div class="pagination pagination--ss-reverse-order11" id="pagination857">
+        <p>By clicking <strong>submit claim</strong> you confirm this information is truthful and accurate.</p>
+        <div class="margin-above--large">
+          <a href="#open-delete-claim-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
+          <div class="floated">
+            <a href="/auth/expenses/index?state=all" id="submit" class="uikit-btn">Submit claim</a>
+          </div>
+        </div>
+      </div>
+
+
+      <%#- include(forms+"pagination", {
             pagination: [
               {
                 text: "Cancel",
@@ -140,6 +148,7 @@
       case "none":
         $("#blank").show();
         $("#total").html("$0.00");
+        $("#submit").attr("disabled","true");
         break;
       case "one":
         $(".claim-disclaimer").show();
@@ -188,7 +197,7 @@
     stateSwitcher();
   }
 
-  // $("#submit").attr("disabled", "true");
+  $("#submit").attr("disabled", "true");
 
   $(".edit").on("click", function () {
     window.location.href = "/auth/expenses/travel-expense-prepop";
