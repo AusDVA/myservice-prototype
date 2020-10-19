@@ -327,10 +327,9 @@ modifiers: ["hidden"]
 </div>
 
 <div id="evidence" class="margin-below--extra" hidden>
-  <h2 class="mys h2">Supporting evidence</h2>
-  <p>Attach a tax invoice or other evidence of the expense. You will need to retain evidence until your claim is
-    approved.</p>
-  <p>Note to dev: add supported doc types and file size - thanks guys :)</p>
+  <h2 class="mys h2">Supporting evidence<span class="evidence-optional"> (Optional)</span></h2>
+  <p>Attach a tax invoice or other evidence of the expense.</p>
+  <!-- <p>Note to dev: add supported doc types and file size - thanks guys :)</p> -->
   <div class="pt-upload-other-docs">
     <div class="form-group">
       <table class="table-responsive file-upload-default">
@@ -356,6 +355,9 @@ modifiers: ["hidden"]
       </table>
     </div>
   </div>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You must keep your receipts (over $30) for four months from the date your claim is submitted.<span class='evidence-optional'> Choosing to supply evidence to support your claim will help us with processing.</span>",
+  }); %>
 </div>
 
 <%- include(forms+"pagination", {
@@ -387,6 +389,7 @@ modifiers: ["hidden"]
     $("#dollars-container").hide();
     $("#kms-container").hide();
     $("#accommodation-questions").hide();
+    $(".evidence-optional").hide();
     $("#evidence").hide();
     $("#bcwd-container").hide();
     $("#tolls-message-container").hide();
@@ -397,23 +400,27 @@ modifiers: ["hidden"]
         break;
       case "Public transport":
         $("#dollars-container").show();
-        if (act != 'vea') $("#evidence").show();
+        if (act == 'vea') $(".evidence-optional").show();
+        $("#evidence").show();
         break;
       case "Taxi and rideshare":
         $("#dollars-container").show();
         $("#bcwd-container").show();
         $("#attendant-1-container").show();
-        if (act != 'vea') $("#evidence").show();
+        if (act == 'vea') $(".evidence-optional").show();
+        $("#evidence").show();
         break;
       case "Community transport":
         $("#dollars-container").show();
-        if (act != 'vea') $("#evidence").show();
+        if (act == 'vea') $(".evidence-optional").show();
+        $("#evidence").show();
         break;
       case "Air":
         $("#dollars-container").show();
         $("#bcwd-container").show();
         $("#attendant-1-container").show();
-        if (act != 'vea') $("#evidence").show();
+        if (act == 'vea') $(".evidence-optional").show();
+        $("#evidence").show();
         break;
       case "Road tolls":
         if (act == "mrcadrca") {
@@ -425,16 +432,18 @@ modifiers: ["hidden"]
         break;
       case "Parking fees":
         $("#dollars-container").show();
-        if (act != 'vea') $("#evidence").show();
+        if (act == 'vea') $(".evidence-optional").show();
+        $("#evidence").show();
         break;
       case "Accommodation":
         $("#accommodation-questions").show("fast");
-        if (act != 'vea') {
+        if (act == 'vea') {
           $("#mrca-accomm").show();
-          $("#evidence").show();
+          $(".evidence-optional").show();
         } else {
           $("#mrca-accomm").hide();
         }
+        $("#evidence").show();
         break;
       default:
         break;
