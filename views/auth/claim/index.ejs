@@ -16,7 +16,7 @@
 
   <main>
 
-    <div class="container margin-above margin-below--extra" style="min-height: 500px;">
+    <div class="container margin-above margin-below--extra">
 
       <div class="back-button">
         <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
@@ -26,16 +26,18 @@
       <table id="claimsTable" class="mys-table1 mys-table1--claims">
         <thead>
           <tr>
-            <th class="status" onclick="sortTable(0)">Status<i class="table-sort fa fa-angle-down"></i></th>
-            <th class="date" onclick="sortTableByDate(1)">Submitted<i class="table-sort fa fa-angle-down"></i></th>
-            <th class="description" onclick="sortTable(2, 'dmy')">Description<i class="table-sort fa fa-angle-down"></i></th>
-            <th class="id">Claim ID</th>
-            <th class="actions">Actions</th>
+            <th class="status-icon"></th>
+            <th class="status mys h3" onclick="sortTable(1)">Status<i class="table-sort fa fa-angle-down"></i></th>
+            <th class="date mys h3" onclick="sortTableByDate(2, 'dmy')">Submitted<i class="table-sort fa fa-angle-down"></i></th>
+            <th class="description mys h3" onclick="sortTable(3)">Description<i class="table-sort fa fa-angle-down"></i></th>
+            <th class="id mys h3">Claim ID</th>
+            <th class="actions mys h3">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-ellipsis-h"></i>In progress</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-ellipsis-h"></i></td>
+            <td data-title="Status">In progress</td>
             <td data-title="Submitted">29 Aug 2019</td>
             <td data-title="Description">Education assistance for Kim</td>
             <td data-title="Claim ID">33657809</td>
@@ -47,7 +49,8 @@
             </td>
           </tr>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-check-circle"></i>Approved</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-check-circle"></i></td>
+            <td data-title="Status">Approved</td>
             <td data-title="Submitted">03 May 2019</td>
             <td data-title="Description">Qualifying Service</td>
             <td data-title="Claim ID">33657809</td>
@@ -57,7 +60,8 @@
             </td>
           </tr>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-edit"></i>Incomplete</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-edit"></i></td>
+            <td data-title="Status">Incomplete</td>
             <td data-title="Submitted">29 Apr 2019</td>
             <td data-title="Description">Increase to Disability Pension</td>
             <td data-title="Claim ID">33657809</td>
@@ -67,7 +71,8 @@
             </td>
           </tr>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-paper-plane"></i>Submitted</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane"></i></td>
+            <td data-title="Status">Submitted</td>
             <td data-title="Submitted">27 Apr 2019</td>
             <td data-title="Description">DHOAS Subsidy Certificate</td>
             <td data-title="Claim ID">33657809</td>
@@ -77,7 +82,8 @@
             </td>
           </tr>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-edit"></i>Incomplete</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-edit"></i></td>
+            <td data-title="Status">Incomplete</td>
             <td data-title="Submitted">29 May 2019</td>
             <td data-title="Description">Permanent Impairment Questionnaire</td>
             <td data-title="Claim ID">33657809</td>
@@ -87,13 +93,25 @@
             </td>
           </tr>
           <tr>
-            <td data-title="Status"><i class="claim-status-icon fa fa-paper-plane fa-s"></i>Submitted</td>
+            <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane fa-s"></i></td>
+            <td data-title="Status">Submitted</td>
             <td data-title="Date submitted">08 Feb 2019</td>
             <td data-title="Description">Permanent Impairment Questionnaire</td>
             <td data-title="Claim ID">33657809</td>
             <td class="actions">
               <button class="uikit-btn uikit-btn--borderless"
                 onclick="window.location = '/auth/claim/view/pi'">View</button>
+            </td>
+          </tr>
+          <tr>
+            <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane fa-s"></i></td>
+            <td data-title="Status">Incomplete</td>
+            <td data-title="Date submitted">29 Aug 2019</td>
+            <td data-title="Description">Subacromial Bursitis of the Shoulder</td>
+            <td data-title="Claim ID">33657809</td>
+            <td class="actions">
+              <button class="uikit-btn uikit-btn--borderless" onclick="window.location = '/auth/claim/il/claim1'">Resume</button>
+              <button class="uikit-btn uikit-btn--borderless" onclick="window.location = '/auth/claim/view/pi'">Withdraw</button>
             </td>
           </tr>
 
@@ -111,8 +129,8 @@
 
 <script>
 
-  sortTable(0);
-  
+  sortTable(1);
+
   function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("claimsTable");
@@ -177,6 +195,7 @@
     $("#claimsTable tr .table-sort").removeClass("col-active");
     $("#claimsTable tr").find("td:eq(" + myCol + ")").addClass("col-highlight");
     $("#claimsTable tr").find("th:eq(" + myCol + ")").addClass("col-highlight");
+    myCol--;
     $("#claimsTable").find(".table-sort:eq(" + myCol + ")").addClass("col-active");
     if ( myDir == "desc" ) {
       $("#claimsTable .col-active").addClass("fa-rotate-180");
