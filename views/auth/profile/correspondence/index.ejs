@@ -26,7 +26,7 @@
             <h1 class="mys h1 margin-above--none margin-below--mid">Correspondence</h1>
             <!-- <a href="">Correspondence preferences</a><BR />
             <a href="">Official letters</a> -->
-            <h2 class="mys h2 margin-above--large margin-below--mid">Correspondence preferences</h2>
+            <h2 class="mys h2 margin-above--large margin-below--mid">Manage correspondence preferences</h2>
             <p class="margin-below--small">How you would like to receive correspondence for the following?
             </p>
             <ul>
@@ -42,7 +42,7 @@
       "Mail"
     ]
   }); %>
-            <h2 class="mys h2 margin-above--large margin-below--mid">Official letters</h2>
+            <h2 class="mys h2 margin-above--large margin-below--mid" id="request-letters">Request official letters</h2>
             <p>Download official letters or request to have them sent by post to your <a href="/auth/profile/">registered postal address</a>.</p>
             <%- include(partials+"components/form-partials/notice", {
               message: "<p>Your request has been submitted successfully.</p>",
@@ -55,7 +55,7 @@
 
               <tr>
                 <th colspan="2">
-                  <h3 class="mys h3">Statements of pension</h3>
+                  <h3 class="mys h3">Statements of payment</h3>
                 </th>
               </tr>
 
@@ -111,7 +111,7 @@
 
               <tr>
                 <th colspan="2">
-                  <h3 class="mys h3">Concession authority</h3>
+                  <h3 class="mys h3">Letters for concession</h3>
                 </th>
               </tr>
 
@@ -239,36 +239,50 @@
 
 <script>
 
-  $(".fa-envelope").on("click", function () {
-    window.location.href = "#open-post-confirm-modal";
-  });
-  $(".fa-cloud-download").on("click", function () {
-    window.location.href = "#open-download-modal";
-  });
+  // $(".fa-envelope").on("click", function () {
+  //   window.location.href = "#open-post-confirm-modal";
+  // });
+  // $(".fa-cloud-download").on("click", function () {
+  //   window.location.href = "#open-download-modal";
+  // });
 
   $(".post").on("click", function () {
+    $("#post-success-container").hide();
     window.location.href = "#open-post-confirm-modal";
   });
   $(".download").on("click", function () {
+    $("#post-success-container").hide();
     window.location.href = "#open-download-modal";
   });
 
-  $.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-      return 0;
-    }
-    return results[1] || 0;
+  // $.urlParam = function (name) {
+  //   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  //   if (results == null) {
+  //     return 0;
+  //   }
+  //   return results[1] || 0;
+  // }
+  // var state = $.urlParam('state');
+  // switch ( state ) {
+  //   case "post-confirmed":
+  //     // requestSubmited();
+  //     $("#post-success-container").show();
+  //     $('body,html').animate({
+  //       scrollTop: $("#request-letters").offset().top
+  //     }, 500);
+  //     break;
+  //   default:
+  //     break;
+  // }
+
+  function requestSubmited(){
+    window.location.href = "#close-modal";
+    $("#post-success-container").show();
+    $('body,html').animate({
+      scrollTop: $("#request-letters").offset().top
+    }, 500);
   }
-  var state = $.urlParam('state');
-  switch ( state ) {
-    case "post-confirmed":
-      $("#post-success-container").show();
-      break;
-    default:
-      break;
-  }
- 
+  
 
 </script>
 
