@@ -69,8 +69,9 @@
               <tr>
                 <td>General statement of pension</td>
                 <td>
-                  <button class="download uikit-btn uikit-btn--borderless">Download</button><button
-                    class="post uikit-btn uikit-btn--borderless">Post</button>
+                  <button class="download uikit-btn uikit-btn--borderless">Download</button>
+                  <button class="post uikit-btn uikit-btn--borderless">Post</button>
+                  
                 </td>
               </tr>
               <tr>
@@ -246,7 +247,10 @@
   //   window.location.href = "#open-download-modal";
   // });
 
+  var requestedLetter;
+
   $(".post").on("click", function () {
+    requestedLetter = $(this).parent();
     $("#post-success-container").hide();
     window.location.href = "#open-post-confirm-modal";
   });
@@ -276,8 +280,13 @@
   // }
 
   function requestSubmited(){
+    // $(".letter-ordered").remove();
+    // $(".post").show();
+    $( requestedLetter).find(".post").hide();
+    $( requestedLetter).append("<span class='letter-ordered'> <i class='sent-icon fal fa-envelope-open-text'></i>Ordered 12 Aug 2020</span>");
     window.location.href = "#close-modal";
     $("#post-success-container").show();
+    $(".letter-ordered").show();
     $('body,html').animate({
       scrollTop: $("#request-letters").offset().top
     }, 500);
