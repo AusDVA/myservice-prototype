@@ -34,26 +34,31 @@
   function isActive(link) {
     if (source_url.substr(-1) === "") source_url = source_url.slice(0, -1);
     source_url = source_url.replace(".ejs", "");
-
-    console.log(source_url)
-    console.log(link)
-
     if (link === "/auth/profile/") {
       if (source_url === "/auth/profile/" || source_url === "/auth/profile/index") return true
     } else {
-      return source_url.includes(link) 
+      return source_url.includes(link)
     }
   }
+
 
 %>
 
 <div class="back-button">
   <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
 </div>
-<ul class="secondary-navigation margin-above">
+<div class="mobile-menu">My details<i class="fal fa-angle-down"></i></div>
+<ul class="secondary-navigation">
   <% nav.forEach(item => { %>
-    <li class="secondary-navigation__item <%- isActive(item.link) ? "secondary-navigation__item--active" : "" %>">
-      <a href="<%- item.link %>" class="secondary-navigation__link"><%- item.text %></a>
-    </li>
+  <li class="secondary-navigation__item <%- isActive(item.link) ? "secondary-navigation__item--active" : "" %>">
+    <a href="<%- item.link %>" class="secondary-navigation__link"><%- item.text %></a>
+  </li>
   <% }) %>
 </ul>
+
+<script>
+  $(".mobile-menu").on("click", function () {
+    $(".secondary-navigation").toggle();
+    $(".mobile-menu").toggleClass("menu-open");
+  });
+</script>
