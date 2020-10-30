@@ -50,7 +50,7 @@
           <%- include(partials+"components/dashboard-widget", {
             id: "widget-claims",
             title: "Claims",
-            link: "/auth/claim/",
+            link: "navigateClaims()",
             text: "claims submitted",
             number: 3
           }) %>
@@ -76,7 +76,7 @@
             <div class="homepage__column">
               <div class="homepage__column-item">
                 <h2 class="mys h3 margin-below--mid">Services and benefits</h2>
-   <button class="homepage-apply uikit-btn" onclick="window.location = '/auth/claims'">Apply now</button>
+                <button class="homepage-apply uikit-btn" onclick="window.location = '/auth/claims'">Apply now</button>
                 <ul>
                   <li><a href="/auth/claims"><i class="fal fa-file-edit fa-fw homepage__icon"></i>What can I apply
                       for?</a>
@@ -90,7 +90,7 @@
             </div>
             <div class="homepage__column">
               <div class="homepage__column-item">
-                  <h2 class="mys h3 margin-below--mid">Your information</h2>
+                <h2 class="mys h3 margin-below--mid">Your information</h2>
                 <ul>
                   <li><a href="/auth/profile/"><i class="fal fa-user fa-fw homepage__icon"></i>My details</a></li>
                   <li><a href="/auth/profile/history"><i class="fal fa-stream fa-fw homepage__icon"></i>Service
@@ -102,16 +102,16 @@
                       <i class="fal fa-signature fa-fw homepage__icon"></i>Representation
                     </a></li>
 
-                   
+
                   <li><a href="/auth/profile/cards?state=show-conditions" class="card-link"><i
                         class="fal fa-credit-card-blank homepage__icon"></i>Accepted conditions</a></li>
-                   
-                          <li><a href="/auth/profile/correspondence">
-                            <i class="fal fa-envelope-open-text fa-fw homepage__icon"></i>Correspondence
-                          </a></li>
-                          <li><a href="/auth/profile/">
-                          <i class="fal fa-ellipsis-h fa-fw homepage__icon"></i>View all
-                        </a></li>
+
+                  <li><a href="/auth/profile/correspondence">
+                      <i class="fal fa-envelope-open-text fa-fw homepage__icon"></i>Correspondence
+                    </a></li>
+                  <li><a href="/auth/profile/">
+                      <i class="fal fa-ellipsis-h fa-fw homepage__icon"></i>View all
+                    </a></li>
                 </ul>
               </div>
             </div>
@@ -152,7 +152,7 @@
             </div>
             <div class="homepage__column homepage__column--card">
               <div class="homepage__column-item homepage__column-item--card">
-                  <h2 class="mys h3 margin-below--mid">Your card</h2>
+                <h2 class="mys h3 margin-below--mid">Your card</h2>
                 <a href="/auth/profile/cards" style="padding: 0px;">
                   <div class="my-card__container">
                     <img class="my-card__image" src="/docs/images/health-card-white--edited.png"
@@ -185,4 +185,27 @@
   $('#close-message').on("click", function () {
     $(".home-page-message").hide();
   });
+
+  function navigateWidget(type) {
+
+    switch (type) {
+      case "Claims":
+        if ($("#widget-claims .dashboard-widget__text").text().trim() == "No claims") {
+          window.location = "auth/claim/index?state=noclaims"
+        } else {
+          window.location = "auth/claim/"
+        }
+        break;
+        case "Tasks":
+        if ($("#widget-tasks .dashboard-widget__text").text().trim() == "No new tasks") {
+          window.location = "auth/tasks/index?state=notasks"
+        } else {
+          window.location = "auth/tasks/"
+        }
+        break;
+      default:
+        break;
+    }
+
+  }
 </script>

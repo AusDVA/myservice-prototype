@@ -81,38 +81,94 @@ taskList = [
   <main>
     <section>
       <div class="container margin-above margin-below--extra">
-      <div class="back-button">
-        <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
-      </div>
-      <h1 class="margin-above--none margin-below--mid">Tasks</h1>
+        <div class="back-button">
+          <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+        </div>
 
-      <h3>Education assistance</h3>
+        <h1 class="mys h1 margin-above--none margin-below--mid">Tasks</h1>
 
-      <section class="tasks-list">
-        <% taskList.forEach(function(task, index) { %>
-        <% if(task.category === "education-assistance") { %>
-        <a class="task__wrapper--link" href="<%= task.link %>">
-          <div class="task">
-            <div class="task__description">
-              <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
-              <div class="task__link-wrapper">
-                <span class="task__link"><%- task.description %></span>
+        <section class="tasks-list">
+          <h3 class="mys h2 margin-below--mid">Education assistance</h3>
+          <% taskList.forEach(function(task, index) { %>
+          <% if(task.category === "education-assistance") { %>
+          <a class="task__wrapper--link" href="<%= task.link %>">
+            <div class="task">
+              <div class="task__description">
+                <div class="task__icon"><i class="far fa-arrow-alt-circle-right"></i></div>
+                <div class="task__link-wrapper">
+                  <span class="task__link"><%- task.description %></span>
 
-                <div class="task__date <%= task.overDue ? "task__date--overdue" : "" %>"><%- task.date %></div>
+                  <div class="task__date <%= task.overDue ? "task__date--overdue" : "" %>"><%- task.date %></div>
+                </div>
               </div>
+              <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
             </div>
-            <div class="task__reference" id="<%- task.id %>"><%- task.reference %></div>
+          </a>
+          <% } %>
+          <% }); %>
+        </section>
+
+        <div class="empty-state" hidden>
+          <div class="notice">
+            <i class="fal fa-check fa-2x"></i>
+            <h2 class="mys h3">You have no new tasks</h2>
           </div>
-        </a>
-        <% } %>
-        <% }); %>
-      </section>
-      <!-- <hr class="margin-above--medium"> -->
-    </div>
+        </div>
+
+      </div>
   </main>
   <%- include(partials+"components/layout/footer") %>
-  <%- include("index-state-switcher.ejs") %>
+  <%- include("index-ss.ejs") %>
   <script>
+
+    function stateSwitcher(myState) {
+      $(".empty-state").hide();
+      switch (myState) {
+        case "Student":
+          $(".user-label-a").text("you");
+          $(".user-label-b").text("Do you");
+          $(".user-label-c").text("your");
+          $(".user-label-d").text("");
+          $(".user-label-e").text("your");
+          $("#provide-details").hide();
+          $(".tasks-list").show();
+          sessionStorage.setItem('student-coc-user', "student");
+          break;
+        case "Parent/guardian":
+          $(".user-label-a").text("the student");
+          $(".user-label-b").text("Does the student");
+          $(".user-label-c").text("John Smith's");
+          $(".user-label-d").text(" for John Smith");
+          $(".user-label-e").text("");
+          $("#provide-details").show();
+          $(".tasks-list").show();
+          sessionStorage.setItem('student-coc-user', "parent");
+          break;
+        case "No tasks":
+          $(".tasks-list").hide();
+          $(".empty-state").show();
+          break;
+          case "notasks":
+          $(".tasks-list").hide();
+          $(".empty-state").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+        .exec(window.location.href);
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    }
+    var state = $.urlParam('state');
+    stateSwitcher(state);
+  
+
 
   </script>
 </body>
