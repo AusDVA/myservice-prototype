@@ -31,6 +31,13 @@
 
       <div class="claims">
 
+        <%- include(partials+"components/form-partials/notice", {
+          message: "Your claim/application has been saved. You have 120 days to complete this claim.",
+          type: "success",
+          id: "claim-saved-success",
+          modifiers: ["hidden"]
+        }); %>
+
         <h2 class="mys h2 margin-below--small">Incomplete claims</h2>
         <table id="claimsTableIncomplete" class="mys-table1 mys-table1--claims-incomplete">
           <thead>
@@ -257,18 +264,23 @@ $.urlParam = function (name) {
   stateSwitcher(state) 
 
   function stateSwitcher(myState) {
+    $("#claim-saved-success-container").hide();
       switch (myState) {
         case "claims":
+        $(".empty-state").hide();
           $(".claims").show();
-          $(".empty-state").hide();
           break;
         case "noclaims":
-          $(".claims").hide();
           $(".empty-state").show();
+          $(".claims").hide();
           break;
-          case "no claims":
-          $(".claims").hide();
+        case "no claims":
           $(".empty-state").show();
+          $(".claims").hide();
+          break;
+        case "claim-saved-success":
+          $(".claims").show();
+          $("#claim-saved-success-container").show();
           break;
         default:
           break;
