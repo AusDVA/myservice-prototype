@@ -3,17 +3,39 @@
   claim: "Travel expense"
 }) %>
 
-<%- include(partials+"components/form-partials/checkbox", {
-  id: "use-previous",
-  boxes: [
-    "Prefill with previous appointment details"
-  ],
-  modifiers: ["hidden"],
-  customClass: ["margin-below--large"]
-}); %>
+
 
 
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    id: "use-previous",
+    boxes: [
+      "Use previous appointment details"
+    ],
+    modifiers: ["hidden"],
+    customClass: ["feature-checkbox margin-below--large"]
+  }); %>
+
+  <div id="prepop" class="margin-below--large" hidden>
+    <div class="kv-pair">
+      <span class="kv-pair__key">Provider or hospital</span>
+      <span class="kv-pair__value">John Smith<br>EUROA, VIC, 3666</span>
+</div><div class="kv-pair">
+  <span class="kv-pair__key">Date and time</span>
+  <span class="kv-pair__value">03/11/2020 at 10:45 am</span>
+</div>
+<div class="kv-pair">
+  <span class="kv-pair__key">Purpose</span>
+  <span class="kv-pair__value">Treatment</span>
+</div>
+<div class="kv-pair">
+  <span class="kv-pair__key">Condition</span>
+  <span class="kv-pair__value">other</span>
+</div>
+</div>
+
+<div id="manual">
 
   <%- include(partials+"components/form-partials/dropdown", {
       label: "Purpose of trip",
@@ -200,6 +222,8 @@ options: [
 id: "aat-location",
 modifiers: ["hidden"]
 }); %>
+
+</div>
 
 <div id="expense-details">
   <h2 class="mys h2 margin-below--mid">Expense details</h2>
@@ -473,39 +497,50 @@ modifiers: ["hidden"]
   //   usePrevious();
   // })
 
+  // $('input[name=use-previous]').change(function () {
+  //   var myStatus = $("#use-previous-1").is(":checked");
+  //   if (myStatus) {
+  //     usePrevious()
+  //   } else {
+  //     clearPrevious();
+  //   }
+  // });
+
   $('input[name=use-previous]').change(function () {
     var myStatus = $("#use-previous-1").is(":checked");
     if (myStatus) {
-      usePrevious()
+      $("#prepop").show();
+      $("#manual").hide();
     } else {
-      clearPrevious();
+      $("#prepop").hide();
+      $("#manual").show();
     }
   });
 
-  function usePrevious() {
-    $('.date-picker').val("2020-08-26");
-    $('.time-selector--hours').val("2");
-    $('.time-selector--minutes').val("45");
-    $('.time-selector--ampm').val("pm");
-    $('#provider>option:eq(3)').prop('selected', true);
-    $('#condition').val('osteoarthritis').trigger('change');
-    $('#purpose').val('treatment').trigger('change');
-    $("html, body").animate({
-      scrollTop: $("#expense-details").offset().top
-    },
-      200
-    );
-  }
-  function clearPrevious() {
-    $('.date-picker').val("dd / mm / yyyy");
-    $('.time-selector--hours').val("12");
-    $('.time-selector--minutes').val("00");
-    $('.time-selector--ampm').val("pm");
-    $('#purpose').val('selectpurpose').trigger('change');
-    $('#condition').val('selectcondition').trigger('change');
-    $('#provider').val('selectprovider').trigger('change');
-    $('#cost-type').val('selecttype').trigger('change');
-  }
+  // function usePrevious() {
+  //   $('.date-picker').val("2020-08-26");
+  //   $('.time-selector--hours').val("2");
+  //   $('.time-selector--minutes').val("45");
+  //   $('.time-selector--ampm').val("pm");
+  //   $('#provider>option:eq(3)').prop('selected', true);
+  //   $('#condition').val('osteoarthritis').trigger('change');
+  //   $('#purpose').val('treatment').trigger('change');
+  //   $("html, body").animate({
+  //     scrollTop: $("#expense-details").offset().top
+  //   },
+  //     200
+  //   );
+  // }
+  // function clearPrevious() {
+  //   $('.date-picker').val("dd / mm / yyyy");
+  //   $('.time-selector--hours').val("12");
+  //   $('.time-selector--minutes').val("00");
+  //   $('.time-selector--ampm').val("pm");
+  //   $('#purpose').val('selectpurpose').trigger('change');
+  //   $('#condition').val('selectcondition').trigger('change');
+  //   $('#provider').val('selectprovider').trigger('change');
+  //   $('#cost-type').val('selecttype').trigger('change');
+  // }
 
   $(document).ready(function () {
     $('#provider').on('change', function () {
