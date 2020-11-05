@@ -11,17 +11,23 @@ if (typeof id === "undefined") var id = formPartialsID("notice");
 if (typeof modifiers === "undefined") var modifiers = []; 
 if (typeof modifiers === "string") modifiers = [modifiers]; 
 
-var type = type ? `uikit-page-alerts--${type}` : "uikit-page-alerts--info";
+var type = type ? `notice--${type}` : "notice--info";
+var icon;
+if ( type === "notice--info" ) icon = "far fa-info-circle";
+if ( type === "notice--success" ) icon = "far fa-check-circle";
+if ( type === "notice--warning" ) icon = "far fa-exclamation-triangle";
+if ( type === "notice--error" ) icon = "far fa-times-circle";
+var hide = "style='display:none;'";
 
 %>
 
-<div 
-  class="uikit-page-alerts <%- type %> <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" 
-  id="<%- id %>-container" 
-  role="alert"
-  <%- modifiers.includes("hidden") ? "hidden" : "" %>
-  >
-
-  <%- message %>
-
-</div>
+<div class="mys notice <%- type  %> <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" 
+	  id="<%- id %>-container" 
+	  role="alert" 
+	  <%- modifiers.includes("hidden") ? hide : "" %>
+	>
+	<i class="<%- icon %>"></i>
+	<div>
+		<%- message %>
+	</div>
+</div>  
