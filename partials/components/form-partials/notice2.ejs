@@ -1,0 +1,36 @@
+<%#
+	* info (blue) DEFAULT
+	* warning (orange)
+	* error (red)
+	* success (green)
+	* content (white)
+%>
+<%
+
+if (typeof id === "undefined") var id = formPartialsID("notice");
+if (typeof modifiers === "undefined") var modifiers = []; 
+if (typeof modifiers === "string") modifiers = [modifiers]; 
+
+var type = type ? `notice--${type}` : "notice--info";
+var icon;
+if ( type === "notice--info" ) icon = "far fa-info-circle";
+if ( type === "notice--success" ) icon = "far fa-check-circle";
+if ( type === "notice--warning" ) icon = "far fa-exclamation-triangle";
+if ( type === "notice--error" ) icon = "far fa-times-circle";
+
+console.log( modifiers )
+
+%>
+
+<div class="mys notice <%- type  %> <%- typeof customClass !== "undefined" ? (typeof customClass === "object" ? customClass.join(" ") : customClass) : "" %>" 
+	  id="<%- id %>-container" 
+	  role="alert" 
+	  <%- modifiers.includes("hidden") ? "hidden" : "" %>
+	>
+	<div class="notice-content">
+		<i class="<%- icon %>"></i>
+		<div>
+			<%- message %>
+		</div>
+	</div>
+</div>  
