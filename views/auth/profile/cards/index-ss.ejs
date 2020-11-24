@@ -1,0 +1,62 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Card states",
+    id: "card-states",
+    boxes: [
+      "White",
+      "Gold",
+      "Card on way"
+    ]
+  }); %>
+</div>
+
+
+<script>
+
+  $(document).ready(function () {
+    /* Toggle switcher */
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#card-states-1").prop("checked", true);
+
+    $('input[name=card-states]').change(function () {
+      selectedOption = $(this).val();
+      hideAll();
+      switch (selectedOption) {
+        case "white":
+          $("#veteran-white").show();
+          break;
+        case "gold":
+          $("#veteran-gold").show();
+          break;
+        case "cardonway":
+          $("#veteran-white-on-way").show();
+          break;
+        case "goldtpicshc":
+          $("#veteran-gold-tpi").show();
+          $("#cshc").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    function hideAll() {
+      $("#veteran-no-card").hide();
+      $("#veteran-white-on-way").hide();
+      $("#veteran-gold").hide();
+      $("#veteran-white").hide();
+      $("#veteran-gold-tpi").hide();
+      $("#cshc").hide();
+    }
+
+  });
+</script>

@@ -1,0 +1,209 @@
+<%#- include(templates+"header", {
+  heading: "Claim for expenses",
+  claim: "Travel expenses"
+}) %>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+
+<head>
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+  <div class="page-heading">
+    <h1 class="orange-underline">Claim travel expenses</h1>
+  </div>
+  <main>
+    <div class="container margin-above--extra margin-below--extra">
+      <table class="mys-table1">
+        <thead>
+          <tr>
+            <th>Provider</th>
+            <th>Appointment date</th>
+            <th>Cost type</th>
+            <th>Amount</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="blank">
+            <td colspan="5" class="placeholder">No expenses added</td>
+          </tr>
+          <tr id="expense-1" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR />334 Heath Road<BR />Melrose Place</BR>NSW 2045</td>
+            <td data-title="Appointment date">21 August 2020</td>
+            <td data-title="Cost type">Private vehicle - kms</td>
+            <td data-title="Amount">268 kms</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless"
+                onclick="window.location.href = '/auth/expenses/travel-list?expenses=one-deleted'">Delete</button>
+            </td>
+          </tr>
+          <tr id="expense-2" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR />334 Heath Road<BR />Melrose Place</BR>NSW 2045</td>
+            <td data-title="Appointment date">21 August 2020</td>
+            <td data-title="Cost type">Road tolls</td>
+            <td data-title="Amount">$15.64</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+          <tr id="expense-3" class="expense" hidden>
+            <td data-title="Provider">Dr Al Appleton<BR />334 Heath Road<BR />Melrose Place</BR>NSW 2045</td>
+            <td data-title="Appointment date">21 August 2020</td>
+            <td data-title="Cost type">Parking fees</td>
+            <td data-title="Amount">$28.34</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+          <tr id="expense-4" class="expense" hidden>
+            <td data-title="Provider">Dr Genevieve Shey<BR />Mapletree practice<BR />L2 145 Trent
+              St<BR />Salsbury<BR />VIC 3033</td>
+            <td data-title="Appointment date">26 August 2020</td>
+            <td data-title="Cost type">Air</td>
+            <td data-title="Amount">$576.45</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+          <tr id="expense-5" class="expense" hidden>
+            <td data-title="Provider">Dr Genevieve Shey<BR />Mapletree practice<BR />L2 145 Trent
+              St<BR />Salsbury<BR />VIC 3033</td>
+            <td data-title="Appointment date">26 August 2020</td>
+            <td data-title="Cost type">Accommodation</td>
+            <td data-title="Amount">2 nights</td>
+            <td><button class="edit uikit-btn uikit-btn--borderless">Edit</button><button
+                class="delete uikit-btn uikit-btn--borderless">Delete</button></td>
+          </tr>
+        </tbody>
+        <tfoot hidden>
+          <tr>
+            <td colspan="3">Total being claimed</td>
+            <td colspan="2" id="total">$0.00</td>
+          </tr>
+        </tfoot>
+      </table>
+
+        <button id="new-expense" class="uikit-btn uikit-btn--tertiary small floated margin-above--small margin-below--extra"
+          onclick="window.location='/auth/expenses/travel-expense'">Add expense</button>
+
+      <%#- include(partials+"components/form-partials/notice", {
+            message: "You have entered the maximum expenses allowed per claim.",
+            type: "warning",
+            id: "max-expense-note",
+            modifiers: ["hidden"]
+          }); %>
+
+      <div class="pagination" id="pagination857">
+        <p id="declaration" class="margin-below--large" hidden>By clicking <strong>submit claim</strong> you confirm this information is truthful and accurate.</p>
+        <div>
+          <a href="#open-delete-claim-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
+          <div class="floated">
+            <a href="/auth/expenses/index?state=all" id="submit" class="uikit-btn">Submit claim</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <%- include(templates+"footer") %>
+  <%- include("travel-list-ss") %>
+  <%- include("delete-claim-modal") %>
+
+</body>
+
+<script>
+
+  function stateSwitcher() {
+    $("#blank").hide();
+    $(".expense").hide();
+    $(".claim-disclaimer").hide();
+    $("#declaration").hide();
+    switch (pastTransactions) {
+      case "none":
+        $("#blank").show();
+        $("#total").html("$0.00");
+        $("#submit").attr("disabled","true");
+        break;
+      case "one":
+        $(".claim-disclaimer").show();
+        $("#expense-1").show();
+        $("#total").html("268 kms");
+        $("#submit").removeAttr("disabled");
+        $("#declaration").show();
+        break;
+      case "two":
+        $(".claim-disclaimer").show();
+        $("#expense-1").show();
+        $("#expense-2").show();
+        $("#total").html("$15.64 + 268 kms");
+        $("#submit").removeAttr("disabled");
+        $("#declaration").show();
+        break;
+      case "one-deleted":
+        $(".claim-disclaimer").show();
+        $("#expense-1").show();
+        $("#expense-2").show();
+        $("#expense-3").show();
+        $("#expense-4").show();
+        $("#total").html("$620.43 + 268 kms");
+        $("#submit").removeAttr("disabled");
+        $("#declaration").show();
+        break;
+      case "many":
+        $(".claim-disclaimer").show();
+        $(".expense").show();
+        $("#total").html("$833.63 + $56.35 meals +268 kms + 2 nights accommodation");
+        $("#submit").removeAttr("disabled");
+        $("#declaration").show();
+        break;
+      default:
+        break;
+    }
+  }
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  var expenses = $.urlParam('expenses');
+  if (expenses != 0) {
+    pastTransactions = expenses;
+    stateSwitcher();
+  }
+
+  $("#submit").attr("disabled", "true");
+
+  $(".edit").on("click", function () {
+    window.location.href = "/auth/expenses/travel-expense-prepop";
+  })
+
+  // $(".delete").on("click", function () {
+  //   window.location.href = "#open-delete-item-modal";
+  // })
+
+  function showMaxExpense() {
+    $("#max-expense-note-container").show();
+    $("#new-expense").attr("disabled", "true");
+
+  }
+  function hideMaxExpense() {
+    $("#max-expense-note-container").hide();
+    $("#new-expense").removeAttr("disabled");
+  }
+
+</script>

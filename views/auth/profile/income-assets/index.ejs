@@ -2,7 +2,6 @@
 <html class="js" lang="en">
 
 <head>
-
   <title>MyService</title>
   <%- include(partials+"components/layout/head") %>
 </head>
@@ -15,45 +14,32 @@
     <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
   </nav>
 
-
   <%- include(partials+"components/layout/header-topbar") %>
   <%- include(partials+"components/layout/header-authenticated") %>
-
 
   <main>
     <section>
       <div class="container margin-above margin-below--extra" id="claim-activity">
-        <section class="">
-          <div class="row margin-above">
-            <div class="col-sm-3">
-              <%- include(partials+"components/layout/profile-side-nav") %>
-            </div>
-            <div class="col-sm-9">
-              <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
-              <p>You are required to advise of any changes to your income and assets within 14 days (28 days if you live overseas or receive remote area allowance). You can track the
-                progress of your submitted updates below. Processing times will vary based upon the types of changes you
-                report.</p>
+        <section>
+          <div class="back-button">
+            <a href="/auth"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+          </div>
+          <h1 class="margin-above--none margin-below--mid">Income and assets</h1>
+          <p>You are required to advise of any changes to your income and assets within 14 days. Processing times will vary based upon the types of changes you
+            report.</p>
 
-                <%- include(partials+"components/form-partials/notice", {
-                  message: "You have income and assets items recorded that are jointly owned, or owned by your partner. For the ongoing management of these items you should <a href='/auth/profile/partner-consent'>provide your partner's consent</a>.",
-                  id: ["no-consent-message"],
-                  modifiers: ["hidden1"]
-                }); %>
+          <%- include(partials+"components/form-partials/notice", {
+                message: "You have income and assets items recorded that are jointly owned, or owned by your partner. For the ongoing management of these items you should <a href='/auth/profile/partner-consent'>provide your partner's consent</a>.",
+                id: ["no-consent-message"],
+                modifiers: ["hidden"]
+              }); %>
 
-              <button class="uikit-btn uikit-btn--primary"
-                onclick="location.href='/auth/profile/income-assets/start'">Get started</button>
+          <button class="uikit-btn uikit-btn--primary" onclick="location.href='/auth/profile/income-assets/start'">Get
+            started</button>
 
-                <hr>
-
-                <p id="statement" class="margin-above--large" hidden><b>Current income and assets statement:</b><BR/><a href="#open-request-modal">Request statement by email</a></b>
-
-              <%- include("transactions-table"); %>
-
-
-           
-
-
-              
+          <div id="statement" class="margin-above--large">
+            <hr><p><b>Current income and assets statement:</b><BR /><a class="download-income">Download statement</a></p></div>
+          <%- include("transactions-table"); %>
 
         </section>
         <div id="statement-success" class="toast-container" style="display: none;">
@@ -66,22 +52,13 @@
             </div>
           </button>
         </div>
-        <div id="toast-documents-success" class="toast-container" style="display: none;">
-          <button class="uikit-btn toast" role="alert" type="button">
-            <div class="toast__type toast__type--success">
-              <span class="sr">Success</span>
-            </div>
-            <div class="toast__message">
-              <p>Documents successfully submitted.</p>
-            </div>
-          </button>
-        </div>
       </div>
     </section>
   </main>
   <%- include(partials+"components/layout/footer") %>
   <%- include("index-ss") %>
   <%- include("request-confirm-modal") %>
+  <%- include("income-assets-modal") %>
 </body>
 <script>
 
@@ -90,10 +67,11 @@
     $("#past-transactions").hide();
     $("#sixmonth-message").hide();
     $("#more-transactions").hide();
+    $("#statement").hide();
 
     switch (pastTransactions) {
       case "none":
-      $("#statement").show();
+        $("#statement").show();
         break;
       case "one":
         $("#past-transactions").show();
@@ -122,20 +100,22 @@
     }
     return results[1] || 0;
   }
-
-  var toast = $.urlParam('toast');
-  switch (toast) {
-    case "documents-success":
-      $("#toast-documents-success").show();
-      pastTransactions = "many";
-      stateSwitcher();
+  var state = $.urlParam('state');
+  switch (state) {
+    case "past-transaction-show-one":
+    pastTransactions = "one";
+    stateSwitcher();
+    // $("#statement-success").show();
       break;
-    case "show-docs-many":
-      pastTransactions = "many";
-      stateSwitcher();
     default:
       break;
   }
+
+  $(".download-income").on("click", function () {
+    $("#post-success-container").hide();
+    window.location.href = "#open-download-income-modal";
+  });
+
 
 </script>
 

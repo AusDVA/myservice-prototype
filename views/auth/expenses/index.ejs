@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar")%>
+  <%- include(partials+"components/layout/header-authenticated")%>
+  <main>
+    <section>
+      <div class="container margin-above margin-below--extra">
+        <section>
+          <div class="back-button">
+            <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+          </div>
+          <h1 class="mys h1 margin-above--none margin-below--mid">Claim travel expenses</h1>
+
+          <p class="margin-below--mid">You are able to claim for travelling expenses relating to:</p>
+          <ul >
+            <li>treatment</li>
+            <li>a disability pension claim</li>
+            <li>an invalidity income support claim</li>
+          </ul>
+          <p>To be reimbursed for travel costs, you must lodge the form within 12 months after you completed your travel. For further information see the <a href="https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/claim-travel-expenses-under-rts" rel="external">DVA website</a>.</p>
+
+          <!-- keep for future - when we add MEPI -->
+          <!-- <p>Claim for the reimbursement of medical and travel expenses. You may be required to upload receipts as
+            evidence. You can track the progress of your submitted claims below. </p>
+
+          <div class="menu__item" id="claim-type">
+            <button class="uikit-btn uikit-btn--primary">New claim <i
+                class="far fa-chevron-down dropdown__icon rotate"></i></button>
+            <div class="dropdown"><a href="#" class="menu__item-link ">
+              </a>
+              <div class="dropdown-content dropdown-content--fixed-width"><a href="#" class="menu__item-link"></a>
+                <a href="/auth/expenses/travel-list">Claim for travel expenses</a>
+                <a href="/auth/expenses/medical-list">Claim for medical expenses</a>
+              </div>
+            </div>
+          </div> -->
+
+          <a href="/auth/expenses/travel-list"><button class="uikit-btn uikit-btn--primary new-claim">New
+              claim</button></a>
+          <hr>
+          <%- include(partials+"components/form-partials/notice", {
+            message: "Your reimbursement claim has been submitted successfully.",
+            type: "success",
+            id: ["success"],
+            modifiers: ["hidden"],
+            customClass: ["margin-below--none"]
+          }); %>
+          <h2 class="font-weight--heavy margin-below--small">Submitted claims</h2>
+          <table class="mys-table1">
+            <thead>
+              <tr>
+                <th>Date submitted</th>
+                <th>Claim ID</th>
+                <th>Claim status</th>
+                <!-- <th>Total claimed</th> -->
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="blank" hidden>
+                <td colspan="4" class="placeholder">You currently have no submitted claims.</td>
+              </tr>
+              <tr id="travel-1" class="view-travel-submitted">
+                <td data-title="Date submitted">2 September 2020</td>
+                <td data-title="Claim ID">33657809</td>
+                <td data-title="Claim status">Not available</td>
+                <!-- <td data-title="Total claimed">$833.63 + 268 kms</td> -->
+                <td><button
+                    class="view-travel-submitted uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
+              </tr>
+              <tr id="travel-2" class="view-travel-approved">
+                <td data-title="Date submitted">16 July 2020</td>
+                <td data-title="Claim ID">33657900</td>
+                <td data-title="Claim status">Approved</td>
+                <!-- <td data-title="Total claimed">$362.45</td> -->
+                <td><button
+                    class="view-travel-approved uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
+              </tr>
+              <!-- keep for when we add MEPI -->
+              <!-- <tr id="medical-1" hidden>
+                <td data-title="Date submitted">5 August 2019</td>
+                <td data-title="Claim type">Medical</td>
+                <td data-title="Claim status">Submitted</td>
+                <td data-title="Total claimed">$123.45</td>
+                <td><button class="view-medical uikit-btn uikit-btn--borderless margin-right--none">View</button></td>
+              </tr> -->
+
+            </tbody>
+          </table>
+          
+          <!-- <p>*Claim status not available. To check the progress of this claim call 1800 VETERAN (<a href="1800 838 372">1800 838 372</a>)</p> -->
+        </section>
+
+      </div>
+    </section>
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+  <%- include("index-ss") %>
+
+</body>
+<script>
+
+  /* Keep for when we add MEPI */
+  // $("#claim-type").click(function () {
+  //   $("#claim-type").toggleClass("dropdown--open");
+  //   $(".dropdown__icon").toggleClass("down");
+  // });
+
+  function stateSwitcher() {
+    $("#blank").hide();
+    $("#medical-1").hide();
+    $("#travel-1").hide();
+    $("#travel-2").hide();
+    $("#success-container").hide();
+    console.log( state )
+    switch (state) {
+      case "none":
+        $("#blank").show();
+        break;
+      // case "medical":
+      //   $("#medical-1").show();
+      //   break;
+      // case "travel":
+      //   $("#travel-1").show();
+      //   $("#travel-2").show();
+      //   break;
+      case "all":
+        $("#travel-1").show();
+        $("#travel-2").show();
+        $("#success-container").show()
+        // $("#medical-1").show();
+        break;
+      default:
+      $("#travel-1").show();
+        $("#travel-2").show();
+        break;
+    }
+  }
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  var state = $.urlParam('state');
+  stateSwitcher();
+  /* Keep for later */
+  // switch (state) {
+  //   // case "medical-added":
+  //   //   pastTransactions = "medical";
+  //   //   stateSwitcher();
+  //   //   $("#success-container").show()
+  //   //   break;
+  //   case "travel-added":
+  //     state = "all";
+  //     stateSwitcher();
+  //     $("#success-container").show()
+  //     break;
+  //   default:
+  //     break;
+  // }
+  // var claims = $.urlParam('claims');
+  // if (claims != 0) {
+  //   pastTransactions = claims;
+  //   stateSwitcher();
+  // }
+
+  $(".view-travel-submitted").click(function () {
+    window.location = "/auth/expenses/view-submitted";
+  });
+  $(".view-travel-approved").click(function () {
+    window.location = "/auth/expenses/view-approved";
+  });
+
+/* Keep for later */
+  // $("#medical-1, .edit-medical").on("click", function () {
+  //   window.location.href = "/auth/expenses/medical-list";
+  // })
+
+</script>
+
+</html>

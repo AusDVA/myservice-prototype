@@ -1,0 +1,379 @@
+<!-- Summary card -->
+<div id="commemoration-summary" class="box boxed" hidden>
+  <div class="box__header">
+    <h2 class="box__heading">
+      <!-- <i class="fal fa-university fontawesome-icon"></i> -->
+      <span class="font-weight-heavy">Commemoration preferences</span>
+    </h2>
+    <button class="uikit-btn uikit-btn--tertiary small .box__edit-button"
+      onClick="editCard('commemoration');">&nbsp;Edit&nbsp;</button>
+  </div>
+  <div class="box__table">
+    <div class="tr">
+      <div class="td"><b>Do you wish to receive an official commemoration?</b></div>
+      <div class="td">Yes</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>What type of commemoration would you like?</b></div>
+      <div class="td">Burial in a cemetery</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Have you reserved / purchased a burial plot?</b></div>
+      <div class="td">Yes</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Commemoration state</b></div>
+      <div class="td">NSW</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Name of cemetery</b></div>
+      <div class="td">Veteran Hall Cemetery</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Type of cemetery</b></div>
+      <div class="td">Monumental</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Religious emblem</b></div>
+      <div class="td">Cross</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Inscription line 1</b></div>
+      <div class="td">Aut nihil doloribus impedit libero</div>
+    </div>
+    <div class="tr">
+      <div class="td"><b>Inscription line 2</b></div>
+      <div class="td">in repudiandae soluta cupiditate</div>
+    </div>
+  </div>
+  <div class="status-label status-label--edited margin-above" style="display: none !important;">EDITED</div>
+</div>
+<!-- Summary no -->
+<div id="commemoration-summary-no" class="box boxed" hidden>
+  <div class="box__header">
+    <h2 class="box__heading">
+      <!-- <i class="fal fa-university fontawesome-icon"></i> -->
+      <span class="font-weight-heavy">Commemoration preferences</span>
+    </h2>
+    <button class="uikit-btn uikit-btn--tertiary small .box__edit-button"
+      onClick="editCardNo('commemoration');">&nbsp;Edit&nbsp;</button>
+  </div>
+  <div class="box__table">
+    <div class="tr">
+      <div class="td"><b>Do you wish to receive an official commemoration?</b></div>
+      <div class="td">No</div>
+    </div>
+    <div class="status-label status-label--edited margin-above" style="display: none !important;">EDITED</div>
+  </div>
+  </div>
+  <!-- Open card -->
+  <div id="commemoration-card" class="box boxed box--open" style="display: none;">
+    <div class="delete-content" hidden>
+      <h2 class="margin-above--none" style="display: inline-block;"><span
+          class="fal fa-university fontawesome-icon"></span><span class="font-weight-heavy">Bank account
+        </span></h2>
+      <hr style="margin-top: 10px; max-bottom: 0;">
+      <%- include(partials+"components/form-partials/date", {
+      label: "Date of change/disposal"
+    }); %>
+      <div class="pagination pagination--ss-reverse-order   margin-above--extra" id="pagination700">
+        <a href="#" id="delete-bank-account" class="uikit-btn" onClick="confirmDeletePrePop('commemoration')">Delete</a>
+        <a href="#" id="cancel-delete" class="uikit-btn uikit-btn--tertiary" onClick="cancelDeletePrePop()">Cancel</a>
+      </div>
+    </div>
+
+    <div class="edit-content">
+      <div class="box__header">
+        <h2 class="margin-above--none" style="display: inline-block;">
+          <span class="font-weight-heavy">Commemoration preferences
+          </span></h2><button id="deleteButton" class="uikit-btn uikit-btn--tertiary small warning box__delete-button "
+          onclick="deleteBox();">&nbsp;Delete&nbsp;</button>
+      </div>
+      <div id="card-details" class="margin-below--large">
+        <form id="myForm">
+          <input type="reset" style="display:none">
+
+          <%- include(partials+"components/form-partials/yes_no", {
+          label: "Do you wish to receive an official commemoration?",
+          id: "receive-commemoration",
+          yes_toggle: "#commemoration"
+        }); %>
+
+          <div id="commemoration" hidden>
+
+            <%- include(partials+"components/form-partials/radio", {
+          label: "What type of commemoration would you like?",
+          id: "commemoration-type",
+          boxes: [
+            {
+              text: "Memorial in a Garden of Remembrance",
+              toggle: "#memorial-gardens-container"
+            },
+            {
+              text: "Burial in a Cemetery",
+              toggle: "#cemetery-container"
+            },
+            {
+              text: "Placement of Ashes",
+              toggle: "#ashes-container"
+            }
+          ],
+          modifiers: ["hidden1"]
+        }); %>
+
+            <%- include(partials+"components/form-partials/dropdown", {
+          label: "Location",
+          id: "memorial-gardens",
+          options: [
+            "-- Select location --",
+            "Australian Capital Territory Garden of Remembrance",
+            "Hobart Garden of Remembrance",
+            "Launceston Garden of Remembrance",
+            "North Queensland Garden of Remembrance",
+            "New South Wales Garden of Remembrance",
+            "Northern Territory Garden of Remembrance",
+            "Queensland Garden of Remembrance",
+            "South Australian Garden of Remembrance",
+            "Victorian Garden of Remembrance",
+            "Western Australian Garden of Remembrance"
+          ],
+          modifiers: ["hidden"]
+        }); %>
+
+            <div id="cemetery-container" hidden>
+
+              <%- include(partials+"components/form-partials/yes_no", {
+            label: "Have you reserved / purchased a burial plot?",
+            id: "reserved-question",
+            yes_toggle: "#plot-details"
+          }); %>
+
+              <%- include(partials+"components/form-partials/dropdown", {
+            label: "Commemoration state",
+            id: "cemetery-state",
+            options: [
+              "-- Select state --",
+              "ACT",
+              "NSW",
+              "NT",
+              "QLD",
+              "SA",
+              "TAS",
+              "VIC",
+              "WA"
+            ]
+          }); %>
+
+              <%- include(partials+"components/form-partials/text", {
+            label: "Name of cemetery",
+            id: "name-cemetery"
+            }); %>
+              <%- include(partials+"components/form-partials/radio", {
+            label: "Type of cemetery",
+            id: "cemetery-type",
+            boxes: [
+              "Lawn",
+              "Monumental"
+            ]
+          }); %>
+
+              <div id="plot-details" hidden>
+
+                <%- include(partials+"components/form-partials/text", {
+              label: "Section"
+            }); %>
+                <%- include(partials+"components/form-partials/text", {
+              label: "Row"
+            }); %>
+                <%- include(partials+"components/form-partials/text", {
+              label: "Grave number"
+            }); %>
+              </div>
+
+              <%- include(partials+"components/form-partials/dropdown", {
+            label: "Religious emblem",
+            id: "emblem",
+            options: [
+              "-- Select emblem --",
+              "None",
+              "Cross",
+              "Star and crescent",
+              "Star of David"
+            ]
+          }); %>
+
+          <%- include(partials+"components/form-partials/yes_no", {
+            label: "Would you like to include a personal inscription?",
+            yes_toggle: "#inscription"
+          }); %>
+
+          <div id="inscription" hidden>
+
+          <%- include(partials+"components/form-partials/text", {
+            label: "Inscription line 1",
+            hint: "(40 characters including spaces)"
+            }); %>
+
+            <%- include(partials+"components/form-partials/text", {
+              label: "Inscripton line 2",
+              hint: "(40 characters including spaces)"
+              }); %>
+
+            </div>
+
+            </div>
+
+            <div id="ashes-container" hidden>
+
+              <%- include(partials+"components/form-partials/dropdown", {
+            label: "Commemoration state",
+            options: [
+              "-- Select state --",
+              "ACT",
+              "NSW",
+              "NT",
+              "QLD",
+              "SA",
+              "TAS",
+              "VIC",
+              "WA"
+            ]
+          }); %>
+
+              <%- include(partials+"components/form-partials/text", {
+            label: "Name of crematorium where ashes are to be placed"
+            }); %>
+
+              <%- include(partials+"components/form-partials/text", {
+              label: "Name of niche or garden"
+              }); %>
+
+            </div>
+
+          </div>
+
+        </form>
+      </div>
+      <hr>
+      <div id="buttonset2" class="form-group margin-above--none">
+        <button id="addButton" class="uikit-btn"
+          onclick="addSummary('commemoration');">&nbsp;&nbsp;&nbsp;Save&nbsp;&nbsp;&nbsp;</button>
+        &nbsp;<button class="uikit-btn uikit-btn--tertiary"
+          onclick="doCancel();">&nbsp;&nbsp;&nbsp;Cancel&nbsp;&nbsp;&nbsp;</button>
+      </div>
+    </div>
+  </div>
+  <!-- card end -->
+
+  <script>
+
+    function doCancel() {
+      mySelection = $('input[name="receive-commemoration"]:checked').val();
+      if (mySelection == undefined) {
+        hideAll();
+        $(".manage").show();
+      } else {
+        addSummary('commemoration');
+      }
+    }
+
+    function prePop() {
+      $("#receive-commemoration-1").prop("checked", true);
+      $("#commemoration").show();
+      $("#commemoration-type-2").prop("checked", true);
+      $("#cemetery-container").show();
+      $("#reserved-question-2").prop("checked", true);
+      $("#name-cemetery").val("Veteran Hall Cemetery");
+      $("#cemetery-type-2").prop("checked", true);
+      $('[name=cemetery-state]').val("nsw");
+      $('[name=emblem]').val("Example 1");
+    }
+
+    function prePopNo() {
+      $("#receive-commemoration-2").prop("checked", true);
+      $("#commemoration").hide();
+    }
+
+    function clearPrePop() {
+      $("#receive-commemoration-1").prop("checked", false);
+      $("#commemoration").hide();
+      $("#commemoration-type-2").prop("checked", false);
+      $("#cemetery-container").hide();
+      $("#reserved-question-2").prop("checked", false);
+      $("#name-cemetery").val("");
+      $("#cemetery-type-2").prop("checked", false);
+      $('[name=cemetery-state]').val("-- Select state --");
+      $('[name=emblem]').val("-- Select emblem --");
+    }
+
+    function clearPrePopAfterYesNo() {
+      $("#commemoration").hide();
+      $("#commemoration-type-2").prop("checked", false);
+      $("#cemetery-container").hide();
+      $("#reserved-question-2").prop("checked", false);
+      $("#name-cemetery").val("");
+      $("#cemetery-type-2").prop("checked", false);
+      $('[name=cemetery-state]').val("-- Select state --");
+      $('[name=emblem]').val("-- Select emblem --");
+    }
+
+    function openNewCard(cardType) {
+      hideAll();
+      clearPrePop();
+      var myDiv = "#" + cardType + "-card";
+      var myDelete = myDiv + " #deleteButton";
+      var myAdd = myDiv + " #addButton";
+      $(myDelete).hide();
+      $(myDiv).show();
+      $(".manage").hide();
+    }
+
+    function editCard(cardType) {
+      hideAll();
+      prePop();
+      var myDiv = "#" + cardType + "-card";
+      var myDelete = myDiv + " #deleteButton";
+      var myAdd = myDiv + " #addButton";
+      $(myDelete).show();
+      $(myDiv).show();
+    }
+
+    function editCardNo(cardType) {
+      hideAll();
+      prePopNo();
+      var myDiv = "#" + cardType + "-card";
+      var myDelete = myDiv + " #deleteButton";
+      var myAdd = myDiv + " #addButton";
+      $(myDelete).show();
+      $(myDiv).show();
+    }
+
+    function addSummary(cardType) {
+      hideAll();
+      mySelection = $('input[name="receive-commemoration"]:checked').val();
+      if (mySelection == "yes") {
+        var myDiv = "#" + cardType + "-summary";
+      } else {
+        var myDiv = "#" + cardType + "-summary-no";
+      }
+      $(myDiv).show();
+    }
+
+    function hideAll() {
+      $("#commemoration-card").hide();
+      $("#commemoration-summary").hide();
+      $("#commemoration-summary-no").hide();
+      $("#commemoration-summary-deleted").hide();
+    }
+
+    function deleteBox() {
+      hideAll();
+      $(".manage").show();
+    }
+
+    $("#receive-commemoration-container").click(function () {
+      clearPrePopAfterYesNo();
+    });
+
+
+  </script>

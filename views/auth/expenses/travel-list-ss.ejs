@@ -1,0 +1,57 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Expenses added",
+    boxes: [
+      "None",
+      "One",
+      "Many"
+    ],
+    id: "expenses-added"
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Maximum expenses entered (20)"
+    ],
+    id: "max-expense",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  var pastTransactions;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#expenses-added-1").prop("checked", true);
+    $('input[name=expenses-added]').change(function () {
+      pastTransactions = $(this).val();
+      stateSwitcher();
+    });
+
+    $('#max-expense-1').change(function() {
+      var myStatus = $("#max-expense-1").is(":checked");
+    if ( myStatus ) {
+      showMaxExpense();  
+    } else {
+      hideMaxExpense(); 
+    }
+   
+  });
+});
+
+
+
+</script>

@@ -1,0 +1,178 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Page states",
+    id: "state",
+    boxes: [
+      "Card, COC",
+      "Card, no COC",
+      "No card, COC",
+      "No card, no COC"
+    ]
+  }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Message box"
+    ],
+    id: "message-box",
+    customClass: "margin-below--none"
+  }); %>
+
+  <script>
+
+    $(document).ready(function () {
+      /* Toggle switcher */
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 96: //tilda
+            $('#state-switcher').toggle();
+            break;
+          default:
+        }
+      });
+
+      /* Greeting */
+
+      function updateGreeting() {
+        var myDate = new Date();
+        var hrs = myDate.getHours();
+        var greet;
+        if (hrs < 12)
+          greet = 'Good morning';
+        else if (hrs >= 12 && hrs <= 17)
+          greet = 'Good afternoon';
+        else if (hrs >= 17 && hrs <= 24)
+          greet = 'Good evening';
+        document.getElementById('lblGreetings').innerHTML = greet;
+      }
+
+    });
+
+    //helper function to capitalize the first letter in a string
+
+    // function jsUcfirst(string) {
+    //   return string.charAt(0).toUpperCase() + string.slice(1);
+    // }
+
+    $("#state-1").prop("checked", true);
+    var state = "cardcoc";
+    updateLayout();
+
+    $('input[name=state]').change(function () {
+      state = $(this).val();
+      updateLayout();
+    });
+
+    function updateLayout() {
+
+      $("#widget-tasks").hide();
+      $("#widget-claims").hide();
+      $("#widget-payments").hide();
+      $("#widget-transport").hide();
+      $(".homepage__column--income-support").hide();
+      $("#small-card").hide();
+      $(".homepage__column--card").hide();
+
+      $(".widgets__wrapper").removeClass("widgets__wrapper--2");
+      $(".widgets__wrapper").removeClass("widgets__wrapper--3");
+      $(".widgets__wrapper").removeClass("widgets__wrapper--4");
+
+      switch (state) {
+        case "cardcoc":
+          tasksOn();
+          claimsOn();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $("#widget-transport").show();
+          if ($(window).width() < 990) {
+            $(".homepage__column--card").show();
+          } else {
+            $("#small-card").show();
+          }
+          $(".homepage__column--income-support").show();
+          $(".widgets__wrapper").addClass("widgets__wrapper--4");
+          break;
+        case "cardnococ":
+          tasksOn();
+          claimsDrafts();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $(".homepage__column--card").show();
+          $(".widgets__wrapper").addClass("widgets__wrapper--3");
+          break;
+        case "nocardcoc":
+          tasksOn( 0 );
+          claimsOn();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $("#widget-payments").show();
+          $("#widget-transport").show();
+          $(".homepage__column--income-support").show();
+          $(".widgets__wrapper").addClass("widgets__wrapper--4");
+          break;
+        case "nocardnococ":
+          tasksOff();
+          claimsOff();
+          $("#widget-tasks").show();
+          $("#widget-claims").show();
+          $(".widgets__wrapper").addClass("widgets__wrapper--2");
+          break;
+        default:
+          break;
+      }
+    }
+
+    function tasksOff() {
+      $("#widget-tasks .dashboard-widget__number").hide();
+      $("#widget-tasks .dashboard-widget__icon").hide();
+      $("#widget-tasks .dashboard-widget__text").text("No new tasks");
+      $("#widget-tasks").removeClass("dashboard-widget--highlight");
+    }
+    function tasksOn( tasks ) {
+      $("#widget-tasks .dashboard-widget__number").show();
+      $("#widget-tasks .dashboard-widget__icon").show();
+      $("#widget-tasks .dashboard-widget__text").text("tasks to complete");
+      $("#widget-tasks").addClass("dashboard-widget--highlight");
+    }
+    function claimsOff() {
+      $("#widget-claims .dashboard-widget__number").hide();
+      $("#widget-claims .dashboard-widget__icon").hide();
+      $("#widget-claims .dashboard-widget__text").text("No claims");
+    }
+    function claimsOn() {
+      $("#widget-claims .dashboard-widget__number").text("3");
+      $("#widget-claims .dashboard-widget__number").show();
+      $("#widget-claims .dashboard-widget__icon").show();
+      $("#widget-claims .dashboard-widget__text").text("claims submitted");
+    }
+    function claimsDrafts() {
+      $("#widget-claims .dashboard-widget__number").text("1");
+      $("#widget-claims .dashboard-widget__number").show();
+      $("#widget-claims .dashboard-widget__icon").show();
+      $("#widget-claims .dashboard-widget__text").text("incomplete claim");
+    }
+    function claimsSubmitted() {
+      $("#widget-claims .dashboard-widget__number").text("3");
+      $("#widget-claims .dashboard-widget__number").show();
+      $("#widget-claims .dashboard-widget__icon").show();
+      $("#widget-claims .dashboard-widget__text").text("claims submitted");
+    }
+
+    $('#message-box-1').change(function() {
+    updateMessageBox();  
+  });
+
+  function updateMessageBox() {
+    var myStatus = $("#message-box-1").is(":checked");
+    console.log( myStatus )
+    if ( myStatus ) {
+        $(".home-page-message").show();
+    } else {
+      $(".home-page-message").hide();
+    }
+  }  
+
+  </script>

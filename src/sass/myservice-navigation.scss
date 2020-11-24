@@ -5,15 +5,11 @@
 .pagination,
 .skip-link {
   margin: 1em 0 2em;
-
   button,
   a {
     clear: both;
     display: block;
-
-    // margin: $margin-zero;
     width: 100%;
-
     .floated {
       float: none;
     }
@@ -48,38 +44,52 @@
 
   // SIDEBAR NAV
 
+  .mobile-menu {
+    border-top: 1px solid rgba(0,0,0,.7); 
+    background-color: rgba(0,0,0,.025);
+    grid-template-columns: repeat(2, max-content);
+    align-items    : center;
+    justify-content: space-between; 
+    padding: 15px;
+    display: grid;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    i {
+      font-size: 28px;
+    }
+    &.menu-open {
+      margin-bottom: 0;
+    }
+  }
+
   .secondary-navigation {
     background-color: transparent;
     margin-left: 0;
     max-width: 100%;
     padding-left: 0;
+    display: none;
   }
 
   .secondary-navigation__item {
-    border-bottom: 1px solid $gray-mild;
     list-style-type: none;
     margin-bottom: 0;
     margin-left: 0;
-    padding-left: 0;
-
-    // styling for active page
+    background-color: rgba(0,0,0,.025);
+    border-bottom: 1px solid rgba(0,0,0,.075);
+    display: block;
     &.secondary-navigation__item--active {
-      border-right: 7px solid $blue;
-
       .secondary-navigation__link {
-        background-color: $gray-light;
-        border-bottom: 1px solid $gray-mild;
-        border-top: 1px solid $gray-mild;
         color: $black;
       }
     }
   }
 
   .secondary-navigation__link {
+    padding: 15px !important;
     border: 0;
     color: $blue;
     display: block;
-    padding: 0.35em 0 0.35em 0.5em;
   }
 
 }
@@ -87,15 +97,28 @@
 @media only print,
 screen and (min-width: $AU-media-sm) {
   .uikit-body {
+    .mobile-menu {
+      display: none;
+    }
     .secondary-navigation {
       border-right: 1px solid $gray-mild;
+      background-color: transparent;
+      border-top: none;
+      display: block;
+      margin-top: 20px;
     }
-
     .secondary-navigation__item {
-      border-bottom: 0 solid $gray-mild;
-      margin-bottom: 0.4em;
+      background-color: transparent;
+      &.secondary-navigation__item--active {
+        border-right: 5px solid $blue;
+      }
     }
-
+    .secondary-navigation__item:last-child {
+      border-bottom: none;
+    }
+    .secondary-navigation__link {
+      padding: 18px !important;
+    }
 
     // INLINE NAVIGATION
 
@@ -107,11 +130,6 @@ screen and (min-width: $AU-media-sm) {
         display: inline-block;
         margin-bottom: 0;
 
-        // &:hover {
-        //   background-color: $uikit-hover;
-        //   padding-bottom: 7px;
-        // }
-
         .secondary-navigation__link {
           padding: 1.5em 1em 1.5em 1em;
           padding-bottom: calc(1.5em + 7px);
@@ -122,10 +140,6 @@ screen and (min-width: $AU-media-sm) {
         &.secondary-navigation__item--active {
           border-bottom: 7px solid $blue;
           border-right: 0 solid $blue;
-          // &:hover {
-          //   background-color: transparent;
-          //   padding-bottom: 0px;
-          // }
 
           .secondary-navigation__link {
             background-color: $gray-light;
@@ -148,6 +162,7 @@ screen and (min-width: $AU-media-md) {
   .uikit-body {
     .secondary-navigation {
       width: 90%;
+      background-color: transparent;
     }
 
     .secondary-navigation__link {
@@ -157,11 +172,9 @@ screen and (min-width: $AU-media-md) {
   }
 }
 
-
 .fieldset-margin-top {
   margin-top: 1.75em;
 }
-
 
 
 

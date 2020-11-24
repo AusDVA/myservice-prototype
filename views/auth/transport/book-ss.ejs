@@ -1,0 +1,86 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Under 80 years"
+    ],
+    id: "under-80",
+    customClass: "margin-below--none"
+  }); %>
+
+  Note greyed out values in medical practitioner select list if under 80.
+
+  <%#- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Gold card holder"
+    ],
+    id: "gold-card",
+    customClass: "margin-below--none"
+  }); %>
+
+  <!-- Note don't show primary condition for gold card. -->
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Booking at same date /time"
+    ],
+    id: "booking-same",
+    customClass: "margin-below--none"
+  }); %>
+
+  If client attempts to make a booking at the same date and time as a future booking. Change am/pm for demo.
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('#under-80-1').change(function () {
+      updateUnder80();
+    });
+
+    function updateUnder80() {
+      var myStatus = $("#under-80-1").is(":checked");
+      if (myStatus) {
+        $("#under-80-notice-container").show();
+        $("#practitioner-type option[value=opticalprovider]").attr("disabled","true");
+        $("#practitioner-type option[value=alliedhealthservices]").attr("disabled","true");
+        $("#practitioner-type option[value=dentist]").attr("disabled","true");
+        $("#practitioner-type option[value=generalpractitioner]").attr("disabled","true");
+      } else {
+        $("#under-80-notice-container").hide();
+        $("#practitioner-type option[value=opticalprovider]").removeAttr("disabled");
+        $("#practitioner-type option[value=alliedhealthservices]").removeAttr("disabled");
+        $("#practitioner-type option[value=dentist]").removeAttr("disabled");
+        $("#practitioner-type option[value=generalpractitioner]").removeAttr("disabled");
+      }
+    }
+
+    $('#booking-same-1').change(function () {
+      updateBookingSame();
+    });
+
+    function updateBookingSame() {
+      var myStatus = $("#booking-same-1").is(":checked");
+      console.log( myStatus )
+      if (myStatus) {
+        $("#booking-same-container").show();
+      } else {
+        $("#booking-same-container").hide();
+      }
+    }
+
+  });
+
+</script>

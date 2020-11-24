@@ -1,0 +1,448 @@
+<%- include(templates+"header", {
+  heading: "Travel expense",
+  claim: "Travel expenses"
+}) %>
+
+
+<%- include(partials+"components/form-partials/checkbox", {
+  id: "use-previous",
+  boxes: [
+    "Prefill with previous appointment details"
+  ],
+  modifiers: ["hidden"],
+  customClass: ["margin-below--large"]
+}); %>
+
+
+  <h2 class="mys h2 margin-below--mid">Appointment details</h2>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+      label: "Purpose of trip",
+      id: "purpose",
+      options: [
+        "-- Select purpose --",
+        "Treatment",
+        "Hospital admission",
+        "Hospital discharge",
+        "To obtain medical evidence for the Veterans' Review board",
+        "To obtain medical evidence for the Specialist Medical Review Council",
+        "To attend a hearing at the Veterans Review Board",
+        "To attend before the Administrative Appeals Tribunal",
+        "Compensation claim",
+        "Invalidity income support claim",
+        "Other"
+      ]
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "What is the purpose:",
+      id: "purpose-free",
+      modifiers: ["hidden"]
+    }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+      label: "Condition being treated/assessed",
+      id: "condition",
+      options: [
+        "-- Select condition --",
+        "Lumbar spondylosis",
+        "Osteoarthritis",
+        "Ankle sprain",
+        "Lumbar strain",
+        "Other (only show for gold card)"
+      ],
+      modifiers: [ "hintNewLine"]
+    }); %>
+
+  <%- include(partials+"components/form-partials/date-picker", {
+      label: "Appointment date",
+      id: "date"
+    }); %>
+  <%- include(partials+"components/form-partials/time-picker", {
+      label: "Appointment time",
+      id: "time"
+    }); %>
+
+  <div id="appointment-details-content">
+    <div id="going-to" class="margin-above--large">
+      <%- include(partials+"components/form-partials/dropdown", {
+    label: "Select provider or hospital",
+    id: "provider",
+    options: [
+        {
+          text: "-- Select provider --"
+        },
+        { 
+          text: "Doctor Karl Practice 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+        },
+        {
+          text: "Capital Hospital / Dr Jane Smith 1245 Dax Crossing Apt. Melrose place, NSW 2897"
+        },
+        {
+          text: "Dr Al Appleton, 334 Heathcliff Rd, Melrose place, NSW 2045"
+        },
+        {
+          text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
+        },
+        {
+          text: "<strong>New provider</strong>"
+        }
+      ]
+    }); %>
+    </div>
+    <div id="provider-details" hidden>
+      <%- include(partials+"components/form-partials/dropdown", {
+          label: "Type of practitioner",
+          id: "practitioner-type",
+          options: [
+            "-- Select type --",
+            "General practitioner",
+            "Cardiologist",   
+            "Dentist",
+            "Exercise Physiologist",
+            "Ophthalmologist",   
+            "Optometrist",
+            "Orthopaedic surgeon",
+            "Physiotherapist",
+            "Podiatrist",
+            "Psychiatrist", 
+            "Psychologist",
+            "Radiologist/Xray",
+            "Other"   
+          ]
+        }); %>
+      <%- include(partials+"components/form-partials/text", {
+          label: "Enter type of practitioner:",
+          id: "practitioner-free",
+          modifiers: ["hidden"]
+        }); %>
+      <%- include(partials+"components/form-partials/text", {
+      label: "Practice/Doctor's name"
+    }); %>
+      <%- include(partials+"components/form-partials/text", {
+      label: "Phone/mobile number",
+      hint: 'Include area code where applicable (for example, "03" for Victoria).',
+      modifiers: ["hintNewLine"]
+    }); %>
+    
+      <%- include(partials+"components/form-partials/text", {
+      label: "Suburb or town",
+      modifiers: ["inputFullLength"]
+    }); %>
+      <%- include(partials+"components/form-partials/text", {
+      label: "Postcode"
+    }); %>
+      <%- include(forms+"dropdown", {
+      label: "State or territory",
+      options: [
+        "-- Select state or territory --",
+        {
+          text: "Australian Capital Territory",
+          value: "act"
+        },
+        {
+          text: "New South Wales",
+          value: "nsw"
+        },
+        {
+          text: "Northern Territory",
+          value: "nt"
+        },
+        {
+          text: "Queensland",
+          value: "qld"
+        },
+        {
+          text: "South Australia",
+          value: "sa"
+        },
+        {
+          text: "Tasmania",
+          value: "tas"
+        },
+        {
+          text: "Victoria",
+          value: "vic"
+        },
+        {
+          text: "Western Australia",
+          value: "wa"
+        }
+      ]
+    }) %>
+    </div>
+  </div>
+
+<%- include(partials+"components/form-partials/dropdown", {
+    label: "Appointment location",
+options: [
+  "-- Select location --",
+  "Sydney NSW 2001",
+  "Brisbane QLD 4000",
+  "Melbourne VIC 3000",
+  "Perth WA 6000"
+],
+id: "vrb-location",
+modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Appointment location",
+options: [
+"-- Select location --",
+"Canberra ACT 2601",
+"Sydney NSW 2000",
+"Adelaide SA 5000",
+"Brisbane QLD 4000",
+"Hobart TAS 7000",
+"Melbourne VIC 3000",
+"Perth WA 6000"
+],
+id: "aat-location",
+modifiers: ["hidden"]
+}); %>
+
+<div id="expense-details">
+  <h2 class="mys h2 margin-below--mid">Expense details</h2>
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Cost type",
+options: [
+  "-- Select type --",
+  "Private vehicle - kms",
+  "Public transport",
+  "Taxi and rideshare",
+  "Community transport",
+  "Air",
+  "Road tolls",
+  "Parking fees",
+  "Accommodation"
+],
+id: "cost-type"
+}); %>
+
+  <%- include(partials+"components/form-partials/text", {
+label: "Kilometres travelled",
+hint: "(enter round trip total)",
+id: "kms",
+afterText: "kms",
+modifiers: ["hidden", "inputShort" ]
+}); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+  message: "Road tolls are not reimbursed for your selected condition.",
+  type: "warning",
+  id: ["tolls-message"],
+  modifiers: ["hidden"],
+  customClass: ["margin-above--none"]
+}); %>
+
+  <%- include(partials+"components/form-partials/text", {
+    label: "Amount",
+id: "dollars",
+modifiers: ["hidden","dollarSign", "inputShort"]
+}); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+label: "Did DVA arrange/pay for this travel?",
+modifiers: ["hintNewLine", "hidden"],
+id: "bcwd"
+}); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you travel with a medically required attendant?",
+  id: "attendant-1",
+  modifiers: ["hidden"]
+  }); %>
+
+</div>
+
+<div id="accommodation-questions" hidden>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+label: "Type of accommodation:",
+options: [
+  "--Select type--",
+  "Commercial",
+  "Private",
+  "Subsidised"
+],
+id: "accommodation"
+}); %>
+
+  <%- include(partials+"components/form-partials/text", {
+label: "Length of stay",
+id: "accomm-nights",
+afterText: "nights",
+modifiers: ["inputShort"]
+}); %>
+
+  <div id="mrca-accomm" hidden>
+
+    <%- include(partials+"components/form-partials/text", {
+    label: "Total accommodation cost",
+    id: "total-accomm",
+    modifiers: ["dollarSign","inputShort"]
+    }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
+  label: "Did you pay for meals as a separate cost?",
+  yes_toggle: "#meals-container"
+  }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Total cost of meals",
+      id: "meals",
+      modifiers: ["dollarSign","inputShort","hidden"]
+      }); %>
+
+  </div>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+label: "Did you travel with a medically required attendant?",
+yes_toggle: "#attendant-container"
+}); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+label: "Did you pay for a separate room when travelling with your medically required attendant?",
+id: "attendant",
+modifiers: ["hidden"]
+}); %>
+
+</div>
+
+<div id="evidence" class="margin-below--extra" hidden>
+  <h2 class="mys h2">Supporting evidence<span class="evidence-optional"> (Optional)</span></h2>
+  <p>Attach a tax invoice or other evidence of the expense.</p>
+  <div class="pt-upload-other-docs">
+    <div class="form-group">
+      <table class="table-responsive file-upload-default">
+        <tr id="trData1" class="file-upload-default__row">
+          <td>
+            <span class="file-upload-default__document">
+              <span class="fal fa-file-upload fa-2x"></span>&nbsp;&nbsp;Document <a
+                class="file-upload-default__file-name"></a>
+            </span>
+          </td>
+          <td class="right">
+            <div>
+              <input type="file" class="file-upload-default__input" id="file-0">
+              <label class="file-upload-default__label" for="file-0">
+
+                <span id="document-type-button" class="file-upload-default__button">
+                  <span class="uikit-btn small">Upload</span>
+                </span>
+              </label>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You must keep your receipts (over $30) for four months from the date your claim is submitted.<span class='evidence-optional'> Choosing to supply evidence to support your claim will help us with processing.</span>",
+  }); %>
+</div>
+
+<%- include(forms+"pagination", {
+  pagination: [
+    {
+      text: "Previous",
+      id: "reset-form",
+      link: "/auth/expenses/travel-list"
+    },
+    {
+      text: "Update",
+      link: "/auth/expenses/travel-list?expenses=one",
+      modifiers: ["floated", "primary"]
+    }
+  ]
+}) %>
+
+<%- include(templates+"footer") %>
+<%- include("travel-expense-ss") %>
+
+<script>
+
+  $(document).ready(function () {
+
+    $('#provider').on('change', function () {
+      var mySelect = $("#provider option:selected").text().trim();
+      if (mySelect == "New provider") {
+        $("#provider-details").show();
+      } else {
+        $("#provider-details").hide()
+      }
+    });
+
+    $('#cost-type').change(function () {
+      var mySelection = $(this).find("option:selected").text().trim();
+      console.log("hhh" + mySelection)
+      $("#bcwd-container").hide();
+      $("#dollars-container").hide();
+      $("#kms-container").hide();
+      $("#accommodation-questions").hide();
+      $("#evidence").hide();
+      switch (mySelection) {
+        case "Private vehicle - kms":
+          $("#kms-container").show();
+          break;
+        case "Public transport":
+          $("#dollars-container").show();
+          $("#evidence").show();
+          break;
+        case "Taxi":
+          $("#dollars-container").show();
+          $("#bcwd-container").show();
+          $("#evidence").show();
+          break;
+        case "Community":
+          $("#dollars-container").show();
+          $("#evidence").show();
+          break;
+        case "Air":
+          $("#dollars-container").show();
+          $("#bcwd-container").show();
+          $("#evidence").show();
+          break;
+        case "Road tolls":
+          $("#dollars-container").show();
+          $("#evidence").show();
+          break;
+        case "Parking fees":
+          $("#dollars-container").show();
+          $("#evidence").show();
+          break;
+        case "Accommodation":
+          $("#accommodation-questions").show("fast");
+          $("#evidence").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    $('#accommodation').change(function () {
+      var mySelection = $(this).find("option:selected").text().trim();
+      switch (mySelection) {
+        case "Commercial":
+          $("#accommodation-questions").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    /* prepop */
+
+    $('.date-picker').val( "2020-08-26" );
+    $('.time-selector--hours').val( "2" );
+    $('.time-selector--minutes').val( "45" );
+    $('.time-selector--ampm').val( "pm" );
+    $('#provider>option:eq(3)').prop('selected', true);
+    $('#purpose').val('treatment').trigger('change');
+    $('#condition').val('lumbarspondylosis').trigger('change');
+    $('#cost-type').val('privatevehiclekms').trigger('change');
+    $('#kms').val('128');
+
+  });
+</script>

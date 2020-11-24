@@ -1,0 +1,269 @@
+<%- include(templates+"header", {
+  claim: "MyService - Transport",
+  heading: "Book transport"
+}) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You are only eligible for travel to some types of medical practitioner. You may not, for example, be eligible for transport to a general practitioner, dentist or optometrist.</p>      <p>For further information see <a href='https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/arrange-taxi-or-hire-car' rel='external'>arrange for a taxi or hire car</a> or call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>)</p>",
+  type: "warning",
+  id: "under-80-notice",
+  modifiers: ["hidden"]
+}); %>
+
+<h2 class="h2 mys margin-below--mid margin-above">Type of trip</h2>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "What type of trip do you require?",
+  id: "trip-type",
+  boxes: [
+    "Return",
+    "One way"
+  ]
+}); %>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "Where are you going?",
+  id: "one-way-type",
+  boxes: [
+    "To a medical appointment",
+    "From a medical appointment"
+  ],
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "When you arrive at your appointment, ask your driver for a contact number. Call to arrange your return trip when you are ready. You should only book a return trip if you are travelling back on the same day",
+  id: "return-notice",
+  modifiers: ["hidden"]
+}); %>
+
+<div id="details" hidden>
+
+  <h2 class="h2 mys margin-below--mid">Pick up address</h2>
+  <div id="pickup-from-home" hidden><%- include("home-address") %></div>
+  <div id="pickup-from-provider" hidden><%- include("provider-address") %></div>
+
+  <h2 class="h2 mys margin-below--mid">Going to</h2>
+  <div id="going-to-provider" hidden><%- include("provider-address") %></div>
+  <div id="going-to-home" hidden><%- include("home-address") %></div>
+
+  <div id="when" class="margin-above--large">
+    <h2 class="mys h2 margin-below--mid">Appointment details</h2>
+
+    <%- include(partials+"components/form-partials/date-picker", {
+    label: "Appointment date",
+    id: "date"
+  }); %>
+    <%- include(partials+"components/form-partials/time-picker", {
+    label: "Appointment time",
+    id: "time"
+  }); %>
+    <%- include(partials+"components/form-partials/notice", {
+    message: "You already have a trip booked at this date and time.",
+    type: "error",
+    id: "booking-same",
+    modifiers: ["hidden"]
+  }); %>
+    <%- include(partials+"components/form-partials/dropdown", {
+    label: "Primary condition being treated",
+    id: "condition",
+    options: [
+      "-- Select condition --",
+      "Lumbar spondylosis",
+      "Osteoarthritis",
+      "Ankle sprain",
+      "Lumbar strain",
+      "Other (only show for gold card)"
+    ],
+    modifiers: [ "hintNewLine"]
+  }); %>
+
+    <%- include(partials+"components/form-partials/dropdown", {
+    label: "Appointment type",
+    id: "type",
+    options: [
+      "-- Select appointment type --",
+      "Hospital",
+      "Specialist",
+      "Other"
+    ]
+  }); %>
+
+  </div>
+
+  <div id="trip-details" class="margin-above--extra">
+
+    <h2 class="mys h2 margin-below--mid">Trip requirements</h2>
+
+    <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "I require a wheelchair accessible vehicle",
+      "I will be travelling with an attendant"
+    ],
+    customClass: "margin-below"
+  }); %>
+
+    <%- include(partials+"components/form-partials/textarea", {
+    label: "Special instructions",
+    id:"instructions",
+    hint: "(optional)"
+  }); %>
+
+  </div>
+
+  <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/transport/"
+      },
+      {
+        text: "Submit",
+        link: "/auth/transport/index?state=one",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(templates+"footer") %>
+  <%- include("book-ss") %>
+
+  <script>
+
+    var state;
+    $('input[name=trip-type]').change(function () {
+      state = $(this).val();
+      updateLayout();
+    });
+
+    function updateLayout() {
+
+      $("#one-way-type-container").hide();
+      $("#details").hide();
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();
+      $(".new-pickup").hide();
+      $(".going-to-enter").hide();
+      $(".manualinput").hide();
+
+      switch (state) {
+        case "return":
+          $("#return-notice-container").show();
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+        case "oneway":
+          $("#one-way-type-1").prop("checked", false);
+          $("#one-way-type-2").prop("checked", false);
+          $("#one-way-type-container").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+    $('input[name=one-way-type]').change(function () {
+
+      $("#details").hide();
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();  
+
+      mySelect = $(this).val();
+      switch (mySelect) {
+        case "toamedicalappointment":
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+        case "fromamedicalappointment":
+          $("#pickup-from-provider").show();
+          $("#going-to-home").show();
+          $("#details").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    $('#pickup-from-home').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#pickup-from-home #pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#pickup-from-home .new-pickup").show();
+      } else {
+        $("#pickup-from-home .new-pickup").hide();
+      }
+    });
+    $('#pickup-from-provider').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#pickup-from-provider #provider-container option:selected").text().trim();
+      if (mySelect == "Enter new destination") {
+        $("#pickup-from-provider .going-to-enter").show();
+      } else {
+        $("#pickup-from-provider .going-to-enter").hide();
+      }
+    });
+
+    $('#going-to-provider').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#going-to-provider #provider-container option:selected").text().trim();
+      if (mySelect == "Enter new destination") {
+        $("#going-to-provider .going-to-enter").show();
+      } else {
+        $("#going-to-provider .going-to-enter").hide()
+      }
+    });
+    $('#going-to-home').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#going-to-home #pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#going-to-home .new-pickup").show();
+      } else {
+        $("#going-to-home .new-pickup").hide();
+      }
+    });
+
+    $('.time-selector--ampm').on('change', function () {
+      var mySelect = $(".time-selector--ampm option:selected").text().trim();
+      $("#booking-same-container").toggle();
+    });
+
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    }
+
+    $("#practitioner-type-container").hide();
+
+    $("#pickup-from-home input[name=address]").focusout(function () {
+      mySelect = $(this).val();
+      if (mySelect == "Enter address") {
+        $("#pickup-from-home .manualinput").show();
+      } else {
+        $("#pickup-from-home .manualinput").hide();
+      }
+    });
+    $("#going-to-provider input[name=address]").focusout(function () {
+      mySelect = $(this).val();
+      if (mySelect == "Enter address") {
+        $("#going-to-provider .manualinput").show();
+      } else {
+        $("#going-to-provider .manualinput").hide();
+      }
+    });
+
+    
+
+  </script>
