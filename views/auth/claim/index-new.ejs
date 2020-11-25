@@ -1,0 +1,468 @@
+<head>
+  <title>MyService</title>
+  <%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-authenticated") %>
+
+  <main>
+
+    <div class="container margin-above margin-below--extra">
+
+      <div class="back-button">
+        <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+      </div>
+      <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Claims</h1>
+
+      <div class="empty-state" hidden>
+        <div class="notice">
+          <h2 class="mys h3">You have no claims - <a href="/auth/claims">start a new claim</a></h2>
+        </div>
+      </div>
+
+      <div class="claims">
+
+        <%- include(partials+"components/form-partials/notice", {
+          message: "Your claim/application has been saved. You have 120 days to complete this claim.",
+          type: "success",
+          id: "claim-saved-success",
+          modifiers: ["hidden"]
+        }); %>
+
+        <h2 class="mys h2 margin-below--small">Incomplete claims</h2>
+        <table id="claimsTableIncomplete" class="mys-table1 mys-table1--claims-incomplete">
+          <thead>
+            <tr>
+              <th class="date mys h3 sortable" onclick="sortTableByDate('claimsTableIncomplete',0, 'dmy')">Commenced<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="description mys h3 sortable" onclick="sortTable('claimsTableIncomplete',1)">Description<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="id mys h3 sortable" onclick="sortTable('claimsTableIncomplete',2)">Days remaining<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="actions mys h3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td data-title="Commenced">29 Apr 2019</td>
+              <td data-title="Description">Increase to Disability Pension</td>
+              <td data-title="Claim ID">65</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/afi'">Resume</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-title="Submitted">29 May 2019</td>
+              <td data-title="Description">Permanent Impairment Questionnaire</td>
+              <td data-title="Claim ID">45</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/permanent-impairment/permanent-impairment-01'">Resume</button>
+              </td>
+            </tr>
+            <tr>
+              <td data-title="Date submitted">29 Aug 2019</td>
+              <td data-title="Description">Subacromial Bursitis of the Shoulder</td>
+              <td data-title="Claim ID">43</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/il/claim1'">Resume</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2 class="mys h2 margin-below--small">Claims in progress</h2>
+        <table id="claimsTable" class="mys-table1 mys-table1--claims">
+          <thead>
+            <tr>
+              <th class="status-icon"></th>
+              <th class="status mys h3 sortable" onclick="sortTable('claimsTable',1)">Status<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="date mys h3 sortable" onclick="sortTableByDate('claimsTable',2, 'dmy')">Submitted<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="description mys h3 sortable" onclick="sortTable('claimsTable',3)">Description<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="id mys h3">Claim ID</th>
+              <th class="actions mys h3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-ellipsis-h"></i></td>
+              <td data-title="Status">In progress</td>
+              <td data-title="Submitted">29 Aug 2019</td>
+              <td data-title="Description">Education assistance for Kim</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless">Update</button>
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location ='/auth/claim/view/education-assistance'">View</button>
+                <button class="uikit-btn uikit-btn--borderless">Withdraw</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-check-circle"></i></td>
+              <td data-title="Status">Approved</td>
+              <td data-title="Submitted">03 May 2019</td>
+              <td data-title="Description">Qualifying Service</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location='/auth/claim/view/qs'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-edit"></i></td>
+              <td data-title="Status">Incomplete</td>
+              <td data-title="Submitted">29 Apr 2019</td>
+              <td data-title="Description">Increase to Disability Pension</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/afi'">Resume</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane"></i></td>
+              <td data-title="Status">Submitted</td>
+              <td data-title="Submitted">27 Apr 2019</td>
+              <td data-title="Description">DHOAS Subsidy Certificate</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/dhoas'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-edit"></i></td>
+              <td data-title="Status">Incomplete</td>
+              <td data-title="Submitted">29 May 2019</td>
+              <td data-title="Description">Permanent Impairment Questionnaire</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/permanent-impairment/permanent-impairment-01'">Resume</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane fa-s"></i></td>
+              <td data-title="Status">Submitted</td>
+              <td data-title="Date submitted">08 Feb 2019</td>
+              <td data-title="Description">Permanent Impairment Questionnaire</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/pi'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane fa-s"></i></td>
+              <td data-title="Status">Incomplete</td>
+              <td data-title="Date submitted">29 Aug 2019</td>
+              <td data-title="Description">Subacromial Bursitis of the Shoulder</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/il/claim1'">Resume</button>
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/pi'">Withdraw</button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+
+        <h2 class="mys h2 margin-below--small">Finalised claims</h2>
+        <table id="claimsTableFinalised" class="mys-table1 mys-table1--claims">
+          <thead>
+            <tr>
+              <th class="status-icon"></th>
+              <th class="status mys h3" onclick="sortTable('claimsTableFinalised',1)">Status<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="date mys h3" onclick="sortTableByDate('claimsTableFinalised',2, 'dmy')">Submitted<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="description mys h3" onclick="sortTable('claimsTableFinalised',3)">Description<i
+                  class="table-sort fa fa-angle-down"></i></th>
+              <th class="id mys h3">Claim ID</th>
+              <th class="actions mys h3">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-check-circle"></i></td>
+              <td data-title="Status">Approved</td>
+              <td data-title="Submitted">03 May 2019</td>
+              <td data-title="Description">Qualifying Service</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location='/auth/claim/view/qs'">View</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-check-circle"></i></td>
+              <td data-title="Status">Approved</td>
+              <td data-title="Submitted">29 Apr 2019</td>
+              <td data-title="Description">Increase to Disability Pension</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/afi'">Resume</button>
+              </td>
+            </tr>
+            <tr>
+              <td class="status-icon"><i class="claim-status-icon fa fa-paper-plane"></i></td>
+              <td data-title="Status">Rejected</td>
+              <td data-title="Submitted">27 Apr 2019</td>
+              <td data-title="Description">DHOAS Subsidy Certificate</td>
+              <td data-title="Claim ID">33657809</td>
+              <td class="actions">
+                <button class="uikit-btn uikit-btn--borderless"
+                  onclick="window.location = '/auth/claim/view/dhoas'">View</button>
+              </td>
+            </tr>
+
+
+          </tbody>
+        </table>
+
+
+      </div>
+    </div>
+
+  </main>
+
+  <%- include(partials+"content/modals/claims-dhoas-start-modal") %>
+  <%- include(partials+"components/layout/footer") %>
+  <%- include("index-ss") %>
+
+</body>
+
+<script>
+
+
+$.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)')
+      .exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  var state = $.urlParam('state');
+  stateSwitcher(state) 
+
+  function stateSwitcher(myState) {
+    $("#claim-saved-success-container").hide();
+      switch (myState) {
+        case "claims":
+        $(".empty-state").hide();
+          $(".claims").show();
+          break;
+        case "noclaims":
+          $(".empty-state").show();
+          $(".claims").hide();
+          break;
+        case "no claims":
+          $(".empty-state").show();
+          $(".claims").hide();
+          break;
+        case "claim-saved-success":
+          $(".claims").show();
+          $("#claim-saved-success-container").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+
+  sortTableByDate("claimsTableIncomplete", 0, 'dmy');
+  sortTable("claimsTable", 1);
+  sortTable("claimsTableFinalised", 1);
+
+  function sortTable(myTable, n) {
+    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+    table = document.getElementById(myTable);
+    switching = true;
+    // Set the sorting direction to ascending:
+    dir = "asc";
+    /* Make a loop that will continue until
+    no switching has been done: */
+    while (switching) {
+      // Start by saying: no switching is done:
+      switching = false;
+      rows = table.rows;
+      /* Loop through all table rows (except the
+      first, which contains table headers): */
+      for (i = 1; i < (rows.length - 1); i++) {
+        // Start by saying there should be no switching:
+        shouldSwitch = false;
+        /* Get the two elements you want to compare,
+        one from current row and one from the next: */
+        x = rows[i].getElementsByTagName("TD")[n];
+        y = rows[i + 1].getElementsByTagName("TD")[n];
+        /* Check if the two rows should switch place,
+        based on the direction, asc or desc: */
+        if (dir == "asc") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        } else if (dir == "desc") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            // If so, mark as a switch and break the loop:
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        /* If a switch has been marked, make the switch
+        and mark that a switch has been done: */
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        // Each time a switch is done, increase this count by 1:
+        switchcount++;
+      } else {
+        /* If no switching has been done AND the direction is "asc",
+        set the direction to "desc" and run the while loop again. */
+        if (switchcount == 0 && dir == "asc") {
+          dir = "desc";
+          switching = true;
+        }
+      }
+    }
+    highlightColumn(myTable, n, dir);
+  }
+
+  function highlightColumn(myTable, myCol, myDir) {
+    $("#" + myTable + " td").removeClass("col-highlight");
+    $("#" + myTable + " th").removeClass("col-highlight");
+    $("#" + myTable + " .table-sort").removeClass("fa-rotate-180");
+    $("#" + myTable + " tr .table-sort").removeClass("col-active");
+    $("#" + myTable + " tr").find("td:eq(" + myCol + ")").addClass("col-highlight");
+    $("#" + myTable + " tr").find("th:eq(" + myCol + ")").addClass("col-highlight");
+    $("#" + myTable + " tr").find("th:eq(" + myCol + ")").addClass("col-highlight");
+    $("#" + myTable + " th:eq(" + myCol + ")").find(".table-sort").addClass("col-active");
+    if (myDir == "desc") {
+      $("#" + myTable + "  .col-active").addClass("fa-rotate-180");
+    }
+  }
+
+  var TableLastSortedColumn = -1;
+  var dateSortOrder = "asc";
+  function sortTableByDate(myTable, myCol, dateFormat) {
+    var sortColumn = myCol;
+    var type = "D"; //arguments.length > 1 ? arguments[1] : 'T';
+    var dateformat = "dmy"; //arguments.length > 2 ? arguments[2] : '';
+    var table = document.getElementById(myTable);
+    var tbody = table.getElementsByTagName("tbody")[0];
+    var rows = tbody.getElementsByTagName("tr");
+    var arrayOfRows = new Array();
+    type = type.toUpperCase();
+    dateformat = dateformat.toLowerCase();
+    for (var i = 0, len = rows.length; i < len; i++) {
+      arrayOfRows[i] = new Object;
+      arrayOfRows[i].oldIndex = i;
+      var celltext = rows[i].getElementsByTagName("td")[sortColumn].innerHTML.replace(/<[^>]*>/g, "");
+      if (type == 'D') { arrayOfRows[i].value = GetDateSortingKey(dateformat, celltext); }
+      else {
+        var re = type == "N" ? /[^\.\-\+\d]/g : /[^a-zA-Z0-9]/g;
+        arrayOfRows[i].value = celltext.replace(re, "").substr(0, 25).toLowerCase();
+      }
+    }
+    if (sortColumn == TableLastSortedColumn) {
+      arrayOfRows.reverse();
+      if (dateSortOrder == "desc") {
+        dateSortOrder = "asc";
+      } else {
+        dateSortOrder = "desc";
+      }
+    } else {
+      TableLastSortedColumn = sortColumn;
+      switch (type) {
+        case "N": arrayOfRows.sort(CompareRowOfNumbers); break;
+        case "D": arrayOfRows.sort(CompareRowOfNumbers); break;
+        default: arrayOfRows.sort(CompareRowOfText);
+      }
+    }
+    var newTableBody = document.createElement("tbody");
+    for (var i = 0, len = arrayOfRows.length; i < len; i++) {
+      newTableBody.appendChild(rows[arrayOfRows[i].oldIndex].cloneNode(true));
+    }
+    table.replaceChild(newTableBody, tbody);
+    highlightColumn(myTable, myCol, dateSortOrder);
+  } // function SortTable()
+
+  function CompareRowOfText(a, b) {
+    var aval = a.value;
+    var bval = b.value;
+    return (aval == bval ? 0 : (aval > bval ? 1 : -1));
+  } // function CompareRowOfText()
+
+  function CompareRowOfNumbers(a, b) {
+    var aval = /\d/.test(a.value) ? parseFloat(a.value) : 0;
+    var bval = /\d/.test(b.value) ? parseFloat(b.value) : 0;
+    return (aval == bval ? 0 : (aval > bval ? 1 : -1));
+  } // function CompareRowOfNumbers()
+
+  function GetDateSortingKey(format, text) {
+    if (format.length < 1) { return ""; }
+    format = format.toLowerCase();
+    text = text.toLowerCase();
+    text = text.replace(/^[^a-z0-9]*/, "");
+    text = text.replace(/[^a-z0-9]*$/, "");
+    if (text.length < 1) { return ""; }
+    text = text.replace(/[^a-z0-9]+/g, ",");
+    var date = text.split(",");
+    if (date.length < 3) { return ""; }
+    var d = 0, m = 0, y = 0;
+    for (var i = 0; i < 3; i++) {
+      var ts = format.substr(i, 1);
+      if (ts == "d") { d = date[i]; }
+      else if (ts == "m") { m = date[i]; }
+      else if (ts == "y") { y = date[i]; }
+    }
+    d = d.replace(/^0/, "");
+    if (d < 10) { d = "0" + d; }
+    if (/[a-z]/.test(m)) {
+      m = m.substr(0, 3);
+      switch (m) {
+        case "jan": m = String(1); break;
+        case "feb": m = String(2); break;
+        case "mar": m = String(3); break;
+        case "apr": m = String(4); break;
+        case "may": m = String(5); break;
+        case "jun": m = String(6); break;
+        case "jul": m = String(7); break;
+        case "aug": m = String(8); break;
+        case "sep": m = String(9); break;
+        case "oct": m = String(10); break;
+        case "nov": m = String(11); break;
+        case "dec": m = String(12); break;
+        default: m = String(0);
+      }
+    }
+    m = m.replace(/^0/, "");
+    if (m < 10) { m = "0" + m; }
+    y = parseInt(y);
+    if (y < 100) { y = parseInt(y) + 2000; }
+    return "" + String(y) + "" + String(m) + "" + String(d) + "";
+  } // function GetDateSortingKey()
+
+
+
+</script>
