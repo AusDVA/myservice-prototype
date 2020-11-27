@@ -273,7 +273,7 @@
         hideAll();
         $(".manage").show();
       } else {
-        addSummary('commemoration');
+        addSummaryCancel('commemoration');
       }
     }
 
@@ -336,6 +336,7 @@
       var myAdd = myDiv + " #addButton";
       $(myDelete).show();
       $(myDiv).show();
+      $("#update-success").hide();
     }
 
     function editCardNo(cardType) {
@@ -346,9 +347,21 @@
       var myAdd = myDiv + " #addButton";
       $(myDelete).show();
       $(myDiv).show();
+      $("#update-success").hide();
     }
 
     function addSummary(cardType) {
+      hideAll();
+      mySelection = $('input[name="receive-commemoration"]:checked').val();
+      if (mySelection == "yes") {
+        var myDiv = "#" + cardType + "-summary";
+      } else {
+        var myDiv = "#" + cardType + "-summary-no";
+      }
+      $(myDiv).show();
+      $("#update-success").show();
+    }
+    function addSummaryCancel(cardType) {
       hideAll();
       mySelection = $('input[name="receive-commemoration"]:checked').val();
       if (mySelection == "yes") {
@@ -364,16 +377,17 @@
       $("#commemoration-summary").hide();
       $("#commemoration-summary-no").hide();
       $("#commemoration-summary-deleted").hide();
+      $("#update-success").hide();
     }
 
     function deleteBox() {
-      hideAll();
-      $(".manage").show();
+      window.location.href = "#open-delete-modal";
+      // hideAll();
+      // $(".manage").show();
     }
-
+    
     $("#receive-commemoration-container").click(function () {
       clearPrePopAfterYesNo();
     });
-
 
   </script>
