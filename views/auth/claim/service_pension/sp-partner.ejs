@@ -110,6 +110,14 @@
 
 
         <%- include(partials+"faqs/relationship-status") %>
+
+        <%- include(partials+"components/form-partials/notice", {
+          message: "<p>We are changing the way we collect and use your personal information.</p><p>You will need to <a href='/auth/profile/partner-consent'>provide your partner's consent</a> before you can proceed with the claim.</p><p>Alternatively, call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>) for assistance with other ways of providing your partner's consent.</p>",
+          type: "error",
+          id: "partner-consent",
+          modifiers: ["hidden"]
+        }); %>
+
         <!-- Married -->
 
         <%- include(forms+"date", {
@@ -376,7 +384,7 @@ locals.el.optionalHint = '(last name)';
         onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
       <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
       <div class="floated">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and
+        <button class="uikit-btn uikit-btn--tertiary btnExit" onclick="window.location.href='/auth/claim'">Save and
           exit</button>
         <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
       </div>
@@ -604,6 +612,7 @@ locals.el.optionalHint = '(last name)';
 
     $('input[name=relationship-status]').change(function () {
       mySelection = $('input[name=relationship-status]:checked').val();
+      console.log( mySelection)
       hideAll();
       switch (mySelection) {
         case "single":
@@ -619,20 +628,22 @@ locals.el.optionalHint = '(last name)';
           $("#save-and-next").show("fast");
           break;
         case "separatedwhilestilllegallymarried":
-          sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-separation-container").show("fast");
-          $("#notice-separation").show("fast");
+        $("#partner-consent-container").show();
+          block();
           break;
         case "married":
-          sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-marriage-container").show("fast");
-          $("#partner-details").show("fast");
+          $("#partner-consent-container").show();
+          block();
           break;
         case "defacto":
-          sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-living-together-container").show("fast");
-          $("#partner-details").show("fast");
+           $("#partner-consent-container").show();
+           block();
           break;
+        // case "defacto":
+        //   sessionStorage.setItem('partnerStatus', 'partnered');
+        //   $("#date-living-together-container").show("fast");
+        //   $("#partner-details").show("fast");
+        //   break;
         default:
       }
     });
@@ -689,6 +700,7 @@ locals.el.optionalHint = '(last name)';
     }
 
     function hideAll() {
+      unBlock();
       $("#date-marriage-container").hide();
       $("#date-living-together-container").hide();
       $("#other-ps").hide();
@@ -701,8 +713,18 @@ locals.el.optionalHint = '(last name)';
       $("#save-and-next").hide();
       $("#partnered-pre-pop").hide();
       $("#single-pre-pop").hide();
+      $("#partner-consent-container").hide();
     }
   });
+
+  function block(){
+    $(".btnNext").attr("disabled","true");
+    $(".btnExit").attr("disabled","true");
+  }
+  function unBlock(){
+    $(".btnNext").removeAttr("disabled");
+    $(".btnExit").removeAttr("disabled");
+  }
 
 </script>
 </body>
