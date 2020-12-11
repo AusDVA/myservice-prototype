@@ -11,11 +11,14 @@
     id: "past-transactions"
   }); %>
 
-  <%- include(partials+"components/form-partials/checkbox", {
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Partner consent",
     boxes: [
-      "No partner consent"
+      "Partner consent provided",
+      "Partner consent not provided",
+      "Partner consent pending"
     ],
-    id: "no-consent",
+    id: "partner-consent",
     customClass: "margin-below--none"
   }); %>
 
@@ -24,8 +27,7 @@
 <script>
 
   var pastTransactions;
-
-  console.log( pastTransactions)
+  var partnerConsent;
 
   $(document).ready(function () {
     $(document).keypress(function (e) {
@@ -34,27 +36,40 @@
           $('#state-switcher').toggle();
           break;
         default:
+            break;
       }
     });
+  });
 
     $("#past-transactions-1").prop("checked", true);
+    $("#partner-consent-1").prop("checked", true);
+
     $('input[name=past-transactions]').change(function () {
       pastTransactions = $(this).val();
       stateSwitcher();
     });
 
-    $('#no-consent-1').change(function() {
-    updateConsent();  
-  });
+    $('input[name=partner-consent]').change(function () {
+      partnerConsent = $(this).val();
+      updateConsent();
+    });
 
-function updateConsent() {
-    var myConsent = $("#no-consent-1").is(":checked");
-    if ( myConsent ) {
-      $("#no-consent-message-container").show();
-    } else {
+    function updateConsent() {
       $("#no-consent-message-container").hide();
+      $("#pending-consent-message-container").hide();
+      switch (partnerConsent) {
+        case "partnerconsentprovided":
+          break;
+        case "partnerconsentnotprovided":
+          $("#no-consent-message-container").show();
+          break;
+        case "partnerconsentpending":
+          $("#pending-consent-message-container").show();
+          break;
+        default:
+          break;
+      }
     }
-  }  
-});
+  
 
 </script>
