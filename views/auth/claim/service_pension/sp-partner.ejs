@@ -347,6 +347,52 @@ locals.el.optionalHint = '(last name)';
       <p>Choose <b>save and next</b> to continue.</p>
     </div>
   </div>
+  <div class="container container--8-column" id="partnered-pre-pop-no-consent" style="display: none;">
+    <div class="margin-above--extra margin-below--extra">
+      <div id="partnered-pre-pop--current-partner" class="form-group">
+        <legend class="legend-label">Is this your current partner?</legend>
+        <div class="table">
+          <div class="tr">
+            <div class="td"><b>Partner name</b></div>
+            <div class="td">Jan Citizen</div>
+          </div>
+          <div class="tr">
+            <div class="td"><b>Date of birth</b></div>
+            <div class="td">12/04/1985</div>
+          </div>
+        </div>
+        <div class="radio-toggle margin-above">
+          <label class="on label-left" for="partnered-pre-pop--current-partner--yes--no-consent">
+            <input id="partnered-pre-pop--current-partner--yes--no-consent" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>Yes</span>
+          </label>
+          <label class="off label-right" for="partnered-pre-pop--current-partner--no--no-consent">
+            <input id="partnered-pre-pop--current-partner--no--no-consent" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="partnered-no-longer--no-consent" class="margin-above--extra" style="display: none">
+        <div class="ledger-rule"></div>
+        <%- include(forms+"date", {
+                label: "What date did the relationship end?",
+                id: "relationship-end-date"
+              }) %>
+      </div>
+      <%- include(partials+"components/form-partials/notice", {
+        message: "<p>We are changing the way we collect and use your personal information.</p><p>You will need to <a href='/auth/profile/partner-consent'>provide your partner's consent</a> before you can proceed with the claim.</p><p>Alternatively, call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>) for assistance with other ways of providing your partner's consent.</p>",
+        type: "error",
+        id: "partner-consent-b",
+        modifiers: ["hidden"]
+      }); %>
+    </div>
+    <div id="ppp--save-and-next" class="margin-above" style="display: none">
+      <p>Choose <b>save and next</b> to continue.</p>
+    </div>
+  </div>
   <div class="container container--8-column" id="single-pre-pop" style="display: none;">
     <form id="myForm">
       <div class="margin-above--extra margin-below--extra">
@@ -408,8 +454,8 @@ locals.el.optionalHint = '(last name)';
   <% 
               locals.el = new Object();
               locals.el.question = 'Relationship status';
-              locals.el.items = ["Known partner","Known single","Status unknown"];
-              locals.el.optionalItemID = ["partnered-pre-pop","single-pre-pop","cleanskin"];
+              locals.el.items = ["Known partner with consent","Known partner without consent","Known single","Status unknown"];
+              locals.el.optionalItemID = ["partnered-pre-pop","partnered-pre-pop-no-consent","single-pre-pop","cleanskin"];
             %>
   <%- include(partials+"components/form-elements/radio", locals) %>
   <% 
@@ -440,6 +486,9 @@ locals.el.optionalHint = '(last name)';
       switch (mySelection) {
         case "partnered-pre-pop":
           showScenario("partnered-pre-pop");
+          break;
+        case "partnered-pre-pop-no-consent":
+          showScenario("partnered-pre-pop-no-consent");
           break;
         case "single-pre-pop":
           showScenario("single-pre-pop");
@@ -539,6 +588,9 @@ locals.el.optionalHint = '(last name)';
         case "partnered-pre-pop":
           $("#partnered-pre-pop").show();
           break;
+          case "partnered-pre-pop-no-consent":
+          $("#partnered-pre-pop-no-consent").show();
+          break;
         case "single-pre-pop":
           $("#single-pre-pop").show();
           break;
@@ -566,6 +618,27 @@ locals.el.optionalHint = '(last name)';
     $("#partnered-pre-pop--current-partner--no").click(function () {
       $("#partnered-pre-pop--options").hide("fast");
       $("#partnered-no-longer").show("fast");
+    });
+
+     /* partnered pre pop no consent*/
+
+    //  $("#ppp-relationship").change(function () {
+    //   if ($('#ppp-relationship :selected').val() == "Married") {
+    //     $("#ppp-married-date-container").show();
+    //   } else {
+    //     $("#ppp-married-date-container").hide();
+    //   }
+    // });
+
+    $("#partnered-pre-pop--current-partner--yes--no-consent").click(function () {
+      $("#partnered-no-longer--no-consent").hide("fast");
+      $("#partner-consent-b-container").show();
+      block();
+    });
+    $("#partnered-pre-pop--current-partner--no--no-consent").click(function () {
+      $("#partnered-no-longer--no-consent").show("fast");
+      $("#partner-consent-b-container").hide();
+      unBlock();
     });
 
     /* partnered */
@@ -712,8 +785,11 @@ locals.el.optionalHint = '(last name)';
       $("#crn").hide();
       $("#save-and-next").hide();
       $("#partnered-pre-pop").hide();
+      $("#partnered-pre-pop-no-consent").hide();
       $("#single-pre-pop").hide();
       $("#partner-consent-container").hide();
+      $("#partnered-no-longer--no-consent").hide();
+      $("#partner-consent-b-container").hide();
     }
   });
 
