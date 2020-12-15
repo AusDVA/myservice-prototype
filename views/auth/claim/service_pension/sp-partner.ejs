@@ -111,12 +111,65 @@
 
         <%- include(partials+"faqs/relationship-status") %>
 
-        <%- include(partials+"components/form-partials/notice", {
+        <%#- include(partials+"components/form-partials/notice", {
           message: "<p>We are changing the way we collect and use your personal information.</p><p>You will need to <a href='/auth/profile/partner-consent'>provide your partner's consent</a> before you can proceed with the claim.</p><p>Alternatively, call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>) for assistance with other ways of providing your partner's consent.</p>",
           type: "error",
           id: "partner-consent",
           modifiers: ["hidden"]
         }); %>
+
+        <div id="partner-consent" hidden>
+
+          <p>You will need to provide your partner's consent before proceeding with this claim.
+            Follow the steps below to provide your partner's consent to DVA.</p>
+
+          <h3 class="mys h3 margin-below--mid">Steps to provide your partner's consent:</h3>
+          <ol>
+            <li>Download and complete the <a>partner declaration and consent form</a>.</li>
+            <li>Upload the completed form below.</li>
+            <li>Your claim will be saved - allow one week for processing and then resume your claim.</li>
+          </ol>
+
+          <style>
+            .doc-upload {
+              display: grid;
+              grid-gap: 20px;
+              grid-auto-flow: column;
+              align-items: center;
+            }
+          </style>
+
+          <div class="margin-above--large margin-below--mid">
+            <h3 class="mys h3">Upload your completed partner declaration and consent form<span
+                class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is
+                50MB.</span></h3>
+            <hr style="margin: 0;">
+               
+              <div class="doc-upload">
+                <i class="fal fa-paperclip fa-2x"></i>
+                <span>Partner declaration and consent form</span>
+                <button class="mys-file-uploads__item-button uikit-btn--tertiary small">Attach form</button>
+                <button class="uikit-btn small" onclick="doSubmit()">Submit</button>
+              </div> 
+          </div>
+          <hr style="margin: 0;">
+          <%- include(forms+"pagination", {
+            pagination: [
+            {
+              text: "Previous",
+              link: "/auth/claim/service_pension/sp-progress-b"
+            }
+            ],
+            customClass: ["margin-above--extra"]
+          }) %>
+              
+
+          </div>
+
+
+         
+
+        </div>
 
         <!-- Married -->
 
@@ -424,7 +477,7 @@ locals.el.optionalHint = '(last name)';
     </form>
     <%- include(partials+"content/modals/claims-cancel-modal") %>
   </div> <!-- container end -->
-  <div class="container container--8-column">
+  <div id="pagination" class="container container--8-column">
     <div class="pagination">
       <button class="uikit-btn uikit-btn--tertiary"
         onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
@@ -691,25 +744,31 @@ locals.el.optionalHint = '(last name)';
         case "single":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#save-and-next").show("fast");
+          $("#pagination").show();
           break;
         case "divorced":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#date-divorced-container").show("fast");
+          $("#pagination").show();
           break;
         case "widowed":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#save-and-next").show("fast");
+          $("#pagination").show();
           break;
         case "separatedwhilestilllegallymarried":
-        $("#partner-consent-container").show();
+        $("#partner-consent").show();
+        $("#pagination").hide();
           block();
           break;
         case "married":
-          $("#partner-consent-container").show();
+          $("#partner-consent").show();
+          $("#pagination").hide();
           block();
           break;
         case "defacto":
-           $("#partner-consent-container").show();
+           $("#partner-consent").show();
+           $("#pagination").hide();
            block();
           break;
         // case "defacto":
@@ -787,7 +846,7 @@ locals.el.optionalHint = '(last name)';
       $("#partnered-pre-pop").hide();
       $("#partnered-pre-pop-no-consent").hide();
       $("#single-pre-pop").hide();
-      $("#partner-consent-container").hide();
+      $("#partner-consent").hide();
       $("#partnered-no-longer--no-consent").hide();
       $("#partner-consent-b-container").hide();
     }
