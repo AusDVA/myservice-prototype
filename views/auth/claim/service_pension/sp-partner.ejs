@@ -414,83 +414,59 @@ locals.el.optionalHint = '(last name)';
   </div> 
 
   <div class="container container--8-column margin-below--none">
-  <div id="partner-consent" hidden>
+    <div id="partner-consent" hidden>
 
-    <p>You will need to provide your partner's consent before proceeding with this claim.
-      Follow the steps below to provide your partner's consent to DVA.</p>
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Follow these steps</a> to submit the form.</p>",
+        type: "error"
+      }); %>
+    
+      <%- include(forms+"pagination", {
+        pagination: [
+        {
+          text: "Previous",
+          link: "/auth/claim/service_pension/sp-progress-b"
+        },
+        {
+          text: "Save and exit",
+          link: "/auth/claim",
+          modifiers: ["floated"]
+        }
+        ],
+        customClass: ["margin-above--extra"]
+      }) %>
+          
 
-    <h3 class="mys h3 margin-below--mid">Steps to provide your partner's consent:</h3>
-    <ol>
-      <li>Download and complete the <a>partner declaration and consent form</a>.</li>
-      <li>Upload the completed form below.</li>
-      <li>Your claim will be saved. You can resume your claim when you receive email confirmation the consent has been processed (allow approximately one week).</li>
-    </ol>
-
-    <div class="margin-above--large margin-below--mid single-doc-upload">
-      <h3 class="mys h3">Upload your completed partner declaration and consent form<span
-          class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is
-          50MB.</span>
-      </h3>
-      <hr>
-        <div class="form">
-          <div class="docs">
-            <i class="fal fa-paperclip fa-2x"></i>
-            <span>Partner declaration and consent form</span>
-          </div>
-          <div class="actions">
-            <button class="mys-file-uploads__item-button uikit-btn--tertiary small">Attach form</button>
-            <button class="uikit-btn small" onclick="doSubmit()">Submit</button>
-          </div>
-        </div> 
-      <hr>
+      </div>
+    <div id="consent-pending" hidden>
+      <h2 class="mys h2 margin-above--large margin-below--mid">Your partner consent form is being processed.</h2>
+      <p>You will be advised via email when processing is complete (allow approximately one week from date of submission). After consent is processed you will be able to resume your original claim.</p>
+      <%- include(forms+"pagination", {
+        pagination: [
+        {
+          text: "Go to home page",
+          link: "/auth"
+        }
+        ],
+        customClass: ["margin-above--extra"]
+      }) %>
     </div>
-   
-    <%- include(forms+"pagination", {
-      pagination: [
-      {
-        text: "Previous",
-        link: "/auth/claim/service_pension/sp-progress-b"
-      },
-      {
-        text: "Save and exit",
-        link: "/auth/claim",
-        modifiers: ["floated"]
-      }
-      ],
-      customClass: ["margin-above--extra"]
-    }) %>
-        
-
-    </div>
-
-  <div id="consent-pending" hidden>
-    <h2 class="mys h2 margin-below--mid">Your partner consent form has been submitted.</h2>
-    <p>Your claim has been saved and can be resumed after the partner consent form is processed (allow approximately one week).</p>
-    <%- include(forms+"pagination", {
-      pagination: [
-      {
-        text: "Go to home page",
-        link: "/auth"
-      }
-      ],
-      customClass: ["margin-above--extra"]
-    }) %>
-  </div>
-  <div id="pagination" class="container container--8-column">
-    <div class="pagination">
-      <button class="uikit-btn uikit-btn--tertiary"
-        onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
-      <div class="floated">
-        <button class="uikit-btn uikit-btn--tertiary btnExit" onclick="window.location.href='/auth/claim'">Save and
-          exit</button>
-        <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+    <div id="pagination" class="container container--8-column">
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary"
+          onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary btnExit" onclick="window.location.href='/auth/claim'">Save and
+            exit</button>
+          <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+        </div>
       </div>
     </div>
-  </div>
 </div>
 </main>
 <%- include(partials+"components/layout/footer") %>
+
 <div id="state-switcher">
   <h3>Page info</h3>
   <div class="review__table">
@@ -507,8 +483,8 @@ locals.el.optionalHint = '(last name)';
   <% 
               locals.el = new Object();
               locals.el.question = 'Relationship status';
-              locals.el.items = ["Known partner with consent","Known partner without consent","Known single","Status unknown"];
-              locals.el.optionalItemID = ["partnered-pre-pop","partnered-pre-pop-no-consent","single-pre-pop","cleanskin"];
+              locals.el.items = ["Known partner with consent","Known partner without consent","Known single","Status unknown","Consent pending"];
+              locals.el.optionalItemID = ["partnered-pre-pop","partnered-pre-pop-no-consent","single-pre-pop","cleanskin","consentpending"];
             %>
   <%- include(partials+"components/form-elements/radio", locals) %>
   <% 
@@ -548,6 +524,9 @@ locals.el.optionalHint = '(last name)';
           break;
         case "cleanskin":
           showScenario("cleanskin");
+          break;
+          case "consentpending":
+          showScenario("consentpending");
           break;
         default:
       }
@@ -649,6 +628,10 @@ locals.el.optionalHint = '(last name)';
           break;
         case "cleanskin":
           $("#cleanskin").show();
+          break;
+          case "consentpending":
+          $("#consent-pending").show();
+          $("#pagination").hide();
           break;
         default:
       }
@@ -836,6 +819,7 @@ locals.el.optionalHint = '(last name)';
       $("#partner-consent").hide();
       $("#partnered-no-longer--no-consent").hide();
       $("#partner-consent-b-container").hide();
+      $("#consent-pending").hide();
     }
   });
 
