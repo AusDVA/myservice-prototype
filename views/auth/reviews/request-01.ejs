@@ -1,0 +1,235 @@
+<%- include(templates+"header", {
+  claim: "MyService - Request review",
+  heading: "Decision information"
+}) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You are only eligible for travel to some types of medical practitioner. You may not, for example, be eligible for transport to a general practitioner, dentist or optometrist.</p>      <p>For further information see <a href='https://www.dva.gov.au/health-and-treatment/local-or-overseas-medical-care/arrange-taxi-or-hire-car' rel='external'>arrange for a taxi or hire car</a> or call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>)</p>",
+  type: "warning",
+  id: "under-80-notice",
+  modifiers: ["hidden"]
+}); %>
+
+
+<div class="form-group formPartials_date " id="date492-container">
+  <fieldset>
+      <legend class="uikit-text-input__label  legend-override ">
+        Enter the date of the letter advising the decision<span class="hint "> (dd / mm / yyyy)</span></legend>
+    <input type="number" class="uikit-text-input dd" name="date492-dd" id="date492-dd" maxlength="2" aria-label="2 digit day">
+    <span aria-hidden="true">/</span>
+    <input type="number" class="uikit-text-input mm" name="date492-mm" id="date492-mm" maxlength="2" aria-label="2 digit month">
+    <span aria-hidden="true">/</span>
+    <input type="number" class="uikit-text-input yyyy" name="date492-yyyy" id="date492-yyyy" maxlength="4" aria-label="4 digit year">
+    &nbsp; <button class="enter-date uikit-btn uikit-btn--primary">Submit</button>
+  </fieldset>
+</div>
+
+  <h2 class="mys h2 margin-below--small margin-above">Decisions found</h2>
+
+  <p>The following decisions match the date you have entered. Select a decision to continue. If the decision you wish to have reviewed is not shown, select “Other decision”.</p>
+
+  <table class="mys-table1 reviews--decisions">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Claim number</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr id="blank" class="placeholder" hidden>
+        <td colspan="5">You currently have no requests.</td>
+      </tr>
+
+      <tr id="item-1">
+        <td>
+            <label class="uikit-control-input">
+              <input type="radio" class="uikit-control-input__input " id="radio978-1" name="radio978" value="icecream">
+              <span class="uikit-control-input__text"></span>
+            </label>
+        </td>
+        <td data-title="Claim number">NSM123456/101</td>
+        <td data-title="Claim details">Disability Pension (VEA)</td>
+        <td data-title="Booking details">Lumbar Spondylosis<BR/>Ischaemic Heart Disease</td>
+        <td data-title="Decision date">12 Dec 2019</td>
+      </tr>
+      <tr id="item-1">
+        <td>
+            <label class="uikit-control-input">
+              <input type="radio" class="uikit-control-input__input " id="radio978-1" name="radio978" value="icecream">
+              <span class="uikit-control-input__text"></span>
+            </label>
+        </td>
+        <td data-title="Claim number">NSM123456/101</td>
+        <td data-title="Claim details">Disability Pension (VEA)</td>
+        <td data-title="Booking details">Lumbar Spondylosis<BR/>Ischaemic Heart Disease</td>
+        <td data-title="Decision date">12 Dec 2019</td>
+      </tr>
+     
+ 
+    </tbody>
+  </table>
+
+
+  <!-- <p>Only upcoming trips will be shown here. If you wish to discuss trips that are not listed please contact
+    DVA.</p> -->
+</div>
+
+  <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Previous",
+        link: "/auth/transport/"
+      },
+      {
+        text: "Submit",
+        link: "/auth/transport/index?state=one",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+  <%- include(templates+"footer") %>
+  <%#- include("book-ss") %>
+
+  <script>
+
+    var state;
+    $('input[name=trip-type]').change(function () {
+      state = $(this).val();
+      updateLayout();
+    });
+
+    function updateLayout() {
+
+      $("#one-way-type-container").hide();
+      $("#details").hide();
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();
+      $(".new-pickup").hide();
+      $(".going-to-enter").hide();
+      $(".manualinput").hide();
+
+      switch (state) {
+        case "return":
+          $("#return-notice-container").show();
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+        case "oneway":
+          $("#one-way-type-1").prop("checked", false);
+          $("#one-way-type-2").prop("checked", false);
+          $("#one-way-type-container").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+    $('input[name=one-way-type]').change(function () {
+
+      $("#details").hide();
+      $("#return-notice-container").hide();
+      $("#pickup-from-home").hide();
+      $("#pickup-from-provider").hide();
+      $("#going-to-provider").hide();
+      $("#going-to-home").hide();  
+
+      mySelect = $(this).val();
+      switch (mySelect) {
+        case "toamedicalappointment":
+          $("#pickup-from-home").show();
+          $("#going-to-provider").show();
+          $("#details").show();
+          break;
+        case "fromamedicalappointment":
+          $("#pickup-from-provider").show();
+          $("#going-to-home").show();
+          $("#details").show();
+          break;
+        default:
+          break;
+      }
+    });
+
+    $('#pickup-from-home').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#pickup-from-home #pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#pickup-from-home .new-pickup").show();
+      } else {
+        $("#pickup-from-home .new-pickup").hide();
+      }
+    });
+    $('#pickup-from-provider').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#pickup-from-provider #provider-container option:selected").text().trim();
+      if (mySelect == "Enter new destination") {
+        $("#pickup-from-provider .going-to-enter").show();
+      } else {
+        $("#pickup-from-provider .going-to-enter").hide();
+      }
+    });
+
+    $('#going-to-provider').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#going-to-provider #provider-container option:selected").text().trim();
+      if (mySelect == "Enter new destination") {
+        $("#going-to-provider .going-to-enter").show();
+      } else {
+        $("#going-to-provider .going-to-enter").hide()
+      }
+    });
+    $('#going-to-home').on('change', function () {
+      $(".manualinput").hide();
+      var mySelect = $("#going-to-home #pickup-container option:selected").text().trim();
+      if (mySelect == "Enter new address") {
+        $("#going-to-home .new-pickup").show();
+      } else {
+        $("#going-to-home .new-pickup").hide();
+      }
+    });
+
+    $('.time-selector--ampm').on('change', function () {
+      var mySelect = $(".time-selector--ampm option:selected").text().trim();
+      $("#booking-same-container").toggle();
+    });
+
+    $.urlParam = function (name) {
+      var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    }
+
+    $("#practitioner-type-container").hide();
+
+    $("#pickup-from-home input[name=address]").focusout(function () {
+      mySelect = $(this).val();
+      if (mySelect == "Enter address") {
+        $("#pickup-from-home .manualinput").show();
+      } else {
+        $("#pickup-from-home .manualinput").hide();
+      }
+    });
+    $("#going-to-provider input[name=address]").focusout(function () {
+      mySelect = $(this).val();
+      if (mySelect == "Enter address") {
+        $("#going-to-provider .manualinput").show();
+      } else {
+        $("#going-to-provider .manualinput").hide();
+      }
+    });
+
+    
+
+  </script>
