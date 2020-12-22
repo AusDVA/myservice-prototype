@@ -67,8 +67,8 @@
                 </tr>
               </thead>
               <tbody>
-                <tr id="blank" hidden>
-                  <td colspan="5" class="placeholder">You currently have no bookings.</td>
+                <tr id="blank" class="placeholder" hidden>
+                  <td colspan="5">You currently have no requests.</td>
                 </tr>
 
                 <tr id="item-1">
@@ -133,7 +133,7 @@
 <script>
 
   var state;
-  var cohort;
+  // var cohort;
 
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -143,8 +143,8 @@
     return results[1] || 0;
   }
   state = $.urlParam('state');
-  $("#cohort-1").prop("checked", true);
-  $("#past-trips-2").prop("checked", true);
+  // $("#cohort-1").prop("checked", true);
+  // $("#past-trips-2").prop("checked", true);
   stateSwitcher();
 
   function stateSwitcher() {
@@ -160,23 +160,23 @@
         $("#item-1").show();
         $("#item-2").show();
         $("#item-3").show();
-        $("#past-trips-2").prop("checked", true);
+        // $("#past-trips-2").prop("checked", true);
         break;
       case "one-one-way":
         $("#item-1").show();
         $("#item-2").show();
         $("#item-3").hide();
-        $("#cancel-success-container").show();
+        // $("#cancel-success-container").show();
         break;
       case "one-return":
         $("#item-3").show();
-        $("#cancel-success-container").show();
+        // $("#cancel-success-container").show();
         break;
       case "no-returns":
         $("#item-1").show();
         $("#item-3").show();
         $("#item-1").removeClass("return-a");
-        $("#cancel-success-container").show();
+        // $("#cancel-success-container").show();
         break;
       default:
         $("#item-1").show();
@@ -184,41 +184,12 @@
         $("#item-3").show();
         break;
     }
-    switch (cohort) {
-      case "mrcadrca":
-        $(".mrca-trips").show();
-        $(".vea-trips").hide();
-        $(".book-transport").hide();
-      $("#heading").html("Transport bookings");
-        break;
-      case "vea":
-        $(".mrca-trips").hide();
-        $(".vea-trips").show();
-        $(".book-transport").show();
-        $("#heading").html("Book transport");
-        break;
-      default:
-        break;
-    }
+   
   }
 
   $(".edit-trip").click(function () {
     window.location = "/auth/transport/book-edit";
   });
-
-  $(".view-trip").click(function () {
-    window.location = "/auth/transport/book-view";
-  });
-
-  $(".cancel-return").on("click", function () {
-    window.location.href = "#open-cancel-return-modal";
-  })
-  $(".cancel-return-only").on("click", function () {
-    window.location.href = "#open-cancel-return-only-modal";
-  })
-  $(".cancel").on("click", function () {
-    window.location.href = "#open-cancel-modal";
-  })
 
  
 </script>
