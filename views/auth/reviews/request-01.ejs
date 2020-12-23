@@ -41,7 +41,7 @@
         <tr id="item-1">
           <td>
             <span class="mys">
-              <input type="radio" id="myRadio1" name="myRadio" value="myRadioOption">
+              <input type="radio" id="myRadio1" name="myRadio" value="">
               <label for="myRadio1"></label>
             </span>
           </td>
@@ -53,7 +53,7 @@
         <tr id="item-2">
           <td>
             <span class="mys">
-              <input type="radio" id="myRadio2" name="myRadio" value="myRadioOption">
+              <input type="radio" id="myRadio2" name="myRadio" value="">
               <label for="myRadio2"></label>
             </span>
           </td>
@@ -62,160 +62,93 @@
           <td data-title="Description">Application for increase</td>
           <td data-title="Decision date">1 Dec 2019</td>
         </tr>
-        <tr id="item-3">
+        <tr id="none">
           <td>
             <span class="mys">
-              <input type="radio" id="myRadio3" name="myRadio" value="myRadioOption">
+              <input type="radio" id="myRadio3" name="myRadio" value="">
               <label for="myRadio3"></label>
             </span>
           </td>
-          <td colspan="4">None of the above</td>
+          <td colspan="4">
+            <span style="display: inline-block;">None of the above</span>
+          </td>
         </tr>
       </tbody>
     </table>
 
-    <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Select matters relating to the decision you wish to have reviewed" , 
+      options: [
+       "-- Select an option --"
+      , "Age pension" , "Aged / home care (income and assets)" , "Attendant allowance" , "Clothing allowance"
+      , "Commonwealth Senior’s Health Card" , "Decoration allowance or Victoria Cross allowance " , "Funeral benefits"
+      , "Gold Card" , "Loss of earnings allowance" , "Lump sum advance of pension" , "Pension bonus scheme"
+      , "Recreational transport allowance" , "Repatriation Pharmaceutical Benefits Card (Orange Card)"
+      , "Qualifying service" , "Assessment of income" , "Assessment of assets"
+      , "Rejection of injury or disease as service related" , "Permanent Impairment" , "Incapacity payments"
+      , "Claim for compensation to a dependant following the death of a member"
+      , "Rejection of veteran’s death as service related" , "Rejection of injury or disease as service related"
+      , "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)" , "None of the above" ],
+      modifiers: ["hidden"],
+      id: "other-decision"
+    }); %>
 
-    <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/transport/" }, { text: "Submit" ,
-      link: "/auth/transport/index?state=one" , modifiers: ["floated", "primary" ] } ] }) %>
+      <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
 
-      <%- include(templates+"footer") %>
-        <%#- include("book-ss") %>
+      <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/transport/" }, { text: "Submit"
+        , link: "/auth/transport/index?state=one" , modifiers: ["floated", "primary" ] } ] }) %>
 
-          <script>
+        <%- include(templates+"footer") %>
+          <%#- include("book-ss") %>
 
-            var state;
-            $('input[name=trip-type]').change(function () {
-              state = $(this).val();
-              updateLayout();
-            });
+<script>
 
-            function updateLayout() {
+  // var state;
+  // $('input[name=trip-type]').change(function () {
+  //   state = $(this).val();
+  //   updateLayout();
+  // });
 
-              $("#one-way-type-container").hide();
-              $("#details").hide();
-              $("#return-notice-container").hide();
-              $("#pickup-from-home").hide();
-              $("#pickup-from-provider").hide();
-              $("#going-to-provider").hide();
-              $("#going-to-home").hide();
-              $(".new-pickup").hide();
-              $(".going-to-enter").hide();
-              $(".manualinput").hide();
+  // function updateLayout() {
+  // }
 
-              switch (state) {
-                case "return":
-                  $("#return-notice-container").show();
-                  $("#pickup-from-home").show();
-                  $("#going-to-provider").show();
-                  $("#details").show();
-                  break;
-                case "oneway":
-                  $("#one-way-type-1").prop("checked", false);
-                  $("#one-way-type-2").prop("checked", false);
-                  $("#one-way-type-container").show();
-                  break;
-                default:
-                  break;
-              }
-            }
+  // $.urlParam = function (name) {
+  //   var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  //   if (results == null) {
+  //     return 0;
+  //   }
+  //   return results[1] || 0;
+  // }
 
-            $('input[name=one-way-type]').change(function () {
+  $('#decisionForm > input').on('change', function () {
+    console.log ($('input[name=myRadio]:checked', '#decisionForm').val());
+  });
 
-              $("#details").hide();
-              $("#return-notice-container").hide();
-              $("#pickup-from-home").hide();
-              $("#pickup-from-provider").hide();
-              $("#going-to-provider").hide();
-              $("#going-to-home").hide();
+  $('.reviews--decisions tr').click(function() {
+    $(this).find('td input:radio').prop('checked', true);
+})
 
-              mySelect = $(this).val();
-              switch (mySelect) {
-                case "toamedicalappointment":
-                  $("#pickup-from-home").show();
-                  $("#going-to-provider").show();
-                  $("#details").show();
-                  break;
-                case "fromamedicalappointment":
-                  $("#pickup-from-provider").show();
-                  $("#going-to-home").show();
-                  $("#details").show();
-                  break;
-                default:
-                  break;
-              }
-            });
+$('.reviews--decisions input[type="radio"]').click(function(){
+      selectedRow = $(this).closest('tr').attr('id');
+      updateForm( selectedRow )
+    });
 
-            $('#pickup-from-home').on('change', function () {
-              $(".manualinput").hide();
-              var mySelect = $("#pickup-from-home #pickup-container option:selected").text().trim();
-              if (mySelect == "Enter new address") {
-                $("#pickup-from-home .new-pickup").show();
-              } else {
-                $("#pickup-from-home .new-pickup").hide();
-              }
-            });
-            $('#pickup-from-provider').on('change', function () {
-              $(".manualinput").hide();
-              var mySelect = $("#pickup-from-provider #provider-container option:selected").text().trim();
-              if (mySelect == "Enter new destination") {
-                $("#pickup-from-provider .going-to-enter").show();
-              } else {
-                $("#pickup-from-provider .going-to-enter").hide();
-              }
-            });
+    $('.reviews--decisions tr').click(function(){
+      selectedRow = $(this).attr('id'); 
+      updateForm( selectedRow )
+    });
 
-            $('#going-to-provider').on('change', function () {
-              $(".manualinput").hide();
-              var mySelect = $("#going-to-provider #provider-container option:selected").text().trim();
-              if (mySelect == "Enter new destination") {
-                $("#going-to-provider .going-to-enter").show();
-              } else {
-                $("#going-to-provider .going-to-enter").hide()
-              }
-            });
-            $('#going-to-home').on('change', function () {
-              $(".manualinput").hide();
-              var mySelect = $("#going-to-home #pickup-container option:selected").text().trim();
-              if (mySelect == "Enter new address") {
-                $("#going-to-home .new-pickup").show();
-              } else {
-                $("#going-to-home .new-pickup").hide();
-              }
-            });
-
-            $('.time-selector--ampm').on('change', function () {
-              var mySelect = $(".time-selector--ampm option:selected").text().trim();
-              $("#booking-same-container").toggle();
-            });
-
-            $.urlParam = function (name) {
-              var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-              if (results == null) {
-                return 0;
-              }
-              return results[1] || 0;
-            }
-
-            $("#practitioner-type-container").hide();
-
-            $("#pickup-from-home input[name=address]").focusout(function () {
-              mySelect = $(this).val();
-              if (mySelect == "Enter address") {
-                $("#pickup-from-home .manualinput").show();
-              } else {
-                $("#pickup-from-home .manualinput").hide();
-              }
-            });
-            $("#going-to-provider input[name=address]").focusout(function () {
-              mySelect = $(this).val();
-              if (mySelect == "Enter address") {
-                $("#going-to-provider .manualinput").show();
-              } else {
-                $("#going-to-provider .manualinput").hide();
-              }
-            });
+    function updateForm( selectedRow ){
+      $("#other-decision-container").hide();
+      switch ( selectedRow ) {
+        case "none":
+          $("#other-decision-container").show();
+          break;
+        default:
+          break;
+      }
+    }
 
 
 
-          </script>
+</script>
