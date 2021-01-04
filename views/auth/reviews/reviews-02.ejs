@@ -1,0 +1,78 @@
+<%- include(templates+"header", {
+  claim: "MyService - Request review",
+  heading: "Request type"
+}) %>
+
+<p>You can request to proceed with an internal review by DVA or as an appeal to the Veterans’ Review Board, or both.</p>
+
+<%- include(partials+"components/form-partials/radio", {
+  label: "Select how you would like to proceed:", 
+  boxes: [ 
+  "Request internal review by DVA (under section 31 of the VEA)",
+  "Request appeal to the Veteran’s Review Board (under section 135)",
+  "Request both."
+  ],
+  id:"options"
+ }); %>
+
+ <%- include(partials+"components/form-partials/notice", {
+  message: "<h3 class='mys h3 margin-below--mid'>Important information</h3><p>As there are time limits for lodging reviews and appeals, you should consider selecting 'request both'. This way you can still proceed with an appeal if your internal review is not favourable.</p><p>Read more aout the <a href=''>Veteran Review Board</a> and <a href=''>reconsiderations and appeals under MRCA</a>.</p>",
+  modifiers: ["hidden"],
+  id:"info",
+  modifiers: [ "hidden"]
+}); %>
+
+<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/reviews/review-01",
+    },
+    {
+        text: "Cancel",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        id: "btnNext",
+        link: "/auth/review/",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "btnNext",
+        link: "/auth/reviews/reviews-03",
+        modifiers: ["primary", "floated"]
+      }
+    ]
+  }) %>
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+
+<script>
+
+$('#myForm input').on('change', function() {
+   alert($('input[name=radioName]:checked', '#myForm').val()); 
+});
+
+
+   $("#options-container").change(function () {
+      mySelection = $('input[name=options]:checked').val().substr(0,15);
+      $("#info-container").hide();
+      switch ( mySelection ) {
+        case "requestinternal":
+          $("#info-container").show();
+          break;
+        case "requestappealto":
+          break;
+        case "requestboth":
+          break;
+        default:
+          break;
+      }
+   });
+</script>
+
+
