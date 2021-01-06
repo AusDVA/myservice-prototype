@@ -3,7 +3,8 @@
   <form id="myform">
     <input type="reset" style="display:none">
     <div id="decisions-found">
-      <p>Select a claim that is related to the decision you would like to have reviewed. If the claim you are looking for is not listed select “Other".</p>
+      <p><strong>Select a claim that is related to the decision you would like to have reviewed.</strong>
+      <BR/>If the claim you are looking for is not listed select “Other".</p>
       <table class="mys-table1 reviews--decisions margin-below--extra">
         <thead>
           <tr>
@@ -52,26 +53,25 @@
     </div>
   </form>
 
-
-  <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+  <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
 
   <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/" },  {
-    text: "Cancel",
-    link: "#claim-cancel-modal"
-  },{
-    text: "Save and exit" , link: "/auth/reviews/index?state=one" , modifiers: ["floated" ] }, { text: "Save and next"
-    , link: "/auth/reviews/reviews-01a" , modifiers: ["floated", "primary" ] } ] }) %>
+      text: "Cancel",
+      link: "#claim-cancel-modal"
+    },
+    {
+      text: "Save and exit", 
+      link: "/auth/reviews/index?state=one", 
+      modifiers: ["floated" ] }, 
+    { 
+      text: "Save and next", 
+      link: "javascript:goNext()", 
+      modifiers: ["floated", "primary" ] 
+    } ] }) %>
 
     <%- include(templates+"footer") %>
 
       <script>
-
-        $('.enter-date').click(function () {
-          $('td input:radio').prop('checked', false);
-          $('#other-decision>option:eq(0)').prop('selected', true);
-          hideAll();
-          $("#decisions-found").show();
-        })
 
         $('.reviews--decisions tr').click(function () {
           $(this).find('td input:radio').prop('checked', true);
@@ -89,58 +89,20 @@
           updateForm(selectedRow)
         });
 
+        var selected;
         function updateForm(selectedRow) {
-          hideAll();
           switch (selectedRow) {
             case "none":
-              $("#other-decision-container").show();
+              selected = "other";
               break;
             default:
-              $("#reason-text-container").show();
-              $("#disab-container").show();
+              selected = "disab";
               break;
           }
         }
 
-        $("#other-decision-container").change(function () {
-          mySelection = $('#other-decision-container :selected').val();
-          $("#reason-text-container").show();
-        });
-
-
-
-        $("#type-container").change(function () {
-      mySelection = $('input[name=type]:checked').val().substr(0,5);
-      hideAll();
-      $("#reason-text-container").show();
-      switch ( mySelection ) {
-        case "disab":
-          $("#disab-container").show();
-          break;
-        case "rejec":
-        $("#rejec-container").show();
-          break;
-        case "servi":
-        $("#servi-container").show();
-          break;
-          case "other":
-        $("#other-container").show();
-          break;
-        default:
-          break;
-      }
-   });
-
-   function hideAll(){
-    $("#other-decision-container").hide();
-          $("#reason-text-container").hide();
-        $("#disab-container").hide();
-        $("#rejec-container").hide();
-        $("#servi-container").hide();
-        $("#other-container").hide();
-        $("#reason-text-container").hide();
-   }
-
-
+        function goNext(){
+          window.location = "/auth/reviews/reviews-02?state=" + selected;
+        }
 
       </script>

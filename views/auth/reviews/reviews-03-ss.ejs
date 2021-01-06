@@ -1,0 +1,35 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "State",
+    boxes: [
+      "Disability claim",
+      "Other"
+    ],
+    id: "type"
+  }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $('input[name=type]').change(function () {
+      state = $(this).val().substr(0,5);
+      updatePage();
+    });
+
+  });
+
+</script>

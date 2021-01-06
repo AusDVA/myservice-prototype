@@ -1,78 +1,129 @@
-<%- include(templates+"header", {
-  claim: "MyService - Request review",
-  heading: "Request type"
-}) %>
+<%- include(templates+"header", { claim: "MyService - Request review" , heading: "Reason for request" }) %>
 
-<p>You can request to proceed with an internal review by DVA or as an appeal to the Veterans’ Review Board, or both.</p>
-
-<%- include(partials+"components/form-partials/radio", {
-  label: "Select how you would like to proceed:", 
+<%- include(partials+"components/form-partials/checkbox", {
+  label: "Select matters relating to the decision you wish to have reviewed",
+  hint: "(optional)",
   boxes: [ 
-  "Request internal review by DVA (under section 31 of the VEA)",
-  "Request appeal to the Veteran’s Review Board (under section 135)",
-  "Request both."
+  "Rejection of injury or disease as service related", 
+  "Permanent Impairment", 
+  "Assessment of the rate of disability pension", 
+  "Incapacity payments", 
+  "Claim for compensation to a dependant following the death of a member", 
+  "Other (for example, treatment, attendant care, household services, rehabilitation)"
   ],
-  id:"options"
- }); %>
-
- <%- include(partials+"components/form-partials/notice", {
-  message: "<h3 class='mys h3 margin-below--mid'>Important information</h3><p>As there are time limits for lodging reviews and appeals, you should consider selecting 'request both'. This way you can still proceed with an appeal if your internal review is not favourable.</p><p>Read more aout the <a href=''>Veteran Review Board</a> and <a href=''>reconsiderations and appeals under MRCA</a>.</p>",
-  modifiers: ["hidden"],
-  id:"info",
-  modifiers: [ "hidden"]
+  modifiers: ["hidden"], 
+  id: "disab" 
 }); %>
 
-<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Select the matter/s relating to the decision you wish to have reviewed", 
+  hint: "(optional)",
+  options: [ 
+  "-- Select an option --",
+  "Qualifying service", 
+  "Assessment of income", 
+  "Assessment of assets", 
+  "Age pension", 
+  "Other"
+  ],
+  modifiers: ["hidden"], 
+  id: "servi" 
+}); %>
 
-<%- include(forms+"pagination", {
-    pagination: [
-    {
-      text: "Previous",
-      link: "/auth/reviews/reviews-01a",
-    },
-    {
-        text: "Cancel",
-        link: "#claim-cancel-modal"
-      },
-      {
-        text: "Save and exit",
-        id: "btnNext",
-        link: "/auth/review/",
-        modifiers: ["floated"]
-      },
-      {
-        text: "Save and next",
-        id: "btnNext",
-        link: "/auth/reviews/reviews-03",
-        modifiers: ["primary", "floated"]
-      }
-    ]
-  }) %>
-<%- include(forms+"modals/claim-cancel") %>
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "Select the matter/s relating to the decision you wish to have reviewed", 
+    hint: "(optional)",
+    boxes: [ 
+    "Aged / home care" , 
+    "Attendant allowance", 
+    "Clothing allowance", 
+    "Commonwealth Senior’s Health Card", 
+    "Decoration allowance or Victoria Cross allowance ", 
+    "Funeral benefits", 
+    "Gold Card", 
+    "Loss of earnings allowance", 
+    "Lump sum advance of pension", 
+    "Pension bonus scheme",
+    "Recreational transport allowance", 
+    "Repatriation Pharmaceutical Benefits Card (Orange Card)",
+    "None of the above" 
+    ],
+    modifiers: ["hidden"], 
+    id: "other" 
+  }); %>
+
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Select the matter relating to the decision you wish to have reviewed" , options: [ "-- Select an option --"
+    , "Age pension" , "Aged / home care (income and assets)" , "Attendant allowance" , "Clothing allowance"
+    , "Commonwealth Senior’s Health Card" , "Decoration allowance or Victoria Cross allowance " , "Funeral benefits"
+    , "Gold Card" , "Loss of earnings allowance" , "Lump sum advance of pension" , "Pension bonus scheme"
+    , "Recreational transport allowance" , "Repatriation Pharmaceutical Benefits Card (Orange Card)"
+    , "Qualifying service" , "Assessment of income" , "Assessment of assets"
+    , "Rejection of injury or disease as service related" , "Permanent Impairment" , "Incapacity payments"
+    , "Claim for compensation to a dependant following the death of a member"
+    , "Rejection of veteran’s death as service related" , "Rejection of injury or disease as service related"
+    , "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)" , "None of the above" ],
+    modifiers: ["hidden"], id: "other-decision" }); %>
+
+    <%- include(partials+"components/form-partials/textarea", { 
+      label: "Enter your detailed reason/s for requesting a review",
+      hint: "If necessary you may attach as a separate document.",
+      id: "reason-text" , modifiers: [ "hintNewLine"]
+    }); %>
+
+<strong>Supporting evidence</strong> (optional)
+<p>Add any relevant documents to support your request. Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
+
+<div class="mys doc-upload margin-above--small margin-below--extra">
+  <div class="file">
+    <i class="icon fal fa-file-upload fa-2x"></i>
+    <span>Document</span>
+  </div>
+  <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
+</div>
+
+<%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/reviews-01" },  {
+  text: "Cancel",
+  link: "#claim-cancel-modal"
+},{
+  text: "Save and exit" , link: "/auth/reviews/" , modifiers: ["floated" ] }, { text: "Save and next"
+  , link: "javascript:goNext();" , 
+  modifiers: ["floated", "primary" ],
+  customClass: ['margin-above--large']
+} ] }) %>
+
 <%- include(templates+"footer") %>
+<%- include("reviews-02-ss") %>
 
 <script>
-
-$('#myForm input').on('change', function() {
-   alert($('input[name=radioName]:checked', '#myForm').val()); 
-});
-
-
-   $("#options-container").change(function () {
-      mySelection = $('input[name=options]:checked').val().substr(0,15);
-      $("#info-container").hide();
-      switch ( mySelection ) {
-        case "requestinternal":
-          $("#info-container").show();
-          break;
-        case "requestappealto":
-          break;
-        case "requestboth":
-          break;
-        default:
-          break;
-      }
-   });
+  var state;
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  state = $.urlParam('state');
+  updatePage();
+  function updatePage(){
+    hideAll();
+    switch (state) {
+      case "disab":
+        $("#disab-container").show();
+        break;
+      case "other":
+      $("#other-container").show();
+        break;
+      default:
+        break;
+    }
+  }
+  function hideAll(){
+    $("#disab-container").hide();
+    $("#other-container").hide();
+  }
+  function goNext(){
+    window.location = "/auth/reviews/reviews-03?state=" + state;
+  }
 </script>
-
-

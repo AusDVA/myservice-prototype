@@ -1,28 +1,93 @@
 <%- include(templates+"header", {
   claim: "MyService - Request review",
-  heading: "Submitted",
-  modifiers: ["noHeading"]
+  heading: "Review and submit"
 }) %>
 
-  <%- include(forms+"submitting", {
-    modifiers: ["claimID"],
-    type: "submitted",
-    submitting_text: "We're submitting your request for review",
-    submitted_text: `Your request has been <b>submitted</b>`,
-    supporting_text: `<h3>Your request is being assessed.</h3>`
-  }) %> 
+<%- include(components+"review-submit", {
+      claim_title: "Request for review",
+      categories: [
+        {
+          title: "Decision information",
+          edit_url: "/auth/reviews/reviews-01",
+          data: [
+              {
+                q: "Select a claim that is related to the decision you would like to have reviewed.",
+                a: "NSM123456/101<BR/>Disability Pension (VEA)<BR/>Lumbar Spondylosis, Ischaemic Heart Disease"
+              }
+            ]
+        },
+        {
+          title: "Reason for request",
+          edit_url: "/auth/reviews/reviews-02",
+          data: [
+          {
+            q: "Select the matter/s relating to the decision you wish to have reviewed (optional)",
+            a: "Rejection of injury or disease as service related; assessment of the rate of disability pension"
+          },
+          {
+              q: "Enter your detailed reason/s for requesting a review",
+              a: "Decision has not taken into consideration certain factors."
+          }
+            ]
+        },
+        {
+          title: "Type of request",
+          edit_url: "/auth/reviews/reviews-03",
+          data: [
+              {
+                q: "Select how you would like to proceed:",
+                a: "Request internal review by DVA (under section 31 of the VEA)"
+              }
+            ]
+        },
+        {
+          title: "Nominated representative",
+          edit_url: "/auth/reviews/reviews-04",
+          data: [
+              {
+                q: "Do you wish to nominate a person to represent you in matters related to this review / appeal?",
+                a: "No"
+              }
+            ]
+        },
+        {
+          title: "Additional contact",
+          edit_url: "/auth/reviews/reviews-05",
+          data: [
+              {
+                q: "Is there any other person who DVA can contact for information in relation to this review?",
+                a: "No"
+              }
+            ]
+        }
+        ],
+        customClass: ["margin-below--extra"]
+    }) %>
 
-  <%- include(forms+"pagination", {
-    pagination: [
+
+    <%- include(forms+"pagination", {
+      pagination: [
       {
-        text: "Back to home",
-        link: "/auth/requests"
+        text: "Previous",
+        link: "/auth/reviews/reviews-05",
       },
       {
-        text: "Back to reviews",
-        link: "/auth/reviews/"
-      }
-    ]
-  }) %>
+          text: "Cancel",
+          link: "#claim-cancel-modal"
+        },
+        {
+          text: "Save and exit",
+          id: "btnNext",
+          link: "/auth/reviews",
+          modifiers: ["floated"]
+        },
+        {
+          text: "Submit",
+          id: "btnNext",
+          link: "/auth/reviews/reviews-07",
+          modifiers: ["primary", "floated"]
+        }
+      ]
+    }) %>
 
 <%- include(templates+"footer") %>
