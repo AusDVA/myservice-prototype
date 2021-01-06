@@ -1,10 +1,32 @@
 <%- include(templates+"header", { claim: "MyService - Request review" , heading: "Decision information" }) %>
 
+  <!-- <div class="form-group formPartials_date" id="date492-container">
+    <fieldset>
+      <legend class="uikit-text-input__label  legend-override ">
+        Enter the date of the letter advising the decision<span class="hint "> (dd / mm / yyyy)</span></legend>
+      <input type="number" class="uikit-text-input dd" name="date492-dd" id="date492-dd" maxlength="2"
+        aria-label="2 digit day">
+      <span aria-hidden="true">/</span>
+      <input type="number" class="uikit-text-input mm" name="date492-mm" id="date492-mm" maxlength="2"
+        aria-label="2 digit month">
+      <span aria-hidden="true">/</span>
+      <input type="number" class="uikit-text-input yyyy" name="date492-yyyy" id="date492-yyyy" maxlength="4"
+        aria-label="4 digit year">
+      &nbsp; <button class="enter-date uikit-btn uikit-btn--primary">Submit</button>
+    </fieldset>
+  </div> -->
+
   <form id="myform">
     <input type="reset" style="display:none">
+
     <div id="decisions-found">
-      <p>Select a claim that is related to the decision you would like to have reviewed. If the claim you are looking for is not listed select “Other".</p>
-      <table class="mys-table1 reviews--decisions margin-below--extra">
+
+      <h2 class="mys h2 margin-below--small margin-above--none">Decisions found</h2>
+
+      <p>The following decisions match the date you have entered. Select the decision for which you would like to request a review. If the decision you are looking for is not listed select “Other decision”.</p>
+
+        <p class="margin-below--mid"><b>Select the decision for which you would like to request a review:</b></p>
+      <table class="mys-table1 reviews--decisions">
         <thead>
           <tr>
             <th><h3 class="mys h3">Claim number</h3></th>
@@ -36,22 +58,40 @@
               </span>
             </td>
             <td data-title="Type">Disability Pension (VEA)</td>
-            <td data-title="Decision date">15 Dec 2019</td>
+            <td data-title="Decision date">1 Dec 2019</td>
             <td data-title="Description">Application for increase</td>
           </tr>
           <tr id="none">
             <td class="no-label" colspan="4">
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio3" name="myRadio" value="">
-                <label for="myRadio3">Other</label>
+                <label for="myRadio3">Other decision</label>
               </span>
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
-  </form>
 
+    </div>
+
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Select the matter relating to the decision you wish to have reviewed" , options: [ "-- Select an option --"
+      , "Age pension" , "Aged / home care (income and assets)" , "Attendant allowance" , "Clothing allowance"
+      , "Commonwealth Senior’s Health Card" , "Decoration allowance or Victoria Cross allowance " , "Funeral benefits"
+      , "Gold Card" , "Loss of earnings allowance" , "Lump sum advance of pension" , "Pension bonus scheme"
+      , "Recreational transport allowance" , "Repatriation Pharmaceutical Benefits Card (Orange Card)"
+      , "Qualifying service" , "Assessment of income" , "Assessment of assets"
+      , "Rejection of injury or disease as service related" , "Permanent Impairment" , "Incapacity payments"
+      , "Claim for compensation to a dependant following the death of a member"
+      , "Rejection of veteran’s death as service related" , "Rejection of injury or disease as service related"
+      , "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)" , "None of the above" ],
+      modifiers: ["hidden"], id: "other-decision" }); %>
+
+      <%- include(partials+"components/form-partials/textarea", { label: "Enter your reason/s for requesting a review" ,
+        hint: "Provide as much detail as possible. If more than one page attach as a separate document." ,
+        id: "reason-text" , modifiers: ["hidden", "hintNewLine"] }); %>
+
+  </form>
 
   <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
 
@@ -97,7 +137,6 @@
               break;
             default:
               $("#reason-text-container").show();
-              $("#disab-container").show();
               break;
           }
         }
@@ -107,39 +146,10 @@
           $("#reason-text-container").show();
         });
 
-
-
-        $("#type-container").change(function () {
-      mySelection = $('input[name=type]:checked').val().substr(0,5);
-      hideAll();
-      $("#reason-text-container").show();
-      switch ( mySelection ) {
-        case "disab":
-          $("#disab-container").show();
-          break;
-        case "rejec":
-        $("#rejec-container").show();
-          break;
-        case "servi":
-        $("#servi-container").show();
-          break;
-          case "other":
-        $("#other-container").show();
-          break;
-        default:
-          break;
-      }
-   });
-
-   function hideAll(){
-    $("#other-decision-container").hide();
+        function hideAll() {
+          $("#other-decision-container").hide();
           $("#reason-text-container").hide();
-        $("#disab-container").hide();
-        $("#rejec-container").hide();
-        $("#servi-container").hide();
-        $("#other-container").hide();
-        $("#reason-text-container").hide();
-   }
+        }
 
 
 

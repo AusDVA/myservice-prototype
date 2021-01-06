@@ -1,48 +1,94 @@
-<%- include(templates+"header", { claim: "MyService - Request review" , heading: "Supporting evidence" }) %>
+<%- include(templates+"header", { claim: "MyService - Request review" , heading: "Reason for request" }) %>
 
+<%- include(partials+"components/form-partials/checkbox", {
+  label: "Select matters relating to the decision you wish to have reviewed",
+  hint: "(optional)",
+  boxes: [ 
+  "Rejection of injury or disease as service related", 
+  "Permanent Impairment", 
+  "Assessment of the rate of disability pension", 
+  "Incapacity payments", 
+  "Claim for compensation to a dependant following the death of a member", 
+  "Other (for example, treatment, attendant care, household services, rehabilitation)"
+  ],
+  id: "disab" 
+}); %>
 
-        <h2 class="mys h2 margin-above--none ">Attach documents to support your request (optional)</h2>
-          <span>Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</span>
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "Select the matter relating to the decision you wish to have reviewed" , 
+  options: [ 
+  "-- Select an option --",
+  "Qualifying service", 
+  "Assessment of income", 
+  "Assessment of assets", 
+  "Age pension", 
+  "Other"
+  ],
+  modifiers: ["hidden"], 
+  id: "servi" 
+}); %>
 
-      <div class="mys-file-uploads__items margin-above--large margin-below--large">
-        <div id="doc-medical" class="mys-file-uploads__item-border">
-          <div class="mys-file-uploads__item mys-file-uploads__item--required">
-            <div class="mys-file-uploads__l-status">
-              <div class="mys-file-uploads__status mys-file-uploads__status--pending">
-                <div class="mys-file-uploads__status-icon"></div>
-                <div class="mys-file-uploads__status-sr">Success</div>
-              </div>
-            </div>
-            <div class="mys-file-uploads__info">
-              <div class="mys-file-uploads__info-item">
-                <div class="mys-file-uploads__value">
-                  <div><Strong>Document</strong></div>
-                </div>
-              </div>
-            </div>
-            <div class="mys-file-uploads__item-actions">
-              <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
-            </div>
-          </div>
-        </div>
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Select the matter relating to the decision you wish to have reviewed" , 
+    options: [ 
+    "-- Select an option --",
+    "Aged / home care" , 
+    "Attendant allowance", 
+    "Clothing allowance", 
+    "Commonwealth Senior’s Health Card", 
+    "Decoration allowance or Victoria Cross allowance ", 
+    "Funeral benefits", 
+    "Gold Card", 
+    "Loss of earnings allowance", 
+    "Lump sum advance of pension", 
+    "Pension bonus scheme",
+    "Recreational transport allowance", 
+    "Repatriation Pharmaceutical Benefits Card (Orange Card)",
+    "None of the above" 
+    ],
+    modifiers: ["hidden"], 
+    id: "other" 
+  }); %>
 
-        <!-- <div class="mys doc-upload">
-          <i class="fa fa-file"></i>
-          <span>Document</span>
-          <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
-        </div> -->
+  <%- include(partials+"components/form-partials/dropdown", {
+    label: "Select the matter relating to the decision you wish to have reviewed" , options: [ "-- Select an option --"
+    , "Age pension" , "Aged / home care (income and assets)" , "Attendant allowance" , "Clothing allowance"
+    , "Commonwealth Senior’s Health Card" , "Decoration allowance or Victoria Cross allowance " , "Funeral benefits"
+    , "Gold Card" , "Loss of earnings allowance" , "Lump sum advance of pension" , "Pension bonus scheme"
+    , "Recreational transport allowance" , "Repatriation Pharmaceutical Benefits Card (Orange Card)"
+    , "Qualifying service" , "Assessment of income" , "Assessment of assets"
+    , "Rejection of injury or disease as service related" , "Permanent Impairment" , "Incapacity payments"
+    , "Claim for compensation to a dependant following the death of a member"
+    , "Rejection of veteran’s death as service related" , "Rejection of injury or disease as service related"
+    , "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)" , "None of the above" ],
+    modifiers: ["hidden"], id: "other-decision" }); %>
 
-<br/><br/><br/><br/><br/>
+    <%- include(partials+"components/form-partials/textarea", { 
+      label: "Enter your detailed reason/s for requesting a review",
+      hint: "If necessary you may attach a separate document.",
+      id: "reason-text" , modifiers: [ "hintNewLine"]
+    }); %>
 
-      <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/reviews-01" },  {
-        text: "Cancel",
-        link: "#claim-cancel-modal"
-      },{
-        text: "Save and exit" , link: "/auth/reviews/" , modifiers: ["floated" ] }, { text: "Save and next"
-        , link: "/auth/reviews/reviews-02" , 
-        modifiers: ["floated", "primary" ],
-        customClass: ['margin-above--large']
-      } ] }) %>
+<strong>Supporting evidence</strong> (optional)
+<p>Add any relevant documents to support your request. Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
+
+<div class="mys doc-upload margin-above--small margin-below--extra">
+  <div class="file">
+    <i class="icon fal fa-file-upload fa-2x"></i>
+    <span>Document</span>
+  </div>
+  <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
+</div>
+
+<%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/reviews-01" },  {
+  text: "Cancel",
+  link: "#claim-cancel-modal"
+},{
+  text: "Save and exit" , link: "/auth/reviews/" , modifiers: ["floated" ] }, { text: "Save and next"
+  , link: "/auth/reviews/reviews-02" , 
+  modifiers: ["floated", "primary" ],
+  customClass: ['margin-above--large']
+} ] }) %>
 
 
 
