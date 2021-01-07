@@ -1,129 +1,62 @@
 <%- include(templates+"header", { claim: "MyService - Request review" , heading: "Decision information" }) %>
 
-  <div class="form-group formPartials_date" id="date492-container">
-    <fieldset>
-      <legend class="uikit-text-input__label  legend-override ">
-        Date of the letter advising the decision<span class="hint "> (dd / mm / yyyy)</span></legend>
-      <input type="number" class="uikit-text-input dd" name="date492-dd" id="date492-dd" maxlength="2"
-        aria-label="2 digit day">
-      <span aria-hidden="true">/</span>
-      <input type="number" class="uikit-text-input mm" name="date492-mm" id="date492-mm" maxlength="2"
-        aria-label="2 digit month">
-      <span aria-hidden="true">/</span>
-      <input type="number" class="uikit-text-input yyyy" name="date492-yyyy" id="date492-yyyy" maxlength="4"
-        aria-label="4 digit year">
-    </fieldset>
-  </div>
+<%- include(partials+"components/form-partials/checkbox", {
+  label: "What type of decision do you wish to have reviewed?",
+  boxes: [ 
+  "Disability pension", 
+  "War widow(er) pension", 
+  "MRCA liability or compensation", 
+  "SRCA liability or compensation", 
+  "Service pension, income support supplement or qualifying service"
+  ]
+}); %>
 
-  <%- include(partials+"components/form-partials/radio", {
-    label: "What type of claim does the decision relate to?", 
-    boxes: [ 
-    "Disability pension liability or compensation",
-    "Rejection of veterans' death as service related",
-    "Service pension / income support supplement / qualifying service",
-    "Other"
-    ],
-    id:"type"
-   }); %>
+<div class="form-group formPartials_date" id="date492-container">
+  <fieldset>
+    <legend class="uikit-text-input__label  legend-override ">
+      Enter the date of the letter advising the decision<span class="hint "> (dd / mm / yyyy)</span></legend>
+    <input type="number" class="uikit-text-input dd" name="date492-dd" id="date492-dd" maxlength="2"
+      aria-label="2 digit day">
+    <span aria-hidden="true">/</span>
+    <input type="number" class="uikit-text-input mm" name="date492-mm" id="date492-mm" maxlength="2"
+      aria-label="2 digit month">
+    <span aria-hidden="true">/</span>
+    <input type="number" class="uikit-text-input yyyy" name="date492-yyyy" id="date492-yyyy" maxlength="4"
+      aria-label="4 digit year">
+    &nbsp; <button class="enter-date uikit-btn uikit-btn--primary">Submit</button>
+  </fieldset>
+</div>
 
-   <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select the matter relating to the decision you wish to have reviewed" , 
-    options: [ 
-    "-- Select an option --",
-    "Rejection of injury or disease as service related", 
-    "Permanent Impairment", 
-    "Assessment of the rate of Disability Pension", 
-    "Incapacity payments", 
-    "Claim for compensation to a dependant following the death of a member", 
-    "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)"
-    ],
-    modifiers: ["hidden"], 
-    id: "disab" 
-  }); %>
+<%- include(partials+"components/form-partials/textarea", { 
+  label: "Enter your detailed reason/s for requesting a review",
+  hint: "If necessary you may attach as a separate document.",
+  id: "reason-text" , modifiers: [ "hintNewLine"]
+}); %>
 
-  <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select the matter relating to the decision you wish to have reviewed" , 
-    options: [ 
-    "-- Select an option --",
-    "Qualifying service", 
-    "Assessment of income", 
-    "Assessment of assets", 
-    "Age pension", 
-    "Other"
-    ],
-    modifiers: ["hidden"], 
-    id: "servi" 
-  }); %>
+<strong>Supporting evidence</strong> (optional)
+<p>Add any relevant documents to support your request. For example the letter advising the decision you wish to have reviewed.
+  Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
 
-    <%- include(partials+"components/form-partials/dropdown", {
-      label: "Select the matter relating to the decision you wish to have reviewed" , 
-      options: [ 
-      "-- Select an option --",
-      "Aged / home care" , 
-      "Attendant allowance", 
-      "Clothing allowance", 
-      "Commonwealth Senior’s Health Card", 
-      "Decoration allowance or Victoria Cross allowance ", 
-      "Funeral benefits", 
-      "Gold Card", 
-      "Loss of earnings allowance", 
-      "Lump sum advance of pension", 
-      "Pension bonus scheme",
-      "Recreational transport allowance", 
-      "Repatriation Pharmaceutical Benefits Card (Orange Card)",
-      "None of the above" 
-      ],
-      modifiers: ["hidden"], 
-      id: "other" 
-    }); %>
+<div class="mys doc-upload margin-above--small margin-below--extra">
+<div class="file">
+  <i class="icon fal fa-file-upload fa-2x"></i>
+  <span>Document</span>
+</div>
+<button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
+</div>
 
-      <%- include(partials+"components/form-partials/textarea", { label: "Enter your reason/s for requesting a review" ,
-        hint: "Provide as much detail as possible. If more than one page attach as a separate document." ,
-        id: "reason-text" , modifiers: ["hidden", "hintNewLine"] }); %>
-
-  <p id="click-submit" hidden class="margin-above">Choose <b>submit</b> to continue</p>
+  <!-- <p id="click-submit" hidden class="margin-above">Choose <b>save and next</b> to continue</p> -->
 
   <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/" },  {
     text: "Cancel",
     link: "#claim-cancel-modal"
   },{
     text: "Save and exit" , link: "/auth/reviews-lights/index?state=one" , modifiers: ["floated" ] }, { text: "Save and next"
-    , link: "/auth/reviews-light/reviews-01a" , modifiers: ["floated", "primary" ] } ] }) %>
+    , link: "/auth/reviews-light/reviews-03" , modifiers: ["floated", "primary" ] } ] }) %>
 
     <%- include(templates+"footer") %>
 
       <script>
-
-$("#type-container").change(function () {
-      mySelection = $('input[name=type]:checked').val().substr(0,5);
-      hideAll();
-      $("#reason-text-container").show();
-      switch ( mySelection ) {
-        case "disab":
-          $("#disab-container").show();
-          break;
-        case "rejec":
-        $("#rejec-container").show();
-          break;
-        case "servi":
-        $("#servi-container").show();
-          break;
-          case "other":
-        $("#other-container").show();
-          break;
-        default:
-          break;
-      }
-   });
-
-   function hideAll(){
-        $("#disab-container").hide();
-        $("#rejec-container").hide();
-        $("#servi-container").hide();
-        $("#other-container").hide();
-        $("#reason-text-container").hide();
-   }
-
 
 
       </script>

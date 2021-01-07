@@ -17,7 +17,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr id="item-1">
+          <tr id="vrb">
             <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio1" name="myRadio" value="">
@@ -52,6 +52,18 @@
     </div>
   </form>
 
+  <%- include(partials+"components/form-partials/notice", {
+    message: "This decision has already been reviewed by the VRB. If you are dissatisfied with the outcome, you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly with that tribunal. You can find more information on lodging appeals with the AAT on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>",
+    modifiers: ["hidden"],
+    id: "aat-prompt"
+  }); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "<p>There are timeframes within which you are able to request reviews of decisions made. As no decisions have been found it may be that there are no decisions on file that fall within the required timeframes. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>If you think there is an error or wish to request a review outside the timeframes select 'save and next' to manually enter details of the decision.</p>",
+    modifiers: ["hidden"],
+    id: "select-other-prompt"
+  }); %>
+
 </div>
 
 <div class="no-decisions" hidden>
@@ -71,19 +83,20 @@
     {
       text: "Save and exit", 
       link: "/auth/reviews/index?state=one", 
-      modifiers: ["floated" ] }, 
+      modifiers: ["floated" ],
+      id: "save-exit-button"
+    }, 
     { 
       text: "Save and next", 
       link: "javascript:goNext()", 
-      modifiers: ["floated", "primary" ] 
+      modifiers: ["floated", "primary" ],
+      id: "save-next-button"
     } ] }) %>
 
     <%- include(templates+"footer") %>
     <%- include("reviews-01-ss") %>
 
 <script>
-
-$(document).ready(function () {
 
   $('.reviews--decisions input[type="radio"]').click(function () {
     selectedRow = $(this).closest('tr').attr('id');
@@ -100,15 +113,22 @@ $(document).ready(function () {
 
   var selected;
   function updateTable(selectedRow) {
+    resetTable();
     switch (selectedRow) {
+      case "vrb":
+        $("#aat-prompt-container").show();
+        $("#save-next-button").attr('disabled','disabled');
+        $("#save-exit-button").attr('disabled','disabled');
+        break;
       case "none":
         selected = "other";
+        $("#select-other-prompt-container").show();
         break;
       default:
         selected = "disab";
+        $("#save-next").show();
         break;
     }
-    $("#save-next").show();
   }
 
   function goNext(){
@@ -141,11 +161,17 @@ $(document).ready(function () {
     }
   }
   function hideAll(){
+    $("#aat-prompt-container").hide();
     $(".default").hide();
     $(".no-decisions").hide();
     $("#save-next").hide();
   }
-
-});
+  function resetTable(){
+    $("#save-next-button").removeAttr('disabled');
+    $("#save-exit-button").removeAttr('disabled');
+    $("#aat-prompt-container").hide();
+    $("#select-other-prompt-container").hide();
+    $("#save-next").hide();
+  }
 
 </script>
