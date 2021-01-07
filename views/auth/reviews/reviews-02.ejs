@@ -1,5 +1,60 @@
 <%- include(templates+"header", { claim: "MyService - Request review" , heading: "Reason for request" }) %>
 
+
+<div class="other" hidden>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    label: "What type of decision do you wish to have reviewed?",
+    boxes: [ 
+    "Disability pension", 
+    "War widow(er) pension", 
+    "MRCA liability or compensation", 
+    "SRCA liability or compensation", 
+    "Service pension, income support supplement or qualifying service"
+    ]
+  }); %>
+
+  <div class="form-group formPartials_date" id="date492-container">
+    <fieldset>
+      <legend class="uikit-text-input__label  legend-override ">
+        Enter the date of the letter advising the decision<span class="hint "> (dd / mm / yyyy)</span></legend>
+      <input type="number" class="uikit-text-input dd" name="date492-dd" id="date492-dd" maxlength="2"
+        aria-label="2 digit day">
+      <span aria-hidden="true">/</span>
+      <input type="number" class="uikit-text-input mm" name="date492-mm" id="date492-mm" maxlength="2"
+        aria-label="2 digit month">
+      <span aria-hidden="true">/</span>
+      <input type="number" class="uikit-text-input yyyy" name="date492-yyyy" id="date492-yyyy" maxlength="4"
+        aria-label="4 digit year">
+      &nbsp; <button class="enter-date uikit-btn uikit-btn--primary">Submit</button>
+    </fieldset>
+  </div>
+
+  <%- include(partials+"components/form-partials/textarea", { 
+    label: "Enter your detailed reason/s for requesting a review",
+    hint: "If necessary you may attach as a separate document.",
+    id: "reason-text" , modifiers: [ "hintNewLine"]
+  }); %>
+
+  <strong>Supporting evidence</strong> (optional)
+  <p>Add any relevant documents to support your request. For example the letter advising the decision you wish to have reviewed.
+    Accepted file types include pdf, jpeg and png. Maximum file size is 50MB.</p>
+
+  <div class="mys doc-upload margin-above--small margin-below--extra">
+  <div class="file">
+    <i class="icon fal fa-file-upload fa-2x"></i>
+    <span>Document</span>
+  </div>
+  <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
+  </div>
+
+</div>
+
+<div class="default">
+
+
+
+
 <%- include(partials+"components/form-partials/checkbox", {
   label: "Select matters relating to the decision you wish to have reviewed",
   hint: "(optional)",
@@ -82,6 +137,8 @@
   <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
 </div>
 
+</div>
+
 <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/reviews-01" },  {
   text: "Cancel",
   link: "#claim-cancel-modal"
@@ -96,6 +153,10 @@
 <%- include("reviews-02-ss") %>
 
 <script>
+
+  
+$(document).ready(function () {
+
   var state;
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -110,20 +171,27 @@
     hideAll();
     switch (state) {
       case "disab":
-        $("#disab-container").show();
+        $(".default").show();
+        $("#type-1").prop("checked", true);
         break;
       case "other":
-      $("#other-container").show();
+      $(".other").show();
+      $("#type-2").prop("checked", true);
         break;
+        
       default:
+      $(".default").show();
         break;
     }
   }
   function hideAll(){
-    $("#disab-container").hide();
-    $("#other-container").hide();
+    $(".default").hide();
+    $(".other").hide();
   }
   function goNext(){
-    window.location = "/auth/reviews/reviews-03?state=" + state;
+    /* window.location = "/auth/reviews/reviews-03?state=" + state; */
+    window.location = "/auth/reviews/reviews-04";
   }
+
+});
 </script>

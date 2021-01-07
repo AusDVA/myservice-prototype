@@ -1,23 +1,22 @@
 <%- include(templates+"header", { claim: "MyService - Request review" , heading: "Decision information" }) %>
 
+<div class="default">
+
   <form id="myform">
     <input type="reset" style="display:none">
     <div id="decisions-found">
-      <p><strong>Select a claim that is related to the decision you would like to have reviewed.</strong>
-      <BR/>If the claim you are looking for is not listed select “Other".</p>
+      <h2 class="mys h3">Below are the decisions for which you are currently able to request a review.</h2> 
+      <p class="margin-above margin-below--mid"><strong>Select a decision to proceed.</strong><BR/>If a decision you wish to have reviewed is not listed select “Other decision".</p>
       <table class="mys-table1 reviews--decisions margin-below--extra">
         <thead>
           <tr>
-            <th><h3 class="mys h3">Claim number</h3></th>
+            <th><h3 class="mys h3">Claim</h3></th>
             <th><h3 class="mys h3">Type</h3></th>
-            <th><h3 class="mys h3">Date</h3></th>
+            <th><h3 class="mys h3">Decision</h3></th>
             <th><h3 class="mys h3">Description</h3></th>
           </tr>
         </thead>
         <tbody>
-          <!-- <tr id="blank" class="placeholder" hidden>
-            <td colspan="5">No decisions found for the date entered. Check your dates and try again.</td>
-          </tr> -->
           <tr id="item-1">
             <td>
               <span class="mys radio-checkbox">
@@ -26,7 +25,7 @@
               </span>
             </td>
             <td data-title="Type">Disability Pension (VEA)</td>
-            <td data-title="Decision date">1 Dec 2019</td>
+            <td data-title="Decision">1 Dec 2019, VRB</td>
             <td data-title="Description">Lumbar Spondylosis, Ischaemic Heart Disease</td>
           </tr>
           <tr id="item-2">
@@ -37,14 +36,14 @@
               </span>
             </td>
             <td data-title="Type">Disability Pension (VEA)</td>
-            <td data-title="Decision date">15 Dec 2019</td>
+            <td data-title="Decision">15 Dec 2019</td>
             <td data-title="Description">Application for increase</td>
           </tr>
           <tr id="none">
             <td class="no-label" colspan="4">
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio3" name="myRadio" value="">
-                <label for="myRadio3">Other</label>
+                <label for="myRadio3">Other decision</label>
               </span>
             </td>
           </tr>
@@ -52,6 +51,16 @@
       </table>
     </div>
   </form>
+
+</div>
+
+<div class="no-decisions" hidden>
+
+  <h2 class="mys h3">No appealable decisions have been found.</h2> 
+  <p class="margin-above">There are timeframes within which you are able to request reviews of decisions made. As no decisions have been found it may be that there are no decisions on file that fall within the required timeframes. You can find out more on the <a href="https://www.dva.gov.au/financial-support/appeals" class="external-link">DVA website</a></p>
+  <p class="margin-above">.If you think there is an error or wish to request a review outside the timeframes select "save and next" to manually enter details of the decision.</p>
+
+</div>
 
   <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
 
@@ -70,39 +79,73 @@
     } ] }) %>
 
     <%- include(templates+"footer") %>
+    <%- include("reviews-01-ss") %>
 
-      <script>
+<script>
 
-        $('.reviews--decisions tr').click(function () {
-          $(this).find('td input:radio').prop('checked', true);
-        })
+$(document).ready(function () {
 
-        $('.reviews--decisions input[type="radio"]').click(function () {
-          selectedRow = $(this).closest('tr').attr('id');
-          updateForm(selectedRow)
-        });
+  $('.reviews--decisions input[type="radio"]').click(function () {
+    selectedRow = $(this).closest('tr').attr('id');
+    updateTable(selectedRow)
+  });
 
-        $('.reviews--decisions tr').click(function () {
-          selectedRow = $(this).attr('id');
-          $(".reviews--decisions tr").removeClass('selected');
-          $(this).addClass('selected');
-          updateForm(selectedRow)
-        });
+  $('.reviews--decisions tr').click(function () {
+    selectedRow = $(this).attr('id');
+    updateTable(selectedRow);
+    $(this).find('td input:radio').prop('checked', true);
+    $(".reviews--decisions tr").removeClass('selected');
+    $(this).addClass('selected');
+  });
 
-        var selected;
-        function updateForm(selectedRow) {
-          switch (selectedRow) {
-            case "none":
-              selected = "other";
-              break;
-            default:
-              selected = "disab";
-              break;
-          }
-        }
+  var selected;
+  function updateTable(selectedRow) {
+    switch (selectedRow) {
+      case "none":
+        selected = "other";
+        break;
+      default:
+        selected = "disab";
+        break;
+    }
+    $("#save-next").show();
+  }
 
-        function goNext(){
-          window.location = "/auth/reviews/reviews-02?state=" + selected;
-        }
+  function goNext(){
+    window.location = "/auth/reviews/reviews-02?state=" + selected;
+  }
 
-      </script>
+  var state;
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  state = $.urlParam('state');
+  updatePage();
+  function updatePage(){
+    hideAll();
+    switch (state) {
+      case "appea":
+        $(".default").show();
+        break;
+      case "noapp":
+      $(".no-decisions").show();
+      selected = "other";
+        break;
+      default:
+      $(".default").show();
+        break;
+    }
+  }
+  function hideAll(){
+    $(".default").hide();
+    $(".no-decisions").hide();
+    $("#save-next").hide();
+  }
+
+});
+
+</script>
