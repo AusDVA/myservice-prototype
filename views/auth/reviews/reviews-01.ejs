@@ -17,34 +17,55 @@
           </tr>
         </thead>
         <tbody>
-          <tr id="vrb">
+          <tr class="dva">
             <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio1" name="myRadio" value="">
-                <label for="myRadio1">NSM123456</label>
+                <label for="myRadio1">DVA886754</label>
               </span>
             </td>
-            <td data-title="Type">Disability Pension (VEA)</td>
-            <td data-title="Decision">1 Dec 2019, VRB</td>
-            <td data-title="Description">Lumbar Spondylosis, Ischaemic Heart Disease</td>
+            <td data-title="Type">Permanent impairment</td>
+            <td data-title="Decision">18 Feb 2020</td>
+            <td data-title="Description">Tinnitus<BR/>Depression</td>
           </tr>
-          
-          <tr id="item-2">
+          <tr class="item-2">
             <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio2" name="myRadio" value="">
                 <label for="myRadio2">NSM123457</label>
               </span>
             </td>
-            <td data-title="Type">Disability Pension (VEA)</td>
+            <td data-title="Type">Disability Pension</td>
             <td data-title="Decision">15 Dec 2019</td>
             <td data-title="Description">Application for increase</td>
           </tr>
-          <tr id="none">
-            <td class="no-label" colspan="4">
+          <tr class="vrb">
+            <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio3" name="myRadio" value="">
-                <label for="myRadio3">Other decision</label>
+                <label for="myRadio3">DVA3345278</label>
+              </span>
+            </td>
+            <td data-title="Type">Initial liability</td>
+            <td data-title="Decision">21 Dec 2020<BR/>Internal reconsideration</td>
+            <td data-title="Description">Femoroacetabular Impingement Syndrome</td>
+          </tr>
+          <tr class="vrb">
+            <td>
+              <span class="mys radio-checkbox">
+                <input type="radio" id="myRadio4" name="myRadio" value="">
+                <label for="myRadio4">VRB775437</label>
+              </span>
+            </td>
+            <td data-title="Type">Rent assistance</td>
+            <td data-title="Decision">28 Nov 2020<BR/>Veterans' review board</td>
+            <td data-title="Description">Application for increase</td>
+          </tr>
+          <tr class="none">
+            <td class="no-label" colspan="4">
+              <span class="mys radio-checkbox">
+                <input type="radio" id="myRadio5" name="myRadio" value="">
+                <label for="myRadio5">Other decision</label>
               </span>
             </td>
           </tr>
@@ -53,14 +74,21 @@
     </div>
   </form>
 
-  <%- include(partials+"components/form-partials/notice", {
+  <%#- include(partials+"components/form-partials/notice", {
     message: "This decision has already been reviewed by the VRB. If you are dissatisfied with the outcome, you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly with that tribunal. You can find more information on lodging appeals with the AAT on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>",
     modifiers: ["hidden"],
     id: "aat-prompt"
   }); %>
 
+
   <%- include(partials+"components/form-partials/notice", {
-    message: "<p>There are timeframes within which you are able to request reviews of decisions made. If a decision you would like to have reviewed is not shown here it may be that it does not fall within the required timeframes. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>If you think there is an error or wish to request a review outside the timeframes select 'save and next' to manually enter details of the decision.</p>",
+    message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>",
+    modifiers: ["hidden"],
+    id: "aat-prompt"
+  }); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "<p>There are timeframes within which you are able to request reviews of decisions made. If a decision you would like to have reviewed is not shown here it may be that it does not fall within the required timeframes. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>If you think there is an error or wish to request a review outside the timeframes select 'save and next' to enter details of the decision.</p>",
     modifiers: ["hidden"],
     id: "select-other-prompt"
   }); %>
@@ -99,13 +127,14 @@
 
 <script>
 
-  $('.reviews--decisions input[type="radio"]').click(function () {
-    selectedRow = $(this).closest('tr').attr('id');
-    updateTable(selectedRow)
-  });
+  // $('.reviews--decisions input[type="radio"]').click(function () {
+  //   selectedRow = $(this).closest('tr').attr("class").split(" ")[0];
+  //   console.log( selectedRow )
+  //   updateTable(selectedRow)
+  // });
 
   $('.reviews--decisions tr').click(function () {
-    selectedRow = $(this).attr('id');
+    selectedRow = $(this).attr("class").split(" ")[0];
     updateTable(selectedRow);
     $(this).find('td input:radio').prop('checked', true);
     $(".reviews--decisions tr").removeClass('selected');
