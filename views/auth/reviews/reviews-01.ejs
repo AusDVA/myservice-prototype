@@ -2,6 +2,13 @@
 
 <div class="default">
 
+  <div class="loader reviews mys-page-preloader">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation">
+    <div class="message">Looking for decisions</div>
+  </div>
+
+  <div class="loaded" hidden>
+
   <form id="myform">
     <input type="reset" style="display:none">
     <div id="decisions-found">
@@ -26,7 +33,7 @@
             </td>
             <td data-title="Type">Permanent impairment</td>
             <td data-title="Decision">18 Feb 2020</td>
-            <td data-title="Description">Tinnitus<BR/>Depression</td>
+            <td data-title="Description">Tinnitus, Depression</td>
           </tr>
           <tr class="item-2">
             <td>
@@ -95,7 +102,16 @@
 
 </div>
 
+</div>
+
 <div class="no-decisions" hidden>
+
+  <div class="loader reviews mys-page-preloader">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation">
+    <div class="message">Looking for decisions</div>
+  </div>
+
+  <div class="loaded" hidden>
 
   <h2 class="mys h3">No decisions have been found that fall within the required timeframes.</h2> 
   <p class="margin-above">There are timeframes within which you are able to request reviews of decisions made. As no decisions have been found it may be that there are no decisions on file that fall within the required timeframes. You can find out more on the <a href="https://www.dva.gov.au/financial-support/appeals" class="external-link">DVA website</a>.</p>
@@ -103,24 +119,18 @@
 
 </div>
 
+</div>
+
   <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
 
-  <%- include(forms+"pagination", { pagination: [ { text: "Previous" , link: "/auth/reviews/" },  {
-      text: "Cancel",
-      link: "#claim-cancel-modal"
-    },
-    {
-      text: "Save and exit", 
-      link: "/auth/reviews/index?state=one", 
-      modifiers: ["floated" ],
-      id: "save-exit-button"
-    }, 
-    { 
-      text: "Save and next", 
-      link: "javascript:goNext()", 
-      modifiers: ["floated", "primary" ],
-      id: "save-next-button"
-    } ] }) %>
+  <div class="pagination pagination--ss-reverse-order" id="pagination" hidden>
+    <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
+    <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
+    <div class="floated">
+        <a href="/auth/reviews/index?state=one" id="save-exit-button" class="uikit-btn uikit-btn--tertiary">Save and exit</a>
+        <a href="javascript:goNext()" id="save-next-button" class="uikit-btn ">Save and next</a>
+    </div>
+  </div>
 
     <%- include(templates+"footer") %>
     <%- include("reviews-01-ss") %>
@@ -177,24 +187,24 @@
   updatePage();
   function updatePage(){
     hideAll();
+    resetTable();
     switch (state) {
-      case "review":
-        $(".default").show();
-        break;
       case "norev":
-      $(".no-decisions").show();
-      selected = "other";
+        doPageLoadB();
         break;
       default:
-      $(".default").show();
+        doPageLoadA();
         break;
     }
   }
   function hideAll(){
+    $(".loader").hide();
+    $(".loaded").hide();
     $("#aat-prompt-container").hide();
     $(".default").hide();
     $(".no-decisions").hide();
     $("#save-next").hide();
+    $("#pagination").hide();
   }
   function resetTable(){
     $("#save-next-button").removeAttr('disabled');
@@ -202,6 +212,27 @@
     $("#aat-prompt-container").hide();
     $("#select-other-prompt-container").hide();
     $("#save-next").hide();
+    $('td input:radio').prop('checked', false);
+    $(".reviews--decisions tr").removeClass('selected');
   }
+
+function doPageLoadA() {
+    $(".default").show();
+    $(".loader").show();
+    setTimeout(function(){
+        $(".loader").hide();
+        $(".loaded").fadeIn();
+        $("#pagination").fadeIn();
+    }, 1500);
+}
+function doPageLoadB() {
+    $(".no-decisions").show();
+    $(".loader").show();
+    setTimeout(function(){
+        $(".loader").hide();
+        $(".loaded").fadeIn();
+        $("#pagination").fadeIn();
+    }, 1500);
+}
 
 </script>
