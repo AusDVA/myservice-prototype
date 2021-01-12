@@ -19,12 +19,12 @@
           <tr>
             <th><h3 class="mys h3">Reference</h3></th>
             <th><h3 class="mys h3">Type</h3></th>
-            <th><h3 class="mys h3">Decision</h3></th>
+            <th><h3 class="mys h3">Decision date</h3></th>
             <th><h3 class="mys h3">Description</h3></th>
           </tr>
         </thead>
         <tbody>
-          <tr class="dva">
+          <tr class="drca">
             <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio1" name="myRadio" value="">
@@ -35,7 +35,7 @@
             <td data-title="Decision">18 Feb 2020</td>
             <td data-title="Description">Tinnitus, Depression</td>
           </tr>
-          <tr class="item-2">
+          <tr class="vea">
             <td>
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio2" name="myRadio" value="">
@@ -68,7 +68,7 @@
             <td data-title="Decision">28 Nov 2020<BR/>Veterans' review board</td>
             <td data-title="Description">Application for increase</td>
           </tr>
-          <tr class="none">
+          <tr class="other">
             <td class="no-label" colspan="4">
               <span class="mys radio-checkbox">
                 <input type="radio" id="myRadio5" name="myRadio" value="">
@@ -82,23 +82,29 @@
     </div>
   </form>
 
-  <%#- include(partials+"components/form-partials/notice", {
-    message: "This decision has already been reviewed by the VRB. If you are dissatisfied with the outcome, you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly with that tribunal. You can find more information on lodging appeals with the AAT on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>",
+  <%- include(partials+"components/form-partials/notice", {
+    message: "This decision will be reviewed by Veteran's Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.",
     modifiers: ["hidden"],
-    id: "aat-prompt"
+    id: "vrb-prompt"
   }); %>
 
+  <%- include(partials+"components/form-partials/notice", {
+    message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#' class='external-link'>DVA website</a> (need to locate if there is anywhere to link to)",
+    modifiers: ["hidden"],
+    id: "internal-review-prompt"
+  }); %>
 
   <%- include(partials+"components/form-partials/notice", {
-    message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>",
+    message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.",
     modifiers: ["hidden"],
-    id: "aat-prompt"
+    id: "aat-prompt",
+    type: "warning"
   }); %>
 
   <%- include(partials+"components/form-partials/notice", {
     message: "<p>There are timeframes within which you are able to request reviews of decisions made. If a decision you would like to have reviewed is not shown here it may be that it does not fall within the required timeframes. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>If you think there is an error or wish to request a review outside the timeframes select 'save and next' to enter details of the decision.</p>",
     modifiers: ["hidden"],
-    id: "select-other-prompt"
+    id: "other-prompt"
   }); %>
 
 </div>
@@ -144,82 +150,91 @@
   //   updateTable(selectedRow)
   // });
 
-  $('.reviews--decisions tr').click(function () {
-    selectedRow = $(this).attr("class").split(" ")[0];
-    updateTable(selectedRow);
-    $(this).find('td input:radio').prop('checked', true);
-    $(".reviews--decisions tr").removeClass('selected');
-    $(this).addClass('selected');
-  });
 
-  var selected;
-  function updateTable(selectedRow) {
-    resetTable();
-    switch (selectedRow) {
-      case "vrb":
-        $("#aat-prompt-container").show();
-        $("#save-next-button").attr('disabled','disabled');
-        $("#save-exit-button").attr('disabled','disabled');
-        break;
-      case "none":
-        selected = "other";
-        $("#select-other-prompt-container").show();
-        break;
-      default:
-        selected = "disab";
-        $("#save-next").show();
-        break;
-    }
-    $('body,html').animate({
-      scrollTop: ( $(".reviews--decisions").position().top + $(".reviews--decisions").height() )
-    }, 1000);
-  }
+$('.reviews--decisions tbody > tr').click(function () {
+  selectedRow = $(this).attr("class").split(" ")[0];
+  updateTable(selectedRow);
+  $(".reviews--decisions tr").removeClass('selected');
+  $(this).addClass('selected');
+  $(this).find('td input:radio').prop('checked', true);
+});
 
-  function goNext(){
-    window.location = "/auth/reviews/reviews-02?state=" + selected;
+var selected;
+function updateTable(selectedRow) {
+  resetTable();
+  selected = "record";
+  switch (selectedRow) {
+    case "drca":
+      $("#internal-review-prompt-container").show();
+      break;
+    case "vea":
+      $("#vrb-prompt-container").show();
+      break;
+    case "vrb":
+      $("#aat-prompt-container").show();
+      $("#save-next-button").attr('disabled','disabled');
+      $("#save-exit-button").attr('disabled','disabled');
+      break;
+    case "other":
+      selected = "other";
+      $("#other-prompt-container").show();
+      break;
+    default:
+      break;
   }
+  $('body,html').animate({
+    scrollTop: ( $(".reviews--decisions").position().top + $(".reviews--decisions").height() )
+  }, 1000);
+}
 
-  var state;
-  $.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-      return 0;
-    }
-    return results[1] || 0;
-  }
-  state = $.urlParam('state');
-  updatePage();
-  function updatePage(){
-    hideAll();
-    resetTable();
-    switch (state) {
-      case "norev":
-        doPageLoadB();
-        break;
-      default:
-        doPageLoadA();
-        break;
-    }
-  }
-  function hideAll(){
-    $(".loader").hide();
-    $(".loaded").hide();
-    $("#aat-prompt-container").hide();
-    $(".default").hide();
-    $(".no-decisions").hide();
-    $("#save-next").hide();
-    $("#pagination").hide();
-  }
-  function resetTable(){
-    $("#save-next-button").removeAttr('disabled');
-    $("#save-exit-button").removeAttr('disabled');
-    $("#aat-prompt-container").hide();
-    $("#select-other-prompt-container").hide();
-    $("#save-next").hide();
-    $('td input:radio').prop('checked', false);
-    $(".reviews--decisions tr").removeClass('selected');
-  }
+function goNext(){
+  window.location = "/auth/reviews/reviews-02?state=" + selected;
+}
 
+var state;
+$.urlParam = function (name) {
+  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+  if (results == null) {
+    return 0;
+  }
+  return results[1] || 0;
+}
+state = $.urlParam('state');
+updatePage();
+function updatePage(){
+  hideAll();
+  resetTable();
+  switch (state) {
+    case "norev":
+    selected = "other";
+      doPageLoadB();
+      break;
+    default:
+      doPageLoadA();
+      break;
+  }
+}
+function hideAll(){
+  $(".loader").hide();
+  $(".loaded").hide();
+  $("#aat-prompt-container").hide();
+  $("#vrb-prompt-container").hide();
+  $(".default").hide();
+  $(".no-decisions").hide();
+  $("#save-next").hide();
+  $("#pagination").hide();
+}
+function resetTable(){
+  $("#save-next-button").removeAttr('disabled');
+  $("#save-exit-button").removeAttr('disabled');
+  $("#internal-review-prompt-container").hide();
+  $("#vrb-prompt-container").hide();
+  $("#aat-prompt-container").hide();
+  $("#other-prompt-container").hide();
+  $("#save-next").hide();
+  $('td input:radio').prop('checked', false);
+  $(".reviews--decisions tr").removeClass('selected');
+}
 function doPageLoadA() {
     $(".default").show();
     $(".loader").show();
