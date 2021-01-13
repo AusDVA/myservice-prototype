@@ -12,7 +12,20 @@
     "DRCA liability or compensation", 
     "Service pension, income support supplement or qualifying service",
     "Other (<i>add examples here</i>)"
-    ]
+    ],
+    id: "decision-type"
+  }); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You are able to request a decision review within <span class='period'>XX months</span> of the decision date. You will find the decision date on the original letter advising the decision.",
+    modifiers: ["hidden"],
+    id: "timeframe-prompt"
+  }); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "<p>There are timeframes within which you are able to request reviews of decisions made. These vary based on the type of decision. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>You will find the decision date on the original letter advising the decision. You should ensure the date falls within the required timeframe.</p>",
+    modifiers: ["hidden"],
+    id: "unknown-timeframe-prompt"
   }); %>
 
   <div class="form-group formPartials_date" id="date492-container">
@@ -58,71 +71,6 @@
 
 <div class="default">
 
-<%- include(partials+"components/form-partials/checkbox", {
-  label: "Select matters relating to the decision you wish to have reviewed",
-  hint: "(optional)",
-  boxes: [ 
-  "Rejection of injury or disease as service related", 
-  "Permanent Impairment", 
-  "Assessment of the rate of disability pension", 
-  "Incapacity payments", 
-  "Claim for compensation to a dependant following the death of a member", 
-  "Other (for example, treatment, attendant care, household services, rehabilitation)"
-  ],
-  modifiers: ["hidden"], 
-  id: "disab" 
-}); %>
-
-<%- include(partials+"components/form-partials/dropdown", {
-  label: "Select the matter/s relating to the decision you wish to have reviewed", 
-  hint: "(optional)",
-  options: [ 
-  "-- Select an option --",
-  "Qualifying service", 
-  "Assessment of income", 
-  "Assessment of assets", 
-  "Age pension", 
-  "Other"
-  ],
-  modifiers: ["hidden"], 
-  id: "servi" 
-}); %>
-
-  <%- include(partials+"components/form-partials/checkbox", {
-    label: "Select the matter/s relating to the decision you wish to have reviewed", 
-    hint: "(optional)",
-    boxes: [ 
-    "Aged / home care" , 
-    "Attendant allowance", 
-    "Clothing allowance", 
-    "Commonwealth Senior’s Health Card", 
-    "Decoration allowance or Victoria Cross allowance ", 
-    "Funeral benefits", 
-    "Gold Card", 
-    "Loss of earnings allowance", 
-    "Lump sum advance of pension", 
-    "Pension bonus scheme",
-    "Recreational transport allowance", 
-    "Repatriation Pharmaceutical Benefits Card (Orange Card)",
-    "None of the above" 
-    ],
-    modifiers: ["hidden"], 
-    id: "other" 
-  }); %>
-
-  <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select the matter relating to the decision you wish to have reviewed" , options: [ "-- Select an option --"
-    , "Age pension" , "Aged / home care (income and assets)" , "Attendant allowance" , "Clothing allowance"
-    , "Commonwealth Senior’s Health Card" , "Decoration allowance or Victoria Cross allowance " , "Funeral benefits"
-    , "Gold Card" , "Loss of earnings allowance" , "Lump sum advance of pension" , "Pension bonus scheme"
-    , "Recreational transport allowance" , "Repatriation Pharmaceutical Benefits Card (Orange Card)"
-    , "Qualifying service" , "Assessment of income" , "Assessment of assets"
-    , "Rejection of injury or disease as service related" , "Permanent Impairment" , "Incapacity payments"
-    , "Claim for compensation to a dependant following the death of a member"
-    , "Rejection of veteran’s death as service related" , "Rejection of injury or disease as service related"
-    , "Other (e.g.: Treatment, Attendant Care, Household Services, Rehabilitation)" , "None of the above" ],
-    modifiers: ["hidden"], id: "other-decision" }); %>
-
     <%- include(partials+"components/form-partials/textarea", { 
       label: "Enter your detailed reason/s for requesting a review",
       hint: "If necessary you may attach as a separate document.",
@@ -159,6 +107,74 @@
 
   
 // $(document).ready(function () {
+
+  var timeframe
+  $('input[name=decision-type]').change(function () {
+    $("#timeframe-prompt-container").hide();
+    $("#unknown-timeframe-prompt-container").hide();
+      selected = $(this).val().substr(0,5);
+      console.log(selected)
+      switch ( selected ) {
+        case "disab":
+          timeframe = "12 months";
+          break;
+        case "warwi":
+        timeframe = "12 months";
+          break;
+        case "mrcal":
+        timeframe = "12 months";
+          break;
+        case "drcal":
+        timeframe = "30 days";
+          break;
+        case "servi":
+        timeframe = "3 months";
+          break;
+        case "other":
+          timeframe = "unknown";
+          break;
+        default:
+          break;
+      }
+      if ( timeframe == "unknown") {
+        $("#unknown-timeframe-prompt-container").show();
+      } else {
+        $(".period").text( timeframe );
+        $("#timeframe-prompt-container").show();
+      }
+    });
+  
+
+var selected;
+function updateTable(selectedRow) {
+  resetTable();
+  selected = "record";
+  switch (selectedRow) {
+    case "drca":
+      $("#internal-review-prompt-container").show();
+      break;
+    case "vea":
+      $("#vrb-prompt-container").show();
+      break;
+    case "vrb":
+      $("#aat-prompt-container").show();
+      $("#save-next-button").attr('disabled','disabled');
+      $("#save-exit-button").attr('disabled','disabled');
+      break;
+    case "other":
+      selected = "other";
+      // $("#other-prompt-container").show();
+      $("#save-next").show();
+      break;
+    default:
+      break;
+  }
+  $('body,html').animate({
+    scrollTop: ( $(".reviews--decisions").position().top + $(".reviews--decisions").height() )
+  }, 1000);
+}
+
+
 
   var state;
   $.urlParam = function (name) {
