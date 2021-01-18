@@ -24,18 +24,11 @@
           <div class="back-button">
             <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
           </div>
-          <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Request a decision review</h1>
+          <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Request review</h1>
 
-          <p>There are formal rights of review against many of the decisions DVA makes in relation to claims and benefits. </p>
+          <p>If you are not satisfied with the outcome of an application, you can request a review. The type of review you can request depends on the Act that covers you and the type of benefit or service you applied for.</p>
+          <!-- <p>In some situations, the person who performs the review will be a DVA staff member. In others, it will be a member of the Veterans' Review Board.</p> -->
           <button id="book" class="uikit-btn uikit-btn--primary request-review" onclick="location.href='/auth/reviews/reviews-01'">Start request</button>
-
-            <%- include(partials+"components/form-partials/notice", {
-              message: "Unable to access required records. Please contact DVA for assistance.",
-              type: "error",
-              id: "cant-find",
-              modifiers: ["hidden"],
-              customClass: ["margin-below--none"]
-            }); %>
 
           <div id="requests">
             <hr>
@@ -115,7 +108,12 @@
                 </tr>
               </tbody>
             </table>
-            <div class="mys pagination"><a class="disabled" href="#1">«</a><a class="active" href="#1">1</a><a href="#2">2</a><a href="#3">3</a><a class="disabled" href="#3">»</a></div>
+            <div class="mys paging">
+              <a class="disabled" href="#1">«</a>
+              <a class="active" href="#1">1</a>
+              <a href="#2">2</a><a href="#3">3</a>
+              <a class="disabled" href="#3">»</a>
+            </div>
           </div>
       </div>
 
@@ -130,8 +128,6 @@
 <script>
 
   var state;
-  // var cohort;
-
   $.urlParam = function (name) {
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null) {
@@ -140,48 +136,28 @@
     return results[1] || 0;
   }
   state = $.urlParam('state');
-  // $("#cohort-1").prop("checked", true);
-  // $("#past-trips-2").prop("checked", true);
+  $("#requests-1").prop("checked", true);
   stateSwitcher();
-
   function stateSwitcher() {
     $("#blank").hide();
     $("#item-1").hide();
     $("#item-2").hide();
     $("#item-3").hide();
+    $(".paging").hide();
     switch (state) {
       case "none":
         $("#blank").show();
         break;
-      case "many":
+      case "some":
         $("#item-1").show();
         $("#item-2").show();
         $("#item-3").show();
-        // $("#past-trips-2").prop("checked", true);
-        break;
-      case "one-one-way":
-        $("#item-1").show();
-        $("#item-2").show();
-        $("#item-3").hide();
-        // $("#cancel-success-container").show();
-        break;
-      case "one-return":
-        $("#item-3").show();
-        // $("#cancel-success-container").show();
-        break;
-      case "no-returns":
-        $("#item-1").show();
-        $("#item-3").show();
-        $("#item-1").removeClass("return-a");
-        // $("#cancel-success-container").show();
+        $(".paging").show();
         break;
       default:
-        $("#item-1").show();
-        $("#item-2").show();
-        $("#item-3").show();
+        $("#blank").show();
         break;
     }
-   
   }
 
   $(".edit-trip").click(function () {

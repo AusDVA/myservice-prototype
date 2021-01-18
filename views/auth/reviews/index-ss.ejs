@@ -1,37 +1,22 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
 
-  <%#- include(partials+"components/form-partials/radio", {
-    label: "Client",
-    boxes: [
-      "VEA",
-      "MRCA/DRCA"
-    ],
-    id: "cohort"
-  }); %>
+
   
   <%- include(partials+"components/form-partials/radio", {
-    label: "Past trips",
+    label: "Past requests",
     boxes: [
       "None",
-      "Many"
+      "Some"
     ],
-    id: "past-trips"
+    id: "requests"
   }); %>
 
-  <%- include(partials+"components/form-partials/checkbox", {
+  <%#- include(partials+"components/form-partials/checkbox", {
     boxes: [
       "Notification submitted successfully"
     ],
     id: "notify-success",
-    customClass: "margin-below--none"
-  }); %>
-
-  <%- include(partials+"components/form-partials/checkbox", {
-    boxes: [
-      "Can't find client"
-    ],
-    id: "cant-find-client",
     customClass: "margin-below--none"
   }); %>
 
@@ -50,21 +35,15 @@
       }
     });
 
-    $('input[name=past-trips]').change(function () {
+    $('input[name=requests]').change(function () {
       state = $(this).val();
       stateSwitcher();
     });
 
-    $('input[name=cohort]').change(function () {
-      cohort = $(this).val();
-      console.log( cohort )
-      stateSwitcher();
+    $('#notify-success-1').change(function () {
+      updateNotify();
     });
 
-  });
-
-  $('#notify-success-1').change(function () {
-    updateNotify();
   });
 
   function updateNotify() {
@@ -73,23 +52,6 @@
       $("#success-container").show();
     } else {
       $("#success-container").hide();
-    }
-  }
-
-  $('#cant-find-client-1').change(function () {
-    updateCantFind();
-  });
-
-  function updateCantFind() {
-    var myStatus = $("#cant-find-client-1").is(":checked");
-    if (myStatus) {
-      $("#cant-find-container").show();
-      $("#book").hide();
-      $("#past-trips").hide();
-    } else {
-      $("#cant-find-container").hide();
-      $("#book").show();
-      $("#past-trips").show();
     }
   }
 
