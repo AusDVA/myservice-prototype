@@ -1,85 +1,74 @@
 <%- include(templates+"header", {
   claim: "MyService - Request review",
-  heading: "Additional contact"
+  heading: "Review and submit"
 }) %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-    label: "Is there any other person who DVA can contact for information in relation to this review? ",
-    yes_toggle: ".claim-rep-form",
-    no_toggle: "#choose-next"
-  }); %>
+<%- include(components+"review-submit", {
+      claim_title: "Request for review",
+      categories: [
+        {
+          title: "Decision information",
+          edit_url: "/auth/reviews/reviews-01",
+          data: [
+              {
+                q: "Select a claim that is related to the decision you would like to have reviewed.",
+                a: "NSM123456/101<BR/>Disability Pension (VEA)<BR/>Lumbar Spondylosis, Ischaemic Heart Disease"
+              }
+            ]
+        },
+        {
+          title: "Reason for request",
+          edit_url: "/auth/reviews/reviews-02",
+          data: [
+          {
+            q: "Select the matter/s relating to the decision you wish to have reviewed (optional)",
+            a: "Rejection of injury or disease as service related; assessment of the rate of disability pension"
+          },
+          {
+              q: "Enter your detailed reason/s for requesting a review",
+              a: "Decision has not taken into consideration certain factors."
+          }
+            ]
+        },
+        {
+          title: "Nominated representative",
+          edit_url: "/auth/reviews/reviews-04",
+          data: [
+              {
+                q: "Do you wish to nominate a person to represent you in matters related to this review / appeal?",
+                a: "No"
+              }
+            ]
+        }
+       
+        ],
+        customClass: ["margin-below--extra"]
+    }) %>
 
-<div class="claim-rep-form" hidden>
 
-NOTE: IGNORE BELOW FOR NOW ... 
-
-<h2 class="mys h2 margin-below--mid">Representative details</h2>
-
-<%- include(partials+"components/form-partials/text", {
-    label: "Given name",
-    hint: "(first name)"
-  }); %>
-
-<%- include(partials+"components/form-partials/text", {
-    label: "Surname",
-    hint: "(last name)"
-  }); %>
-
-<div>
-  <label for="text534" class="uikit-text-input__label margin-below--none">
-    Phone/mobile number<span class="hint display-block margin-above--none margin-below--none">Please include area code where necessary (for example, "03" for Victoria)</span></label>
-  <form class="responsive-form margin-below--extra">
-    <div class="form-group formPartials_dropdown col-3">
-      <select class="uikit-text-input">
-        <option value="au">
-          Australia (+61)
-        </option>
-      </select>
-    </div>
-    <div class="form-group col-6">
-      <input type="text" class="uikit-text-input">
-    </div>
-  </form>
-</div>
-
-<%- include(partials+"components/form-partials/text", {
-  label: "Email address",
-  hint: "(optional)"
-}); %>
-
-<h2 class="mys h2 margin-below--mid">Representative postal address</h2>
-
-<%- include(partials+"content/address-postal") %>
-
-</div>
-
-<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
-
-<%- include(forms+"pagination", {
-    pagination: [
-    {
-      text: "Previous",
-      link: "/auth/reviews/reviews-04",
-    },
-    {
-        text: "Cancel",
-        link: "#claim-cancel-modal"
+    <%- include(forms+"pagination", {
+      pagination: [
+      {
+        text: "Previous",
+        link: "/auth/reviews/reviews-04",
       },
       {
-        text: "Save and exit",
-        id: "btnNext",
-        link: "/auth/reviews",
-        modifiers: ["floated"]
-      },
-      {
-        text: "Save and next",
-        id: "btnNext",
-        link: "/auth/reviews/reviews-06",
-        modifiers: ["primary", "floated"]
-      }
-    ]
-  }) %>
-<%- include(forms+"modals/claim-cancel") %>
+          text: "Cancel",
+          link: "#claim-cancel-modal"
+        },
+        {
+          text: "Save and exit",
+          id: "btnNext",
+          link: "/auth/reviews",
+          modifiers: ["floated"]
+        },
+        {
+          text: "Submit",
+          id: "btnNext",
+          link: "/auth/reviews/reviews-06",
+          modifiers: ["primary", "floated"]
+        }
+      ]
+    }) %>
+
 <%- include(templates+"footer") %>
-
-

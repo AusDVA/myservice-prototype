@@ -1,258 +1,347 @@
-<%- include(templates+"header", { claim: "MyService - Request review" , heading: "Decision information" }) %>
+<%- include(templates+"header", { claim: "MyService - Request review" , heading:
+"Decision information" }) %>
 
 <div class="default">
-
   <div class="loader reviews mys-page-preloader">
-    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation" />
     <div class="message">Looking for eligible decisions</div>
   </div>
-
   <div class="loaded" hidden>
+    <form id="myform">
+      <input type="reset" style="display: none" />
+      <div id="decisions-found">
+        <h2 class="mys h2">Decisions found.</h2>
+        <p class="margin-below--mid">Select a decision to proceed.</p>
+        <table class="mys-table1 reviews--decisions margin-below--mid">
+          <thead>
+            <tr>
+              <th><h3 class="mys h3">Reference</h3></th>
+              <th><h3 class="mys h3">Type</h3></th>
+              <th><h3 class="mys h3">Decision date</h3></th>
+              <th><h3 class="mys h3">Description</h3></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="drca">
+              <td>
+                <span class="mys radio-checkbox">
+                  <input type="radio" id="myRadio1" name="myRadio" value="" />
+                  <label for="myRadio1">DVA886754</label>
+                </span>
+              </td>
+              <td data-title="Type">Permanent impairment</td>
+              <td data-title="Decision date">18 Feb 2020</td>
+              <td data-title="Description">Tinnitus, Depression</td>
+            </tr>
+            <tr class="vea">
+              <td>
+                <span class="mys radio-checkbox">
+                  <input type="radio" id="myRadio2" name="myRadio" value="" />
+                  <label for="myRadio2">NSM123457</label>
+                </span>
+              </td>
+              <td data-title="Type">Disability Pension</td>
+              <td data-title="Decision date">15 Dec 2019</td>
+              <td data-title="Description">Application for increase</td>
+            </tr>
+            <tr class="vrb">
+              <td>
+                <span class="mys radio-checkbox">
+                  <input type="radio" id="myRadio3" name="myRadio" value="" />
+                  <label for="myRadio3">DVA3345278</label>
+                </span>
+              </td>
+              <td data-title="Type">Initial liability</td>
+              <td data-title="Decision date">
+                21 Dec 2020<BR />Internal reconsideration
+              </td>
+              <td data-title="Description">
+                Femoroacetabular Impingement Syndrome
+              </td>
+            </tr>
+            <tr class="vrb">
+              <td>
+                <span class="mys radio-checkbox">
+                  <input type="radio" id="myRadio4" name="myRadio" value="" />
+                  <label for="myRadio4">VRB775437</label>
+                </span>
+              </td>
+              <td data-title="Type">Rent assistance</td>
+              <td data-title="Decision date">
+                28 Nov 2020<BR />Veterans' review board
+              </td>
+              <td data-title="Description">Application for increase</td>
+            </tr>
+            <tr class="other">
+              <td class="no-label" colspan="4">
+                <span class="mys radio-checkbox">
+                  <input type="radio" id="myRadio5" name="myRadio" value="" />
+                  <label for="myRadio5">Other decision</label>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="mys paging margin-above margin-below--large">
+          <a class="disabled" href="#1">«</a><a class="active" href="#1">1</a
+          ><a href="#2">2</a><a href="#3">3</a
+          ><a class="disabled" href="#3">»</a>
+        </div>
+      </div>
+    </form>
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "This decision will be reviewed by Veteran's Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.", 
+      modifiers: ["hidden"], 
+      id: "vrb-prompt" 
+    }); %> 
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#' class='external-link'>DVA website</a> (need to locate if there is anywhere to link to)", 
+      modifiers: ["hidden"], 
+      id: "internal-review-prompt" 
+    }); %> 
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link' >DVA website</a>.", 
+      modifiers: ["hidden"], 
+      id: "aat-prompt", 
+      type: "warning" 
+    }); %> 
+    <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
+  </div>
+</div>
 
-  <form id="myform">
-    <input type="reset" style="display:none">
-    <div id="decisions-found">
-      <h2 class="mys h2">Decisions found.</h2> 
-      <p class="margin-below--mid">Select a decision to proceed.</p>
-      <table class="mys-table1 reviews--decisions margin-below--mid">
-        <thead>
-          <tr>
-            <th><h3 class="mys h3">Reference</h3></th>
-            <th><h3 class="mys h3">Type</h3></th>
-            <th><h3 class="mys h3">Decision date</h3></th>
-            <th><h3 class="mys h3">Description</h3></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr class="drca">
-            <td>
-              <span class="mys radio-checkbox">
-                <input type="radio" id="myRadio1" name="myRadio" value="">
-                <label for="myRadio1">DVA886754</label>
-              </span>
-            </td>
-            <td data-title="Type">Permanent impairment</td>
-            <td data-title="Decision date">18 Feb 2020</td>
-            <td data-title="Description">Tinnitus, Depression</td>
-          </tr>
-          <tr class="vea">
-            <td>
-              <span class="mys radio-checkbox">
-                <input type="radio" id="myRadio2" name="myRadio" value="">
-                <label for="myRadio2">NSM123457</label>
-              </span>
-            </td>
-            <td data-title="Type">Disability Pension</td>
-            <td data-title="Decision date">15 Dec 2019</td>
-            <td data-title="Description">Application for increase</td>
-          </tr>
-          <tr class="vrb">
-            <td>
-              <span class="mys radio-checkbox">
-                <input type="radio" id="myRadio3" name="myRadio" value="">
-                <label for="myRadio3">DVA3345278</label>
-              </span>
-            </td>
-            <td data-title="Type">Initial liability</td>
-            <td data-title="Decision date">21 Dec 2020<BR/>Internal reconsideration</td>
-            <td data-title="Description">Femoroacetabular Impingement Syndrome</td>
-          </tr>
-          <tr class="vrb">
-            <td>
-              <span class="mys radio-checkbox">
-                <input type="radio" id="myRadio4" name="myRadio" value="">
-                <label for="myRadio4">VRB775437</label>
-              </span>
-            </td>
-            <td data-title="Type">Rent assistance</td>
-            <td data-title="Decision date">28 Nov 2020<BR/>Veterans' review board</td>
-            <td data-title="Description">Application for increase</td>
-          </tr>
-          <tr class="other">
-            <td class="no-label" colspan="4">
-              <span class="mys radio-checkbox">
-                <input type="radio" id="myRadio5" name="myRadio" value="">
-                <label for="myRadio5">Other decision</label>
-              </span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="mys paging margin-above margin-below"><a class="disabled" href="#1">«</a><a class="active" href="#1">1</a><a href="#2">2</a><a href="#3">3</a><a class="disabled" href="#3">»</a></div>
+<div class="no-decisions-loader" hidden>
+  <div class="reviews mys-page-preloader">
+    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation" />
+    <div class="message">Looking for eligible decisions</div>
+  </div>
+</div>
+
+<div class="manual-input" hidden>
+    <%- include(partials+"components/form-partials/radio", { 
+      label: "What type of decision do you wish to have reviewed?", 
+      boxes: [ 
+        "Disability pension",
+        "War widow(er) pension", 
+        "MRCA liability or compensation", 
+        "DRCA liability or compensation", 
+        "Service pension, income support supplement or qualifying service", 
+        "Other (<i>add examples here</i>)" 
+      ], 
+      id: "decision-type" 
+    }); %>
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "You are able to request a decision review within <span class='period'>XX months</span> of the decision date. You will find the decision date on the original letter advising the decision.", 
+      modifiers: ["hidden"], 
+      id: "timeframe-prompt" 
+    }); %> 
+    <%-include(partials+"components/form-partials/notice", { 
+      message: "<p>There are timeframes within which you are able to request reviews of decisions made. These vary based on the type of decision. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>You will find the decision date on the original letter advising the decision. You should ensure the date falls within the required timeframe.</p>", 
+      modifiers: ["hidden"], 
+      id: "unknown-timeframe-prompt" 
+    }); %>
+
+    <div class="form-group formPartials_date" id="date492-container">
+      <fieldset>
+        <legend class="uikit-text-input__label legend-override">
+          Enter the date of the letter advising the decision<span class="hint">
+            (dd / mm / yyyy)</span
+          >
+        </legend>
+        <input
+          type="number"
+          class="uikit-text-input dd"
+          name="date492-dd"
+          id="date492-dd"
+          maxlength="2"
+          aria-label="2 digit day"
+        />
+        <span aria-hidden="true">/</span>
+        <input
+          type="number"
+          class="uikit-text-input mm"
+          name="date492-mm"
+          id="date492-mm"
+          maxlength="2"
+          aria-label="2 digit month"
+        />
+        <span aria-hidden="true">/</span>
+        <input
+          type="number"
+          class="uikit-text-input yyyy"
+          name="date492-yyyy"
+          id="date492-yyyy"
+          maxlength="4"
+          aria-label="4 digit year"
+        />
+      </fieldset>
     </div>
-  </form>
 
-  <%- include(partials+"components/form-partials/notice", {
-    message: "This decision will be reviewed by Veteran's Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.",
-    modifiers: ["hidden"],
-    id: "vrb-prompt"
-  }); %>
-
-  <%- include(partials+"components/form-partials/notice", {
-    message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#' class='external-link'>DVA website</a> (need to locate if there is anywhere to link to)",
-    modifiers: ["hidden"],
-    id: "internal-review-prompt"
-  }); %>
-
-  <%- include(partials+"components/form-partials/notice", {
-    message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.",
-    modifiers: ["hidden"],
-    id: "aat-prompt",
-    type: "warning"
-  }); %>
-
-  <%#- include(partials+"components/form-partials/notice", {
-    message: "<p>There are timeframes within which you are able to request reviews of decisions made. If a decision you would like to have reviewed is not shown here it may be that it does not fall within the required timeframes. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>If you think there is an error or wish to request a review outside the timeframes select 'save and next' to enter details of the decision.</p>",
-    modifiers: ["hidden"],
-    id: "other-prompt"
-  }); %>
-
-</div>
-
-</div>
-
-<div class="no-decisions" hidden>
-
-  <div class="loader reviews mys-page-preloader">
-    <img src="/docs/images/waiting-gray-fat.svg" alt="loading animation">
-    <div class="message">Looking for eligible decisions</div>
+    <%- include(partials+"components/form-partials/text", { 
+      label: "Reference number if available", 
+      hint: "(optional)" 
+    }); %>
   </div>
 
-  <div class="loaded" hidden>
-
-  <h2 class="mys h3">No decisions have been found that fall within the required timeframes.</h2> 
-  <p class="margin-above">There are timeframes within which you are able to request reviews of decisions made. As no decisions have been found it may be that there are no decisions on file that fall within the required timeframes. You can find out more on the <a href="https://www.dva.gov.au/financial-support/appeals" class="external-link">DVA website</a>.</p>
-  <p class="margin-above">If you think there is an error or wish to request a review outside the timeframes select "save and next" to enter details of the decision.</p>
-
-</div>
-
-</div>
-
-  <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
-
-  <div class="pagination pagination--ss-reverse-order" id="pagination" hidden>
-    <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
-    <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
-    <div class="floated">
+<div class="pagination pagination--ss-reverse-order" id="pagination" hidden>
+      <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
+      <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
+      <div class="floated">
         <a href="/auth/reviews/index?state=one" id="save-exit-button" class="uikit-btn uikit-btn--tertiary">Save and exit</a>
-        <a href="javascript:goNext()" id="save-next-button" class="uikit-btn ">Save and next</a>
+        <a href="/auth/reviews/reviews-02" id="save-next-button" class="uikit-btn">Save and next</a>
+      </div>
     </div>
-  </div>
 
-    <%- include(templates+"footer") %>
-    <%- include("reviews-01-ss") %>
+<%- include(templates+"footer") %> <%- include("reviews-01-ss") %>
 
 <script>
-
   // $('.reviews--decisions input[type="radio"]').click(function () {
   //   selectedRow = $(this).closest('tr').attr("class").split(" ")[0];
   //   console.log( selectedRow )
   //   updateTable(selectedRow)
   // });
 
+  $(".reviews--decisions tbody > tr").click(function () {
+    selectedRow = $(this).attr("class").split(" ")[0];
+    updateTable(selectedRow);
+    $(".reviews--decisions tr").removeClass("selected");
+    $(this).addClass("selected");
+    $(this).find("td input:radio").prop("checked", true);
+  });
 
-$('.reviews--decisions tbody > tr').click(function () {
-  selectedRow = $(this).attr("class").split(" ")[0];
-  updateTable(selectedRow);
-  $(".reviews--decisions tr").removeClass('selected');
-  $(this).addClass('selected');
-  $(this).find('td input:radio').prop('checked', true);
-});
-
-var selected;
-function updateTable(selectedRow) {
-  resetTable();
-  selected = "record";
-  switch (selectedRow) {
-    case "drca":
-      $("#internal-review-prompt-container").show();
-      break;
-    case "vea":
-      $("#vrb-prompt-container").show();
-      break;
-    case "vrb":
-      $("#aat-prompt-container").show();
-      $("#save-next-button").attr('disabled','disabled');
-      $("#save-exit-button").attr('disabled','disabled');
-      break;
-    case "other":
-      selected = "other";
-      // $("#other-prompt-container").show();
-      $("#save-next").show();
-      break;
-    default:
-      break;
+  var selected;
+  function updateTable(selectedRow) {
+    resetTable();
+     $(".manual-input").hide();
+    selected = "record";
+    switch (selectedRow) {
+      case "drca":
+        $("#internal-review-prompt-container").show();
+        break;
+      case "vea":
+        $("#vrb-prompt-container").show();
+        break;
+      case "vrb":
+        $("#aat-prompt-container").show();
+        $("#save-next-button").attr("disabled", "disabled");
+        $("#save-exit-button").attr("disabled", "disabled");
+        break;
+      case "other":
+        selected = "other";
+        $(".manual-input").show();
+        break;
+      default:
+        break;
+    }
+    $("body,html").animate(
+      {
+        scrollTop:
+          $(".reviews--decisions").position().top +
+          $(".reviews--decisions").height(),
+      },
+      1000
+    );
   }
-  $('body,html').animate({
-    scrollTop: ( $(".reviews--decisions").position().top + $(".reviews--decisions").height() )
-  }, 1000);
-}
 
-function goNext(){
-  window.location = "/auth/reviews/reviews-02?state=" + selected;
-}
-
-var state;
-$.urlParam = function (name) {
-  var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-  if (results == null) {
-    return 0;
+  var state;
+  $.urlParam = function (name) {
+    var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
+      window.location.href
+    );
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  };
+  state = $.urlParam("state");
+  updatePage();
+  function updatePage() {
+    hideAll();
+    resetTable();
+    switch (state) {
+      case "norev":
+        selected = "other";
+        doPageLoadB();
+        break;
+      default:
+        doPageLoadA();
+        break;
+    }
   }
-  return results[1] || 0;
-}
-state = $.urlParam('state');
-updatePage();
-function updatePage(){
-  hideAll();
-  resetTable();
-  switch (state) {
-    case "norev":
-    selected = "other";
-      doPageLoadB();
-      break;
-    default:
-      doPageLoadA();
-      break;
+  function hideAll() {
+    console.log("hide")
+    $(".loader").hide();
+    $(".loaded").hide();
+    $(".manual-input").hide();
+    $(".manual-loader").hide();
+    $("#aat-prompt-container").hide();
+    $("#vrb-prompt-container").hide();
+    $(".default").hide();
+    $(".no-decisions").hide();
+    $("#save-next").hide();
+    $("#pagination").hide();
   }
-}
-function hideAll(){
-  $(".loader").hide();
-  $(".loaded").hide();
-  $("#aat-prompt-container").hide();
-  $("#vrb-prompt-container").hide();
-  $(".default").hide();
-  $(".no-decisions").hide();
-  $("#save-next").hide();
-  $("#pagination").hide();
-}
-function resetTable(){
-  $("#save-next-button").removeAttr('disabled');
-  $("#save-exit-button").removeAttr('disabled');
-  $("#internal-review-prompt-container").hide();
-  $("#vrb-prompt-container").hide();
-  $("#aat-prompt-container").hide();
-  $("#other-prompt-container").hide();
-  $("#save-next").hide();
-  $('td input:radio').prop('checked', false);
-  $(".reviews--decisions tr").removeClass('selected');
-}
-function doPageLoadA() {
+  function resetTable() {
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#internal-review-prompt-container").hide();
+    $("#vrb-prompt-container").hide();
+    $("#aat-prompt-container").hide();
+    $("#other-prompt-container").hide();
+    $("#save-next").hide();
+    $("td input:radio").prop("checked", false);
+    $(".reviews--decisions tr").removeClass("selected");
+  }
+  function doPageLoadA() {
     $(".default").show();
     $(".loader").show();
-    setTimeout(function(){
-        $(".loader").hide();
-        $(".loaded").fadeIn();
-        $("#pagination").fadeIn();
+    setTimeout(function () {
+      $(".loader").hide();
+      $(".loaded").fadeIn();
+      $("#pagination").fadeIn();
     }, 1500);
-}
-function doPageLoadB() {
-    $(".no-decisions").show();
-    $(".loader").show();
-    setTimeout(function(){
-        $(".loader").hide();
-        $(".loaded").fadeIn();
-        $("#pagination").fadeIn();
+  }
+  function doPageLoadB() {
+    $(".no-decisions-loader").show();
+    setTimeout(function () {
+      $(".no-decisions-loader").hide();
+      $(".manual-input").fadeIn();
+      $("#pagination").fadeIn();
     }, 500);
-}
+  }
 
+  var timeframe;
+  $("input[name=decision-type]").change(function () {
+    $("#timeframe-prompt-container").hide();
+    $("#unknown-timeframe-prompt-container").hide();
+    selected = $(this).val().substr(0, 5);
+    console.log(selected);
+    switch (selected) {
+      case "disab":
+        timeframe = "12 months";
+        break;
+      case "warwi":
+        timeframe = "12 months";
+        break;
+      case "mrcal":
+        timeframe = "12 months";
+        break;
+      case "drcal":
+        timeframe = "30 days";
+        break;
+      case "servi":
+        timeframe = "3 months";
+        break;
+      case "other":
+        timeframe = "unknown";
+        break;
+      default:
+        break;
+    }
+    if (timeframe == "unknown") {
+      $("#unknown-timeframe-prompt-container").show();
+    } else {
+      $(".period").text(timeframe);
+      $("#timeframe-prompt-container").show();
+    }
+  });
 </script>

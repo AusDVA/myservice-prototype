@@ -1,170 +1,195 @@
 <!DOCTYPE html>
 <html class="js" lang="en">
+  <head>
+    <title>MyService</title>
+    <%- include(partials+"components/layout/head") %>
+  </head>
 
-<head>
-  <title>MyService</title>
-  <%- include(partials+"components/layout/head") %>
-</head>
+  <body class="uikit-body uikit-grid uikit-refactor future nom-reps">
+    <noscript>
+      <p role="alert">This website needs JavaScript to work properly.</p>
+    </noscript>
+    <nav class="uikit-skip-link">
+      <a class="uikit-skip-link__link" href="#main-content"
+        >Skip to main content</a
+      >
+    </nav>
 
-<body class="uikit-body uikit-grid uikit-refactor future nom-reps">
-  <noscript>
-    <p role="alert">This website needs JavaScript to work properly.</p>
-  </noscript>
-  <nav class="uikit-skip-link">
-    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
-  </nav>
+    <%- include(partials+"components/layout/header-topbar") %> 
+    <%-include(partials+"components/layout/header-authenticated") %>
 
-  <%- include(partials+"components/layout/header-topbar") %>
-  <%- include(partials+"components/layout/header-authenticated") %>
+    <main>
+      <div class="container margin-above margin-below--extra" style="min-height: 500px">
+        <div class="back-button">
+          <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+        </div>
+        <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Request review</h1>
 
-  <main>
- 
-      <div class="container margin-above margin-below--extra" style="min-height: 500px;">
-      
-          <div class="back-button">
-            <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
+        <p>
+          If you are not satisfied with the outcome of an application, you can
+          request a review. The type of review you can request depends on the
+          Act that covers you and the type of benefit or service you applied
+          for.
+        </p>
+
+        <button
+          id="book"
+          class="uikit-btn uikit-btn--primary request-review"
+          onclick="location.href='/auth/reviews/reviews-01'"
+        >
+          Start request
+        </button>
+
+        <div id="requests">
+          <hr />
+          <%- include(partials+"components/form-partials/notice", { 
+            message: "Your request has been submitted successfully.", 
+            type: "success",
+            id: "success", 
+            modifiers: ["hidden"], 
+            customClass: ["margin-below--none"] 
+          }); %> 
+          <%- include(partials+"components/form-partials/notice", { 
+            message: "Your travel booking has been cancelled successfully.", 
+            type: "success",
+            id: "cancel-success",
+            modifiers: ["hidden"], 
+            customClass: ["margin-below--none"] 
+          }); %>
+
+          <h2 class="mys h2 margin-below--small margin-above">
+            Submitted requests
+          </h2>
+
+          <table class="mys-table1 vea-trips margin-below">
+            <thead>
+              <tr>
+                <th>Date submitted</th>
+                <th>Reference</th>
+                <th>Details</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="blank" class="placeholder" hidden>
+                <td colspan="5">You currently have no requests.</td>
+              </tr>
+
+              <tr id="item-1">
+                <td data-title="Date submitted">2 September 2020</td>
+                <td data-title="Reference">33657809</td>
+                <td data-title="Details">
+                  <div>Disability pension</div>
+                  <div>Internal review</div>
+                </td>
+                <td data-title="Status">Incomplete</td>
+                <td>
+                  <button
+                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
+                  >
+                    Delete</button
+                  ><BR />
+                  <button
+                    class="uikit-btn uikit-btn--borderless margin-right--none cancel-return"
+                  >
+                    Resume
+                  </button>
+                </td>
+              </tr>
+
+              <tr id="item-2">
+                <td data-title="Date submitted">16 July 2020</td>
+                <td data-title="Reference">33657900</td>
+                <td data-title="Details">
+                  <div>MRCA Compensation</div>
+                  <div>VRB Appeal</div>
+                </td>
+                <td data-title="Status">In progress</td>
+                <td>
+                  <button
+                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+
+              <tr id="item-3">
+                <td data-title="Date submitted">16 July 2020</td>
+                <td data-title="Reference">33657900</td>
+                <td data-title="Details">
+                  <div>MRCA Compensation</div>
+                  <div>Internal review</div>
+                </td>
+                <td data-title="Status">Finalised</td>
+                <td>
+                  <button
+                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
+                  >
+                    View
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="mys paging">
+            <a class="disabled" href="#1">«</a>
+            <a class="active" href="#1">1</a>
+            <a href="#2">2</a><a href="#3">3</a>
+            <a class="disabled" href="#3">»</a>
           </div>
-          <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Request review</h1>
-
-          <p>If you are not satisfied with the outcome of an application, you can request a review. The type of review you can request depends on the Act that covers you and the type of benefit or service you applied for.</p>
-          <!-- <p>In some situations, the person who performs the review will be a DVA staff member. In others, it will be a member of the Veterans' Review Board.</p> -->
-          <button id="book" class="uikit-btn uikit-btn--primary request-review" onclick="location.href='/auth/reviews/reviews-01'">Start request</button>
-
-          <div id="requests">
-            <hr>
-            <%- include(partials+"components/form-partials/notice", {
-              message: "Your travel booking has been updated successfully.",
-              type: "success",
-              id: "success",
-              modifiers: ["hidden"],
-              customClass: ["margin-below--none"]
-            }); %>
-            <%- include(partials+"components/form-partials/notice", {
-              message: "Your travel booking has been cancelled successfully.",
-              type: "success",
-              id: "cancel-success",
-              modifiers: ["hidden"],
-              customClass: ["margin-below--none"]
-            }); %>
-
-            <h2 class="mys h2 margin-below--small margin-above">Submitted requests</h2>
-
-            <table class="mys-table1 vea-trips margin-below">
-              <thead>
-                <tr>
-                  <th>Date submitted</th>
-                  <th>Reference</th>
-                  <th>Details</th>
-                  <th>Status</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr id="blank" class="placeholder" hidden>
-                  <td colspan="5">You currently have no requests.</td>
-                </tr>
-
-                <tr id="item-1">
-                  <td data-title="Date submitted">2 September 2020
-                  </td>
-                  <td data-title="Reference">33657809</td>
-                  <td data-title="Details">
-                    <div>Disability pension</div>
-                    <div>Internal review</div>
-                  </td>
-                  <td data-title="Status">Incomplete</td>
-                  <td>
-                    <button class="edit-trip uikit-btn uikit-btn--borderless margin-right--none">Delete</button><BR />
-                    <button class="uikit-btn uikit-btn--borderless margin-right--none cancel-return">Resume</button>
-                  </td>
-                </tr>
-               
-                <tr id="item-2">
-                  <td data-title="Date submitted">16 July 2020
-                  </td>
-                  <td data-title="Reference">33657900</td>
-                  <td data-title="Details">
-                    <div>MRCA Compensation</div>
-                    <div>VRB Appeal</div>
-                  </td>
-                  <td data-title="Status">In progress</td>
-                  <td>
-                    <button class="edit-trip uikit-btn uikit-btn--borderless margin-right--none">View</button>
-                  </td>
-                </tr>
-
-                <tr id="item-3"> 
-                  <td data-title="Date submitted">16 July 2020
-                  </td>
-                  <td data-title="Reference">33657900</td>
-                  <td data-title="Details">
-                    <div>MRCA Compensation</div>
-                    <div>Internal review</div>
-                  </td>
-                  <td data-title="Status">Finalised</td>
-                  <td>
-                    <button class="edit-trip uikit-btn uikit-btn--borderless margin-right--none">View</button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="mys paging">
-              <a class="disabled" href="#1">«</a>
-              <a class="active" href="#1">1</a>
-              <a href="#2">2</a><a href="#3">3</a>
-              <a class="disabled" href="#3">»</a>
-            </div>
-          </div>
+        </div>
       </div>
+    </main>
 
-  </main>
+    <%- include(partials+"components/layout/footer") %> 
+    <%- include("index-ss") %> 
 
-  <%- include(partials+"components/layout/footer") %>
-  <%- include("index-ss") %>
-  <%#- include("cancel-return-modal") %>
-  <%#- include("cancel-return-only-modal") %>
-  <%#- include("cancel-modal") %>
-</body>
-<script>
-
-  var state;
-  $.urlParam = function (name) {
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null) {
-      return 0;
+  </body>
+  <script>
+    var state;
+    $.urlParam = function (name) {
+      var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
+        window.location.href
+      );
+      if (results == null) {
+        return 0;
+      }
+      return results[1] || 0;
+    };
+    state = $.urlParam("state");
+    $("#requests-1").prop("checked", true);
+    stateSwitcher();
+    function stateSwitcher() {
+      hideAll();
+      switch (state) {
+        case "none":
+          $("#blank").show();
+          break;
+        case "one-submitted":
+          $("#item-2").show();
+          $("#success-container").show();
+          break;
+        case "some":
+          $("#item-1").show();
+          $("#item-2").show();
+          $("#item-3").show();
+          $(".paging").show();
+          break;
+        default:
+          $("#blank").show();
+          break;
+      }
     }
-    return results[1] || 0;
-  }
-  state = $.urlParam('state');
-  $("#requests-1").prop("checked", true);
-  stateSwitcher();
-  function stateSwitcher() {
-    $("#blank").hide();
-    $("#item-1").hide();
-    $("#item-2").hide();
-    $("#item-3").hide();
-    $(".paging").hide();
-    switch (state) {
-      case "none":
-        $("#blank").show();
-        break;
-      case "some":
-        $("#item-1").show();
-        $("#item-2").show();
-        $("#item-3").show();
-        $(".paging").show();
-        break;
-      default:
-        $("#blank").show();
-        break;
+
+    function hideAll() {
+      $("#blank").hide();
+      $("#item-1").hide();
+      $("#item-2").hide();
+      $("#item-3").hide();
+      $(".paging").hide();
+      $("#success-container").hide();
     }
-  }
-
-  $(".edit-trip").click(function () {
-    window.location = "/auth/transport/book-edit";
-  });
-
- 
-</script>
-
+  </script>
 </html>
