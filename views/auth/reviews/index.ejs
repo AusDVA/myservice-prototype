@@ -23,7 +23,7 @@
         <div class="back-button">
           <a href="/auth" class="mys h5"><i class="fal fa-arrow-left fa-fw"></i>Back to home</a>
         </div>
-        <h1 class="mys h1 margin-above--none margin-below--mid" id="heading">Request review</h1>
+        <h1 class="mys h1 margin-above--none margin-below--mid request-review" id="heading">Request review</h1>
 
         <p>
           If you are not satisfied with the outcome of an application, you can
@@ -34,9 +34,7 @@
 
         <button
           id="book"
-          class="uikit-btn uikit-btn--primary request-review"
-          onclick="location.href='/auth/reviews/reviews-01'"
-        >
+          class="uikit-btn uikit-btn--primary request-review">
           Start request
         </button>
 
@@ -159,6 +157,8 @@
       return results[1] || 0;
     };
     state = $.urlParam("state");
+    scenario = $.urlParam('scenario');
+    console.log(scenario)
     $("#requests-1").prop("checked", true);
     stateSwitcher();
     function stateSwitcher() {
@@ -169,7 +169,7 @@
           break;
         case "one-submitted":
           $("#item-2").show();
-          $("#success-container").show();
+          // $("#success-container").show();
           break;
         case "some":
           $("#item-1").show();
@@ -189,7 +189,17 @@
       $("#item-2").hide();
       $("#item-3").hide();
       $(".paging").hide();
-      $("#success-container").hide();
+      // $("#success-container").hide();
     }
+
+    $(".request-review").click( function( event ) {
+      if ( scenario === undefined ) {
+        window.location.href = "/auth/reviews/reviews-01";
+      } else {
+        window.location.href = "/auth/reviews/reviews-01?state=" + scenario;
+      } 
+    });
+
+
   </script>
 </html>
