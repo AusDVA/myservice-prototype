@@ -1,5 +1,4 @@
-<%- include(templates+"header", { claim: "MyService - Request review" , heading:
-"Decision information" }) %>
+<%- include(templates+"header", { claim: "MyService - Request review" , heading: "Decision information" }) %>
 
 <div class="default">
   <div class="loader reviews mys-page-preloader">
@@ -72,20 +71,23 @@
               </td>
               <td data-title="Description">Application for increase</td>
             </tr>
-            <tr class="other">
+            <!-- <tr class="other">
               <td class="no-label" colspan="4">
                 <span class="mys radio-checkbox">
                   <input type="radio" id="myRadio5" name="myRadio" value="" />
                   <label for="myRadio5">Other decision</label>
                 </span>
               </td>
-            </tr>
+            </tr> -->
           </tbody>
         </table>
-        <div class="mys paging margin-above margin-below--large">
-          <a class="disabled" href="#1">«</a><a class="active" href="#1">1</a
-          ><a href="#2">2</a><a href="#3">3</a
-          ><a class="disabled" href="#3">»</a>
+        <div class="decisions-table-footer margin-above margin-below--extra">
+          <div class="mys paging">
+            <a class="disabled" href="#1">«</a><a class="active" href="#1">1</a
+            ><a href="#2">2</a><a href="#3">3</a
+            ><a class="disabled" href="#3">»</a>
+          </div>
+          <button class="uikit-btn small uikit-btn--tertiary other-decision">Decision not shown here?</button>
         </div>
       </div>
     </form>
@@ -95,17 +97,19 @@
       id: "vrb-prompt" 
     }); %> 
     <%- include(partials+"components/form-partials/notice", { 
-      message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#' class='external-link'>DVA website</a> (need to locate if there is anywhere to link to)", 
+      message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#'' class='external-link'>DVA website</a> (need to locate if there is anywhere to link to)", 
       modifiers: ["hidden"], 
       id: "internal-review-prompt" 
     }); %> 
     <%- include(partials+"components/form-partials/notice", { 
-      message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link' >DVA website</a>.", 
+      message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au financial-support/appeals' class='external-link'>DVA website</a>.", 
       modifiers: ["hidden"], 
       id: "aat-prompt", 
       type: "warning" 
-    }); %> 
-    <p id="save-next" hidden class="margin-above">Choose <b>save and next</b> to continue</p>
+    }); %>
+    <!-- <p id="save-next" hidden class="margin-above">
+      Choose <b>save and next</b> to continue
+    </p> -->
   </div>
 </div>
 
@@ -117,79 +121,89 @@
 </div>
 
 <div class="manual-input" hidden>
-    <%- include(partials+"components/form-partials/radio", { 
-      label: "What type of decision do you wish to have reviewed?", 
-      boxes: [ 
-        "Disability pension",
-        "War widow(er) pension", 
-        "MRCA liability or compensation", 
-        "DRCA liability or compensation", 
-        "Service pension, income support supplement or qualifying service", 
-        "Other (<i>add examples here</i>)" 
-      ], 
-      id: "decision-type" 
-    }); %>
-    <%- include(partials+"components/form-partials/notice", { 
-      message: "You are able to request a decision review within <span class='period'>XX months</span> of the decision date. You will find the decision date on the original letter advising the decision.", 
-      modifiers: ["hidden"], 
-      id: "timeframe-prompt" 
-    }); %> 
-    <%-include(partials+"components/form-partials/notice", { 
-      message: "<p>There are timeframes within which you are able to request reviews of decisions made. These vary based on the type of decision. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>You will find the decision date on the original letter advising the decision. You should ensure the date falls within the required timeframe.</p>", 
-      modifiers: ["hidden"], 
-      id: "unknown-timeframe-prompt" 
-    }); %>
+  <form class="manual-input-form">
+  <input type="reset" style="display: none" />
+  <%- include(partials+"components/form-partials/radio", { 
+    label: "What type of decision do you wish to have reviewed?", 
+    boxes: [ 
+      "Disability pension", 
+      "War widow(er) pension", 
+      "MRCA liability or compensation", 
+      "DRCA liability or compensation", 
+      "Service pension, income support supplement or qualifying service", 
+      "Other (<i>add examples here</i>)" 
+    ], 
+    id: "decision-type" 
+  }); %> 
+  <%- include(partials+"components/form-partials/notice", { 
+    message: "You are able to request a decision review within <span class='period'>XX months</span> of the decision date. You will find the decision date on the original letter advising the decision.", 
+    modifiers: ["hidden"], 
+    id: "timeframe-prompt" 
+  }); %>
+  <%-include(partials+"components/form-partials/notice", { 
+    message: "<p>There are timeframes within which you are able to request reviews of decisions made. These vary based on the type of decision. You can find out more on the <a href='https://www.dva.gov.au/financial-support/appeals' class='external-link'>DVA website</a>.</p><p>You will find the decision date on the original letter advising the decision. You should ensure the date falls within the required timeframe.</p>", 
+    modifiers: ["hidden"], 
+    id: "unknown-timeframe-prompt" 
+  }); %>
 
-    <div class="form-group formPartials_date" id="date492-container">
-      <fieldset>
-        <legend class="uikit-text-input__label legend-override">
-          Enter the date of the letter advising the decision<span class="hint">
-            (dd / mm / yyyy)</span
-          >
-        </legend>
-        <input
-          type="number"
-          class="uikit-text-input dd"
-          name="date492-dd"
-          id="date492-dd"
-          maxlength="2"
-          aria-label="2 digit day"
-        />
-        <span aria-hidden="true">/</span>
-        <input
-          type="number"
-          class="uikit-text-input mm"
-          name="date492-mm"
-          id="date492-mm"
-          maxlength="2"
-          aria-label="2 digit month"
-        />
-        <span aria-hidden="true">/</span>
-        <input
-          type="number"
-          class="uikit-text-input yyyy"
-          name="date492-yyyy"
-          id="date492-yyyy"
-          maxlength="4"
-          aria-label="4 digit year"
-        />
-      </fieldset>
-    </div>
-
-    <%- include(partials+"components/form-partials/text", { 
-      label: "Reference number if available", 
-      hint: "(optional)" 
-    }); %>
+  <div class="form-group formPartials_date" id="date492-container">
+    <fieldset>
+      <legend class="uikit-text-input__label legend-override">
+        Enter the date of the letter advising the decision<span class="hint">
+          (dd / mm / yyyy)</span
+        >
+      </legend>
+      <input
+        type="number"
+        class="uikit-text-input dd"
+        name="date492-dd"
+        id="date492-dd"
+        maxlength="2"
+        aria-label="2 digit day"
+      />
+      <span aria-hidden="true">/</span>
+      <input
+        type="number"
+        class="uikit-text-input mm"
+        name="date492-mm"
+        id="date492-mm"
+        maxlength="2"
+        aria-label="2 digit month"
+      />
+      <span aria-hidden="true">/</span>
+      <input
+        type="number"
+        class="uikit-text-input yyyy"
+        name="date492-yyyy"
+        id="date492-yyyy"
+        maxlength="4"
+        aria-label="4 digit year"
+      />
+    </fieldset>
   </div>
 
+  <%- include(partials+"components/form-partials/text", { 
+    label: "Reference number if available", 
+    hint: "(optional)" 
+  }); %>
+</div>
+</form>
+
 <div class="pagination pagination--ss-reverse-order" id="pagination" hidden>
-      <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
-      <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
-      <div class="floated">
-        <a href="/auth/reviews/index?state=one" id="save-exit-button" class="uikit-btn uikit-btn--tertiary">Save and exit</a>
-        <a href="/auth/reviews/reviews-02" id="save-next-button" class="uikit-btn">Save and next</a>
-      </div>
-    </div>
+  <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
+  <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
+  <div class="floated">
+    <a
+      href="/auth/reviews/index?state=one"
+      id="save-exit-button"
+      class="uikit-btn uikit-btn--tertiary"
+      >Save and exit</a
+    >
+    <a href="/auth/reviews/reviews-02" id="save-next-button" class="uikit-btn"
+      >Save and next</a
+    >
+  </div>
+</div>
 
 <%- include(templates+"footer") %> <%- include("reviews-01-ss") %>
 
@@ -199,7 +213,6 @@
   //   console.log( selectedRow )
   //   updateTable(selectedRow)
   // });
-
   $(".reviews--decisions tbody > tr").click(function () {
     selectedRow = $(this).attr("class").split(" ")[0];
     updateTable(selectedRow);
@@ -207,11 +220,10 @@
     $(this).addClass("selected");
     $(this).find("td input:radio").prop("checked", true);
   });
-
   var selected;
   function updateTable(selectedRow) {
     resetTable();
-     $(".manual-input").hide();
+    $(".manual-input").hide();
     selected = "record";
     switch (selectedRow) {
       case "drca":
@@ -225,23 +237,22 @@
         $("#save-next-button").attr("disabled", "disabled");
         $("#save-exit-button").attr("disabled", "disabled");
         break;
-      case "other":
-        selected = "other";
-        $(".manual-input").show();
-        break;
       default:
         break;
     }
     $("body,html").animate(
       {
-        scrollTop:
-          $(".reviews--decisions").position().top +
-          $(".reviews--decisions").height(),
+        scrollTop: $(".decisions-table-footer").position().top + $(".decisions-table-footer").height() + 30,
       },
       1000
     );
   }
-
+  $('.other-decision').click(function (event) {
+    event.preventDefault();
+    resetTable();
+    $(".manual-input-form").trigger("reset");
+    $(".manual-input").show();
+  });
   var state;
   $.urlParam = function (name) {
     var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
@@ -258,7 +269,7 @@
     hideAll();
     resetTable();
     switch (state) {
-      case "norev":
+      case "no-decisions":
         selected = "other";
         doPageLoadB();
         break;
@@ -268,7 +279,7 @@
     }
   }
   function hideAll() {
-    console.log("hide")
+    console.log("hide");
     $(".loader").hide();
     $(".loaded").hide();
     $(".manual-input").hide();
@@ -298,7 +309,7 @@
       $(".loader").hide();
       $(".loaded").fadeIn();
       $("#pagination").fadeIn();
-    }, 1500);
+    }, 100);
   }
   function doPageLoadB() {
     $(".no-decisions-loader").show();
@@ -306,9 +317,8 @@
       $(".no-decisions-loader").hide();
       $(".manual-input").fadeIn();
       $("#pagination").fadeIn();
-    }, 500);
+    }, 100);
   }
-
   var timeframe;
   $("input[name=decision-type]").change(function () {
     $("#timeframe-prompt-container").hide();
