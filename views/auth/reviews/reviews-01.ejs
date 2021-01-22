@@ -218,10 +218,18 @@
       "MRCA liability or compensation", 
       "DRCA liability or compensation", 
       "Service pension, income support supplement or qualifying service", 
-      "Other (<i>add examples here</i>)" 
+      "Treatment, Attendant Care, Household Services, Rehabilitation",
+      "Other" 
     ], 
     id: "decision-type" 
   }); %> 
+
+  <%- include(partials+"components/form-partials/text", { 
+    label: "Type of decision", 
+    modifiers: ["hidden","inputFullLength"],
+    id: "other-decision"
+  }); %>
+
   <%- include(partials+"components/form-partials/notice", { 
     message: "You are able to request a decision review within <span class='period'>XX months</span> of the decision date. You will find the decision date on the original letter advising the decision.", 
     modifiers: ["hidden"], 
@@ -275,7 +283,6 @@
     type: "error",
     id: "outside-timeframe-prompt"
   }); %>
-
 
   <%- include(partials+"components/form-partials/text", { 
     label: "Reference number if available", 
@@ -397,11 +404,13 @@
     $(".no-decisions").hide();
     $("#save-next").hide();
     $("#pagination").hide();
+    $("#other-decision-container").hide();
   }
   function resetTable() {
     $("#save-next-button").removeAttr("disabled");
     $("#save-exit-button").removeAttr("disabled");
     $("#internal-review-prompt-container").hide();
+    $("#other-decision-container").hide();
     $("#vrb-prompt-container").hide();
     $("#aat-prompt-container").hide();
     $("#other-prompt-container").hide();
@@ -410,17 +419,17 @@
     $(".reviews--decisions tr").removeClass("selected");
   }
   function doPageLoadA() {
-    $(".default").show();
-    $(".loader").show();
-    setTimeout(function () {
+      $(".default").show();
+      $(".loader").show();
+      setTimeout(function () {
       $(".loader").hide();
       $(".loaded").fadeIn();
       $("#pagination").fadeIn();
     }, 100);
   }
   function doPageLoadB() {
-    $(".no-decisions-loader").show();
-    setTimeout(function () {
+      $(".no-decisions-loader").show();
+      setTimeout(function () {
       $(".no-decisions-loader").hide();
       $(".manual-input").fadeIn();
       $("#pagination").fadeIn();
@@ -430,8 +439,8 @@
   $("input[name=decision-type]").change(function () {
     $("#timeframe-prompt-container").hide();
     $("#unknown-timeframe-prompt-container").hide();
+    $("#other-decision-container").hide();
     selected = $(this).val().substr(0, 5);
-    console.log(selected);
     switch (selected) {
       case "disab":
         timeframe = "3 months";
@@ -448,8 +457,12 @@
       case "servi":
         timeframe = "3 months";
         break;
+      case "treat":
+        timeframe = "3 months";
+        break;
       case "other":
         timeframe = "unknown";
+        $("#other-decision-container").show();
         break;
       default:
         break;
@@ -466,12 +479,12 @@
     resetTable();
     $(".manual-input-form").trigger("reset");
     $(".manual-input").hide();
+    $("#other-decision-container").hide();
     $('.decision').hide();
     $(".page"+pageNum).show();
     $(".mys.paging a").removeClass("active");
     $(".mys.paging").find(".paging"+pageNum).addClass("active");
   }
-
 
   $("#save-next-button").click( function( event ) {
     event.preventDefault();
