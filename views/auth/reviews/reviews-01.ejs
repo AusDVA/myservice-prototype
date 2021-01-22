@@ -243,8 +243,8 @@
       <input
         type="number"
         class="uikit-text-input dd"
-        name="date492-dd"
-        id="date492-dd"
+        name="date-dd"
+        id="date-dd"
         maxlength="2"
         aria-label="2 digit day"
       />
@@ -252,8 +252,8 @@
       <input
         type="number"
         class="uikit-text-input mm"
-        name="date492-mm"
-        id="date492-mm"
+        name="month-mm"
+        id="month-mm"
         maxlength="2"
         aria-label="2 digit month"
       />
@@ -261,13 +261,21 @@
       <input
         type="number"
         class="uikit-text-input yyyy"
-        name="date492-yyyy"
-        id="date492-yyyy"
+        name="year-yyyy"
+        id="year-yyyy"
         maxlength="4"
         aria-label="4 digit year"
       />
     </fieldset>
   </div>
+
+  <%-include(partials+"components/form-partials/notice", { 
+    message: "<p>This claim is outside the required timeframe. You are unable to submit online. To submit this claim you will need email DVA.</p>", 
+    modifiers: ["hidden"], 
+    type: "error",
+    id: "outside-timeframe-prompt"
+  }); %>
+
 
   <%- include(partials+"components/form-partials/text", { 
     label: "Reference number if available", 
@@ -286,7 +294,7 @@
       class="uikit-btn uikit-btn--tertiary"
       >Save and exit</a
     >
-    <a href="/auth/reviews/reviews-02" id="save-next-button" class="uikit-btn"
+    <a href="#" id="save-next-button" class="uikit-btn"
       >Save and next</a
     >
   </div>
@@ -313,7 +321,6 @@
     $(".manual-input").hide();
     selected = "record";
     switch (selectedRow) {
-
       case "internal":
         $("#internal-review-prompt-container").show();
         $("#save-next").show();
@@ -464,4 +471,51 @@
     $(".mys.paging a").removeClass("active");
     $(".mys.paging").find(".paging"+pageNum).addClass("active");
   }
+
+
+  $("#save-next-button").click( function( event ) {
+    event.preventDefault();
+    doSaveNext();
+  });
+  
+  function doSaveNext(){
+    var day = $("input[name=date-dd").val();
+    var month = $("input[name=month-mm").val();
+    var year = $("input[name=year-yyyy").val();
+    var decisionDate = new Date( month + "/" + day + "/" + year );
+    if ( getDateDifference( decisionDate ) > 90 ) {
+      dateBlock()
+    } else {
+        window.location.href = "/auth/reviews/reviews-02";
+    }
+  }
+  function getDateDifference( theDate ) {
+    var today = new Date();
+    var milliseconds = ( today.getTime() - theDate.getTime() );
+    var total_seconds = parseInt(Math.floor(milliseconds / 1000));
+    var total_minutes = parseInt(Math.floor(total_seconds / 60));
+    var total_hours = parseInt(Math.floor(total_minutes / 60));
+    var days = parseInt(Math.floor(total_hours / 24));
+    return ( days );
+  }
+  $("#date-dd").on("input", function() {
+    dateUnBlock();
+  });
+  $("#month-mm").on("input", function() {
+    dateUnBlock();
+  });
+  $("#year-yyyy").on("input", function() {
+    dateUnBlock();
+  });
+  function dateBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+    $("#outside-timeframe-prompt-container").show();
+  }
+  function dateUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#outside-timeframe-prompt-container").hide();
+  }
+
 </script>
