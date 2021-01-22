@@ -14,7 +14,14 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
-  no_toggle: ["#choose-next"]
+  id: "cshc"
+}); %>
+
+<%-include(partials+"components/form-partials/notice", { 
+  message: "<p>Ineligible messaging to be added here.</p>", 
+  modifiers: ["hidden"], 
+  type: "error",
+  id: "cshc-block-prompt"
 }); %>
 
 <p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
@@ -47,5 +54,19 @@
 <%- include(templates+"footer") %>
 <%- include("cancel-modal") %>
 
+<script>
+  function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+    $("#outside-timeframe-prompt-container").show();
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#outside-timeframe-prompt-container").hide();
+  }
+  // $("#cshc-container").click 
+  
+</script>
 
 
