@@ -39,13 +39,13 @@
       },
       {
         text: "Save and exit",
-        id: "btnNext",
+        id: "save-exit-button",
         link: "/auth/claim?state=claim-saved-success",
         modifiers: ["floated"]
       },
       {
         text: "Save and next",
-        id: "btnNext",
+        id: "save-next-button",
         link: "/auth/claim/centrelink-age-pension-transfer/02",
         modifiers: ["primary", "floated"]
       }
@@ -65,7 +65,20 @@
     $("#save-exit-button").removeAttr("disabled");
     $("#outside-timeframe-prompt-container").hide();
   }
-  // $("#cshc-container").click 
+
+  $('input[name=cshc]').change(function () {
+        mySelection = $('input[name=cshc]:checked').val();
+        if (mySelection == "yes") {
+          doBlock();
+          $("save-next").hide();
+          $("#cshc-block-prompt-container").show();
+        } else {
+          doUnBlock();
+          $("save-next").show();
+          $("#cshc-block-prompt-container").hide();
+        }
+      });
+
   
 </script>
 
