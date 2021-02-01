@@ -1,84 +1,39 @@
 <%- include(templates+"header", {
   claim: "MyService - Request review",
-  heading: "Review and submit"
+  heading: "Submitted",
+  modifiers: ["noHeading"]
 }) %>
 
-<%- include(components+"review-submit", {
-      claim_title: "Request for review",
-      categories: [
-        {
-          title: "Decision information",
-          edit_url: "/auth/reviews/reviews-01",
-          data: [
-              {
-                q: "Select a claim that is related to the decision you would like to have reviewed.",
-                a: "DVA255675<BR/>Initial Liability (MRCA)<BR/>1 Aug 2020<BR/>Osteoarthritis"
-              }
-            ]
-        },
-        {
-          title: "Reason for request",
-          edit_url: "/auth/reviews/reviews-02",
-          data: [
-          {
-              q: "Enter your detailed reason/s for requesting a review",
-              a: "Decision has not taken into consideration certain factors."
-          },
-          {
-            q: "Supporting evidence",
-            a: "evidence.doc<BR/>determination-letter.pdf"
-          }
-            ]
-        },
-        {
-          title: "Claim representative",
-          edit_url: "/auth/reviews/reviews-03",
-          data: [
-              {
-                q: "Do you wish to nominate a person to represent you in matters related to this review / appeal?",
-                a: "No"
-              }
-            ]
-        },
-        {
-          title: "Additional contact",
-          edit_url: "/auth/reviews/reviews-04",
-          data: [
-              {
-                q: "Is there any other person who DVA can contact for information in relation to this review?",
-                a: "No"
-              }
-            ]
-        }
-       
-        ],
-        customClass: ["margin-below--extra"]
-    }) %>
+  <%- include(forms+"submitting", {
+    modifiers: ["claimID"],
+    type: "submitted",
+    submitting_text: "We're submitting your request for review",
+    submitted_text: `Your request has been <b>submitted</b>`,
+    supporting_text: `<h3>Your request is being assessed.</h3>`
+  }) %> 
 
-
-    <%- include(forms+"pagination", {
-      pagination: [
+  <%- include(forms+"pagination", {
+    pagination: [
       {
-        text: "Previous",
-        link: "/auth/reviews/reviews-04",
+        text: "Back to home",
+        link: "/auth/"
       },
       {
-          text: "Cancel",
-          link: "#claim-cancel-modal"
-        },
-        {
-          text: "Save and exit",
-          id: "btnNext",
-          link: "/auth/reviews",
-          modifiers: ["floated"]
-        },
-        {
-          text: "Submit",
-          id: "btnNext",
-          link: "/auth/reviews/reviews-06",
-          modifiers: ["primary", "floated"]
-        }
-      ]
-    }) %>
+        text: "Back to reviews",
+        link: "/auth/reviews/index?state=one-submitted"
+      }
+    ]
+  }) %>
 
 <%- include(templates+"footer") %>
+
+<script>
+    $(document).ready(function () {
+      $('h3').each(function() {
+          var text = $(this).text();
+          console.log( text )
+          $(this).text(text.replace('Claim ID', 'Request ID')); 
+      });
+    });
+</script>
+
