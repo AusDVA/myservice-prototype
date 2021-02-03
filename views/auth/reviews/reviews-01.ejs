@@ -9,8 +9,8 @@
     <form id="myform">
       <input type="reset" style="display: none" />
       <div id="decisions-found">
-        <h2 class="mys h2">Decisions found.</h2>
-        <p class="margin-below--mid">Select a decision to proceed.</p>
+        <h2 class="mys h3">Select a decision to proceed</h2>
+        <p class="margin-below--mid">Listed below are decisions for which you can request a review. If a decision is not shown select "other".</p>
         <table class="mys-table1 reviews--decisions margin-below--mid">
           <thead>
             <tr>
@@ -238,12 +238,12 @@
         </div>
       </div>
     </form>
-    <%- include(partials+"components/form-partials/notice", { 
+    <%#- include(partials+"components/form-partials/notice", { 
       message: "This decision will be reviewed by Veterans' Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.", 
       modifiers: ["hidden"], 
       id: "vrb-prompt" 
     }); %> 
-    <%- include(partials+"components/form-partials/notice", { 
+    <%#- include(partials+"components/form-partials/notice", { 
       message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#'' class='external-link'>DVA website</a>.", 
       modifiers: ["hidden"], 
       id: "internal-review-prompt" 
@@ -267,7 +267,7 @@
   </div>
 </div>
 
-<div class="manual-input" hidden>
+<div class="manual-input margin-above--extra" hidden>
   <form class="manual-input-form">
   <input type="reset" style="display: none" />
   <%- include(partials+"components/form-partials/radio", { 
@@ -353,7 +353,7 @@
 </div>
 </form>
 
-<div class="pagination pagination--ss-reverse-order" id="pagination" hidden>
+<div class="pagination pagination--ss-reverse-order margin-above--extra" id="pagination" hidden>
   <a href="/auth/reviews/" class="uikit-btn uikit-btn--tertiary">Previous</a>
   <a href="#claim-cancel-modal" class="uikit-btn uikit-btn--tertiary">Cancel</a>
   <div class="floated">
@@ -412,7 +412,7 @@
     }
     $("body,html").animate(
       {
-        scrollTop: $(".decisions-table-footer").position().top + $(".decisions-table-footer").height() + 30,
+        scrollTop: $(".reviews--decisions").position().top + $(".reviews--decisions").height() + 30,
       },
       1000
     );
@@ -421,21 +421,9 @@
   $('.view-more').click(function (event) {
     event.preventDefault();
     resetTable();
-    // if ( $(this).text() === "View more") {
-      $(".page1").show();
-      $(".page2").show();
-      // $(".other-decision").show();
-      // $('.results').text( "12 of 12 results showing");
-      // $(this).text( "View less");
-      $('.results').hide();
-      $(this).hide();
-    // } else {
-    //   $(".page1").show();
-    //   $(".page2").hide();
-    //   // $(".other-decision").hide();
-    //   $('.results').text( "10 of 12 results showing");
-    //   $(this).text( "View more");
-    // }
+    $(".page1").show();
+    $(".page2").show();
+    $(".decisions-table-footer").hide();
   });
   var state;
   $.urlParam = function (name) {
@@ -462,7 +450,6 @@
         doPageLoadA();
         break;
       case "more-decisions":
-        console.log("dfdfdfd")
         $('.decision').hide();
         $(".page1").show();
         $(".other-decision").hide();
