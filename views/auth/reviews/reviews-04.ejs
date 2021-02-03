@@ -11,8 +11,58 @@
           edit_url: "/auth/reviews/reviews-01",
           data: [
               {
-                q: "Select a claim that is related to the decision you would like to have reviewed.",
-                a: "DVA255675<BR/>Initial Liability (MRCA)<BR/>1 Aug 2020<BR/>Osteoarthritis"
+                q: "Decision selected",
+                a: "Initial Liability<BR/>DVA255675<BR/>Rejected, 1 Aug 2020<BR/>Osteoarthritis"
+              }
+            ]
+        },
+        {
+          title: "Reason for request",
+          edit_url: "/auth/reviews/reviews-02",
+          data: [
+          {
+              q: "Enter your detailed reason/s for requesting a review",
+              a: "Decision has not taken into consideration certain factors."
+          },
+          {
+            q: "Supporting evidence",
+            a: "evidence.doc<BR/>determination-letter.pdf"
+          }
+            ]
+        },
+        {
+          title: "Claim representative",
+          edit_url: "/auth/reviews/reviews-03",
+          data: [
+              {
+                q: "Do you wish to nominate a person to represent you in matters related to this review / appeal?",
+                a: "No"
+              }
+            ]
+        }
+        ],
+        id: "select-from-list",
+        customClass: ["margin-below--large"]
+    }) %>
+
+    <%- include(components+"review-submit", {
+      claim_title: "Request for review",
+      categories: [
+        {
+          title: "Decision information",
+          edit_url: "/auth/reviews/reviews-01",
+          data: [
+              {
+                q: "Type of decision being reviewed",
+                a: "VEA disability pension"
+              },
+              {
+                q: "Date of the letter advising the decision ",
+                a: "12 Nov 2020"
+              },
+              {
+                q: "Reference number",
+                a: "DVA334567"
               }
             ]
         },
@@ -43,12 +93,14 @@
         
        
         ],
-        customClass: ["margin-below--large"]
+        id: "manual",
+        customClass: ["margin-below--large"],
+        modifiers: ["hidden"]
     }) %>
 
     <p class="internal-review">By submitting this request the decision will be reviewed internally by DVA. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/after-you-apply-review-under-drca' class='external-link'>DVA website</a>.</p>
 
-<p class="vrb-review">By submitting this request the decision will be reviewed by Veterans' Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.</p>
+<p class="vrb-review" hidden>By submitting this request the decision will be reviewed by Veterans' Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.</p>
 
 
     <%- include(forms+"pagination", {
@@ -78,3 +130,40 @@
     }) %>
 
 <%- include(templates+"footer") %>
+<%- include("reviews-04-ss") %>
+
+<script>
+   function updatePage() {
+
+    $(".internal-review").hide();
+    $(".vrb-review").hide();
+
+    console.log (pathway )
+
+    switch (pathway) {
+      case "Internal":
+       $(".internal-review").show();
+        break;
+      case "VRB":
+      $(".vrb-review").show();
+        break;
+      default:
+        break;
+    }
+
+    $("#select-from-list-container").hide();
+      $("#manual-container").hide();
+
+    switch (decision) {
+
+      case "Selected from list":
+        $("#select-from-list-container").show();
+        break;
+      case "Manual":
+      $("#manual-container").show();
+        break;
+      default:
+        break;
+    }
+  }
+</script>

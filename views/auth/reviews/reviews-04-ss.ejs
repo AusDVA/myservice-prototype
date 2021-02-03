@@ -1,0 +1,50 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Input type",
+    boxes: [
+      "Selected from list",
+      "Manual"
+    ],
+    id: "decision"
+  }); %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Pathway",
+    boxes: [
+      "Internal",
+      "VRB"
+    ],
+    id: "pathway"
+  }); %>
+
+</div>
+
+<script>
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    var pathway = "Internal"
+    $("#pathway-1").prop("checked", true);
+    $('input[name=pathway]').change(function () {
+      pathway = $(this).parent().find('span').text().trim();
+      updatePage();
+    });
+
+    var decision = "Selected from list"
+    $("#decision-1").prop("checked", true);
+    $('input[name=decision]').change(function () {
+      decision = $(this).parent().find('span').text().trim();
+      updatePage();
+    });
+
+</script>
