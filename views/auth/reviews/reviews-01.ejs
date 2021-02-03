@@ -76,7 +76,7 @@
               <td class="description">Application for increase (MRCA)</td>
             </tr>
 
-            <tr class="aat decision page1">
+            <tr class="internal decision page1">
               <td class="selector">
                 <div class="mys radio-checkbox">
                   <input type="radio" id="myRadio4" name="myRadio" value="" />
@@ -89,7 +89,7 @@
               </td>
               <td class="decision-details">
                 <div><span class="inline-label">Date</span>15 Oct 2020</div>
-                <div><span class="inline-label">Status</span>Internal</div>
+                <div><span class="inline-label">Outcome</span>Rejected</div>
               </td>
               <td class="description">Femoroacetabular Impingement Syndrome (MRCA)</td>
             </tr>
@@ -107,7 +107,7 @@
               </td>
               <td class="decision-details">
                 <div></div><span class="inline-label">Date</span>15 Oct 2020</div>
-                <div></div><span class="inline-label">Status</span>VRB</div>
+                <div></div><span class="inline-label">Outcome</span>Rejected</div>
               </td>
               <td class="description">Lumbar spondylosis, Internal derangement of the knee</td>
             </tr>
@@ -215,7 +215,7 @@
               </td>
               <td class="decision-details">
                 <div><span class="inline-label">Date</span>28 Jul 2020</div>
-                <div><span class="inline-label">Status</span>VRB</div>
+                <div><span class="inline-label">Outcome</span>Rejected</div>
               </td>
               <td class="description">Application for increase</td>
             </tr> 
@@ -238,20 +238,17 @@
         </div>
       </div>
     </form>
-    <%#- include(partials+"components/form-partials/notice", { 
-      message: "This decision will be reviewed by Veterans' Review Board. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/veterans-review-board/about-veterans-review-board' class='external-link'>DVA website</a>.", 
-      modifiers: ["hidden"], 
-      id: "vrb-prompt" 
-    }); %> 
-    <%#- include(partials+"components/form-partials/notice", { 
-      message: "This decision will be reviewed internally by DVA. You can find more information on the <a href='#'' class='external-link'>DVA website</a>.", 
-      modifiers: ["hidden"], 
-      id: "internal-review-prompt" 
-    }); %> 
+
     <%- include(partials+"components/form-partials/notice", { 
-      message: "There are no further options for review within DVA for the selected decision. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/what-administrative-appeals-tribunal' class='external-link'>DVA website</a> and the <a href='https://www.aat.gov.au/apply-for-a-review/veterans-entitlements-and-military-compensation' class='external-link'>AAT website</a>.", 
+      message: "This decision has been reviewed by internally by DVA. There are no further options for review within DVA. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/what-administrative-appeals-tribunal' class='external-link'>DVA website</a> and the <a href='https://www.aat.gov.au/apply-for-a-review/veterans-entitlements-and-military-compensation' class='external-link'>AAT website</a>.", 
       modifiers: ["hidden"], 
       id: "aat-prompt", 
+      type: "warning" 
+    }); %>
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "This decision has been reviewed by the Veterans' Review Board. There are no further options for review within DVA. However you may have a right of appeal to the Administrative Appeals Tribunal (AAT). Appeals to the AAT must be lodged directly. You can find more information on the <a href='https://www.dva.gov.au/financial-support/appeals/what-administrative-appeals-tribunal' class='external-link'>DVA website</a> and the <a href='https://www.aat.gov.au/apply-for-a-review/veterans-entitlements-and-military-compensation' class='external-link'>AAT website</a>.", 
+      modifiers: ["hidden"], 
+      id: "internal-prompt", 
       type: "warning" 
     }); %>
     <p id="save-next" hidden class="margin-above">
@@ -416,11 +413,7 @@
     selected = "record";
     switch (selectedRow) {
       case "internal":
-        $("#internal-review-prompt-container").show();
-        $("#save-next").show();
-        break;
-      case "vrb":
-        $("#vrb-prompt-container").show();
+        $("#internal-prompt-container").show();
         $("#save-next").show();
         break;
       case "aat":
@@ -498,7 +491,7 @@
     $(".manual-input").hide();
     $(".manual-loader").hide();
     $("#aat-prompt-container").hide();
-    $("#vrb-prompt-container").hide();
+    $("#internal-prompt-container").hide();
     $(".default").hide();
     $(".no-decisions").hide();
     $("#save-next").hide();
