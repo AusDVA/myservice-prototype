@@ -48,6 +48,14 @@
             customClass: ["margin-below--none toast"] 
           }); %> 
         
+          <%- include(partials+"components/form-partials/notice", { 
+            message: "Your review has been deleted successfully.", 
+            type: "success",
+            id: "delete-success", 
+            modifiers: ["hidden"], 
+            customClass: ["margin-below--none toast"] 
+          }); %> 
+        
 
           <h2 class="mys h2 margin-below--small margin-above">
             Submitted requests
@@ -69,18 +77,18 @@
               </tr>
 
               <tr id="item-1">
-                <td data-title="Date submitted">Not submitted<!--2 Sep 2020--></td>
-                <td data-title="Reference"><!--33657809--></td>
-                <td class="details" data-title="Details">
+                <td data-title="Date submitted">Not submitted</td>
+                <td data-title="Reference"></td>
+                <td data-title="Details">
                   <div>Disability pension</div>
                 </td>
                 <td data-title="Status">Incomplete</td>
                 <td>
-                  <button class="delete uikit-btn uikit-btn--borderless margin-right--mid">Delete</button>
-                  <button class="resume uikit-btn uikit-btn--borderless" >Resume</button>
+                  <button class="delete uikit-btn uikit-btn--borderless">Delete</button>
+                  <button class="resume uikit-btn uikit-btn--borderless">Resume</button>
                 </td>
               </tr>
-
+              
               <tr id="item-2">
                 <td data-title="Date submitted">16 Jul 2020</td>
                 <td data-title="Reference">33657900</td>
@@ -124,6 +132,7 @@
 
     <%- include(partials+"components/layout/footer") %> 
     <%- include("index-ss") %> 
+    <%- include("delete-modal") %> 
 
   </body>
   <script>
@@ -140,8 +149,7 @@
     state = $.urlParam("state");
     scenario = $.urlParam('scenario');
     toast = $.urlParam('toast');
-    doToast();
-
+    stateSwitcher()
 
     function stateSwitcher() {
       hideAll();
@@ -152,6 +160,10 @@
         case "one":
           $("#item-2").show();
           break;
+        case "two":
+          $("#item-2").show();
+          $("#item-3").show();
+          break;
         case "more":
           $("#item-1").show();
           $("#item-2").show();
@@ -159,7 +171,10 @@
           $(".paging").show();
           break;
         default:
-          $("#blank").show();
+        $("#item-1").show();
+          $("#item-2").show();
+          $("#item-3").show();
+          $(".paging").show();
           break;
       }
      doToast();
@@ -170,6 +185,9 @@
       switch (toast) {
         case "success-docs":
           $("#docs-success-container").show();
+          break;
+        case "delete-success":
+          $("#delete-success-container").show();
           break;
         default:
           break;
@@ -199,6 +217,14 @@
     $(".view").click( function( event ) {
       window.location.href = "/auth/reviews/view-submitted";
     });
+
+    $(".delete").click( function( event ) {
+      event.preventDefault();
+      window.location.href = "#open-delete-modal";
+    });
+
+
+   
 
 
   </script>
