@@ -64,11 +64,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr id="blank" class="placeholder">
+              <tr id="blank" class="placeholder" hidden>
                 <td colspan="5">You currently have no requests.</td>
               </tr>
 
-              <tr id="item-1" hidden>
+              <tr id="item-1">
                 <td data-title="Date submitted">2 Sep 2020</td>
                 <td data-title="Reference">33657809</td>
                 <td class="details" data-title="Details">
@@ -81,7 +81,7 @@
                 </td>
               </tr>
 
-              <tr id="item-2" hidden>
+              <tr id="item-2">
                 <td data-title="Date submitted">16 Jul 2020</td>
                 <td data-title="Reference">33657900</td>
                 <td data-title="Details">
@@ -91,11 +91,11 @@
                 <td data-title="Status">In progress</td>
                 <td>
                   <button class="add-docs uikit-btn uikit-btn--borderless">Add documents</button>
-                  <button class="delete uikit-btn uikit-btn--borderless">View</button>
+                  <button class="view uikit-btn uikit-btn--borderless">View</button>
                 </td>
               </tr>
 
-              <tr id="item-3" hidden>
+              <tr id="item-3">
                 <td data-title="Date submitted">16 Jul 2020</td>
                 <td data-title="Reference">33657900</td>
                 <td data-title="Details">
@@ -104,7 +104,7 @@
                 <td data-title="Status">Finalised</td>
                 <td>
                   <button
-                    class="edit-trip uikit-btn uikit-btn--borderless"
+                    class="view uikit-btn uikit-btn--borderless"
                   >
                     View
                   </button>
@@ -127,7 +127,7 @@
 
   </body>
   <script>
-    var state;
+    var state = "more";
     $.urlParam = function (name) {
       var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
         window.location.href
@@ -140,8 +140,9 @@
     state = $.urlParam("state");
     scenario = $.urlParam('scenario');
     toast = $.urlParam('toast');
+    doToast();
 
-    stateSwitcher();
+
     function stateSwitcher() {
       hideAll();
       switch (state) {
@@ -161,8 +162,11 @@
           $("#blank").show();
           break;
       }
+     doToast();
+    }
+
+    function doToast() {
       $(".toast").hide();
-      console.log( toast );
       switch (toast) {
         case "success-docs":
           $("#docs-success-container").show();
@@ -190,6 +194,10 @@
 
     $(".add-docs").click( function( event ) {
       window.location.href = "/auth/reviews/add-documents";
+    });
+
+    $(".view").click( function( event ) {
+      window.location.href = "/auth/reviews/view-submitted";
     });
 
 
