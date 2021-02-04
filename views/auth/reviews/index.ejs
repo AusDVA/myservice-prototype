@@ -41,19 +41,13 @@
         <div id="requests">
           <hr />
           <%- include(partials+"components/form-partials/notice", { 
-            message: "Your request has been submitted successfully.", 
+            message: "Your documents have been submitted successfully.", 
             type: "success",
-            id: "success", 
+            id: "docs-success", 
             modifiers: ["hidden"], 
-            customClass: ["margin-below--none"] 
+            customClass: ["margin-below--none toast"] 
           }); %> 
-          <%- include(partials+"components/form-partials/notice", { 
-            message: "Your travel booking has been cancelled successfully.", 
-            type: "success",
-            id: "cancel-success",
-            modifiers: ["hidden"], 
-            customClass: ["margin-below--none"] 
-          }); %>
+        
 
           <h2 class="mys h2 margin-below--small margin-above">
             Submitted requests
@@ -167,6 +161,15 @@
           $("#blank").show();
           break;
       }
+      $(".toast").hide();
+      console.log( toast );
+      switch (toast) {
+        case "success-docs":
+          $("#docs-success-container").show();
+          break;
+        default:
+          break;
+      }
     }
 
     function hideAll() {
@@ -175,7 +178,6 @@
       $("#item-2").hide();
       $("#item-3").hide();
       $(".paging").hide();
-      // $("#success-container").hide();
     }
 
     $(".request-review").click( function( event ) {
