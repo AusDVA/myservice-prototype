@@ -59,7 +59,7 @@
             Submitted requests
           </h2>
 
-          <table class="mys-table1 vea-trips margin-below">
+          <table class="mys-table1 submitted-reviews margin-below">
             <thead>
               <tr>
                 <th>Date submitted</th>
@@ -75,55 +75,42 @@
               </tr>
 
               <tr id="item-1" hidden>
-                <td data-title="Date submitted">2 September 2020</td>
+                <td data-title="Date submitted">2 Sep 2020</td>
                 <td data-title="Reference">33657809</td>
-                <td data-title="Details">
+                <td class="details" data-title="Details">
                   <div>Disability pension</div>
-                  <div>Internal review</div>
                 </td>
                 <td data-title="Status">Incomplete</td>
                 <td>
-                  <button
-                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
-                  >
-                    Delete</button
-                  ><BR />
-                  <button
-                    class="uikit-btn uikit-btn--borderless margin-right--none cancel-return"
-                  >
-                    Resume
-                  </button>
+                  <button class="delete uikit-btn uikit-btn--borderless margin-right--mid">Delete</button>
+                  <button class="resume uikit-btn uikit-btn--borderless" >Resume</button>
                 </td>
               </tr>
 
               <tr id="item-2" hidden>
-                <td data-title="Date submitted">16 July 2020</td>
+                <td data-title="Date submitted">16 Jul 2020</td>
                 <td data-title="Reference">33657900</td>
                 <td data-title="Details">
                   <div>MRCA Compensation</div>
-                  <div>VRB Appeal</div>
+                  <div>Femoroacetabular Impingement Syndrome</div>
                 </td>
                 <td data-title="Status">In progress</td>
                 <td>
-                  <button
-                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
-                  >
-                    View
-                  </button>
+                  <button class="add-docs uikit-btn uikit-btn--borderless">Add documents</button>
+                  <button class="delete uikit-btn uikit-btn--borderless">View</button>
                 </td>
               </tr>
 
               <tr id="item-3" hidden>
-                <td data-title="Date submitted">16 July 2020</td>
+                <td data-title="Date submitted">16 Jul 2020</td>
                 <td data-title="Reference">33657900</td>
                 <td data-title="Details">
-                  <div>MRCA Compensation</div>
-                  <div>Internal review</div>
+                  <div>Service pension</div>
                 </td>
                 <td data-title="Status">Finalised</td>
                 <td>
                   <button
-                    class="edit-trip uikit-btn uikit-btn--borderless margin-right--none"
+                    class="edit-trip uikit-btn uikit-btn--borderless"
                   >
                     View
                   </button>
@@ -158,8 +145,8 @@
     };
     state = $.urlParam("state");
     scenario = $.urlParam('scenario');
-    console.log(scenario)
-    $("#requests-1").prop("checked", true);
+    toast = $.urlParam('toast');
+
     stateSwitcher();
     function stateSwitcher() {
       hideAll();
@@ -167,11 +154,10 @@
         case "none":
           $("#blank").show();
           break;
-        case "one-submitted":
+        case "one":
           $("#item-2").show();
-          // $("#success-container").show();
           break;
-        case "some":
+        case "more":
           $("#item-1").show();
           $("#item-2").show();
           $("#item-3").show();
@@ -198,6 +184,10 @@
       } else {
         window.location.href = "/auth/reviews/reviews-01?state=" + scenario;
       } 
+    });
+
+    $(".add-docs").click( function( event ) {
+      window.location.href = "/auth/reviews/add-documents";
     });
 
 
