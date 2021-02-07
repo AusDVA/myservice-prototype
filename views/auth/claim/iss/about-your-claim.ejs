@@ -1,0 +1,111 @@
+<%- include(templates+"header", {
+  claim: "Commonwealth Seniors Health Card",
+  heading: "Claim details",
+  progress: {
+    activeItem: 1,
+      points: [
+      {
+        text: "Claim details",
+        link: "/auth/claim/cshc/a-01"
+      },
+      {
+          text: "Relationship status",
+          link: "/auth/claim/cshc/a-02"
+        },
+        {
+          text: "Dependent children",
+          link: "/auth/claim/cshc/a-03"
+        },
+        {
+          text: "Residency",
+          link: "/auth/claim/cshc/a-04"
+        },
+        {
+          text: "Claim representative",
+          link: "/auth/claim/cshc/a-05"
+        },
+        {
+          text: "Payment details",
+          link: "/auth/claim/cshc/a-06"
+        },
+      ]
+    }
+}) %>
+
+<%- include(forms+"notice", {
+    message: `<h3 class='mys h3 margin-below--mid'>Intent to claim</h3><p>Completing this page will register the date of your ‘intent to claim’ as today. This means if you complete this claim within 3 months, the claim may be backdated to this date. Backdating will maximise your pension and benefits.</p>`
+}) %>
+
+<%- include(forms+"yes_no", {
+    label: "Have you applied for or do you receive any benefits from Centrelink?",
+  }) %>
+
+<%- include(forms+"yes_no", {
+    label: "Do you have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?",
+  }) %>
+
+<%- include(forms+"yes_no", {
+  label: "Are you applying for a person who is blind or visually impaired?",
+  id: "visual-impairment",
+  yes_toggle: "#visual-impairment-notice-container",
+  no_toggle: "#invalidity-question-container"
+}); %>
+
+<%- include(forms+"notice", {
+  message: `<p>You will need to obtain a report from an ophthalmologist giving details of the degree of the degree of visual impairment. 
+  </p><p>You can provide this report at the end of the claim.</p>`,
+  modifiers: ["hidden"],
+  id: "visual-impairment-notice"  
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Are you applying on the basis of invalidity?",
+  modifiers: ["hidden"],
+  id: "invalidity-question",
+  yes_toggle: "#invalidity-notice-container"
+}); %>
+
+<%- include(forms+"notice", {
+  message: `<p>You will need to complete the Medical and Work Details form (D571).</p><p>Some sections will need to be completed by your doctor. You can provide the completed forms at the end of your claim.</p>`,
+  modifiers: ["hidden"],
+  id: "invalidity-notice"  
+}) %>
+
+<%- include(forms+"yes_no", {
+  label: "Will you be claiming the Pension Bonus?",
+  id: "pension-bonus",
+  all_toggle: "#save-next"
+}); %>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/iss/progress-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+        modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/iss/a-02",
+        text: "Save and next",
+        modifiers: ["floated", "primary"]
+      }
+    ]
+  }) %>
+
+<%- include(forms+"modals/claim-cancel") %>
+
+<script>
+
+</script>
+
+<%- include(templates+"footer") %>
