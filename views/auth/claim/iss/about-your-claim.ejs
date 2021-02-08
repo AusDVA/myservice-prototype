@@ -46,23 +46,20 @@
 
 <%- include(forms+"yes_no", {
   label: "Are you applying for a person who is blind or visually impaired?",
-  id: "visual-impairment",
-  yes_toggle: "#visual-impairment-notice-container",
-  no_toggle: "#invalidity-question-container"
+  id: "blind"
 }); %>
 
 <%- include(forms+"notice", {
   message: `<p>You will need to obtain a report from an ophthalmologist giving details of the degree of the degree of visual impairment. 
   </p><p>You can provide this report at the end of the claim.</p>`,
   modifiers: ["hidden"],
-  id: "visual-impairment-notice"  
+  id: "blind-notice"  
 }) %>
 
 <%- include(forms+"yes_no", {
   label: "Are you applying on the basis of invalidity?",
   modifiers: ["hidden"],
-  id: "invalidity-question",
-  yes_toggle: "#invalidity-notice-container"
+  id: "invalidity"
 }); %>
 
 <%- include(forms+"notice", {
@@ -105,6 +102,27 @@
 <%- include(forms+"modals/claim-cancel") %>
 
 <script>
+
+$('input[name=blind]').change(function () {
+	var myVal = $('input[name=blind]:checked').val();
+	if (myVal == "yes") {
+    $("#invalidity-container").hide();
+		$("#blind-notice-container").show();
+	} else {
+    $("#invalidity-container").show();
+		$("#blind-notice-container").hide();
+  }
+  $("#invalidity-notice-container").hide();
+});
+
+$('input[name=invalidity]').change(function () {
+	var myVal = $('input[name=invalidity]:checked').val();
+	if (myVal == "yes") {
+    $("#invalidity-notice-container").show();
+	} else {
+    $("#invalidity-notice-container").hide();
+  }
+});
 
 </script>
 
