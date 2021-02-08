@@ -8,12 +8,17 @@
   <h3 class="margin-below--extra">Hi Xavier, tell us about your claim.</h3>
 
   <%- include(forms+"progress-multi", {
-    activeItem: 1,
+    activeItem: 2,
     points: [
       {
         text: "About your claim",
         link: "/auth/claim/iss/about-your-claim",
         subtext: "Tell us about your circumstances."
+      },
+      {
+        text: "Income details",
+        link: "/auth/claim/iss/ia-00",
+        subtext: "Tell us about your income and assets."
       }
     ]
   }) %>
@@ -44,3 +49,44 @@
   <%- include(forms+"modals/claim-cancel") %>
 
 <%- include(templates+"footer") %>
+
+<script>
+
+var state = "1";
+$.urlParam = function (name) {
+  var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
+    window.location.href
+  );
+  if (results == null) {
+    return 0;
+  }
+  return results[1] || 0;
+};
+state = $.urlParam("state");
+// stateSwitcher()
+
+function stateSwitcher() {
+  $(".claim-progress-category__item").removeClass("claim-progress-category--active");
+  $(".claim-progress-category__item").removeClass("claim-progress-category--disabled");
+  $(".claim-progress-category__item").removeClass("claim-progress-category-new");
+  $(".claim-progress-category__item").removeClass("claim-progress-category--done");
+  // $(".mys-file-uploads__status").removeClass("mys-file-uploads__status--success");
+  
+  var activeItem = parseInt(state);
+  var totalItems = $(".claim-progress-category__item").length;
+  var myCounter = 0;
+  while ( myCounter < totalItems ) {
+    console.log( myCounter );
+    while ( myCounter < activeItem ) {
+      // $(".claim-progress-category__item:eq(" + myCounter + ")").addClass("claim-progress-category--active");
+      // $(".claim-progress-category__item:eq(" + myCounter + ")").addClass("claim-progress-category-new");
+    }
+    if ( myCounter==state) {
+      $(".claim-progress-category__item:eq(" + state + ")").addClass("claim-progress-category--active");
+      $(".claim-progress-category__item:eq(" + state + ")").addClass("claim-progress-category-new");
+    }
+    myCounter++;
+  }
+}
+
+</script>
