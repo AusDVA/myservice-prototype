@@ -1,0 +1,68 @@
+<%
+  var progress = JSON.parse(include("b-progressbar")) 
+  progress.activeItem = 1;
+%>
+
+<%- include(templates+"header", { 
+  claim: "MyService - Income support supplement", 
+  heading: "Relationship status",
+  progress
+
+ }) %>
+
+
+<p class="margin-below--mid"><b>Are the following details correct?</b></p>
+  <div class="mini-table" style="display: flex;">
+    <div style="margin-right: 20px"><b>Relationship status</b></div>
+    <div>Single</div>
+  </div>
+<%- include(forms+"yes_no", {
+  label: "",
+  customClass: ["margin-above"],
+  no_toggle: "#notice-container",
+  yes_toggle: "#save-next"
+}) %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Complete your partner consent declaration</a>.</p>",
+  type: "error",
+  modifiers: ["hidden"],
+  id: ["notice"]
+}); %>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+
+        <%- include(forms+"pagination", {
+          pagination: [
+            {
+              link: "/auth/claim/iss/progress-01",
+              text: "Previous"
+            },
+            {
+              link: "#claim-cancel-modal",
+              text: "Cancel claim"
+            },
+            {
+              link: "/auth/claim",
+              text: "Save and exit",
+              modifiers: ["floated"]
+            },
+            {
+              link: "/auth/claim/iss/progress-02",
+              text: "Save and next",
+              modifiers: ["floated", "primary"]
+            }
+          ]
+        }) %>
+        
+
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+
+<script>
+
+
+
+</script>
+
