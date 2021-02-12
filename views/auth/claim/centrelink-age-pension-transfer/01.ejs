@@ -13,8 +13,15 @@
 }); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink or DVA?",
-  all_toggle: ["#choose-next"]
+  label: "Do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
+  id: "cshc"
+}); %>
+
+<%-include(partials+"components/form-partials/notice", { 
+  message: "<p>Ineligible messaging to be added here.</p>", 
+  modifiers: ["hidden"], 
+  type: "error",
+  id: "cshc-block-prompt"
 }); %>
 
 <p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
@@ -32,13 +39,13 @@
       },
       {
         text: "Save and exit",
-        id: "btnNext",
+        id: "save-exit-button",
         link: "/auth/claim?state=claim-saved-success",
         modifiers: ["floated"]
       },
       {
         text: "Save and next",
-        id: "btnNext",
+        id: "save-next-button",
         link: "/auth/claim/centrelink-age-pension-transfer/02",
         modifiers: ["primary", "floated"]
       }
@@ -47,5 +54,32 @@
 <%- include(templates+"footer") %>
 <%- include("cancel-modal") %>
 
+<script>
+  function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+    $("#outside-timeframe-prompt-container").show();
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#outside-timeframe-prompt-container").hide();
+  }
+
+  $('input[name=cshc]').change(function () {
+        mySelection = $('input[name=cshc]:checked').val();
+        if (mySelection == "yes") {
+          doBlock();
+          $("save-next").hide();
+          $("#cshc-block-prompt-container").show();
+        } else {
+          doUnBlock();
+          $("save-next").show();
+          $("#cshc-block-prompt-container").hide();
+        }
+      });
+
+  
+</script>
 
 

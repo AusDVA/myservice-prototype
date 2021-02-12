@@ -1,0 +1,432 @@
+<%
+  var progress = JSON.parse(include("b-progressbar")) 
+  progress.activeItem = 2;
+%>
+
+<%- include(templates+"header", { 
+  claim: "MyService - Income support supplement", 
+  heading: "Dependant children",
+  progress
+
+ }) %>
+
+          <div class="margin-above--extra margin-below--extra">
+            <p><strong>Add any dependent children <span class="if-partnered" style="display: none;">(of you and/or your
+                  partner)</span>who are:</strong></p>
+            <ul>
+              <li>Under 16 years of age, or</li>
+              <li>16-22 years of age and in full time education</li>
+            </ul>
+            <div class="uikit-page-alerts" role="alert" id="dependent-explainer">
+              <p>Dependent means that you are legally responsible for the day-to-day care, welfare and development of a
+                child who is in your care or wholly or substantially in your
+                care.</p>
+            </div>
+            <!-- summary cards -->
+            <div class="review__content--item boxed row" id="summary-1">
+              <div class="review__content--label col-sm-10">
+                <h3 class="margin-above--none margin-below--mid">Joe Smith</h3>
+                <p class="margin-below--none">Date of birth: 05/08/2006</p>
+                <p class="margin-below--none">Full time education: Yes</p>
+                <p class="margin-below--none">Income: No</p>
+                <p class="margin-below--none">Government payments: No</p>
+              </div>
+              <div class="col-sm-2">
+                <button class="uikit-btn uikit-btn--tertiary">&nbsp;Edit &nbsp;</button><br /><button
+                  class="uikit-btn uikit-btn--tertiary small margin-above--mid">Remove</button>
+              </div>
+            </div>
+            <div class="review__content--item boxed row margin-above--mid" id="summary-2">
+              <div class="review__content--label col-sm-10">
+                <h3 class="margin-above--none margin-below--mid">Mark Smith</h3>
+                <p class="margin-below--none">Date of birth: 05/08/2006</p>
+                <p class="margin-below--none">Full time education: Yes</p>
+                <p class="margin-below--none">Income: No</p>
+                <p class="margin-below--none">Government payments: No</p>
+              </div>
+              <div class="col-sm-2">
+                <button class="uikit-btn uikit-btn--tertiary">
+                  &nbsp;Edit &nbsp;</button><br /><button
+                  class="uikit-btn uikit-btn--tertiary small margin-above--mid">Remove
+                </button>
+              </div>
+            </div>
+            <div class="row" id="add-another">
+              <div class="col-sm-12 margin-above ss-align--center">
+                <button class="uikit-btn uikit-btn--tertiary" id="addAnother">Add another child</button>
+              </div>
+            </div>
+            <button class="uikit-btn uikit-btn--tertiary" id="add-child">Add child</button>
+            <!-- open card -->
+            <div class="form-group margin-above">
+              <div class="boxed" id="sp-dependant-details">
+                <legend class="legend-label font-weight-heavy" style="font-size:1.3em">Dependent child details
+                </legend>
+                <div class="form-group">
+                  <label class="uikit-text-input__label margin-above">Child’s date of birth?
+                    <span class="hint">(dd / mm / yyyy)</span>
+                  </label>
+                  <div class="form-group pt-flow--veteran pt-flow--claimant pt-dependent-dob">
+                    <label class="uikit-text-input__label" for="date" id="question_id4"></label>
+                    <input class="uikit-text-input dd" type="number" name="dd-date" id="dd-date" maxlength="2"
+                      aria-label="2 digit day" /> / <input class="uikit-text-input mm" type="text" name="mm-date"
+                      id="mm-date" maxlength="2" aria-label="2 digit month" /> / <input class="uikit-text-input yyyy"
+                      type="number" name="yyyy-date" id="yyyy-date" maxlength="4" aria-label="4 digit year" />
+                  </div>
+                  <hr />
+                  <div id="dependent-add-cancel" class="form-group margin-above--none">
+                    <!-- <button class="uikit-btn" id="dependent-add" disabled>&nbsp;&nbsp;&nbsp; Add &nbsp;&nbsp;&nbsp;</button> -->
+                    &nbsp;<button class="uikit-btn uikit-btn--tertiary" id="dependent-cancel">&nbsp;&nbsp;&nbsp; Cancel
+                      &nbsp;&nbsp;&nbsp;</button>
+                  </div>
+                  <!--input name="birthday" id="DoB" type="date" onchange="checkAge()" maxlength="10" style="max-width: 15em;" required>
+                    <button class="uikit-btn uikit-btn--tertiary" onclick="checkAge()" id="checkAgedep">Submit</button-->
+                </div>
+                <!-- less than 16 -->
+                <div id="under-16">
+                  <label class="uikit-text-input__label margin-above" for="tax-number">First name</label>
+                  <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="" />
+                  <label class="uikit-text-input__label margin-above" for="tax-number">Last name</label>
+                  <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="" />
+                  <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is this child at
+                    school?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="dependent-school-yes">
+                      <input id="dependent-school-yes" type="radio" name="dependent-school" />
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="dependent-school-no">
+                      <input id="dependent-school-no" type="radio" name="dependent-school" />
+                      <span>No</span>
+                    </label>
+                  </div>
+                  <label class="uikit-text-input__label margin-above--large" for="toggle-buttons">Does this child earn
+                    any income?</label>
+                  <div class="radio-toggle">
+                    <label class="on label-left" for="income-yes">
+                      <input id="income-yes" type="radio" name="income" />
+                      <span>Yes</span>
+                    </label>
+                    <label class="off label-right" for="income-no">
+                      <input id="income-no" type="radio" name="income" />
+                      <span>No</span>
+                    </label>
+                  </div>
+                  <!-- [B] in school -->
+                  <div class="form-group" id="child-school">
+                    <label class="uikit-text-input__label margin-above--large" for="Input">What is their gross
+                      fortnightly income?</label>
+                    <span style="font-size: 1.2em">$</span>&nbsp;<input class="uikit-text-input input-half"
+                      name="Input field" id="Input" type="text" style="max-width: 100px;" value="0.00" required
+                      aria-required="true" />
+                  </div>
+                  <!-- <label class="uikit-text-input__label margin-above--large" for="tax-number">What is the registration number on the child's birth certificate?<BR />
+                        <span class="hint">This on generally shown on the top right hand side of the certificate.</span>
+                    </label>
+                    <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value=""> -->
+                </div>
+                <!-- end of less than 16 -->
+                <!------ Over 16 and less than 22 ------>
+                <div class="form-group" id="over-16">
+                  <!--  <label class="uikit-text-input__label margin-above" for="toggle-buttons">Is this child in full-time education?</label>
+                    <div class="radio-toggle">
+                        <label class="on label-left" for="fulltime-education-yes">
+                            <input id="fulltime-education-yes" type="radio" name="fulltime-education">
+                            <span>Yes</span>
+                        </label>
+                        <label class="off label-right" for="fulltime-education-no">
+                            <input id="fulltime-education-no" type="radio" name="fulltime-education">
+                            <span>No</span>
+                        </label>
+                    </div> -->
+                  <!-- [C] -->
+                  <!--  <div class="uikit-page-alerts margin-above" role="alert" id="full-time-ed-notification">
+                                        <p>Only add childern over 16 years if currently in full time education</p>
+                                    </div> -->
+                  <!-- [D] -->
+                  <!-- <div id="full-time-ed-yes"> -->
+                  <label class="uikit-text-input__label margin-above" for="tax-number">First name</label>
+                  <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="" />
+                  <label class="uikit-text-input__label margin-above" for="tax-number">Last name</label>
+                  <input class="uikit-text-input input-half" name="tax-number" id="tax-number" type="text" value="" />
+                  <label class="uikit-text-input__label margin-above" for="toggle-buttons">What is the child's gross
+                    fortnightly income including any government payments?</label>
+                  <span style="font-size: 1.2em">$</span>&nbsp;<input class="uikit-text-input input-half"
+                    name="Input field" id="Input" type="text" style="max-width: 100px;" value="0.00" required
+                    aria-required="true" />
+                </div>
+                <!-- end of Over 16 and less than 22 -->
+                <!-- over 22 -->
+                <div id="over-22">
+                  <div class="uikit-page-alerts" role="alert">
+                    <p>Only add dependent children under 22 years of age</p>
+                  </div>
+                </div>
+                <!-- under 4 -->
+                <div id="under-4">
+                  <div class="uikit-page-alerts" role="alert">
+                    <p>infant</p>
+                  </div>
+                </div>
+                <!-- [Default] -->
+                <div id="gross-fortnightly" class="form-group margin-above--large">
+                  <label class="uikit-text-input__label" for="Input">Other gross fortnightly income (optional)</label>
+                  <span class="sign-dollar">&#36;</span>
+                  <input class="uikit-text-input input-small" name="Input" id="Input" type="text" value="0.00" required
+                    aria-required="true" />
+                </div>
+                <!-- end of Default -->
+                <div class="uikit-page-alerts margin-above--large" id="child-birth-cert">
+                  <p>You will need to attach a copy of your child's birth certificate in the documents section.</p>
+                </div>
+                <div id="buttonset1" class="form-group margin-above--none">
+                  <button class="uikit-btn" id="saveDetails1">&nbsp;&nbsp;&nbsp; Add
+                    &nbsp;&nbsp;&nbsp;</button>&nbsp;<button class="uikit-btn uikit-btn--tertiary"
+                    id="cancelDetails1">&nbsp;&nbsp;&nbsp; Cancel &nbsp;&nbsp;&nbsp;</button>
+                </div>
+                <!-- <div id="buttonset1" class="form-group margin-above--extra">
+                    <button class="uikit-btn" id="saveDetails1">
+                      &nbsp;&nbsp;&nbsp; Done &nbsp;&nbsp;&nbsp;
+                    </button>
+                  </div> -->
+              </div>
+              <!-- <div id="no-dob">
+                  <div class="uikit-page-alerts" role="alert">
+                      <p>Message body informaion. </p>
+                  </div>
+              </div> -->
+            </div>
+            <!-- end of dependent child details -->
+          </div>
+          <!-- end of page content -->
+        </div>
+        <!-- bottom page navigation -->
+        <div class="container container--8-column">
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary"
+              onclick="window.location.href='/auth/claim/iss/b-01'">Previous </button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel
+              claim</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and
+                exit</button>
+              <button class="uikit-btn btnNext"
+                onclick="window.location.href='/auth/claim/iss/b-03'">Save and next </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- bottom page navigation end -->
+      <%- include(partials+"content/modals/claims-cancel-modal") %>
+
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+      hideAll();
+
+      //cancel
+      $('#cancelDetails1').click(function () {
+        $('html, body').animate({
+          scrollTop: $("#main-content").offset().top
+        }, 1000);
+        resetDates();
+        hideAll();
+        $("#add-child").show();
+        $("#dependent-explainer").show();
+      });
+
+      $('#dependent-cancel').click(function () {
+        $('html, body').animate({
+          scrollTop: $("#main-content").offset().top
+        }, 1000);
+        hideAll();
+        resetDates();
+        $("#add-child").show();
+        $(".pagination button").prop("disabled", false);
+        $("#dependent-explainer").show();
+      });
+
+      // initiate add
+
+      $("#add-child").click(function () {
+        hideAll();
+        resetDates();
+        $("#sp-dependant-details").show("fast");
+        $("#saveDetails1").hide();
+        $("#cancelDetails1").hide();
+        $("#dependent-explainer").hide();
+        $(".pagination button").prop("disabled", true);
+        $("#add-child").hide();
+      });
+
+      $("#addAnother").click(function () {
+        hideAll();
+        resetDates();
+        $("#sp-dependant-details").show("fast");
+        $(".pagination button").prop("disabled", true);
+        $("#saveDetails1").hide();
+        $("#cancelDetails1").hide();
+        $("#dependent-add-cancel").show("fast");
+      });
+
+      // questions
+
+      $(".pt-dependent-dob > :input").keyup(function () {
+        var dobDay = $("#dd-date").val();
+        var dobMonth = $("#mm-date").val();
+        var dobYear = $("#yyyy-date").val();
+
+        // if a valid date
+        if (dobDay && dobMonth && dobYear.length === 4) {
+          if (dobDay.length === 1) {
+            dobDay = "0" + dobDay;
+          }
+          if (dobMonth.length === 1) {
+            dobMonth = "0" + dobMonth;
+          }
+          var dob = dobYear + "-" + dobMonth + "-" + dobDay;
+
+          dob = new Date(dob);
+          var today = new Date();
+          var age = Math.floor(
+            (today - dob) / (365.25 * 24 * 60 * 60 * 1000)
+          );
+
+          localStorage.removeItem("studentAge");
+          localStorage.setItem("studentAge", age);
+          console.debug("student age: ", age);
+
+          if (localStorage.getItem("studentAge") < 16) {
+            $("#over-16").hide();
+            $("#under-16").show();
+            $("#over-22").hide();
+            $("#default").show();
+            $("#under-4").hide();
+            $("#saveDetails1").show();
+            $("#cancelDetails1").show();
+            $("#child-birth-cert").show("fast");
+            $("#dependent-add-cancel").hide();
+          }
+          if (
+            localStorage.getItem("studentAge") > 16 &&
+            localStorage.getItem("studentAge") < 22
+          ) {
+            $("#over-16").show();
+            $("#under-16").hide();
+            $("#over-22").hide();
+            $("#default").show();
+            $("#under-4").hide();
+            $("#saveDetails1").show();
+            $("#cancelDetails1").show();
+            $("#child-birth-cert").show("fast");
+            $("#dependent-add-cancel").hide();
+          } else if (localStorage.getItem("studentAge") > 22) {
+            $("#over-16").hide();
+            $("#under-16").hide();
+            $("#over-22").show();
+            $("#default").hide();
+            $("#under-4").hide();
+            $("#dependent-add-cancel").hide();
+          }
+        }
+      });
+
+      $("#fulltime-education-no").click(function () {
+        $("#default").hide();
+      });
+
+      $("#dependent-gov-payments-yes").click(function () {
+        $("#gov-payments").show("fast");
+      });
+
+      $("#dependent-gov-payments-no").click(function () {
+        $("#gov-payments").hide("fast");
+      });
+
+      $("#income-yes").click(function () {
+        $("#child-school").show("fast");
+        $("#default").hide();
+      });
+
+      $("#income-no").click(function () {
+        $("#child-school").hide("fast");
+        $("#default").show("fast");
+      });
+
+      $("#fulltime-education-no").click(function () {
+        $("#full-time-ed-notification").show("fast");
+        $("#full-time-ed-yes").hide("fast");
+      });
+
+      $("#fulltime-education-yes").click(function () {
+        $("#full-time-ed-notification").hide("fast");
+        $("#full-time-ed-yes").show("fast");
+      });
+
+      // Done
+
+      var childrenAdded = 0;
+
+      $("#saveDetails1").click(function () {
+        $(".pagination button").prop("disabled", false);
+        $("body,html").animate({
+          scrollTop: 500 // set to half way down the screen
+        },
+          700
+        );
+        // hack to reset focus to top of page
+        document.body.setAttribute("tabindex", "0");
+        document.body.focus();
+        document.body.removeAttribute("tabindex");
+        $("#add-child").hide("fast");
+        $("#add-another").show("fast");
+        $("#sp-dependant-details").hide("fast");
+        if (childrenAdded == 0) {
+          $("#summary-1").show("fast");
+        }
+        if (childrenAdded == 1) {
+          $("#summary-1").show("fast");
+          $("#summary-2").show("fast");
+        }
+        childrenAdded++;
+      });
+
+      // $('#checkAgedep').click(function() {
+      //     $("#saveDetails1").show();
+      // });
+
+
+      function hideAll() {
+        $("#add-another").hide();
+        $("#summary-1").hide();
+        $("#summary-2").hide();
+        $("#sp-dependant-details").hide();
+        $("#sp-dependant-details-2nd").hide();
+        $("#child-birth-cert").hide();
+        $("#child-school").hide();
+        $("#over-16").hide();
+        $("#under-4").hide();
+        $("#under-16").hide();
+        $("#over-22").hide();
+        $("#default").hide();
+        $("#full-time-ed-notification").hide();
+        $("#full-time-ed-yes").hide();
+        $("#no-dob").hide();
+        $("#gov-payments").hide(); //if yes show E
+        $("#gross-fortnightly").hide(); //if yes show E
+      }
+
+      function resetDates() {
+        $("#dd-date").val("");
+        $("#mm-date").val("");
+        $("#yyyy-date").val("");
+      }
+
+      function partnerLanguage() {
+        if (sessionStorage.getItem("partnerStatus") == "partnered") {
+          $(".if-partnered").show();
+        }
+      }
+      partnerLanguage();
+    });
+  </script>

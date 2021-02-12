@@ -10,25 +10,134 @@
 
  }) %>
 
+<div class="single">
 
-<p class="margin-below--mid"><b>Are the following details correct?</b></p>
-  <div class="mini-table" style="display: flex;">
-    <div style="margin-right: 20px"><b>Relationship status</b></div>
-    <div>Single</div>
-  </div>
-<%- include(forms+"yes_no", {
-  label: "",
-  customClass: ["margin-above"],
-  no_toggle: "#notice-container",
-  yes_toggle: "#save-next"
-}) %>
+  <p class="margin-below--mid"><b>Are the following details correct?</b></p>
+  <table class="mys basic-table">
+    <tr class="tr">
+      <td class="td"><b>Relationship status</b></td>
+      <td class="td">Single</td>
+    </tr>
+  </table>
 
-<%- include(partials+"components/form-partials/notice", {
-  message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Complete your partner consent declaration</a>.</p>",
-  type: "error",
-  modifiers: ["hidden"],
-  id: ["notice"]
-}); %>
+  <%- include(forms+"yes_no", {
+    label: "",
+    customClass: ["margin-above--mid"],
+    no_toggle: "#notice-container",
+    yes_toggle: "#save-next"
+  }) %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Complete your partner consent declaration</a>.</p>",
+    type: "error",
+    modifiers: ["hidden"],
+    id: ["notice"]
+  }); %>
+  
+
+</div>
+
+<div class="partnered-with-consent" hidden>
+
+  <p class="margin-below--mid"><b>Is this your current partner?</b></p>
+
+    <table class="mys basic-table">
+      <tr class="tr">
+        <td class="td"><b>Name</b></td>
+        <td class="td">Levi McClain</td>
+      </tr>
+      <tr class="tr">
+        <td class="td"><b>Date of birth</b></td>
+        <td class="td">12/12/1950</td>
+      </tr>
+      <tr class="tr">
+        <td class="td"><b>Relationship status</b></td>
+        <td class="td">Married</td>
+      </tr>
+    </table>
+
+    <%- include(forms+"yes_no", {
+      label: "",
+      customClass: ["margin-above--mid"],
+      yes_toggle: ".current-partner-yes",
+      no_toggle: ".current-partner-no"
+    }) %>
+
+    <div class="current-partner-yes" hidden>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "<p>You will need to provide a marriage certificate in the documents section.</p>"
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Has your partner applied for or do they currently receive any benefits from Centrelink?"
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?"
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Is your partner a registered memeber of a pension bonus scheme?"
+      }); %>
+
+    </div>
+
+    <div class="current-partner-no" hidden>
+
+      <%- include(forms+"yes_no", {
+        label: "Are you in a new relationship and living together?",
+        yes_toggle: "#partner-form-container",
+        no_toggle: ".new-relationship-no"
+      }); %>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p>Complete your partner consent declaration.</p>",
+        type: "error",
+        id: "partner-form",
+        modifiers: ["hidden"]
+      }); %>
+
+      <div class="new-relationship-no" hidden>
+
+        <%- include(partials+"components/form-partials/radio", {
+          label: "Please select your relationship status",
+          boxes: [
+            "Single",
+            "Separated",
+            "Divorced",
+            "Widowed"
+          ],
+          id: "single-type"
+        }); %>
+
+        <div class="separated" hidden>
+          <%- include(partials+"components/form-partials/notice", {
+            message: "<p>You will need to submit a <a href=''>separation from partner</a> form. You can provide this in the documents section.</p>",
+          }); %>
+          <%- include(partials+"components/form-partials/date", {
+            label: "Date of separation"
+          }); %>
+        </div>
+        <div class="divorced" hidden>
+          <%- include(partials+"components/form-partials/date", {
+            label: "Date of divorce"
+          }); %>
+        </div>
+        <div class="widowed" hidden>
+          <%- include(partials+"components/form-partials/date", {
+            label: "Date of partners' death",
+            hint: "(dd / mm / yyyy)"
+          }); %>
+        </div>
+  
+      </div>
+
+    </div>
+
+</div>
+
+
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
@@ -49,7 +158,7 @@
               modifiers: ["floated"]
             },
             {
-              link: "/auth/claim/iss/progress-02",
+              link: "/auth/claim/iss/b-02",
               text: "Save and next",
               modifiers: ["floated", "primary"]
             }
@@ -59,10 +168,58 @@
 
 <%- include(forms+"modals/claim-cancel") %>
 <%- include(templates+"footer") %>
+<%- include("b-01-ss") %> 
 
 <script>
+  function stateSwitcher() {
+    hideAll();
+    switch (state) {
+      case "Single":
+        $(".single").show();
+        break;
+      case "Partnered with consent":
+        $(".partnered-with-consent").show();
+        break;
+      default:
+        break;
+    }
+}
 
+function hideAll(){
+  $(".single").hide();
+  $(".partnered-with-consent").hide();
+  $("#save-next").hide();
+}
 
+$('input[name=single-type]').change(function () {
+	hideSingleOptions();
+  mySelection = $(this).parent().find('span').text().trim();
+  switch ( mySelection ) {
+    case "Single":
+      $("#save-next").show();
+      break;
+    case "Separated":
+      $(".separated").show();
+      break;
+    case "Divorced":
+      $(".divorced").show();
+      break;
+    case "Widowed":
+      $(".widowed").show();
+      break;
+    default: 
+      break;
+  }
+});
+
+function hideSingleOptions(){
+  $("#save-next").hide();
+  $(".separated").hide();
+  $(".divorced").hide();
+  $(".widowed").hide();
+}
 
 </script>
+
+
 
