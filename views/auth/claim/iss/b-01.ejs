@@ -23,8 +23,7 @@
   <%- include(forms+"yes_no", {
     label: "",
     customClass: ["margin-above--mid"],
-    no_toggle: "#statusA-container",
-    yes_toggle: "#save-next"
+    id: "still-single"
   }) %>
 
   <%- include(partials+"components/form-partials/radio", {
@@ -168,11 +167,13 @@
             {
               link: "/auth/claim",
               text: "Save and exit",
+              id: "save-exit-button",
               modifiers: ["floated"]
             },
             {
               link: "/auth/claim/iss/b-02",
               text: "Save and next",
+              id: "save-next-button",
               modifiers: ["floated", "primary"]
             }
           ]
@@ -204,15 +205,36 @@ function hideAll(){
   $("#save-next").hide();
 }
 
+// $("#state-1").prop("checked", true);
+
+// Confirm still single
+$('input[name=still-single]').change(function () {
+	var myVal = $('input[name=still-single]:checked').val();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  $("#statusA-container").hide();
+  $('input[name="statusA"]').prop('checked',false);
+  doUnBlock();
+	if (myVal == "yes") {
+		$("#save-next").show();
+	} else {
+		$("#statusA-container").show();
+  }
+});
+
+// No longer single
 $('input[name=statusA]').change(function () {
   mySelection = $(this).parent().find('span').text().trim();
   $("#consent-notice-container").hide();
   $("#save-next").hide();
+  doUnBlock();
   switch ( mySelection ) {
     case "Married":
       $("#consent-notice-container").show();
+      doBlock();
       break;
     case "De facto":
+      doBlock();
       $("#consent-notice-container").show();
       break;
     case "Single":
@@ -262,6 +284,15 @@ function hideSingleOptions(){
   $(".divorced").hide();
   $(".widowed").hide();
 }
+
+function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+  }
 
 </script>
 
