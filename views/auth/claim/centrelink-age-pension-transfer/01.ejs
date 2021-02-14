@@ -1,28 +1,48 @@
+<%
+
+var progress = JSON.parse(include("progressbar")) 
+progress.activeItem = 1;
+
+%>
+
 <%- include(templates+"header", {
-  claim: "Transfer Centrelink age pension to DVA",
-  heading: "Centrelink details"
+  claim: "Transfer Centrelink age pension to DVA", 
+  heading: "Centrelink details",
+  progress
 }) %>
 
-<%- include(partials+"components/form-partials/text", {
-  label: "What is your Centrelink customer reference number (CRN)?"
-}); %>
 
-<%- include(partials+"components/form-partials/text", {
-  label: "What is the total payment(s) amount you receive from Centrelink per fortnight?",
-  modifiers: ["dollarSign"]
-}); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink?",
-  id: "cshc"
+  id: "cshc",
+  no_toggle: ["#crn-container","#current-payment-container"],
+  yes_toggle: "#cshc-block-prompt-container"
 }); %>
 
 <%-include(partials+"components/form-partials/notice", { 
-  message: "<p>Ineligible messaging to be added here.</p>", 
+  message: "<p>You are not eligible to transfer your age pension from Centrelink to DVA.</p>", 
   modifiers: ["hidden"], 
   type: "error",
   id: "cshc-block-prompt"
 }); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is your Centrelink customer reference number (CRN)?",
+  modifiers: ["hidden"],
+  id: "crn"
+}); %>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "What is your current fortnighly payment for your Centrelink age pension?",
+  modifiers: ["dollarSign"],
+  modifiers: ["hidden"],
+  id: "current-payment"
+}); %>
+
+
+
+
 
 <p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
 

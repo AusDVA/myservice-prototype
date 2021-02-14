@@ -23,15 +23,28 @@
   <%- include(forms+"yes_no", {
     label: "",
     customClass: ["margin-above--mid"],
-    no_toggle: "#notice-container",
+    no_toggle: "#statusA-container",
     yes_toggle: "#save-next"
   }) %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Please select your relationship status",
+    boxes: [
+      "Married",
+      "De facto",
+      "Separated",
+      "Divorced",
+      "Widowed"
+    ],
+    id: "statusA",
+    modifiers: ["hidden"]
+  }); %>
 
   <%- include(partials+"components/form-partials/notice", {
     message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Complete your partner consent declaration</a>.</p>",
     type: "error",
     modifiers: ["hidden"],
-    id: ["notice"]
+    id: ["consent-notice"]
   }); %>
   
 
@@ -78,7 +91,7 @@
       }); %>
 
       <%- include(forms+"yes_no", {
-        label: "Is your partner a registered memeber of a pension bonus scheme?"
+        label: "Is your partner a registered member of a pension bonus scheme?"
       }); %>
 
     </div>
@@ -190,6 +203,37 @@ function hideAll(){
   $(".partnered-with-consent").hide();
   $("#save-next").hide();
 }
+
+$('input[name=statusA]').change(function () {
+  mySelection = $(this).parent().find('span').text().trim();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  switch ( mySelection ) {
+    case "Married":
+      $("#consent-notice-container").show();
+      break;
+    case "De facto":
+      $("#consent-notice-container").show();
+      break;
+    case "Single":
+      $("#save-next").show();
+      break;
+    case "Separated":
+      $("#save-next").show();
+      // $(".separated").show();
+      break;
+    case "Divorced":
+      $("#save-next").show();
+      // $(".divorced").show();
+      break;
+    case "Widowed":
+      $("#save-next").show();
+      // $(".widowed").show();
+      break;
+    default: 
+      break;
+  }
+});
 
 $('input[name=single-type]').change(function () {
 	hideSingleOptions();

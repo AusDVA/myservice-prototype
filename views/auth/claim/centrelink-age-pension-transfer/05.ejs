@@ -1,26 +1,103 @@
-<%- include(templates+"header", {
-  claim: "Qualifying Service",
-  heading: "Submitted",
-  modifiers: ["noHeading"]
-}) %>
 
-  <%- include(forms+"submitting", {
-    modifiers: ["claimID"],
-    type: "submitted",
-    submitting_text: "We're submitting your application to transfer Centrelink age pension to DVA",
-    submitted_text: `Your application has been <b>submitted</b>`,
-    supporting_text: `<h3>Your application is being assessed.</h3>
-      <!-- <p>Your service history is being confirmed. You will then be notififed of the outcome by mail.</p> -->
-    `
-  }) %> 
 
-  <%- include(forms+"pagination", {
-    pagination: [
-      {
-        text: "Back to home",
-        link: "/auth"
-      }
-    ]
+  <%
+  var progress = JSON.parse(include("progressbar")) 
+  progress.activeItem = 5;
+  %>
+  
+  <%- include(templates+"header", {
+    claim: "Transfer Centrelink age pension to DVA", 
+    heading: "Review and submit",
+    progress
   }) %>
+  
+
+<%- include(components+"review-submit", {
+      claim_title: "Centrelink age pension transfer",
+      categories: [
+        {
+          title: "Centrelink details",
+          edit_url: "/auth/claim/centrelink-age-pension-transfer/01",
+          data: [
+              {
+                q: "What is your Centrelink Customer Reference Number (CRN)?",
+                a: "755 6745"
+              },
+              {
+                q: "What is the total payment(s) amount you receive from Centrelink perfortnight?",
+                a: "$457"
+              },
+              {
+                  q: "Do you currently hold a Commonwealth Seniors Health Card (CSHC) from Centrelink or DVA?",
+                  a: "Yes"
+              }
+            ]
+        },
+        {
+          title: "Claim representative",
+          edit_url: "/auth/claim/centrelink-age-pension-transfer/02",
+          data: [
+              {
+                q: "Do you wish to nominate a claim representative?",
+                a: "No"
+              }
+            ]
+        },
+        {
+          title: "Payment details",
+          edit_url: "/auth/claim/centrelink-age-pension-transfer/03",
+          data: [
+              {
+                q: "Account name",
+                a: "Xavier Larton"
+              },
+              {
+                q: "BSB",
+                a: "455 678"
+              },
+              {
+                  q: "Account number",
+                  a: "3321 6654"
+              }
+              ,
+              {
+                  q: "Do you have a tax file number?",
+                  a: "Yes"
+              },
+              {
+                  q: "Tax file number",
+                  a: "445 675 890"
+              }
+            ]
+        },
+        ],
+        customClass: ["margin-below--extra"]
+    }) %>
+
+
+    <%- include(forms+"pagination", {
+      pagination: [
+      {
+        text: "Previous",
+        link: "/auth/claim/centrelink-age-pension-transfer/04",
+      },
+      {
+          text: "Cancel",
+          link: "#claim-cancel-modal"
+        },
+        {
+          text: "Save and exit",
+          id: "btnNext",
+          link: "/auth/claim?state=claim-saved-success",
+          modifiers: ["floated"]
+        },
+        {
+          text: "Submit",
+          id: "btnNext",
+          link: "/auth/claim/centrelink-age-pension-transfer/06",
+          modifiers: ["primary", "floated"]
+        }
+      ]
+    }) %>
 
 <%- include(templates+"footer") %>

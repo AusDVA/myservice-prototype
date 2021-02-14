@@ -1,91 +1,68 @@
+<%
+
+var progress = JSON.parse(include("progressbar")) 
+progress.activeItem = 3;
+
+%>
+
 <%- include(templates+"header", {
-  claim: "Transfer Centrelink age pension to DVA",
-  heading: "Payment details"
+  claim: "Transfer Centrelink age pension to DVA", 
+  heading: "Claim representative",
+  progress
 }) %>
 
-<!-- <p class="margin-above--mid margin-below--large">Provide your bank details. This will be the account your payment will be paid into.</p> -->
+<p>A claim representative can receive updates and query the claim on your behalf. They cannot access your account, view other claims or access personal information.</p>
 
-<div id="bank-input">
-  <%- include(partials+"components/form-partials/notice", {
-  message: "This will be your nominated account for all DVA payments."
-}); %>
-
-  <h2 class="mys h2 margin-below--mid">Bank account</h2>
-
-  <%- include(partials+"components/form-partials/text", {
-  label: "Account name"
-}); %>
-
-  <div class="form-group" id="bsb">
-    <label id="bsb-label" class="uikit-text-input__label" for="bsb1">BSB
-      <span class="hint">(XXX - XXX)</span>
-    </label>
-    <input aria-describedby="bsb-label" class="uikit-text-input bsb" type="text" name="bsb" id="bsb1" maxlength="3"
-      aria-label="First 3 digits of BSB" size="3">
-    <span aria-hidden="true">-</span>
-    <input aria-describedby="bsb-label" class="uikit-text-input bsb" type="text" name="bsb" id="bsb2" maxlength="3"
-      aria-label="Last 3 digits of BSB" size="3">
-  </div>
-
-  <div class="form-group" hidden id="institution">
-    <label class="uikit-text-input__label">Financial institution</label>
-    <div class="fa-2x" id="loading" hidden>
-      <i class="fas fa-spinner fa-pulse" style="color: #1057a7" aria-hidden="true"></i>
-      <span class="hint">Looking up BSB</span>
-    </div>
-    <p id="results"></p>
-  </div>
-
-  <%- include(partials+"components/form-partials/text", {
-  label: "Account number"
-}); %>
-
-</div>
-
-<div id="bank-prepop" class="margin-below--extra" hidden>
-  <%- include(partials+"components/form-partials/notice", {
-    message: "You can update these details in your <a href='/auth/profile/payment-destination'>payment destination</a>."
+<%- include(partials+"components/form-partials/yes_no", {
+    label: "Do you wish to nominate a claim representative?",
+    yes_toggle: ".claim-rep-form",
+    no_toggle: "#choose-next"
   }); %>
-  <h2 class="mys h2 margin-below--mid">Bank account</h2>
-  <div class="pre-pop-on">
-    <div class="kv-pair">
-      <span class="kv-pair__key">Account Name:</span>
-      <span class="kv-pair__value">Rebecca Orange</span>
+
+<div class="claim-rep-form" hidden>
+<h2 class="mys h2 margin-below--mid">Representative details</h2>
+
+<%- include(partials+"components/form-partials/text", {
+    label: "Given name",
+    hint: "(first name)"
+  }); %>
+
+<%- include(partials+"components/form-partials/text", {
+    label: "Surname",
+    hint: "(last name)"
+  }); %>
+
+<div>
+  <label for="text534" class="uikit-text-input__label margin-below--none">
+    Phone/mobile number<span class="hint display-block margin-above--none margin-below--none">Please include area code where necessary (for example, "03" for Victoria)</span></label>
+  <form class="responsive-form margin-below--extra">
+    <div class="form-group formPartials_dropdown col-3">
+      <select class="uikit-text-input">
+        <option value="au">
+          Australia (+61)
+        </option>
+      </select>
     </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Account number:</span>
-      <span class="kv-pair__value">7123 8876 0023</span>
+    <div class="form-group col-6">
+      <input type="text" class="uikit-text-input">
     </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">BSB:</span>
-      <span class="kv-pair__value">654 - 788</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Financial Institution:</span>
-      <span class="kv-pair__value">ANZ Bank</span>
-    </div>
-  </div>
+  </form>
 </div>
 
-  <div id="tfn" class="margin-below--extra">
-
-    <h2 class="mys h2 margin-below--mid">TFN details</h2>
-
-    <%- include(partials+"components/form-partials/yes_no", {
-  label: "Do you have a tax file number?",
-  yes_toggle: "#tfn-container"
-}); %>
-    <%- include(partials+"components/form-partials/text", {
-  label: "Tax file number",
-  id: "tfn",
-  modifiers: ["hidden"]
+<%- include(partials+"components/form-partials/text", {
+  label: "Email address",
+  hint: "(optional)"
 }); %>
 
-  </div>
+<h2 class="mys h2 margin-below--mid">Representative postal address</h2>
 
-  <!-- <p id="choose-next" hidden>Choose <b>next</b> to continue</p> -->
+<%- include(partials+"content/address-postal") %>
 
-  <%- include(forms+"pagination", {
+</div>
+
+<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
     pagination: [
     {
       text: "Previous",
@@ -109,81 +86,7 @@
       }
     ]
   }) %>
-  <%- include(forms+"modals/claim-cancel") %>
-  <%- include(templates+"footer") %>
-  <%- include("02-ss") %>
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
 
-  <script>
 
-    var bsbs;
-
-    $(document).ready(function () {
-      $.ajax({
-        url: '/docs/data/bsbs.csv',
-        type: 'GET',
-        dataType: 'text'
-      })
-        .done(data => {
-          Papa.parse(data, {
-            header: true,
-            dynamicTyping: false,
-            complete: results => {
-              bsbs = results;
-            }
-          });
-        });
-    });
-
-    $("#bsb1").on("keyup", function () {
-      if ($(this).val().length === 3) {
-        $("#bsb2").focus();
-      }
-    });
-
-    $("#bsb2").on("keyup", function () {
-      if ($(this).val().length === 0) {
-        $("#bsb1").focus();
-      }
-    });
-
-    $("#bsb").on("keyup", "input", function () {
-      let combinedVal = $("#bsb1").val() + $("#bsb2").val();
-      if (combinedVal.length === 6) {
-
-        $("#institution").show();
-        $("#loading").show();
-        combinedVal = `${combinedVal.slice(0, 3)}-${combinedVal.slice(3, 6)}`;
-
-        let filtered = bsbs.data.filter(bsb => bsb.bsb === combinedVal);
-        $("#results").text(filtered[0] !== undefined ? filtered[0].bank : "BSB not found.")
-
-        window.setTimeout(function () {
-          $("#loading").hide();
-          $("#results").show();
-        }, 600)
-
-      } else {
-        $("#loading").hide("fast");
-        $("#results").hide("fast");
-      }
-    });
-
-    function stateSwitcher() {
-      $("#bank-input").hide();
-      $("#bank-prepop").hide();
-      $("#tfn").hide();
-      console.log(state)
-      switch (state) {
-        case "bankprovided":
-          $("#bank-prepop").show();
-          $("#tfn").show();
-          break;
-        case "banknotprovided":
-          $("#bank-input").show();
-          $("#tfn").show();
-          break;
-        default:
-          break;
-      }
-    }
-  </script>
