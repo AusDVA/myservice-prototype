@@ -10,50 +10,106 @@
 }) %>
 
 <%- include(partials+"components/form-partials/yes_no", {
-  label: "Are you an Australian citizen?"
+  label: "Are you an Australian citizen?",
+  id: "citizen"
 }); %>
 
-<%- include(partials+"components/form-partials/checkbox", {
+<%- include(partials+"components/form-partials/radio", {
   label: "Are you:",
   boxes: [
     "The holder of a permanent visa",
     "The holder of a special purpose visa",
     "The holder of a special category visa",
     "A refugee or former refugee"
-  ]
+  ],
+  modifiers: ["hidden"],
+  id: "visa"
 }); %>
 
 <%- include(partials+"components/form-partials/notice", {
-  message: "You will need to provide a copy of your visa or special category visa that shows you hold the ability to remain in Australia."
+  message: "You will need to provide a copy of your visa or special category visa that shows you hold the ability to remain in Australia.",
+  id: "visa-notice",
+  modifiers: ["hidden"]
 }); %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Are you living permanently in Australia?"
-}); %>
-
-<%- include(partials+"components/form-partials/notice", {
-  message: "You must be living permanently in Australia at the time of lodging your claim for Service Pension.",
-  type: "warning"
-}); %>
-
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Were you born in Australia?"
+<%- include(partials+"components/form-partials/date", {
+  label: "Visa grant date",
+  id: "visa-date",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/dropdown", {
-  label: "What is your country of birth?",
+  label: "Visa sub class",
   options: [
+  "-- Select option --",
     "Mr",
     "Mrs",
     "Master",
     "Miss",
     "Dr"
-  ]
+  ],
+  id: "visa-sub",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/date", {
+  label: "When did your refugee status begin?",
+  hint: "dd / mm / yyyy",
+  modifiers: ["hidden"],
+  id: "refugee"
+}); %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Were you born in Australia?",
+  id: "born"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Citizenship start date?",
+  hint: "dd / mm / yyyy",
+  modifiers: ["hidden"],
+  id: "citizen-date"
+}); %>
+
+<%- include(partials+"components/form-partials/dropdown", {
+  label: "What is your country of birth?",
+  options: [
+  "-- Select country --",
+    "Mr",
+    "Mrs",
+    "Master",
+    "Miss",
+    "Dr"
+  ],
+  id: "birth-country",
+  modifiers: ["hidden"]
+}); %>
+
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Are you living permanently in Australia?",
+  modifiers: ["hidden"]
+}); %>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "You must be living permanently in Australia at the time of lodging your claim for Service Pension.",
+  type: "warning",
+  modifiers: ["hidden"]
+}); %>
+
+
+<%- include(partials+"components/form-partials/date", {
   label: "When did you first arrive in Australia?",
-  hint: "dd / mm / yyyy"
+  hint: "dd / mm / yyyy",
+  modifiers: ["hidden"]
+}); %>
+
+
+
+<%- include(partials+"components/form-partials/yes_no", {
+  label: "Have you moved to or returned to live in Australia in the last 12 months?",
+  all_toggle: "#save-next",
+  modifiers: ["hidden"]
 }); %>
 
 <%- include(partials+"components/form-partials/yes_no", {
@@ -61,10 +117,6 @@
   all_toggle: "#save-next"
 }); %>
 
-<%- include(partials+"components/form-partials/yes_no", {
-  label: "Have you moved to or returned to live in Australia in the last 12 months?",
-  all_toggle: "#save-next"
-}); %>
 
 
 
@@ -439,6 +491,75 @@
   <script>
 
 
+// No longer single
+$('input[name=visa]').change(function () {
+  mySelection = $(this).parent().find('span').text().trim();
+  hideNonCitizen();
+  switch ( mySelection ) {
+    case "The holder of a permanent visa":
+      $("#visa-notice-container").show();
+      $("#visa-date-container").show();
+      $("#visa-sub-container").show();
+      $("#birth-country-container").show();
+      break;
+    case "The holder of a special purpose visa":
+    $("#visa-notice-container").show();
+      $("#visa-date-container").show();
+      $("#birth-country-container").show();
+      break;
+    case "The holder of a special category visa":
+    $("#visa-notice-container").show();
+      $("#visa-date-container").show();
+      $("#birth-country-container").show();
+      break;
+    case "A refugee or former refugee":
+      $("#refugee-container").show();
+      $("#birth-country-container").show();
+      break;
+    default: 
+      break;
+  }
+});
+
+function hideNonCitizen(){
+  $("#born-container").hide();
+  $("#visa-notice-container").hide();
+    $("#visa-date-container").hide();
+  $("#visa-a").hide();
+  $("#perm-visa-container").hide();
+  $("#visa-sub-container").hide();
+  $("#refugee-container").hide();
+  $("#birth-country-container").hide();
+  $("#citizen-date-container").hide();
+}
+
+$('input[name=citizen]').change(function () {
+	var myVal = $('input[name=citizen]:checked').val();
+  hideNonCitizen();
+  $("#visa-container").hide();
+	if (myVal == "yes") {
+		// $("#save-next").hide();
+	} else {
+		$("#visa-container").show();
+    $("#birth-country-container").show();
+    $("#born-container").hide();
+  }
+});
+
+$('input[name=born]').change(function () {
+	var myVal = $('input[name=born]:checked').val();
+  $("#citizen-date-container").hide();
+    $("#birth-country-container").hide();
+	if (myVal == "no") {
+		$("#citizen-date-container").show();
+    $("#birth-country-container").show();
+	} else {
+    //
+  }
+});
+
+// no_toggle: ["#visa-container","#birth-country-container"],
+//   no_rToggle: ["#born-container"],
 
 
   </script>
