@@ -82,11 +82,19 @@
       }); %>
 
       <%- include(forms+"yes_no", {
-        label: "Has your partner applied for or do they currently receive any benefits from Centrelink?"
+        label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+        id: "centrelink"
       }); %>
 
       <%- include(forms+"yes_no", {
-        label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?"
+        label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?",
+        id: "cshc"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "What is your partner's CRN number?",
+        id: "crn",
+        modifiers: ["hidden"]
       }); %>
 
       <%- include(forms+"yes_no", {
@@ -206,6 +214,27 @@ function hideAll(){
 }
 
 // $("#state-1").prop("checked", true);
+
+// Current partner
+
+$('input[name=centrelink]').change(function () {
+	var myVal = $('input[name=centrelink]:checked').val();
+  var myOtherVal = $('input[name=cshc]:checked').val();
+	if (myVal == "yes") {
+		$("#crn-container").show();
+	} else {
+    if ( myOtherVal != "yes" ) $("#crn-container").hide();
+  }
+});
+$('input[name=cshc]').change(function () {
+	var myVal = $('input[name=cshc]:checked').val();
+  var myOtherVal = $('input[name=centrelink]:checked').val();
+	if (myVal == "yes") {
+		$("#crn-container").show();
+	} else {
+    if ( myOtherVal != "yes" ) $("#crn-container").hide();
+  }
+});
 
 // Confirm still single
 $('input[name=still-single]').change(function () {
