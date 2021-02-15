@@ -132,13 +132,25 @@
           <%- include(partials+"components/form-partials/dropdown", {
             label: "What is your relationship to the child?",
             options: [
-            "-- Select option --",
-              "Mr",
-              "Mrs",
-              "Master",
-              "Miss",
-              "Dr"
-            ]
+            "-- Select relationship type qqqq--",
+              "Adoptive parent",
+              "Foster parent",
+              "Grandparent",
+              "Guardian",
+              "Parent",
+              "Sibling",
+              "Step-parent",
+              "Uncle/Aunt",
+              "Other relation"
+            ],
+            id: "rel-type"
+          }); %>
+
+          <%- include(partials+"components/form-partials/date", {
+            label: "Relationship start date",
+            hint: "(dd / mm / yyyy)",
+            modifiers: ["hidden"],
+            id: "rel-start-date"
           }); %>
 
           <%- include(partials+"components/form-partials/checkbox", {
@@ -303,5 +315,18 @@
     $("#receive-dependant-container").click(function () {
       clearPrePopAfterYesNo();
     });
+
+$('#rel-type').change(function () {
+  mySelection = $(this).find("option:selected").text().trim();
+  $("#rel-start-date-container").hide();
+  switch ( mySelection ) {
+    case "Parent":
+      break;
+    default: 
+      $("#rel-start-date-container").show();
+      break;
+  }
+});
+
 
   </script>
