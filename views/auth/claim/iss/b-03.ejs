@@ -61,6 +61,7 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Were you born in Australia?",
+  modifiers: ["hidden"],
   id: "born"
 }); %>
 
@@ -85,7 +86,6 @@
   modifiers: ["hidden"]
 }); %>
 
-
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Are you living permanently in Australia?",
   modifiers: ["hidden"]
@@ -104,8 +104,6 @@
   modifiers: ["hidden"]
 }); %>
 
-
-
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Have you moved to or returned to live in Australia in the last 12 months?",
   all_toggle: "#save-next",
@@ -114,11 +112,8 @@
 
 <%- include(partials+"components/form-partials/yes_no", {
   label: "Have you lived overseas and returned to live in Australia in the last 12 months?",
-  all_toggle: "#save-next"
+  id: "twelve-months"
 }); %>
-
-
-
 
 <!-- <div class="form-group margin-above--large">
   <fieldset>
@@ -490,8 +485,6 @@
 
   <script>
 
-
-// No longer single
 $('input[name=visa]').change(function () {
   mySelection = $(this).parent().find('span').text().trim();
   hideNonCitizen();
@@ -522,6 +515,7 @@ $('input[name=visa]').change(function () {
 });
 
 function hideNonCitizen(){
+  $("#save-and-next").hide();
   $("#born-container").hide();
   $("#visa-notice-container").hide();
     $("#visa-date-container").hide();
@@ -539,6 +533,7 @@ $('input[name=citizen]').change(function () {
   $("#visa-container").hide();
 	if (myVal == "yes") {
 		// $("#save-next").hide();
+    $("#born-container").show();
 	} else {
 		$("#visa-container").show();
     $("#birth-country-container").show();
@@ -558,8 +553,9 @@ $('input[name=born]').change(function () {
   }
 });
 
-// no_toggle: ["#visa-container","#birth-country-container"],
-//   no_rToggle: ["#born-container"],
+$('input[name=twelve-months]').change(function () {
+  $("#save-and-next").show();
 
+});
 
   </script>
