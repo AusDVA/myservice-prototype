@@ -668,16 +668,34 @@
     </div>
   </main>
   <%- include(partials+"components/layout/footer") %>
+
+
+
+
   <script>
-    $(Document).ready(function () {
+    // $(Document).ready(function () {
 
       hideAll();
 
-      if (sessionStorage.getItem('partnerStatus') == 'partnered') {
-        showPartner();
-      } else {
-        hidePartner();
-      };
+      function stateSwitcher() {
+      hideAll();
+      switch (state) {
+        case "Single":
+          hidePartner();
+          break;
+        case "Partnered":
+          showPartner();
+          break;
+        default:
+          break;
+      }
+    }
+
+      // if (sessionStorage.getItem('partnerStatus') == 'partnered') {
+      //   showPartner();
+      // } else {
+      //   hidePartner();
+      // };
 
       function showPartner() {
         sessionStorage.setItem('partnerApply', 'true')
@@ -839,8 +857,6 @@
         $("#sp-res-partnerTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
       });
 
-      //
-
       $("#sp-la-op6-paySum-yes1").click(function () {
         if ($(".accordion-group").is(":visible")) {
           $(".accordion-group").hide("fast");
@@ -849,11 +865,6 @@
         }
       })
 
-      // $("#sp-la-op6-paySum-no1").click(function() {
-      //     $(".accordion-group").show("fast");
-      //     $("#sp-res-veteranTitle icon").toggleClass("fa-minus-circle").toggleClass("fa-plus-circle");
-      //     $("#show-partner-questions").hide("fast");
-      // })
 
       var partner = false;
       $(document).keypress(function (e) {
@@ -872,17 +883,18 @@
         }
       });
 
-      $(document).keypress(function (e) {
-        switch (e.which) {
-          case 49:
-            hidePartner();
-            break;
-          case 50:
-            showPartner();
-            break;
-          default:
-        }
-      });
+
+      // $(document).keypress(function (e) {
+      //   switch (e.which) {
+      //     case 49:
+      //       hidePartner();
+      //       break;
+      //     case 50:
+      //       showPartner();
+      //       break;
+      //     default:
+      //   }
+      // });
 
       function hideAll() {
         $("#living-arrangements-a").hide();
@@ -922,8 +934,10 @@
         //
         $("#save-and-next").hide();
       }
-    });
+    // });
   </script>
 </body>
 
 </html>
+
+<%- include("b-04-ss") %> 
