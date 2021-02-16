@@ -32,9 +32,12 @@ progress.activeItem = 2;
           content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
         }
     },
-    {
-      text: "Widowed"
-    },
+  {
+    text: "Divorced"
+  },
+  {
+    text: "Widowed"
+  }
   ],
   id: "relationship-status"
 }); %>
@@ -61,29 +64,73 @@ progress.activeItem = 2;
       label: "Date of birth"
     }); %>
 
-  <%- include(partials+"components/form-partials/yes_no", {
-      label: "Does your partner wish to receive Veteran Payment?",
+  
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
       id: "partner-wants-vp",
-      yes_toggle: "#partner-payment-questions"
+      yes_toggle: "#crn-container",
+      no_toggle: "#save-next"
     }); %>
 
-  <div id="partner-payment-questions" hidden>
+    <%- include(partials+"components/form-partials/text", {
+      label: "What is your partner's Customer Reference Number (CRN)?",
+      id: "crn",
+      modifiers: ["hidden"]
+  }); %>
 
-    <%- include(partials+"components/form-partials/yes_no", {
-          label: "Does your partner currently receive payments from Centrelink?",
-          id: "partner-centrelink",
-          yes_toggle: "#partner-crn-container",
-          no_toggle: "#save-next"
-      }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner wish to transfer their age service pension from Centrelink to DVA?",
+      id: "partner-wants-vp",
+      yes_toggle: "#partner-payment-questions",
+      no_toggle: "#save-next"
+    }); %>
+
+</div>
+
+<div id="veteran-details" hidden>
+
+  <h3>Tell us about the veteran</h3>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Given name",
+      hint: "(first name)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Surname",
+      hint: "(last name)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/prepop/gender"); %>
+
+  <br>
+
+  <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth"
+    }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
+      id: "partner-wants-vp",
+      yes_toggle: "#partner-crn-container",
+      no_toggle: "#save-next"
+    }); %>
 
     <%- include(partials+"components/form-partials/text", {
-          label: "What is your partner's Customer Reference Number (CRN)?",
-          id: "partner-crn",
-          modifiers: ["hidden"]
-      }); %>
+      label: "What is your partner's Customer Reference Number (CRN)?",
+      id: "partner-crn",
+      modifiers: ["hidden"]
+  }); %>
 
-  </div>
 </div>
+
+<%-include(partials+"components/form-partials/notice", { 
+  message: "<p>You are not eligible to transfer your age pension from Centrelink to DVA.</p>", 
+  modifiers: ["hidden"], 
+  type: "error",
+  id: "block-prompt"
+}); %>
 
 <p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
@@ -91,7 +138,7 @@ progress.activeItem = 2;
     pagination: [
       {
         text: "Previous",
-        link: "/auth/claim/centrelink-age-pension-transfer/01"
+        link: "/auth/claim/veteran-payment/veteran-payment-01"
       },
       {
         text: "Cancel",
@@ -100,11 +147,13 @@ progress.activeItem = 2;
       {
         text: "Save and exit",
         link: "/auth/claim",
+        id: "save-exit-button",
         modifiers: ["floated"]
       },
       {
         text: "Save and next",
-        link: "/auth/claim/centrelink-age-pension-transfer/03",
+        link: "/auth/claim/veteran-payment/veteran-payment-03",
+        id: "save-next-button",
         modifiers: ["floated", "primary"]
       }
     ]
@@ -112,27 +161,72 @@ progress.activeItem = 2;
 
 <script>
 
+function stateSwitcher() {
+      // hideAll();
+      console.log(state) 
+      switch (state) {
+        case "Veteran":
+          break;
+        case "Partner":
+          break;
+        default:
+          break;
+      }
+    }
+
   $("input:radio").prop("checked", false);
 
   $('input[name=relationship-status]').change(function () {
     $("#save-next").hide();
     $("#partner-details").hide();
+    $("#veteran-details").hide();
+    doUnBlock();
     switch ( $(this).val() ) {
       case "single":
-      $("#partner-details").show();
-        localStorage.setItem("relationship-status", "single");
+        if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
         break;
       case "married":
-        $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
+        if ( state == "veteran") {
+          $("#veteran-details").show();
+        } else {
+          $("#partner-details").show();
+        }
         break;
       case "defacto":
-        $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
+        if ( state == "veteran") {
+          $("#veteran-details").show();
+        } else {
+          $("#partner-details").show();
+        }
         break;
       case "separatedwhilestilllegallymarried":
-      $("#partner-details").show();
-        localStorage.setItem("relationship-status", "partnered");
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      case "divorced":
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      case "widowed":
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
         break;
       default:
     }
@@ -144,5 +238,19 @@ progress.activeItem = 2;
       localStorage.setItem("partner-wants-vp", "false");
     }
   })
+
+
+function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+    $("#block-prompt-container").show();
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#block-prompt-container").hide();
+  }
+
 </script>
 <%- include(templates+"footer") %>
+<%- include("02-ss") %> 
