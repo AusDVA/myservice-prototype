@@ -42,7 +42,7 @@ progress.activeItem = 2;
   id: "relationship-status"
 }); %>
 
-<div id="partner-details" hidden>
+<div id="veteran-details" hidden>
 
   <h3>Partner details</h3>
 
@@ -95,7 +95,7 @@ progress.activeItem = 2;
 
 </div>
 
-<div id="veteran-details" hidden>
+<div id="partner-details" hidden>
 
   <h3>Tell us about the veteran</h3>
 
@@ -169,12 +169,13 @@ progress.activeItem = 2;
 <script>
 
 function stateSwitcher() {
-      // hideAll();
-      console.log(state) 
+      resetPage()
       switch (state) {
         case "Veteran":
+          $("#veteran-details").show();
           break;
         case "Partner":
+        $("#partner-details").show();
           break;
         default:
           break;
@@ -246,6 +247,13 @@ function stateSwitcher() {
     }
   })
 
+  function resetPage(){
+    $("#save-next").hide();
+    $("#partner-details").hide();
+    $("#veteran-details").hide();
+    $('input[name="relationship-status"]').prop('checked',false);
+    doUnBlock();
+  }
 
 function doBlock(){
     $("#save-next-button").attr("disabled", "disabled");
