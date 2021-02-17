@@ -11,9 +11,32 @@ progress.activeItem = 4;
   progress
 }) %>
 
-<!-- <p class="margin-above--mid margin-below--large">Provide your bank details. This will be the account your payment will be paid into.</p> -->
+<div id="bank-prepop" class="margin-below--extra" >
+  <%- include(partials+"components/form-partials/notice", {
+    message: "You can update these details in your <a href='/auth/profile/payment-destination'>payment destination</a>."
+  }); %>
+  <h2 class="mys h2 margin-below--mid">Bank account</h2>
+  <div class="pre-pop-on">
+    <div class="kv-pair">
+      <span class="kv-pair__key">Account Name:</span>
+      <span class="kv-pair__value">Rebecca Orange</span>
+    </div>
+    <div class="kv-pair">
+      <span class="kv-pair__key">Account number:</span>
+      <span class="kv-pair__value">7123 8876 0023</span>
+    </div>
+    <div class="kv-pair">
+      <span class="kv-pair__key">BSB:</span>
+      <span class="kv-pair__value">654 - 788</span>
+    </div>
+    <div class="kv-pair">
+      <span class="kv-pair__key">Financial Institution:</span>
+      <span class="kv-pair__value">ANZ Bank</span>
+    </div>
+  </div>
+</div>
 
-<div id="bank-input">
+<div id="bank-input" hidden>
   <%- include(partials+"components/form-partials/notice", {
   message: "This will be your nominated account for all DVA payments."
 }); %>
@@ -48,31 +71,28 @@ progress.activeItem = 4;
   label: "Account number"
 }); %>
 
+
+<div class="couple" hidden>
+
+  <%- include(forms+"yes_no", {
+    label: "Would your partner like to use the same bank details?",
+    no_toggle: ["#partner-bank","#partner-bank-container"],
+    customClass: "margin-above--large"
+  }) %>
+  
+
+
+  <h2 id="partner-bank" hidden>Partner bank details</h2>
+
+  <%- include(partials+"components/form-partials/prepop/bank-details", {
+    label: "",
+    id: "partner-bank",
+    modifiers: ["hidden"]
+  }); %>
+
+ 
 </div>
 
-<div id="bank-prepop" class="margin-below--extra" hidden>
-  <%- include(partials+"components/form-partials/notice", {
-    message: "You can update these details in your <a href='/auth/profile/payment-destination'>payment destination</a>."
-  }); %>
-  <h2 class="mys h2 margin-below--mid">Bank account</h2>
-  <div class="pre-pop-on">
-    <div class="kv-pair">
-      <span class="kv-pair__key">Account Name:</span>
-      <span class="kv-pair__value">Rebecca Orange</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Account number:</span>
-      <span class="kv-pair__value">7123 8876 0023</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">BSB:</span>
-      <span class="kv-pair__value">654 - 788</span>
-    </div>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Financial Institution:</span>
-      <span class="kv-pair__value">ANZ Bank</span>
-    </div>
-  </div>
 </div>
 
   <div id="tfn" class="margin-below--extra">
@@ -81,13 +101,45 @@ progress.activeItem = 4;
 
     <%- include(partials+"components/form-partials/yes_no", {
   label: "Do you have a tax file number?",
-  yes_toggle: "#tfn-container"
+  yes_toggle: "#tfn-container",
+  no_toggle: "#need-tfn-container"
 }); %>
+<%- include(forms+"notice", {
+  message: "To receive Veteran Payment, you will need to have a tax file number (TFN). You can apply for a TFN from the <a>Australian Taxation Office</a> after you have submitted your claim.",
+  id: "need-tfn",
+  modifiers: ["hidden"]
+}) %>
+
     <%- include(partials+"components/form-partials/text", {
   label: "Tax file number",
   id: "tfn",
   modifiers: ["hidden"]
 }); %>
+
+<div class="couple" hidden>
+
+  <%- include(forms+"yes_no", {
+    label: "Does your partner have a tax file number?",
+    yes_toggle: "#tfn-partner-container",
+    no_toggle: "#partner-need-tfn-container"
+  }) %>
+
+  <%- include(forms+"notice", {
+    message: `<p>Your partner will need to apply for a Tax File Number from the <a href="https://www.ato.gov.au/"> Australian Taxation
+      Office</a> and provide it to us.</p>`,
+      message: "To receive Veteran Payment, your partner will need to have a tax file number (TFN). They can apply for a TFN from the <a>Australian Taxation Office</a> after the claim has been submitted.",
+    id: "partner-need-tfn",
+    modifiers: ["hidden"]
+  }) %>
+
+  <%- include(forms+"text", {
+    label: "Partner's tax file number",
+    id: "tfn-partner",
+    modifiers: ["hidden"]
+  }) %>
+
+</div>
+
 
   </div>
 
@@ -119,9 +171,11 @@ progress.activeItem = 4;
   }) %>
   <%- include(forms+"modals/claim-cancel") %>
   <%- include(templates+"footer") %>
-  <%#- include("02-ss") %>
+  <%- include("04-ss") %>
 
   <script>
+
+
 
     var bsbs;
 
@@ -179,19 +233,29 @@ progress.activeItem = 4;
     function stateSwitcher() {
       $("#bank-input").hide();
       $("#bank-prepop").hide();
-      $("#tfn").hide();
-      console.log(state)
+      $("#tfn-container").hide();
+      $("#tfn-partner-container").hide();
+      $("#partner-need-tfn-container").hide();
+      $("#need-tfn-container").hide();
+      $(".couple").hide();
+      console.log( state )
       switch (state) {
-        case "bankprovided":
+        case "prepop":
           $("#bank-prepop").show();
           $("#tfn").show();
           break;
-        case "banknotprovided":
+        case "partnered":
           $("#bank-input").show();
           $("#tfn").show();
+          $(".couple").show();
           break;
         default:
           break;
       }
     }
+
+
+
+
+
   </script>
