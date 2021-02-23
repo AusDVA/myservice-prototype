@@ -107,44 +107,53 @@ progress.activeItem = 2;
 
 <div id="veteran-details" hidden>
 
-  <h3>Tell us about the veteran</h3>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "Given name",
-      hint: "(first name)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/text", {
-      label: "Surname",
-      hint: "(last name)"
-    }); %>
-
-  <%- include(partials+"components/form-partials/prepop/gender"); %>
-
-  <br>
-
-  <%- include(partials+"components/form-partials/date", {
-      label: "Date of birth"
-    }); %>
-
-    <%- include(partials+"components/form-partials/text", {
-      label: "Phone/mobile number",
-      hint: 'Include area code where applicable (for example, "03" for Victoria).',
-      modifiers: ["hintNewLine"]
-    }); %>
-
   <%- include(partials+"components/form-partials/yes_no", {
-      label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
-      id: "partner-wants-vp",
-      yes_toggle: "#partner-crn-container",
-      no_toggle: "#save-next"
-    }); %>
+    label: "Is your partner receiving a DVA disability pension?",
+    id: "vet-receiving"
+  }); %>
+
+  <div id="vet-details-2" hidden>
+
+    <h3>Partner details</h3>
 
     <%- include(partials+"components/form-partials/text", {
-      label: "What is your partner's Customer Reference Number (CRN)?",
-      id: "partner-crn",
-      modifiers: ["hidden"]
-    }); %>
+        label: "Given name",
+        hint: "(first name)"
+      }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+        label: "Surname",
+        hint: "(last name)"
+      }); %>
+
+    <%- include(partials+"components/form-partials/prepop/gender"); %>
+
+    <br>
+
+    <%- include(partials+"components/form-partials/date", {
+        label: "Date of birth"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "Phone/mobile number",
+        hint: 'Include area code where applicable (for example, "03" for Victoria).',
+        modifiers: ["hintNewLine"]
+      }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
+        id: "partner-wants-vp",
+        yes_toggle: "#partner-crn-container",
+        no_toggle: "#save-next"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "What is your partner's Customer Reference Number (CRN)?",
+        id: "partner-crn",
+        modifiers: ["hidden"]
+      }); %>
+
+    </div>
 
 </div>
 
@@ -199,6 +208,19 @@ function stateSwitcher() {
     }
 
   $("input:radio").prop("checked", false);
+
+  $('input[name=vet-receiving]').change(function () {
+	var myVal = $('input[name=vet-receiving]:checked').val();
+    $("#vet-details-2").hide();
+    $("#save-next").hide();
+    doUnBlock();
+	if (myVal == "yes") {
+		$("#vet-details-2").show();
+	} else {
+		$("#block-prompt-container").show();
+    doBlock();
+  }
+});
 
   $('input[name=relationship-status]').change(function () {
     $("#save-next").hide();
@@ -255,13 +277,6 @@ function stateSwitcher() {
       default:
     }
   });
-  $("#partner-wants-vp-container").on("change", "input", function () {
-    if ($(this).val() === "yes") {
-      localStorage.setItem("partner-wants-vp", "true");
-    } else {
-      localStorage.setItem("partner-wants-vp", "false");
-    }
-  })
 
   function resetPage(){
     $("#save-next").hide();
