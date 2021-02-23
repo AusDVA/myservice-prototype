@@ -42,7 +42,7 @@ progress.activeItem = 2;
   id: "relationship-status"
 }); %>
 
-<div id="veteran-details" hidden>
+<div id="partner-details" hidden>
 
   <h3>Partner details</h3>
 
@@ -64,7 +64,12 @@ progress.activeItem = 2;
       label: "Date of birth"
     }); %>
 
-  
+    <%- include(partials+"components/form-partials/text", {
+      label: "Phone/mobile number",
+      hint: 'Include area code where applicable (for example, "03" for Victoria).',
+      modifiers: ["hintNewLine"]
+    }); %>
+
     <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
       id: "partner-wants-vp",
@@ -78,15 +83,20 @@ progress.activeItem = 2;
       modifiers: ["hidden"]
   }); %>
 
-
-  <%#- include(partials+"components/form-partials/yes_no", {
+  <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner wish to transfer their age service pension from Centrelink to DVA?",
       id: "partner-wants-vp",
-      yes_toggle: "#partner-current-payment-container",
+      yes_toggle: "#partner-transfer-notice-container",
       no_toggle: "#save-next"
     }); %>
 
-    <%- include(partials+"components/form-partials/text", {
+    <%-include(partials+"components/form-partials/notice", { 
+      message: "<p>Your partner will need to complete their own application using their MyService account. If they do not have a MyService account they will need to register.</p>", 
+      modifiers: ["hidden"], 
+      id: "partner-transfer-notice"
+    }); %>
+
+    <%#- include(partials+"components/form-partials/text", {
       label: "What is your partner's current fortnighly payment for your Centrelink age pension?",
       modifiers: ["dollarSign"],
       modifiers: ["hidden"],
@@ -95,7 +105,7 @@ progress.activeItem = 2;
 
 </div>
 
-<div id="partner-details" hidden>
+<div id="veteran-details" hidden>
 
   <h3>Tell us about the veteran</h3>
 
@@ -117,6 +127,12 @@ progress.activeItem = 2;
       label: "Date of birth"
     }); %>
 
+    <%- include(partials+"components/form-partials/text", {
+      label: "Phone/mobile number",
+      hint: 'Include area code where applicable (for example, "03" for Victoria).',
+      modifiers: ["hintNewLine"]
+    }); %>
+
   <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
       id: "partner-wants-vp",
@@ -128,7 +144,7 @@ progress.activeItem = 2;
       label: "What is your partner's Customer Reference Number (CRN)?",
       id: "partner-crn",
       modifiers: ["hidden"]
-  }); %>
+    }); %>
 
 </div>
 
@@ -172,10 +188,10 @@ function stateSwitcher() {
       resetPage()
       switch (state) {
         case "Veteran":
-          $("#veteran-details").show();
+          $("#partner-details").show();
           break;
         case "Partner":
-        $("#partner-details").show();
+        $("#veteran-details").show();
           break;
         default:
           break;
@@ -200,16 +216,16 @@ function stateSwitcher() {
         break;
       case "married":
         if ( state == "veteran") {
-          $("#veteran-details").show();
-        } else {
           $("#partner-details").show();
+        } else {
+          $("#veteran-details").show();
         }
         break;
       case "defacto":
         if ( state == "veteran") {
-          $("#veteran-details").show();
-        } else {
           $("#partner-details").show();
+        } else {
+          $("#veteran-details").show();
         }
         break;
       case "separatedwhilestilllegallymarried":
