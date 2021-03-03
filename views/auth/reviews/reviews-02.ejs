@@ -1,0 +1,115 @@
+<%- include(templates+"header", { claim: "MyService - Request review" , heading:
+"Reason for request" }) %>
+
+
+
+<div class="default">
+  <%- include(partials+"components/form-partials/textarea", { 
+    label: "Enter your detailed reason/s for requesting a review", 
+    hint: "If lengthy you may upload as supporting evidences below.", 
+    id: "reason-text" , 
+    modifiers: [ "hintNewLine"] 
+  }); %>
+
+  <strong>Supporting evidence</strong> (recommended)
+  <p>Add documents to support your request. For example: letter of decision, reason for request, medical evidence. You are also able to provide these documents later.</p>
+  <p>Accepted file types include word doc, pdf, jpeg and png. Maximum file size is 50MB.</p>
+  </p>
+
+  <div class="mys doc-upload margin-above--small margin-below--extra">
+    <div class="file">
+      <i class="icon fal fa-file-upload fa-2x"></i>
+      <span>Document</span>
+    </div>
+    <button class="mys-file-uploads__item-button uikit-btn small">
+      Upload
+    </button>
+  </div>
+</div>
+
+<%#- include(partials+"components/form-partials/notice", { 
+  message: "If you don't have the documents now you can provide them after you submit your request.", 
+}); %> 
+
+<%- include(forms+"pagination", { 
+  pagination: [ 
+    { text: "Previous" , link: "/auth/reviews/reviews-01" }, 
+    { text: "Cancel", link: "#claim-cancel-modal" },
+    { text: "Save and exit", link: "/auth/reviews/", modifiers: ["floated" ] }, 
+    { text: "Save and next", link: "/auth/reviews/reviews-03", modifiers: ["floated", "primary" ], customClass: ['margin-above--large'] } ] 
+  }) %> 
+  <%-include(templates+"footer") %> 
+  <%#- include("reviews-02-ss") %>
+
+<script>
+
+  var selected;
+  function updateTable(selectedRow) {
+    resetTable();
+    selected = "record";
+    switch (selectedRow) {
+      case "drca":
+        $("#internal-review-prompt-container").show();
+        break;
+      case "vea":
+        $("#vrb-prompt-container").show();
+        break;
+      case "vrb":
+        $("#aat-prompt-container").show();
+        $("#save-next-button").attr("disabled", "disabled");
+        $("#save-exit-button").attr("disabled", "disabled");
+        break;
+      case "other":
+        selected = "other";
+        $("#save-next").show();
+        break;
+      default:
+        break;
+    }
+    $("body,html").animate(
+      {
+        scrollTop:
+          $(".reviews--decisions").position().top +
+          $(".reviews--decisions").height(),
+      },
+      1000
+    );
+  }
+
+  var state;
+  $.urlParam = function (name) {
+    var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
+      window.location.href
+    );
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  };
+  state = $.urlParam("state");
+  updatePage();
+  function updatePage() {
+    hideAll();
+    switch (state) {
+      case "disab":
+        $(".default").show();
+        $("#type-1").prop("checked", true);
+        break;
+      case "other":
+        $(".other").show();
+        $("#type-2").prop("checked", true);
+        break;
+
+      default:
+        $(".default").show();
+        break;
+    }
+  }
+  function hideAll() {
+    $(".default").hide();
+    $(".other").hide();
+  }
+
+
+
+</script>

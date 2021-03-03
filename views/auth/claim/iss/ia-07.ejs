@@ -1,0 +1,251 @@
+<%
+  var progress = JSON.parse(include("c-progressbar")) 
+  progress.activeItem = 7;
+%>
+
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service Pension - Home ownership | MyService</title>
+  <%- include(partials+"components/layout/head") %>
+  <script src="/docs/js/income-assets.js"></script>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#user-list">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content"
+      class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container">
+        <%- include(forms+"progress-advanced", progress) %>
+      </div>
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center"><span class="heading">Home ownership</span></h1>
+    </div>
+    <div class="container container--8-column margin-above margin-below--extra">
+
+      <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Have you sold your home within the last 2 years?",
+                  yes_toggle: "#sold-my-house"
+                }); %>
+
+      <div id="sold-my-house" hidden>
+
+        <%- include(partials+"components/form-partials/date", {
+                    label: "Date sold",
+                    id: "date-sold"
+                  }); %>
+
+        <%- include(partials+"components/form-partials/text", {
+                    label: "Sale price",
+                    id: "how-much",
+                    modifiers: ["dollarSign", "inputShort"],
+                    placeholder: "0.00"
+                  }); %>
+
+        <%- include(partials+"components/form-partials/notice", {
+                    message: "You will need to attach evidence of the sale of your home in the documents section."
+                  }); %>
+
+      </div>
+
+      <%- include(partials+"components/form-partials/yes_no", {
+                  label: "Do you own your own home (either purchased outright or mortgaged), but you <span class='partner'>and/or your partner</span> live somewhere else?",
+                  yes_toggle: "#left-questions",
+                  no_toggle: "#save-and-next"
+                }); %>
+
+      <div id="left-questions" hidden>
+        <%- include(partials+"components/form-partials/date", {
+                    label: "When did you and/or your partner leave?",
+                  }); %>
+
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Who has left the home?",
+                    id: "who-left",
+                    all_toggle: ["#temp-perm-container","#moved-in-reason-container"],
+                    boxes: [
+                      {
+                        text: "Myself",
+                        toggle: "#myself-container"
+                      },
+                      {
+                        text: "My partner",
+                        toggle: "#partner-container"
+                      },
+                      {
+                        text: "Both myself and my partner",
+                        toggle: "#both-container"
+                      }
+                    ]
+                  }); %>
+
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Is the home you and your partner left:",
+                    id: "both",
+                    boxes: [
+                      "Occupied rent free",
+                      "Occupied by carer of other famuily member/s (e.g. dependent child)",
+                      "Left vacant"
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Is the home your partner left:",
+                    id: "partner",
+                    boxes: [
+                      "Occupied by myself",
+                      "Occupied rent free",
+                      "Occupied by carer of other famuily member/s (e.g. dependent child)",
+                      "Left vacant"
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Is the home you left:",
+                    id: "myself",
+                    boxes: [
+                      "Occupied by my partner",
+                      "Occupied rent free",
+                      "Occupied by carer of other family member/s (e.g. dependent child)",
+                      "Left vacant"
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Have you and/or your partner left your home",
+                    id: "temp-perm",
+                    boxes: [
+                      {
+                        text: "Temporarily",
+                        toggle: ["#return-date-container","#temp-reason-container"]
+                      },
+                      {
+                        text: "Permanently"
+                      }
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/date", {
+                    label: "When do you and/or your partner expect to return to your home?",
+                    id: "return-date",
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Temporary absence due to",
+                    id: "temp-reason",
+                    boxes: [
+                      {
+                        text: "Home lost",
+                        toggle: "#further-details-container"
+                      },
+                      {
+                        text: "Home damaged",
+                        toggle: "#further-details-2-container"
+                      },
+                      {
+                        text: "Neither"
+                      }
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/notice", {
+                    message: "You may be contacted by DVA to request further details.",
+                    id: "further-details",
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/notice", {
+                  message: "You may be contacted by DVA to request further details.",
+                  id: "further-details-2",
+                  modifiers: ["hidden"]
+                }); %>
+        <%- include(partials+"components/form-partials/radio", {
+                    label: "Have you and/or your partner moved in with someone else to",
+                    id: "moved-in-reason",
+                    boxes: [
+                      {
+                        text: "Provide care",
+                        toggle: "#name-caree-container"
+                      },
+                      {
+                        text: "Be cared for",
+                        toggle: ["#name-carer-container","#evidence-care-container"]
+                      },
+                      {
+                        text: "Neither",
+                      }
+                    ],
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/text", {
+                    label: "Name of the person being cared for",
+                    id: "name-caree",
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/text", {
+                    label: "Name of the care provider",
+                    id: "name-carer",
+                    modifiers: ["hidden"]
+                  }); %>
+        <%- include(partials+"components/form-partials/notice", {
+                    message: "You will be required to provide evidence of the need for a substantial level of care to support your claim.",
+                    id: "evidence-care",
+                    modifiers: ["hidden"]
+                  }); %>
+
+      </div>
+      <div id="save-and-next" class="margin-above" hidden>
+        <p>Choose <b>save and next</b> to continue.</p>
+      </div>
+    </div>
+    <div class="pagination container container--8-column" style="position: relative;">
+      <button class="uikit-btn uikit-btn--tertiary"
+        onclick="window.location.href = '/auth/claim/iss/ia-06'">Previous</button>
+      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel
+        claim</button>
+      <div class="floated">
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim'">Save and
+          exit</button>
+        <button class="uikit-btn btnNext" onclick="window.location.href = 'progress-04'">Save and next</button>
+      </div>
+    </div>
+  </main>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+
+      $(document).keypress(function (e) {
+        switch (e.which) {
+          case 49:
+            hidePartner();
+            break;
+          case 50:
+            showPartner();
+            break;
+          default:
+        }
+      });
+
+      function showPartner() {
+        $(".partner").show();
+        $(".partner-label").html("Our");
+      }
+
+      function hidePartner() {
+        $(".partner").hide();
+        $(".partner-label").html("My");
+      }
+
+    });
+  </script>
+</body>
+
+</html>

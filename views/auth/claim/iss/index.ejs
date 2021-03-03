@@ -1,0 +1,85 @@
+<%- include(templates+"header", {
+  claim: "Income support supplement",
+  heading: "Income support supplement"
+}) %>
+
+<div class="default">
+
+  <div class="margin-below--extra">
+    <p>The income support supplement is a means-tested payment that is paid to eligible war widow(er)s under the VEA or wholly dependent partner under MRCA. The income support supplement is paid fortnightly.</p><p class="margin-below--mid">This application asks about:</p><ul><li>your personal details, your partner and dependants</li><li>your residence in Australia</li><li>your living arrangements</li><li>your tax details</li></ul>
+  </div>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel",
+        link: "/auth/claims"
+      },
+      {
+        text: "Next",
+        link: "/auth/claim/iss/progress-01",
+        modifiers: ["primary", "floated"]
+      }
+    ]
+  }) %>
+
+</div>
+
+<div class="draft-claim" hidden>
+
+  <%#- include(partials+"components/form-partials/notice", {
+    message: "<p>You have a draft income support supplement claim saved.</p><p><a href=''>Resume your draft</a> or <a href=''>delete your draft</a> to begin a new claim.</p>",
+    type: "warning"
+  }); %>
+
+
+  <%#- include(partials+"components/form-partials/notice", {
+    message: "<p>You have a draft income support supplement claim saved. Resume your draft to continue. Alternatively you may delete your draft and begin a new claim.</p><p><a href='/auth/claim/iss/a-01'>Go to my draft claim</a>.</p>",
+    type: "warning"
+  }); %>
+
+  <%- include(partials+"components/form-partials/notice", {
+    message: "<p>You have an incomplete income support supplement claim saved. <a href='/auth/claim/iss/a-01'>Resume your claim</a> to continue.</p><p>If you wish to begin a new claim you will need to <a href='/auth/claim/'>delete your incomplete claim</a> first.</p>",
+    type: "warning"
+  }); %>
+
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        text: "Cancel",
+        link: "/auth/claims"
+      }
+    ]
+  }) %>
+
+
+</div>
+
+
+
+<%#- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+<%- include("index-ss") -%>
+
+<script>
+  function stateSwitcher() {
+    hideAll();
+    console.log( state )
+    switch (state) {
+      case "Draft claim in progress":
+        $(".draft-claim").show();
+        break;
+      case "No draft claim in progress":
+        $(".default").show();
+        break;
+      default:
+        break;
+    }
+}
+
+function hideAll(){
+  $(".draft-claim").hide();
+  $(".default").hide();
+}
+</script>

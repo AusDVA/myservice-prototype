@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Add claim: Incapacity Payments | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+<div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+    <div class="container margin-above--none">
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Claim for Service Pension</span>
+      </h1>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-10 col-lg-offset-2 col-lg-8">
+        <div class="margin-above--extra margin-below--extra">
+
+          <div class="margin-above--large margin-below--extra">
+            <div id="progressbar">
+              <div id="percentage">
+                <p id="percentage_value">100% complete</p>
+              </div>
+            </div>
+            <p style="padding-top:0.4em;">100% complete</p>
+          </div>
+          <h3>All done! You can now review and submit your claim.</h3>
+
+          <div class="claim-progress-category">
+
+            <!-- Part A -->
+            <div class="claim-progress-category__item claim-progress-category--done">
+              <a class="claim-progress-category__link claim-progress-category__link--active" href="/auth/claim/service_pension/sp-start">
+                <div class="claim-progress-category__wrapper">
+                  <div class="claim-progress-category__status">
+                    <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                      <div class="mys-file-uploads__status-icon"></div>
+                      <div class="mys-file-uploads__status-sr">Success</div>
+                    </div>
+                  </div>
+
+                  <div class="claim-progress-category__label">
+                    <h3 class="claim-progress-category__heading">Part A - Getting started</h3>
+                    <p class="claim-progress-category__description">Tell us about your claim.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Part B -->
+            <div class="claim-progress-category__item claim-progress-category--done">
+              <a id="part-b" class="claim-progress-category__link claim-progress-category__link--success" href="/auth/claim/service_pension/sp-my-details">
+                <div class="claim-progress-category__wrapper">
+                  <div class="claim-progress-category__status">
+                    <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                      <div class="mys-file-uploads__status-icon"></div>
+                      <div class="mys-file-uploads__status-sr">Success</div>
+                    </div>
+                  </div>
+                  <div class="claim-progress-category__label">
+                    <h3 class="claim-progress-category__heading">Part B - Claim details</h3>
+                    <p class="claim-progress-category__description">Tell us more about your circumstances.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Part C -->
+            <div class="claim-progress-category__item claim-progress-category--done">
+              <a id="part-c" class="claim-progress-category__link claim-progress-category__link--success" href="/auth/claim/service_pension/sp-c0">
+                <div class="claim-progress-category__wrapper">
+                  <div class="claim-progress-category__status">
+                    <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                      <div class="mys-file-uploads__status-icon"></div>
+                      <div class="mys-file-uploads__status-sr">success</div>
+                    </div>
+                  </div>
+                  <div class="claim-progress-category__label">
+                    <h3 class="claim-progress-category__heading">Part C - Income &amp; assets</h3>
+                    <p class="claim-progress-category__description">Tell us about your income and assets.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+            <!-- Part D -->
+            <div class="claim-progress-category__item claim-progress-category--done">
+              <a id="part-d" class="claim-progress-category__link claim-progress-category__link--success" href="/auth/claim/service_pension/sp-documents">
+                <div class="claim-progress-category__wrapper">
+                  <div class="claim-progress-category__status">
+                    <div class="mys-file-uploads__status mys-file-uploads__status--success">
+                      <div class="mys-file-uploads__status-icon"></div>
+                      <div class="mys-file-uploads__status-sr">Active</div>
+                    </div>
+                  </div>
+                  <div class="claim-progress-category__label">
+                    <h3 class="claim-progress-category__heading">Part D - Required documents</h3>
+                    <p class="claim-progress-category__description">Upload supporting documents for your claim.</p>
+                  </div>
+                </div>
+              </a>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="pagination pagination--ss-reverse-order">
+          <!-- <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim/service_pension/incap-start'">Previous</button> -->
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '#open-modal'">Cancel</button>
+          <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href = '/auth/claim?user=INCAPuser-incomplete'">Save and exit</button>
+
+          <div class="floated">
+            <button class="uikit-btn btnNext" id="btnNext">Review and submit</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <%- include(partials+"content/modals/claims-cancel-modal") %>
+
+  </main>
+
+  <%- include(partials+"components/layout/footer") %>
+
+
+  <script>
+    $(Document).ready(function () {
+      localStorage.clear();
+      $("#btnNext").click(function () {
+        window.location.href = "/auth/claim/iss/review-submit"
+      });
+
+      // Progress percentage
+      document.getElementById("percentage").style.width = "100%";
+      document.getElementById("percentage_value").textContent = "100%";
+    });
+  </script>
+
+</body>
+
+</html>

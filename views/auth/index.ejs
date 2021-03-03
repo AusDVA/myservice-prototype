@@ -82,9 +82,11 @@
                       for?</a>
                   </li>
                   <div class="homepage__divider"></div>
+                  <li><a class="request-review"><i class="fal fa-folder-open fa-fw homepage__icon"></i>Request review of decision</a></li>
                   <li><a href="/auth/expenses"><i class="fal fa-receipt fa-fw homepage__icon"></i>Claim
                       travel expenses</a></li>
                   <li><a href="/auth/transport/"><i class="fal fa-car fa-fw homepage__icon"></i>Book transport</a></li>
+                 
                 </ul>
               </div>
             </div>
@@ -223,4 +225,24 @@
     }
 
   }
+
+  $.urlParam = function (name) {
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null) {
+      return 0;
+    }
+    return results[1] || 0;
+  }
+  state = $.urlParam('state');
+  scenario = $.urlParam('scenario');
+
+  $(".request-review").click( function( event ) {
+      if ( scenario === undefined ) {
+        window.location.href = "/auth/reviews/";
+      } else {
+        window.location.href = "/auth/reviews/index?scenario=" + scenario;
+      } 
+    });
+
+
 </script>

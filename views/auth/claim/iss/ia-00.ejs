@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html class="js" lang="en">
+
+<head>
+  <title>Service Pension - Claim representative | MyService</title>
+<%- include(partials+"components/layout/head") %>
+</head>
+
+<body class="uikit-body uikit-grid uikit-refactor">
+  <noscript>
+    <p role="alert">This website needs JavaScript to work properly.</p>
+  </noscript>
+  <nav class="uikit-skip-link">
+    <a class="uikit-skip-link__link" href="#main-content">Skip to main content</a>
+  </nav>
+  <%- include(partials+"components/layout/header-topbar") %>
+  <%- include(partials+"components/layout/header-nom-rep") %>
+  <main>
+    <div id="main-content" class="section-feature border-bottom--mild margin-above--none margin-below--none padding-below">
+      <div class="container margin-above--none">
+        <!-- Progress bar -->
+      </div>
+      <!-- Page heading -->
+      <h1 class="margin-above--none ss-align--center">
+        <span class="heading">Income &amp; assets</span>
+      </h1>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-offset-2 col-md-8">
+          <div class="margin-above--extra margin-below--extra">
+            <h2>Tell us about your income and assets to help us determine the amount you may receive.</h2>
+            <p>You are required to submit details for all income and assets belonging to you<span class="if-partnered"> and/or your partner</span>.</p>
+            <p>Take your time to ensure you have added all information correctly, as you work through the categories. The information you enter may effect the amount you may
+              receive.</p>
+            <p>Note that you may need to add multiple entries for some categories (for example bank accounts).</p>
+            <p>You will be able to update these details in the future as your circumstances change.</p>
+            <BR />
+            Click <b>next</b> to continue.
+
+          </div>
+          <!-- bottom page navigation -->
+          <div class="pagination">
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim/iss/'">Previous</button>
+            <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel claim</button>
+            <div class="floated">
+              <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and exit</button>
+              <button class="uikit-btn btnNext" onclick="window.location.href='/auth/claim/iss/ia-01'">Next</button>
+            </div>
+          </div><!-- bottom page navigation end -->
+          <%- include(partials+"content/modals/claims-cancel-modal") %>
+        </div> <!-- col-md-12 end -->
+      </div> <!-- row end -->
+    </div> <!-- container end -->
+  </main>
+  <%- include(partials+"components/layout/footer") %>
+  <script>
+    $(Document).ready(function () {
+
+      hideAll();
+
+      $("#rep-nominate-yes").click(function () {
+        $("#claim-contact-details").show("fast");
+        $("#save-and-next").hide("fast");
+      });
+
+
+      $("#rep-nominate-no").click(function () {
+        $("#claim-contact-details").hide("fast");
+        $("#save-and-next").show("fast");
+      });
+
+      function hideAll() {
+        $("#claim-contact-details").hide();
+      }
+
+      $(document).keypress(function (e) {
+        console.log(e.which)
+        switch (e.which) {
+          case 96: // tilda
+            $("#notes").toggle();
+            break;
+          default:
+        }
+      });
+
+      function partnerLanguage() {
+        if (sessionStorage.getItem('partnerStatus') == 'partnered') {
+          $(".if-partnered").show();
+        }
+      }
+      partnerLanguage();
+
+
+    });
+  </script>
+</body>
+
+</html>

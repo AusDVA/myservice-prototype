@@ -1,86 +1,302 @@
+<%
+
+var progress = JSON.parse(include("progressbar")) 
+progress.activeItem = 2;
+
+%>
+
 <%- include(templates+"header", {
-  claim: "Transfer Centrelink age pension to DVA",
-  heading: "Claim representative"
+  claim: "Veteran Payment", 
+  heading: "Relationship status",
+  progress
 }) %>
 
-<!-- <h2 class="mys h2 margin-below--mid">What is a claim representative?</h2> -->
+<%#- include(partials+"faqs/relationship-status"); %>
 
-<p>A claim representative can receive updates and query the claim on your behalf. They cannot access your account, view other claims or access personal information.</p>
-
-<%- include(partials+"components/form-partials/yes_no", {
-    label: "Do you wish to nominate a claim representative?",
-    yes_toggle: ".claim-rep-form",
-    no_toggle: "#choose-next"
-  }); %>
-
-<div class="claim-rep-form" hidden>
-<h2 class="mys h2 margin-below--mid">Representative details</h2>
-
-<%- include(partials+"components/form-partials/text", {
-    label: "Given name",
-    hint: "(first name)"
-  }); %>
-
-<%- include(partials+"components/form-partials/text", {
-    label: "Surname",
-    hint: "(last name)"
-  }); %>
-
-<div>
-  <label for="text534" class="uikit-text-input__label margin-below--none">
-    Phone/mobile number<span class="hint display-block margin-above--none margin-below--none">Please include area code where necessary (for example, "03" for Victoria)</span></label>
-  <form class="responsive-form margin-below--extra">
-    <div class="form-group formPartials_dropdown col-3">
-      <select class="uikit-text-input">
-        <option value="au">
-          Australia (+61)
-        </option>
-      </select>
-    </div>
-    <div class="form-group col-6">
-      <input type="text" class="uikit-text-input">
-    </div>
-  </form>
-</div>
-
-<%- include(partials+"components/form-partials/text", {
-  label: "Email address",
-  hint: "(optional)"
+<%- include(partials+"components/form-partials/radio", {
+  label: "What is your relationship status?",
+  boxes: [
+    {
+      text: "Single",
+    },
+    {
+      text: "De facto"
+    },
+    {
+      text: "Married"
+    },
+    {
+      text: "Separated (while still legally married)",
+      tooltip: 
+        {
+          content: "Separated means that you are married but no longer living in a marital relationship with your spouse and have not divorced. If you are unable to live with your spouse due to age or illness, please indicate your status as married."
+        }
+    },
+  {
+    text: "Divorced"
+  },
+  {
+    text: "Widowed"
+  }
+  ],
+  id: "relationship-status"
 }); %>
 
-<h2 class="mys h2 margin-below--mid">Representative postal address</h2>
+<div id="partner-details" hidden>
 
-<%- include(partials+"content/address-postal") %>
+  <h3>Partner details</h3>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Given name",
+      hint: "(first name)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/text", {
+      label: "Surname",
+      hint: "(last name)"
+    }); %>
+
+  <%- include(partials+"components/form-partials/prepop/gender"); %>
+
+  <br>
+
+  <%- include(partials+"components/form-partials/date", {
+      label: "Date of birth"
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "Phone/mobile number",
+      hint: 'Include area code where applicable (for example, "03" for Victoria).',
+      modifiers: ["hintNewLine"]
+    }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
+      id: "partner-wants-vp",
+      yes_toggle: "#crn-container",
+      no_toggle: "#save-next"
+    }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+      label: "What is your partner's Customer Reference Number (CRN)?",
+      id: "crn",
+      modifiers: ["hidden"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+      label: "Does your partner wish to transfer their age service pension from Centrelink to DVA?",
+      id: "partner-wants-vp",
+      yes_toggle: "#partner-transfer-notice-container",
+      no_toggle: "#save-next"
+    }); %>
+
+    <%-include(partials+"components/form-partials/notice", { 
+      message: "<p>Your partner will need to complete their own application using their MyService account. If they do not have a MyService account they will need to register.</p>", 
+      modifiers: ["hidden"], 
+      id: "partner-transfer-notice"
+    }); %>
+
+    <%#- include(partials+"components/form-partials/text", {
+      label: "What is your partner's current fortnighly payment for your Centrelink age pension?",
+      modifiers: ["dollarSign"],
+      modifiers: ["hidden"],
+      id: "partner-current-payment"
+    }); %>
 
 </div>
 
-<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
+<div id="veteran-details" hidden>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    label: "Is your partner receiving a DVA disability pension?",
+    id: "vet-receiving"
+  }); %>
+
+  <div id="vet-details-2" hidden>
+
+    <h3>Partner details</h3>
+
+    <%- include(partials+"components/form-partials/text", {
+        label: "Given name",
+        hint: "(first name)"
+      }); %>
+
+    <%- include(partials+"components/form-partials/text", {
+        label: "Surname",
+        hint: "(last name)"
+      }); %>
+
+    <%- include(partials+"components/form-partials/prepop/gender"); %>
+
+    <br>
+
+    <%- include(partials+"components/form-partials/date", {
+        label: "Date of birth"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "Phone/mobile number",
+        hint: 'Include area code where applicable (for example, "03" for Victoria).',
+        modifiers: ["hintNewLine"]
+      }); %>
+
+    <%- include(partials+"components/form-partials/yes_no", {
+        label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
+        id: "partner-wants-vp",
+        yes_toggle: "#partner-crn-container",
+        no_toggle: "#save-next"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "What is your partner's Customer Reference Number (CRN)?",
+        id: "partner-crn",
+        modifiers: ["hidden"]
+      }); %>
+
+    </div>
+
+</div>
+
+<%-include(partials+"components/form-partials/notice", { 
+  message: "<p>You are not eligible to transfer your age pension from Centrelink to DVA.</p>", 
+  modifiers: ["hidden"], 
+  type: "error",
+  id: "block-prompt"
+}); %>
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
 
 <%- include(forms+"pagination", {
     pagination: [
-    {
-      text: "Previous",
-      link: "/auth/claim/centrelink-age-pension-transfer/01",
-    },
-    {
+      {
+        text: "Previous",
+        link: "/auth/claim/centrelink-age-pension-transfer/01"
+      },
+      {
         text: "Cancel",
-        link: "#claim-cancel-modal"
+        link: "#open-modal"
       },
       {
         text: "Save and exit",
-        id: "btnNext",
-        link: "/auth/claim?state=claim-saved-success",
+        link: "/auth/claim",
+        id: "save-exit-button",
         modifiers: ["floated"]
       },
       {
         text: "Save and next",
-        id: "btnNext",
         link: "/auth/claim/centrelink-age-pension-transfer/03",
-        modifiers: ["primary", "floated"]
+        id: "save-next-button",
+        modifiers: ["floated", "primary"]
       }
     ]
   }) %>
-<%- include(forms+"modals/claim-cancel") %>
+
+<script>
+
+function stateSwitcher() {
+      resetPage()
+      switch (state) {
+        case "Veteran":
+          $("#partner-details").show();
+          break;
+        case "Partner":
+        $("#veteran-details").show();
+          break;
+        default:
+          break;
+      }
+    }
+
+  $("input:radio").prop("checked", false);
+
+  $('input[name=vet-receiving]').change(function () {
+	var myVal = $('input[name=vet-receiving]:checked').val();
+    $("#vet-details-2").hide();
+    $("#save-next").hide();
+    doUnBlock();
+	if (myVal == "yes") {
+		$("#vet-details-2").show();
+	} else {
+		$("#block-prompt-container").show();
+    doBlock();
+  }
+});
+
+  $('input[name=relationship-status]').change(function () {
+    $("#save-next").hide();
+    $("#partner-details").hide();
+    $("#veteran-details").hide();
+    doUnBlock();
+    switch ( $(this).val() ) {
+      case "single":
+        if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      case "married":
+        if ( state == "veteran") {
+          $("#partner-details").show();
+        } else {
+          $("#veteran-details").show();
+        }
+        break;
+      case "defacto":
+        if ( state == "veteran") {
+          $("#partner-details").show();
+        } else {
+          $("#veteran-details").show();
+        }
+        break;
+      case "separatedwhilestilllegallymarried":
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      case "divorced":
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      case "widowed":
+      if ( state == "veteran") {
+          $("#save-next").show();
+        } else {
+          $("#save-next").hide();
+          doBlock();
+        }
+        break;
+      default:
+    }
+  });
+
+  function resetPage(){
+    $("#save-next").hide();
+    $("#partner-details").hide();
+    $("#veteran-details").hide();
+    $('input[name="relationship-status"]').prop('checked',false);
+    doUnBlock();
+  }
+
+function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+    $("#block-prompt-container").show();
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+    $("#block-prompt-container").hide();
+  }
+
+</script>
 <%- include(templates+"footer") %>
-
-
+<%- include("02-ss") %> 

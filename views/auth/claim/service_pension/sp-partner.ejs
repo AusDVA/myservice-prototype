@@ -94,7 +94,7 @@
     <h1 class="margin-above--none ss-align--center">
       <span class="heading">Relationship status</span>
     </h1>
-  </div> <!-- container end -->
+  </div> 
   <div class="container container--8-column" id="cleanskin">
     <div class="margin-above--extra margin-below--extra">
       <form id="myForm">
@@ -108,8 +108,10 @@
           locals.el.optionalItemID = ["single","defacto","married","separated","divorced","widowed"];
         %>
 
-
         <%- include(partials+"faqs/relationship-status") %>
+
+         
+ 
         <!-- Married -->
 
         <%- include(forms+"date", {
@@ -339,11 +341,51 @@ locals.el.optionalHint = '(last name)';
       <p>Choose <b>save and next</b> to continue.</p>
     </div>
   </div>
+  <div class="container container--8-column" id="partnered-pre-pop-no-consent" style="display: none;">
+    <div class="margin-above--extra margin-below--extra">
+      <div id="partnered-pre-pop--current-partner" class="form-group">
+        <legend class="legend-label">Is this your current relationship status?</legend>
+        <div class="table">
+          <div class="td"><b>Relationship status</b></div>
+          <div class="td">Married</div>
+        </div>
+        <div class="radio-toggle margin-above">
+          <label class="on label-left" for="partnered-pre-pop--current-partner--yes--no-consent">
+            <input id="partnered-pre-pop--current-partner--yes--no-consent" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>Yes</span>
+          </label>
+          <label class="off label-right" for="partnered-pre-pop--current-partner--no--no-consent">
+            <input id="partnered-pre-pop--current-partner--no--no-consent" type="radio"
+              name="partnered-pre-pop--current-partner--question">
+            <span>No</span>
+          </label>
+        </div>
+      </div>
+
+      <div id="partnered-no-longer--no-consent" class="margin-above--extra" style="display: none">
+        <div class="ledger-rule"></div>
+        <%- include(forms+"date", {
+                label: "What date did the relationship end?",
+                id: "relationship-end-date"
+              }) %>
+      </div>
+      <%- include(partials+"components/form-partials/notice", {
+        message: "<p>We are changing the way we collect and use your personal information.</p><p>You will need to <a href='/auth/profile/partner-consent'>provide your partner's consent</a> before you can proceed with the claim.</p><p>Alternatively, call 1800 VETERAN (<a href='1800 838 372'>1800 838 372</a>) for assistance with other ways of providing your partner's consent.</p>",
+        type: "error",
+        id: "partner-consent-b",
+        modifiers: ["hidden"]
+      }); %>
+    </div>
+    <div id="ppp--save-and-next" class="margin-above" style="display: none">
+      <p>Choose <b>save and next</b> to continue.</p>
+    </div>
+  </div>
   <div class="container container--8-column" id="single-pre-pop" style="display: none;">
     <form id="myForm">
       <div class="margin-above--extra margin-below--extra">
         <div id="single-pre-pop--current-status" class="form-group">
-          <legend class="legend-label">Is this your CURRENT relationship status?</legend>
+          <legend class="legend-label">Is this your current relationship status?</legend>
           <div class="table">
             <div class="tr">
               <div class="td"><b>Relationship status</b></div>
@@ -369,21 +411,62 @@ locals.el.optionalHint = '(last name)';
       </div>
     </form>
     <%- include(partials+"content/modals/claims-cancel-modal") %>
-  </div> <!-- container end -->
-  <div class="container container--8-column">
-    <div class="pagination">
-      <button class="uikit-btn uikit-btn--tertiary"
-        onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
-      <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
-      <div class="floated">
-        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='/auth/claim'">Save and
-          exit</button>
-        <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+  </div> 
+
+  <div class="container container--8-column margin-below--none">
+    <div id="partner-consent" hidden>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p><a href='/auth/profile/partner-consent'>Complete your partner consent declaration</a>.</p>",
+        type: "error"
+      }); %>
+    
+      <%- include(forms+"pagination", {
+        pagination: [
+        {
+          text: "Previous",
+          link: "/auth/claim/service_pension/sp-progress-b"
+        },
+        {
+          text: "Save and exit",
+          link: "/auth/claim",
+          modifiers: ["floated"]
+        }
+        ],
+        customClass: ["margin-above--extra"]
+      }) %>
+          
+
+      </div>
+    <div id="consent-pending" hidden>
+      <h2 class="mys h2 margin-above--large margin-below--mid">Your partner consent form is being processed.</h2>
+      <p>You will be advised via email when processing is complete (allow approximately one week from date of submission). After consent is processed you will be able to resume your claim.</p>
+      <%- include(forms+"pagination", {
+        pagination: [
+        {
+          text: "Go to home page",
+          link: "/auth"
+        }
+        ],
+        customClass: ["margin-above--extra"]
+      }) %>
+    </div>
+    <div id="pagination" class="container container--8-column">
+      <div class="pagination">
+        <button class="uikit-btn uikit-btn--tertiary"
+          onclick="window.location.href='/auth/claim/service_pension/sp-progress-b'">Previous</button>
+        <button class="uikit-btn uikit-btn--tertiary" onclick="window.location.href='#open-modal'">Cancel</button>
+        <div class="floated">
+          <button class="uikit-btn uikit-btn--tertiary btnExit" onclick="window.location.href='/auth/claim'">Save and
+            exit</button>
+          <button class="uikit-btn btnNext" onclick="checkSaveAndNext()">Save and next</button>
+        </div>
       </div>
     </div>
-  </div>
+</div>
 </main>
 <%- include(partials+"components/layout/footer") %>
+
 <div id="state-switcher">
   <h3>Page info</h3>
   <div class="review__table">
@@ -400,8 +483,8 @@ locals.el.optionalHint = '(last name)';
   <% 
               locals.el = new Object();
               locals.el.question = 'Relationship status';
-              locals.el.items = ["Known partner","Known single","Status unknown"];
-              locals.el.optionalItemID = ["partnered-pre-pop","single-pre-pop","cleanskin"];
+              locals.el.items = ["Known partner with consent","Known partner without consent","Known single","Status unknown","Consent pending"];
+              locals.el.optionalItemID = ["partnered-pre-pop","partnered-pre-pop-no-consent","single-pre-pop","cleanskin","consentpending"];
             %>
   <%- include(partials+"components/form-elements/radio", locals) %>
   <% 
@@ -433,11 +516,17 @@ locals.el.optionalHint = '(last name)';
         case "partnered-pre-pop":
           showScenario("partnered-pre-pop");
           break;
+        case "partnered-pre-pop-no-consent":
+          showScenario("partnered-pre-pop-no-consent");
+          break;
         case "single-pre-pop":
           showScenario("single-pre-pop");
           break;
         case "cleanskin":
           showScenario("cleanskin");
+          break;
+          case "consentpending":
+          showScenario("consentpending");
           break;
         default:
       }
@@ -531,11 +620,18 @@ locals.el.optionalHint = '(last name)';
         case "partnered-pre-pop":
           $("#partnered-pre-pop").show();
           break;
+        case "partnered-pre-pop-no-consent":
+          $("#partnered-pre-pop-no-consent").show();
+          break;
         case "single-pre-pop":
           $("#single-pre-pop").show();
           break;
         case "cleanskin":
           $("#cleanskin").show();
+          break;
+          case "consentpending":
+          $("#consent-pending").show();
+          $("#pagination").hide();
           break;
         default:
       }
@@ -558,6 +654,19 @@ locals.el.optionalHint = '(last name)';
     $("#partnered-pre-pop--current-partner--no").click(function () {
       $("#partnered-pre-pop--options").hide("fast");
       $("#partnered-no-longer").show("fast");
+      $("#pagination").show();
+    });
+
+    $("#partnered-pre-pop--current-partner--yes--no-consent").click(function () {
+      $("#partnered-no-longer--no-consent").hide("fast");
+      $("#partner-consent").show();
+        $("#pagination").hide();
+    });
+    $("#partnered-pre-pop--current-partner--no--no-consent").click(function () {
+      $("#partnered-no-longer--no-consent").show("fast");
+      $("#partner-consent-b-container").hide();
+      $("#partner-consent").hide();
+      $("#pagination").show();
     });
 
     /* partnered */
@@ -604,34 +713,38 @@ locals.el.optionalHint = '(last name)';
 
     $('input[name=relationship-status]').change(function () {
       mySelection = $('input[name=relationship-status]:checked').val();
+      console.log( mySelection)
       hideAll();
       switch (mySelection) {
         case "single":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#save-and-next").show("fast");
+          $("#pagination").show();
           break;
         case "divorced":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#date-divorced-container").show("fast");
+          $("#pagination").show();
           break;
         case "widowed":
           sessionStorage.setItem('partnerStatus', 'none');
           $("#save-and-next").show("fast");
+          $("#pagination").show();
           break;
         case "separatedwhilestilllegallymarried":
-          sessionStorage.setItem('partnerStatus', 'none');
-          $("#date-separation-container").show("fast");
-          $("#notice-separation").show("fast");
+        $("#save-and-next").show("fast");
+          $("#pagination").show();
+
           break;
         case "married":
-          sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-marriage-container").show("fast");
-          $("#partner-details").show("fast");
+          $("#partner-consent").show();
+          $("#pagination").hide();
+  
           break;
         case "defacto":
-          sessionStorage.setItem('partnerStatus', 'partnered');
-          $("#date-living-together-container").show("fast");
-          $("#partner-details").show("fast");
+           $("#partner-consent").show();
+           $("#pagination").hide();
+    
           break;
         default:
       }
@@ -689,6 +802,7 @@ locals.el.optionalHint = '(last name)';
     }
 
     function hideAll() {
+      unBlock();
       $("#date-marriage-container").hide();
       $("#date-living-together-container").hide();
       $("#other-ps").hide();
@@ -700,9 +814,30 @@ locals.el.optionalHint = '(last name)';
       $("#crn").hide();
       $("#save-and-next").hide();
       $("#partnered-pre-pop").hide();
+      $("#partnered-pre-pop-no-consent").hide();
       $("#single-pre-pop").hide();
+      $("#partner-consent").hide();
+      $("#partnered-no-longer--no-consent").hide();
+      $("#partner-consent-b-container").hide();
+      $("#consent-pending").hide();
     }
   });
+
+  function block(){
+    $(".btnNext").attr("disabled","true");
+    $(".btnExit").attr("disabled","true");
+  }
+  function unBlock(){
+    $(".btnNext").removeAttr("disabled");
+    $(".btnExit").removeAttr("disabled");
+  }
+
+
+  function doSubmit() {
+      $("#consent-pending").show();
+      $("#partner-consent").hide();
+      $("#relationship-status-container").hide();
+  } 
 
 </script>
 </body>

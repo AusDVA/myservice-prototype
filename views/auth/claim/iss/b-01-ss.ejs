@@ -1,0 +1,59 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Relationship on record",
+    boxes: [
+      "Single",
+      "Partnered with consent",
+      "Partnered without consent"
+    ],
+    id: "state"
+  }); %>
+
+  <%#- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Notification submitted successfully"
+    ],
+    id: "notify-success",
+    customClass: "margin-below--none"
+  }); %>
+
+</div>
+
+<script>
+
+  $(document).ready(function () {
+
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+    $("#state-1").prop("checked", true);
+    $('input[name=state]').change(function () {
+      state = $(this).parent().find('span').text().trim();
+      
+      stateSwitcher();
+    });
+
+    // $('#notify-success-1').change(function () {
+    //   updateNotify();
+    // });
+
+  });
+
+  // function updateNotify() {
+  //   var myStatus = $("#notify-success-1").is(":checked");
+  //   if (myStatus) {
+  //     $("#success-container").show();
+  //   } else {
+  //     $("#success-container").hide();
+  //   }
+  // }
+
+</script>

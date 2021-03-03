@@ -1,0 +1,84 @@
+<%- include(templates+"header", {
+  claim: "MyService - Request review",
+  heading: "Representative"
+}) %>
+
+<%- include(partials+"components/form-partials/yes_no", {
+    label: "Do you wish to nominate a person to represent you in matters related to this review?",
+    hint:"Your representative can receive updates and make queries about this review on your behalf.",
+    modifiers: ["hintNewLine"],
+    yes_toggle: ".claim-rep-form",
+    no_toggle: "#choose-next"
+  }); %>
+
+<div class="claim-rep-form" hidden>
+<h2 class="mys h2 margin-below--mid">Representative details</h2>
+
+<%- include(partials+"components/form-partials/text", {
+    label: "Given name",
+    hint: "(first name)"
+  }); %>
+
+<%- include(partials+"components/form-partials/text", {
+    label: "Surname",
+    hint: "(last name)"
+  }); %>
+
+<div>
+  <label for="text534" class="uikit-text-input__label margin-below--none">
+    Phone/mobile number<span class="hint display-block margin-above--none margin-below--none">Please include area code where necessary (for example, "03" for Victoria)</span></label>
+  <form class="responsive-form margin-below--extra">
+    <div class="form-group formPartials_dropdown col-3">
+      <select class="uikit-text-input">
+        <option value="au">
+          Australia (+61)
+        </option>
+      </select>
+    </div>
+    <div class="form-group col-6">
+      <input type="text" class="uikit-text-input">
+    </div>
+  </form>
+</div>
+
+<%- include(partials+"components/form-partials/text", {
+  label: "Email address",
+  hint: "(optional)"
+}); %>
+
+<h2 class="mys h2 margin-below--mid">Representative postal address</h2>
+
+<%- include(partials+"content/address-postal") %>
+
+</div>
+
+<p id="choose-next" hidden>Choose <b>save and next</b> to continue</p>
+
+<%- include(forms+"pagination", {
+    pagination: [
+    {
+      text: "Previous",
+      link: "/auth/reviews/reviews-02",
+    },
+    {
+        text: "Cancel",
+        link: "#claim-cancel-modal"
+      },
+      {
+        text: "Save and exit",
+        id: "btnNext",
+        link: "/auth/reviews",
+        modifiers: ["floated"]
+      },
+      {
+        text: "Save and next",
+        id: "btnNext",
+        link: "/auth/reviews/reviews-04",
+        modifiers: ["primary", "floated"]
+      }
+    ]
+  }) %>
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+
+

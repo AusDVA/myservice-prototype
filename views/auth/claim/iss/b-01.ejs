@@ -1,0 +1,425 @@
+<%
+  var progress = JSON.parse(include("b-progressbar")) 
+  progress.activeItem = 1;
+%>
+
+<%- include(templates+"header", { 
+  claim: "MyService - Income support supplement", 
+  heading: "Relationship status",
+  progress
+
+ }) %>
+
+<div class="single">
+
+  <p class="margin-below--mid"><b>Are the following details correct?</b></p>
+  <table class="mys basic-table">
+    <tr class="tr">
+      <td class="td"><b>Relationship status</b></td>
+      <td class="td">Single</td>
+    </tr>
+  </table>
+
+  <%- include(forms+"yes_no", {
+    label: "",
+    customClass: ["margin-above--mid"],
+    id: "still-single"
+  }) %>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Please select your relationship status",
+    boxes: [
+      "Married",
+      "De facto",
+      "Separated",
+      "Divorced",
+      "Widowed"
+    ],
+    id: "statusA",
+    modifiers: ["hidden"]
+  }); %>
+
+  <div class="single-separated" hidden>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "<p>You will need to submit a <a href=''>separation from partner</a> form. You can provide this in the documents section.</p>",
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of separation"
+    }); %>
+  </div>
+  <div class="single-divorced" hidden>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of divorce"
+    }); %>
+  </div>
+
+
+
+</div>
+
+<div class="partnered-with-consent" hidden>
+
+  <p class="margin-below--mid"><b>Is this your current partner?</b></p>
+
+    <table class="mys basic-table">
+      <tr class="tr">
+        <td class="td"><b>Name</b></td>
+        <td class="td">Levi McClain</td>
+      </tr>
+      <tr class="tr">
+        <td class="td"><b>Date of birth</b></td>
+        <td class="td">12/12/1950</td>
+      </tr>
+      <tr class="tr">
+        <td class="td"><b>Relationship status</b></td>
+        <td class="td">Married</td>
+      </tr>
+    </table>
+
+    <%- include(forms+"yes_no", {
+      label: "",
+      customClass: ["margin-above--mid"],
+      id: "current-partner"
+    }) %>
+
+    <div class="current-partner-yes" hidden>
+
+      <%- include(partials+"components/form-partials/notice", {
+        message: "<p>You will need to provide a marriage certificate in the documents section.</p>"
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Has your partner applied for or do they currently receive any benefits from Centrelink?",
+        id: "centrelink"
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Does your partner have a Commonwealth Seniors Health Card (CSHC) issued by Centrelink?",
+        id: "cshc"
+      }); %>
+
+      <%- include(partials+"components/form-partials/text", {
+        label: "What is your partner's CRN number?",
+        id: "crn",
+        modifiers: ["hidden"]
+      }); %>
+
+      <%- include(forms+"yes_no", {
+        label: "Is your partner a registered member of the Pension Bonus Scheme?",
+        yes_toggle: "#partner-pension-bonus-container",
+        no_toggle: "#save-next",
+        tooltip: {
+          content: "To claim you must already be a member of the Pension Bonus Scheme (closed to new members). For more information see the <a href='https://www.dva.gov.au/financial-support/income-support/pension-bonus-scheme' class='external-link'>DVA website</a>."
+        }
+      }) %>
+  
+      <%- include(forms+"notice", {
+        id: "partner-pension-bonus",
+        modifiers: ["hidden"],
+        message: "<p>To claim the pension bonus you must apply as part of this claim. Complete this form and provide at the end of your claim:</p><p><a href='https://www.dva.gov.au/sites/default/files/dvaforms/D0559.pdf' class='external-link'>Claim for Pension Bonus form (D559)</a></p>"
+      }) %>
+  
+
+    </div>
+
+    <div class="current-partner-no" hidden>
+
+      <%- include(forms+"yes_no", {
+        label: "Are you in a new relationship and living together?",
+        yes_toggle: "#partner-form-container",
+        no_toggle: ".relationship-status",
+        id: "new-relationship"
+      }); %>
+     
+    </div>
+
+</div>
+
+<div class="partnered-without-consent" hidden>
+
+  <p class="margin-below--mid"><b>Are the following details correct?</b></p>
+  <table class="mys basic-table">
+    <tr class="tr">
+      <td class="td"><b>Relationship status</b></td>
+      <td class="td">Partner</td>
+    </tr>
+  </table>
+
+  <%- include(forms+"yes_no", {
+    label: "",
+    customClass: ["margin-above--mid"],
+    id: "still-partnered"
+  }) %>
+
+  
+
+</div>
+
+<%- include(partials+"components/form-partials/notice", {
+  message: "<p>You will need to submit a 'partner declaration and consent form' before proceeding. This is because you will be providing information on behalf of your partner.</p><p>After the form has been received and processed (allow approximately one week) you can resume your claim.</p><p>Complete your partner consent declaration.</p>",
+  type: "error",
+  id: "consent-notice",
+  modifiers: ["hidden"]
+}); %>
+
+<div class="relationship-status" hidden>
+
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Please select your relationship status",
+    boxes: [
+      "Single",
+      "Separated",
+      "Divorced",
+      "Widowed"
+    ],
+    id: "single-type"
+  }); %>
+
+  <div class="separated" hidden>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "<p>You will need to submit a <a href=''>separation from partner</a> form. You can provide this in the documents section.</p>",
+    }); %>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of separation"
+    }); %>
+  </div>
+  <div class="divorced" hidden>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of divorce"
+    }); %>
+  </div>
+  <div class="widowed" hidden>
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of partners' death",
+      hint: "(dd / mm / yyyy)"
+    }); %>
+  </div>
+
+</div>
+
+
+<p id="save-next" hidden>Choose <b>save and next</b> to continue</p>
+
+
+        <%- include(forms+"pagination", {
+          pagination: [
+            {
+              link: "/auth/claim/iss/progress-01",
+              text: "Previous"
+            },
+            {
+              link: "#claim-cancel-modal",
+              text: "Cancel claim"
+            },
+            {
+              link: "/auth/claim",
+              text: "Save and exit",
+              id: "save-exit-button",
+              modifiers: ["floated"]
+            },
+            {
+              link: "/auth/claim/iss/b-02",
+              text: "Save and next",
+              id: "save-next-button",
+              modifiers: ["floated", "primary"]
+            }
+          ]
+        }) %>
+        
+
+<%- include(forms+"modals/claim-cancel") %>
+<%- include(templates+"footer") %>
+<%- include("b-01-ss") %> 
+
+<script>
+  function stateSwitcher() {
+    hideAll();
+    switch (state) {
+      case "Single":
+        $(".single").show();
+        break;
+      case "Partnered with consent":
+        $(".partnered-with-consent").show();
+        break;
+        case "Partnered without consent":
+        $(".partnered-without-consent").show();
+        break;
+      default:
+        break;
+    }
+}
+
+// Confirm still partnered
+$('input[name=current-partner]').change(function () {
+	var myVal = $('input[name=current-partner]:checked').val();
+  $(".current-partner-yes").hide();
+  $(".current-partner-no").hide();
+  $("#save-next").hide();
+  $("#consent-notice-container").hide();
+	if (myVal == "yes") {
+    $(".current-partner-yes").show();
+	} else {
+		$(".current-partner-no").show();
+  }
+});
+
+function hideAll(){
+  $(".single").hide();
+  $(".partnered-with-consent").hide();
+  $(".partnered-without-consent").hide();
+  $("#save-next").hide();
+  $("#consent-notice-container").hide();
+}
+
+// $("#state-1").prop("checked", true);
+
+// Current partner
+
+$('input[name=centrelink]').change(function () {
+	var myVal = $('input[name=centrelink]:checked').val();
+  var myOtherVal = $('input[name=cshc]:checked').val();
+	if (myVal == "yes") {
+		$("#crn-container").show();
+	} else {
+    if ( myOtherVal != "yes" ) $("#crn-container").hide();
+  }
+});
+$('input[name=cshc]').change(function () {
+	var myVal = $('input[name=cshc]:checked').val();
+  var myOtherVal = $('input[name=centrelink]:checked').val();
+	if (myVal == "yes") {
+		$("#crn-container").show();
+	} else {
+    if ( myOtherVal != "yes" ) $("#crn-container").hide();
+  }
+});
+
+// Confirm still single
+$('input[name=still-single]').change(function () {
+	var myVal = $('input[name=still-single]:checked').val();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  $("#statusA-container").hide();
+  $('input[name="statusA"]').prop('checked',false);
+  doUnBlock();
+	if (myVal == "yes") {
+		$("#save-next").show();
+	} else {
+		$("#statusA-container").show();
+  }
+});
+
+// No longer single
+$('input[name=statusA]').change(function () {
+  mySelection = $(this).parent().find('span').text().trim();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  $(".single-separated").hide();
+  $(".single-divorced").hide();
+  doUnBlock();
+  switch ( mySelection ) {
+    case "Married":
+      $("#consent-notice-container").show();
+      doBlock();
+      break;
+    case "De facto":
+      doBlock();
+      $("#consent-notice-container").show();
+      break;
+    case "Separated":
+      // $(".single-separated").show();
+      $("#save-next").show();
+      break;
+    case "Divorced":
+      // $(".single-divorced").show();
+      $("#save-next").show();
+      break;
+    case "Widowed":
+      $("#save-next").show();
+      break;
+    default: 
+      break;
+  }
+});
+
+$('input[name=single-type]').change(function () {
+	hideSingleOptions();
+  mySelection = $(this).parent().find('span').text().trim();
+  switch ( mySelection ) {
+    case "Single":
+      $("#save-next").show();
+      break;
+    case "Separated":
+      $(".separated").show();
+      break;
+    case "Divorced":
+      $(".divorced").show();
+      break;
+    case "Widowed":
+      $(".widowed").show();
+      break;
+    default: 
+      break;
+  }
+});
+
+function hideSingleOptions(){
+  $("#save-next").hide();
+  $(".separated").hide();
+  $(".divorced").hide();
+  $(".widowed").hide();
+}
+
+// Confirm still partnered
+$('input[name=new-relationship]').change(function () {
+	var myVal = $('input[name=new-relationship]:checked').val();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  $(".relationship-status").hide();
+  $('input[name="single-type"]').prop('checked',false);
+  doUnBlock();
+	if (myVal == "yes") {
+    $("#consent-notice-container").show();
+    doBlock();
+	} else {
+		$(".relationship-status").show();
+  }
+});
+
+// Confirm still partnered
+$('input[name=still-partnered]').change(function () {
+	var myVal = $('input[name=still-partnered]:checked').val();
+  $("#consent-notice-container").hide();
+  $("#save-next").hide();
+  $(".relationship-status").hide();
+  $('input[name="single-type"]').prop('checked',false);
+  doUnBlock();
+  console.log( myVal )
+	if (myVal == "yes") {
+    $("#consent-notice-container").show();
+    doBlock();
+	} else {
+		$(".relationship-status").show();
+  }
+});
+
+function stateReset() {
+  $("#save-next").hide();
+  $(".separated").hide();
+  $(".divorced").hide();
+  $(".widowed").hide();
+}
+
+function doBlock(){
+    $("#save-next-button").attr("disabled", "disabled");
+    $("#save-exit-button").attr("disabled", "disabled");
+  }
+  function doUnBlock(){
+    $("#save-next-button").removeAttr("disabled");
+    $("#save-exit-button").removeAttr("disabled");
+  }
+
+</script>
+
+
+

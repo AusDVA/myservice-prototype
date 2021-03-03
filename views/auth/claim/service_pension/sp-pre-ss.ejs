@@ -1,0 +1,48 @@
+<div id="state-switcher">
+  <h3>State switcher</h3>
+
+  <h3>States</h3>
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "Consent submitted and pending"
+    ],
+    id: "pending",
+    customClass: "margin-below--none"
+  }); %>
+ 
+
+</div>
+
+<script>
+
+  var pageState;
+
+  $(document).ready(function () {
+    $(document).keypress(function (e) {
+      switch (e.which) {
+        case 96: //tilda
+          $('#state-switcher').toggle();
+          break;
+        default:
+      }
+    });
+
+  });
+
+  $('#pending-1').change(function() {
+    updatePending();  
+  });
+
+function updatePending() {
+    var myPending = $("#pending-1").is(":checked");
+    $("#default-state").hide();
+    $("#pending-state").hide();
+    if ( myPending ) {
+      $("#pending-state").show();
+    } else {
+      $("#default-state").show();
+    }
+  } 
+
+
+</script>

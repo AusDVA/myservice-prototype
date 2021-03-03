@@ -3,85 +3,84 @@
   heading: "Partner declaration and consent"
 })%>
 
-<%#- include(partials+"components/form-partials/notice", {
-  message: "You are only required to provide this form if applying for a joint claim or need to update your partner's income and assets.",
-  id: "not-required-notice"
-}); %>
 
-<h2>Partner declaration and consent form</h2>
-<p class="margin-below--small">Submit this form if:</p>
-<ul>
-  <li>You need to update your relationship status, or</li>
-  <li>You need to provide your partner's consent to enable you to update details on their behalf.</li>
-</ul>
 
-<h2>Steps to provide the form:</h2>
-<ol>
-  <li>Download the <a>partner declaration and consent form</a>.</li>
-  <li>Complete the form.</li>
-  <li>Upload the completed form below.</li>
-  <li>Your partner will receive a call from DVA requesting their verbal consent.</li>
-</ol>
+<div id="partner-consent">
 
-<hr>
-<div class="container container--8-column">
-  <div class="margin-above--none margin-below--extra">
-    <h3>Upload your completed partner declaration and consent form<span class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is
-        50MB.</span></h3>
+  <p>You are required to provide your partner's consent in order to provide information on their behalf.
+    Follow the steps below to provide your partner's consent to DVA.</p>
 
-    <!-- <h2 class="margin-above">What we need</h2> -->
+  <h3 class="mys h3 margin-below--mid">Steps to provide your partner's consent:</h3>
+  <ol>
+    <li>Download and complete the <a>partner declaration and consent form</a>.</li>
+    <li>Upload the completed form below.</li>
+    <li>You will receive email confirmation when the consent has been processed (allow approximately one week).</li>
+  </ol>
 
-    <div class="mys-file-uploads__items">
-      <div id="doc-medical" class="mys-file-uploads__item-border">
-        <div class="mys-file-uploads__item mys-file-uploads__item--required">
-          <div class="mys-file-uploads__l-status">
-            <div class="mys-file-uploads__status mys-file-uploads__status--pending">
-              <div class="mys-file-uploads__status-icon"></div>
-              <div class="mys-file-uploads__status-sr">Success</div>
-            </div>
-          </div>
-          <div class="mys-file-uploads__info">
-            <div class="mys-file-uploads__info-item">
-              <div class="mys-file-uploads__value">
-                <div><Strong>Partner declaration and consent form</strong></div>
-              </div>
-            </div>
-          </div>
-          <div class="mys-file-uploads__item-actions">
-            <button class="mys-file-uploads__item-button uikit-btn small">Upload</button>
-          </div>
+  <div class="margin-above--large margin-below--mid single-doc-upload">
+    <h3 class="mys h3">Upload your completed partner declaration and consent form<span
+        class="hint display-block">Accepted file types include pdf, jpeg and png. Maximum file size is
+        50MB.</span>
+    </h3>
+    <hr>
+      <div class="form">
+        <div class="docs">
+          <i class="fal fa-paperclip fa-2x"></i>
+          <span>Partner declaration and consent form</span>
         </div>
-      </div>
-    </div>
-
+        <div class="actions">
+          <button class="mys-file-uploads__item-button uikit-btn--tertiary small">Attach form</button>
+          <button class="uikit-btn small" onclick="doSubmit()">Submit</button>
+        </div>
+      </div> 
+    <hr>
   </div>
-
-</div>
-
+ 
   <%- include(forms+"pagination", {
     pagination: [
     {
-      text: "Previous",
-      link: "/auth/profile/"
-    },
-      {
-        text: "Next",
-        link: "/auth/profile/partner-consent/submitted",
-        modifiers: ["floated", "primary"],
-        id: "submit"
-      }
+      text: "Home",
+      link: "/auth/"
+    }
     ],
     customClass: ["margin-above--extra"]
   }) %>
+      
+
+  </div>
+
+
+
+
+  <div id="consent-pending" hidden>
+    <h2 class="mys h2 margin-below--mid" >Your partner consent form has been submitted.</h2>
+    <p>Your transaction ID is 45536778.</p>
+    <p>You will receive email confirmation when the consent has been processed (allow approximately one week).</p>
+    <%- include(forms+"pagination", {
+      pagination: [
+      {
+        text: "Go to home page",
+        link: "/auth"
+      }
+      ],
+      customClass: ["margin-above--extra"]
+    }) %>
+  </div>
+
+
 
 </div>
 
+
 <script>
 
-  $('#who-else-container input:checkbox').prop('checked', 'true');
+function doSubmit() {
+      $("#consent-pending").show();
+      $("#partner-consent").hide();
+      $("#relationship-status-container").hide();
+  } 
+
 
 </script>
 
 <%- include(partials+"components/layout/footer") %>
-<%- include(partials+"content/modals/delete-modal") %>
-<%#- include("index-ss") %>

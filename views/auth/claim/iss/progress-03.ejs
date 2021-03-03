@@ -1,0 +1,93 @@
+<%- include(templates+"header", {
+  claim: "Income support supplement",
+  heading: "Income support supplement"
+}) %>
+
+  <%- include(forms+"progress-simple", { percent: 50, modifiers: ["claimPercentage"] }) %>
+
+  <h3 class="margin-below--extra">Hi Xavier, tell us about your claim.</h3>
+
+  <script>
+    <% 
+      // var myProgress = 1; 
+      // var myProgress = parseInt( $.urlParam("progress") )
+      // var querystring = window.location.search;
+      // const querystring = '?progress=2';
+      // const params = new URLSearchParams(querystring);
+      // var myProgress = parseInt( params.get('progress') );
+    %>
+  </script>
+
+  <%- include(forms+"progress-multi", {
+    activeItem:  3,
+    points: [
+      {
+        text: "About your claim",
+        link: "/auth/claim/iss/a-01",
+        subtext: "Tell us about your claim."
+      },
+      {
+        text: "Claim details",
+        link: "/auth/claim/iss/b-01",
+        subtext: "Tell us about your circumstances."
+      },
+      {
+        text: "Income details",
+        link: "/auth/claim/iss/ia-00",
+        subtext: "Tell us about your income and assets."
+      },
+      {
+        text: "Required documents",
+        link: "/auth/claim/iss/d-01",
+        subtext: "Upload supporting documents for your claim."
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"pagination", {
+    pagination: [
+      {
+        link: "/auth/claim/iss/a-01",
+        text: "Previous"
+      },
+      {
+        link: "#claim-cancel-modal",
+        text: "Cancel claim"
+      },
+      {
+        link: "/auth/claim",
+        text: "Save and exit",
+      modifiers: ["floated"]
+      },
+      {
+        link: "/auth/claim/iss/about-your-claim",
+        text: "Save and next",
+        modifiers: ["floated", "primary", "disabled"]
+      }
+    ]
+  }) %>
+
+  <%- include(forms+"modals/claim-cancel") %>
+
+<%- include(templates+"footer") %>
+
+<script>
+
+var state = "1";
+$.urlParam = function (name) {
+  var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
+    window.location.href
+  );
+  if (results == null) {
+    return 0;
+  }
+  return results[1] || 0;
+};
+// state = $.urlParam("state");
+// stateSwitcher()
+
+function stateSwitcher() {
+  
+}
+
+</script>
