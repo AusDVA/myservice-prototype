@@ -20,7 +20,7 @@
             </tr>
           </thead> -->
           <tbody>
-            <tr class="vrb decision page1">
+            <tr class="underway decision page1">
               <td class="selector">
                 <div class="mys radio-checkbox testa">
                   <input type="radio" id="myRadio1" name="myRadio" value="" />
@@ -302,6 +302,14 @@
       type: "warning",
       customClass: ["margin-above--large"]
     }); %>
+    <%- include(partials+"components/form-partials/notice", { 
+      message: "A review has already been requested for the selected claim.", 
+      modifiers: ["hidden"], 
+      id: "underway-prompt", 
+      type: "warning",
+      customClass: ["margin-above--large"]
+    }); %>
+
     <p id="save-next" hidden class="margin-above">
       Choose <b>save and next</b> to continue
     </p>
@@ -472,6 +480,11 @@
         $("#save-next-button").attr("disabled", "disabled");
         $("#save-exit-button").attr("disabled", "disabled");
         break;
+      case "underway":
+        $("#underway-prompt-container").show();
+        $("#save-next-button").attr("disabled", "disabled");
+        $("#save-exit-button").attr("disabled", "disabled");
+        break;
       case "other":
         $(".manual-input-form").trigger("reset");
         $(".manual-input").show();
@@ -543,6 +556,7 @@
     $(".manual-loader").hide();
     $("#aat-prompt-container").hide();
     $("#internal-prompt-container").hide();
+    $("#underway-prompt-container").hide();
     $(".default").hide();
     $(".no-decisions").hide();
     $("#save-next").hide();
