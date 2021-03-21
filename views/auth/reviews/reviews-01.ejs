@@ -168,7 +168,7 @@
               </td>
               <td class="description">Lumbar spondylosis, Internal derangement of the knee</td>
             </tr>
-            <tr class="vrb decision page1">
+            <tr class="draft vrb decision page1">
               <td class="selector">
                 <div class="mys radio-checkbox">
                   <input type="radio" id="myRadio6" name="myRadio" value="" />
@@ -307,6 +307,13 @@
       modifiers: ["hidden"], 
       id: "underway-prompt", 
       type: "warning",
+      customClass: ["margin-above--large"]
+    }); %>
+    <%- include(partials+"components/form-partials/notice", {
+      message: "<p>You have an incomplete request saved with the selected decision. If you wish to include this decision in your current claim you will need to delete the <a href='/auth/reviews'>saved request</a> first.",
+      type: "warning",
+      modifiers: ["hidden"], 
+      id: "draft-prompt",
       customClass: ["margin-above--large"]
     }); %>
 
@@ -485,6 +492,11 @@
         $("#save-next-button").attr("disabled", "disabled");
         $("#save-exit-button").attr("disabled", "disabled");
         break;
+      case "draft":
+        $("#draft-prompt-container").show();
+        $("#save-next-button").attr("disabled", "disabled");
+        $("#save-exit-button").attr("disabled", "disabled");
+        break;
       case "other":
         $(".manual-input-form").trigger("reset");
         $(".manual-input").show();
@@ -557,6 +569,7 @@
     $("#aat-prompt-container").hide();
     $("#internal-prompt-container").hide();
     $("#underway-prompt-container").hide();
+    $("#draft-prompt-container").hide();
     $(".default").hide();
     $(".no-decisions").hide();
     $("#save-next").hide();
@@ -576,6 +589,7 @@
     $("#aat-prompt-container").hide();
     $("#other-prompt-container").hide();
     $("#underway-prompt-container").hide();
+    $("#draft-prompt-container").hide();
     $("#save-next").hide();
     $("td input:radio").prop("checked", false);
     $(".reviews--decisions tr").removeClass("selected");
