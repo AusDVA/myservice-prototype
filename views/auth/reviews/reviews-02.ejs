@@ -1,23 +1,6 @@
 <%- include(templates+"header", { claim: "MyService - Request review" , heading:
 "Reason for request" }) %>
 
-
-
-<div class="default">
-
-  <%#- include(partials+"components/form-partials/checkbox", {
-    label: "Select the condition/s for which you would like request a review",
-    boxes: [
-    "Cerebral meningioma (MRCA, rejected 28 Aug 2019)",
-    "Chronic bronchitis and emphysema (MRCA, rejected 26 Aug 2019)",
-    "Depression (MRCA, accepted 10 Aug 2019)<BR>Review pending",
-    "Joint instability (MRCA, accepted 28 Aug 2019",
-      "Lumbar spondylosis (MRCA, accepted 23 Oct 2019)",
-      "Lumbar spondylosis (VEA, rejected 12 Oct 2019) <BR>Review pending",
-    ],
-    id: "conditions"
-  }); %>
-
   <%- include(partials+"components/form-partials/checkbox", {
     label: "Select the condition/s for which you would like request a review",
     boxes: [
@@ -27,7 +10,8 @@
     "Lumbar spondylosis (MRCA, accepted 23 Oct 2019)",
     ],
     id: "cond",
-    customClass: ["margin-below--none"]
+    customClass: ["margin-below--none"],
+    modifiers: ["hidden"]
   }); %>
 
   <%- include(partials+"components/form-partials/notice", {
@@ -36,14 +20,15 @@
         <li>Depression (MRCA, accepted 10 Aug 2019)</li>
         <li>Lumbar spondylosis (VEA, rejected 12 Oct 2019)</li>
       </ul>
-    </p>`
+    </p>`,
+    id: "cond-pending",
+    modifiers: ["hidden"]
   }); %>
  
-
-  <script>
+  <!-- <script>
      $('#conditions-3').attr('disabled', 'disabled');
     $('#conditions-6').attr('disabled', 'disabled');
-  </script>
+  </script> -->
 
   <%- include(partials+"components/form-partials/textarea", { 
     label: "Enter your detailed reason/s for requesting a review", 
@@ -67,11 +52,7 @@
       Upload
     </button>
   </div>
-</div>
 
-<%#- include(partials+"components/form-partials/notice", { 
-  message: "If you don't have the documents now you can provide them after you submit your request.", 
-}); %> 
 
 <%- include(forms+"pagination", { 
   pagination: [ 
@@ -81,7 +62,7 @@
     { text: "Save and next", link: "/auth/reviews/reviews-03", modifiers: ["floated", "primary" ], customClass: ['margin-above--large'] } ] 
   }) %> 
   <%-include(templates+"footer") %> 
-  <%#- include("reviews-02-ss") %>
+  <%- include("reviews-02-ss") %>
 
 <script>
 
@@ -116,40 +97,6 @@
       },
       1000
     );
-  }
-
-  var state;
-  $.urlParam = function (name) {
-    var results = new RegExp("[\?&]" + name + "=([^&#]*)").exec(
-      window.location.href
-    );
-    if (results == null) {
-      return 0;
-    }
-    return results[1] || 0;
-  };
-  state = $.urlParam("state");
-  updatePage();
-  function updatePage() {
-    hideAll();
-    switch (state) {
-      case "disab":
-        $(".default").show();
-        $("#type-1").prop("checked", true);
-        break;
-      case "other":
-        $(".other").show();
-        $("#type-2").prop("checked", true);
-        break;
-
-      default:
-        $(".default").show();
-        break;
-    }
-  }
-  function hideAll() {
-    $(".default").hide();
-    $(".other").hide();
   }
 
 
