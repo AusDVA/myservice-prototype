@@ -42,9 +42,45 @@ progress.activeItem = 2;
   id: "relationship-status"
 }); %>
 
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of divorce",
+  modifiers: ["hidden"],
+  id: "divorce-date"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of separation",
+  modifiers: ["hidden"],
+  id: "separation-date"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of marriage",
+  modifiers: ["hidden"],
+  id: "married-date"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Date you started living together",
+  modifiers: ["hidden"],
+  id: "defacto-date"
+}); %>
+
 <div id="partner-details" hidden>
 
   <h3>Partner details</h3>
+
+  <div class="form-group">
+      <label class="uikit-text-input__label" for="title">Title</label>
+      <select class="uikit-text-input input-half" name="title" id="title" type="text" value="">
+      <option value="" default>-- Select title --</option>
+      <option value="Miss">Miss</option>
+      <option value="Mr">Mr</option>
+      <option value="Mrs">Mrs</option>
+      <option value="Ms">Ms</option>
+      <option value="Dr">Dr</option>
+      </select>
+  </div>
 
   <%- include(partials+"components/form-partials/text", {
       label: "Given name",
@@ -69,6 +105,11 @@ progress.activeItem = 2;
       hint: 'Include area code where applicable (for example, "03" for Victoria).',
       modifiers: ["hintNewLine"]
     }); %>
+
+    <%- include(forms+"prepop/address", {
+      id: "residential-address",
+      label: "Partner address"
+    }) %>
 
     <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
@@ -114,7 +155,31 @@ progress.activeItem = 2;
 
   <div id="vet-details-2" hidden>
 
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of marriage",
+      modifiers: ["hidden"],
+      id: "married-date-vet"
+    }); %>
+
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date you started living together",
+      modifiers: ["hidden"],
+      id: "defacto-date-vet"
+    }); %>
+
     <h3>Partner details</h3>
+
+    <div class="form-group">
+      <label class="uikit-text-input__label" for="title">Title</label>
+      <select class="uikit-text-input input-half" name="title" id="title" type="text" value="">
+      <option value="" default>-- Select title --</option>
+      <option value="Miss">Miss</option>
+      <option value="Mr">Mr</option>
+      <option value="Mrs">Mrs</option>
+      <option value="Ms">Ms</option>
+      <option value="Dr">Dr</option>
+      </select>
+  </div>
 
     <%- include(partials+"components/form-partials/text", {
         label: "Given name",
@@ -139,6 +204,11 @@ progress.activeItem = 2;
         hint: 'Include area code where applicable (for example, "03" for Victoria).',
         modifiers: ["hintNewLine"]
       }); %>
+
+      <%- include(forms+"prepop/address", {
+        id: "residential-address",
+        label: "Partner address"
+      }) %>
 
     <%- include(partials+"components/form-partials/yes_no", {
         label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
@@ -226,6 +296,12 @@ function stateSwitcher() {
     $("#save-next").hide();
     $("#partner-details").hide();
     $("#veteran-details").hide();
+    $("#divorce-date-container").hide();
+    $("#married-date-container").hide();
+    $("#married-date-vet-container").hide();
+    $("#separation-date-container").hide();
+    $("#defacto-date-container").hide();
+    $("#defacto-date-vet-container").hide();
     doUnBlock();
     switch ( $(this).val() ) {
       case "single":
@@ -238,21 +314,26 @@ function stateSwitcher() {
         break;
       case "married":
         if ( state == "veteran") {
+          $("#married-date-container").show();
           $("#partner-details").show();
         } else {
+          $("#married-date-vet-container").show();
           $("#veteran-details").show();
         }
         break;
       case "defacto":
         if ( state == "veteran") {
+          $("#defacto-date-container").show();
           $("#partner-details").show();
         } else {
+          $("#defacto-date-vet-container").show();
           $("#veteran-details").show();
         }
         break;
       case "separatedwhilestilllegallymarried":
       if ( state == "veteran") {
-          $("#save-next").show();
+        $("#separation-date-container").show();
+          // $("#save-next").show();
         } else {
           $("#save-next").hide();
           doBlock();
@@ -260,7 +341,7 @@ function stateSwitcher() {
         break;
       case "divorced":
       if ( state == "veteran") {
-          $("#save-next").show();
+          $("#divorce-date-container").show();
         } else {
           $("#save-next").hide();
           doBlock();
