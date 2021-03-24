@@ -42,9 +42,19 @@ progress.activeItem = 2;
   id: "relationship-status"
 }); %>
 
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of divorce",
+  modifiers: ["hidden"],
+  id: "divorce-date"
+}); %>
+
 <div id="partner-details" hidden>
 
   <h3>Partner details</h3>
+
+  <div class="form-group">
+    <%- include(partials+"components/form-elements/title-list-pd") %>
+  </div>
 
   <%- include(partials+"components/form-partials/text", {
       label: "Given name",
@@ -69,6 +79,12 @@ progress.activeItem = 2;
       hint: 'Include area code where applicable (for example, "03" for Victoria).',
       modifiers: ["hintNewLine"]
     }); %>
+
+    <%- include(forms+"prepop/address", {
+      id: "residential-address",
+      modifiers: ["hidden1"],
+      label: "Partner address"
+    }) %>
 
     <%- include(partials+"components/form-partials/yes_no", {
       label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
@@ -226,6 +242,7 @@ function stateSwitcher() {
     $("#save-next").hide();
     $("#partner-details").hide();
     $("#veteran-details").hide();
+    $("#divorce-date-container").hide();
     doUnBlock();
     switch ( $(this).val() ) {
       case "single":
@@ -260,7 +277,7 @@ function stateSwitcher() {
         break;
       case "divorced":
       if ( state == "veteran") {
-          $("#save-next").show();
+          $("#divorce-date-container").show();
         } else {
           $("#save-next").hide();
           doBlock();
