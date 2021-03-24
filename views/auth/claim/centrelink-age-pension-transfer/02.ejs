@@ -48,6 +48,24 @@ progress.activeItem = 2;
   id: "divorce-date"
 }); %>
 
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of separation",
+  modifiers: ["hidden"],
+  id: "separation-date"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Date of marriage",
+  modifiers: ["hidden"],
+  id: "married-date"
+}); %>
+
+<%- include(partials+"components/form-partials/date", {
+  label: "Date you started living together",
+  modifiers: ["hidden"],
+  id: "defacto-date"
+}); %>
+
 <div id="partner-details" hidden>
 
   <h3>Partner details</h3>
@@ -82,7 +100,6 @@ progress.activeItem = 2;
 
     <%- include(forms+"prepop/address", {
       id: "residential-address",
-      modifiers: ["hidden1"],
       label: "Partner address"
     }) %>
 
@@ -130,6 +147,18 @@ progress.activeItem = 2;
 
   <div id="vet-details-2" hidden>
 
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date of marriage",
+      modifiers: ["hidden"],
+      id: "married-date-vet"
+    }); %>
+
+    <%- include(partials+"components/form-partials/date", {
+      label: "Date you started living together",
+      modifiers: ["hidden"],
+      id: "defacto-date-vet"
+    }); %>
+
     <h3>Partner details</h3>
 
     <%- include(partials+"components/form-partials/text", {
@@ -155,6 +184,11 @@ progress.activeItem = 2;
         hint: 'Include area code where applicable (for example, "03" for Victoria).',
         modifiers: ["hintNewLine"]
       }); %>
+
+      <%- include(forms+"prepop/address", {
+        id: "residential-address",
+        label: "Partner address"
+      }) %>
 
     <%- include(partials+"components/form-partials/yes_no", {
         label: "Does your partner currently hold a Commonwealth Seniors Health Card?",
@@ -243,6 +277,11 @@ function stateSwitcher() {
     $("#partner-details").hide();
     $("#veteran-details").hide();
     $("#divorce-date-container").hide();
+    $("#married-date-container").hide();
+    $("#married-date-vet-container").hide();
+    $("#separation-date-container").hide();
+    $("#defacto-date-container").hide();
+    $("#defacto-date-vet-container").hide();
     doUnBlock();
     switch ( $(this).val() ) {
       case "single":
@@ -255,21 +294,26 @@ function stateSwitcher() {
         break;
       case "married":
         if ( state == "veteran") {
+          $("#married-date-container").show();
           $("#partner-details").show();
         } else {
+          $("#married-date-vet-container").show();
           $("#veteran-details").show();
         }
         break;
       case "defacto":
         if ( state == "veteran") {
+          $("#defacto-date-container").show();
           $("#partner-details").show();
         } else {
+          $("#defacto-date-vet-container").show();
           $("#veteran-details").show();
         }
         break;
       case "separatedwhilestilllegallymarried":
       if ( state == "veteran") {
-          $("#save-next").show();
+        $("#separation-date-container").show();
+          // $("#save-next").show();
         } else {
           $("#save-next").hide();
           doBlock();
