@@ -1,17 +1,19 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
 
-  <%#- include(partials+"components/form-partials/radio", {
-    label: "Client",
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Correspondence preferences",
     boxes: [
-      "VEA",
-      "MRCA/DRCA"
+      "Update corro success",
+      "Update corro fail",
+      "Update corro no data",
     ],
-    id: "cohort"
+    id: "corro"
   }); %>
 
 
   <%- include(partials+"components/form-partials/checkbox", {
+    label: "Official letters",
     boxes: [
       "Error"
     ],
@@ -37,6 +39,30 @@
     });
 
   });
+
+  $('input[name=corro]').change(function () {
+	myItem = $(this).parent().find('span').text().trim();
+  $("#update-corro-success-container").hide();
+  $("#update-corro-error-container").hide();
+  $("#update-corro-no-data-container").hide();
+  $(".corro-pref").hide();
+  switch ( myItem ) {
+    case "Update corro success":
+			$("#update-corro-success-container").show();
+      $(".corro-pref").show();
+      break;
+    case "Update corro fail":
+    $("#update-corro-error-container").show();
+    $(".corro-pref").show();
+      break;
+    case "Update corro no data":
+		$("#update-corro-no-data-container").show();
+      break;
+    default: 
+      break;
+  }
+});
+
 
   $('#error-1').change(function () {
     updateError();
