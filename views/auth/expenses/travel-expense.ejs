@@ -84,10 +84,12 @@
       id: "time"
     }); %>
 
+    <h2 class="mys h2 margin-below--mid">Provider details</h2>
+
   <div id="appointment-details-content">
-    <div id="going-to" class="margin-above--large">
+    <div id="going-to">
       <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select provider or hospital",
+    label: "Select provider",
     id: "provider",
     options: [
         {
@@ -106,12 +108,17 @@
           text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
         },
         {
-          text: "<strong>New provider</strong>"
+          text: "<strong>Enter a new provider...</strong>"
         }
       ]
     }); %>
     </div>
     <div id="provider-details" hidden>
+      <%- include(partials+"components/form-partials/text", {
+        label: "Provider name",
+        hint: "Medical practice or doctor's name",
+        modifiers: ["hintNewLine"]
+      }); %>
       <%- include(partials+"components/form-partials/dropdown", {
           label: "Type of practitioner",
           id: "practitioner-type",
@@ -137,9 +144,7 @@
           id: "practitioner-free",
           modifiers: ["hidden"]
         }); %>
-      <%- include(partials+"components/form-partials/text", {
-      label: "Practice/Doctor's name"
-    }); %>
+    
       <%- include(partials+"components/form-partials/text", {
       label: "Phone/mobile number",
       hint: 'Include area code where applicable (for example, "03" for Victoria).',
@@ -547,7 +552,7 @@ modifiers: ["hidden"]
   $(document).ready(function () {
     $('#provider').on('change', function () {
       var mySelect = $("#provider option:selected").text().trim();
-      if (mySelect == "New provider") {
+      if (mySelect == "Enter a new provider...") {
         $("#provider-details").show();
       } else {
         $("#provider-details").hide()
