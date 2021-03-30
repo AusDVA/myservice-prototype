@@ -84,12 +84,10 @@
       id: "time"
     }); %>
 
-    <h2 class="mys h2 margin-below--mid">Provider details</h2>
-
   <div id="appointment-details-content">
     <div id="going-to">
       <%- include(partials+"components/form-partials/dropdown", {
-    label: "Select provider",
+    label: "Medical provider",
     id: "provider",
     options: [
         {
@@ -108,16 +106,17 @@
           text: "Dr Geneview Shey, Mapletree Practice, L2 145 Trent St, Salsbury NSW 2034"
         },
         {
-          text: "<strong>Enter a new provider...</strong>"
+          text: "<strong>Enter new provider...</strong>"
         }
-      ]
+      ],
+      customClass: ["margin-below--small"]
     }); %>
     </div>
 
-    <div id="provider-details" style="background-color: #eee; border-radius: 6px; padding: 15px;" hidden>
+    <div id="provider-details" class="margin-below--large margin-above--small" style="background-color: #eee; border-radius: 6px; padding: 15px;" hidden>
+      <h3 class="margin-above--none">New provider details</h3>
       <%- include(partials+"components/form-partials/text", {
-        label: "Provider name",
-        hint: "Medical practice or doctor's name",
+        label: "Name of doctor/medical practice",
         modifiers: ["hintNewLine"]
       }); %>
       <%- include(partials+"components/form-partials/dropdown", {
@@ -195,44 +194,17 @@
           text: "Western Australia",
           value: "wa"
         }
-      ]
+      ],
+      customClass: ["margin-below--none"]
     }) %>
     </div>
 
 </div>
 
-<%- include(partials+"components/form-partials/dropdown", {
-    label: "Appointment location",
-options: [
-  "-- Select location --",
-  "Sydney NSW 2001",
-  "Brisbane QLD 4000",
-  "Melbourne VIC 3000",
-  "Perth WA 6000"
-],
-id: "vrb-location",
-modifiers: ["hidden"]
-}); %>
-
-<%- include(partials+"components/form-partials/dropdown", {
-  label: "Appointment location",
-options: [
-"-- Select location --",
-"Canberra ACT 2601",
-"Sydney NSW 2000",
-"Adelaide SA 5000",
-"Brisbane QLD 4000",
-"Hobart TAS 7000",
-"Melbourne VIC 3000",
-"Perth WA 6000"
-],
-id: "aat-location",
-modifiers: ["hidden"]
-}); %>
 
 </div>
 
-<div id="expense-details">
+<div id="expense-details" class="margin-above--large">
   <h2 class="mys h2 margin-below--mid">Expense details</h2>
   <%- include(partials+"components/form-partials/dropdown", {
     label: "Cost type",
@@ -554,7 +526,7 @@ modifiers: ["hidden"]
   $(document).ready(function () {
     $('#provider').on('change', function () {
       var mySelect = $("#provider option:selected").text().trim();
-      if (mySelect == "Enter a new provider...") {
+      if (mySelect == "Enter new provider...") {
         $("#provider-details").show();
       } else {
         $("#provider-details").hide()
