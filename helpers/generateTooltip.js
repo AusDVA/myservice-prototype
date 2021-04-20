@@ -6,17 +6,17 @@ module.exports = tooltip => {
 
 	return `
     <div class="tooltip">
-      <button id="${id}__label" class="tooltip__control" aria-describedby="${id}__message" aria-expanded="false">
+      <div id="${id}__label" class="tooltip__control" role="button" tabindex="0" aria-describedby="${id}__message" aria-expanded="false">
         <div class="tooltip__label ${modifiers && modifiers.includes("tooltipShowText") ? "" : "tooltip__label--icon-only"}">
           ${screenreaderText}
         </div>
         <div class="tooltip__tab"></div>
-      </button>
-      <div id="${id}__message" class="tooltip__content" aria-labelledby="${id}__label" aria-hidden="true" role="tooltip" tabindex="-1" >
+      </div>
+      <div id="${id}__message" class="tooltip__content" aria-labelledby="${id}__label" aria-hidden="true" role="region" tabindex="-1" >
         <div class="tooltip__message">
           ${content}
         </div>
-        <button class="tooltip__close">Close</button>
+        <div class="tooltip__close" role="button" tabindex="0">Close</div>
       </div>
     </div>
   `;
