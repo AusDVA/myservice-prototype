@@ -1,10 +1,12 @@
 <div id="state-switcher">
   <h3>State switcher</h3>
 
-  <%- include(partials+"components/form-partials/checkbox", {
+  <%- include(partials+"components/form-partials/radio", {
     label: "State",
     boxes: [
-      "Multiple conditions"
+      "Default",
+      "Multiple conditions",
+      "Incap"
     ],
     id: "state"
   }); %>
@@ -15,6 +17,8 @@
 
   $(document).ready(function () {
 
+    $("#state-1").prop("checked", true);
+
     $(document).keypress(function (e) {
       switch (e.which) {
         case 96: //tilda
@@ -24,23 +28,27 @@
       }
     });
 
-    $('#state-1').change(function () {
-      if ( $(this).is(':checked') ) {
-        $("#cond-container").show();
-        $("#cond-pending-container").show();
-      } else {
-        $("#cond-container").hide();
-        $("#cond-pending-container").hide();
+    $('input[name="state"]').change(function () {
+	    myID = $(this).val();
+      $("#cond-container").hide();
+      $("#cond-pending-container").hide();
+      $("#incap-reason-container").hide();
+      switch ( myID ) {
+        case "multipleconditions":
+          $("#cond-container").show();
+          $("#cond-pending-container").show();
+          break;
+        case "incap":
+          $("#incap-reason-container").show();
+          break;
+        case "default":
+          break;
+        default:
+          break;
       }
     });
 
-    // $('#state-2').change(function () {
-    //   if ( $(this).is(':checked') ) {
-    //     $("#cond-pending-container").show();
-    //   } else {
-    //     $("#cond-pending-container").hide();
-    //   }
-    // });
+ 
 
 
   });
