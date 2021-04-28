@@ -4,17 +4,24 @@
 }) %>
 
 
-
-
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
-  <%- include(partials+"components/form-partials/checkbox", {
+  <!-- <div class="next-expense mys coach margin-below">If adding multiple expenses for a single appointment click "yes" to save entering the details again.</div>  -->
+
+  <%#- include(partials+"components/form-partials/checkbox", {
     id: "use-previous",
     boxes: [
       "Use previous appointment details"
     ],
     modifiers: ["hidden"],
     customClass: ["feature-checkbox margin-below--large"]
+  }); %>
+
+  <%- include(partials+"components/form-partials/yes_no", {
+    id: "use-previous",
+    label: "Would you like to use the appointment details from the previous expense entered?",
+    customClass: ["margin-above--large"],
+    modifiers: ["hidden"]
   }); %>
 
   <div id="prepop" class="margin-below--large" hidden>
@@ -278,6 +285,12 @@ afterText: "nights",
 modifiers: ["inputShort"]
 }); %>
 
+<div id="vea-accom" hidden>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "Please note reimbursements for meals will be calculated automatically based on length of stay and distance travelled. You are not required to provide details regarding meal costs."
+  }); %>
+</div>
+
   <div id="mrca-accomm" hidden>
 
     <%- include(partials+"components/form-partials/text", {
@@ -345,7 +358,7 @@ modifiers: ["hidden"]
   }); %>
 </div>
 
-<%- include(forms+"pagination", {
+<%#- include(forms+"pagination", {
   pagination: [
     {
       text: "Previous",
@@ -359,6 +372,19 @@ modifiers: ["hidden"]
     }
   ]
 }) %>
+
+<div class="pagination pagination--ss-reverse-order   " id="pagination613">
+    
+  <button onclick="window.location = '/auth/expenses/travel-list'" id="reset-form" class="uikit-btn uikit-btn--tertiary">Previous</button>
+
+
+<!-- <div class="floated"> -->
+  <button onclick="window.location = '/auth/expenses/travel-list?expenses=one'" class="uikit-btn floated">Add</button>
+  <!-- <div class="first-expense mys coach floated">Add your first expense<i class="far fa-arrow-right"></i> </div>  -->
+  
+
+<!-- </div> -->
+</div>
 
 <%- include(templates+"footer") %>
 <%- include("travel-expense-ss") %>
@@ -379,6 +405,8 @@ modifiers: ["hidden"]
     $("#bcwd-container").hide();
     $("#tolls-message-container").hide();
     $("#attendant-1-container").hide();
+    $("#mrca-accomm").hide();
+    $("#vea-accom").hide();
     switch (mySelection) {
       case "Private vehicle - kms":
         $("#kms-container").show();
@@ -427,9 +455,9 @@ modifiers: ["hidden"]
         $("#accommodation-questions").show("fast");
         if (act != 'vea') {
           $("#mrca-accomm").show();
-          
         } else {
-          $("#mrca-accomm").hide();
+          console.log("fdgdfgfdg")
+          $("#vea-accom").show();
           $(".evidence-optional").show();
         }
         $("#evidence").show();
@@ -488,6 +516,16 @@ modifiers: ["hidden"]
   // });
 
   $('input[name=use-previous]').change(function () {
+	var myVal = $('input[name=use-previous]:checked').val();
+  console.log( myVal )
+	if (myVal == "yes") {
+		usePrevious();
+	} else {
+		clearPrevious();
+  }
+});
+
+  $('input[name=use-previous]').change(function () {
     var myStatus = $("#use-previous-1").is(":checked");
     if (myStatus) {
       usePrevious();
@@ -508,11 +546,11 @@ modifiers: ["hidden"]
     $('#provider>option:eq(3)').prop('selected', true);
     $('#condition').val('osteoarthritis').trigger('change');
     $('#purpose').val('treatment').trigger('change');
-    $("html, body").animate({
-      scrollTop: $("#expense-details").offset().top
-    },
-      200
-    );
+    // $("html, body").animate({
+    //   scrollTop: $("#expense-details").offset().top
+    // },
+    //   200
+    // );
   }
   function clearPrevious() {
     $('.date-picker').val("dd / mm / yyyy");

@@ -39,8 +39,7 @@
         <tbody>
           <tr id="blank" style="background-color : #fff">
             <td colspan="5" class="placeholder" style="text-align: center;" >
-              <p class="margin-above--large margin-below--large" style="max-width: 100%;">
-                <i class="fas fa-info-circle"></i> Select "Add expense" to add your first expense.</p> 
+              <p class="margin-above--large margin-below--large" style="max-width: 100%;">No expenses added</p> 
           </tr>
           <tr id="expense-1" class="expense" hidden>
             <td data-title="Provider">Dr Al Appleton<BR />334 Heath Road<BR />Melrose Place</BR>NSW 2045</td>
@@ -104,8 +103,11 @@
             }); %>
       
 
+            
         <button id="new-expense" class="uikit-btn uikit-btn--tertiary small floated margin-above--small margin-below--extra"
           onclick="window.location='/auth/expenses/travel-expense'">Add expense</button>
+          <div class="next-expense mys coach floated" hidden>Add your next expense <i class="far fa-arrow-right"></i> </div> 
+          <div class="first-expense mys coach floated">Add your first expense <i class="far fa-arrow-right"></i> </div> 
 
       <%- include(forms+"pagination", {
         pagination: [
@@ -127,7 +129,7 @@
             text: "Save and next",
             id: "save-next-button",
             link: "/auth/expenses/comments",
-            modifiers: ["primary", "floated", "disabled"]
+            modifiers: ["primary", "floated"]
           }
         ]
       }) %>
@@ -149,25 +151,28 @@
     $(".expense").hide();
     $(".claim-disclaimer").hide();
     $("#declaration").hide();
+    $(".first-expense").hide();
+    $(".next-expense").hide();
+    $("#save-next-button").removeAttr("disabled");
     switch (pastTransactions) {
       case "none":
         $("#blank").show();
         $("#total").html("$0.00");
         $("#save-next-button").attr("disabled","true");
+        $(".first-expense").show();
         break;
       case "one":
         $(".claim-disclaimer").show();
         $("#expense-1").show();
         $("#total").html("268 kms");
-        $("#save-next-button").removeAttr("disabled");
         $("#declaration").show();
+        $(".next-expense").show();
         break;
       case "two":
         $(".claim-disclaimer").show();
         $("#expense-1").show();
         $("#expense-2").show();
         $("#total").html("$15.64 + 268 kms");
-        $("#save-next-button").removeAttr("disabled");
         $("#declaration").show();
         break;
       case "one-deleted":
@@ -177,14 +182,12 @@
         $("#expense-3").show();
         $("#expense-4").show();
         $("#total").html("$620.43 + 268 kms");
-        $("#save-next-button").removeAttr("disabled");
         $("#declaration").show();
         break;
       case "many":
         $(".claim-disclaimer").show();
         $(".expense").show();
         $("#total").html("$833.63 + $56.35 meals +268 kms + 2 nights accommodation");
-        $("#save-next-button").removeAttr("disabled");
         $("#declaration").show();
         break;
       default:
@@ -205,8 +208,6 @@
     pastTransactions = expenses;
     stateSwitcher();
   }
-
-  $("#save-next-button").attr("disabled", "true");
 
   $(".edit").on("click", function () {
     window.location.href = "/auth/expenses/travel-expense-prepop";
