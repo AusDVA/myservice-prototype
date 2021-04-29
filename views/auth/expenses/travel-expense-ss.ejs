@@ -10,6 +10,16 @@
     id: "act"
   }); %>
 
+  <%- include(partials+"components/form-partials/radio", {
+    label: "Gold card holder?",
+    boxes: [
+      "No",
+      "Yes - VEA or MRCA",
+      "Yes - multi-act (not including NLHC)"
+    ],
+    id: "gold-card"
+  }); %>
+
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
       "Not first expense"
@@ -35,9 +45,29 @@
     });
 
     $("#act-1").prop("checked", true);
+    $("#gold-card-1").prop("checked", true);
+
     $('input[name=act]').change(function () {
       act = $(this).val();
       stateSwitcher();
+    });
+
+    $('input[name=gold-card]').change(function () {
+      myVal = $(this).val().substr(0,5)
+      $("#condition-container").hide();
+      $("#condition-gold-container").hide();
+      switch ( myVal ) {
+        case "no":
+          $("#condition-container").show();
+          break;
+        case "yesve":
+          break;
+        case "yesmu":
+        $("#condition-gold-container").show();
+          break;
+        default:
+          break;
+      }
     });
 
     $('#first-expense-1').change(function () {
@@ -48,8 +78,10 @@
       var myStatus = $("#first-expense-1").is(":checked");
       if (myStatus) {
         $("#use-previous-container").show();
+        $(".first-expense").hide();
       } else {
         $("#use-previous-container").hide();
+        $(".first-expense").show();
       }
     }
 

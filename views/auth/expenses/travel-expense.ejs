@@ -4,11 +4,11 @@
 }) %>
 
 
-
-
   <h2 class="mys h2 margin-below--mid">Appointment details</h2>
 
-  <%- include(partials+"components/form-partials/checkbox", {
+
+
+  <%#- include(partials+"components/form-partials/checkbox", {
     id: "use-previous",
     boxes: [
       "Use previous appointment details"
@@ -16,6 +16,36 @@
     modifiers: ["hidden"],
     customClass: ["feature-checkbox margin-below--large"]
   }); %>
+
+  <%#- include(partials+"components/form-partials/yes_no", {
+    id: "use-previous",
+    label: "Would you like to use the appointment details from the previous expense entered?",
+    customClass: ["margin-above--large"],
+    modifiers: ["hidden"]
+  }); %>
+
+  <div class="form-group formPartials_buttonRadio margin-above--large" id="use-previous-container" hidden="">
+    <fieldset>
+        <legend class="uikit-text-input__label  legend-override ">
+      Would you like to use the appointment details from the previous expense entered?</legend>
+     
+      <div style="display: flex;">
+    <div class="radio-toggle">
+      <label class="label-left">
+        <input type="radio" id="use-previous-1" name="use-previous" value="yes">
+        <span>Yes</span>
+      </label>
+      <label class="label-right">
+        <input type="radio" id="use-previous-2" name="use-previous" value="no">
+        <span>No</span>
+      </label>
+    </div>
+    <div class="next-expense mys coach left" > <i class="far fa-arrow-left"></i> You can reuse details from the last expense entered</div> 
+  </div>
+     
+    </fieldset>
+    
+  </div>
 
   <div id="prepop" class="margin-below--large" hidden>
     <div class="kv-pair">
@@ -69,10 +99,23 @@
         "Lumbar spondylosis",
         "Osteoarthritis",
         "Ankle sprain",
-        "Lumbar strain",
-        "Other (only show for gold card)"
+        "Lumbar strain"
       ],
       modifiers: [ "hintNewLine"]
+    }); %>
+
+    <%- include(partials+"components/form-partials/dropdown", {
+      label: "Condition being treated/assessed",
+      id: "condition-gold",
+      options: [
+        "-- Select condition --",
+        "Lumbar spondylosis",
+        "Osteoarthritis",
+        "Ankle sprain",
+        "Lumbar strain",
+        "Other"
+      ],
+      modifiers: [ "hintNewLine","hidden"]
     }); %>
 
   <%- include(partials+"components/form-partials/date-picker", {
@@ -205,8 +248,10 @@
 </div>
 
 <div id="expense-details" class="margin-above--large">
-  <h2 class="mys h2 margin-below--mid">Expense details</h2>
-  <%- include(partials+"components/form-partials/dropdown", {
+
+    <h2 class="mys h2 margin-below--mid">Expense details</h2> 
+
+  <%#- include(partials+"components/form-partials/dropdown", {
     label: "Cost type",
 options: [
   "-- Select type --",
@@ -221,6 +266,44 @@ options: [
 ],
 id: "cost-type"
 }); %>
+
+<div class="form-group formPartials_dropdown " id="cost-type-container">
+  <label for="cost-type" class="uikit-text-input__label">
+Cost type</label>
+<div style="display: flex;">
+<select class="uikit-text-input input-half" id="cost-type" name="cost-type">
+
+<option value="selecttype">
+    -- Select type --
+</option>
+<option value="privatevehiclekms">
+    Private vehicle - kms
+</option>
+<option value="publictransport">
+    Public transport
+</option>
+<option value="taxiandrideshare">
+    Taxi and rideshare
+</option>
+<option value="communitytransport">
+    Community transport
+</option>
+<option value="air">
+    Air
+</option>
+<option value="roadtolls">
+    Road tolls
+</option>
+<option value="parkingfees">
+    Parking fees
+</option>
+<option value="accommodation">
+    Accommodation
+</option>
+</select>
+<div class="coach-select-type mys coach left" hidden> <i class="far fa-arrow-left"></i>Select the type of expense</div> 
+</div>
+</div>
 
   <%- include(partials+"components/form-partials/text", {
 label: "Kilometres travelled",
@@ -277,6 +360,12 @@ id: "accomm-nights",
 afterText: "nights",
 modifiers: ["inputShort"]
 }); %>
+
+<div id="vea-accom" hidden>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "Please note reimbursements for meals will be calculated automatically based on length of stay and distance travelled. You are not required to provide details regarding meal costs."
+  }); %>
+</div>
 
   <div id="mrca-accomm" hidden>
 
@@ -345,7 +434,7 @@ modifiers: ["hidden"]
   }); %>
 </div>
 
-<%- include(forms+"pagination", {
+<%#- include(forms+"pagination", {
   pagination: [
     {
       text: "Previous",
@@ -353,12 +442,20 @@ modifiers: ["hidden"]
       link: "/auth/expenses/travel-list"
     },
     {
-      text: "Add expense",
+      text: "Add",
       link: "/auth/expenses/travel-list?expenses=one",
       modifiers: ["floated", "primary"]
     }
   ]
 }) %>
+
+<div class="pagination1 pagination--ss-reverse-order1" id="pagination613" style="display: flex; justify-content: space-between;">
+  <button onclick="window.location = '/auth/expenses/travel-list'" id="reset-form" class="uikit-btn uikit-btn--tertiary">Previous</button>
+  <div style="display: flex;">
+    <!-- <div class="coach-add mys coach">Select 'add' when all details entered<i class="far fa-arrow-right"></i> </div>  -->
+    <button onclick="window.location = '/auth/expenses/travel-list?expenses=one'" class="uikit-btn floated">Add</button>
+  </div>
+</div>
 
 <%- include(templates+"footer") %>
 <%- include("travel-expense-ss") %>
@@ -371,6 +468,7 @@ modifiers: ["hidden"]
 
   function updateLayout() {
     var mySelection = $("#cost-type").find("option:selected").text().trim();
+    $(".coach-select-type").fadeOut("fast");
     $("#dollars-container").hide();
     $("#kms-container").hide();
     $("#accommodation-questions").hide();
@@ -379,6 +477,8 @@ modifiers: ["hidden"]
     $("#bcwd-container").hide();
     $("#tolls-message-container").hide();
     $("#attendant-1-container").hide();
+    $("#mrca-accomm").hide();
+    $("#vea-accom").hide();
     switch (mySelection) {
       case "Private vehicle - kms":
         $("#kms-container").show();
@@ -427,9 +527,8 @@ modifiers: ["hidden"]
         $("#accommodation-questions").show("fast");
         if (act != 'vea') {
           $("#mrca-accomm").show();
-          
         } else {
-          $("#mrca-accomm").hide();
+          $("#vea-accom").show();
           $(".evidence-optional").show();
         }
         $("#evidence").show();
@@ -488,40 +587,53 @@ modifiers: ["hidden"]
   // });
 
   $('input[name=use-previous]').change(function () {
+	var myVal = $('input[name=use-previous]:checked').val();
+	if (myVal == "yes") {
+		usePrevious();
+	} else {
+		clearPrevious();
+  }
+});
+
+  $('input[name=use-previous]').change(function () {
     var myStatus = $("#use-previous-1").is(":checked");
+    $(".next-expense").fadeOut("fast");
     if (myStatus) {
-      $("#prepop").show();
-      $("#manual").hide();
+      usePrevious();
+      // $("#prepop").show();
+      // $("#manual").hide();
     } else {
-      $("#prepop").hide();
-      $("#manual").show();
+      clearPrevious();
+      // $("#prepop").hide();
+      // $("#manual").show();
     }
   });
 
-  // function usePrevious() {
-  //   $('.date-picker').val("2020-08-26");
-  //   $('.time-selector--hours').val("2");
-  //   $('.time-selector--minutes').val("45");
-  //   $('.time-selector--ampm').val("pm");
-  //   $('#provider>option:eq(3)').prop('selected', true);
-  //   $('#condition').val('osteoarthritis').trigger('change');
-  //   $('#purpose').val('treatment').trigger('change');
-  //   $("html, body").animate({
-  //     scrollTop: $("#expense-details").offset().top
-  //   },
-  //     200
-  //   );
-  // }
-  // function clearPrevious() {
-  //   $('.date-picker').val("dd / mm / yyyy");
-  //   $('.time-selector--hours').val("12");
-  //   $('.time-selector--minutes').val("00");
-  //   $('.time-selector--ampm').val("pm");
-  //   $('#purpose').val('selectpurpose').trigger('change');
-  //   $('#condition').val('selectcondition').trigger('change');
-  //   $('#provider').val('selectprovider').trigger('change');
-  //   $('#cost-type').val('selecttype').trigger('change');
-  // }
+  function usePrevious() {
+    $('.date-picker').val("2020-08-26");
+    $('.time-selector--hours').val("2");
+    $('.time-selector--minutes').val("45");
+    $('.time-selector--ampm').val("pm");
+    $('#provider>option:eq(3)').prop('selected', true);
+    $('#condition').val('osteoarthritis').trigger('change');
+    $('#purpose').val('treatment').trigger('change');
+    $("html, body").animate({
+      scrollTop: $("#expense-details").offset().top
+    },
+      200
+    );
+    $(".coach-select-type").fadeIn("fast");
+  }
+  function clearPrevious() {
+    $('.date-picker').val("dd / mm / yyyy");
+    $('.time-selector--hours').val("12");
+    $('.time-selector--minutes').val("00");
+    $('.time-selector--ampm').val("pm");
+    $('#purpose').val('selectpurpose').trigger('change');
+    $('#condition').val('selectcondition').trigger('change');
+    $('#provider').val('selectprovider').trigger('change');
+    $('#cost-type').val('selecttype').trigger('change');
+  }
 
   $(document).ready(function () {
     $('#provider').on('change', function () {
