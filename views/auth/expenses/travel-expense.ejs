@@ -40,7 +40,7 @@
         <span>No</span>
       </label>
     </div>
-    <div class="next-expense mys coach left" > <i class="far fa-arrow-left"></i> You can reuse details from the last expense entered</div> 
+    <div class="coach-reuse mys coach left" hidden> <i class="far fa-arrow-left"></i> You can reuse details from the last expense entered</div> 
   </div>
      
     </fieldset>
@@ -48,21 +48,20 @@
   </div>
 
   <div id="prepop" class="margin-below--large" hidden>
-    <div class="kv-pair">
-      <span class="kv-pair__key">Provider or hospital</span>
-      <span class="kv-pair__value">John Smith<br>EUROA, VIC, 3666</span>
-</div><div class="kv-pair">
-  <span class="kv-pair__key">Date and time</span>
-  <span class="kv-pair__value">03/11/2020 at 10:45 am</span>
+
+<div class="kv-pair">
+  <span class="kv-pair__key">Condition</span>
+  <span class="kv-pair__value">other</span>
 </div>
 <div class="kv-pair">
   <span class="kv-pair__key">Purpose</span>
   <span class="kv-pair__value">Treatment</span>
 </div>
 <div class="kv-pair">
-  <span class="kv-pair__key">Condition</span>
-  <span class="kv-pair__value">other</span>
+  <span class="kv-pair__key">Provider or hospital</span>
+  <span class="kv-pair__value">John Smith<br>EUROA, VIC, 3666</span>
 </div>
+
 </div>
 
 <div id="manual">
@@ -468,7 +467,7 @@ modifiers: ["hidden"]
 
   function updateLayout() {
     var mySelection = $("#cost-type").find("option:selected").text().trim();
-    $(".coach-select-type").fadeOut("fast");
+    // $(".coach-select-type").fadeOut("fast");
     $("#dollars-container").hide();
     $("#kms-container").hide();
     $("#accommodation-questions").hide();
@@ -597,7 +596,9 @@ modifiers: ["hidden"]
 
   $('input[name=use-previous]').change(function () {
     var myStatus = $("#use-previous-1").is(":checked");
-    $(".next-expense").fadeOut("fast");
+    // $(".next-expense").fadeOut("fast");
+    $(".coach-reuse").fadeOut("fast");
+   
     if (myStatus) {
       usePrevious();
       // $("#prepop").show();
@@ -622,7 +623,11 @@ modifiers: ["hidden"]
     },
       200
     );
-    $(".coach-select-type").fadeIn("fast");
+    // $(".coach-select-type").fadeIn("fast");
+    $("#prepop").show();
+    $("#purpose-container").hide();
+    $("#condition-container").hide();
+    $("#appointment-details-content").hide();
   }
   function clearPrevious() {
     $('.date-picker').val("dd / mm / yyyy");
@@ -633,9 +638,13 @@ modifiers: ["hidden"]
     $('#condition').val('selectcondition').trigger('change');
     $('#provider').val('selectprovider').trigger('change');
     $('#cost-type').val('selecttype').trigger('change');
+    $("#prepop").hide();
+    $("#purpose-container").show();
+    $("#condition-container").show();
+    $("#appointment-details-content").show();
   }
 
-  $(document).ready(function () {
+  // $(document).ready(function () {
     $('#provider').on('change', function () {
       var mySelect = $("#provider option:selected").text().trim();
       if (mySelect == "Enter new provider...") {
@@ -659,5 +668,22 @@ modifiers: ["hidden"]
     //   }
     // });
 
-  });
+    function showCoaching(){
+      hideCoaching()
+
+      // if ( $("#use-previous-1").is(':checked') || $("#use-previous-2").is(':checked') ) {
+      //   $(".coach-select-type").show();
+      // } else {
+      //   $(".coach-reuse").show();
+      // }
+
+      if ( !$("#use-previous-1").is(':checked') && !$("#use-previous-2").is(':checked') ) {
+        $(".coach-reuse").show();
+      }
+  }
+  function hideCoaching(){
+    $(".coach").hide();
+  }
+
+  // });
 </script>

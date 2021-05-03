@@ -14,11 +14,21 @@
     label: "Gold card holder?",
     boxes: [
       "No",
-      "Yes - VEA or MRCA",
-      "Yes - multi-act (not including NLHC)"
+      "Yes - VEA",
+      "Yes - MRCA (including NLHC)",
+      "Yes - multi-act"
     ],
     id: "gold-card"
   }); %>
+
+  <%- include(partials+"components/form-partials/checkbox", {
+    boxes: [
+      "First time user (no claims submitted)"
+    ],
+    id: "first-time",
+    customClass: "margin-below--none"
+  }); %>
+
 
   <%- include(partials+"components/form-partials/checkbox", {
     boxes: [
@@ -62,6 +72,8 @@
           break;
         case "yesve":
           break;
+          case "yemrc":
+          break;
         case "yesmu":
         $("#condition-gold-container").show();
           break;
@@ -84,6 +96,15 @@
         $(".first-expense").show();
       }
     }
+
+    $('#first-time-1').change(function() {
+      var myStatus = $("#first-time-1").is(":checked");
+      if ( myStatus ) {
+        showCoaching();  
+      } else {
+        hideCoaching();   
+      }
+    });
 
   });
 

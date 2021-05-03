@@ -106,8 +106,8 @@
             
         <button id="new-expense" class="uikit-btn uikit-btn--tertiary small floated margin-above--small margin-below--extra"
           onclick="window.location='/auth/expenses/travel-expense'">Add expense</button>
-          <div class="next-expense mys coach floated" hidden>Add your next expense <i class="far fa-arrow-right"></i> </div> 
-          <div class="first-expense mys coach floated">Add your first expense <i class="far fa-arrow-right"></i> </div> 
+          <div class="next-expense mys coach floated" hidden>Add your <b>next</b> expense <i class="far fa-arrow-right"></i> </div> 
+          <div class="first-expense mys coach floated" hidden>Add your <b>first</b> expense <i class="far fa-arrow-right"></i> </div> 
 
       <%- include(forms+"pagination", {
         pagination: [
@@ -159,14 +159,14 @@
         $("#blank").show();
         $("#total").html("$0.00");
         $("#save-next-button").attr("disabled","true");
-        $(".first-expense").show();
+       
         break;
       case "one":
         $(".claim-disclaimer").show();
         $("#expense-1").show();
         $("#total").html("268 kms");
         $("#declaration").show();
-        $(".next-expense").show();
+        // $(".next-expense").show();
         break;
       case "two":
         $(".claim-disclaimer").show();
@@ -221,6 +221,18 @@
   function hideMaxExpense() {
     $("#max-expense-note-container").hide();
     $("#new-expense").removeAttr("disabled");
+  }
+
+  function showCoaching(){
+    if ( $("#blank").is(':visible') ) {
+      $(".first-expense").show();
+    } else {
+      $(".next-expense").show();
+    }
+  }
+  function hideCoaching(){
+    $(".first-expense").hide();
+    $(".next-expense").hide();
   }
 
 </script>
