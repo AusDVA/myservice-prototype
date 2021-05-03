@@ -51,7 +51,7 @@
 
 <div class="kv-pair">
   <span class="kv-pair__key">Condition</span>
-  <span class="kv-pair__value">other</span>
+  <span class="kv-pair__value">Other</span>
 </div>
 <div class="kv-pair">
   <span class="kv-pair__key">Purpose</span>
@@ -312,6 +312,13 @@ afterText: "kms",
 modifiers: ["hidden", "inputShort" ]
 }); %>
 
+<div id="vea-km" hidden>
+  <%- include(partials+"components/form-partials/notice", {
+    message: "Please note reimbursements for private vehicle use will be calculated automatically based on distance travelled. You are not required to provide further details regarding costs."
+  }); %>
+</div>
+
+
   <%- include(partials+"components/form-partials/notice", {
   message: "Road tolls are not reimbursed for your selected condition.",
   type: "warning",
@@ -362,7 +369,7 @@ modifiers: ["inputShort"]
 
 <div id="vea-accom" hidden>
   <%- include(partials+"components/form-partials/notice", {
-    message: "Please note reimbursements for meals will be calculated automatically based on length of stay and distance travelled. You are not required to provide details regarding meal costs."
+    message: "Please note reimbursements for meals will be calculated automatically based on length of stay. You are not required to provide details regarding meal costs."
   }); %>
 </div>
 
@@ -478,10 +485,12 @@ modifiers: ["hidden"]
     $("#attendant-1-container").hide();
     $("#mrca-accomm").hide();
     $("#vea-accom").hide();
+    $("#vea-km").hide();
     switch (mySelection) {
       case "Private vehicle - kms":
         $("#kms-container").show();
         $("#attendant-1-container").show();
+        if (act == 'vea') $("#vea-km").show();
         break;
       case "Public transport":
         $("#dollars-container").show();
